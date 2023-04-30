@@ -9,17 +9,20 @@ use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 
 class SecurityController extends AbstractController
 {
+
     #[Route(path: '/login', name: 'app_login')]
     public function login(AuthenticationUtils $authenticationUtils): Response
     {
         if ($this->getUser()) {
 
-            if (!$this->getUser()->isVerified()) {
+            if ($this->getUser()->isVerified()) {
                 $_SESSION["error"] = "Your account is not verified.";
+                return $this->render('security/frerfzfeqzeq.html.twig');
                 // throw new CustomUserMessageAuthenticationException('Your account is not verified.');
             }
             else {
-                return $this->redirectToRoute('app_home');
+                // return $this->redirectToRoute('app_home');
+                return $this->render('security/home.html.twig');
             }
         }
 
@@ -38,6 +41,7 @@ class SecurityController extends AbstractController
         throw new \LogicException('This method can be blank - it will be intercepted by the logout key on your firewall.');
     }
 
+    #[Route(path: '/', name: 'app_landingPage')]
     #[Route(path: '/home', name: 'app_home')]
     public function homepage()
     {
