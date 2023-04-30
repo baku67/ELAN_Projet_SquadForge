@@ -3,8 +3,9 @@
 {% block title %}SquadForge - Find mates for gaming{% endblock %}
 
 {% block body %}
+
     {% if app.user %}
-        <h1>Test {{ app.user.email }}</h1>
+        <h1>Test {{ app.user.pseudo }}</h1>
         <a href="{{ path('app_logout') }}">Se déconnecter</a>
     {% else %}
         <a href="{{ path('app_login') }}">Se connecter</a>
