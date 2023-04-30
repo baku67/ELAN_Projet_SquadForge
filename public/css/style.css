@@ -1,0 +1,23 @@
+:root {
+    --primary-color: #00F38D;
+    --background-color: #232323;
+    --sectionBg-color: #363636;
+    --white: #D9D9D9;
+}
+
+
+body {
+    margin: 0;
+}
+ul {
+    list-style-type: none;
+    padding-inline-start: 0;
+}
+ul li {
+    list-style-type: none;
+    padding-inline-start: 0;
+}
+a {
+    text-decoration: none;
+    color: inherit;
+}
