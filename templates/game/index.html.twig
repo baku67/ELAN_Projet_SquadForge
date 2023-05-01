@@ -1,0 +1,15 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Tous les jeux{% endblock %}
+
+{% block body %}
+
+    <header style="background-color:var(--primary-color);">
+        <a href="{{ path('app_home') }}"><img src="{{ asset('img/logoSquadForge_Black_Rogned.png') }}" class="logoPng" /></a>
+    </header>
+    <div class="headerUnderline"></div>
+
+    {{ dump(games) }}
+
+
+{% endblock %}

@@ -23,3 +23,31 @@ a {
     text-decoration: none;
     color: inherit;
 }
+
+.authenticationDiv {
+    display:inline-flex; 
+    position:absolute; 
+    top:0px; 
+    right:0px;
+    padding-top: 2px;
+    padding-right: 9px;
+}
+
+.headerUnderline {
+    height:4px; 
+    width:100%; 
+    background-color:var(--primary-color); 
+    position:relative; 
+    top:2px;
+}
+
+.logoPng {
+    width: 200px;
+    padding: 10px;
+    margin: 5px;
+}
+
+.profil {
+    color: black;
+    padding: 0px 10px;
+}

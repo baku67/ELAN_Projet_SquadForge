@@ -24,24 +24,16 @@
 
     <body>
 
-        <header style="background-color:var(--primary-color);">
-
-            <img src="{{ asset('img/logoSquadForge_Black.png') }}" style="width:200px;"/>
-
-            <div style="display:inline-flex; position:absolute; top:5px; right:5px;">
-                {% if app.user %}
-                    <h1>Test {{ app.user.pseudo }}</h1>
-                    <a href="{{ path('app_logout') }}" style="color:black;">Se déconnecter</a>
-                {% else %}
-                    <a href="{{ path('app_login') }}" style="color:black;">Se connecter</a>
-                    &nbsp;&nbsp;
-                    <a href="{{ path('app_register') }}" style="color:black;">S'inscrire</a>
-                {% endif %}
-            </div>
-
-        </header>
-
-        <div class="headerUnderline" style="height:10px; width:100%; background-color:var(--primary-color); position:relative; top:3px;"></div>
+        <div class="authenticationDiv">
+            {% if app.user %}
+                <p class="profil"><i class="fa-solid fa-user"></i>  {{ app.user.pseudo|capitalize }}</p>
+                <a href="{{ path('app_logout') }}" style="color:black;"><i class="fa-solid fa-power-off"></i></a>
+            {% else %}
+                <a href="{{ path('app_login') }}" style="color:black;">Se connecter</a>
+                &nbsp;&nbsp;
+                <a href="{{ path('app_register') }}" style="color:black;">S'inscrire</a>
+            {% endif %}
+        </div>
 
         {% block body %}
         {% endblock %}

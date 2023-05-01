@@ -3,8 +3,15 @@
 {% block title %}Register{% endblock %}
 
 {% block body %}
+
+    <header style="background-color:var(--primary-color);">
+        <a href="{{ path('app_home') }}"><img src="{{ asset('img/logoSquadForge_Black_Rogned.png') }}" class="logoPng" /></a>
+    </header>
+    <div class="headerUnderline"></div>
+
+
     {% for flash_error in app.flashes('verify_email_error') %}
-        <div class="alert alert-danger" role="alert">{{ flash_error }}</div>
+        <div class="alert alert-danger danger" role="alert">{{ flash_error }}</div>
     {% endfor %}
 
     <h1>Register</h1>
