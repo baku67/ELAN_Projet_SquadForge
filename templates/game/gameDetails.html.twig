@@ -17,6 +17,18 @@
 
     <div class="main">
 
+        {% if app.user %}
+            {% if isFavorited %}
+                <a href="{{ path('app_removefav', {'id': game.id}) }}">Favoris <i class="fa-solid fa-heart"></i></a>
+            {% else %}
+                <a href="{{ path('app_addfav', {'id': game.id}) }}">Favoris <i class="fa-regular fa-heart"></i></a>
+            {% endif %}
+        {% else %}
+                <a disabled>Favoris</a>
+        {% endif %}
+
+        {{ dump(isFavorited) }}
+        
 
 
 

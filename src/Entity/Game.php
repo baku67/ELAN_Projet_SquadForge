@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\GameRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -40,6 +42,14 @@ class Game
 
     #[ORM\Column(length: 50, nullable: true)]
     private ?string $fontColor = null;
+
+    #[ORM\ManyToMany(targetEntity: User::class, mappedBy: 'favoris')]
+    private Collection $favUsers;
+
+    public function __construct()
+    {
+        $this->favUsers = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -150,6 +160,33 @@ class Game
     public function setFontColor(?string $fontColor): self
     {
         $this->fontColor = $fontColor;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, User>
+     */
+    public function getFavUsers(): Collection
+    {
+        return $this->favUsers;
+    }
+
+    public function addFavUser(User $favUser): self
+    {
+        if (!$this->favUsers->contains($favUser)) {
+            $this->favUsers->add($favUser);
+            $favUser->addFavori($this);
+        }
+
+        return $this;
+    }
+
+    public function removeFavUser(User $favUser): self
+    {
+        if ($this->favUsers->removeElement($favUser)) {
+            $favUser->removeFavori($this);
+        }
 
         return $this;
     }
