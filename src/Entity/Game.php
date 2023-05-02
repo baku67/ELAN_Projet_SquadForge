@@ -32,6 +32,15 @@ class Game
     #[ORM\ManyToOne(inversedBy: 'games')]
     private ?Genre $genre = null;
 
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $logo = null;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $banner = null;
+
+    #[ORM\Column(length: 50, nullable: true)]
+    private ?string $fontColor = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -105,6 +114,42 @@ class Game
     public function setGenre(?Genre $genre): self
     {
         $this->genre = $genre;
+
+        return $this;
+    }
+
+    public function getLogo(): ?string
+    {
+        return $this->logo;
+    }
+
+    public function setLogo(?string $logo): self
+    {
+        $this->logo = $logo;
+
+        return $this;
+    }
+
+    public function getBanner(): ?string
+    {
+        return $this->banner;
+    }
+
+    public function setBanner(?string $banner): self
+    {
+        $this->banner = $banner;
+
+        return $this;
+    }
+
+    public function getFontColor(): ?string
+    {
+        return $this->fontColor;
+    }
+
+    public function setFontColor(?string $fontColor): self
+    {
+        $this->fontColor = $fontColor;
 
         return $this;
     }

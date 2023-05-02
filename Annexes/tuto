@@ -1,7 +1,9 @@
 TODO:
-repeated password
-ajouter pseudo (done)
-Fix la vérif de isVerified (env 75% partie1.mp4)
+Table assoc avec +propriété 'note': Notation + order listGames par note moyenne
+Table assoc simple: Favoris jeu/User
+
+regex mdp (création de compte)
+Fix la vérif de isVerified email (mailHog fonctionne mais possible de se co meme si email pas vérif)
 
 
 Mailing (MailHog: dl: https://github.com/mailhog/MailHog/releases ):
