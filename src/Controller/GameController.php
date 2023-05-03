@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use Doctrine\ORM\EntityManagerInterface;
+use App\Form\SearchType;
 use App\Entity\Game;
 use App\Entity\Genre;
 use App\Entity\User;
@@ -16,7 +17,7 @@ use Symfony\Component\HttpFoundation\Request;
 class GameController extends AbstractController
 {
     #[Route('/games', name: 'app_games')]
-    public function getGamesLists(EntityManagerInterface $entityManager): Response
+    public function getGamesLists(EntityManagerInterface $entityManager, Request $request): Response
     {
         $gamesRepo = $entityManager->getRepository(Game::class);
         $genreRepo = $entityManager->getRepository(Genre::class);
@@ -38,6 +39,26 @@ class GameController extends AbstractController
         $brGames = $gamesRepo->findBy(['genre' => $brGenre], ['publish_date' => 'DESC']);
         $brGamesCount = count($brGames);
 
+
+        $form = $this->createForm(SearchType::class);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $query = $form->getData()['query'];
+            $games = $entityManager
+                ->getRepository(Game::class)
+                ->findBySearchQuery($query);
+            // ...
+            // Si input recherche, vue résultat différrente
+            return $this->render('game/searchResult.html.twig', [
+                'form' => $form->createView(),
+                'searchGames' => $games ?? null,
+                'query' => $query,
+                'formSearch' => $form->createView(),
+            ]);
+        }
+
+
         return $this->render('game/gameList.html.twig', [
             // 'games' => $allGames,
             // 'genres' => $allGenres,
@@ -47,6 +68,7 @@ class GameController extends AbstractController
             'indieGamesCount' => $indieGamesCount,
             'battleRoyalGames' => $brGames,
             'brGamesCount' => $brGamesCount,
+            'formSearch' => $form->createView(),
         ]);
     }
 
@@ -135,6 +157,7 @@ class GameController extends AbstractController
             return $this->redirectToRoute('app_login');
         }
     }
+
 
 
 }

@@ -1,6 +1,8 @@
 TODO:
+https://codepen.io/mahish/pen/RajmQw OU http://jsfiddle.net/Lpjj3n1e/ SCROLL HORIZONTAL DES LISTE DE JEUX
 Table assoc avec +propriété 'note': Notation + order listGames par note moyenne
-Table assoc simple: Favoris jeu/User
+
+Déplacer la partie authent de base vers chaque vue (car couleur Police à adapter)
 
 regex mdp (création de compte)
 Fix la vérif de isVerified email (mailHog fonctionne mais possible de se co meme si email pas vérif)

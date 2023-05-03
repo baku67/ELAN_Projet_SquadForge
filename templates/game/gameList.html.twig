@@ -16,11 +16,9 @@
 
         <h2 class="pageTitle">Parcourir les jeux</h2>
 
-        {# <p>Tous les jeux</p>
-        {{ dump(games) }}
+        {{ form_start(formSearch) }}
+        {{ form_end(formSearch) }}
 
-        <p>Tous les genres</p>
-        {{ dump(genres) }} #}
 
         <h3 class="genreTitle">FPS <span>({{ fpsGamesCount }})</span></h3>
         <div class="genreGameList">

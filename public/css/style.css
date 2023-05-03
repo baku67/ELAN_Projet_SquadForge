@@ -140,8 +140,12 @@ nav {
 
 }
 
+.btn {
+    background-color: #00F38D;
+}
+
 .gameCard {
-    margin: 0 15px;
+    margin: 0 10px;
     background-color: #363636;
     border-radius: 5px;
 }
