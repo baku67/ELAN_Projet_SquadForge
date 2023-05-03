@@ -15,6 +15,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 class GameController extends AbstractController
 {
@@ -163,16 +164,20 @@ class GameController extends AbstractController
 
 
     // Routre utilisé par les requêtes ajax JS
-    #[Route("/search", name:"search")]
-    public function searchAction(EntityManagerInterface $entityManager, Request $request)
+    #[Route("/search", name:"app_search")]
+    public function searchAction(EntityManagerInterface $entityManager, UrlGeneratorInterface $router, Request $request)
     {
         $query = $request->query->get('query');
         $games = $entityManager
             ->getRepository(Game::class)
             ->findBySearchQuery($query);
+
         
         $results = [];
         foreach ($games as $game) {
+            // Génération de la route gameDetail associée à chaque jeu trouvé
+            $urlGameDetail = $router->generate('app_game', ["id" => $game->getId()]);
+
             $results[] = [
                 'id' => $game->getId(),
                 'title' => $game->getTitle(),
@@ -183,6 +188,7 @@ class GameController extends AbstractController
                 'genreName' => $game->getGenre()->getName(),
                 'color' => $game->getColor(),
                 'logo' => $game->getLogo(),
+                'urlGameDetail' => $urlGameDetail,
             ];
         }
         

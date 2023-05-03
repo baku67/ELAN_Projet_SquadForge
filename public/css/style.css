@@ -146,15 +146,27 @@ nav {
 #search-title {
     display: none;
 }
+#search-results {
+    display: inline-flex;
+}
+
+.gameListCount {
+    font-size: 80%;
+    opacity: 0.7;
+}
+
 
 .btn {
     background-color: #00F38D;
 }
 
 .gameCard {
-    margin: 0 10px;
+    width: fit-content;
     background-color: #363636;
     border-radius: 5px;
+}
+.gameCardLink {
+    margin: 0 10px;
 }
 .gameLogo {
     width: 150px;

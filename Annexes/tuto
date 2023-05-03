@@ -1,8 +1,12 @@
 TODO:
+Fil d'ariane (+jeux, details/search)
 https://codepen.io/mahish/pen/RajmQw OU http://jsfiddle.net/Lpjj3n1e/ SCROLL HORIZONTAL DES LISTE DE JEUX
 Table assoc avec +propriété 'note': Notation + order listGames par note moyenne
 
+Logo Black: meme couleur que bg
 Déplacer la partie authent de base vers chaque vue (car couleur Police à adapter)
+
+Pour les boutons dispo uniquement pour admin: https://stackoverflow.com/questions/7731310/text-in-border-css-html (avec "admin" et doré), fieldset et legend
 
 regex mdp (création de compte)
 Fix la vérif de isVerified email (mailHog fonctionne mais possible de se co meme si email pas vérif)
