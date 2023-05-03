@@ -11,3 +11,4 @@ Port 1025: outil de mailing
 Port 8025: boite mail
 
 Composer install (pour bundle vérif email, etc...)
+Si problème de "autoload_runtime" : run "composer dump-autoload"

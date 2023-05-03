@@ -28,19 +28,25 @@ class GameController extends AbstractController
         // Jeux par catégories
         $fpsGenre = $genreRepo->findBy(['name' => 'FPS']);
         $fpsGames = $gamesRepo->findBy(['genre' => $fpsGenre], ['publish_date' => 'DESC']);
+        $fpsGamesCount = count($fpsGames);
 
         $indieGenre = $genreRepo->findBy(['name' => 'indie']);
         $indieGames = $gamesRepo->findBy(['genre' => $indieGenre], ['publish_date' => 'DESC']);
+        $indieGamesCount = count($indieGames);
 
         $brGenre = $genreRepo->findBy(['name' => 'Battle Royal']);
         $brGames = $gamesRepo->findBy(['genre' => $brGenre], ['publish_date' => 'DESC']);
+        $brGamesCount = count($brGames);
 
         return $this->render('game/gameList.html.twig', [
             // 'games' => $allGames,
             // 'genres' => $allGenres,
             'fpsGames' => $fpsGames,
+            'fpsGamesCount' => $fpsGamesCount,
             'indieGames' => $indieGames,
+            'indieGamesCount' => $indieGamesCount,
             'battleRoyalGames' => $brGames,
+            'brGamesCount' => $brGamesCount,
         ]);
     }
 
@@ -50,6 +56,8 @@ class GameController extends AbstractController
     {
         $gamesRepo = $entityManager->getRepository(Game::class);
         $game = $gamesRepo->find($id);
+
+        $gameGenre = $game->getGenre()->getName();
 
         $user = $this->getUser();
 
@@ -63,6 +71,24 @@ class GameController extends AbstractController
         return $this->render('game/gameDetails.html.twig', [
             'game' => $game,
             'isFavorited' => $isFavorited,
+            'gameGenre' => $gameGenre,
+        ]);
+
+    }
+
+
+    #[Route('/genreGames/{id}', name: 'app_genreGames')]
+    public function getGenreGames(EntityManagerInterface $entityManager, int $id): Response
+    {
+        $gamesRepo = $entityManager->getRepository(Game::class);
+        $genreGames = $gamesRepo->findBy(['genre' => $id]);
+
+        $genreRepo = $entityManager->getRepository(Genre::class);
+        $genreName = $genreRepo->find($id)->getName();
+
+        return $this->render('game/genreGameList.html.twig', [
+            'genreGames' => $genreGames,
+            'genreName' => $genreName,
         ]);
 
     }

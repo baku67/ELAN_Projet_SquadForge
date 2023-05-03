@@ -18,9 +18,25 @@
         <h2>Profil {{ app.user.pseudo|capitalize }}</h2>
 
         <h3>Infos</h3>
-        {{ dump(user) }}
+        <p>Pseudo: {{ user.pseudo }}</p>
+        <p>Email: {{ user.email }}</p>
+        
+        {% if not user.isVerified %}
+        <p style="color:red;">Votre email est toujours en attente de validation, checkez votre boîte mail</p>
+        {% endif %}
+        
 
-        {{ dump(userRole) }}
+        {# {{ dump(user) }} #}
+        {# {{ dump(userRole) }} #}
+
+
+        {% if userRole[0] == "ROLE_USER" %}
+            <p>Rôle:<span class="roleUserData">Utilisateur</span></p>
+        {% else %}
+            <p>Rôle:<span class="roleUserData">Modérateur/Administrateur</span></p>
+        {% endif %}
+        
+
 
         <h3>Jeux Favoris</h3>
         <div class="genreGameList">

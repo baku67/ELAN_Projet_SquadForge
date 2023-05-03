@@ -12,9 +12,9 @@
     </header>
     <div class="headerUnderline"></div>
 
-    <h2 class="pageTitle">Parcourir les jeux</h2>
-
     <div class="main">
+
+        <h2 class="pageTitle">Parcourir les jeux</h2>
 
         {# <p>Tous les jeux</p>
         {{ dump(games) }}
@@ -22,7 +22,7 @@
         <p>Tous les genres</p>
         {{ dump(genres) }} #}
 
-        <h3 class="genreTitle">FPS</h3>
+        <h3 class="genreTitle">FPS <span>({{ fpsGamesCount }})</span></h3>
         <div class="genreGameList">
             {% for game in fpsGames %}
                 <a href="{{ path('app_game', {'id': game.id} )}}">
@@ -31,7 +31,7 @@
                         <div class="gameCardUnderline" style="background-color:{{ game.color }}"></div>
 
                             <div class="gameCardInfos">
-                                <p class="gameCardTitle">{{ game.title }}</p>
+                                {# <p class="gameCardTitle">{{ game.title }}</p> #}
                                 <p><span>New</span> Topics <span>0</span></p>
                                 <p><span>New</span> Medias <span>0</span></p>
                             </div>
@@ -40,7 +40,7 @@
             {% endfor %}
         </div>
 
-        <h3 class="genreTitle">Battle Royal</h3>
+        <h3 class="genreTitle">Battle Royal <span>({{ brGamesCount }})</span></h3>
         <div class="genreGameList">
             {% for game in battleRoyalGames %}
                 <a href="{{ path('app_game', {'id': game.id} )}}">
@@ -49,7 +49,7 @@
                         <div class="gameCardUnderline" style="background-color:{{ game.color }}"></div>
 
                             <div class="gameCardInfos">
-                                <p class="gameCardTitle">{{ game.title }}</p>
+                                {# <p class="gameCardTitle">{{ game.title }}</p> #}
                                 <p><span>New</span> Topics <span>0</span></p>
                                 <p><span>New</span> Medias <span>0</span></p>
                             </div>
@@ -59,12 +59,21 @@
         </div>
 
 
-        <h3 class="genreTitle">Indés</h3>
+        <h3 class="genreTitle">Indés <span>({{ indieGamesCount }})</span></h3>
         <div class="genreGameList">
             {% for game in indieGames %}
-                <div class="gameCard">
-                    <p class="gameCardTitle">{{ game.title }}</p>
-                </div>
+                <a href="{{ path('app_game', {'id': game.id} )}}">
+                    <div class="gameCard">
+                        <img src="{{ asset("img/games/logo/" ~ game.logo) }}" class="gameLogo" alt="logo {{ game.title }}"/>
+                        <div class="gameCardUnderline" style="background-color:{{ game.color }}"></div>
+
+                            <div class="gameCardInfos">
+                                {# <p class="gameCardTitle">{{ game.title }}</p> #}
+                                <p><span>New</span> Topics <span>0</span></p>
+                                <p><span>New</span> Medias <span>0</span></p>
+                            </div>
+                    </div>
+                </a>
             {% endfor %}
         </div>
 

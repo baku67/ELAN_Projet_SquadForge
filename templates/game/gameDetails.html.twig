@@ -28,11 +28,12 @@
         {% endif %}
 
         {{ dump(isFavorited) }}
+
+        <h3>Infos</h3>
+        <p>Éditeur: {{ game.editor }}</p>
+        <p>Date de sortie: {{ game.publishDate|date('Y-m-d') }}</p>
+        <p>Genre: <a class="underlineLink" href="{{ path('app_genreGames', {'id': game.genre.id }) }}">{{ gameGenre }}</a></p>
         
-
-
-
-
 
     </div>
 
