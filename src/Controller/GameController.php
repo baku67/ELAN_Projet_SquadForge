@@ -9,6 +9,8 @@ use App\Entity\Genre;
 use App\Entity\User;
 use Doctrine\ORM\PersistentCollection;
 
+use Symfony\Component\HttpFoundation\JsonResponse;
+
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -39,24 +41,25 @@ class GameController extends AbstractController
         $brGames = $gamesRepo->findBy(['genre' => $brGenre], ['publish_date' => 'DESC']);
         $brGamesCount = count($brGames);
 
+        // Ancienne barre de recherche (FormType Symfony: synchrone)
+        // $form = $this->createForm(SearchType::class);
+        // $form->handleRequest($request);
 
-        $form = $this->createForm(SearchType::class);
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
-            $query = $form->getData()['query'];
-            $games = $entityManager
-                ->getRepository(Game::class)
-                ->findBySearchQuery($query);
-            // ...
-            // Si input recherche, vue résultat différrente
-            return $this->render('game/searchResult.html.twig', [
-                'form' => $form->createView(),
-                'searchGames' => $games ?? null,
-                'query' => $query,
-                'formSearch' => $form->createView(),
-            ]);
-        }
+        // if ($form->isSubmitted() && $form->isValid()) {
+        //     $query = $form->getData()['query'];
+        //     $games = $entityManager
+        //         ->getRepository(Game::class)
+        //         ->findBySearchQuery($query);
+        //     // ...
+        //     // Si input recherche, vue résultat différrente
+        //     return $this->render('game/searchResult.html.twig', [
+        //         'form' => $form->createView(),
+        //         'searchGames' => $games ?? null,
+        //         'query' => $query,
+        //         'formSearch' => $form->createView(),
+        //     ]);
+        // }
+        
 
 
         return $this->render('game/gameList.html.twig', [
@@ -68,7 +71,7 @@ class GameController extends AbstractController
             'indieGamesCount' => $indieGamesCount,
             'battleRoyalGames' => $brGames,
             'brGamesCount' => $brGamesCount,
-            'formSearch' => $form->createView(),
+            // 'formSearch' => $form->createView(),
         ]);
     }
 
@@ -158,6 +161,33 @@ class GameController extends AbstractController
         }
     }
 
+
+    // Routre utilisé par les requêtes ajax JS
+    #[Route("/search", name:"search")]
+    public function searchAction(EntityManagerInterface $entityManager, Request $request)
+    {
+        $query = $request->query->get('query');
+        $games = $entityManager
+            ->getRepository(Game::class)
+            ->findBySearchQuery($query);
+        
+        $results = [];
+        foreach ($games as $game) {
+            $results[] = [
+                'id' => $game->getId(),
+                'title' => $game->getTitle(),
+                'editor' => $game->getEditor(),
+                'description' => $game->getDescription(),
+                'publishDate' => $game->getPublishDate(),
+                'genreId' => $game->getGenre(),
+                'genreName' => $game->getGenre()->getName(),
+                'color' => $game->getColor(),
+                'logo' => $game->getLogo(),
+            ];
+        }
+        
+        return new JsonResponse($results);
+    }
 
 
 }

@@ -14,65 +14,142 @@
 
     <div class="main">
 
-        <h2 class="pageTitle">Parcourir les jeux</h2>
+        <div style="display:inline-flex; width: 100%; justify-content:space-between;">
+            <h2 class="pageTitle">Parcourir les jeux</h2>
 
-        {{ form_start(formSearch) }}
-        {{ form_end(formSearch) }}
+            {# Form Search synchrone (Symfony Type) #}
+            {# {{ form_start(formSearch) }}
+            {{ form_end(formSearch) }} #}
 
-
-        <h3 class="genreTitle">FPS <span>({{ fpsGamesCount }})</span></h3>
-        <div class="genreGameList">
-            {% for game in fpsGames %}
-                <a href="{{ path('app_game', {'id': game.id} )}}">
-                    <div class="gameCard">
-                        <img src="{{ asset("img/games/logo/" ~ game.logo) }}" class="gameLogo" alt="logo {{ game.title }}"/>
-                        <div class="gameCardUnderline" style="background-color:{{ game.color }}"></div>
-
-                            <div class="gameCardInfos">
-                                {# <p class="gameCardTitle">{{ game.title }}</p> #}
-                                <p><span>New</span> Topics <span>0</span></p>
-                                <p><span>New</span> Medias <span>0</span></p>
-                            </div>
-                    </div>
-                </a>
-            {% endfor %}
+            {# Test form Search asynchrone (Ajax JS) #}
+            <form id="search-form" action="{{ path('search') }}" method="GET">
+                <input type="text" id="search-input" name="query" class="form-control" placeholder="Rechercher...">
+            </form>
         </div>
 
-        <h3 class="genreTitle">Battle Royal <span>({{ brGamesCount }})</span></h3>
-        <div class="genreGameList">
-            {% for game in battleRoyalGames %}
-                <a href="{{ path('app_game', {'id': game.id} )}}">
-                    <div class="gameCard">
-                        <img src="{{ asset("img/games/logo/" ~ game.logo) }}" class="gameLogo" alt="logo {{ game.title }}"/>
-                        <div class="gameCardUnderline" style="background-color:{{ game.color }}"></div>
+        <script>
+            window.onload = function() {
 
-                            <div class="gameCardInfos">
-                                {# <p class="gameCardTitle">{{ game.title }}</p> #}
-                                <p><span>New</span> Topics <span>0</span></p>
-                                <p><span>New</span> Medias <span>0</span></p>
-                            </div>
-                    </div>
-                </a>
-            {% endfor %}
-        </div>
+                const searchForm = document.querySelector('#search-form');
+                const searchInput = document.querySelector('#search-input');
+                const searchResults = document.querySelector('#search-results');
+
+                searchInput.addEventListener('keyup', (event) => {
+                    const query = event.target.value.trim();
+
+                    if (query.length >= 1) { // perform search only if query length >= 3
+
+                        // On cache la liste des jeux pendant la recherche
+                        document.querySelector('#gamesLists').style.display = "none";
+                        document.querySelector('#search-title').style.display = "block";
+
+                        const url = searchForm.getAttribute('action') + '?query=' + encodeURIComponent(query);
+                        
+                        // make AJAX request to server
+                        const xhr = new XMLHttpRequest();
+                        xhr.open('GET', url);
+                        xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
+                        xhr.onload = () => {
+                            if (xhr.status === 200) {
+                                // Affichage des résultats sur la page
+                                const results = JSON.parse(xhr.responseText);
+                                let count = results.length;
+                                document.querySelector('#searchResultCount').innerHTML = "(" + count + ")";
+                                let html = '';
+                                results.forEach((result) => {
+                                    html += `<div>${result.title}</div>`;
+                                    /* 
+                                    html += 
+                                    `<a href="` + Routing.generate('app_game', {id: result.id}) + `">` +
+                                        `<div class="gameCard">` +
+                                            `<img src="` + asset('img/games/logo/' + result.logo) + `" class="gameLogo" alt="logo ${result.title}">` +
+                                            `<div class="gameCardUnderline" style="background-color:` + result.color + `">` +
+                                            `</div>` +
+                                        `</div>` +
+                                    `</a>`;
+                                    */
+                                });
+                                searchResults.innerHTML = html;
+                            } else {
+                                console.error(xhr.statusText);
+                            }
+                        };
+                        xhr.onerror = () => console.error(xhr.statusText);
+                        xhr.send();
+                    } else {
+                        document.querySelector('#search-title').style.display = "none";
+                        document.querySelector('#gamesLists').style.display = "block";
+                        searchResults.innerHTML = '';
+                    }
+                });
+
+            }
+        </script>
 
 
-        <h3 class="genreTitle">Indés <span>({{ indieGamesCount }})</span></h3>
-        <div class="genreGameList">
-            {% for game in indieGames %}
-                <a href="{{ path('app_game', {'id': game.id} )}}">
-                    <div class="gameCard">
-                        <img src="{{ asset("img/games/logo/" ~ game.logo) }}" class="gameLogo" alt="logo {{ game.title }}"/>
-                        <div class="gameCardUnderline" style="background-color:{{ game.color }}"></div>
 
-                            <div class="gameCardInfos">
-                                {# <p class="gameCardTitle">{{ game.title }}</p> #}
-                                <p><span>New</span> Topics <span>0</span></p>
-                                <p><span>New</span> Medias <span>0</span></p>
-                            </div>
-                    </div>
-                </a>
-            {% endfor %}
+        <h3 id="search-title">Résultats de recherche <span id="searchResultCount"></span></h3>
+        <div id="search-results"></div>
+
+
+
+
+
+        <div id="gamesLists">
+            <h3 class="genreTitle">FPS <span>({{ fpsGamesCount }})</span></h3>
+            <div class="genreGameList">
+                {% for game in fpsGames %}
+                    <a href="{{ path('app_game', {'id': game.id} )}}">
+                        <div class="gameCard">
+                            <img src="{{ asset("img/games/logo/" ~ game.logo) }}" class="gameLogo" alt="logo {{ game.title }}"/>
+                            <div class="gameCardUnderline" style="background-color:{{ game.color }}"></div>
+
+                                <div class="gameCardInfos">
+                                    {# <p class="gameCardTitle">{{ game.title }}</p> #}
+                                    <p><span>New</span> Topics <span>0</span></p>
+                                    <p><span>New</span> Medias <span>0</span></p>
+                                </div>
+                        </div>
+                    </a>
+                {% endfor %}
+            </div>
+
+            <h3 class="genreTitle">Battle Royal <span>({{ brGamesCount }})</span></h3>
+            <div class="genreGameList">
+                {% for game in battleRoyalGames %}
+                    <a href="{{ path('app_game', {'id': game.id} )}}">
+                        <div class="gameCard">
+                            <img src="{{ asset("img/games/logo/" ~ game.logo) }}" class="gameLogo" alt="logo {{ game.title }}"/>
+                            <div class="gameCardUnderline" style="background-color:{{ game.color }}"></div>
+
+                                <div class="gameCardInfos">
+                                    {# <p class="gameCardTitle">{{ game.title }}</p> #}
+                                    <p><span>New</span> Topics <span>0</span></p>
+                                    <p><span>New</span> Medias <span>0</span></p>
+                                </div>
+                        </div>
+                    </a>
+                {% endfor %}
+            </div>
+
+
+            <h3 class="genreTitle">Indés <span>({{ indieGamesCount }})</span></h3>
+            <div class="genreGameList">
+                {% for game in indieGames %}
+                    <a href="{{ path('app_game', {'id': game.id} )}}">
+                        <div class="gameCard">
+                            <img src="{{ asset("img/games/logo/" ~ game.logo) }}" class="gameLogo" alt="logo {{ game.title }}"/>
+                            <div class="gameCardUnderline" style="background-color:{{ game.color }}"></div>
+
+                                <div class="gameCardInfos">
+                                    {# <p class="gameCardTitle">{{ game.title }}</p> #}
+                                    <p><span>New</span> Topics <span>0</span></p>
+                                    <p><span>New</span> Medias <span>0</span></p>
+                                </div>
+                        </div>
+                    </a>
+                {% endfor %}
+            </div>
         </div>
 
     </div>

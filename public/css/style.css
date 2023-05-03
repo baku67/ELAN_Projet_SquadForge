@@ -140,6 +140,13 @@ nav {
 
 }
 
+#search-form {
+    width: 20%;
+}
+#search-title {
+    display: none;
+}
+
 .btn {
     background-color: #00F38D;
 }
