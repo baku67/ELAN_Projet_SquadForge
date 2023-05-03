@@ -3,6 +3,8 @@
     --background-color: #232323;
     --sectionBg-color: #363636;
     --white: #D9D9D9;
+
+    /* --secondary-font: "'K2D', sans-serif"; */
 }
 
 
@@ -61,6 +63,29 @@ header {
     z-index: 1;
 }
 
+.pageTitle {
+    background-color: var(--primary-color);
+    color: black;
+    padding: 3px 29px;
+    /* padding-left: 500px; */
+    /* clip-path: polygon(20% 0%, 100% 0, 80% 100%, 0% 100%); */
+    clip-path: polygon(4% 0, 100% 0, 95% 100%, 0% 100%);
+    width: fit-content;
+}
+
+.filAriane {
+    margin-left: 3%;
+    display: inline-flex;
+    font-family: 'K2D', sans-serif;
+}
+.filArianeSepa {
+    margin: 0 5px;
+}
+.arianeLink {
+    text-decoration: underline;
+    text-underline-offset: 2px;
+}
+
 nav {
     position: absolute;
     z-index: 11;
@@ -73,7 +98,7 @@ nav {
 }
 
 .main {
-    width: 90%;
+    width: 85%;
     margin: 0 auto;
 }
 

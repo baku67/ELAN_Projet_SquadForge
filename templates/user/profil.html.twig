@@ -15,7 +15,7 @@
 
     <div class="main">
 
-        <h2>Profil {{ app.user.pseudo|capitalize }}</h2>
+        <h2 class="pageTitle">Profil {{ app.user.pseudo|capitalize }}</h2>
 
         <h3>Infos</h3>
         <p>Pseudo: {{ user.pseudo }}</p>
@@ -41,7 +41,7 @@
         <h3>Jeux Favoris</h3>
         <div class="genreGameList">
             {% for gameFav in userFav %}
-                <a href="{{ path('app_game', {'id': gameFav.id} )}}">
+                <a  class="gameCardLink" href="{{ path('app_game', {'id': gameFav.id} )}}">
                     <div class="gameCard">
                         <img src="{{ asset("img/games/logo/" ~ gameFav.logo) }}" class="gameLogo" alt="logo {{ gameFav.title }}"/>
                         <div class="gameCardUnderline" style="background-color:{{ gameFav.color }}"></div>

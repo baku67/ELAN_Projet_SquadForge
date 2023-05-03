@@ -15,6 +15,13 @@
 
     {# <h2 class="pageTitle"></h2> #}
 
+    {# Fil d'ariane "breadcrumb" #}
+    <ul class="filAriane">
+        <li class="arianeLink"><a href="{{ path('app_games') }}">Jeux</a></li>
+        <span class="filArianeSepa"> - </span>
+        <li class="arianeOnPage">{{ game.title }}</li>
+    </ul>
+
     <div class="main">
 
         {% if app.user %}
