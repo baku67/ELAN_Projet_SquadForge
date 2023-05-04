@@ -47,6 +47,14 @@
         {% block body %}
         {% endblock %}
 
+        {% for type, messages in app.flashes() %}
+            {% for message in messages %}
+                <div class="alertFlash {{type}}Flash">
+                    {{ message }}
+                </div>
+            {% endfor %}
+        {% endfor %}
+
 
     </body>
 </html>

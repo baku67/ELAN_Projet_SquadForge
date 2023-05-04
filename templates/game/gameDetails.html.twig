@@ -71,6 +71,18 @@
         <div id="createTopicForm" class="notDisplayed"> 
 
             {{ form_start(formAddTopic) }}
+
+                <div class="my-custom-class-for-errors">
+                    {{ form_errors(formAddTopic) }}
+                </div>
+
+                <div class="inline" style="position:relative; margin: 5px auto;">
+                    <span class="labelSpan" style="width:100px;">{{ form_label(formAddTopic.title, 'Titre')}}<span id="charCountMsg" style="color:red;"> (au moins 5 mots)</span></span>
+                    {{ form_widget(formAddTopic.title) }} 
+                </div>
+
+                <span class="submitButton" style="margin: 15px auto;">{{ form_widget(formAddTopic.submit, { 'label': 'Publier' }) }}</span>
+
                 {# A voir: CSRF protection #}
                 {{ form_widget(formAddTopic._token) }}
             {{ form_end(formAddTopic) }}
@@ -78,7 +90,33 @@
         </div>
 
         {# Script vérif Front 20 mots minimum #}
+        <script>
+            document.getElementById('topic_submit').disabled = true;
 
+            let charContMsg = document.querySelector("#charCountMsg");
+            let textInput = document.querySelector('#topic_title');
+
+            textInput.addEventListener("input", function() {
+
+                console.log("inputText" + textInput.value);
+
+                let text = textInput.value;
+                const words = text.split(" ");
+                const wordCount = words.length;
+
+                if(wordCount <= 5) {
+                    charContMsg.style.color = "red";
+                    document.getElementById('topic_submit').disabled = true;
+
+                }
+                else {
+                    charContMsg.style.color = "#00be00";
+                    document.getElementById('topic_submit').disabled = false;
+
+                }
+
+            })
+        </script>
 
         {# Liste des Topics #}
         <div class="gameTopicsDiv marginTop marginBottom">
