@@ -2,6 +2,13 @@
 
 namespace App\Controller;
 
+use Doctrine\ORM\EntityManagerInterface;
+use App\Entity\Game;
+use App\Entity\Genre;
+use App\Entity\User;
+use App\Entity\Topic;
+use Doctrine\ORM\PersistentCollection;
+
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -43,10 +50,25 @@ class SecurityController extends AbstractController
 
     #[Route(path: '/', name: 'app_landingPage')]
     #[Route(path: '/home', name: 'app_home')]
-    public function homepage()
+    public function homepage(EntityManagerInterface $entityManager)
     {
+
+        $topicManager = $entityManager->getRepository(Topic::class);
+        // $lastTopics = $topicManager->findAll();
+
+        $queryBuilder = $entityManager->createQueryBuilder();
+        $queryBuilder->select('t')
+            ->from('App\Entity\Topic', 't')
+            ->orderBy('t.publish_date', 'DESC')
+            ->setMaxResults(5); 
+        $lastTopics = $queryBuilder->getQuery()->getResult();
+
+        $gameTopicsCount = count($lastTopics);
+
+
         return $this->render('security/home.html.twig', [
-            
+            'lastTopics' => $lastTopics,
+            'gameTopicsCount' => $gameTopicsCount
         ]);
         throw new \LogicException('This method can be blank - it will be intercepted by the logout key on your firewall.');
     }

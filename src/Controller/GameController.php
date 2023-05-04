@@ -63,8 +63,18 @@ class GameController extends AbstractController
         $gamesRepo = $entityManager->getRepository(Game::class);
         $game = $gamesRepo->find($id);
 
-        $gameTopics = $game->getTopics();
-        $gameTopicsCount = count($gameTopics);
+        // $gameTopics = $game->getTopics();
+
+        $queryBuilder = $entityManager->createQueryBuilder();
+        $queryBuilder->select('t')
+            ->from('App\Entity\Topic', 't')
+            ->where('t.game = :game')
+            ->setParameter('game', $game)
+            ->orderBy('t.publish_date', 'DESC')
+            ->setMaxResults(5); // set maximum number of results to 10
+        $gameTopicsDesc = $queryBuilder->getQuery()->getResult();
+
+        $gameTopicsCount = count($gameTopicsDesc);
 
         $gameGenre = $game->getGenre()->getName();
 
@@ -81,7 +91,7 @@ class GameController extends AbstractController
             'game' => $game,
             'isFavorited' => $isFavorited,
             'gameGenre' => $gameGenre,
-            'gameTopics' => $gameTopics,
+            'gameTopics' => $gameTopicsDesc,
             'gameTopicsCount' => $gameTopicsCount,
         ]);
 
@@ -106,7 +116,7 @@ class GameController extends AbstractController
     }
 
 
-    // Ajout du jeu au user (idUser)
+    // Ajout du jeu au user (idUser) FAVORI
     #[Route('/game/addfav/{id}', name: 'app_addfav')]
     public function addGameToFav(EntityManagerInterface $entityManager, int $id): Response
     {
@@ -128,7 +138,7 @@ class GameController extends AbstractController
         }
     }
 
-    // Retrait du jeu au user (idUser)
+    // Retrait du jeu au user (idUser) FAVORI
     #[Route('/game/removefav/{id}', name: 'app_removefav')]
     public function removeGameToFav(EntityManagerInterface $entityManager, int $id): Response
     {

@@ -7,6 +7,7 @@ Puis:
     
 
 TODO:
+Mettre un paramètre GET dans le redirect app_login pour rediriger vers la page du click après login
 *User muted tant que l'email est pas vérifié ? 
 https://codepen.io/mahish/pen/RajmQw OU http://jsfiddle.net/Lpjj3n1e/ SCROLL HORIZONTAL DES LISTE DE JEUX
 Table assoc avec +propriété 'note': Notation + order listGames par note moyenne

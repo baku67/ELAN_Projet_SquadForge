@@ -25,7 +25,19 @@ class UserController extends AbstractController
             $userRole = $this->getUser()->getRoles();
             $userFav = $this->getUser()->getFavoris();
 
-            $userTopics = $user->getTopics();
+            // $userTopics = $user->getTopics();
+
+            // Topics du user limit 5 du plus récent au plus ancien
+            $queryBuilder = $entityManager->createQueryBuilder();
+            $queryBuilder->select('t')
+                ->from('App\Entity\Topic', 't')
+                ->where('t.user = :user')
+                ->setParameter('user', $this->getUser())
+                ->orderBy('t.publish_date', 'DESC')
+                ->setMaxResults(5); 
+            $userTopics = $queryBuilder->getQuery()->getResult();
+
+        $gameTopicsCount = count($userTopics);
 
             return $this->render('user/profil.html.twig', [
                 'user' => $user,

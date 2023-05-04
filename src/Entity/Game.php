@@ -2,6 +2,9 @@
 
 namespace App\Entity;
 
+use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\Persistence\ManagerRegistry;
+
 use App\Repository\GameRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -202,8 +205,24 @@ class Game
      */
     public function getTopics(): Collection
     {
+
         return $this->topics;
     }
+
+    // /**
+    //  * @return Collection<int, Topic>
+    //  */
+    // public function getTopicsDesc(): Collection
+    // {
+    //     // OrderBy PublishDate:
+
+    //     return $this->createQueryBuilder('t')
+    //         ->where('t.game = :game')
+    //         ->setParameter('game', 1)
+    //         ->orderBy('t.publish_date', 'DESC')
+    //         ->getQuery()
+    //         ->getResult();
+    // }
 
     public function addTopic(Topic $topic): self
     {

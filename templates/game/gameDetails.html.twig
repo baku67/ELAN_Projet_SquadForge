@@ -39,7 +39,7 @@
                     <a class="favButton" href="{{ path('app_addfav', {'id': game.id}) }}">Favoris <i class="fa-regular fa-heart"></i></a>
                 {% endif %}
             {% else %}
-                    <a class="favButton" disabled>Favoris</a>
+                    <a class="favButton" href="{{ path('app_login') }}">Favoris <i class="fa-regular fa-heart"></i></a>
             {% endif %}
         </div>
         <p>Éditeur: {{ game.editor }}</p>

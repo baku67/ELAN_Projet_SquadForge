@@ -18,7 +18,6 @@ class TopicController extends AbstractController
         $gameTopics = $topicRepo->findAll();
 
         return $this->render('topic/index.html.twig', [
-            'controller_name' => 'TopicController',
         ]);
     }
 }

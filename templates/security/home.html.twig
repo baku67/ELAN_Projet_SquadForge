@@ -14,7 +14,18 @@
 
     <div class="main">
 
+        <h3 class="genreTitle">Derniers Topics <span class="gameListCount">({{ gameTopicsCount }})</span></h3>
 
+        <div class="gameTopicsDiv marginTop marginBottom">
+            {% for topic in lastTopics %}
+                <div class="topicCard" style="border-bottom: 4px solid {{ topic.game.color }}">
+                    <span>{{ topic.title }}</span>
+                    <span>{{ topic.status }}</span>
+                    <span>{{ topic.user.pseudo }}</span>
+                    <span class="topicCardPublishDate">{{ time_diff(topic.publishDate) }}</span>
+                </div>
+            {% endfor %}
+        </div>
 
 
     </div>
