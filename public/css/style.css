@@ -20,7 +20,27 @@ body {
     background-color: var(--background-color);
     color: var(--white);
     font-family: 'Julius Sans One', sans-serif;
+
+    /* margin-right: -10px; */
+    overflow-y: scroll; /* Allow vertical scrolling */
+    position: relative; /* Set the container element to relative position */
 }
+body::-webkit-scrollbar {
+    z-index: -10;
+    width: 15px; /* Set the width of the scrollbar */
+    position: absolute; /* Set the scrollbar to absolute position */
+    bottom: 0; /* Stretch the scrollbar to fill the height of the container element */
+    background-color: #333333; /* Set the background color of the scrollbar */
+}
+
+body::-webkit-scrollbar-thumb {
+    position: absolute; /* Set the scrollbar to absolute position */
+    background-color: #cccccc; /* Set the color of the scrollbar thumb */
+    border-radius: 0px; /* Set the border radius of the scrollbar thumb */
+}
+
+
+
 ul {
     list-style-type: none;
     padding-inline-start: 0;
@@ -297,4 +317,23 @@ nav {
     padding: 3px 29px;
     width: fit-content;
     
+}
+
+.seeAllRedirect {
+    font-size: 80%;
+    opacity: 0.8;
+    font-style: italic;
+    transition: all 0.4s;
+}
+.seeAllRedirect:hover {
+    letter-spacing: 1px;
+}
+
+
+.toggleTopicFilter {
+    font-size: 1.4em;
+    padding: 5px 20px;
+    background-color: white;
+    color: #232323;
+    margin: 30px 1px;
 }

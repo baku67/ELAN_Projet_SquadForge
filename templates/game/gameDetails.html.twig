@@ -56,7 +56,13 @@
             </h3>
                 
             {# <a id="createTopicBtn" href="{{ path('app_addGameTopic', {'id': game.id }) }}" class="createButton" style="border-top: 1px solid {{ game.color }}; border-bottom: 1px solid {{ game.color }};"><i class="fa-solid fa-plus" style="color:{{ game.color }}"></i>&nbsp;Créer</a> #}
-            <span id="createTopicBtn" class="createButton" style="border-top: 1px solid {{ game.color }}; border-bottom: 1px solid {{ game.color }};"><i class="fa-solid fa-plus" style="color:{{ game.color }}"></i>&nbsp;Créer</span>
+            
+            {% if app.user %}
+                <span id="createTopicBtn" class="createButton" style="border-top: 1px solid {{ game.color }}; border-bottom: 1px solid {{ game.color }};"><i class="fa-solid fa-plus" style="color:{{ game.color }}"></i>&nbsp;Créer</span>
+            {% else %}
+                <a href="{{ path('app_login') }}"><span class="createButton" style="border-top: 1px solid {{ game.color }}; border-bottom: 1px solid {{ game.color }};"><i class="fa-solid fa-plus" style="color:{{ game.color }}"></i>&nbsp;Créer</span></a>
+            {% endif %}
+            
         </div>
 
 
@@ -87,13 +93,24 @@
                 </div>
             {% endfor %}
         </div>
+        <span class="seeAllRedirect">
+            <a href="{{ path('app_allTopics', {'gameIdFrom': game.id}) }}">Tout voir  <i class="fa-solid fa-chevron-right"></i></a>
+        </span>
 
 
         {# (JS) Show/Hide form addTopic Btn #}
         <script>
-            document.querySelector('#createTopicBtn').addEventListener('click', function() {
-                document.querySelector('#createTopicForm').classList.toggle("notDisplayed");
-            })
+                document.querySelector('#createTopicBtn').addEventListener('click', function() {
+
+                    document.querySelector('#createTopicForm').classList.toggle("notDisplayed");
+
+                    if (document.getElementById('createTopicForm').classList.contains("notDisplayed")) {
+                        document.querySelector('#createTopicBtn').innerHTML = '<i class="fa-solid fa-plus" style="color:{{ game.color }}"></i>&nbsp;Créer';
+                    }
+                    else {
+                        document.querySelector('#createTopicBtn').innerHTML = '<i class="fa-solid fa-minus" style="color:{{ game.color }}"></i>&nbsp;Annuler';
+                    }
+                })
         </script>
 
     </div>

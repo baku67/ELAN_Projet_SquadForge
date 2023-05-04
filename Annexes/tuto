@@ -4,7 +4,8 @@ En cours:
 
 Puis: 
     Création de Topic
-    
+    Favoris Btn asynchrone
+
 
 TODO:
 Mettre un paramètre GET dans le redirect app_login pour rediriger vers la page du click après login

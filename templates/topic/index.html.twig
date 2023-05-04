@@ -1,20 +1,58 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello TopicController!{% endblock %}
+{% block title %}Topics{% endblock %}
 
 {% block body %}
-<style>
-    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
-    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
-</style>
 
-<div class="example-wrapper">
-    <h1>Hello {{ controller_name }}! ✅</h1>
 
-    This friendly message is coming from:
-    <ul>
-        <li>Your controller at <code><a href="{{ 'C:/laragon/www/SQUADFORGE/ELAN_Projet_SquadForge/src/Controller/TopicController.php'|file_link(0) }}">src/Controller/TopicController.php</a></code></li>
-        <li>Your template at <code><a href="{{ 'C:/laragon/www/SQUADFORGE/ELAN_Projet_SquadForge/templates/topic/index.html.twig'|file_link(0) }}">templates/topic/index.html.twig</a></code></li>
-    </ul>
-</div>
+    <header>
+        <a href="{{ path('app_home') }}"><img src="{{ asset('img/logoSquadForge_Black_Rogned.png') }}" class="logoPng" /></a>
+        <nav>
+            <a href="{{ path('app_games') }}">Jeux</a>
+        </nav>
+    </header>
+    <div class="headerUnderline"></div>
+
+    <div class="main">
+
+        <p>Jeux - {{ gameFrom.title }} - Topics</p>
+        <p>Home - Topics</p>
+
+        <h2>TOPICS</h2>
+
+        <div style="display:inline-flex; width:100%; justify-content:center;">
+            <h3 id="allTopicsToggle" class="toggleTopicFilter">TOUS <span class="gameListCount">({{ allTopicsCount }})</span></h3>
+            <h3 id="gameTopicsToggle" class="toggleTopicFilter">{{ gameFrom.title }} <span class="gameListCount">({{ gameTopicsCount }})</span></h3>
+        </div>
+
+        <div id="allTopicsDiv">
+            {% for topic in allTopicsDesc %}
+                {{ dump(topic) }}
+            {% endfor %}
+        </div>
+
+        
+
+        <div id="gameTopicsDiv">
+            {% for topic in gameTopicsDesc %}
+                {{ dump(topic) }}
+            {% endfor %}
+        </div>
+
+    </div>
+
+
+    <script>
+
+        // Changement de liste affiché selon l'option de filtre choisie
+        // Si from game: filter Game par defaut
+        window.onload = function() {
+
+            document.querySelector('#allTopicsToggle').addEventListener('click', function() {
+
+            })
+
+        }
+    </script>
+
 {% endblock %}
