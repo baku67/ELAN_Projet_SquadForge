@@ -32,6 +32,9 @@ class Topic
     #[ORM\ManyToOne(inversedBy: 'topics')]
     private ?User $user = null;
 
+    #[ORM\Column(type: Types::TEXT, nullable: true)]
+    private ?string $firstMsg = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -105,6 +108,18 @@ class Topic
     public function setUser(?User $user): self
     {
         $this->user = $user;
+
+        return $this;
+    }
+
+    public function getFirstMsg(): ?string
+    {
+        return $this->firstMsg;
+    }
+
+    public function setFirstMsg(?string $firstMsg): self
+    {
+        $this->firstMsg = $firstMsg;
 
         return $this;
     }

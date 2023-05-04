@@ -28,14 +28,14 @@
 
     <div class="main">
 
-    <h2 style="font-weight:bold; color:{{game.color}}">Topic</h2>
-    <p>Titre: {{ topic.title }}</p>
-    <p>Par: {{ topic.user.pseudo }}</p>
-    <p>Il y a {{ time_diff(topic.publishDate) }}</p>
-    <p>Auteur: <span>Fermer le topic</span></p>
+        <h2 style="font-weight:bold; color:{{game.color}}">Topic</h2>
+        <p>Titre: {{ topic.title }}</p>
+        <p>Par: {{ topic.user.pseudo }}</p>
+        <p>Il y a {{ time_diff(topic.publishDate) }}</p>
+        <p>Auteur: <span>Fermer le topic</span></p>
+        <p>Intro: <span>{{ topic.firstMsg }}</span></p>
 
-    <h4 style="font-weight:bold; color:{{game.color}}; margin-top: 40px;">Messages</h4>
-
+        <h4 style="font-weight:bold; color:{{game.color}}; margin-top: 40px;">Messages</h4>
 
 
     </div>

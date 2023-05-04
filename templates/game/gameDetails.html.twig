@@ -81,6 +81,11 @@
                     {{ form_widget(formAddTopic.title) }} 
                 </div>
 
+                <div class="inline" style="position:relative; margin: 5px auto;">
+                    <span class="labelSpan" style="width:100px;">{{ form_label(formAddTopic.firstMsg, 'Introduction')}}</span>
+                    {{ form_widget(formAddTopic.firstMsg) }} 
+                </div>
+
                 <span class="submitButton" style="margin: 15px auto;">{{ form_widget(formAddTopic.submit, { 'label': 'Publier' }) }}</span>
 
                 {# A voir: CSRF protection #}

@@ -4,6 +4,8 @@ namespace App\Form;
 
 use App\Entity\Topic;
 
+
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\AbstractType;
@@ -19,6 +21,14 @@ class TopicType extends AbstractType
                 'label' => 'Titre',
                 'required' => true,
                 'attr' => ["class" => "form-control"]
+            ])
+            ->add('firstMsg', TextareaType::class, [
+                'label' => 'Introduction',
+                'required' => true,
+                'attr' => [
+                    "class" => "form-control", 
+                    'rows' => 3
+                ],
             ])
             // ->add('publish_date')
             // ->add('status')
