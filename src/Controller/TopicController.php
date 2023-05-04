@@ -23,7 +23,7 @@ class TopicController extends AbstractController
         ]);
     }
 
-    
+    // Tout les Topics du jeu et tout les Topics globaux (pour pouvoir switch le filtre sur la vue)
     #[Route('/allTopics/{gameIdFrom}', name: 'app_allTopics')]
     public function getAllTopics(EntityManagerInterface $entityManager, int $gameIdFrom): Response
     {
@@ -69,6 +69,31 @@ class TopicController extends AbstractController
             'gameTopicsCount' => $gameTopicsCount,
             'gameFrom' => $gameFrom,
             'from' => $from,
+        ]);
+    }
+
+    // Tout les Topics globaux (from /homePage)
+    #[Route('/allTopicsGlobal', name: 'app_allTopicsGlobal')]
+    public function getAllTopicsGlobal(EntityManagerInterface $entityManager): Response
+    {
+
+        $gameRepo = $entityManager->getRepository(Game::class);
+        $topicRepo = $entityManager->getRepository(Topic::class);
+
+        // Liste de tous les Topics 
+        // Todo: findBy plutot
+        $queryBuilder = $entityManager->createQueryBuilder();
+        $queryBuilder->select('t')
+            ->from('App\Entity\Topic', 't')
+            ->orderBy('t.publish_date', 'DESC');
+        $allTopicsDesc = $queryBuilder->getQuery()->getResult();
+
+        $allTopicsCount = count($allTopicsDesc);
+
+
+        return $this->render('topic/allTopicsGlobal.html.twig', [
+            'allTopicsDesc' => $allTopicsDesc,
+            'allTopicsCount' => $allTopicsCount,
         ]);
     }
 

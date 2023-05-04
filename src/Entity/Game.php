@@ -52,6 +52,9 @@ class Game
     #[ORM\OneToMany(mappedBy: 'game', targetEntity: Topic::class)]
     private Collection $topics;
 
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $tinyLogo = null;
+
     public function __construct()
     {
         $this->favUsers = new ArrayCollection();
@@ -242,6 +245,18 @@ class Game
                 $topic->setGame(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getTinyLogo(): ?string
+    {
+        return $this->tinyLogo;
+    }
+
+    public function setTinyLogo(?string $tinyLogo): self
+    {
+        $this->tinyLogo = $tinyLogo;
 
         return $this;
     }

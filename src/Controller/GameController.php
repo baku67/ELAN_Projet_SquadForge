@@ -98,49 +98,56 @@ class GameController extends AbstractController
         // Vérifs/Filtres
         if($form->isSubmitted()) {
 
-            if($form->isValid()) {
+            if($this->getUser()) {
 
-                // Hydrataion du "Topic" a partir des données du form
-                $topic = $form->getData();
+                if($form->isValid()) {
 
-                // Init de la publish_date du comment
-                $topic->setPublishDate(new \DateTime());
-                $topic->setGame($game);
-                $topic->setUser($user);
-                $topic->setStatus("ouvert");
-                // En attendant le système de validation avant publication par un modo:
-                $topic->setValidated("validated");
-                
-                // Récupération du titre
-                $titleInputValue = $form->get('title')->getData();
+                    // Hydrataion du "Topic" a partir des données du form
+                    $topic = $form->getData();
 
-                // Liste des mots du commentaires
-                $words = str_word_count($titleInputValue, 1);
-
-                // Décompte du nombre de mots dans la liste
-                $wordCount = count($words);
-
-                // Vérification du compte de mots
-                if ($wordCount >= 5) {
-
-                    // Modifs Base de données
-                    $entityManager->persist($topic);
-                    $entityManager->flush();
-
-                    $this->addFlash('success', 'Le topic a bien été publié');
-                    return $this->redirectToRoute('app_game', ['id' => $game->getId()]);
-
-                } else {
+                    // Init de la publish_date du comment
+                    $topic->setPublishDate(new \DateTime());
+                    $topic->setGame($game);
+                    $topic->setUser($user);
+                    $topic->setStatus("ouvert");
+                    // En attendant le système de validation avant publication par un modo:
+                    $topic->setValidated("validated");
                     
-                    $this->addFlash('error', 'Le titre doit faire au minimum 5 mots !');
-                    return $this->redirectToRoute('app_game', ['id' => $game->getId()]);
-                }
+                    // Récupération du titre
+                    $titleInputValue = $form->get('title')->getData();
 
-            } 
+                    // Liste des mots du commentaires
+                    $words = str_word_count($titleInputValue, 1);
+
+                    // Décompte du nombre de mots dans la liste
+                    $wordCount = count($words);
+
+                    // Vérification du compte de mots
+                    if ($wordCount >= 5) {
+
+                        // Modifs Base de données
+                        $entityManager->persist($topic);
+                        $entityManager->flush();
+
+                        $this->addFlash('success', 'Le topic a bien été publié');
+                        return $this->redirectToRoute('app_game', ['id' => $game->getId()]);
+
+                    } else {
+                        
+                        $this->addFlash('error', 'Le titre doit faire au minimum 5 mots !');
+                        return $this->redirectToRoute('app_game', ['id' => $game->getId()]);
+                    }
+
+                } 
+                else {
+                    $this->addFlash('error', 'Les données envoyées ne sont pas valides');
+                    return $this->redirectToRoute('app_game', ['id' => $game->getId()]);
+                }   
+            }
             else {
-                $this->addFlash('error', 'Les données envoyées ne sont pas valides');
-                return $this->redirectToRoute('app_game', ['id' => $game->getId()]);
-            }   
+                $this->addFlash('error', 'Vous devez être connecté pour publier un topic');
+                return $this->redirectToRoute('app_login');
+            }
         }
 
         return $this->render('game/gameDetails.html.twig', [
@@ -187,10 +194,13 @@ class GameController extends AbstractController
             $entityManager->persist($this->getUser());
             $entityManager->flush();
 
+            $this->addFlash('success', 'Le jeu a été ajouté à vos favoris');
             return $this->redirectToRoute('app_game', ['id' => $id]);
 
         }
         else {
+
+            $this->addFlash('error', 'Vous devez vous connecter pour ajouter un jeu à vos favoris');
             return $this->redirectToRoute('app_login');
         }
     }
@@ -209,10 +219,12 @@ class GameController extends AbstractController
             // $entityManager->persist($this->getUser());
             $entityManager->flush();
 
+            $this->addFlash('success', 'Le jeu a été retiré de vos favoris');
             return $this->redirectToRoute('app_game', ['id' => $id]);
 
         }
         else {
+            $this->addFlash('error', 'Vous devez vous connecter pour retirer un jeu à vos favoris (?)');
             return $this->redirectToRoute('app_login');
         }
     }

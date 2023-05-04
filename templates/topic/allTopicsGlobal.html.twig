@@ -1,23 +1,26 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}SquadForge - Find mates for gaming{% endblock %}
+{% block title %}Topics{% endblock %}
 
 {% block body %}
 
+
     <header>
-            <a href="{{ path('app_home') }}"><img src="{{ asset('img/logoSquadForge_Black_Rogned.png') }}" class="logoPng" /></a>
-            <nav>
-                <a href="{{ path('app_games') }}">JEUX</a>
-            </nav>
+        <a href="{{ path('app_home') }}"><img src="{{ asset('img/logoSquadForge_Black_Rogned.png') }}" class="logoPng" /></a>
+        <nav>
+            <a href="{{ path('app_games') }}">Jeux</a>
+        </nav>
     </header>
     <div class="headerUnderline"></div>
 
     <div class="main">
 
-        <h3 class="genreTitle">Derniers Topics</span></h3>
+        <p><a href="{{ path('app_home') }}" class="underlineLink">Home</a> - Topics</p>
+
+        <h2>Tous les Topics <span class="gameListCount">({{ allTopicsCount }})</span></h2>
 
         <div class="gameTopicsDiv marginTop marginBottom">
-            {% for topic in lastTopics %}
+            {% for topic in allTopicsDesc %}
                 <a href="{{ path('app_topicDetail', {'id': topic.id}) }}">
                     <div class="topicCard" style="border-bottom: 4px solid {{ topic.game.color }}">
                         <img class="tinyLogo" src="{{ asset('img/games/tinyLogo/' ~ topic.game.tinyLogo) }}" />
@@ -30,11 +33,8 @@
             {% endfor %}
         </div>
 
-        <span class="seeAllRedirect">
-            <a href="{{ path('app_allTopicsGlobal') }}">Tout voir  <i class="fa-solid fa-chevron-right"></i></a>
-        </span>
-
-
+        
     </div>
-    
+
+
 {% endblock %}

@@ -286,7 +286,7 @@ nav {
     justify-content:space-between;
 
     margin: 1px auto;
-    padding: 10px 50px;
+    padding: 10px 53px;
     background-color: white;
     color: black;
 
@@ -347,7 +347,11 @@ nav {
 }
 
 
-
+.tinyLogo {
+    width: 25px;
+    position: absolute;
+    left: 14px;
+}
 
 
 
@@ -360,6 +364,7 @@ nav {
 
 
 .alertFlash {
+    font-family: 'K2D', sans-serif;
     position: fixed;
     bottom: 45px;
     right: 10px;
