@@ -46,9 +46,13 @@ class Game
     #[ORM\ManyToMany(targetEntity: User::class, mappedBy: 'favoris')]
     private Collection $favUsers;
 
+    #[ORM\OneToMany(mappedBy: 'game', targetEntity: Topic::class)]
+    private Collection $topics;
+
     public function __construct()
     {
         $this->favUsers = new ArrayCollection();
+        $this->topics = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -186,6 +190,38 @@ class Game
     {
         if ($this->favUsers->removeElement($favUser)) {
             $favUser->removeFavori($this);
+        }
+
+        return $this;
+    }
+
+
+    // J'ai "raté" ici le nom donné à la fin de la création de la relation ducoup tout remplacé à la mano
+    /**
+     * @return Collection<int, Topic>
+     */
+    public function getTopics(): Collection
+    {
+        return $this->topics;
+    }
+
+    public function addTopic(Topic $topic): self
+    {
+        if (!$this->topics->contains($topic)) {
+            $this->topics->add($topic);
+            $topic->setGame($this);
+        }
+
+        return $this;
+    }
+
+    public function removeTopic(Topic $topic): self
+    {
+        if ($this->topics->removeElement($topic)) {
+            // set the owning side to null (unless already changed)
+            if ($topic->getGame() === $this) {
+                $topic->setGame(null);
+            }
         }
 
         return $this;

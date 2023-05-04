@@ -7,6 +7,13 @@
     /* --secondary-font: "'K2D', sans-serif"; */
 }
 
+/* Bootstrap  */
+    .btn-primary {
+        margin: 5px auto;
+        color: black;
+    } 
+/* ************************* */
+
 
 body {
     margin: 0;
@@ -25,6 +32,13 @@ ul li {
 a {
     text-decoration: none;
     color: inherit;
+}
+
+.marginTop {
+    margin-top: 30px;
+}
+.marginBottom {
+    margin-bottom: 20px;
 }
 
 .underlineLink {
@@ -154,7 +168,7 @@ nav {
     padding-top: 2px;
     padding-bottom: 2px;
 
-    clip-path: polygon(12% 0, 100% 0, 100% 100%, 0% 100%);
+    clip-path: polygon(10% 0, 100% 0, 100% 100%, 0% 100%);
     
     background-color: #f1f1f1;
 
@@ -163,6 +177,28 @@ nav {
     color: white;
     text-shadow: 1px 1px white; */
 
+}
+
+
+.favButton {
+    float: right; /* temporaire */
+
+    padding: 5px 30px;
+    background-color: rgb(255 255 255 / 5%);
+    border-top: 1px solid rgb(255 255 255 / 20%);
+    border-bottom: 1px solid rgb(255 255 255 / 20%);
+    clip-path: polygon(14% 0, 100% 0, 86% 100%, 0% 100%);
+}
+.createButton {
+    padding: 5px 30px;
+    background-color: rgb(255 255 255 / 5%);
+    border-top: 1px solid rgb(255 255 255 / 20%);
+    border-bottom: 1px solid rgb(255 255 255 / 20%);
+    clip-path: polygon(14% 0, 100% 0, 86% 100%, 0% 100%);
+}
+
+.noMarginBottom {
+    margin-bottom: 0;
 }
 
 #search-form {
@@ -221,4 +257,44 @@ nav {
     padding: 3px 7px;
     border: 1px solid;
     border-radius: 5px;
+}
+
+.topicCard {
+    position: relative;
+    display:inline-flex; 
+    width:100%; 
+    justify-content:space-between;
+
+    margin: 1px auto;
+    padding: 10px 50px;
+    background-color: white;
+    color: black;
+
+    clip-path: polygon(1% 0, 100% 0, 99% 100%, 0% 100%);
+}
+
+.topicCardPublishDate {
+    font-family: 'K2D', sans-serif;
+}
+
+.gameTopicsDiv {
+    padding: 10px 10px;
+    background-color: rgb(44 44 44);
+    border-radius: 4px;
+}
+
+#createTopicBtn {
+    cursor: pointer;
+}
+
+.notDisplayed {
+    display: none;
+}
+
+
+.gameSubTitle {
+    color: black;
+    padding: 3px 29px;
+    width: fit-content;
+    
 }

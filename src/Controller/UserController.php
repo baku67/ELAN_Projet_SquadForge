@@ -25,10 +25,13 @@ class UserController extends AbstractController
             $userRole = $this->getUser()->getRoles();
             $userFav = $this->getUser()->getFavoris();
 
+            $userTopics = $user->getTopics();
+
             return $this->render('user/profil.html.twig', [
                 'user' => $user,
                 'userRole' => $userRole,
                 'userFav' => $userFav,
+                'userTopics' => $userTopics,
             ]);
         }
         else {

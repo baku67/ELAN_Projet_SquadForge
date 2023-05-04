@@ -1,5 +1,13 @@
+En cours:
+    Profil: list Topic publié
+    Topic Détails depuis Game et Profil
+
+Puis: 
+    Création de Topic
+    
+
 TODO:
-Fil d'ariane (+jeux, details/search)
+*User muted tant que l'email est pas vérifié ? 
 https://codepen.io/mahish/pen/RajmQw OU http://jsfiddle.net/Lpjj3n1e/ SCROLL HORIZONTAL DES LISTE DE JEUX
 Table assoc avec +propriété 'note': Notation + order listGames par note moyenne
 
@@ -10,6 +18,25 @@ Pour les boutons dispo uniquement pour admin: https://stackoverflow.com/question
 
 regex mdp (création de compte)
 Fix la vérif de isVerified email (mailHog fonctionne mais possible de se co meme si email pas vérif)
+
+Le nbr_views dans table Topic: faire plutot une table assoc pour 1 vue possible par user (anti-span), au moment ou il voit le detail du topic
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 Mailing (MailHog: dl: https://github.com/mailhog/MailHog/releases ):

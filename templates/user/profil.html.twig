@@ -22,7 +22,7 @@
         <p>Email: {{ user.email }}</p>
         
         {% if not user.isVerified %}
-        <p style="color:red;">Votre email est toujours en attente de validation, checkez votre boîte mail</p>
+        <p style="color:red;">Votre email est toujours en attente de validation, vérifiez votre boîte mail pour pouvoir profiter de toutes les fonctionalités</p>
         {% endif %}
         
 
@@ -55,6 +55,20 @@
                 </a>
             {% endfor %}
         </div>
+
+
+        <h3>Topics bubliés</h3>
+        <div class="gameTopicsDiv marginTop marginBottom">
+            {% for topic in userTopics %}
+                <div class="topicCard" style="border-bottom: 4px solid {{ topic.game.color }}">
+                    <span>{{ topic.title }}</span>
+                    <span>{{ topic.status }}</span>
+                    <span>{{ topic.user.pseudo }}</span>
+                    <span class="topicCardPublishDate">{{ time_diff(topic.publishDate) }}</span>
+                </div>
+            {% endfor %}
+        </div>
+
 
 
     </div>

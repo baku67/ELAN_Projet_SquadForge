@@ -13,7 +13,6 @@
     </header>
     <div class="headerUnderline" style="background-color: {{ game.color }}"></div>
 
-    {# <h2 class="pageTitle"></h2> #}
 
     {# Fil d'ariane "breadcrumb" #}
     <ul class="filAriane">
@@ -22,28 +21,82 @@
         <li class="arianeOnPage">{{ game.title }}</li>
     </ul>
 
+
+
+
+
+
     <div class="main">
 
-        {% if app.user %}
-            {% if isFavorited %}
-                <a href="{{ path('app_removefav', {'id': game.id}) }}">Favoris <i class="fa-solid fa-heart"></i></a>
+        {# Infos du jeu et Btn Favoris #}
+        <div class="marginTop marginBottom" style="display:inline-flex; width:100%; justify-content:space-between;">
+            <h3 class="gameSubTitle noMarginBottom" style="background-color:{{ game.color }}">Infos</h3>
+            {# Bouton Favoris state #}
+            {% if app.user %}
+                {% if isFavorited %}
+                    <a class="favButton" href="{{ path('app_removefav', {'id': game.id}) }}" style="border-top: 1px solid {{ game.color }}; border-bottom: 1px solid {{ game.color }};">Favoris <i  style="color:{{ game.color }};" class="fa-solid fa-heart"></i></a>
+                {% else %}
+                    <a class="favButton" href="{{ path('app_addfav', {'id': game.id}) }}">Favoris <i class="fa-regular fa-heart"></i></a>
+                {% endif %}
             {% else %}
-                <a href="{{ path('app_addfav', {'id': game.id}) }}">Favoris <i class="fa-regular fa-heart"></i></a>
+                    <a class="favButton" disabled>Favoris</a>
             {% endif %}
-        {% else %}
-                <a disabled>Favoris</a>
-        {% endif %}
-
-        {{ dump(isFavorited) }}
-
-        <h3>Infos</h3>
+        </div>
         <p>Éditeur: {{ game.editor }}</p>
         <p>Date de sortie: {{ game.publishDate|date('Y-m-d') }}</p>
         <p>Genre: <a class="underlineLink" href="{{ path('app_genreGames', {'id': game.genre.id }) }}">{{ gameGenre }}</a></p>
         
 
-    </div>
 
+        {# Ligne "Topics" + Bouton "+Créer" #}
+        <div class="marginTop" style="display:inline-flex; width:100%; justify-content:space-between;">
+            <h3 class="gameSubTitle noMarginBottom" style="background-color:{{ game.color }}">
+                Topics
+                <span class="gameListCount">&nbsp;({{ gameTopicsCount }})</span>
+            </h3>
+                
+            {# <a id="createTopicBtn" href="{{ path('app_addGameTopic', {'id': game.id }) }}" class="createButton" style="border-top: 1px solid {{ game.color }}; border-bottom: 1px solid {{ game.color }};"><i class="fa-solid fa-plus" style="color:{{ game.color }}"></i>&nbsp;Créer</a> #}
+            <span id="createTopicBtn" class="createButton" style="border-top: 1px solid {{ game.color }}; border-bottom: 1px solid {{ game.color }};"><i class="fa-solid fa-plus" style="color:{{ game.color }}"></i>&nbsp;Créer</span>
+        </div>
+
+
+
+        {# Form d'ajout caché, proc JS bouton #}
+        <div id="createTopicForm" class="notDisplayed"> 
+
+            {# Envoyer le form->getFrom dans le return du GameController plutot que <form> ? #}
+            <form id="topic-form" action="{{ path('app_createTopic', {'id': game.id}) }}" method="GET">
+                <label for="title">Titre:</label>
+                <input type="text" id="topic-inputTitle" name="title" class="form-control" placeholder="Titre..." required>
+                <label for="frstMsg">1er message</label>
+                <textarea id="topic-inputFrstMsg" name="frstMsg" class="form-control" rows="3" placeholder="1er message..."></textarea>
+                <input type="submit" class="btn btn-primary"/>
+            </form>
+            
+        </div>
+
+
+        {# Liste des Topics #}
+        <div class="gameTopicsDiv marginTop marginBottom">
+            {% for topic in gameTopics %}
+                <div class="topicCard" style="border-bottom: 4px solid {{ game.color }}">
+                    <span>{{ topic.title }}</span>
+                    <span>{{ topic.status }}</span>
+                    <span>{{ topic.user.pseudo }}</span>
+                    <span class="topicCardPublishDate">{{ time_diff(topic.publishDate) }}</span>
+                </div>
+            {% endfor %}
+        </div>
+
+
+        {# (JS) Show/Hide form addTopic Btn #}
+        <script>
+            document.querySelector('#createTopicBtn').addEventListener('click', function() {
+                document.querySelector('#createTopicForm').classList.toggle("notDisplayed");
+            })
+        </script>
+
+    </div>
 
     <script>
         window.onload = function() {

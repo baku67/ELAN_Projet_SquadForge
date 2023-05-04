@@ -7,6 +7,7 @@ use App\Form\SearchType;
 use App\Entity\Game;
 use App\Entity\Genre;
 use App\Entity\User;
+use App\Entity\Topic;
 use Doctrine\ORM\PersistentCollection;
 
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -19,14 +20,13 @@ use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 class GameController extends AbstractController
 {
+
+    // Liste des jeux par Genre
     #[Route('/games', name: 'app_games')]
     public function getGamesLists(EntityManagerInterface $entityManager, Request $request): Response
     {
         $gamesRepo = $entityManager->getRepository(Game::class);
         $genreRepo = $entityManager->getRepository(Genre::class);
-
-        // $allGames = $gamesRepo->findBy([], ['publish_date' => 'DESC']);
-        // $allGenres = $genreRepo->findAll(); 
 
         // Quand système de notation: trier par note 
         // Jeux par catégories
@@ -42,27 +42,6 @@ class GameController extends AbstractController
         $brGames = $gamesRepo->findBy(['genre' => $brGenre], ['publish_date' => 'DESC']);
         $brGamesCount = count($brGames);
 
-        // Ancienne barre de recherche (FormType Symfony: synchrone)
-        // $form = $this->createForm(SearchType::class);
-        // $form->handleRequest($request);
-
-        // if ($form->isSubmitted() && $form->isValid()) {
-        //     $query = $form->getData()['query'];
-        //     $games = $entityManager
-        //         ->getRepository(Game::class)
-        //         ->findBySearchQuery($query);
-        //     // ...
-        //     // Si input recherche, vue résultat différrente
-        //     return $this->render('game/searchResult.html.twig', [
-        //         'form' => $form->createView(),
-        //         'searchGames' => $games ?? null,
-        //         'query' => $query,
-        //         'formSearch' => $form->createView(),
-        //     ]);
-        // }
-        
-
-
         return $this->render('game/gameList.html.twig', [
             // 'games' => $allGames,
             // 'genres' => $allGenres,
@@ -77,11 +56,15 @@ class GameController extends AbstractController
     }
 
 
+    // Détail d'un jeu (idGame)
     #[Route('/game/{id}', name: 'app_game')]
     public function getGameDetails(EntityManagerInterface $entityManager, int $id): Response
     {
         $gamesRepo = $entityManager->getRepository(Game::class);
         $game = $gamesRepo->find($id);
+
+        $gameTopics = $game->getTopics();
+        $gameTopicsCount = count($gameTopics);
 
         $gameGenre = $game->getGenre()->getName();
 
@@ -98,11 +81,14 @@ class GameController extends AbstractController
             'game' => $game,
             'isFavorited' => $isFavorited,
             'gameGenre' => $gameGenre,
+            'gameTopics' => $gameTopics,
+            'gameTopicsCount' => $gameTopicsCount,
         ]);
 
     }
 
 
+    // Liste des jeux d'un genre (idGenre)
     #[Route('/genreGames/{id}', name: 'app_genreGames')]
     public function getGenreGames(EntityManagerInterface $entityManager, int $id): Response
     {
@@ -120,6 +106,7 @@ class GameController extends AbstractController
     }
 
 
+    // Ajout du jeu au user (idUser)
     #[Route('/game/addfav/{id}', name: 'app_addfav')]
     public function addGameToFav(EntityManagerInterface $entityManager, int $id): Response
     {
@@ -141,6 +128,7 @@ class GameController extends AbstractController
         }
     }
 
+    // Retrait du jeu au user (idUser)
     #[Route('/game/removefav/{id}', name: 'app_removefav')]
     public function removeGameToFav(EntityManagerInterface $entityManager, int $id): Response
     {
@@ -163,7 +151,8 @@ class GameController extends AbstractController
     }
 
 
-    // Routre utilisé par les requêtes ajax JS
+    // Route utilisée par les requêtes ajax JS asynchrones (recherche %LIKE%) *Recherche*
+    // voir function findBySearchQuery() /GameRepo
     #[Route("/search", name:"app_search")]
     public function searchAction(EntityManagerInterface $entityManager, UrlGeneratorInterface $router, Request $request)
     {
@@ -193,6 +182,18 @@ class GameController extends AbstractController
         }
         
         return new JsonResponse($results);
+    }
+
+
+    
+    #[Route("/createTopic/{id}", name:"app_createTopic")]
+    public function formGameTopic(EntityManagerInterface $entityManager, UrlGeneratorInterface $router, Request $request)
+    {
+
+
+        
+
+        return $this->redirectToRoute('app_home');
     }
 
 
