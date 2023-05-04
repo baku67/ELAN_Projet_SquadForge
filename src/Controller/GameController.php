@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use Doctrine\ORM\EntityManagerInterface;
 use App\Form\SearchType;
+use App\Form\TopicType;
 use App\Entity\Game;
 use App\Entity\Genre;
 use App\Entity\User;
@@ -58,7 +59,7 @@ class GameController extends AbstractController
 
     // Détail d'un jeu (idGame)
     #[Route('/game/{id}', name: 'app_game')]
-    public function getGameDetails(EntityManagerInterface $entityManager, int $id): Response
+    public function getGameDetails(EntityManagerInterface $entityManager, int $id, Request $request): Response
     {
         $gamesRepo = $entityManager->getRepository(Game::class);
         $game = $gamesRepo->find($id);
@@ -87,7 +88,63 @@ class GameController extends AbstractController
             $isFavorited = false;
         }
 
+
+
+        // Form ajout Topic (Affichage et handleRequest)
+        $topic = new Topic();
+        $form = $this->createForm(TopicType::class, $topic);
+        $form -> handleRequest($request);
+
+        // Vérifs/Filtres
+        if($form->isSubmitted()) {
+
+            if($form->isValid()) {
+
+                // Hydrataion du "Topic" a partir des données du form
+                $topic = $form->getData();
+
+                // Init de la publish_date du comment
+                $topic->setPublishDate(new \DateTime());
+                $topic->setGame($game);
+                $topic->setUser($user);
+                $topic->setStatus("ouvert");
+                // En attendant le système de validation avant publication par un modo:
+                $topic->setValidated("validated");
+                
+                // Récupération du titre
+                $titleInputValue = $form->get('title')->getData();
+
+                // Liste des mots du commentaires
+                $words = str_word_count($titleInputValue, 1);
+
+                // Décompte du nombre de mots dans la liste
+                $wordCount = count($words);
+
+                // Vérification du compte de mots
+                if ($wordCount >= 5) {
+
+                    // Modifs Base de données
+                    $entityManager->persist($topic);
+                    $entityManager->flush();
+
+                    $this->addFlash('success', 'Le topic a bien été publié');
+                    return $this->redirectToRoute('app_game', ['id' => $game->getId()]);
+
+                } else {
+                    
+                    $this->addFlash('error', 'Le titre doit faire au minimum 5 mots !');
+                    return $this->redirectToRoute('app_game', ['id' => $game->getId()]);
+                }
+
+            } 
+            else {
+                $this->addFlash('error', 'Les données envoyées ne sont pas valides');
+                return $this->redirectToRoute('app_game', ['id' => $game->getId()]);
+            }   
+        }
+
         return $this->render('game/gameDetails.html.twig', [
+            'formAddTopic' => $form->createView(),
             'game' => $game,
             'isFavorited' => $isFavorited,
             'gameGenre' => $gameGenre,
@@ -196,15 +253,7 @@ class GameController extends AbstractController
 
 
     
-    #[Route("/createTopic/{id}", name:"app_createTopic")]
-    public function formGameTopic(EntityManagerInterface $entityManager, UrlGeneratorInterface $router, Request $request)
-    {
 
-
-        
-
-        return $this->redirectToRoute('app_home');
-    }
 
 
 }

@@ -14,7 +14,7 @@ class Topic
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column(length: 125)]
+    #[ORM\Column(length: 200)]
     private ?string $title = null;
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]

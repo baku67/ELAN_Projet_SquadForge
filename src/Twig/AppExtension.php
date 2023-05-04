@@ -33,6 +33,7 @@ class AppExtension extends AbstractExtension
             $minutes = "";
         }
 
+
         if ($days > 0) {
             if ($days > 365) {
                 return "> 1an";
@@ -46,6 +47,9 @@ class AppExtension extends AbstractExtension
         }
         else if (($minutes >= 0) && (empty($hours)) && (empty($days))) {
             return "{$minutes}m";
+        }
+        else if ((empty($days)) && (empty($hours)) && (empty($minutes))) {
+            return "à l'instant";
         }
     }
 

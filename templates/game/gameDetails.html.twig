@@ -70,16 +70,14 @@
         {# Form d'ajout caché, proc JS bouton #}
         <div id="createTopicForm" class="notDisplayed"> 
 
-            {# Envoyer le form->getFrom dans le return du GameController plutot que <form> ? #}
-            <form id="topic-form" action="{{ path('app_createTopic', {'id': game.id}) }}" method="GET">
-                <label for="title">Titre:</label>
-                <input type="text" id="topic-inputTitle" name="title" class="form-control" placeholder="Titre..." required>
-                <label for="frstMsg">1er message</label>
-                <textarea id="topic-inputFrstMsg" name="frstMsg" class="form-control" rows="3" placeholder="1er message..."></textarea>
-                <input type="submit" class="btn btn-primary"/>
-            </form>
+            {{ form_start(formAddTopic) }}
+                {# A voir: CSRF protection #}
+                {{ form_widget(formAddTopic._token) }}
+            {{ form_end(formAddTopic) }}
             
         </div>
+
+        {# Script vérif Front 20 mots minimum #}
 
 
         {# Liste des Topics #}
