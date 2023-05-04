@@ -18,7 +18,7 @@
 
         <div class="genreGameList">
             {% for game in genreGames %}
-                <a href="{{ path('app_game', {'id': game.id} )}}">
+                <a class="gameCardLink" href="{{ path('app_game', {'id': game.id} )}}">
                     <div class="gameCard">
                         <img src="{{ asset("img/games/logo/" ~ game.logo) }}" class="gameLogo" alt="logo {{ game.title }}"/>
                         <div class="gameCardUnderline" style="background-color:{{ game.color }}"></div>

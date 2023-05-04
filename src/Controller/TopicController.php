@@ -71,4 +71,23 @@ class TopicController extends AbstractController
             'from' => $from,
         ]);
     }
+
+
+    // id: idTopic
+    #[Route('/topicDetail/{id}', name: 'app_topicDetail')]
+    public function getTopicDetail(EntityManagerInterface $entityManager, int $id): Response
+    {
+
+        $topicRepo = $entityManager->getRepository(Topic::class);
+        $topic = $topicRepo->find($id);
+
+        $topicGame = $topic->getGame();
+
+        return $this->render('topic/topicDetail.html.twig', [
+            'topic' => $topic,
+            'game' => $topicGame,
+        ]);
+
+    }
+
 }

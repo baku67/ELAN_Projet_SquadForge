@@ -121,12 +121,14 @@
         {# Liste des Topics #}
         <div class="gameTopicsDiv marginTop marginBottom">
             {% for topic in gameTopics %}
-                <div class="topicCard" style="border-bottom: 4px solid {{ game.color }}">
-                    <span>{{ topic.title }}</span>
-                    <span>{{ topic.status }}</span>
-                    <span>{{ topic.user.pseudo }}</span>
-                    <span class="topicCardPublishDate">{{ time_diff(topic.publishDate) }}</span>
-                </div>
+                <a href="{{ path('app_topicDetail', {'id': topic.id}) }}">
+                    <div class="topicCard" style="border-bottom: 4px solid {{ game.color }}">
+                        <span>{{ topic.title }}</span>
+                        <span>{{ topic.status }}</span>
+                        <span>{{ topic.user.pseudo }}</span>
+                        <span class="topicCardPublishDate">{{ time_diff(topic.publishDate) }}</span>
+                    </div>
+                </a>
             {% endfor %}
         </div>
         <span class="seeAllRedirect">

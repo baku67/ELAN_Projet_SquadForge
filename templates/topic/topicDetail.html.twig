@@ -1,0 +1,44 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Topics{% endblock %}
+
+{% block body %}
+
+    <header class="gameHeader" style="background: url('{{ asset('img/games/banner/' ~ game.banner ) }}' )">
+        <a href="{{ path('app_home') }}"><img src="{{ asset('img/logoSquadForge_White_Rogned.png') }}" class="logoPng" id="logoPng" /></a>
+        <nav>
+            <a href="{{ path('app_games') }}" style="color:{{ game.fontColor }};">Jeux</a>
+        </nav>
+        <h2 class="headerGameTitle"  style="border-right:15px solid {{ game.color }};">{{ game.title }}</h2>
+    </header>
+    <div class="headerUnderline" style="background-color: {{ game.color }}"></div>
+
+
+    {# Fil d'ariane "breadcrumb" #}
+    <ul class="filAriane">
+        <li class="arianeLink"><a href="{{ path('app_games') }}">Jeux</a></li>
+        <span class="filArianeSepa"> - </span>
+        <li class="arianeLink"><a href="{{ path('app_game', {'id': game.id}) }}">{{ game.title }}</a></li>
+        <span class="filArianeSepa"> - </span>
+        <li class="arianeLink"><a href="{{ path('app_allTopics', {'gameIdFrom': game.id}) }}">Topics</a></li>
+        <span class="filArianeSepa"> - </span>
+        <li class="arianeOnPage ellispsis1">{{ topic.title}}</li>
+    </ul>
+
+
+    <div class="main">
+
+    <h2 style="font-weight:bold; color:{{game.color}}">Topic</h2>
+    <p>Titre: {{ topic.title }}</p>
+    <p>Par: {{ topic.user.pseudo }}</p>
+    <p>Il y a {{ time_diff(topic.publishDate) }}</p>
+    <p>Auteur: <span>Fermer le topic</span></p>
+
+    <h4 style="font-weight:bold; color:{{game.color}}; margin-top: 40px;">Messages</h4>
+
+
+
+    </div>
+
+
+{% endblock %}
