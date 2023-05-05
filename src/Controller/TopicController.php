@@ -131,7 +131,9 @@ class TopicController extends AbstractController
         $topicGame = $topic->getGame();
 
         // A remplacer par customQuery: triés par nbr d'upvote et sinon par publishDate (récent en haut) [différent d'un chat]
-        $topicPosts = $topicPostRepo->findBy(['topic' => $topic], ['publish_date' => 'DESC']);
+        // + On cherche uniquement les posts qui ne répondent pas à un post (reponseId = null)
+        // (les réponses au post s'afficheront avec ajax au click sur le post)
+        $topicPosts = $topicPostRepo->findBy(['topic' => $topic, "responseId" => null], ['publish_date' => 'DESC']);
 
 
 

@@ -27,6 +27,9 @@ class TopicPost
     #[ORM\ManyToOne(inversedBy: 'topicPosts')]
     private ?Topic $topic = null;
 
+    #[ORM\Column(nullable: true)]
+    private ?int $responseId = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -76,6 +79,18 @@ class TopicPost
     public function setTopic(?Topic $topic): self
     {
         $this->topic = $topic;
+
+        return $this;
+    }
+
+    public function getResponseId(): ?int
+    {
+        return $this->responseId;
+    }
+
+    public function setResponseId(?int $responseId): self
+    {
+        $this->responseId = $responseId;
 
         return $this;
     }

@@ -43,10 +43,16 @@
             {# form de publication de post sur le topic #}
             {{ form_start(formAddTopicPost) }}
                 <div class="inline" style="position:relative; margin: 5px auto;">
-                    <span class="labelSpan" style="width:100px;">{{ form_label(formAddTopicPost.text, 'Message')}}{# <span id="charCountMsg" style="color:red;"> (au moins 5 mots)</span> #}</span>
                     {{ form_widget(formAddTopicPost.text) }} 
+                    {{ form_widget(formAddTopicPost.submit) }}
                 </div>
+                
             {{ form_end(formAddTopicPost) }}
+            <script>
+                document.querySelector('#topic_post_submit').style.color = "{{ topic.game.color }}";
+            </script>
+
+            <div style="width:60%; margin:10px auto; height:1px; background-color:{{ topic.game.color }}"></div>
 
             {# Liste des posts (à trier selon nbr Upvotes + date dans le Repo) #}
             {% if topicPosts is empty %}

@@ -16,19 +16,22 @@ class TopicPostType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('text', TextareaType::class, [
-                'label' => 'Message',
+            ->add('text', TextType::class, [
+                // 'label' => 'Message',
                 'required' => true,
                 'attr' => [
                     "class" => "form-control",
-                    'rows' => 1
+                    'placeholder' => 'Votre message...'
+                    // 'rows' => 1
                 ]
             ])
             // ->add('publish_date')
             // ->add('user')
             // ->add('topic')
             ->add('submit', SubmitType::class, [
-                'label' => 'Publier',
+                // 'label' => 'Publier',
+                'label' => '<i class="fa-solid fa-paper-plane"></i>',
+                'label_html' => true,
                 'attr' => ["class" => "btn btn-primary"]
             ]);
         ;
