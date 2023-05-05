@@ -193,28 +193,28 @@ class GameController extends AbstractController
             $user = $this->getUser();
             $game = $gameRepo->find($id);
 
-            // Vérif si relation notation existe déja entre user et game
-            $queryBuilder = $entityManager->createQueryBuilder();
-            $queryBuilder->select('n')
-                ->from('App\Entity\Notation', 'n')
-                ->where('n.user = :user')
-                ->andWhere('n.game = :game')
-                ->setParameter('user', $user)
-                ->setParameter('game', $game);
-            $result = $queryBuilder->getQuery()->getResult();
+            $notationRepo = $entityManager->getRepository(Notation::class);
+            $notation = $notationRepo->findOneBy(['user' => $user, 'game' => $game]);
 
-            if (empty($result)) {
-                $notationExist = false;
-            } else {
-                $notationExist = true;
+            if (!$notation) {
+                // S'il n'y a pas de notation pour ce user et ce jeu, la créer
+                $notation = new Notation();
+                $notation->setUser($user);
+                $notation->setGame($game);
             }
 
+            // Sinon mettre à jour la notation
+            $notation->setNote($rating);
 
-            // $game->addNotation()
-
+            // Sauvegarder ne base de données
+            $entityManager->persist($notation);
+            $entityManager->flush();
             
-            return new JsonResponse(['success' => true, 'notationExist' => count($result)]);  
+            return new JsonResponse(['success' => true]);  
 
+        }
+        else {
+            throw new AccessDeniedHttpException('You must be authenticated to add or update a notation.');
         }
     }
 
