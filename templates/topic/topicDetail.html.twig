@@ -40,6 +40,15 @@
         {# Messages triés par nbr d'upvote et sinon par publishDate (récent en haut) [différent d'un chat] #}
         <div class="listContainer">
 
+            {# form de publication de post sur le topic #}
+            {{ form_start(formAddTopicPost) }}
+                <div class="inline" style="position:relative; margin: 5px auto;">
+                    <span class="labelSpan" style="width:100px;">{{ form_label(formAddTopicPost.text, 'Message')}}{# <span id="charCountMsg" style="color:red;"> (au moins 5 mots)</span> #}</span>
+                    {{ form_widget(formAddTopicPost.text) }} 
+                </div>
+            {{ form_end(formAddTopicPost) }}
+
+            {# Liste des posts (à trier selon nbr Upvotes + date dans le Repo) #}
             {% if topicPosts is empty %}
                 <p>Pas de post sur ce topic pour le moment</p>
             {% else %}
@@ -49,7 +58,7 @@
                     </div>
                 {% endfor %}
             {% endif %}
-            
+
             
         </div>
 

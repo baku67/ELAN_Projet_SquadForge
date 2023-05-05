@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Topic;
 use App\Entity\TopicPost;
+use App\Form\TopicPostType;
 use App\Entity\Game;
 use Doctrine\ORM\EntityManagerInterface;
 
@@ -119,7 +120,7 @@ class TopicController extends AbstractController
 
     // id: idTopic
     #[Route('/topicDetail/{id}', name: 'app_topicDetail')]
-    public function getTopicDetail(EntityManagerInterface $entityManager, int $id): Response
+    public function getTopicDetail(EntityManagerInterface $entityManager, int $id, Request $request): Response
     {
 
         $topicRepo = $entityManager->getRepository(Topic::class);
@@ -133,7 +134,63 @@ class TopicController extends AbstractController
         $topicPosts = $topicPostRepo->findBy(['topic' => $topic], ['publish_date' => 'DESC']);
 
 
+
+        // Form de publication de post sur un topic
+        $topicPost = new TopicPost();
+        $form = $this->createForm(TopicPostType::class, $topicPost);
+        $form -> handleRequest($request);
+
+        // Vérifs/Filtres
+        if($form->isSubmitted()) {
+
+            if($this->getUser()) {
+
+                if($form->isValid()) {
+
+                    // Hydrataion du "TopicPost" a partir des données du form
+                    $topicPost = $form->getData();
+
+                    // Init de la publish_date du comment
+                    $topicPost->setPublishDate(new \DateTime());
+                    $topicPost->setUser($this->getUser());
+                    $topicPost->setTopic($topic);
+                    
+                    // Désactivation vérification nbr de mots etc...
+                    // // Récupération du titre
+                    // $textInputValue = $form->get('text')->getData();
+                    // // Liste des mots du commentaires
+                    // $words = str_word_count($textInputValue, 1);
+                    // // Décompte du nombre de mots dans la liste
+                    // $wordCount = count($words);
+                    // // Vérification du compte de mots
+                    // if ($wordCount >= 5) {
+
+                        // Modifs Base de données
+                        $entityManager->persist($topicPost);
+                        $entityManager->flush();
+
+                        $this->addFlash('success', 'Le post a bien été publié');
+                        return $this->redirectToRoute('app_topicDetail', ['id' => $topic->getId()]);
+                    // } else {
+                        
+                    //     $this->addFlash('error', 'Le titre doit faire au minimum 5 mots !');
+                    //     return $this->redirectToRoute('app_game', ['id' => $game->getId()]);
+                    // }
+
+                } 
+                else {
+                    $this->addFlash('error', 'Les données envoyées ne sont pas valides');
+                    return $this->redirectToRoute('app_topicDetail', ['id' => $topic->getId()]);
+                }   
+            }
+            else {
+                $this->addFlash('error', 'Vous devez être connecté pour publier un post');
+                return $this->redirectToRoute('app_login');
+            }
+        }
+
         return $this->render('topic/topicDetail.html.twig', [
+            'formAddTopicPost' => $form->createView(),
             'topic' => $topic,
             'game' => $topicGame,
             'topicPosts' => $topicPosts

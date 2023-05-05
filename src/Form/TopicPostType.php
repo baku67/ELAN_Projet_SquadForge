@@ -21,7 +21,7 @@ class TopicPostType extends AbstractType
                 'required' => true,
                 'attr' => [
                     "class" => "form-control",
-                    'rows' => 3
+                    'rows' => 1
                 ]
             ])
             // ->add('publish_date')

@@ -23,7 +23,7 @@ Fix la vérif de isVerified email (mailHog fonctionne mais possible de se co mem
 
 Le nbr_views dans table Topic: faire plutot une table assoc pour 1 vue possible par user (anti-span), au moment ou il voit le detail du topic
 
-
+Faire les "Auteur: Vous" dans topicDetail et post Author
 
 
 

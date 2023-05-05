@@ -458,11 +458,19 @@ nav {
 
 
 .topicPost {
-    background-color: #535353;
+    background-color: rgb(148, 148, 148);
     color: black;
     font-family: 'K2D', sans-serif;
+    padding: 5px 20px;
+    margin: 2px auto;
+    border-radius: 3px;
 }
 
+
+.form-control {
+    background-color:rgb(75, 75, 75);
+    border: 0px solid;
+}
 
 
 
