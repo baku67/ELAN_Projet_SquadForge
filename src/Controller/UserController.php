@@ -5,6 +5,7 @@ namespace App\Controller;
 use Doctrine\ORM\EntityManagerInterface;
 use App\Entity\User;
 use App\Entity\Game;
+use App\Entity\Topic;
 use Doctrine\ORM\PersistentCollection;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -37,13 +38,19 @@ class UserController extends AbstractController
                 ->setMaxResults(5); 
             $userTopics = $queryBuilder->getQuery()->getResult();
 
-        $gameTopicsCount = count($userTopics);
+            $queryBuilder = $entityManager->createQueryBuilder();
+            $queryBuilder->select('COUNT(t.id)')
+                ->from(Topic::class, 't')
+                ->where('t.user = :user')
+                ->setParameter('user', $this->getUser());
+            $userTopicsCount = $queryBuilder->getQuery()->getSingleScalarResult();
 
             return $this->render('user/profil.html.twig', [
                 'user' => $user,
                 'userRole' => $userRole,
                 'userFav' => $userFav,
                 'userTopics' => $userTopics,
+                'userTopicsCount' => $userTopicsCount,
             ]);
         }
         else {

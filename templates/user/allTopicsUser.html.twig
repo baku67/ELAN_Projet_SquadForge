@@ -1,0 +1,39 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Topics publiés{% endblock %}
+
+{% block body %}
+
+
+    <header>
+        <a href="{{ path('app_home') }}"><img src="{{ asset('img/logoSquadForge_Black_Rogned.png') }}" class="logoPng" /></a>
+        <nav>
+            <a href="{{ path('app_games') }}">Jeux</a>
+        </nav>
+    </header>
+    <div class="headerUnderline"></div>
+
+    <div class="main">
+
+        <p><a class="underlineLink" href="{{ path('app_user') }}">Mon espace</a> - Mes Topics</p>
+
+        <h2>Topics publiés <span class="gameListCount">({{ userTopicsCount }})</span></h2>
+
+        <div class="gameTopicsDiv marginTop marginBottom">
+            {% for topic in userTopics %}
+                <a href="{{ path('app_topicDetail', {'id': topic.id}) }}">
+                    <div class="topicCard" style="border-bottom: 4px solid {{ topic.game.color }}">
+                        <img class="tinyLogo" src="{{ asset('img/games/tinyLogo/' ~ topic.game.tinyLogo) }}" />
+                        <span class="topicTitle">{{ topic.title|capitalize }}</span>
+                        <span>{{ topic.status }}</span>
+                        <span class="topicCardPublishDate">{{ time_diff(topic.publishDate) }}</span>
+                    </div>
+                </a>
+            {% endfor %}
+        </div>
+
+        
+    </div>
+
+
+{% endblock %}

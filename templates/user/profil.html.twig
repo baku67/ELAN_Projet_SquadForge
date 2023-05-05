@@ -57,7 +57,7 @@
         </div>
 
 
-        <h3>Topics bubliés</h3>
+        <h3>Topics bubliés <span class="gameListCount">({{ userTopicsCount }})</span></h3>
         <div class="gameTopicsDiv marginTop marginBottom">
             {% for topic in userTopics %}
                 <a href="{{ path('app_topicDetail', {'id': topic.id}) }}">
@@ -71,6 +71,11 @@
                 </a>
             {% endfor %}
         </div>
+
+        <span class="seeAllRedirect">
+            <a href="{{ path('app_allTopicsUser') }}">Tout voir  <i class="fa-solid fa-chevron-right"></i></a>
+        </span>
+
 
 
 

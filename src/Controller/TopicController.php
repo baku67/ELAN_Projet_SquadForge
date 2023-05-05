@@ -98,6 +98,24 @@ class TopicController extends AbstractController
     }
 
 
+
+    // Tout les Topics de l'user connecté (pas d'UserId passé donc) (from profil)
+    #[Route('/allTopicsUser', name: 'app_allTopicsUser')]
+    public function getAllTopicsUser(EntityManagerInterface $entityManager): Response
+    {
+        $topicRepo = $entityManager->getRepository(Topic::class);
+
+        $userTopicsDesc = $topicRepo->findBy(['user' => $this->getUser()], ['publish_date' => 'DESC']);
+        $userTopicsCount = count($userTopicsDesc);
+
+        return $this->render('user/allTopicsUser.html.twig', [
+            'userTopics' => $userTopicsDesc,
+            'userTopicsCount' => $userTopicsCount,
+        ]);
+
+    }
+
+
     // id: idTopic
     #[Route('/topicDetail/{id}', name: 'app_topicDetail')]
     public function getTopicDetail(EntityManagerInterface $entityManager, int $id): Response
