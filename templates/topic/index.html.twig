@@ -37,6 +37,11 @@
                         <span>{{ topic.status }}</span>
                         <span>{{ topic.user.pseudo }}</span>
                         <span class="topicCardPublishDate">{{ time_diff(topic.publishDate) }}</span>
+                        {% if topic.topicPostsCount == 0 %}
+                            <span style="opacity:0.5;">{{ topic.topicPostsCount }} <i class="fa-solid fa-message" style="color:grey;"></i></span>
+                        {% else %}
+                            <span>{{ topic.topicPostsCount }} <i class="fa-solid fa-message" style="color:{{ topic.game.color }}"></i></span>
+                        {% endif %}
                     </div>
                 </a>
             {% endfor %}
@@ -52,6 +57,11 @@
                         <span>{{ topic.status }}</span>
                         <span>{{ topic.user.pseudo }}</span>
                         <span class="topicCardPublishDate">{{ time_diff(topic.publishDate) }}</span>
+                        {% if topic.topicPostsCount == 0 %}
+                            <span style="opacity:0.5;">{{ topic.topicPostsCount }} <i class="fa-solid fa-message" style="color:grey;"></i></span>
+                        {% else %}
+                            <span>{{ topic.topicPostsCount }} <i class="fa-solid fa-message" style="color:{{ topic.game.color }}"></i></span>
+                        {% endif %}
                     </div>
                 </a>
             {% endfor %}

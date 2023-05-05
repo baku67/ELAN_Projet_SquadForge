@@ -40,6 +40,9 @@ class Topic
     #[ORM\OneToMany(mappedBy: 'topic', targetEntity: TopicPost::class)]
     private Collection $topicPosts;
 
+    // Non mappé
+    private $topicPostsCount;
+
     public function __construct()
     {
         $this->topicPosts = new ArrayCollection();
@@ -140,6 +143,12 @@ class Topic
     public function getTopicPosts(): Collection
     {
         return $this->topicPosts;
+    }
+
+    // Pas mappé
+    public function getTopicPostsCount(): ?int
+    {
+        return count($this->topicPosts);
     }
 
     public function addTopicPost(TopicPost $topicPost): self
