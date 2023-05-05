@@ -332,6 +332,7 @@ nav {
 
 
 .toggleTopicFilter {
+    cursor: pointer;
     font-size: 1.4em;
     padding: 5px 20px;
     background-color: white;

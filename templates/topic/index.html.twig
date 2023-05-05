@@ -20,22 +20,39 @@
 
         <h2>TOPICS</h2>
 
+        {# Boutons toggle entrer list des topicsGlobaux et ceux du jeu #}
         <div style="display:inline-flex; width:100%; justify-content:center;">
             <h3 id="allTopicsToggle" class="toggleTopicFilter">TOUS <span class="gameListCount">({{ allTopicsCount }})</span></h3>
             <h3 id="gameTopicsToggle" class="toggleTopicFilter">{{ gameFrom.title }} <span class="gameListCount">({{ gameTopicsCount }})</span></h3>
         </div>
 
-        <div id="allTopicsDiv">
+        {# Liste topics globaux  #}
+        <div id="allTopicsDiv" class="gameTopicsDiv marginTop marginBottom">
             {% for topic in allTopicsDesc %}
-                {{ dump(topic) }}
+                <a href="{{ path('app_topicDetail', {'id': topic.id}) }}">
+                    <div class="topicCard" style="border-bottom: 4px solid {{ topic.game.color }}">
+                        <img class="tinyLogo" src="{{ asset('img/games/tinyLogo/' ~ topic.game.tinyLogo) }}" />
+                        <span>{{ topic.title }}</span>
+                        <span>{{ topic.status }}</span>
+                        <span>{{ topic.user.pseudo }}</span>
+                        <span class="topicCardPublishDate">{{ time_diff(topic.publishDate) }}</span>
+                    </div>
+                </a>
             {% endfor %}
         </div>
 
-        
-
-        <div id="gameTopicsDiv">
+        {# Liste topics du jeu  #}
+        <div id="gameTopicsDiv" class="gameTopicsDiv marginTop marginBottom">
             {% for topic in gameTopicsDesc %}
-                {{ dump(topic) }}
+                <a href="{{ path('app_topicDetail', {'id': topic.id}) }}">
+                    <div class="topicCard" style="border-bottom: 4px solid {{ topic.game.color }}">
+                        <img class="tinyLogo" src="{{ asset('img/games/tinyLogo/' ~ topic.game.tinyLogo) }}" />
+                        <span>{{ topic.title }}</span>
+                        <span>{{ topic.status }}</span>
+                        <span>{{ topic.user.pseudo }}</span>
+                        <span class="topicCardPublishDate">{{ time_diff(topic.publishDate) }}</span>
+                    </div>
+                </a>
             {% endfor %}
         </div>
 
@@ -49,7 +66,13 @@
         window.onload = function() {
 
             document.querySelector('#allTopicsToggle').addEventListener('click', function() {
+                document.querySelector('#gameTopicsDiv').style.display = "none";
+                document.querySelector('#allTopicsDiv').style.display = "block";
+            })
 
+            document.querySelector('#gameTopicsToggle').addEventListener('click', function() {
+                document.querySelector('#allTopicsDiv').style.display = "none";
+                document.querySelector('#gameTopicsDiv').style.display = "block";
             })
 
         }
