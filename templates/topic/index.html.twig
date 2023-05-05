@@ -23,11 +23,11 @@
         {# Boutons toggle entrer list des topicsGlobaux et ceux du jeu #}
         <div style="display:inline-flex; width:100%; justify-content:center;">
             <h3 id="allTopicsToggle" class="toggleTopicFilter">TOUS <span class="gameListCount">({{ allTopicsCount }})</span></h3>
-            <h3 id="gameTopicsToggle" class="toggleTopicFilter">{{ gameFrom.title }} <span class="gameListCount">({{ gameTopicsCount }})</span></h3>
+            <h3 id="gameTopicsToggle" class="toggleTopicFilter" style="background-color:{{ gameFrom.color }}">{{ gameFrom.title }} <span class="gameListCount">({{ gameTopicsCount }})</span></h3>
         </div>
 
         {# Liste topics globaux  #}
-        <div id="allTopicsDiv" class="gameTopicsDiv marginTop marginBottom">
+        <div id="allTopicsDiv" class="gameTopicsDiv marginTop marginBottom" style="display:none;">
             {% for topic in allTopicsDesc %}
                 <a href="{{ path('app_topicDetail', {'id': topic.id}) }}">
                     <div class="topicCard" style="border-bottom: 4px solid {{ topic.game.color }}">
@@ -66,11 +66,25 @@
         window.onload = function() {
 
             document.querySelector('#allTopicsToggle').addEventListener('click', function() {
+                
+                // Style des boutons toggleFilter
+                document.querySelector('#allTopicsToggle').style.backgroundColor = "#131313";
+                document.querySelector('#allTopicsToggle').style.color = "white";
+                document.querySelector('#gameTopicsToggle').style.backgroundColor = "white";
+
+                // Switch display entre les 2 listes de Topics
                 document.querySelector('#gameTopicsDiv').style.display = "none";
                 document.querySelector('#allTopicsDiv').style.display = "block";
             })
 
             document.querySelector('#gameTopicsToggle').addEventListener('click', function() {
+                
+                // Style des boutons toggleFilter
+                document.querySelector('#allTopicsToggle').style.backgroundColor = "white";
+                document.querySelector('#allTopicsToggle').style.color = "black";
+                document.querySelector('#gameTopicsToggle').style.backgroundColor = "{{ gameFrom.color }}";
+
+                // Switch display entre les 2 listes de Topics
                 document.querySelector('#allTopicsDiv').style.display = "none";
                 document.querySelector('#gameTopicsDiv').style.display = "block";
             })

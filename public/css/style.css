@@ -338,6 +338,8 @@ nav {
     background-color: white;
     color: #232323;
     margin: 30px 1px;
+
+    transition: all 0.5s;
 }
 
 
