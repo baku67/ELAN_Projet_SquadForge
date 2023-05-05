@@ -191,7 +191,7 @@
         </script>
 
         {# Liste des Topics #}
-        <div class="gameTopicsDiv marginTop marginBottom">
+        <div class="listContainer marginTop marginBottom">
             {% for topic in gameTopics %}
                 <a href="{{ path('app_topicDetail', {'id': topic.id}) }}">
                     <div class="topicCard" style="border-bottom: 4px solid {{ game.color }}">

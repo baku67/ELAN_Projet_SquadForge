@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Topic;
+use App\Entity\TopicPost;
 use App\Entity\Game;
 use Doctrine\ORM\EntityManagerInterface;
 
@@ -122,11 +123,15 @@ class TopicController extends AbstractController
     {
 
         $topicRepo = $entityManager->getRepository(Topic::class);
+        $topicPostRepo = $entityManager->getRepository(TopicPost::class);
+
         $topic = $topicRepo->find($id);
 
         $topicGame = $topic->getGame();
 
-        $topicPosts = $topic->getTopicPosts();
+        // A remplacer par customQuery: triés par nbr d'upvote et sinon par publishDate (récent en haut) [différent d'un chat]
+        $topicPosts = $topicPostRepo->findBy(['topic' => $topic], ['publish_date' => 'DESC']);
+
 
         return $this->render('topic/topicDetail.html.twig', [
             'topic' => $topic,

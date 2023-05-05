@@ -38,9 +38,20 @@
         <h4 style="font-weight:bold; color:{{game.color}}; margin-top: 40px;">Messages</h4>
 
         {# Messages triés par nbr d'upvote et sinon par publishDate (récent en haut) [différent d'un chat] #}
-        {% for post in topicPosts %}
-            {{ dump(post) }}
-        {% endfor %}
+        <div class="listContainer">
+
+            {% if topicPosts is empty %}
+                <p>Pas de post sur ce topic pour le moment</p>
+            {% else %}
+                {% for post in topicPosts %}
+                    <div class="topicPost">
+                        <p>{{ post.text }}</p>
+                    </div>
+                {% endfor %}
+            {% endif %}
+            
+            
+        </div>
 
     </div>
 

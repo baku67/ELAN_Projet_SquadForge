@@ -298,7 +298,7 @@ nav {
     font-family: 'K2D', sans-serif;
 }
 
-.gameTopicsDiv {
+.listContainer {
     padding: 10px 10px;
     background-color: rgb(44 44 44);
     border-radius: 4px;
@@ -456,6 +456,12 @@ nav {
     font-family: 'K2D', sans-serif;
 }
 
+
+.topicPost {
+    background-color: #535353;
+    color: black;
+    font-family: 'K2D', sans-serif;
+}
 
 
 
