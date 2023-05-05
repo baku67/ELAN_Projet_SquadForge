@@ -9,7 +9,7 @@
         <nav>
             <a href="{{ path('app_games') }}" style="color:{{ game.fontColor }};">Jeux</a>
         </nav>
-        <h2 class="headerGameTitle"  style="border-right:15px solid {{ game.color }};">{{ game.title }}</h2>
+        <a href="{{ path('app_game', {'id': game.id }) }}"><h2 class="headerGameTitle" style="border-right:15px solid {{ game.color }};">{{ game.title }}</h2></a>
     </header>
     <div class="headerUnderline" style="background-color: {{ game.color }}"></div>
 
@@ -20,8 +20,6 @@
         <span class="filArianeSepa"> - </span>
         <li class="arianeOnPage">{{ game.title }}</li>
     </ul>
-
-
 
 
 
@@ -198,7 +196,7 @@
                 <a href="{{ path('app_topicDetail', {'id': topic.id}) }}">
                     <div class="topicCard" style="border-bottom: 4px solid {{ game.color }}">
                         <img class="tinyLogo" src="{{ asset('img/games/tinyLogo/' ~ topic.game.tinyLogo) }}" />
-                        <span>{{ topic.title }}</span>
+                        <span class="topicTitle">{{ topic.title|capitalize }}</span>
                         <span>{{ topic.status }}</span>
                         <span>{{ topic.user.pseudo }}</span>
                         <span class="topicCardPublishDate">{{ time_diff(topic.publishDate) }}</span>

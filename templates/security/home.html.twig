@@ -21,7 +21,7 @@
                 <a href="{{ path('app_topicDetail', {'id': topic.id}) }}">
                     <div class="topicCard" style="border-bottom: 4px solid {{ topic.game.color }}">
                         <img class="tinyLogo" src="{{ asset('img/games/tinyLogo/' ~ topic.game.tinyLogo) }}" />
-                        <span>{{ topic.title }}</span>
+                        <span class="topicTitle">{{ topic.title|capitalize }}</span>
                         <span>{{ topic.status }}</span>
                         <span>{{ topic.user.pseudo }}</span>
                         <span class="topicCardPublishDate">{{ time_diff(topic.publishDate) }}</span>

@@ -64,9 +64,10 @@ class GameController extends AbstractController
     {
         $gamesRepo = $entityManager->getRepository(Game::class);
         $game = $gamesRepo->find($id);
+        $gameGenre = $game->getGenre()->getName();
+        $user = $this->getUser();
 
-        // $gameTopics = $game->getTopics();
-
+        // MiniListe (max 5) des derniers Topics du jeu
         $queryBuilder = $entityManager->createQueryBuilder();
         $queryBuilder->select('t')
             ->from('App\Entity\Topic', 't')
@@ -76,12 +77,16 @@ class GameController extends AbstractController
             ->setMaxResults(5); // set maximum number of results to 10
         $gameTopicsDesc = $queryBuilder->getQuery()->getResult();
 
-        $gameTopicsCount = count($gameTopicsDesc);
+        // Compte des topics du jeu
+        $queryBuilder2 = $entityManager->createQueryBuilder();
+        $queryBuilder2->select('COUNT(t.id)')
+            ->from(Topic::class, 't')
+            ->where('t.game = :game')
+            ->setParameter('game', $game);
+        $gameTopicsCount = $queryBuilder2->getQuery()->getSingleScalarResult();
 
-        $gameGenre = $game->getGenre()->getName();
 
-        $user = $this->getUser();
-
+        // Check si relation "Favoris" (user_game), customQuery mieux ?
         if ($this->getUser()) {
             $isFavorited = $user->getFavoris()->contains($game);
         }
@@ -100,9 +105,7 @@ class GameController extends AbstractController
             $userGameNotation = null;
         }
 
-        // Compte du nombre de Notes pour ce jeu (Voir pour COUNT dans queryBuilder: plus efficace)
-        // $allNotations = $notationRepo->findBy(['game' => $game]);
-        // $nbrOfNotations = count($allNotations);
+        // Compte du nombre de Notes pour ce jeu 
         $nbrOfNotationsQuery = $notationRepo->createQueryBuilder('n')
             ->select('COUNT(n.id)')
             ->where('n.game = :game')
@@ -116,8 +119,8 @@ class GameController extends AbstractController
             ->from('App\Entity\Notation', 'n')
             ->where('n.game = :game')
             ->setParameter('game', $game);
-
         $averageRating = number_format($queryBuilder->getQuery()->getSingleScalarResult(), 1);
+
 
 
         // Form ajout Topic (Affichage et handleRequest)
