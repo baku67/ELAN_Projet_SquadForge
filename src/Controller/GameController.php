@@ -90,20 +90,34 @@ class GameController extends AbstractController
         }
 
 
-        // Récup de la note utilisateur et des notes globals pour calc moyenne
+        // Récup de la note utilisateur
         $notationRepo = $entityManager->getRepository(Notation::class);
         
         if($this->getuser()) {
-
             $userGameNotation = $notationRepo->findOneBy(['user' => $user, 'game' => $game]);
-
         }
         else {
-
             $userGameNotation = null;
-
         }
 
+        // Compte du nombre de Notes pour ce jeu (Voir pour COUNT dans queryBuilder: plus efficace)
+        // $allNotations = $notationRepo->findBy(['game' => $game]);
+        // $nbrOfNotations = count($allNotations);
+        $nbrOfNotationsQuery = $notationRepo->createQueryBuilder('n')
+            ->select('COUNT(n.id)')
+            ->where('n.game = :game')
+            ->setParameter('game', $game)
+            ->getQuery();
+        $nbrOfNotations = $nbrOfNotationsQuery->getSingleScalarResult();
+
+        // Calc moyenne des notes (Voir pour AVG() sql QueryBuilder)
+        $queryBuilder = $entityManager->createQueryBuilder();
+        $queryBuilder->select('AVG(n.note)')
+            ->from('App\Entity\Notation', 'n')
+            ->where('n.game = :game')
+            ->setParameter('game', $game);
+
+        $averageRating = number_format($queryBuilder->getQuery()->getSingleScalarResult(), 1);
 
 
         // Form ajout Topic (Affichage et handleRequest)
@@ -174,6 +188,8 @@ class GameController extends AbstractController
             'gameTopics' => $gameTopicsDesc,
             'gameTopicsCount' => $gameTopicsCount,
             'userGameNotation' => $userGameNotation,
+            'nbrOfNotations' => $nbrOfNotations,
+            'averageRating' => $averageRating,
         ]);
 
     }
