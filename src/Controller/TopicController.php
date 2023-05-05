@@ -126,11 +126,24 @@ class TopicController extends AbstractController
 
         $topicGame = $topic->getGame();
 
+        $topicPosts = $topic->getTopicPosts();
+
         return $this->render('topic/topicDetail.html.twig', [
             'topic' => $topic,
             'game' => $topicGame,
+            'topicPosts' => $topicPosts
         ]);
 
     }
+
+
+
+
+
+
+
+
+
+
 
 }

@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\TopicRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -34,6 +36,14 @@ class Topic
 
     #[ORM\Column(type: Types::TEXT, nullable: true)]
     private ?string $firstMsg = null;
+
+    #[ORM\OneToMany(mappedBy: 'topic', targetEntity: TopicPost::class)]
+    private Collection $topicPosts;
+
+    public function __construct()
+    {
+        $this->topicPosts = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -120,6 +130,36 @@ class Topic
     public function setFirstMsg(?string $firstMsg): self
     {
         $this->firstMsg = $firstMsg;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, TopicPost>
+     */
+    public function getTopicPosts(): Collection
+    {
+        return $this->topicPosts;
+    }
+
+    public function addTopicPost(TopicPost $topicPost): self
+    {
+        if (!$this->topicPosts->contains($topicPost)) {
+            $this->topicPosts->add($topicPost);
+            $topicPost->setTopic($this);
+        }
+
+        return $this;
+    }
+
+    public function removeTopicPost(TopicPost $topicPost): self
+    {
+        if ($this->topicPosts->removeElement($topicPost)) {
+            // set the owning side to null (unless already changed)
+            if ($topicPost->getTopic() === $this) {
+                $topicPost->setTopic(null);
+            }
+        }
 
         return $this;
     }

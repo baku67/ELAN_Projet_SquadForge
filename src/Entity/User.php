@@ -47,11 +47,15 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToMany(mappedBy: 'user', targetEntity: Notation::class)]
     private Collection $notations;
 
+    #[ORM\OneToMany(mappedBy: 'user', targetEntity: TopicPost::class)]
+    private Collection $topicPosts;
+
     public function __construct()
     {
         $this->favoris = new ArrayCollection();
         $this->topics = new ArrayCollection();
         $this->notations = new ArrayCollection();
+        $this->topicPosts = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -226,6 +230,36 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
             // set the owning side to null (unless already changed)
             if ($notation->getUser() === $this) {
                 $notation->setUser(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, TopicPost>
+     */
+    public function getTopicPosts(): Collection
+    {
+        return $this->topicPosts;
+    }
+
+    public function addTopicPost(TopicPost $topicPost): self
+    {
+        if (!$this->topicPosts->contains($topicPost)) {
+            $this->topicPosts->add($topicPost);
+            $topicPost->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeTopicPost(TopicPost $topicPost): self
+    {
+        if ($this->topicPosts->removeElement($topicPost)) {
+            // set the owning side to null (unless already changed)
+            if ($topicPost->getUser() === $this) {
+                $topicPost->setUser(null);
             }
         }
 
