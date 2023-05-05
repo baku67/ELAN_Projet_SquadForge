@@ -35,7 +35,7 @@
         <p>Auteur: <span>Fermer le topic</span></p>
         <p>Intro: <span>{{ topic.firstMsg }}</span></p>
 
-        <h4 style="font-weight:bold; color:{{game.color}}; margin-top: 40px;">Messages</h4>
+        <h4 style="font-weight:bold; color:{{game.color}}; margin-top: 40px;">Messages ({{ topic.topicPostsCount }})</h4>
 
         {# Messages triés par nbr d'upvote et sinon par publishDate (récent en haut) [différent d'un chat] #}
         <div class="listContainer">
@@ -61,6 +61,7 @@
                 {% for post in topicPosts %}
                     <div class="topicPost">
                         <p>{{ post.text }}</p>
+                        <span>{{ post.postLikeCount }}</span><a href="{{ path('app_likeTopicPost', {'id': post.id }) }}">Like</a>
                     </div>
                 {% endfor %}
             {% endif %}

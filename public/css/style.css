@@ -322,9 +322,14 @@ nav {
 
 .seeAllRedirect {
     font-size: 80%;
+    font-family: 'K2D';
     opacity: 0.8;
     font-style: italic;
     transition: all 0.4s;
+    text-align: right;
+    width: 98%;
+    margin-top: 5px;
+    display: block;
 }
 .seeAllRedirect:hover {
     letter-spacing: 1px;

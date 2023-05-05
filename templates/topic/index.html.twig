@@ -28,7 +28,7 @@
         </div>
 
         {# Liste topics globaux  #}
-        <div id="allTopicsDiv" class="listContainer marginTop marginBottom" style="display:none;">
+        <div id="allTopicsDiv" class="listContainer marginTop" style="display:none;">
             {% for topic in allTopicsDesc %}
                 <a href="{{ path('app_topicDetail', {'id': topic.id}) }}">
                     <div class="topicCard" style="border-bottom: 4px solid {{ topic.game.color }}">
@@ -48,7 +48,7 @@
         </div>
 
         {# Liste topics du jeu  #}
-        <div id="listContainer" class="listContainer marginTop marginBottom">
+        <div id="listContainer" class="listContainer marginTop">
             {% for topic in gameTopicsDesc %}
                 <a href="{{ path('app_topicDetail', {'id': topic.id}) }}">
                     <div class="topicCard" style="border-bottom: 4px solid {{ topic.game.color }}">

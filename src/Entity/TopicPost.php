@@ -2,6 +2,8 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Symfony\Component\Form\FormTypeInterface;
 use App\Repository\TopicPostRepository;
 use Doctrine\DBAL\Types\Types;
@@ -27,8 +29,32 @@ class TopicPost
     #[ORM\ManyToOne(inversedBy: 'topicPosts')]
     private ?Topic $topic = null;
 
-    #[ORM\Column(nullable: true)]
-    private ?int $responseId = null;
+    #[ORM\ManyToOne(targetEntity: TopicPost::class, inversedBy: 'topicPosts')]
+    #[ORM\JoinColumn(name: 'parent_id', referencedColumnName: 'id', nullable: true)]
+    private ?TopicPost $parent = null;
+
+    #[ORM\OneToMany(mappedBy: 'parent', targetEntity: self::class)]
+    private Collection $topicPosts;
+
+    #[ORM\ManyToOne(targetEntity: TopicPost::class, inversedBy: 'children')]
+    #[ORM\JoinColumn(name: 'topic_post_id', referencedColumnName: 'id', nullable: true)]
+    private ?TopicPost $topicPost = null;
+
+    #[ORM\OneToMany(mappedBy: 'topicPost', targetEntity: self::class, orphanRemoval: true)]
+    private Collection $children;
+
+    #[ORM\ManyToMany(targetEntity: User::class, inversedBy: 'likedTopicPosts')]
+    private Collection $postLike;
+
+    private $postLikeCount;
+
+    public function __construct()
+    {
+        $this->topicPosts = new ArrayCollection();
+        $this->children = new ArrayCollection();
+        $this->postLike = new ArrayCollection();
+    }
+
 
     public function getId(): ?int
     {
@@ -83,15 +109,117 @@ class TopicPost
         return $this;
     }
 
-    public function getResponseId(): ?int
+    public function getParent(): ?self
     {
-        return $this->responseId;
+        return $this->parent;
     }
 
-    public function setResponseId(?int $responseId): self
+    public function setParent(?self $parent): self
     {
-        $this->responseId = $responseId;
+        $this->parent = $parent;
 
         return $this;
     }
+
+    /**
+     * @return Collection<int, self>
+     */
+    public function getTopicPosts(): Collection
+    {
+        return $this->topicPosts;
+    }
+
+    public function addTopicPost(self $topicPost): self
+    {
+        if (!$this->topicPosts->contains($topicPost)) {
+            $this->topicPosts->add($topicPost);
+            $topicPost->setParent($this);
+        }
+
+        return $this;
+    }
+
+    public function removeTopicPost(self $topicPost): self
+    {
+        if ($this->topicPosts->removeElement($topicPost)) {
+            // set the owning side to null (unless already changed)
+            if ($topicPost->getParent() === $this) {
+                $topicPost->setParent(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function getTopicPost(): ?self
+    {
+        return $this->topicPost;
+    }
+
+    public function setTopicPost(?self $topicPost): self
+    {
+        $this->topicPost = $topicPost;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, self>
+     */
+    public function getChildren(): Collection
+    {
+        return $this->children;
+    }
+
+    public function addChild(self $child): self
+    {
+        if (!$this->children->contains($child)) {
+            $this->children->add($child);
+            $child->setTopicPost($this);
+        }
+
+        return $this;
+    }
+
+    public function removeChild(self $child): self
+    {
+        if ($this->children->removeElement($child)) {
+            // set the owning side to null (unless already changed)
+            if ($child->getTopicPost() === $this) {
+                $child->setTopicPost(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, User>
+     */
+    public function getPostLike(): Collection
+    {
+        return $this->postLike;
+    }
+
+    public function getPostLikeCount(): int
+    {
+        return count($this->postLike);
+    }
+
+    public function addPostLike(User $postLike): self
+    {
+        if (!$this->postLike->contains($postLike)) {
+            $this->postLike->add($postLike);
+        }
+
+        return $this;
+    }
+
+    public function removePostLike(User $postLike): self
+    {
+        $this->postLike->removeElement($postLike);
+
+        return $this;
+    }
+
 }

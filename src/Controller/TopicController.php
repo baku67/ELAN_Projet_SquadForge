@@ -118,7 +118,7 @@ class TopicController extends AbstractController
     }
 
 
-    // id: idTopic
+    // Topic Details (id: idTopic)
     #[Route('/topicDetail/{id}', name: 'app_topicDetail')]
     public function getTopicDetail(EntityManagerInterface $entityManager, int $id, Request $request): Response
     {
@@ -131,9 +131,9 @@ class TopicController extends AbstractController
         $topicGame = $topic->getGame();
 
         // A remplacer par customQuery: triés par nbr d'upvote et sinon par publishDate (récent en haut) [différent d'un chat]
-        // + On cherche uniquement les posts qui ne répondent pas à un post (reponseId = null)
+        // + On cherche uniquement les posts qui ne répondent pas à un post (parent = null (nullable))
         // (les réponses au post s'afficheront avec ajax au click sur le post)
-        $topicPosts = $topicPostRepo->findBy(['topic' => $topic, "responseId" => null], ['publish_date' => 'DESC']);
+        $topicPosts = $topicPostRepo->findBy(['topic' => $topic], ['publish_date' => 'DESC']);
 
 
 
@@ -201,6 +201,59 @@ class TopicController extends AbstractController
     }
 
 
+
+
+
+    // Like de topicPost par user (id: idTopicPost)
+    #[Route('/likeTopicPost/{id}', name: 'app_likeTopicPost')]
+    public function likeTopicPost(EntityManagerInterface $entityManager, int $id, Request $request): Response
+    {
+
+        if ($this->getUser()) {
+
+            $topicPostRepo = $entityManager->getRepository(TopicPost::class);
+            $topicPost = $topicPostRepo->find($id);
+            $topic = $topicPost->getTopic();
+
+            $topicPost->addPostLike($this->getUser());
+            $entityManager->persist($this->getUser());
+            $entityManager->flush();
+
+
+            $this->addFlash('success', 'Le post a bien été liké');
+            return $this->redirectToRoute('app_topicDetail', ['id' => $topic->getId()]);    
+        }
+        else {
+            $this->addFlash('error', 'Vous devez être connecté pour liker un post');
+            return $this->redirectToRoute('app_login');
+        }
+    
+    }
+
+
+    // Unlike de topicPost par user (id: idTopicPost)
+    #[Route('/unlikeTopicPost/{id}', name: 'app_unlikeTopicPost')]
+    public function unlikeTopicPost(EntityManagerInterface $entityManager, int $id, Request $request): Response
+    {
+
+        if ($this->getUser()) {
+
+            $topicPostRepo = $entityManager->getRepository(TopicPost::class);
+            $topicPost = $topicPostRepo->find($id);
+            $topic = $topicPost->getTopic();
+
+            $topicPost->removePostLike($this->getUser());
+            $entityManager->flush();
+
+            $this->addFlash('success', 'Le post a bien été unliké');
+            return $this->redirectToRoute('app_topicDetail', ['id' => $topic->getId()]);    
+        }
+        else {
+            $this->addFlash('error', 'Vous devez être connecté pour unliker un post');
+            return $this->redirectToRoute('app_login');
+        }
+    
+    }
 
 
 

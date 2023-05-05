@@ -19,7 +19,7 @@
 
         <h2>Topics publiés <span class="gameListCount">({{ userTopicsCount }})</span></h2>
 
-        <div class="listContainer marginTop marginBottom">
+        <div class="listContainer marginTop">
             {% for topic in userTopics %}
                 <a href="{{ path('app_topicDetail', {'id': topic.id}) }}">
                     <div class="topicCard" style="border-bottom: 4px solid {{ topic.game.color }}">
