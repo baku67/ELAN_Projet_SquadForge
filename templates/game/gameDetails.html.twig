@@ -46,6 +46,45 @@
         <p>Date de sortie: {{ game.publishDate|date('Y-m-d') }}</p>
         <p>Genre: <a class="underlineLink" href="{{ path('app_genreGames', {'id': game.genre.id }) }}">{{ gameGenre }}</a></p>
         
+        {# Form Notation (Ajax) #}
+        <form id="notation-form">
+            <input type="number" id="notation-input" name="query" class="form-control">
+        </form>
+
+        <div id="notation-results"></div>
+
+
+        <script>
+
+            const notationForm = document.querySelector('#notation-form');
+            const notationInput = document.querySelector('#notation-input');
+            const notationResults = document.querySelector('#notation-results');
+
+            notationInput.addEventListener('change', (event) => {
+                let id = {{ game.id }};
+                let rating = notationInput.value;
+                fetch('/updateNotation/' + id + '/' + rating, {
+                method: 'POST',
+                // Autre méthode:
+                // body: JSON.stringify({id: 2, rating: notationInput.value }),
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+                })
+                .then(response => response.json())
+                .then(data => {
+                if (data.success) {
+                    alert('La note a été ajoutée ou mise à jour avec succès.' + data.notationExist);
+                } else {
+                    alert('Erreur lors de l\'ajout ou de la mise à jour de la note.');
+                }
+                })
+                .catch(error => {
+                alert('Erreur lors de la communication avec le serveur : ' + error.message);
+                });
+            });
+
+        </script>
 
 
         {# Ligne "Topics" + Bouton "+Créer" #}

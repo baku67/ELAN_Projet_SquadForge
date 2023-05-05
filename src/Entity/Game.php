@@ -55,10 +55,14 @@ class Game
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $tinyLogo = null;
 
+    #[ORM\OneToMany(mappedBy: 'game', targetEntity: Notation::class)]
+    private Collection $notations;
+
     public function __construct()
     {
         $this->favUsers = new ArrayCollection();
         $this->topics = new ArrayCollection();
+        $this->notations = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -257,6 +261,36 @@ class Game
     public function setTinyLogo(?string $tinyLogo): self
     {
         $this->tinyLogo = $tinyLogo;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Notation>
+     */
+    public function getNotations(): Collection
+    {
+        return $this->notations;
+    }
+
+    public function addNotation(Notation $notation): self
+    {
+        if (!$this->notations->contains($notation)) {
+            $this->notations->add($notation);
+            $notation->setGame($this);
+        }
+
+        return $this;
+    }
+
+    public function removeNotation(Notation $notation): self
+    {
+        if ($this->notations->removeElement($notation)) {
+            // set the owning side to null (unless already changed)
+            if ($notation->getGame() === $this) {
+                $notation->setGame(null);
+            }
+        }
 
         return $this;
     }

@@ -7,6 +7,7 @@ use App\Form\SearchType;
 use App\Form\TopicType;
 use App\Entity\Game;
 use App\Entity\Genre;
+use App\Entity\Notation;
 use App\Entity\User;
 use App\Entity\Topic;
 use Doctrine\ORM\PersistentCollection;
@@ -177,6 +178,44 @@ class GameController extends AbstractController
             'genreName' => $genreName,
         ]);
 
+    }
+
+
+    // MaJ notation d'un (idGame) (rating)
+    #[Route('/updateNotation/{id}/{rating}', name: 'app_updateNotation')]
+    public function updateGameUserNotation(EntityManagerInterface $entityManager, int $id, int $rating, UrlGeneratorInterface $router, Request $request): Response
+    {
+
+        if( $this->getUser() ) {
+
+            $gameRepo = $entityManager->getRepository(Game::class);
+
+            $user = $this->getUser();
+            $game = $gameRepo->find($id);
+
+            // Vérif si relation notation existe déja entre user et game
+            $queryBuilder = $entityManager->createQueryBuilder();
+            $queryBuilder->select('n')
+                ->from('App\Entity\Notation', 'n')
+                ->where('n.user = :user')
+                ->andWhere('n.game = :game')
+                ->setParameter('user', $user)
+                ->setParameter('game', $game);
+            $result = $queryBuilder->getQuery()->getResult();
+
+            if (empty($result)) {
+                $notationExist = false;
+            } else {
+                $notationExist = true;
+            }
+
+
+            // $game->addNotation()
+
+            
+            return new JsonResponse(['success' => true, 'notationExist' => count($result)]);  
+
+        }
     }
 
 
