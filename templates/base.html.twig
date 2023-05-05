@@ -47,6 +47,7 @@
         {% block body %}
         {% endblock %}
 
+        {# Messages Falsh Symfony Controller #}
         {% for type, messages in app.flashes() %}
             {% for message in messages %}
                 <div class="alertFlash {{type}}Flash">
@@ -54,6 +55,8 @@
                 </div>
             {% endfor %}
         {% endfor %}
+        {# Messages "flash" JS ajax #}
+        <p id="ajaxFlash"></p>
 
 
     </body>

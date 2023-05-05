@@ -90,6 +90,21 @@ class GameController extends AbstractController
         }
 
 
+        // Récup de la note utilisateur et des notes globals pour calc moyenne
+        $notationRepo = $entityManager->getRepository(Notation::class);
+        
+        if($this->getuser()) {
+
+            $userGameNotation = $notationRepo->findOneBy(['user' => $user, 'game' => $game]);
+
+        }
+        else {
+
+            $userGameNotation = null;
+
+        }
+
+
 
         // Form ajout Topic (Affichage et handleRequest)
         $topic = new Topic();
@@ -158,6 +173,7 @@ class GameController extends AbstractController
             'gameGenre' => $gameGenre,
             'gameTopics' => $gameTopicsDesc,
             'gameTopicsCount' => $gameTopicsCount,
+            'userGameNotation' => $userGameNotation,
         ]);
 
     }
@@ -210,6 +226,7 @@ class GameController extends AbstractController
             $entityManager->persist($notation);
             $entityManager->flush();
             
+            // $this->addFlash('success', 'Votre note a été prise en compte');
             return new JsonResponse(['success' => true]);  
 
         }

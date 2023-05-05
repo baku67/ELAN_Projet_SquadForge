@@ -47,42 +47,70 @@
         <p>Genre: <a class="underlineLink" href="{{ path('app_genreGames', {'id': game.genre.id }) }}">{{ gameGenre }}</a></p>
         
         {# Form Notation (Ajax) #}
-        <form id="notation-form">
-            <input type="number" id="notation-input" name="query" class="form-control" min="0" max="10">
-        </form>
-
-        <div id="notation-results"></div>
-
+        <div class="rate">
+            <input type="radio" id="star5" name="rate" value="5"/>
+            <label for="star5" title="text">5 stars</label>
+            <input type="radio" id="star4" name="rate" value="4" />
+            <label for="star4" title="text">4 stars</label>
+            <input type="radio" id="star3" name="rate" value="3" />
+            <label for="star3" title="text">3 stars</label>
+            <input type="radio" id="star2" name="rate" value="2" />
+            <label for="star2" title="text">2 stars</label>
+            <input type="radio" id="star1" name="rate" value="1" />
+            <label for="star1" title="text">1 star</label>
+        </div>
+        {# <p>{{ userGameNotation.note }}</p> #}
 
         <script>
 
-            const notationForm = document.querySelector('#notation-form');
-            const notationInput = document.querySelector('#notation-input');
-            const notationResults = document.querySelector('#notation-results');
+            {% if userGameNotation %}
+                const notationValue = {{ userGameNotation.note }};
+                if (notationValue !== null) {
+                    document.getElementById("star" + notationValue).checked = true;
+                }
+            {% endif %}
 
-            notationInput.addEventListener('change', (event) => {
-                let id = {{ game.id }};
-                let rating = notationInput.value;
-                fetch('/updateNotation/' + id + '/' + rating, {
-                method: 'POST',
-                // Autre méthode:
-                // body: JSON.stringify({id: 2, rating: notationInput.value }),
-                headers: {
-                    'Content-Type': 'application/json'
-                }
-                })
-                .then(response => response.json())
-                .then(data => {
-                if (data.success) {
-                    alert('La note a été ajoutée ou mise à jour avec succès.' + data.notationExist);
-                } else {
-                    alert('Erreur lors de l\'ajout ou de la mise à jour de la note.');
-                }
-                })
-                .catch(error => {
-                alert('Erreur lors de la communication avec le serveur : ' + error.message);
-                });
+            const rate = document.querySelectorAll('.rate input');
+
+            rate.forEach((radio) => {
+            radio.addEventListener('change', (event) => {
+
+                {% if app.user %}
+
+                    const rating = event.target.value;
+                    const id = {{ game.id }};
+                    fetch('/updateNotation/' + id + '/' + rating, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                    if (data.success) {
+                        document.querySelector('#ajaxFlash').textContent = "Votre note a bien été pris en compte";
+                        document.querySelector('#ajaxFlash').classList = "";
+                        document.querySelector('#ajaxFlash').classList.add("ajaxFlashAnim", "successAjaxFlash");
+                        // alert('La note a été ajoutée ou mise à jour avec succès.' + data.notationExist);
+                    } else {
+                        document.querySelector('#ajaxFlash').textContent = "Il y a eu un problème lors de l'envoi de votre note";
+                        document.querySelector('#ajaxFlash').classList = "";
+                        document.querySelector('#ajaxFlash').classList.add("ajaxFlashAnim", "errorAjaxFlash");
+                        // alert('Erreur lors de l\'ajout ou de la mise à jour de la note.');
+                    }
+                    })
+                    .catch(error => {
+                    alert('Erreur lors de la communication avec le serveur : ' + error.message);
+                    });
+
+                {% else %} 
+                    document.querySelector('#ajaxFlash').textContent = "Vous devez être connecté pour pouvoir noter un jeu";
+                    document.querySelector('#ajaxFlash').classList = "";
+                    document.querySelector('#ajaxFlash').classList.add("ajaxFlashAnim", "errorAjaxFlash");
+                {% endif %}
             });
+            });
+
 
         </script>
 
