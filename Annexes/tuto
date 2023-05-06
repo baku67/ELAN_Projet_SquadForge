@@ -1,3 +1,5 @@
+Urgent: renommer DB table "topic_post_user" (= likeTopicPost) car peut être confondu avec author
+
 En cours:
     Profil: list Topic publié
     Topic Détails depuis Game et Profil

@@ -29,7 +29,8 @@
 
             {# Test form Search asynchrone (Ajax JS) #}
             <form id="search-form" action="{{ path('app_search') }}" method="GET">
-                <input type="text" id="search-input" name="query" class="form-control" placeholder="Rechercher...">
+                <input type="text" id="search-input" name="query" class="form-control">
+                <i id="searchFormLoupe" class="fa-solid fa-magnifying-glass"></i>
             </form>
         </div>
 

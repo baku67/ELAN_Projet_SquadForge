@@ -25,11 +25,11 @@ class TopicController extends AbstractController
         ]);
     }
 
+
     // Tout les Topics du jeu et tout les Topics globaux (pour pouvoir switch le filtre sur la vue)
     #[Route('/allTopics/{gameIdFrom}', name: 'app_allTopics')]
     public function getAllTopics(EntityManagerInterface $entityManager, int $gameIdFrom): Response
     {
-        // if gameIdFrom == "home" : On envoi pas le jeu ?
 
         $gameRepo = $entityManager->getRepository(Game::class);
         $gameFrom = $gameRepo->find($gameIdFrom);
@@ -42,8 +42,15 @@ class TopicController extends AbstractController
             ->from('App\Entity\Topic', 't')
             ->where('t.game = :game')
             ->setParameter('game', $gameFrom)
+            // ->orderBy('t.topicPostsCount', 'DESC') champ non mappé: faut ajouter un select avec CASE WHEN etc ...
             ->orderBy('t.publish_date', 'DESC');
         $gameTopicsDesc = $queryBuilder->getQuery()->getResult();
+
+        // Trier par nbrPosts (à voir parce que ducoup les nouveaux topics sont éclipsés)
+        // $sortedTopics = $gameTopicsDesc;
+        // usort($sortedTopics, function ($a, $b) {
+        //     return $b->getTopicPostsCount() - $a->getTopicPostsCount();
+        // });
 
         $gameTopicsCount = count($gameTopicsDesc);
 

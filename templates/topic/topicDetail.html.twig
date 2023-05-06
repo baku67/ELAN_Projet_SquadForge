@@ -28,12 +28,22 @@
 
     <div class="main">
 
-        <h2 style="font-weight:bold; color:{{game.color}}">Topic</h2>
-        <p>Titre: {{ topic.title|capitalize }}</p>
-        <p>Par: {{ topic.user.pseudo }}</p>
-        <p>Il y a {{ time_diff(topic.publishDate) }}</p>
+        <div style="display:inline-flex;">
+            <h2 style="font-weight:bold; color:{{game.color}}">Topic</h2>
+            <span>ouvert</span>
+        </div>
+
+        <div class="listContainer">
+            <p style="color: {{ topic.game.color }}">{{ topic.title|capitalize }}</p>
+            <div class="topicFirstMsg">{{ topic.firstMsg }}</div>
+            <div style="display:inline-flex; justify-content:space-between; width:100%; font-family:'K2D', sans-serif; font-size:90%; opacity:0.8;">
+                <span>Par {{ topic.user.pseudo|capitalize }}</span>
+                <span>Il y a {{ time_diff(topic.publishDate) }}</span>
+            </div>
+            {# <p>Intro</p> #}
+        </div>
+
         <p>Auteur: <span>Fermer le topic</span></p>
-        <p>Intro: <span>{{ topic.firstMsg }}</span></p>
 
         <h4 style="font-weight:bold; color:{{game.color}}; margin-top: 40px;">Messages ({{ topic.topicPostsCount }})</h4>
 
@@ -61,7 +71,21 @@
                 {% for post in topicPosts %}
                     <div class="topicPost">
                         <p>{{ post.text }}</p>
-                        <span>{{ post.postLikeCount }}</span><a href="{{ path('app_likeTopicPost', {'id': post.id }) }}">Like</a>
+                        <div>
+                            {% if post.postLike.contains(app.user) %}
+                                <span style="margin: 0 5px;">{{ post.postLikeCount }}</span><a href="{{ path('app_unlikeTopicPost', {'id': post.id }) }}"><i class="fa-solid fa-thumbs-up"></i></a>
+                            {% else %}
+                                <span style="margin: 0 5px;">{{ post.postLikeCount }}</span><a href="{{ path('app_likeTopicPost', {'id': post.id }) }}"><i class="fa-regular fa-thumbs-up"></i></a>
+                            {% endif %}
+
+                            {% if post.user == app.user %}
+                                <span>par Vous</span>
+                            {% else %}
+                                <span>par {{ post.user.pseudo }}</span>
+                            {% endif %}
+                            {# <span>par {{ post.user.pseudo }}</span> #}
+
+                        </div>
                     </div>
                 {% endfor %}
             {% endif %}

@@ -223,6 +223,16 @@ nav {
 
 #search-form {
     width: 20%;
+    position: relative;
+}
+#search-input {
+    padding: .375rem .75rem .375rem 2.2rem;
+}
+#searchFormLoupe {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    opacity: 0.5;
 }
 #search-title {
     display: none;
@@ -463,12 +473,19 @@ nav {
 
 
 .topicPost {
-    background-color: rgb(148, 148, 148);
+    background-color: rgb(211 211 211);
     color: black;
     font-family: 'K2D', sans-serif;
     padding: 5px 20px;
     margin: 2px auto;
     border-radius: 3px;
+}
+.topicFirstMsg {
+    /* background-color: rgb(30 30 30) !important; */
+    font-family: 'K2D', sans-serif;
+    padding: 5px 10px;
+    margin: 2px auto;
+    border-bottom: 1px solid rgba(255,255,255,0.2);
 }
 
 
@@ -476,13 +493,18 @@ nav {
     background-color:rgb(75, 75, 75);
     border: 0px solid;
     font-family: 'K2D', sans-serif;
+
+    transition: all 0.4s;
+}
+
+.form-control::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
+    color: rgb(170, 170, 170);
 }
 
 
 #topic_post_text {
     /* // padding spécifique pour éviter superposition input et submit btn */
     padding: 0.375em 2.6em 0.375em 1.2em;
-    transition: all 0.4s;
 
 }
 
