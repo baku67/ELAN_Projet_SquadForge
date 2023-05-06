@@ -410,6 +410,7 @@ nav {
     color: #00ffaf;
 }
 .topicClosed {
+    font-weight: 400 !important;
     color: #ff004c;
 }
 .topicOpen {
@@ -420,6 +421,12 @@ nav {
     width: 60px !important;
 }
 
+
+
+.postAuthor {
+    /* background-color: rgb(108 100 48) !important; */
+    border-left: 10px solid var(--primary-color);
+}
 
 
 

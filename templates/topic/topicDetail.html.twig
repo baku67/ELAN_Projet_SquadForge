@@ -42,7 +42,11 @@
             <p style="color: {{ topic.game.color }}">{{ topic.title|capitalize }}</p>
             <div class="topicFirstMsg">{{ topic.firstMsg }}</div>
             <div style="display:inline-flex; justify-content:space-between; width:100%; font-family:'K2D', sans-serif; font-size:90%; opacity:0.8;">
-                <span>Par {{ topic.user.pseudo|capitalize }}</span>
+                {% if app.user == topic.user %}
+                    <span>par vous</span>
+                {% else  %}
+                    <span>par {{ topic.user.pseudo|capitalize }}</span>
+                {% endif %}
                 <span>Il y a {{ time_diff(topic.publishDate) }}</span>
             </div>
             {# <p>Intro</p> #}
@@ -52,9 +56,9 @@
         {% if app.user == topic.user %}
 
             {% if topic.status == "closed" %}
-                <p>Auteur: <a href="{{ path('app_openTopic', {'id': topic.id}) }}"><span>Rouvrir le topic</span></a></p>
+                <p style="font-family: 'K2D';"><a href="{{ path('app_openTopic', {'id': topic.id}) }}"><span style="color:#00ffaf;">Rouvrir le topic</span></a></p>
             {% elseif topic.status == "open" %}
-                <p>Auteur: <a href="{{ path('app_closeTopic', {'id': topic.id}) }}"><span>Fermer le topic</span></a></p>
+                <p style="font-family: 'K2D';"><a href="{{ path('app_closeTopic', {'id': topic.id}) }}"><span style="color:#ff004c;">Fermer le topic</span></a></p>
             {% endif %}
             
         {% endif %}
@@ -86,8 +90,9 @@
 
             {% endif %}
 
-            <div style="width:60%; margin:10px auto; height:1px; background-color:{{ topic.game.color }}"></div>
 
+
+            <div style="width:60%; margin:10px auto; height:1px; background-color:{{ topic.game.color }}"></div>
 
 
 
@@ -96,7 +101,16 @@
                 <p class="emptyListMsg">Aucun commentaire. Soyez le premier à commenter !</p>
             {% else %}
                 {% for post in topicPosts %}
-                    <div class="topicPost">
+
+                    {% if app.user == post.user %}
+                        {% set postAuthorClass = "postAuthor" %}
+                    {% else %}
+                        {% set postAuthorClass = "" %}
+                    {% endif %}
+                    
+
+
+                    <div class="topicPost {{ postAuthorClass }}">
                         <p>{{ post.text }}</p>
                         <div>
                             {% if post.postLike.contains(app.user) %}
@@ -106,7 +120,7 @@
                             {% endif %}
 
                             {% if post.user == app.user %}
-                                <span>par Vous</span>
+                                <span>par vous</span>
                             {% else %}
                                 <span>par {{ post.user.pseudo }}</span>
                             {% endif %}
