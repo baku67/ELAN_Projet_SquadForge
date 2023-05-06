@@ -376,16 +376,45 @@ nav {
 
 .gameCardFav {
     position: absolute;
-    top: 4px;
-    right: 4px;
+    bottom: -22px;
+    padding: 4px 6px 4px 10px;
+    right: 0px;
+    background-color: rgb(22, 22, 22);
+    clip-path: polygon(0 0, 100% 0, 100% 100%, 18% 100%);
     opacity: 0.7;
     color: var(--primary-color);
     /* filter: drop-shadow(2px 4px 8px black); */
     /* text-shadow: 1px 1px black; */
     text-shadow: -1px -1px 0 rgba(0, 0, 0, 0.6), 1px -1px 0 rgba(0, 0, 0, 0.6), -1px 1px 0 rgba(0, 0, 0, 0.6), 1px 1px 0 rgba(0, 0, 0, 0.6);
+    font-size: 50%;
+    color: rgba(255,255,255,1);
 
 }
 
+.emptyListMsg {
+    font-family:'K2D', sans-serif; 
+    font-style:italic; 
+    font-weight:100; 
+    text-align:center; 
+    opacity: 0.7;
+}
+
+
+.topicStatus {
+    position: relative;
+    /* top: 8px; */
+    padding: 7px 10px;
+    font-family: 'K2D';
+    opacity: 0.8;
+    font-weight: 100;
+    color: #00ffaf;
+}
+.topicClosed {
+    color: #ff004c;
+}
+.topicOpen {
+    color: #00ffaf;
+}
 
 #notation-input {
     width: 60px !important;

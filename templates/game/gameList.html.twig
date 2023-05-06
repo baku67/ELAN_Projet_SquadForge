@@ -116,18 +116,22 @@
                 {% for game in fpsGames %}
                     <a class="gameCardLink" href="{{ path('app_game', {'id': game.id} )}}">
                         <div class="gameCard">
-                            <img src="{{ asset("img/games/logo/" ~ game.logo) }}" class="gameLogo" alt="logo {{ game.title }}"/>
+
+                            <div style="position:relative;">
+                                <img src="{{ asset("img/games/logo/" ~ game.logo) }}" class="gameLogo" alt="logo {{ game.title }}"/>
+                                {# Si jeu favorisé par l'utilisateur #}
+                                {% if app.user is not null and game.favUsers is not empty and app.user in game.favUsers %}
+                                    <i class="fa-solid fa-heart gameCardFav"></i>
+                                {% endif %}
+                            </div>
+                            
                             <div class="gameCardUnderline" style="background-color:{{ game.color }}"></div>
 
-                                <div class="gameCardInfos">
-                                    {# <p class="gameCardTitle">{{ game.title }}</p> #}
-                                    <p><span>New</span> Topics <span>0</span></p>
-                                    <p><span>New</span> Medias <span>0</span></p>
-                                </div>
-
-                                {% if app.user is not null and game.favUsers is not empty and app.user in game.favUsers %}
-                                    <i style="color:{{ game.color }}; opacity:1;" class="fa-solid fa-heart gameCardFav"></i>
-                                {% endif %}
+                            <div class="gameCardInfos">
+                                {# <p class="gameCardTitle">{{ game.title }}</p> #}
+                                <p><span>New</span> Topics <span>0</span></p>
+                                <p><span>New</span> Medias <span>0</span></p>
+                            </div>
                         </div>
                     </a>
                 {% endfor %}
@@ -138,7 +142,15 @@
                 {% for game in battleRoyalGames %}
                     <a class="gameCardLink" href="{{ path('app_game', {'id': game.id} )}}">
                         <div class="gameCard">
-                            <img src="{{ asset("img/games/logo/" ~ game.logo) }}" class="gameLogo" alt="logo {{ game.title }}"/>
+
+                            <div style="position:relative;">
+                                <img src="{{ asset("img/games/logo/" ~ game.logo) }}" class="gameLogo" alt="logo {{ game.title }}"/>
+                                {# Si jeu favorisé par l'utilisateur #}
+                                {% if app.user is not null and game.favUsers is not empty and app.user in game.favUsers %}
+                                    <i class="fa-solid fa-heart gameCardFav"></i>
+                                {% endif %}
+                            </div>
+
                             <div class="gameCardUnderline" style="background-color:{{ game.color }}"></div>
 
                                 <div class="gameCardInfos">
@@ -146,10 +158,6 @@
                                     <p><span>New</span> Topics <span>0</span></p>
                                     <p><span>New</span> Medias <span>0</span></p>
                                 </div>
-
-                                {% if app.user is not null and game.favUsers is not empty and app.user in game.favUsers %}
-                                    <i style="color:{{ game.color }}; opacity:1;" class="fa-solid fa-heart gameCardFav"></i>
-                                {% endif %}
                         </div>
                     </a>
                 {% endfor %}
@@ -161,18 +169,23 @@
                 {% for game in indieGames %}
                     <a class="gameCardLink" href="{{ path('app_game', {'id': game.id} )}}">
                         <div class="gameCard">
-                            <img src="{{ asset("img/games/logo/" ~ game.logo) }}" class="gameLogo" alt="logo {{ game.title }}"/>
+
+                            <div style="position:relative;">
+                                <img src="{{ asset("img/games/logo/" ~ game.logo) }}" class="gameLogo" alt="logo {{ game.title }}"/>
+                                {# Si jeu favorisé par l'utilisateur #}
+                                {% if app.user is not null and game.favUsers is not empty and app.user in game.favUsers %}
+                                    <i class="fa-solid fa-heart gameCardFav"></i>
+                                {% endif %}
+                            </div>
+
                             <div class="gameCardUnderline" style="background-color:{{ game.color }}"></div>
 
-                                <div class="gameCardInfos">
-                                    {# <p class="gameCardTitle">{{ game.title }}</p> #}
-                                    <p><span>New</span> Topics <span>0</span></p>
-                                    <p><span>New</span> Medias <span>0</span></p>
-                                </div>
+                            <div class="gameCardInfos">
+                                {# <p class="gameCardTitle">{{ game.title }}</p> #}
+                                <p><span>New</span> Topics <span>0</span></p>
+                                <p><span>New</span> Medias <span>0</span></p>
+                            </div>
 
-                                {% if app.user is not null and game.favUsers is not empty and app.user in game.favUsers %}
-                                    <i style="color:{{ game.color }}; opacity:1;" class="fa-solid fa-heart gameCardFav"></i>
-                                {% endif %}
                         </div>
                     </a>
                 {% endfor %}

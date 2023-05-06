@@ -30,7 +30,12 @@
 
         <div style="display:inline-flex;">
             <h2 style="font-weight:bold; color:{{game.color}}">Topic</h2>
-            <span>ouvert</span>
+            {# TODO: status ouvert/fermé par auteur ou modo/admin (hardCoded pour l'instant) #}
+            {% if topic.status == "closed" %}
+                <span class="topicStatus topicClosed">fermé</span>
+            {% elseif topic.status == "open" %}
+                <span class="topicStatus topicOpen">ouvert</span>
+            {% endif %}
         </div>
 
         <div class="listContainer">
@@ -43,30 +48,52 @@
             {# <p>Intro</p> #}
         </div>
 
-        <p>Auteur: <span>Fermer le topic</span></p>
+        {# Si auteur du topic: Btn fermer/ouvrir le topic (A voir: si fermer par Admin, pas possible de rouvrir en tant qu'author) #}
+        {% if app.user == topic.user %}
+
+            {% if topic.status == "closed" %}
+                <p>Auteur: <a href="{{ path('app_openTopic', {'id': topic.id}) }}"><span>Rouvrir le topic</span></a></p>
+            {% elseif topic.status == "open" %}
+                <p>Auteur: <a href="{{ path('app_closeTopic', {'id': topic.id}) }}"><span>Fermer le topic</span></a></p>
+            {% endif %}
+            
+        {% endif %}
+        
 
         <h4 style="font-weight:bold; color:{{game.color}}; margin-top: 40px;">Messages ({{ topic.topicPostsCount }})</h4>
 
         {# Messages triés par nbr d'upvote et sinon par publishDate (récent en haut) [différent d'un chat] #}
         <div class="listContainer">
 
+
             {# form de publication de post sur le topic #}
-            {{ form_start(formAddTopicPost) }}
-                <div class="inline" style="position:relative; margin: 5px auto;">
-                    {{ form_widget(formAddTopicPost.text) }} 
-                    {{ form_widget(formAddTopicPost.submit) }}
-                </div>
+            {% if topic.status == "open" %}
+            
+                {{ form_start(formAddTopicPost) }}
+                    <div class="inline" style="position:relative; margin: 5px auto;">
+                        {{ form_widget(formAddTopicPost.text) }} 
+                        {{ form_widget(formAddTopicPost.submit) }}
+                    </div>
+                    
+                {{ form_end(formAddTopicPost) }}
+                <script>
+                    document.querySelector('#topic_post_submit').style.color = "{{ topic.game.color }}";
+                </script>
+
+            {% elseif topic.status == "closed" %}
                 
-            {{ form_end(formAddTopicPost) }}
-            <script>
-                document.querySelector('#topic_post_submit').style.color = "{{ topic.game.color }}";
-            </script>
+                <p class="emptyListMsg">Le topic a été fermé</p>
+
+            {% endif %}
 
             <div style="width:60%; margin:10px auto; height:1px; background-color:{{ topic.game.color }}"></div>
 
+
+
+
             {# Liste des posts (à trier selon nbr Upvotes + date dans le Repo) #}
             {% if topicPosts is empty %}
-                <p>Pas de post sur ce topic pour le moment</p>
+                <p class="emptyListMsg">Aucun commentaire. Soyez le premier à commenter !</p>
             {% else %}
                 {% for post in topicPosts %}
                     <div class="topicPost">

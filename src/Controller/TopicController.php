@@ -152,45 +152,58 @@ class TopicController extends AbstractController
         // Vérifs/Filtres
         if($form->isSubmitted()) {
 
+            // Vérif connecté pour poster un TopicPost
             if($this->getUser()) {
 
-                if($form->isValid()) {
-
-                    // Hydrataion du "TopicPost" a partir des données du form
-                    $topicPost = $form->getData();
-
-                    // Init de la publish_date du comment
-                    $topicPost->setPublishDate(new \DateTime());
-                    $topicPost->setUser($this->getUser());
-                    $topicPost->setTopic($topic);
+                // Vérification si le topic est ouvert
+                if ($topic->getStatus() == "open") {
                     
-                    // Désactivation vérification nbr de mots etc...
-                    // // Récupération du titre
-                    // $textInputValue = $form->get('text')->getData();
-                    // // Liste des mots du commentaires
-                    // $words = str_word_count($textInputValue, 1);
-                    // // Décompte du nombre de mots dans la liste
-                    // $wordCount = count($words);
-                    // // Vérification du compte de mots
-                    // if ($wordCount >= 5) {
+                    if($form->isValid()) {
 
-                        // Modifs Base de données
-                        $entityManager->persist($topicPost);
-                        $entityManager->flush();
-
-                        $this->addFlash('success', 'Le post a bien été publié');
-                        return $this->redirectToRoute('app_topicDetail', ['id' => $topic->getId()]);
-                    // } else {
+                        // Hydrataion du "TopicPost" a partir des données du form
+                        $topicPost = $form->getData();
+    
+                        // Init de la publish_date du comment
+                        $topicPost->setPublishDate(new \DateTime());
+                        $topicPost->setUser($this->getUser());
+                        $topicPost->setTopic($topic);
                         
-                    //     $this->addFlash('error', 'Le titre doit faire au minimum 5 mots !');
-                    //     return $this->redirectToRoute('app_game', ['id' => $game->getId()]);
-                    // }
+                        // Désactivation vérification nbr de mots etc...
+                        // // Récupération du titre
+                        // $textInputValue = $form->get('text')->getData();
+                        // // Liste des mots du commentaires
+                        // $words = str_word_count($textInputValue, 1);
+                        // // Décompte du nombre de mots dans la liste
+                        // $wordCount = count($words);
+                        // // Vérification du compte de mots
+                        // if ($wordCount >= 5) {
+    
+                            // Modifs Base de données
+                            $entityManager->persist($topicPost);
+                            $entityManager->flush();
+    
+                            $this->addFlash('success', 'Le post a bien été publié');
+                            return $this->redirectToRoute('app_topicDetail', ['id' => $topic->getId()]);
+                        // } else {
+                            
+                        //     $this->addFlash('error', 'Le titre doit faire au minimum 5 mots !');
+                        //     return $this->redirectToRoute('app_game', ['id' => $game->getId()]);
+                        // }
+    
+                    } 
+                    else {
+                        $this->addFlash('error', 'Les données envoyées ne sont pas valides');
+                        return $this->redirectToRoute('app_topicDetail', ['id' => $topic->getId()]);
+                    }   
 
-                } 
+                }
                 else {
-                    $this->addFlash('error', 'Les données envoyées ne sont pas valides');
+                    $this->addFlash('error', 'Le topic a été fermé, vous ne pouvez plus le commenter.');
                     return $this->redirectToRoute('app_topicDetail', ['id' => $topic->getId()]);
-                }   
+                }
+
+
+                
             }
             else {
                 $this->addFlash('error', 'Vous devez être connecté pour publier un post');
@@ -267,6 +280,51 @@ class TopicController extends AbstractController
 
 
 
+    // Fermeture de topic par author (id: idTopic)  (voir pour asynch ajax ?)
+    #[Route('/closeTopic/{id}', name: 'app_closeTopic')]
+    public function closeTopicPost(EntityManagerInterface $entityManager, int $id, Request $request): Response
+    {
+        $topicRepo = $entityManager->getRepository(Topic::class);
+
+        $topic = $topicRepo->find($id);
+
+        // Vérif si user est bien l'auteur du topic
+        if ($this->getUser() == $topic->getUser()) {
+
+            $topic->setStatus("closed");
+            $entityManager->flush();
+
+            $this->addFlash('success', 'Le topic a bien été fermé');
+            return $this->redirectToRoute('app_topicDetail', ['id' => $id]); 
+        }
+        else {
+            $this->addFlash('error', 'Vous devez être l\'auteur du topic ou admin pour pouvoir le fermer');
+            return $this->redirectToRoute('app_topicDetail', ['id' => $id]); 
+        }
+    }
+
+    // Réouverture du topic par author (id: idTopic)  (voir pour asynch ajax ?)
+    #[Route('/openTopic/{id}', name: 'app_openTopic')]
+    public function openTopicPost(EntityManagerInterface $entityManager, int $id, Request $request): Response
+    {
+        $topicRepo = $entityManager->getRepository(Topic::class);
+
+        $topic = $topicRepo->find($id);
+
+        // Vérif si user est bien l'auteur du topic
+        if ($this->getUser() == $topic->getUser()) {
+
+            $topic->setStatus("open");
+            $entityManager->flush();
+
+            $this->addFlash('success', 'Le topic a bien été rouvert');
+            return $this->redirectToRoute('app_topicDetail', ['id' => $id]); 
+        }
+        else {
+            $this->addFlash('error', 'Vous devez être l\'auteur du topic ou admin pour pouvoir le rouvrir');
+            return $this->redirectToRoute('app_topicDetail', ['id' => $id]); 
+        }
+    }
 
 
 

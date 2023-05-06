@@ -13,7 +13,6 @@ TODO:
 Mettre un paramètre GET dans le redirect app_login pour rediriger vers la page du click après login
 *User muted tant que l'email est pas vérifié ? 
 https://codepen.io/mahish/pen/RajmQw OU http://jsfiddle.net/Lpjj3n1e/ SCROLL HORIZONTAL DES LISTE DE JEUX
-Table assoc avec +propriété 'note': Notation + order listGames par note moyenne
 
 Logo Black: meme couleur que bg
 Déplacer la partie authent de base vers chaque vue (car couleur Police à adapter)
@@ -21,18 +20,22 @@ Déplacer la partie authent de base vers chaque vue (car couleur Police à adapt
 Pour les boutons dispo uniquement pour admin: https://stackoverflow.com/questions/7731310/text-in-border-css-html (avec "admin" et doré), fieldset et legend
 
 regex mdp (création de compte)
-Fix la vérif de isVerified email (mailHog fonctionne mais possible de se co meme si email pas vérif)
 
 Le nbr_views dans table Topic: faire plutot une table assoc pour 1 vue possible par user (anti-span), au moment ou il voit le detail du topic
 
 Faire les "Auteur: Vous" dans topicDetail et post Author
 
+Oskour:
+Si signalement automatique lorsque upvote trop négatif: il faut pouvoir dislike (PB: Like est une relation pas une entitée, donc pas de champ "like/dislike" possible en plus des clées)
+-> Avec dislikes ducoup on compte plus juste le nombre de relations, soit on compte selon champ 'like/dislike', soit on calcule avec un champ "1"/"-1" jsp
 
 
 
 
-
-
+Notifications: "un tel a liké ce commentaire"
+"Un tel a commenté ce topic" 
+Plus tard: "votre topic/media a été validé par la modération"
+(Dans profil et bulle Nav)
 
 
 
