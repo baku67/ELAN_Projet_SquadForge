@@ -89,15 +89,15 @@
                     .then(data => {
                     if (data.success) {
                         document.querySelector('#ajaxFlash').textContent = "Votre note a bien été pris en compte";
-                        document.querySelector('#ajaxFlash').classList = "";
                         document.querySelector('#ajaxFlash').classList.add("ajaxFlashAnim", "successAjaxFlash");
-                        // alert('La note a été ajoutée ou mise à jour avec succès.' + data.notationExist);
                     } else {
                         document.querySelector('#ajaxFlash').textContent = "Il y a eu un problème lors de l'envoi de votre note";
-                        document.querySelector('#ajaxFlash').classList = "";
                         document.querySelector('#ajaxFlash').classList.add("ajaxFlashAnim", "errorAjaxFlash");
-                        // alert('Erreur lors de l\'ajout ou de la mise à jour de la note.');
                     }
+                    
+                    setTimeout(() => {
+                        document.querySelector('#ajaxFlash').className = ""; 
+                    }, 3500);
                     })
                     .catch(error => {
                     alert('Erreur lors de la communication avec le serveur : ' + error.message);
