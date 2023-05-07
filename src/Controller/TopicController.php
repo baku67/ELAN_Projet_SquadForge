@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Topic;
 use App\Entity\TopicPost;
+use App\Entity\PostLike;
 use App\Form\TopicPostType;
 use App\Entity\Game;
 use Doctrine\ORM\EntityManagerInterface;
@@ -274,6 +275,171 @@ class TopicController extends AbstractController
         }
     
     }
+
+
+
+
+
+
+
+
+
+
+
+
+
+    // Upvote/unUpvote de topicPost par user (id: idTopicPost)
+    #[Route('/upvoteTopicPost/{id}', name: 'app_upvoteTopicPost')]
+    public function upvoteTopicPost(EntityManagerInterface $entityManager, int $id, Request $request): Response
+    {
+
+        if ($this->getUser()) {
+
+            $postLikeRepo = $entityManager->getRepository(PostLike::class);
+            $topicPostRepo = $entityManager->getRepository(TopicPost::class);
+
+            $topicPost = $topicPostRepo->find($id);
+            $topic = $topicPost->getTopic();
+
+            // Si l'utilisateur n'a pas déjà upvoté 
+            if(count($postLikeRepo->findBy(['user'=>$this->getUser(), 'topicPost' =>$topicPost])) == 0) {
+
+                $topicPostLike = new PostLike;
+
+                $topicPostLike->setUser($this->getUser());
+                $topicPostLike->setTopicPost($topicPost);
+                $topicPostLike->setState("upvote");
+    
+                $entityManager->persist($topicPostLike);
+                $entityManager->flush();
+    
+    
+                $this->addFlash('success', 'Votre upvote a été pris en compte');
+                return $this->redirectToRoute('app_topicDetail', ['id' => $topic->getId()]); 
+            }
+            // Si l'utilisateur a déjà upvoter le post: enleve l'upvote, s'il l'a déjà downvoté, upvote
+            else {
+
+                if($postLikeRepo->findOneBy(['user'=>$this->getUser(), 'topicPost' =>$topicPost])->getState() == "upvote" ) {
+
+                    $topicPostLike = $postLikeRepo->findOneBy(['user'=>$this->getUser(), 'topicPost' =>$topicPost]);
+
+                    $postLikeRepo->remove($topicPostLike, true);
+                    // $topicPostRepo->flush();
+
+                    $this->addFlash('success', 'Votre upvote a été retiré');
+                    return $this->redirectToRoute('app_topicDetail', ['id' => $topic->getId()]); 
+                
+                }
+                else if($postLikeRepo->findOneBy(['user'=>$this->getUser(), 'topicPost' =>$topicPost])->getState() == "downvote" ) {
+
+                    $topicPostLike = $postLikeRepo->findOneBy(['user'=>$this->getUser(), 'topicPost' =>$topicPost]);
+
+                    $topicPostLike->setState("upvote");
+
+                    $entityManager->persist($topicPostLike);
+                    $entityManager->flush();
+
+                    $this->addFlash('success', 'Votre upvote a été pris en compte');
+                    return $this->redirectToRoute('app_topicDetail', ['id' => $topic->getId()]); 
+                }
+            }
+
+        }
+        else {
+            $this->addFlash('error', 'Vous devez être connecté pour liker un post');
+            return $this->redirectToRoute('app_login');
+        }
+    
+    }
+
+
+
+
+    // Upvote/unUpvote de topicPost par user (id: idTopicPost)
+    #[Route('/unupvoteTopicPost/{id}', name: 'app_unupvoteTopicPost')]
+    public function unupvoteTopicPost(EntityManagerInterface $entityManager, int $id, Request $request): Response
+    {
+
+        if ($this->getUser()) {
+
+            $postLikeRepo = $entityManager->getRepository(PostLike::class);
+            $topicPostRepo = $entityManager->getRepository(TopicPost::class);
+
+            $topicPost = $topicPostRepo->find($id);
+            $topic = $topicPost->getTopic();
+
+            // Si l'utilisateur n'a pas déjà upvoter le post
+            if(count($postLikeRepo->findBy(['user'=>$this->getUser(), 'topicPost' =>$topicPost])) == 0) {
+                $topicPostLike = new PostLike;
+
+                $topicPostLike->setUser($this->getUser());
+                $topicPostLike->setTopicPost($topicPost);
+                $topicPostLike->setState("downvote");
+    
+                $entityManager->persist($topicPostLike);
+                $entityManager->flush();
+    
+    
+                $this->addFlash('success', 'Votre downvote a été pris en compte');
+                return $this->redirectToRoute('app_topicDetail', ['id' => $topic->getId()]); 
+            }
+            // Si l'utilisateur a déjà upvoter le post, supprime l'upvote
+            else {
+
+                if($postLikeRepo->findOneBy(['user'=>$this->getUser(), 'topicPost' =>$topicPost])->getState() == "downvote" ) {
+
+                    $topicPostLike = $postLikeRepo->findOneBy(['user'=>$this->getUser(), 'topicPost' =>$topicPost]);
+
+                    $postLikeRepo->remove($topicPostLike, true);
+                    // $topicPostRepo->flush();
+
+                    $this->addFlash('success', 'Votre downvote a été retiré');
+                    return $this->redirectToRoute('app_topicDetail', ['id' => $topic->getId()]); 
+                
+                }
+                else if($postLikeRepo->findOneBy(['user'=>$this->getUser(), 'topicPost' =>$topicPost])->getState() == "upvote" ) {
+
+                    $topicPostLike = $postLikeRepo->findOneBy(['user'=>$this->getUser(), 'topicPost' =>$topicPost]);
+
+                    $topicPostLike->setState("downvote");
+
+                    $entityManager->persist($topicPostLike);
+                    $entityManager->flush();
+
+                    $this->addFlash('success', 'Votre downvote a été pris en compte');
+                    return $this->redirectToRoute('app_topicDetail', ['id' => $topic->getId()]); 
+                }
+            }
+
+        }
+        else {
+            $this->addFlash('error', 'Vous devez être connecté pour liker un post');
+            return $this->redirectToRoute('app_login');
+        }
+    
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

@@ -53,6 +53,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\ManyToMany(targetEntity: TopicPost::class, mappedBy: 'postLike')]
     private Collection $likedTopicPosts;
 
+    #[ORM\OneToMany(mappedBy: 'user', targetEntity: PostLike::class)]
+    private Collection $postLikes;
+
     public function __construct()
     {
         $this->favoris = new ArrayCollection();
@@ -60,6 +63,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         $this->notations = new ArrayCollection();
         $this->topicPosts = new ArrayCollection();
         $this->likedTopicPosts = new ArrayCollection();
+        $this->postLikes = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -292,6 +296,36 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     {
         if ($this->likedTopicPosts->removeElement($likedTopicPost)) {
             $likedTopicPost->removePostLike($this);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, PostLike>
+     */
+    public function getPostLikes(): Collection
+    {
+        return $this->postLikes;
+    }
+
+    public function addPostLike(PostLike $postLike): self
+    {
+        if (!$this->postLikes->contains($postLike)) {
+            $this->postLikes->add($postLike);
+            $postLike->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removePostLike(PostLike $postLike): self
+    {
+        if ($this->postLikes->removeElement($postLike)) {
+            // set the owning side to null (unless already changed)
+            if ($postLike->getUser() === $this) {
+                $postLike->setUser(null);
+            }
         }
 
         return $this;

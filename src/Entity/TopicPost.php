@@ -2,6 +2,8 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\Criteria;
+
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Symfony\Component\Form\FormTypeInterface;
@@ -43,16 +45,28 @@ class TopicPost
     #[ORM\OneToMany(mappedBy: 'topicPost', targetEntity: self::class, orphanRemoval: true)]
     private Collection $children;
 
+    // Ancienne métode de postLikes: juste relation sans champ "like/dislike"
     #[ORM\ManyToMany(targetEntity: User::class, inversedBy: 'likedTopicPosts')]
     private Collection $postLike;
 
     private $postLikeCount;
+
+    // Nouveau sytème avec entité cette fois
+    #[ORM\OneToMany(mappedBy: 'topicPost', targetEntity: PostLike::class)]
+    private Collection $postLikes;
+
+    private int $score = 0;
+
 
     public function __construct()
     {
         $this->topicPosts = new ArrayCollection();
         $this->children = new ArrayCollection();
         $this->postLike = new ArrayCollection();
+        $this->postLikes = new ArrayCollection();
+
+        $this->setScore();
+
     }
 
 
@@ -193,6 +207,9 @@ class TopicPost
         return $this;
     }
 
+
+
+    // Ancienne métode de postLikes: juste relation sans champ "like/dislike"
     /**
      * @return Collection<int, User>
      */
@@ -220,6 +237,43 @@ class TopicPost
         $this->postLike->removeElement($postLike);
 
         return $this;
+    }
+
+
+    // Nouveau sytème avec entité cette fois
+    /**
+     * @return Collection<int, PostLike>
+     */
+    public function getPostLikes(): Collection
+    {
+        return $this->postLikes;
+    }
+
+
+    public function setScore(): void
+    {
+    // Compte des upvotes de la Collection postLikes
+    $criteria = Criteria::create()
+        ->where(Criteria::expr()->eq('state', "upvote"));
+
+    $filteredCollection = $this->postLikes->matching($criteria);
+    $upvoteCount = $filteredCollection->count();
+
+    // Compte des downvotes de la Collection postLikes
+    $criteria2 = Criteria::create()
+        ->where(Criteria::expr()->eq('state', "downvote"));
+
+    $filteredCollection2 = $this->postLikes->matching($criteria2);
+    $downvoteCount = $filteredCollection2->count();
+
+    $this->score = $upvoteCount - $downvoteCount;
+    }
+
+    public function getScore(): int {
+
+        // return $this->score;
+        return $this->score ?? 0;
+
     }
 
 }
