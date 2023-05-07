@@ -49,13 +49,10 @@ class TopicPost
     #[ORM\ManyToMany(targetEntity: User::class, inversedBy: 'likedTopicPosts')]
     private Collection $postLike;
 
-    private $postLikeCount;
 
     // Nouveau sytème avec entité cette fois
     #[ORM\OneToMany(mappedBy: 'topicPost', targetEntity: PostLike::class)]
     private Collection $postLikes;
-
-    private int $score = 0;
 
 
     public function __construct()
@@ -65,7 +62,28 @@ class TopicPost
         $this->postLike = new ArrayCollection();
         $this->postLikes = new ArrayCollection();
 
-        $this->setScore();
+    }
+
+
+    public function getScore(): int {
+
+                // // Compte des upvotes de la Collection postLikes
+        $criteria = Criteria::create()
+            ->where(Criteria::expr()->eq('state', "upvote"));
+
+        $filteredCollection = $this->postLikes->matching($criteria);
+        $upvoteCount = $filteredCollection->count();
+
+        // Compte des downvotes de la Collection postLikes
+        $criteria2 = Criteria::create()
+            ->where(Criteria::expr()->eq('state', "downvote"));
+
+        $filteredCollection2 = $this->postLikes->matching($criteria2);
+        $downvoteCount = $filteredCollection2->count();
+
+        $score = $upvoteCount - $downvoteCount;
+
+        return $score;
 
     }
 
@@ -250,30 +268,6 @@ class TopicPost
     }
 
 
-    public function setScore(): void
-    {
-    // Compte des upvotes de la Collection postLikes
-    $criteria = Criteria::create()
-        ->where(Criteria::expr()->eq('state', "upvote"));
 
-    $filteredCollection = $this->postLikes->matching($criteria);
-    $upvoteCount = $filteredCollection->count();
-
-    // Compte des downvotes de la Collection postLikes
-    $criteria2 = Criteria::create()
-        ->where(Criteria::expr()->eq('state', "downvote"));
-
-    $filteredCollection2 = $this->postLikes->matching($criteria2);
-    $downvoteCount = $filteredCollection2->count();
-
-    $this->score = $upvoteCount - $downvoteCount;
-    }
-
-    public function getScore(): int {
-
-        // return $this->score;
-        return $this->score ?? 0;
-
-    }
 
 }
