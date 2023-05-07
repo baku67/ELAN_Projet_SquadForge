@@ -624,3 +624,16 @@ nav {
     background-color: #0dad55;
     color: rgb(255, 255, 255);
 }
+
+
+
+.topicPost {
+    display: inline-flex;
+    width: 100%;
+    justify-content: space-between;
+}
+
+.fa-caret-up, .fa-caret-down {
+    color: rgb(165, 165, 165);
+    font-size: 2em;
+}

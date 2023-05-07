@@ -111,26 +111,50 @@
 
 
                     <div class="topicPost {{ postAuthorClass }}">
-                        <p>{{ post.text }}</p>
+                        
                         <div>
-                            {% if post.postLike.contains(app.user) %}
-                                <span style="margin: 0 5px;">{{ post.postLikeCount }}</span><a href="{{ path('app_unlikeTopicPost', {'id': post.id }) }}"><i class="fa-solid fa-thumbs-up"></i></a>
-                            {% else %}
-                                <span style="margin: 0 5px;">{{ post.postLikeCount }}</span><a href="{{ path('app_likeTopicPost', {'id': post.id }) }}"><i class="fa-regular fa-thumbs-up"></i></a>
-                            {% endif %}
+                            <p>{{ post.text }}</p>
 
                             {% if post.user == app.user %}
                                 <span>par vous</span>
                             {% else %}
                                 <span>par {{ post.user.pseudo }}</span>
                             {% endif %}
-                            {# <span>par {{ post.user.pseudo }}</span> #}
-
                         </div>
+
                         <div style="display:inline-flex; flex-direction:column;">
-                            <span><a href="{{ path('app_upvoteTopicPost',{'id':post.id}) }}"><i class="fa-solid fa-angle-up"></i></a></span>
-                            <span>{{ dump(post.score) }}</span>
-                            <span><a href="{{ path('app_unupvoteTopicPost',{'id':post.id}) }}"><i class="fa-solid fa-angle-down"></i></a></span>
+
+                            {% set isUpvoted = false %}
+                            {% set isDownvoted = false %}
+                            {% for like in post.postLikes %}
+                                {% if like.user == app.user and like.topicPost.id == post.id %}
+                                    {% if like.state == "upvote" %}
+                                        {% set isUpvoted = true %}
+                                    {% elseif like.state == "downvote" %}
+                                        {% set isDownvoted = true %}
+                                    {% endif %}
+                                {% endif %}
+                            {% endfor %}
+
+                            {% if isUpvoted %}
+                                <span><a href="{{ path('app_upvoteTopicPost',{'id':post.id}) }}"><i class="fa-solid fa-caret-up" style="color:#00ca00"></i></a></span>
+                            {% else %}
+                                <span><a href="{{ path('app_upvoteTopicPost',{'id':post.id}) }}"><i class="fa-solid fa-caret-up"></i></a></span>
+                            {% endif %}
+
+                            {% if post.score < 0 %}
+                                <span style="text-align:center; color:red;">{{ post.score }}</span>
+                            {% else %}
+                                <span style="text-align:center;">{{ post.score }}</span>
+                            {% endif %}
+                            
+
+
+                            {% if isDownvoted %}
+                                <span><a href="{{ path('app_unupvoteTopicPost',{'id':post.id}) }}"><i class="fa-solid fa-caret-down" style="color:red"></i></a></span>
+                            {% else %}
+                                <span><a href="{{ path('app_unupvoteTopicPost',{'id':post.id}) }}"><i class="fa-solid fa-caret-down"></i></a></span>
+                            {% endif %}
                         </div>
                     </div>
                 {% endfor %}

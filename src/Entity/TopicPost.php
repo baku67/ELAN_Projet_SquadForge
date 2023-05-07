@@ -45,11 +45,6 @@ class TopicPost
     #[ORM\OneToMany(mappedBy: 'topicPost', targetEntity: self::class, orphanRemoval: true)]
     private Collection $children;
 
-    // Ancienne métode de postLikes: juste relation sans champ "like/dislike"
-    #[ORM\ManyToMany(targetEntity: User::class, inversedBy: 'likedTopicPosts')]
-    private Collection $postLike;
-
-
     // Nouveau sytème avec entité cette fois
     #[ORM\OneToMany(mappedBy: 'topicPost', targetEntity: PostLike::class)]
     private Collection $postLikes;
@@ -59,33 +54,10 @@ class TopicPost
     {
         $this->topicPosts = new ArrayCollection();
         $this->children = new ArrayCollection();
-        $this->postLike = new ArrayCollection();
         $this->postLikes = new ArrayCollection();
 
     }
 
-
-    public function getScore(): int {
-
-                // // Compte des upvotes de la Collection postLikes
-        $criteria = Criteria::create()
-            ->where(Criteria::expr()->eq('state', "upvote"));
-
-        $filteredCollection = $this->postLikes->matching($criteria);
-        $upvoteCount = $filteredCollection->count();
-
-        // Compte des downvotes de la Collection postLikes
-        $criteria2 = Criteria::create()
-            ->where(Criteria::expr()->eq('state', "downvote"));
-
-        $filteredCollection2 = $this->postLikes->matching($criteria2);
-        $downvoteCount = $filteredCollection2->count();
-
-        $score = $upvoteCount - $downvoteCount;
-
-        return $score;
-
-    }
 
 
     public function getId(): ?int
@@ -227,36 +199,6 @@ class TopicPost
 
 
 
-    // Ancienne métode de postLikes: juste relation sans champ "like/dislike"
-    /**
-     * @return Collection<int, User>
-     */
-    public function getPostLike(): Collection
-    {
-        return $this->postLike;
-    }
-
-    public function getPostLikeCount(): int
-    {
-        return count($this->postLike);
-    }
-
-    public function addPostLike(User $postLike): self
-    {
-        if (!$this->postLike->contains($postLike)) {
-            $this->postLike->add($postLike);
-        }
-
-        return $this;
-    }
-
-    public function removePostLike(User $postLike): self
-    {
-        $this->postLike->removeElement($postLike);
-
-        return $this;
-    }
-
 
     // Nouveau sytème avec entité cette fois
     /**
@@ -266,6 +208,30 @@ class TopicPost
     {
         return $this->postLikes;
     }
+
+
+
+    public function getScore(): int {
+
+        // // Compte des upvotes de la Collection postLikes
+        $criteria = Criteria::create()
+            ->where(Criteria::expr()->eq('state', "upvote"));
+
+        $filteredCollection = $this->postLikes->matching($criteria);
+        $upvoteCount = $filteredCollection->count();
+
+        // Compte des downvotes de la Collection postLikes
+        $criteria2 = Criteria::create()
+            ->where(Criteria::expr()->eq('state', "downvote"));
+
+        $filteredCollection2 = $this->postLikes->matching($criteria2);
+        $downvoteCount = $filteredCollection2->count();
+
+        $score = $upvoteCount - $downvoteCount;
+
+        return $score;
+
+    }   
 
 
 
