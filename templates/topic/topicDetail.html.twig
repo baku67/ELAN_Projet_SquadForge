@@ -86,7 +86,7 @@
 
             {% elseif topic.status == "closed" %}
                 
-                <p class="emptyListMsg">Le topic a été fermé</p>
+                <p class="emptyListMsg"><i class="fa-solid fa-triangle-exclamation warning"></i>Le topic a été fermé</p>
 
             {% endif %}
 
@@ -112,7 +112,8 @@
 
                     <div class="topicPost {{ postAuthorClass }}">
                         
-                        <div>
+                        {# Post text et auteur #}
+                        <div class="postContent">
                             <p>{{ post.text }}</p>
 
                             {% if post.user == app.user %}
@@ -122,6 +123,7 @@
                             {% endif %}
                         </div>
 
+                        {# Post upvote/downvote #}
                         <div style="display:inline-flex; flex-direction:column;">
 
                             {% set isUpvoted = false %}
@@ -143,9 +145,9 @@
                             {% endif %}
 
                             {% if post.score < 0 %}
-                                <span style="text-align:center; color:red;">{{ post.score }}</span>
+                                <span style="text-align:center; color:red; font-weight:900;">{{ post.score }}</span>
                             {% else %}
-                                <span style="text-align:center;">{{ post.score }}</span>
+                                <span style="text-align:center; font-weight:900;">{{ post.score }}</span>
                             {% endif %}
                             
                             {% if isDownvoted %}
@@ -153,9 +155,13 @@
                             {% else %}
                                 <span><a href="{{ path('app_unupvoteTopicPost',{'id':post.id}) }}"><i class="fa-solid fa-caret-down"></i></a></span>
                             {% endif %}
+
                         </div>
+
                     </div>
+
                 {% endfor %}
+
             {% endif %}
 
             
