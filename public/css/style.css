@@ -172,6 +172,7 @@ nav {
 
 .genreGameList {
     display: inline-flex;
+    flex-wrap: wrap;
     margin-top: 10px;
     margin-bottom: 35px;
 }
@@ -258,7 +259,7 @@ nav {
     border-radius: 5px;
 }
 .gameCardLink {
-    margin: 0 10px;
+    margin: 7px 10px;
 }
 .gameLogo {
     width: 150px;

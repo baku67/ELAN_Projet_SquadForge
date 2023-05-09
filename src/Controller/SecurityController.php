@@ -43,16 +43,31 @@ class SecurityController extends AbstractController
         return $this->render('security/login.html.twig', ['last_username' => $lastUsername, 'error' => $error]);
     }
 
+
+
+    // Déconnexion déconnection
     #[Route(path: '/logout', name: 'app_logout')]
     public function logout(): void
     {
         throw new \LogicException('This method can be blank - it will be intercepted by the logout key on your firewall.');
     }
 
+
+
+    // Homepage 
     #[Route(path: '/', name: 'app_landingPage')]
     #[Route(path: '/home', name: 'app_home')]
     public function homepage(EntityManagerInterface $entityManager)
     {
+
+        // Si connecté: raccourcis Games favoris
+        if($this->getUser()) {
+            $userFav = $this->getUser()->getFavoris();
+        }
+        else {
+            $userFav = null;
+        }
+
 
         // Homepage: 5 derniers Topics
         $topicManager = $entityManager->getRepository(Topic::class);
@@ -78,6 +93,7 @@ class SecurityController extends AbstractController
 
 
         return $this->render('security/home.html.twig', [
+            'userFav' => $userFav,
             'lastTopics' => $lastTopics,
             'lastMedias' => $lastMedias,
         ]);

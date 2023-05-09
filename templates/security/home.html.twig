@@ -14,6 +14,24 @@
 
     <div class="main">
 
+        {# Raccourcis Jeux favoris si logged in #}
+        {% if app.user %}
+            <h3>Jeux Favoris</h3>
+            <div class="genreGameList">
+                {% for gameFav in userFav %}
+                    <a  class="gameCardLink" href="{{ path('app_game', {'id': gameFav.id} )}}">
+                        <div class="gameCard">
+                            <img src="{{ asset("img/games/logo/" ~ gameFav.logo) }}" class="gameLogo" alt="logo {{ gameFav.title }}"/>
+                            <div class="gameCardUnderline" style="background-color:{{ gameFav.color }}"></div>
+                        </div>
+                    </a>
+                {% endfor %}
+            </div>
+        {% endif %}
+        
+
+
+
         {# Les 5 derniers Topics (tout jeux confondus) #}
         <a href="{{ path('app_allTopicsGlobal') }}">
             <h3 class="gameSubTitle noMarginBottom" style="background-color: var(--primary-color);">
