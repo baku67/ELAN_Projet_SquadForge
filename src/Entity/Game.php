@@ -58,11 +58,15 @@ class Game
     #[ORM\OneToMany(mappedBy: 'game', targetEntity: Notation::class)]
     private Collection $notations;
 
+    #[ORM\OneToMany(mappedBy: 'game', targetEntity: Media::class)]
+    private Collection $media;
+
     public function __construct()
     {
         $this->favUsers = new ArrayCollection();
         $this->topics = new ArrayCollection();
         $this->notations = new ArrayCollection();
+        $this->media = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -289,6 +293,36 @@ class Game
             // set the owning side to null (unless already changed)
             if ($notation->getGame() === $this) {
                 $notation->setGame(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Media>
+     */
+    public function getMedia(): Collection
+    {
+        return $this->media;
+    }
+
+    public function addMedium(Media $medium): self
+    {
+        if (!$this->media->contains($medium)) {
+            $this->media->add($medium);
+            $medium->setGame($this);
+        }
+
+        return $this;
+    }
+
+    public function removeMedium(Media $medium): self
+    {
+        if ($this->media->removeElement($medium)) {
+            // set the owning side to null (unless already changed)
+            if ($medium->getGame() === $this) {
+                $medium->setGame(null);
             }
         }
 

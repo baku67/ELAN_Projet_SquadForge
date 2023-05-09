@@ -5,11 +5,13 @@ namespace App\Controller;
 use Doctrine\ORM\EntityManagerInterface;
 use App\Form\SearchType;
 use App\Form\TopicType;
+use App\Form\MediaType;
 use App\Entity\Game;
 use App\Entity\Genre;
 use App\Entity\Notation;
 use App\Entity\User;
 use App\Entity\Topic;
+use App\Entity\Media;
 use Doctrine\ORM\PersistentCollection;
 
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -67,25 +69,6 @@ class GameController extends AbstractController
         $gameGenre = $game->getGenre()->getName();
         $user = $this->getUser();
 
-        // MiniListe (max 5) des derniers Topics du jeu
-        $queryBuilder = $entityManager->createQueryBuilder();
-        $queryBuilder->select('t')
-            ->from('App\Entity\Topic', 't')
-            ->where('t.game = :game')
-            ->setParameter('game', $game)
-            ->orderBy('t.publish_date', 'DESC')
-            ->setMaxResults(5); // set maximum number of results to 10
-        $gameTopicsDesc = $queryBuilder->getQuery()->getResult();
-
-        // Compte des topics du jeu
-        $queryBuilder2 = $entityManager->createQueryBuilder();
-        $queryBuilder2->select('COUNT(t.id)')
-            ->from(Topic::class, 't')
-            ->where('t.game = :game')
-            ->setParameter('game', $game);
-        $gameTopicsCount = $queryBuilder2->getQuery()->getSingleScalarResult();
-
-
         // Check si relation "Favoris" (user_game), customQuery mieux ?
         if ($this->getUser()) {
             $isFavorited = $user->getFavoris()->contains($game);
@@ -121,6 +104,25 @@ class GameController extends AbstractController
             ->setParameter('game', $game);
         $averageRating = number_format($queryBuilder->getQuery()->getSingleScalarResult(), 1);
 
+
+        // MiniListe (max 5) des derniers Topics du jeu
+        $queryBuilder = $entityManager->createQueryBuilder();
+        $queryBuilder->select('t')
+            ->from('App\Entity\Topic', 't')
+            ->where('t.game = :game')
+            ->setParameter('game', $game)
+            ->orderBy('t.publish_date', 'DESC')
+            ->setMaxResults(5); 
+        $gameTopicsDesc = $queryBuilder->getQuery()->getResult();
+
+        // Compte des topics du jeu
+        $queryBuilder2 = $entityManager->createQueryBuilder();
+        $queryBuilder2->select('COUNT(t.id)')
+            ->from(Topic::class, 't')
+            ->where('t.game = :game')
+            ->setParameter('game', $game);
+        $gameTopicsCount = $queryBuilder2->getQuery()->getSingleScalarResult();
+        
 
 
         // Form ajout Topic (Affichage et handleRequest)
@@ -183,8 +185,90 @@ class GameController extends AbstractController
             }
         }
 
+
+        // MiniListe (max 5) des derniers Médias du jeu
+        $queryBuilder = $entityManager->createQueryBuilder();
+        $queryBuilder->select('m')
+            ->from('App\Entity\Media', 'm')
+            ->where('m.game = :game')
+            ->setParameter('game', $game)
+            ->orderBy('m.publish_date', 'DESC')
+            ->setMaxResults(5); 
+        $gameMediasDesc = $queryBuilder->getQuery()->getResult();
+
+        // Compte des médias du jeu
+        $queryBuilder2 = $entityManager->createQueryBuilder();
+        $queryBuilder2->select('COUNT(m.id)')
+            ->from(Media::class, 'm')
+            ->where('m.game = :game')
+            ->setParameter('game', $game);
+        $gameMediasCount = $queryBuilder2->getQuery()->getSingleScalarResult();
+
+
+        // Form ajout Media (Affichage et handleRequest)
+        $media = new Media();
+        $form2 = $this->createForm(MediaType::class, $media);
+        $form2 -> handleRequest($request);
+
+        // Vérifs/Filtres
+        if($form2->isSubmitted()) {
+
+            if($this->getUser()) {
+
+                if($form2->isValid()) {
+
+                    // Hydrataion du "Media" a partir des données du form
+                    $media = $form2->getData();
+
+                    // Init de la publish_date du comment
+                    $media->setPublishDate(new \DateTime());
+                    $media->setGame($game);
+                    $media->setUser($user);
+                    $media->setStatus("ouvert");
+                    // En attendant le système de validation avant publication par un modo:
+                    $media->setValidated("validated");
+                    
+                    // Récupération du titre
+                    $titleInputValue = $form2->get('title')->getData();
+
+                    // Liste des mots du commentaires
+                    $words = str_word_count($titleInputValue, 1);
+
+                    // Décompte du nombre de mots dans la liste
+                    $wordCount = count($words);
+
+                    // Vérification du compte de mots
+                    if ($wordCount >= 5) {
+
+                        // Modifs Base de données
+                        $entityManager->persist($media);
+                        $entityManager->flush();
+
+                        $this->addFlash('success', 'Le média a bien été envoyé pour validation');
+                        return $this->redirectToRoute('app_game', ['id' => $game->getId()]);
+
+                    } else {
+                        
+                        $this->addFlash('error', 'Le titre doit faire au minimum 5 mots !');
+                        return $this->redirectToRoute('app_game', ['id' => $game->getId()]);
+                    }
+
+                } 
+                else {
+                    $this->addFlash('error', 'Les données envoyées ne sont pas valides');
+                    return $this->redirectToRoute('app_game', ['id' => $game->getId()]);
+                }   
+            }
+            else {
+                $this->addFlash('error', 'Vous devez être connecté pour publier un média');
+                return $this->redirectToRoute('app_login');
+            }
+        }
+        
+
         return $this->render('game/gameDetails.html.twig', [
             'formAddTopic' => $form->createView(),
+            'formAddMedia' => $form2->createView(),
             'game' => $game,
             'isFavorited' => $isFavorited,
             'gameGenre' => $gameGenre,
@@ -193,6 +277,8 @@ class GameController extends AbstractController
             'userGameNotation' => $userGameNotation,
             'nbrOfNotations' => $nbrOfNotations,
             'averageRating' => $averageRating,
+            'gameMedias' => $gameMediasDesc,
+            'gameMediasCount' => $gameMediasCount,
         ]);
 
     }

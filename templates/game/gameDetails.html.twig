@@ -134,7 +134,7 @@
 
 
 
-        {# Form d'ajout caché, proc JS bouton #}
+        {# Form d'ajout caché Topic, proc JS bouton #}
         <div id="createTopicForm" class="notDisplayed"> 
 
             {{ form_start(formAddTopic) }}
@@ -161,7 +161,7 @@
             
         </div>
 
-        {# Script vérif Front 20 mots minimum #}
+        {# Script vérif Front 5 mots minimum #}
         <script>
             document.getElementById('topic_submit').disabled = true;
 
@@ -214,20 +214,126 @@
         </span>
 
 
-        {# (JS) Show/Hide form addTopic Btn #}
+
+        {# Aperçu Section Média #}
+        <div class="marginTop" style="display:inline-flex; width:100%; justify-content:space-between;">
+            <h3 class="gameSubTitle noMarginBottom" style="background-color:{{ game.color }}">
+                Médias
+                <span class="gameListCount">&nbsp;({{ gameMediasCount }})</span>
+            </h3>
+                
+            {# <a id="createTopicBtn" href="{{ path('app_addGameTopic', {'id': game.id }) }}" class="createButton" style="border-top: 1px solid {{ game.color }}; border-bottom: 1px solid {{ game.color }};"><i class="fa-solid fa-plus" style="color:{{ game.color }}"></i>&nbsp;Créer</a> #}
+            
+            {% if app.user %}
+                <span id="createMediaBtn" class="createButton" style="border-top: 1px solid {{ game.color }}; border-bottom: 1px solid {{ game.color }};"><i class="fa-solid fa-plus" style="color:{{ game.color }}"></i>&nbsp;Créer</span>
+            {% else %}
+                <a href="{{ path('app_login') }}"><span class="createButton" style="border-top: 1px solid {{ game.color }}; border-bottom: 1px solid {{ game.color }};"><i class="fa-solid fa-plus" style="color:{{ game.color }}"></i>&nbsp;Créer</span></a>
+            {% endif %}
+        </div>
+
+
+        <div class="listContainer marginTop">
+            {% for media in gameMedias %}
+                <a href="{{ path('app_topicDetail', {'id': media.id}) }}">
+                    <div class="topicCard" style="border-bottom: 4px solid {{ game.color }}">
+                        <img class="tinyLogo" src="{{ asset('img/games/tinyLogo/' ~ media.game.tinyLogo) }}" />
+                        <span class="topicTitle">{{ media.title|capitalize }}</span>
+                        <span>{{ media.status }}</span>
+                        <span>{{ media.user.pseudo }}</span>
+                        <span class="topicCardPublishDate">{{ time_diff(media.publishDate) }}</span>
+                        {# {% if topic.topicPostsCount == 0 %}
+                            <span style="opacity:0.5;">{{ topic.topicPostsCount }} <i class="fa-solid fa-message" style="color:grey;"></i></span>
+                        {% else %}
+                            <span>{{ topic.topicPostsCount }} <i class="fa-solid fa-message" style="color:{{ topic.game.color }}"></i></span>
+                        {% endif %} #}
+                    </div>
+                </a>
+                <img src="{{ asset("img/medias/" ~ media.url) }}" alt="media" class="mediaImg"/>
+            {% endfor %}
+        </div>
+        <span class="seeAllRedirect">
+            <a href="{{ path('app_allTopics', {'gameIdFrom': game.id}) }}">Tout voir  <i class="fa-solid fa-chevron-right"></i></a>
+        </span>
+
+
+        {# Form d'ajout caché Media, proc JS bouton #}
+        <div id="createMediaForm" class="notDisplayed"> 
+
+            {{ form_start(formAddMedia) }}
+
+                <div class="my-custom-class-for-errors">
+                    {{ form_errors(formAddMedia) }}
+                </div>
+
+                <div class="inline" style="position:relative; margin: 5px auto;">
+                    <span class="labelSpan" style="width:100px;">{{ form_label(formAddMedia.title, 'Titre')}}<span id="charCountMsgMedia" style="color:red;"> (au moins 5 mots)</span></span>
+                    {{ form_widget(formAddMedia.title) }} 
+                </div>
+
+                <span class="submitButton" style="margin: 15px auto;">{{ form_widget(formAddMedia.submit, { 'label': 'Publier' }) }}</span>
+
+                {{ form_widget(formAddMedia._token) }}
+            {{ form_end(formAddMedia) }}
+            
+        </div>
+
+        {# Script vérif Front 5 mots minimum #}
+        <script>
+            document.getElementById('media_submit').disabled = true;
+
+            let charContMsg = document.querySelector("#charCountMsgMedia");
+            let textInput = document.querySelector('#media_title');
+
+            textInput.addEventListener("input", function() {
+
+                console.log("inputText" + textInput.value);
+
+                let text = textInput.value;
+                const words = text.split(" ");
+                const wordCount = words.length;
+
+                if(wordCount <= 5) {
+                    charContMsg.style.color = "red";
+                    document.getElementById('media_submit').disabled = true;
+
+                }
+                else {
+                    charContMsg.style.color = "#00be00";
+                    document.getElementById('media_submit').disabled = false;
+
+                }
+
+            })
+        </script>
+
+
+
+        {# (JS) Show/Hide form addTopic/addMedia Btn #}
         <script>
                 document.querySelector('#createTopicBtn').addEventListener('click', function() {
-
                     document.querySelector('#createTopicForm').classList.toggle("notDisplayed");
-
                     if (document.getElementById('createTopicForm').classList.contains("notDisplayed")) {
                         document.querySelector('#createTopicBtn').innerHTML = '<i class="fa-solid fa-plus" style="color:{{ game.color }}"></i>&nbsp;Créer';
                     }
                     else {
                         document.querySelector('#createTopicBtn').innerHTML = '<i class="fa-solid fa-minus" style="color:{{ game.color }}"></i>&nbsp;Annuler';
                     }
-                })
+                });
+
+                document.querySelector('#createMediaBtn').addEventListener('click', function() {
+                    console.log("test");
+                    document.querySelector('#createMediaForm').classList.toggle("notDisplayed");
+                    if (document.getElementById('createMediaForm').classList.contains("notDisplayed")) {
+                        document.querySelector('#createMediaBtn').innerHTML = '<i class="fa-solid fa-plus" style="color:{{ game.color }}"></i>&nbsp;Poster';
+                    }
+                    else {
+                        document.querySelector('#createMediaBtn').innerHTML = '<i class="fa-solid fa-minus" style="color:{{ game.color }}"></i>&nbsp;Annuler';
+                    }
+                });
+
         </script>
+
+
 
     </div>
 

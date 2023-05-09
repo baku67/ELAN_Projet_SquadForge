@@ -562,6 +562,16 @@ nav {
 }
 
 
+.createButton {
+    cursor: pointer;
+}
+
+.mediaImg {
+    max-width: 100%;
+    margin: 0 auto;
+    display: flex;
+    justify-content: center;
+}
 
 
 
