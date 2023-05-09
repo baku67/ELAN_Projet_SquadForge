@@ -2,6 +2,11 @@
 
 namespace App\Controller;
 
+// Imagine: compression et resize Img Uploads (Médias)
+use Imagine\Image\Box;
+use Imagine\Image\ImageInterface;
+use Imagine\Gd\Imagine;
+
 use Doctrine\ORM\EntityManagerInterface;
 use App\Form\SearchType;
 use App\Form\TopicType;
@@ -250,10 +255,29 @@ class GameController extends AbstractController
                         return $this->redirectToRoute('app_game', ['id' => $game->getId()]);
                     }
 
+                    // Compression et Resize (GIF/PNG ou JPG) avec library "Imagine"
+                    $imagine = new Imagine();
+
+                    // if (in_array($fileExt, ['gif', 'png'], true)) {
+                    //     $image = $imagine->open($mediaImg->getPathname());
+                    //     // $image->resize(new Box(800, 600));
+                    //     $image->save($pathToSave, ['png_compression_level' => 9]);
+                    // }
+                    // else {
+                    //     $image = $imagine->open($mediaImg->getPathname());
+                    //     // $image->resize(new Box(800, 600));
+                    //     $image->save($pathToSave, ['jpeg_quality' => 80]);
+                    // }
+
+
+
+
+
                     $genImgName = $this->generateCustomFileName() . "." . $fileExt;
 
                     try {
                         $mediaImg->move(
+                        // $image->move(
                             $this->getParameter('upload_directory'),
                             $genImgName
                         );

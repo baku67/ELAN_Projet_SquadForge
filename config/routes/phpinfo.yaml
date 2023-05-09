@@ -1,0 +1,3 @@
+phpinfo:
+    path: /phpinfo
+    controller: App\Controller\DefaultController::phpinfo
