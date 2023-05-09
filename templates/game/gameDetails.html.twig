@@ -218,10 +218,13 @@
         <br><br>
         {# Aperçu Section Média #}
         <div class="marginTop" style="display:inline-flex; width:100%; justify-content:space-between;">
-            <h3 class="gameSubTitle noMarginBottom" style="background-color:{{ game.color }}">
-                Médias
-                <span class="gameListCount">&nbsp;({{ gameMediasCount }})</span>
-            </h3>
+            
+            <a href=" {{ path('app_allMedias', {'gameIdFrom': game.id}) }}">
+                <h3 class="gameSubTitle noMarginBottom" style="background-color:{{ game.color }}">
+                    Médias
+                    <span class="gameListCount">&nbsp;({{ gameMediasCount }})</span>
+                </h3>
+            </a>
                 
             {# <a id="createTopicBtn" href="{{ path('app_addGameTopic', {'id': game.id }) }}" class="createButton" style="border-top: 1px solid {{ game.color }}; border-bottom: 1px solid {{ game.color }};"><i class="fa-solid fa-plus" style="color:{{ game.color }}"></i>&nbsp;Créer</a> #}
             
@@ -284,7 +287,7 @@
             {% endfor %}
         </div>
         <span class="seeAllRedirect">
-            <a href="{{ path('app_allTopics', {'gameIdFrom': game.id}) }}">Tout voir  <i class="fa-solid fa-chevron-right"></i></a>
+            <a href="{{ path('app_allMedias', {'gameIdFrom': game.id}) }}">Tout voir  <i class="fa-solid fa-chevron-right"></i></a>
         </span>
 
 

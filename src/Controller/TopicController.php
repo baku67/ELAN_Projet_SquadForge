@@ -16,16 +16,6 @@ use Symfony\Component\HttpFoundation\Request;
 
 class TopicController extends AbstractController
 {
-    #[Route('/topic', name: 'app_topic')]
-    public function index(EntityManagerInterface $entityManager): Response
-    {
-        $topicRepo = $entityManager->getRepository(Topic::class);
-        $gameTopics = $topicRepo->findAll();
-
-        return $this->render('topic/index.html.twig', [
-        ]);
-    }
-
 
     // Tout les Topics du jeu et tout les Topics globaux (pour pouvoir switch le filtre sur la vue)
     #[Route('/allTopics/{gameIdFrom}', name: 'app_allTopics')]
@@ -82,6 +72,8 @@ class TopicController extends AbstractController
         ]);
     }
 
+
+    
     // Tout les Topics globaux (from /homePage)
     #[Route('/allTopicsGlobal', name: 'app_allTopicsGlobal')]
     public function getAllTopicsGlobal(EntityManagerInterface $entityManager): Response

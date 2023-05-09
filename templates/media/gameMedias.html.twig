@@ -1,0 +1,224 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Médias{% endblock %}
+
+{% block body %}
+
+
+    <header class="gameHeader" style="background: url('{{ asset('img/games/banner/' ~ gameFrom.banner ) }}' )">
+        <a href="{{ path('app_home') }}"><img src="{{ asset('img/logoSquadForge_White_Rogned.png') }}" class="logoPng" id="logoPng" /></a>
+        <nav>
+            <a href="{{ path('app_games') }}" style="color:{{ gameFrom.fontColor }};">Jeux</a>
+        </nav>
+        <a href="{{ path('app_game', {'id': gameFrom.id }) }}"><h2 class="headerGameTitle"  style="border-right:15px solid {{ gameFrom.color }};">{{ gameFrom.title }}</h2></a>
+    </header>
+    <div class="headerUnderline" style="background-color: {{ gameFrom.color }}"></div>
+
+
+    <div class="main">
+
+        <p><a class="underlineLink" href="{{ path('app_games') }}">Jeux</a> - <a class="underlineLink" href="{{ path('app_game', {'id': gameFrom.id }) }}">{{ gameFrom.title }}</a> - Topics</p>
+
+        <div class="marginTop" style="display:inline-flex; width:100%; justify-content:space-between;">
+            <h3 class="gameSubTitle noMarginBottom" style="background-color:{{ gameFrom.color }}">
+                Médias
+                <span class="gameListCount">&nbsp;({{ gameMediasCount }})</span>
+            </h3>
+                
+            {# <a id="createTopicBtn" href="{{ path('app_addGameTopic', {'id': game.id }) }}" class="createButton" style="border-top: 1px solid {{ game.color }}; border-bottom: 1px solid {{ game.color }};"><i class="fa-solid fa-plus" style="color:{{ game.color }}"></i>&nbsp;Créer</a> #}
+            
+            {% if app.user %}
+                <span id="createMediaBtn" class="createButton" style="border-top: 1px solid {{ gameFrom.color }}; border-bottom: 1px solid {{ gameFrom.color }};"><i class="fa-solid fa-plus" style="color:{{ gameFrom.color }}"></i>&nbsp;Créer</span>
+            {% else %}
+                <a href="{{ path('app_login') }}"><span class="createButton" style="border-top: 1px solid {{ game.color }}; border-bottom: 1px solid {{ gameFrom.color }};"><i class="fa-solid fa-plus" style="color:{{ gameFrom.color }}"></i>&nbsp;Créer</span></a>
+            {% endif %}
+        </div>
+
+
+        {# Form d'ajout caché Media, proc JS bouton #}
+        <div id="createMediaForm" class="notDisplayed"> 
+
+            {{ form_start(formAddMedia) }}
+
+                <div class="my-custom-class-for-errors">
+                    {{ form_errors(formAddMedia) }}
+                </div>
+
+                <div class="inline" style="position:relative; margin: 5px auto;">
+                    <span class="labelSpan" style="width:100px;">{{ form_label(formAddMedia.title, 'Titre')}}<span id="charCountMsgMedia" style="color:red;"> (au moins 5 mots)</span></span>
+                    {{ form_widget(formAddMedia.title) }} 
+                </div>
+
+                <div class="inline" style="position:relative; margin: 5px auto;">
+                    <span class="labelSpan" style="width:100px;">{{ form_label(formAddMedia.url, 'Choisissez un fichier')}}<span class="fileUploadCriteria"><span id="extensionCriteria">(.png .jpg .gif .jpeg)</span> <span id="fileCriteria">(2MB)</span></span></span>
+                    {{ form_widget(formAddMedia.url) }} 
+                </div>
+
+                <span class="submitButton" style="margin: 15px auto;">{{ form_widget(formAddMedia.submit, { 'label': 'Publier' }) }}</span>
+
+                {{ form_widget(formAddMedia._token) }}
+            {{ form_end(formAddMedia) }}
+            
+        </div>
+
+
+        {# Liste Médias du jeu  #}
+        <div class="listContainer marginTop">
+            {% for media in gameMediasDesc %}
+                <div class="mediaCard">
+                    <a href="{{ path('app_topicDetail', {'id': media.id}) }}">
+                        <div class="mediaCardHeader" style="border-bottom: 4px solid {{ media.game.color }}">
+                            <img class="tinyLogo" src="{{ asset('img/games/tinyLogo/' ~ media.game.tinyLogo) }}" />
+                            <span class="topicTitle">{{ media.title|capitalize }}</span>
+                            <span>{{ media.status }}</span>
+                            <span>{{ media.user.pseudo }}</span>
+                            <span class="topicCardPublishDate">{{ time_diff(media.publishDate) }}</span>
+                            {# {% if topic.topicPostsCount == 0 %}
+                                <span style="opacity:0.5;">{{ topic.topicPostsCount }} <i class="fa-solid fa-message" style="color:grey;"></i></span>
+                            {% else %}
+                                <span>{{ topic.topicPostsCount }} <i class="fa-solid fa-message" style="color:{{ media.game.color }}"></i></span>
+                            {% endif %} #}
+                        </div>
+                    </a>
+                    <img src="{{ asset("img/uploads/" ~ media.url) }}" alt="media" class="mediaImg"/>
+                </div>
+
+                <br>
+                <div style="width:30%; margin: 0 auto; height:1px; background-color: {{ media.game.color }}; opacity:0.5;"></div>
+                <br>
+            {% endfor %}
+        </div>
+
+    </div>
+
+
+
+
+
+
+
+
+
+
+
+
+{# Script vérif fileExtension et fileSize #}
+        <script>
+
+            var textCriteria = false;
+            var fileExtCriteria = false;
+            var fileSizeCriteria = false;
+
+            let fileInput = document.getElementById('media_url');
+            fileInput.addEventListener('change', function(event) {
+                var uploadedFile = event.target.files[0];
+                const maxFileSize = 10 * 1024 * 1024; // 10 MB 
+
+                if (uploadedFile && uploadedFile.size > maxFileSize) {
+                    // event.target.value = ''; // On supprimer le fichier de l'input
+                    document.getElementById('fileCriteria').style.color = 'red';
+                    document.getElementById('fileCriteria').innerHTML = "( > 10 MB <i class='fa-solid fa-triangle-exclamation'></i> )";
+                    fileSizeCriteria = false;
+                }
+                else {
+                    document.getElementById('fileCriteria').style.color = '#00c600';
+                    document.getElementById('fileCriteria').innerHTML = "( 10 MB <i class='fa-solid fa-check'></i> )";
+                    fileSizeCriteria = true;
+                }
+
+                uploadedFileExt = getFileExtension(uploadedFile.name);
+
+                const allowedExtensions = ['png', 'jpg', 'jpeg', 'gif'];
+
+                if (allowedExtensions.includes(uploadedFileExt.toLowerCase())) {
+                    document.getElementById('extensionCriteria').style.color = '#00c600';
+                    document.getElementById('extensionCriteria').innerHTML = "( .png .jpg .gif .jpeg <i class='fa-solid fa-check'></i> )";
+                    fileExtCriteria = true;
+                }
+                else {
+                    document.getElementById('extensionCriteria').style.color = 'red';
+                    document.getElementById('extensionCriteria').innerHTML = "( .png .jpg .gif .jpeg <i class='fa-solid fa-triangle-exclamation'></i> )";
+                    fileExtCriteria = false;        
+                }
+            });
+
+            function getFileExtension(filename) {
+                return filename.split('.').pop();
+            }
+
+
+            {# Script vérif Front 5 mots minimum #}
+
+            let charContMsg2 = document.querySelector("#charCountMsgMedia");
+            let textInput2 = document.querySelector('#media_title');
+
+            textInput2.addEventListener("input", function() {
+
+                let text = textInput2.value;
+                const words = text.split(" ");
+                const wordCount = words.length;
+
+                if(wordCount <= 5) {
+                    charContMsg2.style.color = "red";
+                    textCriteria = false;
+                }
+                else {
+                    charContMsg2.style.color = "#00be00";
+                    textCriteria = true;
+                }
+            })
+
+
+            // disable du bouton submit si les critères ne sont pas remplis
+            document.getElementById('media_submit').disabled = true;
+
+            textInput2.addEventListener("input", function() {
+                if (textCriteria && fileExtCriteria && fileSizeCriteria) {
+                    document.getElementById('media_submit').disabled = false;
+                }
+                else {
+                    document.getElementById('media_submit').disabled = true;
+                }
+            });
+            fileInput.addEventListener("change", function() {
+                if (textCriteria && fileExtCriteria && fileSizeCriteria) {
+                    document.getElementById('media_submit').disabled = false;
+                }
+                else {
+                    document.getElementById('media_submit').disabled = true;
+                }
+            });
+        </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    {# (JS) Show/Hide form addTopic/addMedia Btn #}
+        <script>
+                document.querySelector('#createMediaBtn').addEventListener('click', function() {
+                    console.log("test");
+                    document.querySelector('#createMediaForm').classList.toggle("notDisplayed");
+                    if (document.getElementById('createMediaForm').classList.contains("notDisplayed")) {
+                        document.querySelector('#createMediaBtn').innerHTML = '<i class="fa-solid fa-plus" style="color:{{ gameFrom.color }}"></i>&nbsp;Poster';
+                    }
+                    else {
+                        document.querySelector('#createMediaBtn').innerHTML = '<i class="fa-solid fa-minus" style="color:{{ gameFrom.color }}"></i>&nbsp;Annuler';
+                    }
+                });
+
+        </script>
+
+
+{% endblock %}
