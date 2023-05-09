@@ -1,6 +1,12 @@
+Library: Imagine -> need extension php "GD"  (resize/compress img/gifs/png)
+
+Médias: il faut click sur "GIF" pour lancer la vidéo (sinon lancé au chargement de la page et désynchro avec le scroll user ducoup)
+
 Urgent: renommer DB table "topic_post_user" (= likeTopicPost) car peut être confondu avec author
 
 Dans /home: mettre un flux Médias global basé sur les favoris (et auto gen quand scroll bottom infini) + trending (date et score)
+
+
 
 En cours:
     Profil: list Topic publié

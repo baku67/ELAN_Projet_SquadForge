@@ -256,7 +256,7 @@ class GameController extends AbstractController
                     }
 
                     // Compression et Resize (GIF/PNG ou JPG) avec library "Imagine"
-                    $imagine = new Imagine();
+                    // $imagine = new Imagine();
 
                     // if (in_array($fileExt, ['gif', 'png'], true)) {
                     //     $image = $imagine->open($mediaImg->getPathname());
@@ -268,9 +268,6 @@ class GameController extends AbstractController
                     //     // $image->resize(new Box(800, 600));
                     //     $image->save($pathToSave, ['jpeg_quality' => 80]);
                     // }
-
-
-
 
 
                     $genImgName = $this->generateCustomFileName() . "." . $fileExt;

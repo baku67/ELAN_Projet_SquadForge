@@ -604,13 +604,13 @@ nav {
 #charCountMsgMedia, #charCountMsg {
     font-family: 'K2D', sans-serif;
     margin: 0 6px;
-    font-size: 0.65em;
+    font-size: 0.72em;
 }
 
 .fileUploadCriteria {
     font-family: 'K2D', sans-serif;
     margin: 0 10px;
-    font-size: 0.65em;
+    font-size: 0.72em;
     color: red;
 }
 
