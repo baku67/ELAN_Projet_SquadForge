@@ -245,7 +245,7 @@ class GameController extends AbstractController
                     // Vérification de la taille du fichier + Vérif que c'est bien un fichier qui est uploadé (pour pouvoir utiliser getSize())
                     // Attention: vérifications Front en amont "maxFileSize" dans "gameDetails.html.twig"
                     $maxFileSize = 10 * 1024 * 1024; /* (10MB) */
-                    if ($uploadedFile instanceof UploadedFile && $uploadedFile->getSize() > $maxFileSize) {
+                    if ($mediaImg instanceof UploadedFile && $mediaImg->getSize() > $maxFileSize) {
                         $this->addFlash('error', 'Le fichier est trop volumineux');
                         return $this->redirectToRoute('app_game', ['id' => $game->getId()]);
                     }

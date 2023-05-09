@@ -215,7 +215,7 @@
         </span>
 
 
-
+        <br><br>
         {# Aperçu Section Média #}
         <div class="marginTop" style="display:inline-flex; width:100%; justify-content:space-between;">
             <h3 class="gameSubTitle noMarginBottom" style="background-color:{{ game.color }}">
@@ -261,21 +261,26 @@
 
         <div class="listContainer marginTop">
             {% for media in gameMedias %}
-                <a href="{{ path('app_topicDetail', {'id': media.id}) }}">
-                    <div class="topicCard" style="border-bottom: 4px solid {{ game.color }}">
-                        <img class="tinyLogo" src="{{ asset('img/games/tinyLogo/' ~ media.game.tinyLogo) }}" />
-                        <span class="topicTitle">{{ media.title|capitalize }}</span>
-                        <span>{{ media.status }}</span>
-                        <span>{{ media.user.pseudo }}</span>
-                        <span class="topicCardPublishDate">{{ time_diff(media.publishDate) }}</span>
-                        {# {% if topic.topicPostsCount == 0 %}
-                            <span style="opacity:0.5;">{{ topic.topicPostsCount }} <i class="fa-solid fa-message" style="color:grey;"></i></span>
-                        {% else %}
-                            <span>{{ topic.topicPostsCount }} <i class="fa-solid fa-message" style="color:{{ topic.game.color }}"></i></span>
-                        {% endif %} #}
-                    </div>
-                </a>
-                <img src="{{ asset("img/uploads/" ~ media.url) }}" alt="media" class="mediaImg"/>
+                <div class="mediaCard">
+                    <a href="{{ path('app_topicDetail', {'id': media.id}) }}">
+                        <div class="mediaCardHeader" style="border-bottom: 4px solid {{ game.color }}">
+                            <img class="tinyLogo" src="{{ asset('img/games/tinyLogo/' ~ media.game.tinyLogo) }}" />
+                            <span class="topicTitle">{{ media.title|capitalize }}</span>
+                            <span>{{ media.status }}</span>
+                            <span>{{ media.user.pseudo }}</span>
+                            <span class="topicCardPublishDate">{{ time_diff(media.publishDate) }}</span>
+                            {# {% if topic.topicPostsCount == 0 %}
+                                <span style="opacity:0.5;">{{ topic.topicPostsCount }} <i class="fa-solid fa-message" style="color:grey;"></i></span>
+                            {% else %}
+                                <span>{{ topic.topicPostsCount }} <i class="fa-solid fa-message" style="color:{{ topic.game.color }}"></i></span>
+                            {% endif %} #}
+                        </div>
+                    </a>
+                    <img src="{{ asset("img/uploads/" ~ media.url) }}" alt="media" class="mediaImg"/>
+                </div>
+
+                <br>
+                <div style="width:30%; margin: 0 auto; height:1px; background-color: {{ game.color }}; opacity:0.5;"></div>
                 <br>
             {% endfor %}
         </div>

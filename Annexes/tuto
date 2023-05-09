@@ -1,5 +1,7 @@
 Urgent: renommer DB table "topic_post_user" (= likeTopicPost) car peut être confondu avec author
 
+Dans /home: mettre un flux Médias global basé sur les favoris (et auto gen quand scroll bottom infini) + trending (date et score)
+
 En cours:
     Profil: list Topic publié
     Topic Détails depuis Game et Profil
