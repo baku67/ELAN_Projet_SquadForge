@@ -287,7 +287,13 @@
 
         {# Script vérif fileExtension et fileSize #}
         <script>
-            document.getElementById('media_url').addEventListener('change', function(event) {
+
+            var textCriteria = false;
+            var fileExtCriteria = false;
+            var fileSizeCriteria = false;
+
+            let fileInput = document.getElementById('media_url');
+            fileInput.addEventListener('change', function(event) {
                 var uploadedFile = event.target.files[0];
                 const maxFileSize = 10 * 1024 * 1024; // 10 MB 
 
@@ -295,10 +301,12 @@
                     // event.target.value = ''; // On supprimer le fichier de l'input
                     document.getElementById('fileCriteria').style.color = 'red';
                     document.getElementById('fileCriteria').innerHTML = "( > 10 MB <i class='fa-solid fa-triangle-exclamation'></i> )";
+                    fileSizeCriteria = false;
                 }
                 else {
                     document.getElementById('fileCriteria').style.color = '#00c600';
                     document.getElementById('fileCriteria').innerHTML = "( 10 MB <i class='fa-solid fa-check'></i> )";
+                    fileSizeCriteria = true;
                 }
 
                 uploadedFileExt = getFileExtension(uploadedFile.name);
@@ -308,11 +316,12 @@
                 if (allowedExtensions.includes(uploadedFileExt.toLowerCase())) {
                     document.getElementById('extensionCriteria').style.color = '#00c600';
                     document.getElementById('extensionCriteria').innerHTML = "( .png .jpg .gif .jpeg <i class='fa-solid fa-check'></i> )";
+                    fileExtCriteria = true;
                 }
                 else {
                     document.getElementById('extensionCriteria').style.color = 'red';
                     document.getElementById('extensionCriteria').innerHTML = "( .png .jpg .gif .jpeg <i class='fa-solid fa-triangle-exclamation'></i> )";
-
+                    fileExtCriteria = false;        
                 }
             });
 
@@ -320,20 +329,13 @@
                 return filename.split('.').pop();
             }
 
-        </script>
 
-
-
-        {# Script vérif Front 5 mots minimum #}
-        <script>
-            document.getElementById('media_submit').disabled = true;
+            {# Script vérif Front 5 mots minimum #}
 
             let charContMsg2 = document.querySelector("#charCountMsgMedia");
             let textInput2 = document.querySelector('#media_title');
 
             textInput2.addEventListener("input", function() {
-
-                console.log("inputText" + textInput2.value);
 
                 let text = textInput2.value;
                 const words = text.split(" ");
@@ -341,16 +343,34 @@
 
                 if(wordCount <= 5) {
                     charContMsg2.style.color = "red";
-                    document.getElementById('media_submit').disabled = true;
-
+                    textCriteria = false;
                 }
                 else {
                     charContMsg2.style.color = "#00be00";
-                    document.getElementById('media_submit').disabled = false;
-
+                    textCriteria = true;
                 }
-
             })
+
+
+            // disable du bouton submit si les critères ne sont pas remplis
+            document.getElementById('media_submit').disabled = true;
+
+            textInput2.addEventListener("input", function() {
+                if (textCriteria && fileExtCriteria && fileSizeCriteria) {
+                    document.getElementById('media_submit').disabled = false;
+                }
+                else {
+                    document.getElementById('media_submit').disabled = true;
+                }
+            });
+            fileInput.addEventListener("change", function() {
+                if (textCriteria && fileExtCriteria && fileSizeCriteria) {
+                    document.getElementById('media_submit').disabled = false;
+                }
+                else {
+                    document.getElementById('media_submit').disabled = true;
+                }
+            });
         </script>
 
 
