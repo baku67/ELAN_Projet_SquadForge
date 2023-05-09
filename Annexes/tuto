@@ -2,6 +2,9 @@ Library: Imagine -> need extension php "GD"  (resize/compress img/gifs/png)
 
 Médias: il faut click sur "GIF" pour lancer la vidéo (sinon lancé au chargement de la page et désynchro avec le scroll user ducoup)
 
+Sur homepage: intégrer fav user si app.user tout en haut (juste logo avec color) /!\
+Sur homepage: "voit tout" médias 
+
 Factoriser form ajouts topics depuis mini-list et listDetails
 
 Dans /home: mettre un flux Médias global basé sur les favoris (et auto gen quand scroll bottom infini) + trending (date et score)

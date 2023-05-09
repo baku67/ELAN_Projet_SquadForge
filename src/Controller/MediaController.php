@@ -41,9 +41,6 @@ class MediaController extends AbstractController
 
 
 
-
-
-
         // Form ajout Media (Affichage et handleRequest)
         $media = new Media();
         $form2 = $this->createForm(MediaType::class, $media);
@@ -152,13 +149,6 @@ class MediaController extends AbstractController
 
 
 
-
-
-
-
-
-
-
         if ($gameIdFrom != "home") {
             $from = "game";
         }
@@ -179,16 +169,51 @@ class MediaController extends AbstractController
 
 
 
-
-
-
-
-
     private function generateCustomFileName(): string
     {
         // Implement your custom logic to generate the file name
         // For example, you can use a combination of timestamp and a unique identifier
         return uniqid() . '_' . time();
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    // Tout les Medias globaux (from /homePage)
+    #[Route('/allMediasGlobal', name: 'app_allMediasGlobal')]
+    public function getAllMediasGlobal(EntityManagerInterface $entityManager): Response
+    {
+
+        $gameRepo = $entityManager->getRepository(Game::class);
+        $mediaRepo = $entityManager->getRepository(Media::class);
+
+        // Liste de tous les Médias 
+        // Todo: findBy plutot
+        $queryBuilder = $entityManager->createQueryBuilder();
+        $queryBuilder->select('m')
+            ->from('App\Entity\Media', 'm')
+            ->orderBy('m.publish_date', 'DESC');
+        $allMediasDesc = $queryBuilder->getQuery()->getResult();
+
+        $allMediasCount = count($allMediasDesc);
+
+
+        return $this->render('media/allMediasGlobal.html.twig', [
+            'allMediasDesc' => $allMediasDesc,
+            'allMediasCount' => $allMediasCount,
+        ]);
     }
 
 }

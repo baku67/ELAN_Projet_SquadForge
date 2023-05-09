@@ -7,6 +7,7 @@ use App\Entity\Game;
 use App\Entity\Genre;
 use App\Entity\User;
 use App\Entity\Topic;
+use App\Entity\Media;
 use Doctrine\ORM\PersistentCollection;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -53,8 +54,8 @@ class SecurityController extends AbstractController
     public function homepage(EntityManagerInterface $entityManager)
     {
 
+        // Homepage: 5 derniers Topics
         $topicManager = $entityManager->getRepository(Topic::class);
-        // $lastTopics = $topicManager->findAll();
 
         $queryBuilder = $entityManager->createQueryBuilder();
         $queryBuilder->select('t')
@@ -63,12 +64,22 @@ class SecurityController extends AbstractController
             ->setMaxResults(5); 
         $lastTopics = $queryBuilder->getQuery()->getResult();
 
-        $gameTopicsCount = count($lastTopics);
+
+        // Homepage: 5 derniers Médias
+        $MediaManager = $entityManager->getRepository(Media::class);
+                
+        $queryBuilder = $entityManager->createQueryBuilder();
+        $queryBuilder->select('m')
+            ->from('App\Entity\Media', 'm')
+            ->orderBy('m.publish_date', 'DESC')
+            ->setMaxResults(5); 
+        $lastMedias = $queryBuilder->getQuery()->getResult();
+
 
 
         return $this->render('security/home.html.twig', [
             'lastTopics' => $lastTopics,
-            'gameTopicsCount' => $gameTopicsCount
+            'lastMedias' => $lastMedias,
         ]);
         throw new \LogicException('This method can be blank - it will be intercepted by the logout key on your firewall.');
     }
