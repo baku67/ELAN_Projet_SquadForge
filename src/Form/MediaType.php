@@ -22,11 +22,11 @@ class MediaType extends AbstractType
                 'required' => true,
                 'attr' => ["class" => "form-control"]
             ])
-            // ->add('file', FileType::class, [
-            //     'label' => 'Choisissez un fichier',
-            //     'required' => true, 
-            //     'attr' => ["class" => "form-control"]
-            // ])
+            ->add('url', FileType::class, [
+                'label' => 'Choisissez un fichier',
+                'required' => true, 
+                'attr' => ["class" => "form-control"]
+            ])
             // ->add('publish_date')
             // ->add('url')
             // ->add('status')

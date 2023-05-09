@@ -117,11 +117,12 @@
 
         {# Ligne "Topics" + Bouton "+Créer" #}
         <div class="marginTop" style="display:inline-flex; width:100%; justify-content:space-between;">
-            <h3 class="gameSubTitle noMarginBottom" style="background-color:{{ game.color }}">
-                Topics
-                <span class="gameListCount">&nbsp;({{ gameTopicsCount }})</span>
-            </h3>
-                
+            <a href="{{ path('app_allTopics', {'gameIdFrom': game.id}) }}">
+                <h3 class="gameSubTitle noMarginBottom" style="background-color:{{ game.color }}">
+                    Topics
+                    <span class="gameListCount">&nbsp;({{ gameTopicsCount }})</span>
+                </h3>
+            </a>  
             {# <a id="createTopicBtn" href="{{ path('app_addGameTopic', {'id': game.id }) }}" class="createButton" style="border-top: 1px solid {{ game.color }}; border-bottom: 1px solid {{ game.color }};"><i class="fa-solid fa-plus" style="color:{{ game.color }}"></i>&nbsp;Créer</a> #}
             
             {% if app.user %}
@@ -161,7 +162,7 @@
             
         </div>
 
-        {# Script vérif Front 5 mots minimum #}
+        {# Script vérif Topic Front 5 mots minimum #}
         <script>
             document.getElementById('topic_submit').disabled = true;
 
@@ -231,6 +232,32 @@
             {% endif %}
         </div>
 
+        {# Form d'ajout caché Media, proc JS bouton #}
+        <div id="createMediaForm" class="notDisplayed"> 
+
+            {{ form_start(formAddMedia) }}
+
+                <div class="my-custom-class-for-errors">
+                    {{ form_errors(formAddMedia) }}
+                </div>
+
+                <div class="inline" style="position:relative; margin: 5px auto;">
+                    <span class="labelSpan" style="width:100px;">{{ form_label(formAddMedia.title, 'Titre')}}<span id="charCountMsgMedia" style="color:red;"> (au moins 5 mots)</span></span>
+                    {{ form_widget(formAddMedia.title) }} 
+                </div>
+
+                <div class="inline" style="position:relative; margin: 5px auto;">
+                    <span class="labelSpan" style="width:100px;">{{ form_label(formAddMedia.url, 'Choisissez un fichier')}}<span class="fileUploadCriteria"><span id="extensionCriteria">(.png .jpg .gif .jpeg)</span> <span id="fileCriteria">(2MB)</span></span></span>
+                    {{ form_widget(formAddMedia.url) }} 
+                </div>
+
+                <span class="submitButton" style="margin: 15px auto;">{{ form_widget(formAddMedia.submit, { 'label': 'Publier' }) }}</span>
+
+                {{ form_widget(formAddMedia._token) }}
+            {{ form_end(formAddMedia) }}
+            
+        </div>
+
 
         <div class="listContainer marginTop">
             {% for media in gameMedias %}
@@ -248,7 +275,8 @@
                         {% endif %} #}
                     </div>
                 </a>
-                <img src="{{ asset("img/medias/" ~ media.url) }}" alt="media" class="mediaImg"/>
+                <img src="{{ asset("img/uploads/" ~ media.url) }}" alt="media" class="mediaImg"/>
+                <br>
             {% endfor %}
         </div>
         <span class="seeAllRedirect">
@@ -256,49 +284,68 @@
         </span>
 
 
-        {# Form d'ajout caché Media, proc JS bouton #}
-        <div id="createMediaForm" class="notDisplayed"> 
 
-            {{ form_start(formAddMedia) }}
+        {# Script vérif fileExtension et fileSize #}
+        <script>
+            document.getElementById('media_url').addEventListener('change', function(event) {
+                var uploadedFile = event.target.files[0];
+                const maxFileSize = 10 * 1024 * 1024; // 10 MB 
 
-                <div class="my-custom-class-for-errors">
-                    {{ form_errors(formAddMedia) }}
-                </div>
+                if (uploadedFile && uploadedFile.size > maxFileSize) {
+                    // event.target.value = ''; // On supprimer le fichier de l'input
+                    document.getElementById('fileCriteria').style.color = 'red';
+                    document.getElementById('fileCriteria').innerHTML = "( > 10 MB <i class='fa-solid fa-triangle-exclamation'></i> )";
+                }
+                else {
+                    document.getElementById('fileCriteria').style.color = '#00c600';
+                    document.getElementById('fileCriteria').innerHTML = "( 10 MB <i class='fa-solid fa-check'></i> )";
+                }
 
-                <div class="inline" style="position:relative; margin: 5px auto;">
-                    <span class="labelSpan" style="width:100px;">{{ form_label(formAddMedia.title, 'Titre')}}<span id="charCountMsgMedia" style="color:red;"> (au moins 5 mots)</span></span>
-                    {{ form_widget(formAddMedia.title) }} 
-                </div>
+                uploadedFileExt = getFileExtension(uploadedFile.name);
 
-                <span class="submitButton" style="margin: 15px auto;">{{ form_widget(formAddMedia.submit, { 'label': 'Publier' }) }}</span>
+                const allowedExtensions = ['png', 'jpg', 'jpeg', 'gif'];
 
-                {{ form_widget(formAddMedia._token) }}
-            {{ form_end(formAddMedia) }}
-            
-        </div>
+                if (allowedExtensions.includes(uploadedFileExt.toLowerCase())) {
+                    document.getElementById('extensionCriteria').style.color = '#00c600';
+                    document.getElementById('extensionCriteria').innerHTML = "( .png .jpg .gif .jpeg <i class='fa-solid fa-check'></i> )";
+                }
+                else {
+                    document.getElementById('extensionCriteria').style.color = 'red';
+                    document.getElementById('extensionCriteria').innerHTML = "( .png .jpg .gif .jpeg <i class='fa-solid fa-triangle-exclamation'></i> )";
+
+                }
+            });
+
+            function getFileExtension(filename) {
+                return filename.split('.').pop();
+            }
+
+        </script>
+
+
 
         {# Script vérif Front 5 mots minimum #}
         <script>
             document.getElementById('media_submit').disabled = true;
 
-            let charContMsg = document.querySelector("#charCountMsgMedia");
-            let textInput = document.querySelector('#media_title');
+            let charContMsg2 = document.querySelector("#charCountMsgMedia");
+            let textInput2 = document.querySelector('#media_title');
 
-            textInput.addEventListener("input", function() {
+            textInput2.addEventListener("input", function() {
 
-                console.log("inputText" + textInput.value);
+                console.log("inputText" + textInput2.value);
 
-                let text = textInput.value;
+                let text = textInput2.value;
                 const words = text.split(" ");
                 const wordCount = words.length;
 
                 if(wordCount <= 5) {
-                    charContMsg.style.color = "red";
+                    charContMsg2.style.color = "red";
                     document.getElementById('media_submit').disabled = true;
 
                 }
                 else {
-                    charContMsg.style.color = "#00be00";
+                    charContMsg2.style.color = "#00be00";
                     document.getElementById('media_submit').disabled = false;
 
                 }

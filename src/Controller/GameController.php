@@ -15,6 +15,7 @@ use App\Entity\Media;
 use Doctrine\ORM\PersistentCollection;
 
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
@@ -231,12 +232,42 @@ class GameController extends AbstractController
                     // Récupération du titre
                     $titleInputValue = $form2->get('title')->getData();
 
+                    // Récupération de l'image du média
+                    $mediaImg = $form2->get('url')->getData();
+
+                    // Vérification de l'extension (.png, .jpg, .jpeg, .gif)
+                    $fileExt = $mediaImg->getClientOriginalExtension();
+                    if ($fileExt != "png" && $fileExt != "jpg" && $fileExt != "jpeg" && $fileExt != "gif") {
+                        $this->addFlash('error', 'Le format "' . $fileExt . '" n\'est pas supporté');
+                        return $this->redirectToRoute('app_game', ['id' => $game->getId()]);
+                    }
+
+                    // Vérification de la taille du fichier + Vérif que c'est bien un fichier qui est uploadé (pour pouvoir utiliser getSize())
+                    // Attention: vérifications Front en amont "maxFileSize" dans "gameDetails.html.twig"
+                    $maxFileSize = 10 * 1024 * 1024; /* (10MB) */
+                    if ($uploadedFile instanceof UploadedFile && $uploadedFile->getSize() > $maxFileSize) {
+                        $this->addFlash('error', 'Le fichier est trop volumineux');
+                        return $this->redirectToRoute('app_game', ['id' => $game->getId()]);
+                    }
+
+                    $genImgName = $this->generateCustomFileName() . "." . $fileExt;
+
+                    try {
+                        $mediaImg->move(
+                            $this->getParameter('upload_directory'),
+                            $genImgName
+                        );
+                    } catch (FileException $e) {
+                        $this->addFlash('error', 'Il y a eu un problème lors de l\'upload du fichier');
+                        return $this->redirectToRoute('app_game', ['id' => $game->getId()]);
+                    }
+                    $media->setUrl($genImgName);
+
+
                     // Liste des mots du commentaires
                     $words = str_word_count($titleInputValue, 1);
-
                     // Décompte du nombre de mots dans la liste
                     $wordCount = count($words);
-
                     // Vérification du compte de mots
                     if ($wordCount >= 5) {
 
@@ -281,6 +312,13 @@ class GameController extends AbstractController
             'gameMediasCount' => $gameMediasCount,
         ]);
 
+    }
+
+    private function generateCustomFileName(): string
+    {
+        // Implement your custom logic to generate the file name
+        // For example, you can use a combination of timestamp and a unique identifier
+        return uniqid() . '_' . time();
     }
 
 
