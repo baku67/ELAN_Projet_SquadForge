@@ -265,7 +265,7 @@
 
             {% for media in gameMedias %}
 
-                 <a href="{{ path('app_mediaDetail', {'id': media.id}) }}">
+                <a href="{{ path('app_mediaDetail', {'id': media.id}) }}">
 
                     <div class="mediaCard">
                             <div class="mediaCardHeader" style="border-bottom: 4px solid {{ game.color }}">
@@ -283,9 +283,16 @@
                         <img src="{{ asset("img/uploads/" ~ media.url) }}" alt="media" class="mediaImg"/>
                     </div>
 
-                    <p>test score</p>
+                </a>
 
-                 </a>
+                <i class="fa-regular fa-circle-up"></i><i class="fa-regular fa-circle-down"></i>
+                <p>test score</p>
+
+                {% if media.mediaPostsCount == 0 %}
+                    <span style="opacity:0.5;">{{ media.mediaPostsCount }} <i class="fa-solid fa-message" style="color:grey;"></i></span>
+                {% else %}
+                    <span>{{ media.mediaPostsCount }} <i class="fa-solid fa-message" style="color:{{ media.game.color }}"></i></span>
+                {% endif %}
 
                 <br>
                 <div style="width:30%; margin: 0 auto; height:1px; background-color: {{ game.color }}; opacity:0.5;"></div>

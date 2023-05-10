@@ -509,14 +509,25 @@ nav {
 }
 
 
-.topicPost {
+.topicPost, .mediaPost {
     background-color: rgb(68 68 68);
     color: white;
     font-family: 'K2D', sans-serif;
     padding: 5px 20px;
     margin: 2px auto;
     border-radius: 3px;
+    display: inline-flex;
+    width: 100%;
+    justify-content: space-between;
 }
+
+.postContent {
+    display: inline-flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+
 .topicFirstMsg {
     /* background-color: rgb(30 30 30) !important; */
     font-family: 'K2D', sans-serif;
@@ -677,11 +688,6 @@ nav {
 
 
 
-.topicPost {
-    display: inline-flex;
-    width: 100%;
-    justify-content: space-between;
-}
 
 .fa-caret-up, .fa-caret-down {
     color: rgb(165, 165, 165);
@@ -689,11 +695,6 @@ nav {
 }
 
 
-.postContent {
-    display: inline-flex;
-    flex-direction: column;
-    justify-content: space-between;
-}
 
 
 

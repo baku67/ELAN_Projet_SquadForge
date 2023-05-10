@@ -44,6 +44,16 @@
 
                 </a>
 
+                <i class="fa-regular fa-circle-up"></i><i class="fa-regular fa-circle-down"></i>
+                <p>test score</p>
+                
+                {% if media.mediaPostsCount == 0 %}
+                    <span style="opacity:0.5;">{{ media.mediaPostsCount }} <i class="fa-solid fa-message" style="color:grey;"></i></span>
+                {% else %}
+                    <span>{{ media.mediaPostsCount }} <i class="fa-solid fa-message" style="color:{{ media.game.color }}"></i></span>
+                {% endif %}
+
+
                 <br>
                 <div style="width:30%; margin: 0 auto; height:1px; background-color: {{ media.game.color }}; opacity:0.5;"></div>
                 <br>

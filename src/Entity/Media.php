@@ -154,6 +154,7 @@ class Media
     {
         return count($this->mediaPosts);
     }
+    
 
     public function addMediaPost(MediaPost $mediaPost): self
     {
