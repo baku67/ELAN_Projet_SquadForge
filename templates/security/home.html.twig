@@ -72,70 +72,75 @@
             </h3>
         </a>
 
-        <div class="listContainer marginTop">
+        <div class="listContainer marginTop mediaListGrid">
 
             {% for media in lastMedias %}
 
-                {% if app.user and app.user.autoPlayGifs %}
-                <a href="{{ path('app_mediaDetail', {'id': media.id}) }}">
-                {% endif %}
-                    
+                <div style="height:fit-content;">
 
-                    <div class="mediaCard">
+                    {% if app.user and app.user.autoPlayGifs %}
+                    <a href="{{ path('app_mediaDetail', {'id': media.id}) }}">
+                    {% endif %}
+                        
+
+                        <div class="mediaCard">
 
 
-                        {% if app.user and not app.user.autoPlayGifs %}
-                        <a href="{{ path('app_mediaDetail', {'id': media.id}) }}">
-                        {% endif %}
-                        <div class="mediaCardHeader" style="border-bottom: 4px solid {{ media.game.color }}">
-                            <img class="tinyLogo" src="{{ asset('img/games/tinyLogo/' ~ media.game.tinyLogo) }}" />
-                            <span class="topicTitle">{{ media.title|capitalize }}</span>
-                            <span>{{ media.status }}</span>
-                            <span>{{ media.user.pseudo }}</span>
-                            <span class="topicCardPublishDate">{{ time_diff(media.publishDate) }}</span>
-                        </div>
-                        {% if app.user and not app.user.autoPlayGifs %}
-                        </a>
-                        {% endif %}
+                            {% if app.user and not app.user.autoPlayGifs %}
+                            <a href="{{ path('app_mediaDetail', {'id': media.id}) }}">
+                            {% endif %}
+                            <div class="mediaCardHeader" style="border-bottom: 5px solid {{ media.game.color }}">
+                                <img class="tinyLogo" src="{{ asset('img/games/tinyLogo/' ~ media.game.tinyLogo) }}" />
+                                <span class="topicTitle">{{ media.title|capitalize }}</span>
+                                <span>{{ media.status }}</span>
+                                <span>{{ media.user.pseudo }}</span>
+                                <span class="topicCardPublishDate">{{ time_diff(media.publishDate) }}</span>
+                            </div>
+                            {% if app.user and not app.user.autoPlayGifs %}
+                            </a>
+                            {% endif %}
 
-                        {# Gif autoplay=false si paramètre user #}
-                        {% if app.user %}
-                            {% if not app.user.autoPlayGifs %}
-                                <img data-gifffer="{{ asset("img/uploads/" ~ media.url) }}" data-gifffer-alt="media" class="mediaImg" />
+                            {# Gif autoplay=false si paramètre user #}
+                            {% if app.user %}
+                                {% if not app.user.autoPlayGifs %}
+                                    <img data-gifffer="{{ asset("img/uploads/" ~ media.url) }}" data-gifffer-alt="media" class="mediaImg" />
+                                {% else %}
+                                    <img src="{{ asset("img/uploads/" ~ media.url) }}" alt="media" class="mediaImg" />
+                                {% endif %}
                             {% else %}
                                 <img src="{{ asset("img/uploads/" ~ media.url) }}" alt="media" class="mediaImg" />
                             {% endif %}
-                        {% else %}
-                            <img src="{{ asset("img/uploads/" ~ media.url) }}" alt="media" class="mediaImg" />
-                        {% endif %}
-                        
-                    </div>
+                            
+                        </div>
 
-                {% if app.user and app.user.autoPlayGifs %}
-                </a>
-                {% endif %}
+                    {% if app.user and app.user.autoPlayGifs %}
+                    </a>
+                    {% endif %}
 
 
-                {% if app.user and not app.user.autoPlayGifs %}
-                    <a href="{{ path('app_mediaDetail', {'id': media.id}) }}">Voir</a>
-                {% endif %}
+                    {% if app.user and not app.user.autoPlayGifs %}
+                        <a href="{{ path('app_mediaDetail', {'id': media.id}) }}">Voir</a>
+                    {% endif %}
 
 
 
-                {# Upvote/downvote média + score + nbrPosts #}
-                <i class="fa-regular fa-circle-up"></i><i class="fa-regular fa-circle-down"></i>
-                <p>test score</p>
-                
-                {% if media.mediaPostsCount == 0 %}
-                    <span style="opacity:0.5;">{{ media.mediaPostsCount }} <i class="fa-solid fa-message" style="color:grey;"></i></span>
-                {% else %}
-                    <span>{{ media.mediaPostsCount }} <i class="fa-solid fa-message" style="color:{{ media.game.color }}"></i></span>
-                {% endif %}
+                    {# Upvote/downvote média + score + nbrPosts #}
+                    <i class="fa-regular fa-circle-up"></i><i class="fa-regular fa-circle-down"></i>
+                    <p>test score</p>
+                    
+                    {% if media.mediaPostsCount == 0 %}
+                        <span style="opacity:0.5;">{{ media.mediaPostsCount }} <i class="fa-solid fa-message" style="color:grey;"></i></span>
+                    {% else %}
+                        <span>{{ media.mediaPostsCount }} <i class="fa-solid fa-message" style="color:{{ media.game.color }}"></i></span>
+                    {% endif %}
 
 
-                <br>
-                <div style="width:30%; margin: 0 auto; height:1px; background-color: {{ media.game.color }}; opacity:0.5;"></div>
-                <br>
+                    <br>
+                    {# <div style="width:100%; margin: 0 auto; height:3px; background-color: {{ media.game.color }}; opacity:0.5;"></div> #}
+                    <br>
+
+                </div>
+
             {% endfor %}
         </div>
 

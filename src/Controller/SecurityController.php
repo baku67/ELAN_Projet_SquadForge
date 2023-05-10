@@ -87,7 +87,7 @@ class SecurityController extends AbstractController
         $queryBuilder->select('m')
             ->from('App\Entity\Media', 'm')
             ->orderBy('m.publish_date', 'DESC')
-            ->setMaxResults(5); 
+            ->setMaxResults(10); 
         $lastMedias = $queryBuilder->getQuery()->getResult();
 
 

@@ -632,10 +632,20 @@ nav {
     padding: 1px 1px 1px 1px;
 }
 
+.mediaList {
+    width: 55%;
+    margin: 30px auto;
+}
 
 
+.mediaListGrid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    grid-template-rows: masonry;
+    grid-column-gap: 7px;
+    grid-row-gap: 0px;
 
-
+}
 
 
 

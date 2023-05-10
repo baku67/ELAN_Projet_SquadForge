@@ -199,7 +199,7 @@ class GameController extends AbstractController
             ->where('m.game = :game')
             ->setParameter('game', $game)
             ->orderBy('m.publish_date', 'DESC')
-            ->setMaxResults(5); 
+            ->setMaxResults(10); 
         $gameMediasDesc = $queryBuilder->getQuery()->getResult();
 
         // Compte des médias du jeu
