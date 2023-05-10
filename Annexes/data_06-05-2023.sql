@@ -14,7 +14,7 @@
 /*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
--- Listage des données de la table squadforge.doctrine_migration_versions : ~0 rows (environ)
+-- Listage des données de la table squadforge.doctrine_migration_versions : ~2 rows (environ)
 INSERT INTO `doctrine_migration_versions` (`version`, `executed_at`, `execution_time`) VALUES
 	('DoctrineMigrations\\Version20230430131901', '2023-05-01 19:46:44', 43),
 	('DoctrineMigrations\\Version20230430154643', '2023-05-01 19:46:44', 8);
@@ -27,7 +27,7 @@ INSERT INTO `game` (`id`, `genre_id`, `title`, `editor`, `publish_date`, `descri
 	(4, 1, 'Valorant', 'Riot Games', '2021-05-02 01:41:56', 'Fps mélange entre Overwatch et Counter Strike', '#ff4655', 'valorantLogo.png', 'valorantBanner.jpg', 'white', 'valorant1.png'),
 	(5, 3, 'PUBG', 'Krafton', '2016-05-02 02:52:53', 'Battle royal pas ouf', '#ffd632', 'pubgLogo.jpeg', 'pubgBanner.jpg', 'white', 'pubg1.png');
 
--- Listage des données de la table squadforge.genre : ~2 rows (environ)
+-- Listage des données de la table squadforge.genre : ~3 rows (environ)
 INSERT INTO `genre` (`id`, `name`) VALUES
 	(1, 'FPS'),
 	(2, 'indie'),
@@ -45,23 +45,23 @@ INSERT INTO `notation` (`id`, `user_id`, `game_id`, `note`) VALUES
 
 -- Listage des données de la table squadforge.topic : ~17 rows (environ)
 INSERT INTO `topic` (`id`, `title`, `publish_date`, `status`, `validated`, `game_id`, `user_id`, `first_msg`) VALUES
-	(1, 'Je sais pa vou mé', '2023-04-03 23:45:48', 'ouvert', 'validated', 2, 3, 'da zadaz zadad az azd azd a azdad az a azd az az azd zd  zadzdaz azdad zd a zd  zd za zaadazd azda ad az zd azdaza za '),
-	(2, 'Bla bla bla blbla', '2023-05-03 18:57:03', 'fermé', 'validated', 2, 3, 'da zadaz zadad az azd azd a azdad az a azd az az azd zd  zadzdaz azdad zd a zd  zd za zaadazd azda ad az zd azdaza za '),
-	(3, 'test date', '2023-05-04 02:09:02', 'ouvert', 'validated', 2, 3, 'da zadaz zadad az azd azd a azdad az a azd az az azd zd  zadzdaz azdad zd a zd  zd za zaadazd azda ad az zd azdaza za '),
-	(4, 'Overwatch topic', '2023-05-04 09:30:52', 'ouvert', 'validated', 1, 4, 'da zadaz zadad az azd azd a azdad az a azd az az azd zd  zadzdaz azdad zd a zd  zd za zaadazd azda ad az zd azdaza za '),
-	(5, 'aa aa aa aa aa aa aa aa aa aa aa aa aa aa aa aa aa aa aa aa aa aa aa aa', '2023-05-04 22:08:47', 'ouvert', 'validated', 1, 3, 'da zadaz zadad az azd azd a azdad az a azd az az azd zd  zadzdaz azdad zd a zd  zd za zaadazd azda ad az zd azdaza za '),
-	(6, 'Test topic formType aa aa aa', '2023-05-04 22:11:34', 'ouvert', 'validated', 1, 3, 'da zadaz zadad az azd azd a azdad az a azd az az azd zd  zadzdaz azdad zd a zd  zd za zaadazd azda ad az zd azdaza za '),
-	(7, 'Test topic formType aa aa', '2023-05-04 22:16:00', 'ouvert', 'validated', 1, 3, 'da zadaz zadad az azd azd a azdad az a azd az az azd zd  zadzdaz azdad zd a zd  zd za zaadazd azda ad az zd azdaza za '),
-	(8, 'Re test form topic valolo avec 5 mots', '2023-05-04 22:16:23', 'ouvert', 'validated', 4, 3, 'da zadaz zadad az azd azd a azdad az a azd az az azd zd  zadzdaz azdad zd a zd  zd za zaadazd azda ad az zd azdaza za '),
-	(9, 'aa aa aa aa aa', '2023-05-04 22:28:58', 'ouvert', 'validated', 4, 3, 'da zadaz zadad az azd azd a azdad az a azd az az azd zd  zadzdaz azdad zd a zd  zd za zaadazd azda ad az zd azdaza za '),
-	(10, 'aa aa aa aa aa', '2023-05-04 22:31:18', 'ouvert', 'validated', 4, 3, 'da zadaz zadad az azd azd a azdad az a azd az az azd zd  zadzdaz azdad zd a zd  zd za zaadazd azda ad az zd azdaza za '),
-	(11, 'Hg BJ non nbb bb', '2023-05-04 23:54:43', 'ouvert', 'validated', 4, 3, 'da zadaz zadad az azd azd a azdad az a azd az az azd zd  zadzdaz azdad zd a zd  zd za zaadazd azda ad az zd azdaza za '),
-	(12, 'dz zd zd dz dz', '2023-05-05 01:20:15', 'ouvert', 'validated', 2, 3, 'da zadaz zadad az azd azd a azdad az a azd az az azd zd  zadzdaz azdad zd a zd  zd za zaadazd azda ad az zd azdaza za '),
-	(13, 'zz zz zz zz zz', '2023-05-05 01:30:23', 'ouvert', 'validated', 2, 3, 'test nouveau 1er message'),
-	(14, '1er topic pubg battle royal', '2023-05-05 01:56:39', 'ouvert', 'validated', 5, 3, 'Test premier message pubg'),
-	(15, 'Test topic en plus pour passer à 6 Topics', '2023-05-05 15:14:42', 'ouvert', 'validated', 2, 3, 'dzd azad z'),
-	(16, 'Au moins 5 mots Isaac test', '2023-05-06 00:59:28', 'ouvert', 'validated', 3, 3, 'Nwnwn'),
-	(17, 'A a a a a', '2023-05-06 01:00:07', 'ouvert', 'validated', 3, 3, 'Jwn');
+	(1, 'Je sais pa vou mé', '2023-04-03 23:45:48', 'open', 'validated', 2, 3, 'da zadaz zadad az azd azd a azdad az a azd az az azd zd  zadzdaz azdad zd a zd  zd za zaadazd azda ad az zd azdaza za '),
+	(2, 'Bla bla bla blbla', '2023-05-03 18:57:03', 'closed', 'validated', 2, 3, 'da zadaz zadad az azd azd a azdad az a azd az az azd zd  zadzdaz azdad zd a zd  zd za zaadazd azda ad az zd azdaza za '),
+	(3, 'test date', '2023-05-04 02:09:02', 'open', 'validated', 2, 3, 'da zadaz zadad az azd azd a azdad az a azd az az azd zd  zadzdaz azdad zd a zd  zd za zaadazd azda ad az zd azdaza za '),
+	(4, 'Overwatch topic', '2023-05-04 09:30:52', 'open', 'validated', 1, 4, 'da zadaz zadad az azd azd a azdad az a azd az az azd zd  zadzdaz azdad zd a zd  zd za zaadazd azda ad az zd azdaza za '),
+	(5, 'aa aa aa aa aa aa aa aa aa aa aa aa aa aa aa aa aa aa aa aa aa aa aa aa', '2023-05-04 22:08:47', 'open', 'validated', 1, 3, 'da zadaz zadad az azd azd a azdad az a azd az az azd zd  zadzdaz azdad zd a zd  zd za zaadazd azda ad az zd azdaza za '),
+	(6, 'Test topic formType aa aa aa', '2023-05-04 22:11:34', 'open', 'validated', 1, 3, 'da zadaz zadad az azd azd a azdad az a azd az az azd zd  zadzdaz azdad zd a zd  zd za zaadazd azda ad az zd azdaza za '),
+	(7, 'Test topic formType aa aa', '2023-05-04 22:16:00', 'open', 'validated', 1, 3, 'da zadaz zadad az azd azd a azdad az a azd az az azd zd  zadzdaz azdad zd a zd  zd za zaadazd azda ad az zd azdaza za '),
+	(8, 'Re test form topic valolo avec 5 mots', '2023-05-04 22:16:23', 'open', 'validated', 4, 3, 'da zadaz zadad az azd azd a azdad az a azd az az azd zd  zadzdaz azdad zd a zd  zd za zaadazd azda ad az zd azdaza za '),
+	(9, 'aa aa aa aa aa', '2023-05-04 22:28:58', 'open', 'validated', 4, 3, 'da zadaz zadad az azd azd a azdad az a azd az az azd zd  zadzdaz azdad zd a zd  zd za zaadazd azda ad az zd azdaza za '),
+	(10, 'aa aa aa aa aa', '2023-05-04 22:31:18', 'open', 'validated', 4, 3, 'da zadaz zadad az azd azd a azdad az a azd az az azd zd  zadzdaz azdad zd a zd  zd za zaadazd azda ad az zd azdaza za '),
+	(11, 'Hg BJ non nbb bb', '2023-05-04 23:54:43', 'open', 'validated', 4, 3, 'da zadaz zadad az azd azd a azdad az a azd az az azd zd  zadzdaz azdad zd a zd  zd za zaadazd azda ad az zd azdaza za '),
+	(12, 'dz zd zd dz dz', '2023-05-05 01:20:15', 'open', 'validated', 2, 3, 'da zadaz zadad az azd azd a azdad az a azd az az azd zd  zadzdaz azdad zd a zd  zd za zaadazd azda ad az zd azdaza za '),
+	(13, 'zz zz zz zz zz', '2023-05-05 01:30:23', 'open', 'validated', 2, 3, 'test nouveau 1er message'),
+	(14, '1er topic pubg battle royal', '2023-05-05 01:56:39', 'open', 'validated', 5, 3, 'Test premier message pubg'),
+	(15, 'Test topic en plus pour passer à 6 Topics', '2023-05-05 15:14:42', 'closed', 'validated', 2, 3, 'dzd azad z'),
+	(16, 'Au moins 5 mots Isaac test', '2023-05-06 00:59:28', 'open', 'validated', 3, 3, 'Nwnwn'),
+	(17, 'A a a a a', '2023-05-06 01:00:07', 'open', 'validated', 3, 3, 'Jwn');
 
 -- Listage des données de la table squadforge.topic_post : ~16 rows (environ)
 INSERT INTO `topic_post` (`id`, `user_id`, `topic_id`, `text`, `publish_date`, `parent_id`, `topic_post_id`) VALUES
@@ -80,7 +80,8 @@ INSERT INTO `topic_post` (`id`, `user_id`, `topic_id`, `text`, `publish_date`, `
 	(13, 3, 1, '5eme comment', '2023-05-06 01:39:34', NULL, NULL),
 	(14, 3, 14, 'Hhjh', '2023-05-06 03:28:58', NULL, NULL),
 	(15, 3, 13, 'Ole', '2023-05-06 03:40:11', NULL, NULL),
-	(16, 4, 15, 'test autre user', '2023-05-06 03:52:37', NULL, NULL);
+	(16, 4, 15, 'test autre user', '2023-05-06 03:52:37', NULL, NULL),
+	(17, 3, 15, 'test apres verif si closed topics', '2023-05-06 05:17:41', NULL, NULL);
 
 -- Listage des données de la table squadforge.topic_post_user : ~5 rows (environ)
 INSERT INTO `topic_post_user` (`topic_post_id`, `user_id`) VALUES

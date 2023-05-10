@@ -35,6 +35,8 @@ class Media
     #[ORM\ManyToOne(inversedBy: 'media')]
     private ?Game $game = null;
 
+    // private $extension;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -123,4 +125,9 @@ class Media
 
         return $this;
     }
+
+    // public function getExtension(): ?string {
+
+    //     return $this->getUrl();
+    // }
 }
