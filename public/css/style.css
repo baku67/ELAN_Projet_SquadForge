@@ -545,7 +545,7 @@ nav {
 
 }
 
-#topic_post_submit {
+#topic_post_submit, #media_post_submit {
     background-color: rgba(0,0,0,0);
     border: 0px solid;
     position: absolute;
@@ -557,7 +557,7 @@ nav {
     /* transform: scale(1.2); */
     transition: all 0.3s;
 }
-#topic_post_submit:hover {
+#topic_post_submit:hover, #media_post_submit:hover {
     opacity: 0.7;
     background-color: rgba(255,255,255,0.1);
 }

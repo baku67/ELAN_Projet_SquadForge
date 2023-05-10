@@ -150,7 +150,7 @@ class GameController extends AbstractController
                     $topic->setPublishDate(new \DateTime());
                     $topic->setGame($game);
                     $topic->setUser($user);
-                    $topic->setStatus("ouvert");
+                    $topic->setStatus("open");
                     // En attendant le système de validation avant publication par un modo:
                     $topic->setValidated("validated");
                     
@@ -230,7 +230,7 @@ class GameController extends AbstractController
                     $media->setPublishDate(new \DateTime());
                     $media->setGame($game);
                     $media->setUser($user);
-                    $media->setStatus("ouvert");
+                    $media->setStatus("open");
                     // En attendant le système de validation avant publication par un modo:
                     $media->setValidated("validated");
                     

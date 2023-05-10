@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\MediaRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -34,6 +36,14 @@ class Media
 
     #[ORM\ManyToOne(inversedBy: 'media')]
     private ?Game $game = null;
+
+    #[ORM\OneToMany(mappedBy: 'media', targetEntity: MediaPost::class)]
+    private Collection $mediaPosts;
+
+    public function __construct()
+    {
+        $this->mediaPosts = new ArrayCollection();
+    }
 
     // private $extension;
 
@@ -130,4 +140,40 @@ class Media
 
     //     return $this->getUrl();
     // }
+
+    /**
+     * @return Collection<int, MediaPost>
+     */
+    public function getMediaPosts(): Collection
+    {
+        return $this->mediaPosts;
+    }
+
+    // Pas mappé
+    public function getMediaPostsCount(): ?int
+    {
+        return count($this->mediaPosts);
+    }
+
+    public function addMediaPost(MediaPost $mediaPost): self
+    {
+        if (!$this->mediaPosts->contains($mediaPost)) {
+            $this->mediaPosts->add($mediaPost);
+            $mediaPost->setMedia($this);
+        }
+
+        return $this;
+    }
+
+    public function removeMediaPost(MediaPost $mediaPost): self
+    {
+        if ($this->mediaPosts->removeElement($mediaPost)) {
+            // set the owning side to null (unless already changed)
+            if ($mediaPost->getMedia() === $this) {
+                $mediaPost->setMedia(null);
+            }
+        }
+
+        return $this;
+    }
 }

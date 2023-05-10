@@ -59,6 +59,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToMany(mappedBy: 'user', targetEntity: Media::class)]
     private Collection $media;
 
+    #[ORM\OneToMany(mappedBy: 'user', targetEntity: MediaPost::class)]
+    private Collection $mediaPosts;
+
     public function __construct()
     {
         $this->favoris = new ArrayCollection();
@@ -68,6 +71,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         $this->likedTopicPosts = new ArrayCollection();
         $this->postLikes = new ArrayCollection();
         $this->media = new ArrayCollection();
+        $this->mediaPosts = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -359,6 +363,36 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
             // set the owning side to null (unless already changed)
             if ($medium->getUser() === $this) {
                 $medium->setUser(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, MediaPost>
+     */
+    public function getMediaPosts(): Collection
+    {
+        return $this->mediaPosts;
+    }
+
+    public function addMediaPost(MediaPost $mediaPost): self
+    {
+        if (!$this->mediaPosts->contains($mediaPost)) {
+            $this->mediaPosts->add($mediaPost);
+            $mediaPost->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeMediaPost(MediaPost $mediaPost): self
+    {
+        if ($this->mediaPosts->removeElement($mediaPost)) {
+            // set the owning side to null (unless already changed)
+            if ($mediaPost->getUser() === $this) {
+                $mediaPost->setUser(null);
             }
         }
 
