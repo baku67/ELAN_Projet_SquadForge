@@ -647,9 +647,37 @@ nav {
 
 }
 
+.inline {
+    display: inline-flex;
+}
+
+
+.mediaCardStatsDiv {
+    opacity: 0.8;
+    background-color: #404040;
+    display: inline-flex;
+    width: 100%;
+    justify-content: space-evenly;
+    position: relative;
+    /* right: 3px; */
+    padding-top: 15px;
+    font-size: 1.5em;
+
+    border-bottom-left-radius: 5px;
+    border-bottom-right-radius: 5px;
+}
+
+.topicList {
+    width: 75%;
+    margin: 50px auto 20px auto;
+
+}
 
 
 
+.upBtnLiked {
+    color:greenyellow;
+}
 
 
 

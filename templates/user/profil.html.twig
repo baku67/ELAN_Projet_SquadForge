@@ -105,7 +105,8 @@
 
 
         <h3>Topics bubliés <span class="gameListCount">({{ userTopicsCount }})</span></h3>
-        <div class="listContainer marginTop">
+        <div class="listContainer topicList marginTop">
+        
             {% for topic in userTopics %}
                 <a href="{{ path('app_topicDetail', {'id': topic.id}) }}">
                     <div class="topicCard" style="border-bottom: 4px solid {{ topic.game.color }}">
@@ -122,11 +123,14 @@
                     </div>
                 </a>
             {% endfor %}
+
+            <span class="seeAllRedirect">
+                <a href="{{ path('app_allTopicsUser') }}">Tout voir  <i class="fa-solid fa-chevron-right"></i></a>
+            </span>
+
         </div>
 
-        <span class="seeAllRedirect">
-            <a href="{{ path('app_allTopicsUser') }}">Tout voir  <i class="fa-solid fa-chevron-right"></i></a>
-        </span>
+
 
 
 

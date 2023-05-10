@@ -87,7 +87,8 @@ class SecurityController extends AbstractController
         $queryBuilder->select('m')
             ->from('App\Entity\Media', 'm')
             ->orderBy('m.publish_date', 'DESC')
-            ->setMaxResults(10); 
+            // 8 car grid-lignes de 4 (mettre 2 sur mobile pour rester pair)
+            ->setMaxResults(8); 
         $lastMedias = $queryBuilder->getQuery()->getResult();
 
 

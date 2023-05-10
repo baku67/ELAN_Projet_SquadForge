@@ -40,9 +40,13 @@ class Media
     #[ORM\OneToMany(mappedBy: 'media', targetEntity: MediaPost::class)]
     private Collection $mediaPosts;
 
+    #[ORM\ManyToMany(targetEntity: User::class)]
+    private Collection $userUpvote;
+
     public function __construct()
     {
         $this->mediaPosts = new ArrayCollection();
+        $this->userUpvote = new ArrayCollection();
     }
 
     // private $extension;
@@ -174,6 +178,37 @@ class Media
                 $mediaPost->setMedia(null);
             }
         }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, User>
+     */
+    public function getUserUpvote(): Collection
+    {
+        return $this->userUpvote;
+    }
+
+    // Nombre de likes du Média 
+    // Twig: {{ media.upvoteCount }} (pas de proriété, juste fonction)
+    public function getUpvoteCount(): int
+    {
+        return count($this->userUpvote);
+    }
+
+    public function addUserUpvote(User $userUpvote): self
+    {
+        if (!$this->userUpvote->contains($userUpvote)) {
+            $this->userUpvote->add($userUpvote);
+        }
+
+        return $this;
+    }
+
+    public function removeUserUpvote(User $userUpvote): self
+    {
+        $this->userUpvote->removeElement($userUpvote);
 
         return $this;
     }

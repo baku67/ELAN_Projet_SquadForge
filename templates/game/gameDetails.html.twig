@@ -192,7 +192,8 @@
         </script>
 
         {# Liste des Topics #}
-        <div class="listContainer marginTop">
+        <div class="listContainer topicList marginTop">
+
             {% for topic in gameTopics %}
                 <a href="{{ path('app_topicDetail', {'id': topic.id}) }}">
                     <div class="topicCard" style="border-bottom: 4px solid {{ game.color }}">
@@ -209,10 +210,12 @@
                     </div>
                 </a>
             {% endfor %}
+
+            <span class="seeAllRedirect">
+                <a href="{{ path('app_allTopics', {'gameIdFrom': game.id}) }}">Tout voir  <i class="fa-solid fa-chevron-right"></i></a>
+            </span>
+
         </div>
-        <span class="seeAllRedirect">
-            <a href="{{ path('app_allTopics', {'gameIdFrom': game.id}) }}">Tout voir  <i class="fa-solid fa-chevron-right"></i></a>
-        </span>
 
 
         <br><br>
@@ -314,14 +317,39 @@
 
 
                     {# Upvote/downvote média + score + nbrPosts #}
-                    <i class="fa-regular fa-circle-up"></i><i class="fa-regular fa-circle-down"></i>
-                    <p>test score</p>
+                    <div class="mediaCardStatsDiv">
 
-                    {% if media.mediaPostsCount == 0 %}
-                        <span style="opacity:0.5;">{{ media.mediaPostsCount }} <i class="fa-solid fa-message" style="color:grey;"></i></span>
-                    {% else %}
-                        <span>{{ media.mediaPostsCount }} <i class="fa-solid fa-message" style="color:{{ media.game.color }}"></i></span>
-                    {% endif %}
+                        {# Pas opti: bloucle sur tous les likes du post pour savoir si liké (boucle dans boucle) #}
+                        {% if app.user %}
+
+                            {% set liked = "" %}
+
+                            {% for upvote in media.UserUpvote %}
+
+                                {% if upvote == app.user %}
+                                    {% set liked = "upBtnLiked" %}
+                                {% endif %}
+
+                            {% endfor %}
+
+                        {% endif %}
+
+
+                        <div class="inline">
+                            <a href="{{ path('app_likeMedia',{'id':media.id}) }}">
+                                <i class="fa-regular fa-circle-up {{ liked }}"></i>
+                            </a>
+                            {# <i class="fa-regular fa-circle-down"></i> #}
+                            <p> {{ media.upvoteCount }} </p>
+                        </div>
+                    
+                        {% if media.mediaPostsCount == 0 %}
+                            <span style="opacity:0.5;">{{ media.mediaPostsCount }} <i class="fa-solid fa-message" style="color:grey;"></i></span>
+                        {% else %}
+                            <span>{{ media.mediaPostsCount }} <i class="fa-solid fa-message" style="color:{{ media.game.color }}"></i></span>
+                        {% endif %}
+
+                    </div>
 
                     <br>
                     {# <div style="width:30%; margin: 0 auto; height:1px; background-color: {{ game.color }}; opacity:0.5;"></div> #}

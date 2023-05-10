@@ -329,6 +329,55 @@ class MediaController extends AbstractController
 
 
 
+    // Like d'un Media par user (id: idMedia)
+    #[Route('/likeMedia/{id}', name: 'app_likeMedia')]
+    public function likeMedia(EntityManagerInterface $entityManager, int $id, Request $request): Response
+    {
+
+        if ($this->getUser()) {
+
+            $mediaRepo = $entityManager->getRepository(Media::class);
+
+            $user = $this->getUser();
+            $media = $mediaRepo->find($id);
+
+            // Vérification si déjà like = remove
+            if ($media->getUserUpvote()->contains($user)) {
+
+                // En attendant l'asynch (pour l'instant le redirect est deg)
+                $media->removeUserUpvote($user);
+                $this->addFlash('success', 'Votre avez unliké');
+            }
+            else {
+                // En attendant l'asynch (pour l'instant le redirect est deg)
+                $media->addUserUpvote($user);
+                $this->addFlash('success', 'Votre avez liké');
+            }
+
+            $entityManager->flush();
+
+            return $this->redirectToRoute('app_mediaDetail', ['id' => $media->getId()]);
+
+        }
+        else {
+
+            $this->addFlash('error', 'Vous devez être connecté pour liker un média');
+            return $this->redirectToRoute('app_login');
+
+        }
+        
+
+
+    }
+
+
+
+
+
+
+
+
+
 
 
 

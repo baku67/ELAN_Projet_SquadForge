@@ -126,6 +126,7 @@
                         {# Post upvote/downvote #}
                         <div style="display:inline-flex; flex-direction:column;">
 
+                            {# Pas opti: bloucle sur tous les likes du post pour savoir si liké #}
                             {% set isUpvoted = false %}
                             {% set isDownvoted = false %}
                             {% for like in post.postLikes %}

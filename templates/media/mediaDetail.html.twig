@@ -67,8 +67,27 @@
 
 
         {# If user, sinon rediret login #}
-        <i class="fa-regular fa-circle-up"></i><i class="fa-regular fa-circle-down"></i>
-        <p>test score</p>
+
+        {# Pas opti: bloucle sur tous les likes du post pour savoir si liké (boucle dans boucle) #}
+        {% if app.user %}
+
+            {% set liked = "" %}
+            {% for upvote in media.UserUpvote %}
+
+                {% if upvote == app.user %}
+                    {% set liked = "upBtnLiked" %}
+                {% endif %}
+
+            {% endfor %}
+        {% endif %}
+
+        <div class="inline">
+            <a href="{{ path('app_likeMedia',{'id':media.id}) }}">
+                <i class="fa-regular fa-circle-up {{ liked }}"></i>
+            </a>
+            {# <i class="fa-regular fa-circle-down"></i> #}
+            <p>{{ media.upvoteCount }} </p>
+        </div>
 
         
 
