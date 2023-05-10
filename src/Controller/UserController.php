@@ -11,6 +11,7 @@ use Doctrine\ORM\PersistentCollection;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\HttpFoundation\Request;
 
 class UserController extends AbstractController
 {
@@ -58,4 +59,31 @@ class UserController extends AbstractController
             ]);
         }
     }
+
+    // Ajax Asynch toggleAutoplayGifs (A fixer! juste inversion bool BDD pour l'instant)
+    #[Route('/toggleAutoplayGifs', name: 'app_toggleAutoplayGifs')]
+    public function toggleAutoplayGifs(EntityManagerInterface $entityManager, Request $request): Response
+    {
+
+        // Récupérez les données de l'input
+        // $autoPlay = $request->request->get('bool');
+
+        $user = $this->getUser();
+
+        // On inverse le state BDD
+        if(!$user->isAutoPlayGifs()) {
+            $user->setAutoPlayGifs(true);
+        }
+        else {
+            $user->setAutoPlayGifs(false);
+        }
+
+        $entityManager->persist($user);
+        $entityManager->flush();
+
+        return new JsonResponse(['success' => true]); 
+
+    }
+
+
 }

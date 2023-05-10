@@ -26,19 +26,64 @@
         {% endif %}
         
 
-        {# {{ dump(user) }} #}
-        {# {{ dump(userRole) }} #}
-
 
         {% if userRole[0] == "ROLE_USER" %}
             <p>Rôle:<span class="roleUserData">Utilisateur</span></p>
         {% else %}
             <p>Rôle:<span class="roleUserData">Modérateur/Administrateur</span></p>
         {% endif %}
-        
-        {# Lecture automatique des Gifs #}
-        <p>Lecture automatique des Gifs: <span> Oui Non</span></p>
 
+
+        
+        {# Toggle Lecture automatique des Gifs #}
+        {% if app.user.autoPlayGifs %}
+            {% set checked = "checked" %}
+            {% set value = "true" %}
+        {% else %}
+            {% set checked = "" %}
+            {% set value = "false" %}
+        {% endif %}
+        
+        <p>Lecture automatique des Gifs: </p>
+        <form id="toggleAutoplayForm" action="{{ path('app_toggleAutoplayGifs') }}" method="post">
+            <label class="toggleAutoPlay">
+                <input type="checkbox" value="{{ value }}" {{ checked }} name="autoPlay" id="autoPlay">
+                <span class="slider"></span>
+            </label>
+        </form>
+
+        {# Asynch app_toggleAutoplayGifs (Erreur JS promise #}
+        <script>
+            document.getElementById('toggleAutoplayForm').addEventListener('change', function(event) {
+                
+                event.preventDefault(); // Empêche la soumission normale du formulaire
+
+                const value = document.getElementById('autoPlay').getAttribute('value');
+                fetch('/toggleAutoplayGifs', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+                // ,body: {
+                //     'bool': value
+                // }
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        document.querySelector('#ajaxFlash').textContent = "Votre note a bien été pris en compte";
+                        document.querySelector('#ajaxFlash').classList.add("ajaxFlashAnim", "successAjaxFlash");
+                    } else {
+                        document.querySelector('#ajaxFlash').textContent = "Il y a eu un problème lors de l'envoi de votre note";
+                        document.querySelector('#ajaxFlash').classList.add("ajaxFlashAnim", "errorAjaxFlash");
+                    }
+                });
+            });
+
+        </script>
+        
+
+        
         <h3>Jeux Favoris</h3>
         <div class="genreGameList">
             {% for gameFav in userFav %}
@@ -56,6 +101,7 @@
                 </a>
             {% endfor %}
         </div>
+
 
 
         <h3>Topics bubliés <span class="gameListCount">({{ userTopicsCount }})</span></h3>

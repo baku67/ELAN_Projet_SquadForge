@@ -65,6 +65,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToMany(mappedBy: 'user', targetEntity: MediaPostLike::class)]
     private Collection $mediaPostLikes;
 
+    #[ORM\Column(options: ['default' => true])]
+    private ?bool $autoPlayGifs = null;
+
     public function __construct()
     {
         $this->favoris = new ArrayCollection();
@@ -429,6 +432,18 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
                 $mediaPostLike->setUser(null);
             }
         }
+
+        return $this;
+    }
+
+    public function isAutoPlayGifs(): ?bool
+    {
+        return $this->autoPlayGifs;
+    }
+
+    public function setAutoPlayGifs(bool $autoPlayGifs): self
+    {
+        $this->autoPlayGifs = $autoPlayGifs;
 
         return $this;
     }
