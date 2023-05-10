@@ -20,7 +20,7 @@
         <span class="filArianeSepa"> - </span>
         <li class="arianeLink"><a href="{{ path('app_game', {'id': game.id}) }}">{{ game.title }}</a></li>
         <span class="filArianeSepa"> - </span>
-        <li class="arianeLink"><a href="{{ path('app_allTopics', {'gameIdFrom': game.id}) }}">Médias</a></li>
+        <li class="arianeLink"><a href="{{ path('app_allMedias', {'gameIdFrom': game.id}) }}">Médias</a></li>
         <span class="filArianeSepa"> - </span>
         <li class="arianeOnPage ellispsis1">{{ media.title|capitalize}}</li>
     </ul>
@@ -130,7 +130,7 @@
 
                             {% set isUpvoted = false %}
                             {% set isDownvoted = false %}
-                            {# {% for like in post.postLikes %}
+                            {% for like in post.mediaPostLikes %}
                                 {% if like.user == app.user and like.mediaPost.id == post.id %}
                                     {% if like.state == "upvote" %}
                                         {% set isUpvoted = true %}
@@ -138,24 +138,24 @@
                                         {% set isDownvoted = true %}
                                     {% endif %}
                                 {% endif %}
-                            {% endfor %} #}
+                            {% endfor %}
 
                             {% if isUpvoted %}
-                                <span><a href="{{ path('app_upvoteTopicPost',{'id':post.id}) }}"><i class="fa-solid fa-caret-up" style="color:{{ media.game.color }}"></i></a></span>
+                                <span><a href="{{ path('app_upvoteMediaPost',{'id':post.id}) }}"><i class="fa-solid fa-caret-up" style="color:{{ media.game.color }}"></i></a></span>
                             {% else %}
-                                <span><a href="{{ path('app_upvoteTopicPost',{'id':post.id}) }}"><i class="fa-solid fa-caret-up"></i></a></span>
+                                <span><a href="{{ path('app_upvoteMediaPost',{'id':post.id}) }}"><i class="fa-solid fa-caret-up"></i></a></span>
                             {% endif %}
 
-                            {# {% if post.score < 0 %}
+                            {% if post.score < 0 %}
                                 <span style="text-align:center; color:red; font-weight:900;">{{ post.score }}</span>
                             {% else %}
                                 <span style="text-align:center; font-weight:900;">{{ post.score }}</span>
-                            {% endif %} #}
+                            {% endif %}
                             
                             {% if isDownvoted %}
-                                <span><a href="{{ path('app_unupvoteTopicPost',{'id':post.id}) }}"><i class="fa-solid fa-caret-down" style="color:{{ media.game.color }}"></i></a></span>
+                                <span><a href="{{ path('app_downvoteMediaPost',{'id':post.id}) }}"><i class="fa-solid fa-caret-down" style="color:{{ media.game.color }}"></i></a></span>
                             {% else %}
-                                <span><a href="{{ path('app_unupvoteTopicPost',{'id':post.id}) }}"><i class="fa-solid fa-caret-down"></i></a></span>
+                                <span><a href="{{ path('app_downvoteMediaPost',{'id':post.id}) }}"><i class="fa-solid fa-caret-down"></i></a></span>
                             {% endif %}
 
                         </div>

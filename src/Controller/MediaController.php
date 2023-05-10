@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Media;
 use App\Entity\MediaPost;
+use App\Entity\MediaPostLike;
 use App\Entity\Game;
 use App\Form\MediaType;
 use App\Form\MediaPostType;
@@ -317,6 +318,157 @@ class MediaController extends AbstractController
             'allMediasDesc' => $allMediasDesc,
             'allMediasCount' => $allMediasCount,
         ]);
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    // Upvote/unUpvote de mediaPost par user (id: idMediaPost)
+    #[Route('/upvoteMediaPost/{id}', name: 'app_upvoteMediaPost')]
+    public function upvoteMediaPost(EntityManagerInterface $entityManager, int $id, Request $request): Response
+    {
+
+        if ($this->getUser()) {
+
+            $mediaPostRepo = $entityManager->getRepository(MediaPost::class);
+            $postLikeRepo = $entityManager->getRepository(MediaPostLike::class);
+            $mediaPost = $mediaPostRepo->find($id);
+
+
+            // Si l'utilisateur n'a pas déjà upvoté 
+            if(count($postLikeRepo->findBy(['user' => $this->getUser(), 'mediaPost' => $mediaPost])) == 0) {
+
+
+                $mediaPostLike = new MediaPostLike();
+                $mediaPostLike->setState("upvote");
+                $mediaPostLike->setUser($this->getUser());
+                $mediaPostLike->setMediaPost($mediaPost);
+
+                $entityManager->persist($mediaPostLike);
+                $entityManager->flush();
+
+                // $mediaPost->addMediaPostLike($mediaPostLike);
+
+                $this->addFlash('success', 'Votre upvote a été pris en compte');
+                return $this->redirectToRoute('app_mediaDetail', ['id' => $mediaPost->getMedia()->getId()]); 
+            
+            } 
+            else {
+
+                if($postLikeRepo->findOneBy(['user' => $this->getUser(), 'mediaPost' => $mediaPost])->getState() == "upvote" ) {
+
+                    $mediaPostLike = $postLikeRepo->findOneBy(['user' => $this->getUser(), 'mediaPost' => $mediaPost]);
+
+                    $postLikeRepo->remove($mediaPostLike, true);
+                    // $topicPostRepo->flush();
+
+                    $this->addFlash('success', 'Votre upvote a été retiré');
+                    return $this->redirectToRoute('app_mediaDetail', ['id' => $mediaPost->getMedia()->getId()]); 
+                
+                }
+                else if($postLikeRepo->findOneBy(['user' => $this->getUser(), 'mediaPost' => $mediaPost])->getState() == "downvote" ) {
+
+                    $mediaPostLike = $postLikeRepo->findOneBy(['user' => $this->getUser(), 'mediaPost' => $mediaPost]);
+
+                    $mediaPostLike->setState("upvote");
+
+                    $entityManager->persist($mediaPostLike);
+                    $entityManager->flush();
+
+                    $this->addFlash('success', 'Votre upvote a été pris en compte');
+                    return $this->redirectToRoute('app_mediaDetail', ['id' => $mediaPost->getMedia()->getId()]); 
+                }
+            }
+
+        }
+        else {
+            $this->addFlash('error', 'Vous devez être connecté pour upvoter un post');
+            return $this->redirectToRoute('app_login');
+        }
+    
+    }
+
+
+
+
+    // Downvote/unDownvote de mediaPost par user (id: idMediaPost)
+    #[Route('/downvoteMediaPost/{id}', name: 'app_downvoteMediaPost')]
+    public function downvoteMediaPost(EntityManagerInterface $entityManager, int $id, Request $request): Response
+    {
+
+        if ($this->getUser()) {
+
+            $mediaPostRepo = $entityManager->getRepository(MediaPost::class);
+            $postLikeRepo = $entityManager->getRepository(MediaPostLike::class);
+            $mediaPost = $mediaPostRepo->find($id);
+
+
+            // Si l'utilisateur n'a pas déjà downvoté 
+            if(count($postLikeRepo->findBy(['user' => $this->getUser(), 'mediaPost' => $mediaPost])) == 0) {
+
+
+                $mediaPostLike = new MediaPostLike();
+                $mediaPostLike->setState("downvote");
+                $mediaPostLike->setUser($this->getUser());
+                $mediaPostLike->setMediaPost($mediaPost);
+
+                $entityManager->persist($mediaPostLike);
+                $entityManager->flush();
+
+                // $mediaPost->addMediaPostLike($mediaPostLike);
+
+                $this->addFlash('success', 'Votre downvote a été pris en compte');
+                return $this->redirectToRoute('app_mediaDetail', ['id' => $mediaPost->getMedia()->getId()]); 
+            
+            } 
+            else {
+
+                if($postLikeRepo->findOneBy(['user' => $this->getUser(), 'mediaPost' => $mediaPost])->getState() == "downvote" ) {
+
+                    $mediaPostLike = $postLikeRepo->findOneBy(['user' => $this->getUser(), 'mediaPost' => $mediaPost]);
+
+                    $postLikeRepo->remove($mediaPostLike, true);
+                    // $topicPostRepo->flush();
+
+                    $this->addFlash('success', 'Votre downvote a été retiré');
+                    return $this->redirectToRoute('app_mediaDetail', ['id' => $mediaPost->getMedia()->getId()]); 
+                
+                }
+                else if($postLikeRepo->findOneBy(['user' => $this->getUser(), 'mediaPost' => $mediaPost])->getState() == "upvote" ) {
+
+                    $mediaPostLike = $postLikeRepo->findOneBy(['user' => $this->getUser(), 'mediaPost' => $mediaPost]);
+
+                    $mediaPostLike->setState("downvote");
+
+                    $entityManager->persist($mediaPostLike);
+                    $entityManager->flush();
+
+                    $this->addFlash('success', 'Votre downvote a été pris en compte');
+                    return $this->redirectToRoute('app_mediaDetail', ['id' => $mediaPost->getMedia()->getId()]); 
+                }
+            }
+
+        }
+        else {
+            $this->addFlash('error', 'Vous devez être connecté pour upvoter un post');
+            return $this->redirectToRoute('app_login');
+        }
+    
     }
 
 }

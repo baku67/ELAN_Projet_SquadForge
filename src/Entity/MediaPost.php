@@ -2,7 +2,11 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\Criteria;
+
 use App\Repository\MediaPostRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -25,6 +29,14 @@ class MediaPost
 
     #[ORM\ManyToOne(inversedBy: 'mediaPosts')]
     private ?Media $media = null;
+
+    #[ORM\OneToMany(mappedBy: 'mediaPost', targetEntity: MediaPostLike::class)]
+    private Collection $mediaPostLikes;
+
+    public function __construct()
+    {
+        $this->mediaPostLikes = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -78,4 +90,58 @@ class MediaPost
 
         return $this;
     }
+
+    /**
+     * @return Collection<int, MediaPostLike>
+     */
+    public function getMediaPostLikes(): Collection
+    {
+        return $this->mediaPostLikes;
+    }
+
+    public function addMediaPostLike(MediaPostLike $mediaPostLike): self
+    {
+        if (!$this->mediaPostLikes->contains($mediaPostLike)) {
+            $this->mediaPostLikes->add($mediaPostLike);
+            $mediaPostLike->setMediaPost($this);
+        }
+
+        return $this;
+    }
+
+    public function removeMediaPostLike(MediaPostLike $mediaPostLike): self
+    {
+        if ($this->mediaPostLikes->removeElement($mediaPostLike)) {
+            // set the owning side to null (unless already changed)
+            if ($mediaPostLike->getMediaPost() === $this) {
+                $mediaPostLike->setMediaPost(null);
+            }
+        }
+
+        return $this;
+    }
+
+
+
+    public function getScore(): int {
+
+        // // Compte des upvotes de la Collection mediaPostLike
+        $criteria = Criteria::create()
+            ->where(Criteria::expr()->eq('state', "upvote"));
+
+        $filteredCollection = $this->mediaPostLikes->matching($criteria);
+        $upvoteCount = $filteredCollection->count();
+
+        // Compte des downvotes de la Collection mediaPostLike
+        $criteria2 = Criteria::create()
+            ->where(Criteria::expr()->eq('state', "downvote"));
+
+        $filteredCollection2 = $this->mediaPostLikes->matching($criteria2);
+        $downvoteCount = $filteredCollection2->count();
+
+        $score = $upvoteCount - $downvoteCount;
+
+        return $score;
+
+    }  
 }
