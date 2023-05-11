@@ -36,7 +36,7 @@
                         {% endif %}
                         <div class="mediaCardHeader" style="border-bottom: 4px solid {{ media.game.color }}">
                             <img class="tinyLogo" src="{{ asset('img/games/tinyLogo/' ~ media.game.tinyLogo) }}" />
-                            <span class="topicTitle">{{ media.title|capitalize }}</span>
+                            <span class="mediaTitle">{{ media.title|capitalize }}</span>
                             <span>{{ media.status }}</span>
                             <span>{{ media.user.pseudo }}</span>
                             <span class="topicCardPublishDate">{{ time_diff(media.publishDate) }}</span>
@@ -74,7 +74,7 @@
                 {% if media.mediaPostsCount == 0 %}
                     <span style="opacity:0.5;">{{ media.mediaPostsCount }} <i class="fa-solid fa-message" style="color:grey;"></i></span>
                 {% else %}
-                    <span>{{ media.mediaPostsCount }} <i class="fa-solid fa-message" style="color:{{ media.game.color }}"></i></span>
+                    <span>{{ media.mediaPostsCount }} <i class="fa-solid fa-message" style="color:var(--primary-color)"></i></span>
                 {% endif %}
 
 

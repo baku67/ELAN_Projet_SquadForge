@@ -144,12 +144,12 @@
                     {{ form_errors(formAddTopic) }}
                 </div>
 
-                <div class="inline" style="position:relative; margin: 5px auto;">
+                <div style="position:relative; margin: 5px auto;">
                     <span class="labelSpan" style="width:100px;">{{ form_label(formAddTopic.title, 'Titre')}}<span id="charCountMsg" style="color:red;"> (au moins 5 mots)</span></span>
                     {{ form_widget(formAddTopic.title) }} 
                 </div>
 
-                <div class="inline" style="position:relative; margin: 5px auto;">
+                <div style="position:relative; margin: 5px auto;">
                     <span class="labelSpan" style="width:100px;">{{ form_label(formAddTopic.firstMsg, 'Introduction')}}</span>
                     {{ form_widget(formAddTopic.firstMsg) }} 
                 </div>
@@ -247,12 +247,12 @@
                     {{ form_errors(formAddMedia) }}
                 </div>
 
-                <div class="inline" style="position:relative; margin: 5px auto;">
+                <div style="position:relative; margin: 5px auto;">
                     <span class="labelSpan" style="width:100px;">{{ form_label(formAddMedia.title, 'Titre')}}<span id="charCountMsgMedia" style="color:red;"> (au moins 5 mots)</span></span>
                     {{ form_widget(formAddMedia.title) }} 
                 </div>
 
-                <div class="inline" style="position:relative; margin: 5px auto;">
+                <div style="position:relative; margin: 5px auto;">
                     <span class="labelSpan" style="width:100px;">{{ form_label(formAddMedia.url, 'Choisissez un fichier')}}<span class="fileUploadCriteria"><span id="extensionCriteria">(.png .jpg .gif .jpeg)</span> <span id="fileCriteria">(2MB)</span></span></span>
                     {{ form_widget(formAddMedia.url) }} 
                 </div>
@@ -283,9 +283,9 @@
                             {% endif %}
                             <div class="mediaCardHeader" style="border-bottom: 5px solid {{ game.color }}">
                                 <img class="tinyLogo" src="{{ asset('img/games/tinyLogo/' ~ media.game.tinyLogo) }}" />
-                                <span class="topicTitle">{{ media.title|capitalize }}</span>
-                                <span>{{ media.status }}</span>
-                                <span>{{ media.user.pseudo }}</span>
+                                <span class="mediaTitle">{{ media.title|capitalize }}</span>
+                                {# <span>{{ media.status }}</span>
+                                <span>{{ media.user.pseudo }}</span> #}
                                 <span class="topicCardPublishDate">{{ time_diff(media.publishDate) }}</span>
                             </div>
                             {% if app.user and not app.user.autoPlayGifs %}
@@ -344,9 +344,17 @@
                         </div>
                     
                         {% if media.mediaPostsCount == 0 %}
-                            <span style="opacity:0.5;">{{ media.mediaPostsCount }} <i class="fa-solid fa-message" style="color:grey;"></i></span>
+                            <a href="{{ path('app_mediaDetail', {'id':media.id}) }}">
+                                <span style="opacity:0.5;">{{ media.mediaPostsCount }} 
+                                    <i class="fa-solid fa-message" style="color:grey;"></i>
+                                </span>
+                            </a>
                         {% else %}
-                            <span>{{ media.mediaPostsCount }} <i class="fa-solid fa-message" style="color:{{ media.game.color }}"></i></span>
+                            <a href="{{ path('app_mediaDetail', {'id':media.id}) }}">
+                                <span>{{ media.mediaPostsCount }} 
+                                    <i class="fa-solid fa-message" style="color:var(--primary-color)"></i>
+                                </span>
+                            </a>
                         {% endif %}
 
                     </div>

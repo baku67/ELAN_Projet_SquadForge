@@ -1,4 +1,4 @@
-Library: Imagine -> need extension php "GD"  (resize/compress img/gifs/png)
+Library: "Imagine" -> need extension php "GD"  (resize/compress img/gifs/png)
 
 Médias liste scroll infinie avec regen  (+ bouton toggle affichage grid/linéaire )
 
@@ -7,6 +7,8 @@ Limite de topic/media par jour (pour modo et anti-spam)
 MediaQueries
 
 Rename table BDD ?
+
+/!\ Groupe: Admin peut changer le header background (need approv modo parce que img publique)
 
 Médias: il faut click sur "GIF" pour lancer la vidéo (sinon lancé au chargement de la page et désynchro avec le scroll user ducoup)
 

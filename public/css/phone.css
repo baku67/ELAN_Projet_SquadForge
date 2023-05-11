@@ -1,0 +1,33 @@
+@media only screen and (max-width: 480px) {
+
+
+
+    .mediaListGrid {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        grid-template-rows: masonry;
+        grid-column-gap: 7px;
+        grid-row-gap: 0px;
+    
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+}

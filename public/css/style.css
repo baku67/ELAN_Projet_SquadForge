@@ -507,6 +507,17 @@ nav {
 .topicTitle {
     font-family: 'K2D', sans-serif;
 }
+.mediaTitle {
+    font-family: 'K2D', sans-serif;
+    
+    /* Elipsis Ellipsis titre cardMedia*/
+    display: inline-block;
+    width: 85%;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    
+}
 
 
 .topicPost, .mediaPost {
@@ -589,6 +600,15 @@ nav {
     border-bottom-left-radius: 5px;
     border-bottom-right-radius: 5px;
 }
+
+
+.mainMediaDetail {
+    width: 75%;
+    max-width: 75%;
+    margin: 30px auto 15px auto;
+}
+
+
 .mediaCardHeader {
     position: relative;
     display:inline-flex; 
@@ -676,7 +696,12 @@ nav {
 
 
 .upBtnLiked {
-    color:greenyellow;
+    color:var(--primary-color);
+}
+
+
+.fa-circle-up {
+    margin: 0 5px;
 }
 
 

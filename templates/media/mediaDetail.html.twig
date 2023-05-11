@@ -38,160 +38,164 @@
             {% endif %}
         </div>
 
-        <div class="listContainer">
-            <p style="color: {{ media.game.color }}">{{ media.title|capitalize }}</p>
-            
-            <img src="{{ asset("img/uploads/" ~ media.url) }}" alt="media" class="mediaImg"/>
 
-            <div style="display:inline-flex; justify-content:space-between; width:100%; font-family:'K2D', sans-serif; font-size:90%; opacity:0.8;">
-                {% if app.user == media.user %}
-                    <span>par vous</span>
-                {% else  %}
-                    <span>par {{ media.user.pseudo|capitalize }}</span>
-                {% endif %}
-                <span>Il y a {{ time_diff(media.publishDate) }}</span>
-            </div>
-            {# <p>Intro</p> #}
-        </div>
+        <div class="mainMediaDetail">
 
-        {# Si auteur du topic: Btn fermer/ouvrir le topic (A voir: si fermer par Admin, pas possible de rouvrir en tant qu'author) #}
-        {% if app.user == media.user %}
-
-            {% if media.status == "closed" %}
-                <p style="font-family: 'K2D';"><a href="{{ path('app_openTopic', {'id': media.id}) }}"><span style="color:#00ffaf;">Rouvrir le média</span></a></p>
-            {% elseif media.status == "open" %}
-                <p style="font-family: 'K2D';"><a href="{{ path('app_closeTopic', {'id': media.id}) }}"><span style="color:#ff004c;">Fermer le média</span></a></p>
-            {% endif %}
-            
-        {% endif %}
-
-
-        {# If user, sinon rediret login #}
-
-        {# Pas opti: bloucle sur tous les likes du post pour savoir si liké (boucle dans boucle) #}
-        {% if app.user %}
-
-            {% set liked = "" %}
-            {% for upvote in media.UserUpvote %}
-
-                {% if upvote == app.user %}
-                    {% set liked = "upBtnLiked" %}
-                {% endif %}
-
-            {% endfor %}
-        {% endif %}
-
-        <div class="inline">
-            <a href="{{ path('app_likeMedia',{'id':media.id}) }}">
-                <i class="fa-regular fa-circle-up {{ liked }}"></i>
-            </a>
-            {# <i class="fa-regular fa-circle-down"></i> #}
-            <p>{{ media.upvoteCount }} </p>
-        </div>
-
-        
-
-        <h4 style="font-weight:bold; color:{{game.color}}; margin-top: 40px;">Messages ({{ media.mediaPostsCount }})</h4>
-
-        {# Messages triés par nbr d'upvote et sinon par publishDate (récent en haut) [différent d'un chat] #}
-        <div class="listContainer">
-
-
-            {# form de publication de post sur le topic #}
-            {% if media.status == "open" %}
-            
-                {{ form_start(formAddMediaPost) }}
-                    <div class="inline" style="position:relative; margin: 5px auto;">
-                        {{ form_widget(formAddMediaPost.text) }} 
-                        {{ form_widget(formAddMediaPost.submit) }}
-                    </div>
-                    
-                {{ form_end(formAddMediaPost) }}
-                <script>
-                    document.querySelector('#media_post_submit').style.color = "{{ media.game.color }}";
-                </script>
-
-            {% elseif media.status == "closed" %}
+            <div class="listContainer">
+                <p style="color: {{ media.game.color }}">{{ media.title|capitalize }}</p>
                 
-                <p class="emptyListMsg"><i class="fa-solid fa-triangle-exclamation warning"></i>Le média a été fermé</p>
+                <img src="{{ asset("img/uploads/" ~ media.url) }}" alt="media" class="mediaImg mediaDetailImg"/>
 
+                <div style="display:inline-flex; justify-content:space-between; width:100%; font-family:'K2D', sans-serif; font-size:90%; opacity:0.8;">
+                    {% if app.user == media.user %}
+                        <span>par vous</span>
+                    {% else  %}
+                        <span>par {{ media.user.pseudo|capitalize }}</span>
+                    {% endif %}
+                    <span>Il y a {{ time_diff(media.publishDate) }}</span>
+                </div>
+                {# <p>Intro</p> #}
+            </div>
+
+            {# Si auteur du topic: Btn fermer/ouvrir le topic (A voir: si fermer par Admin, pas possible de rouvrir en tant qu'author) #}
+            {% if app.user == media.user %}
+
+                {% if media.status == "closed" %}
+                    <p style="font-family: 'K2D';"><a href="{{ path('app_openTopic', {'id': media.id}) }}"><span style="color:#00ffaf;">Rouvrir le média</span></a></p>
+                {% elseif media.status == "open" %}
+                    <p style="font-family: 'K2D';"><a href="{{ path('app_closeTopic', {'id': media.id}) }}"><span style="color:#ff004c;">Fermer le média</span></a></p>
+                {% endif %}
+                
             {% endif %}
 
 
+            {# If user, sinon rediret login #}
 
-            <div style="width:60%; margin:10px auto; height:1px; background-color:{{ media.game.color }}"></div>
+            {# Pas opti: bloucle sur tous les likes du post pour savoir si liké (boucle dans boucle) #}
+            {% if app.user %}
 
+                {% set liked = "" %}
+                {% for upvote in media.UserUpvote %}
 
-
-            {# Liste des posts (à trier selon nbr Upvotes + date dans le Repo) #}
-            {% if mediaPosts is empty %}
-                <p class="emptyListMsg">Aucun commentaire. Soyez le premier à commenter !</p>
-            {% else %}
-                {% for post in mediaPosts %}
-
-                    {% if app.user == post.user %}
-                        {% set postAuthorClass = "postAuthor" %}
-                    {% else %}
-                        {% set postAuthorClass = "" %}
+                    {% if upvote == app.user %}
+                        {% set liked = "upBtnLiked" %}
                     {% endif %}
-                    
-
-
-                    <div class="mediaPost {{ postAuthorClass }}">
-                        
-                        {# Post text et auteur #}
-                        <div class="postContent">
-                            <p>{{ post.text }}</p>
-
-                            {% if post.user == app.user %}
-                                <span>par vous</span>
-                            {% else %}
-                                <span>par {{ post.user.pseudo }}</span>
-                            {% endif %}
-                        </div>
-
-                        {# Post upvote/downvote #}
-                        <div style="display:inline-flex; flex-direction:column;">
-
-                            {% set isUpvoted = false %}
-                            {% set isDownvoted = false %}
-                            {% for like in post.mediaPostLikes %}
-                                {% if like.user == app.user and like.mediaPost.id == post.id %}
-                                    {% if like.state == "upvote" %}
-                                        {% set isUpvoted = true %}
-                                    {% elseif like.state == "downvote" %}
-                                        {% set isDownvoted = true %}
-                                    {% endif %}
-                                {% endif %}
-                            {% endfor %}
-
-                            {% if isUpvoted %}
-                                <span><a href="{{ path('app_upvoteMediaPost',{'id':post.id}) }}"><i class="fa-solid fa-caret-up" style="color:{{ media.game.color }}"></i></a></span>
-                            {% else %}
-                                <span><a href="{{ path('app_upvoteMediaPost',{'id':post.id}) }}"><i class="fa-solid fa-caret-up"></i></a></span>
-                            {% endif %}
-
-                            {% if post.score < 0 %}
-                                <span style="text-align:center; color:red; font-weight:900;">{{ post.score }}</span>
-                            {% else %}
-                                <span style="text-align:center; font-weight:900;">{{ post.score }}</span>
-                            {% endif %}
-                            
-                            {% if isDownvoted %}
-                                <span><a href="{{ path('app_downvoteMediaPost',{'id':post.id}) }}"><i class="fa-solid fa-caret-down" style="color:{{ media.game.color }}"></i></a></span>
-                            {% else %}
-                                <span><a href="{{ path('app_downvoteMediaPost',{'id':post.id}) }}"><i class="fa-solid fa-caret-down"></i></a></span>
-                            {% endif %}
-
-                        </div>
-
-                    </div>
 
                 {% endfor %}
-
             {% endif %}
 
+            <div class="inline">
+                <a href="{{ path('app_likeMedia',{'id':media.id}) }}">
+                    <i class="fa-regular fa-circle-up {{ liked }}"></i>
+                </a>
+                {# <i class="fa-regular fa-circle-down"></i> #}
+                <p>{{ media.upvoteCount }} </p>
+            </div>
+
             
+
+            <h4 style="font-weight:bold; color:{{game.color}}; margin-top: 40px;">Messages ({{ media.mediaPostsCount }})</h4>
+
+            {# Messages triés par nbr d'upvote et sinon par publishDate (récent en haut) [différent d'un chat] #}
+            <div class="listContainer">
+
+                {# form de publication de post sur le topic #}
+                {% if media.status == "open" %}
+                
+                    {{ form_start(formAddMediaPost) }}
+                        <div class="inline" style="position:relative; margin: 5px auto;">
+                            {{ form_widget(formAddMediaPost.text) }} 
+                            {{ form_widget(formAddMediaPost.submit) }}
+                        </div>
+                        
+                    {{ form_end(formAddMediaPost) }}
+                    <script>
+                        document.querySelector('#media_post_submit').style.color = "{{ media.game.color }}";
+                    </script>
+
+                {% elseif media.status == "closed" %}
+                    
+                    <p class="emptyListMsg"><i class="fa-solid fa-triangle-exclamation warning"></i>Le média a été fermé</p>
+
+                {% endif %}
+
+
+                {# Trait séparateur #}
+                <div style="width:60%; margin:10px auto; height:1px; background-color:{{ media.game.color }}"></div>
+
+
+
+                {# Liste des posts (à trier selon nbr Upvotes + date dans le Repo) #}
+                {% if mediaPosts is empty %}
+                    <p class="emptyListMsg">Aucun commentaire. Soyez le premier à commenter !</p>
+                {% else %}
+                    {% for post in mediaPosts %}
+
+                        {% if app.user == post.user %}
+                            {% set postAuthorClass = "postAuthor" %}
+                        {% else %}
+                            {% set postAuthorClass = "" %}
+                        {% endif %}
+                        
+
+
+                        <div class="mediaPost {{ postAuthorClass }}">
+                            
+                            {# Post text et auteur #}
+                            <div class="postContent">
+                                <p>{{ post.text }}</p>
+
+                                {% if post.user == app.user %}
+                                    <span>par vous</span>
+                                {% else %}
+                                    <span>par {{ post.user.pseudo }}</span>
+                                {% endif %}
+                            </div>
+
+                            {# Post upvote/downvote #}
+                            <div style="display:inline-flex; flex-direction:column;">
+
+                                {% set isUpvoted = false %}
+                                {% set isDownvoted = false %}
+                                {% for like in post.mediaPostLikes %}
+                                    {% if like.user == app.user and like.mediaPost.id == post.id %}
+                                        {% if like.state == "upvote" %}
+                                            {% set isUpvoted = true %}
+                                        {% elseif like.state == "downvote" %}
+                                            {% set isDownvoted = true %}
+                                        {% endif %}
+                                    {% endif %}
+                                {% endfor %}
+
+                                {% if isUpvoted %}
+                                    <span><a href="{{ path('app_upvoteMediaPost',{'id':post.id}) }}"><i class="fa-solid fa-caret-up" style="color:{{ media.game.color }}"></i></a></span>
+                                {% else %}
+                                    <span><a href="{{ path('app_upvoteMediaPost',{'id':post.id}) }}"><i class="fa-solid fa-caret-up"></i></a></span>
+                                {% endif %}
+
+                                {% if post.score < 0 %}
+                                    <span style="text-align:center; color:red; font-weight:900;">{{ post.score }}</span>
+                                {% else %}
+                                    <span style="text-align:center; font-weight:900;">{{ post.score }}</span>
+                                {% endif %}
+                                
+                                {% if isDownvoted %}
+                                    <span><a href="{{ path('app_downvoteMediaPost',{'id':post.id}) }}"><i class="fa-solid fa-caret-down" style="color:{{ media.game.color }}"></i></a></span>
+                                {% else %}
+                                    <span><a href="{{ path('app_downvoteMediaPost',{'id':post.id}) }}"><i class="fa-solid fa-caret-down"></i></a></span>
+                                {% endif %}
+
+                            </div>
+
+                        </div>
+
+                    {% endfor %}
+
+                {% endif %}
+
+                
+            </div>
+
         </div>
 
     </div>
