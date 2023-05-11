@@ -6,6 +6,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use App\Entity\User;
 use App\Entity\Game;
 use App\Entity\Topic;
+use App\Entity\Media;
 use Doctrine\ORM\PersistentCollection;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -46,12 +47,32 @@ class UserController extends AbstractController
                 ->setParameter('user', $this->getUser());
             $userTopicsCount = $queryBuilder->getQuery()->getSingleScalarResult();
 
+
+            // Médias du user limit 8 du plus récent au plus ancien
+            $queryBuilder = $entityManager->createQueryBuilder();
+            $queryBuilder->select('m')
+                ->from('App\Entity\Media', 'm')
+                ->where('m.user = :user')
+                ->setParameter('user', $this->getUser())
+                ->orderBy('m.publish_date', 'DESC')
+                ->setMaxResults(8); 
+            $userMedias = $queryBuilder->getQuery()->getResult();
+
+            $queryBuilder = $entityManager->createQueryBuilder();
+            $queryBuilder->select('COUNT(m.id)')
+                ->from(Media::class, 'm')
+                ->where('m.user = :user')
+                ->setParameter('user', $this->getUser());
+            $userMediasCount = $queryBuilder->getQuery()->getSingleScalarResult();
+
             return $this->render('user/profil.html.twig', [
                 'user' => $user,
                 'userRole' => $userRole,
                 'userFav' => $userFav,
                 'userTopics' => $userTopics,
                 'userTopicsCount' => $userTopicsCount,
+                'userMedias' => $userMedias,
+                'userMediasCount' => $userMediasCount,
             ]);
         }
         else {

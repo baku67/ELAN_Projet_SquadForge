@@ -104,7 +104,7 @@
 
 
 
-        <h3>Topics bubliés <span class="gameListCount">({{ userTopicsCount }})</span></h3>
+        <h3>Topics publiés <span class="gameListCount">({{ userTopicsCount }})</span></h3>
         <div class="listContainer topicList marginTop">
         
             {% for topic in userTopics %}
@@ -130,6 +130,103 @@
 
         </div>
 
+        
+
+        <h3>Médias publiés <span class="gameListCount">({{ userMediasCount }})</span></h3>
+
+        <div class="listContainer marginTop mediaListGrid">
+        
+            {% for media in userMedias %}
+
+                <div style="height:fit-content;">
+
+                    {% if app.user.autoPlayGifs %}
+                    <a href="{{ path('app_mediaDetail', {'id': media.id}) }}">
+                    {% endif %}
+
+                        <div class="mediaCard">
+
+                            {% if not app.user.autoPlayGifs %}
+                            <a href="{{ path('app_mediaDetail', {'id': media.id}) }}">
+                            {% endif %}
+                            <div class="mediaCardHeader" style="border-bottom: 5px solid {{ media.game.color }}">
+                                <img class="tinyLogo" src="{{ asset('img/games/tinyLogo/' ~ media.game.tinyLogo) }}" />
+                                <span class="mediaTitle">{{ media.title|capitalize }}</span>
+                                {# <span>{{ media.status }}</span>
+                                <span>{{ media.user.pseudo }}</span> #}
+                                <span class="topicCardPublishDate">{{ time_diff(media.publishDate) }}</span>
+                            </div>
+                            {% if not app.user.autoPlayGifs %}
+                            </a>
+                            {% endif %}
+
+                            {# Gif autoplay=false si paramètre user #}
+                            {% if not app.user.autoPlayGifs %}
+                                <img data-gifffer="{{ asset("img/uploads/" ~ media.url) }}" data-gifffer-alt="media" class="mediaImg" />
+                            {% else %}
+                                <img src="{{ asset("img/uploads/" ~ media.url) }}" alt="media" class="mediaImg" />
+                            {% endif %}
+
+                        </div>
+
+                    {% if app.user.autoPlayGifs %}
+                    </a>
+                    {% endif %}
+
+
+                    {% if not app.user.autoPlayGifs %}
+                        <a href="{{ path('app_mediaDetail', {'id': media.id}) }}">Voir</a>
+                    {% endif %}
+
+
+                    {# Upvote/downvote média + score + nbrPosts #}
+                    <div class="mediaCardStatsDiv">
+
+                        {# Pas opti: bloucle sur tous les likes du post pour savoir si liké (boucle dans boucle) #}
+                        {% set liked = "" %}
+                        {% for upvote in media.UserUpvote %}
+                            {% if upvote == app.user %}
+                                {% set liked = "upBtnLiked" %}
+                            {% endif %}
+                        {% endfor %}
+
+                        <div class="inline">
+                            <a href="{{ path('app_likeMedia',{'id':media.id}) }}">
+                                <i class="fa-regular fa-circle-up {{ liked }}"></i>
+                            </a>
+                            {# <i class="fa-regular fa-circle-down"></i> #}
+                            <p> {{ media.upvoteCount }}</p>
+                        </div>
+                    
+                        {% if media.mediaPostsCount == 0 %}
+                            <a href="{{ path('app_mediaDetail', {'id':media.id}) }}">
+                                <span style="opacity:0.5;">{{ media.mediaPostsCount }} 
+                                    <i class="fa-solid fa-message" style="color:grey;"></i>
+                                </span>
+                            </a>
+                        {% else %}
+                            <a href="{{ path('app_mediaDetail', {'id':media.id}) }}">
+                                <span>{{ media.mediaPostsCount }} 
+                                    <i class="fa-solid fa-message" style="color:var(--primary-color)"></i>
+                                </span>
+                            </a>
+                        {% endif %}
+
+                    </div>
+
+                    <br>
+                    {# <div style="width:100%; margin: 0 auto; height:3px; background-color: {{ media.game.color }}; opacity:0.5;"></div> #}
+                    <br>
+
+                </div>
+
+            {% endfor %}
+
+            <span class="seeAllRedirect">
+                <a href="{{ path('app_allMediasUser') }}">Tout voir  <i class="fa-solid fa-chevron-right"></i></a>
+            </span>
+
+        </div>
 
 
 

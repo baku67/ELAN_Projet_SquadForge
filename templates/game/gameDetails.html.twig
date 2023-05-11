@@ -22,44 +22,47 @@
     </ul>
 
 
-
-
     <div class="main">
 
-        {# Infos du jeu et Btn Favoris #}
-        <div class="marginTop marginBottom" style="display:inline-flex; width:100%; justify-content:space-between;">
-            <h3 class="gameSubTitle noMarginBottom" style="background-color:{{ game.color }}">Infos</h3>
-            {# Bouton Favoris state #}
-            {% if app.user %}
-                {% if isFavorited %}
-                    <a class="favButton" href="{{ path('app_removefav', {'id': game.id}) }}" style="border-top: 1px solid {{ game.color }}; border-bottom: 1px solid {{ game.color }};">Favoris <i  style="color:{{ game.color }};" class="fa-solid fa-heart"></i></a>
+        {# Test Image Background BRUT #}
+        <div class="gameHeaderInfos" clas="gameSubImgBg" style="background-image: radial-gradient(circle, rgba(255,255,255,0) 0%, rgba(35,35,35,0.95) 65%), url('{{asset("img/games/headerBackground/overwatchHeaderBg.jpg")}}'); background-size:cover; background-repeat:no-repeat;">
+
+            {# Infos du jeu et Btn Favoris #}
+            <div class="marginTop marginBottom" style="display:inline-flex; width:100%; justify-content:space-between;">
+                <h3 class="gameSubTitle noMarginBottom" style="background-color:{{ game.color }}">Infos</h3>
+                {# Bouton Favoris state #}
+                {% if app.user %}
+                    {% if isFavorited %}
+                        <a class="favButton" href="{{ path('app_removefav', {'id': game.id}) }}" style="border-top: 1px solid {{ game.color }}; border-bottom: 1px solid {{ game.color }};">Favoris <i  style="color:{{ game.color }};" class="fa-solid fa-heart"></i></a>
+                    {% else %}
+                        <a class="favButton" href="{{ path('app_addfav', {'id': game.id}) }}">Favoris <i class="fa-regular fa-heart"></i></a>
+                    {% endif %}
                 {% else %}
-                    <a class="favButton" href="{{ path('app_addfav', {'id': game.id}) }}">Favoris <i class="fa-regular fa-heart"></i></a>
+                        <a class="favButton" href="{{ path('app_addfav', {'id': game.id}) }}">Favoris <i class="fa-regular fa-heart"></i></a>
                 {% endif %}
-            {% else %}
-                    <a class="favButton" href="{{ path('app_addfav', {'id': game.id}) }}">Favoris <i class="fa-regular fa-heart"></i></a>
-            {% endif %}
+            </div>
+            <p>Éditeur: {{ game.editor }}</p>
+            <p>Date de sortie: {{ game.publishDate|date('Y-m-d') }}</p>
+            <p>Genre: <a class="underlineLink" href="{{ path('app_genreGames', {'id': game.genre.id }) }}">{{ gameGenre }}</a></p>
+            
+            {# Form Notation (Ajax) #}
+            <div class="rate">
+                <input type="radio" id="star5" name="rate" value="5"/>
+                <label for="star5" title="text">5 stars</label>
+                <input type="radio" id="star4" name="rate" value="4" />
+                <label for="star4" title="text">4 stars</label>
+                <input type="radio" id="star3" name="rate" value="3" />
+                <label for="star3" title="text">3 stars</label>
+                <input type="radio" id="star2" name="rate" value="2" />
+                <label for="star2" title="text">2 stars</label>
+                <input type="radio" id="star1" name="rate" value="1" />
+                <label for="star1" title="text">1 star</label>
+            </div>
+            {# <p>{{ userGameNotation.note }}</p> #}
+            <p>Nbr notes: {{ nbrOfNotations }}</p>
+            <p>Moyenne: {{ averageRating }}</p>
+
         </div>
-        <p>Éditeur: {{ game.editor }}</p>
-        <p>Date de sortie: {{ game.publishDate|date('Y-m-d') }}</p>
-        <p>Genre: <a class="underlineLink" href="{{ path('app_genreGames', {'id': game.genre.id }) }}">{{ gameGenre }}</a></p>
-        
-        {# Form Notation (Ajax) #}
-        <div class="rate">
-            <input type="radio" id="star5" name="rate" value="5"/>
-            <label for="star5" title="text">5 stars</label>
-            <input type="radio" id="star4" name="rate" value="4" />
-            <label for="star4" title="text">4 stars</label>
-            <input type="radio" id="star3" name="rate" value="3" />
-            <label for="star3" title="text">3 stars</label>
-            <input type="radio" id="star2" name="rate" value="2" />
-            <label for="star2" title="text">2 stars</label>
-            <input type="radio" id="star1" name="rate" value="1" />
-            <label for="star1" title="text">1 star</label>
-        </div>
-        {# <p>{{ userGameNotation.note }}</p> #}
-        <p>Nbr notes: {{ nbrOfNotations }}</p>
-        <p>Moyenne: {{ averageRating }}</p>
 
         <script>
 
@@ -274,9 +277,7 @@
                     <a href="{{ path('app_mediaDetail', {'id': media.id}) }}">
                     {% endif %}
                         
-
                         <div class="mediaCard">
-
 
                             {% if app.user and not app.user.autoPlayGifs %}
                             <a href="{{ path('app_mediaDetail', {'id': media.id}) }}">

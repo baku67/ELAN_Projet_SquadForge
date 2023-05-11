@@ -84,7 +84,7 @@
 
                 <div style="height:fit-content;">
 
-                    {% if app.user and app.user.autoPlayGifs %}
+                    {% if app.user and app.user.autoPlayGifs or not app.user %}
                     <a href="{{ path('app_mediaDetail', {'id': media.id}) }}">
                     {% endif %}
                         
@@ -119,7 +119,7 @@
                             
                         </div>
 
-                    {% if app.user and app.user.autoPlayGifs %}
+                    {% if app.user and app.user.autoPlayGifs or not app.user %}
                     </a>
                     {% endif %}
 
@@ -134,9 +134,9 @@
                     <div class="mediaCardStatsDiv">
 
                         {# Pas opti: bloucle sur tous les likes du post pour savoir si liké (boucle dans boucle) #}
-                        {% if app.user %}
+                        {% set liked = "" %}
 
-                            {% set liked = "" %}
+                        {% if app.user %}
 
                             {% for upvote in media.UserUpvote %}
 
@@ -145,7 +145,7 @@
                                 {% endif %}
 
                             {% endfor %}
-
+                            
                         {% endif %}
 
                         

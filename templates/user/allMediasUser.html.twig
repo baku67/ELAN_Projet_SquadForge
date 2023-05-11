@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Medias{% endblock %}
+{% block title %}Médias publiés{% endblock %}
 
 {% block body %}
 
@@ -15,13 +15,14 @@
 
     <div class="main">
 
-        <p><a href="{{ path('app_home') }}" class="underlineLink">Home</a> - Médias</p>
+        <p><a class="underlineLink" href="{{ path('app_user') }}">Mon espace</a> - Mes Médias</p>
 
-        <h2>Tous les Médias <span class="gameListCount">({{ allMediasCount }})</span></h2>
+        <h2>Médias publiés <span class="gameListCount">({{ userMediasCount }})</span></h2>
 
-        <div class="listContainer marginTop mediaList">
+        <div class="listContainer topicList marginTop">
 
-            {% for media in allMediasDesc %}
+            {% for media in userMedias %}
+
 
                 {% if app.user and app.user.autoPlayGifs %}
                 <a href="{{ path('app_mediaDetail', {'id': media.id}) }}">
@@ -82,6 +83,7 @@
                 <div style="width:30%; margin: 0 auto; height:1px; background-color: {{ media.game.color }}; opacity:0.5;"></div>
                 <br>
             {% endfor %}
+
         </div>
 
         

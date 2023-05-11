@@ -81,8 +81,8 @@
                         <div class="mediaCardHeader" style="border-bottom: 4px solid {{ media.game.color }}">
                             <img class="tinyLogo" src="{{ asset('img/games/tinyLogo/' ~ media.game.tinyLogo) }}" />
                             <span class="topicTitle">{{ media.title|capitalize }}</span>
-                            <span>{{ media.status }}</span>
-                            <span>{{ media.user.pseudo }}</span>
+                            {# <span>{{ media.status }}</span>
+                            <span>{{ media.user.pseudo }}</span> #}
                             <span class="topicCardPublishDate">{{ time_diff(media.publishDate) }}</span>
                         </div>
                         {% if app.user and not app.user.autoPlayGifs %}

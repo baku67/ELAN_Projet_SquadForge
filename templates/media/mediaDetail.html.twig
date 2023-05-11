@@ -61,9 +61,9 @@
             {% if app.user == media.user %}
 
                 {% if media.status == "closed" %}
-                    <p style="font-family: 'K2D';"><a href="{{ path('app_openTopic', {'id': media.id}) }}"><span style="color:#00ffaf;">Rouvrir le média</span></a></p>
+                    <p style="font-family: 'K2D';"><a href="{{ path('app_openMedia', {'id': media.id}) }}"><span style="color:#00ffaf;">Rouvrir le média</span></a></p>
                 {% elseif media.status == "open" %}
-                    <p style="font-family: 'K2D';"><a href="{{ path('app_closeTopic', {'id': media.id}) }}"><span style="color:#ff004c;">Fermer le média</span></a></p>
+                    <p style="font-family: 'K2D';"><a href="{{ path('app_closeMedia', {'id': media.id}) }}"><span style="color:#ff004c;">Fermer le média</span></a></p>
                 {% endif %}
                 
             {% endif %}
@@ -72,9 +72,10 @@
             {# If user, sinon rediret login #}
 
             {# Pas opti: bloucle sur tous les likes du post pour savoir si liké (boucle dans boucle) #}
+            {% set liked = "" %}
+            
             {% if app.user %}
 
-                {% set liked = "" %}
                 {% for upvote in media.UserUpvote %}
 
                     {% if upvote == app.user %}
@@ -103,7 +104,7 @@
                 {% if media.status == "open" %}
                 
                     {{ form_start(formAddMediaPost) }}
-                        <div class="inline" style="position:relative; margin: 5px auto;">
+                        <div style="position:relative; margin: 5px auto;">
                             {{ form_widget(formAddMediaPost.text) }} 
                             {{ form_widget(formAddMediaPost.submit) }}
                         </div>

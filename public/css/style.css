@@ -657,13 +657,27 @@ nav {
     margin: 30px auto;
 }
 
+/* .gameSubImgBg {
+    background-image: radial-gradient(circle, rgba(255,255,255,0.05615384615384615) 0%, rgba(35,35,35,1) 60%), url('{{asset("img/games/headerBackground/overwatchHeaderBg.jpg")}}');
+    background-size:cover; 
+    background-repeat:no-repeat;
+} */
 
+
+.gameHeaderInfos {
+    
+}
+
+
+/* Media Grid  */
 .mediaListGrid {
     display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    grid-template-rows: masonry;
-    grid-column-gap: 7px;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    grid-auto-flow: dense;
+    /* grid-template-rows: masonry; */
+    grid-column-gap: px;
     grid-row-gap: 0px;
+
 
 }
 

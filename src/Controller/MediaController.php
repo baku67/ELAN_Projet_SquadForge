@@ -326,9 +326,6 @@ class MediaController extends AbstractController
 
 
 
-
-
-
     // Like d'un Media par user (id: idMedia)
     #[Route('/likeMedia/{id}', name: 'app_likeMedia')]
     public function likeMedia(EntityManagerInterface $entityManager, int $id, Request $request): Response
@@ -369,13 +366,6 @@ class MediaController extends AbstractController
 
 
     }
-
-
-
-
-
-
-
 
 
 
@@ -519,5 +509,85 @@ class MediaController extends AbstractController
         }
     
     }
+
+
+
+
+
+
+
+
+    // Tout les Médias de l'user connecté (from profil)
+    #[Route('/allMediasUser', name: 'app_allMediasUser')]
+    public function getAllMediasUser(EntityManagerInterface $entityManager): Response
+    {
+        $mediaRepo = $entityManager->getRepository(Media::class);
+
+        $userMediasDesc = $mediaRepo->findBy(['user' => $this->getUser()], ['publish_date' => 'DESC']);
+        $userMediasCount = count($userMediasDesc);
+
+        return $this->render('user/allMediasUser.html.twig', [
+            'userMedias' => $userMediasDesc,
+            'userMediasCount' => $userMediasCount,
+        ]);
+
+    }
+
+
+
+
+
+
+
+
+
+
+
+        // Fermeture de Média par author (id: idMédia)  
+        #[Route('/closeMedia/{id}', name: 'app_closeMedia')]
+        public function closeMedia(EntityManagerInterface $entityManager, int $id, Request $request): Response
+        {
+            $mediaRepo = $entityManager->getRepository(Media::class);
+    
+            $media = $mediaRepo->find($id);
+    
+            // Vérif si user est bien l'auteur du média
+            if ($this->getUser() == $media->getUser()) {
+    
+                $media->setStatus("closed");
+                $entityManager->flush();
+    
+                $this->addFlash('success', 'Le média a bien été fermé');
+                return $this->redirectToRoute('app_mediaDetail', ['id' => $id]); 
+            }
+            else {
+                $this->addFlash('error', 'Vous devez être l\'auteur du média ou admin pour pouvoir le fermer');
+                return $this->redirectToRoute('app_mediaDetail', ['id' => $id]); 
+            }
+        }
+    
+        // Réouverture du Média par author (id: idMedia)  
+        #[Route('/openMedia/{id}', name: 'app_openMedia')]
+        public function openMedia(EntityManagerInterface $entityManager, int $id, Request $request): Response
+        {
+            $mediaRepo = $entityManager->getRepository(Media::class);
+    
+            $media = $mediaRepo->find($id);
+    
+            // Vérif si user est bien l'auteur du media
+            if ($this->getUser() == $media->getUser()) {
+    
+                $media->setStatus("open");
+                $entityManager->flush();
+    
+                $this->addFlash('success', 'Le media a bien été rouvert');
+                return $this->redirectToRoute('app_mediaDetail', ['id' => $id]); 
+            }
+            else {
+                $this->addFlash('error', 'Vous devez être l\'auteur du media ou admin pour pouvoir le rouvrir');
+                return $this->redirectToRoute('app_mediaDetail', ['id' => $id]); 
+            }
+        }
+    
 
 }
