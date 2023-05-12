@@ -376,8 +376,7 @@ class MediaController extends AbstractController
         }
         else {
 
-            $this->addFlash('error', 'Vous devez être connecté pour liker un média');
-            return $this->redirectToRoute('app_login');
+            return new JsonResponse(['success' => false]);
 
         }
         

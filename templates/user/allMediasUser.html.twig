@@ -69,8 +69,25 @@
                 {% endif %}
 
                 {# Upvote/downvote média + score + nbrPosts #}
-                <i class="fa-regular fa-circle-up"></i><i class="fa-regular fa-circle-down"></i>
-                <p>test score</p>
+                {# Pas opti: bloucle sur tous les likes du post pour savoir si liké (boucle dans boucle) #}
+                {% set liked = "" %}
+                
+                {% if app.user %}
+
+                    {% for upvote in media.UserUpvote %}
+
+                        {% if upvote == app.user %}
+                            {% set liked = "upBtnLiked" %}
+                        {% endif %}
+
+                    {% endfor %}
+                {% endif %}
+                <div class="inline">
+                    <i mediaId={{ media.id }} class="likeMedia fa-regular fa-circle-up {{ liked }}"></i>
+                    {# <i class="fa-regular fa-circle-down"></i> #}
+                    <p id="countLikesMedia{{ media.id }}" value="{{ media.upvoteCount }}"> {{ media.upvoteCount }} </p>
+                </div>
+
                 
                 {% if media.mediaPostsCount == 0 %}
                     <span style="opacity:0.5;">{{ media.mediaPostsCount }} <i class="fa-solid fa-message" style="color:grey;"></i></span>
