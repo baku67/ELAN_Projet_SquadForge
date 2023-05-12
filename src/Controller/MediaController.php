@@ -11,6 +11,7 @@ use App\Form\MediaPostType;
 use Doctrine\ORM\EntityManagerInterface;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
@@ -343,17 +344,34 @@ class MediaController extends AbstractController
 
                 // En attendant l'asynch (pour l'instant le redirect est deg)
                 $media->removeUserUpvote($user);
-                $this->addFlash('success', 'Votre avez unliké');
+                // $this->addFlash('success', 'Votre avez unliké');
+
+                $entityManager->flush();
+
+                // Nouveau compte de likes du média
+                $likeCount = count($media->getUserUpvote());
+
+                // unliké
+                return new JsonResponse(['success' => true, 'newState' => "unliked", 'newCountLikes' => $likeCount]);
+
             }
             else {
                 // En attendant l'asynch (pour l'instant le redirect est deg)
                 $media->addUserUpvote($user);
-                $this->addFlash('success', 'Votre avez liké');
+                // $this->addFlash('success', 'Votre avez liké');
+
+                $entityManager->flush();
+
+                // Nouveau compte de likes du média
+                $likeCount = count($media->getUserUpvote());
+
+                // liké
+                return new JsonResponse(['success' => true, 'newState' => "liked", 'newCountLikes' => $likeCount]);
             }
 
-            $entityManager->flush();
+            // $entityManager->flush();
 
-            return $this->redirectToRoute('app_mediaDetail', ['id' => $media->getId()]);
+            // return $this->redirectToRoute('app_mediaDetail', ['id' => $media->getId()]);
 
         }
         else {
@@ -363,8 +381,6 @@ class MediaController extends AbstractController
 
         }
         
-
-
     }
 
 

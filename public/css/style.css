@@ -876,3 +876,10 @@ nav {
   .toggleAutoPlay input:checked+.slider::before {
     transform: translateX(calc(var(--width) - var(--height)));
   }
+
+
+
+
+  .fa-circle-up {
+    cursor:pointer;
+  }

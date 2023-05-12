@@ -114,8 +114,24 @@
 
 
                 {# Upvote/downvote média + score + nbrPosts #}
-                <i class="fa-regular fa-circle-up"></i><i class="fa-regular fa-circle-down"></i>
-                <p>test score</p>
+                {# Pas opti: bloucle sur tous les likes du post pour savoir si liké (boucle dans boucle) #}
+                {% set liked = "" %}
+                
+                {% if app.user %}
+
+                    {% for upvote in media.UserUpvote %}
+
+                        {% if upvote == app.user %}
+                            {% set liked = "upBtnLiked" %}
+                        {% endif %}
+
+                    {% endfor %}
+                {% endif %}
+                <div class="inline">
+                    <i mediaId={{ media.id }} class="fa-regular fa-circle-up {{ liked }}"></i>
+                    {# <i class="fa-regular fa-circle-down"></i> #}
+                    <p id="countLikesMedia{{ media.id }}" value="{{ media.upvoteCount }}"> {{ media.upvoteCount }} </p>
+                </div>
                 
                 {% if media.mediaPostsCount == 0 %}
                     <span style="opacity:0.5;">{{ media.mediaPostsCount }} <i class="fa-solid fa-message" style="color:grey;"></i></span>
@@ -134,102 +150,154 @@
 
 
 
+    {# Ajax asynch upvote de média #}
+    <script>
+
+        {% if app.user %}
+
+            {# Voucle sur tout les btn (à mettre en dehors du for media) #}
+            var btns = document.getElementsByClassName("fa-circle-up");
+            Array.prototype.forEach.call(btns, function(btn) {
+                
+                // console.log(btn.getAttribute('mediaId')); 
+                const id = btn.getAttribute('mediaId');
+
+                btn.addEventListener("click", function() {
+                    
+                    fetch('/likeMedia/' + id, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        }
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.success) {
+                            document.querySelector('#ajaxFlash').textContent = "Votre note a bien été pris en compte";
+                            document.querySelector('#ajaxFlash').classList.add("ajaxFlashAnim", "successAjaxFlash");
+                        } else {
+                            document.querySelector('#ajaxFlash').textContent = "Il y a eu un problème lors de l'envoi de votre note";
+                            document.querySelector('#ajaxFlash').classList.add("ajaxFlashAnim", "errorAjaxFlash");
+                        }
+
+                        if (data.newState == "liked") {
+                            console.log("liked");
+                            btn.style.color = "var(--primary-color)";
+                            document.getElementById("countLikesMedia" + id).innerHTML = data.newCountLikes;
+                        }
+                        else if (data.newState == "unliked") {
+                            console.log("unliked");
+                            btn.style.color = "var(--white)";
+                            document.getElementById("countLikesMedia" + id).innerHTML = data.newCountLikes;
+                        }
+                    })
+
+                })
+            
+            })
+            
+        {% else %}
+
+            document.querySelector('#ajaxFlash').textContent = "Vous devez être connecté pour pouvoir liker un média";
+            document.querySelector('#ajaxFlash').classList = "";
+            document.querySelector('#ajaxFlash').classList.add("ajaxFlashAnim", "errorAjaxFlash");
+
+        {% endif %}
+
+    </script>
 
 
 
 
 
 
+    {# Script vérif fileExtension et fileSize #}
+    <script>
 
+        var textCriteria = false;
+        var fileExtCriteria = false;
+        var fileSizeCriteria = false;
 
+        let fileInput = document.getElementById('media_url');
+        fileInput.addEventListener('change', function(event) {
+            var uploadedFile = event.target.files[0];
+            const maxFileSize = 10 * 1024 * 1024; // 10 MB 
 
-{# Script vérif fileExtension et fileSize #}
-        <script>
-
-            var textCriteria = false;
-            var fileExtCriteria = false;
-            var fileSizeCriteria = false;
-
-            let fileInput = document.getElementById('media_url');
-            fileInput.addEventListener('change', function(event) {
-                var uploadedFile = event.target.files[0];
-                const maxFileSize = 10 * 1024 * 1024; // 10 MB 
-
-                if (uploadedFile && uploadedFile.size > maxFileSize) {
-                    // event.target.value = ''; // On supprimer le fichier de l'input
-                    document.getElementById('fileCriteria').style.color = 'red';
-                    document.getElementById('fileCriteria').innerHTML = "( > 10 MB <i class='fa-solid fa-triangle-exclamation'></i> )";
-                    fileSizeCriteria = false;
-                }
-                else {
-                    document.getElementById('fileCriteria').style.color = '#00c600';
-                    document.getElementById('fileCriteria').innerHTML = "( 10 MB <i class='fa-solid fa-check'></i> )";
-                    fileSizeCriteria = true;
-                }
-
-                uploadedFileExt = getFileExtension(uploadedFile.name);
-
-                const allowedExtensions = ['png', 'jpg', 'jpeg', 'gif'];
-
-                if (allowedExtensions.includes(uploadedFileExt.toLowerCase())) {
-                    document.getElementById('extensionCriteria').style.color = '#00c600';
-                    document.getElementById('extensionCriteria').innerHTML = "( .png .jpg .gif .jpeg <i class='fa-solid fa-check'></i> )";
-                    fileExtCriteria = true;
-                }
-                else {
-                    document.getElementById('extensionCriteria').style.color = 'red';
-                    document.getElementById('extensionCriteria').innerHTML = "( .png .jpg .gif .jpeg <i class='fa-solid fa-triangle-exclamation'></i> )";
-                    fileExtCriteria = false;        
-                }
-            });
-
-            function getFileExtension(filename) {
-                return filename.split('.').pop();
+            if (uploadedFile && uploadedFile.size > maxFileSize) {
+                // event.target.value = ''; // On supprimer le fichier de l'input
+                document.getElementById('fileCriteria').style.color = 'red';
+                document.getElementById('fileCriteria').innerHTML = "( > 10 MB <i class='fa-solid fa-triangle-exclamation'></i> )";
+                fileSizeCriteria = false;
+            }
+            else {
+                document.getElementById('fileCriteria').style.color = '#00c600';
+                document.getElementById('fileCriteria').innerHTML = "( 10 MB <i class='fa-solid fa-check'></i> )";
+                fileSizeCriteria = true;
             }
 
+            uploadedFileExt = getFileExtension(uploadedFile.name);
 
-            {# Script vérif Front 5 mots minimum #}
+            const allowedExtensions = ['png', 'jpg', 'jpeg', 'gif'];
 
-            let charContMsg2 = document.querySelector("#charCountMsgMedia");
-            let textInput2 = document.querySelector('#media_title');
+            if (allowedExtensions.includes(uploadedFileExt.toLowerCase())) {
+                document.getElementById('extensionCriteria').style.color = '#00c600';
+                document.getElementById('extensionCriteria').innerHTML = "( .png .jpg .gif .jpeg <i class='fa-solid fa-check'></i> )";
+                fileExtCriteria = true;
+            }
+            else {
+                document.getElementById('extensionCriteria').style.color = 'red';
+                document.getElementById('extensionCriteria').innerHTML = "( .png .jpg .gif .jpeg <i class='fa-solid fa-triangle-exclamation'></i> )";
+                fileExtCriteria = false;        
+            }
+        });
 
-            textInput2.addEventListener("input", function() {
-
-                let text = textInput2.value;
-                const words = text.split(" ");
-                const wordCount = words.length;
-
-                if(wordCount <= 5) {
-                    charContMsg2.style.color = "red";
-                    textCriteria = false;
-                }
-                else {
-                    charContMsg2.style.color = "#00be00";
-                    textCriteria = true;
-                }
-            })
+        function getFileExtension(filename) {
+            return filename.split('.').pop();
+        }
 
 
-            // disable du bouton submit si les critères ne sont pas remplis
-            document.getElementById('media_submit').disabled = true;
+        {# Script vérif Front 5 mots minimum #}
 
-            textInput2.addEventListener("input", function() {
-                if (textCriteria && fileExtCriteria && fileSizeCriteria) {
-                    document.getElementById('media_submit').disabled = false;
-                }
-                else {
-                    document.getElementById('media_submit').disabled = true;
-                }
-            });
-            fileInput.addEventListener("change", function() {
-                if (textCriteria && fileExtCriteria && fileSizeCriteria) {
-                    document.getElementById('media_submit').disabled = false;
-                }
-                else {
-                    document.getElementById('media_submit').disabled = true;
-                }
-            });
-        </script>
+        let charContMsg2 = document.querySelector("#charCountMsgMedia");
+        let textInput2 = document.querySelector('#media_title');
+
+        textInput2.addEventListener("input", function() {
+
+            let text = textInput2.value;
+            const words = text.split(" ");
+            const wordCount = words.length;
+
+            if(wordCount <= 5) {
+                charContMsg2.style.color = "red";
+                textCriteria = false;
+            }
+            else {
+                charContMsg2.style.color = "#00be00";
+                textCriteria = true;
+            }
+        })
+
+
+        // disable du bouton submit si les critères ne sont pas remplis
+        document.getElementById('media_submit').disabled = true;
+
+        textInput2.addEventListener("input", function() {
+            if (textCriteria && fileExtCriteria && fileSizeCriteria) {
+                document.getElementById('media_submit').disabled = false;
+            }
+            else {
+                document.getElementById('media_submit').disabled = true;
+            }
+        });
+        fileInput.addEventListener("change", function() {
+            if (textCriteria && fileExtCriteria && fileSizeCriteria) {
+                document.getElementById('media_submit').disabled = false;
+            }
+            else {
+                document.getElementById('media_submit').disabled = true;
+            }
+        });
+    </script>
 
 
 
