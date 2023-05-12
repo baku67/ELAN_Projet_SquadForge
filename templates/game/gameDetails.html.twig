@@ -60,14 +60,16 @@
                     <label for="star1" title="text">1 star</label>
                 </div>
                 {% if nbrOfNotations > 1 %}
-                    <p class="gameNotationLine">Moy: {{ averageRating }}/5  ({{ nbrOfNotations }} votes)</p>
+                    <p class="gameNotationLine">Moy: <span id="gameRatingMoyValue">{{ averageRating }}</span>/5  (<span id="gameRatingNbrValue">{{ nbrOfNotations }}</span> votes)</p>
                 {% else %}
-                    <p class="gameNotationLine">Moy: {{ averageRating }}/5  ({{ nbrOfNotations }} vote)</p>
+                    <p class="gameNotationLine">Moy: <span id="gameRatingMoyValue">{{ averageRating }}</span>/5  (<span id="gameRatingNbrValue">{{ nbrOfNotations }}</span> vote)</p>
                 {% endif %}
             </div>
 
         </div>
 
+
+        {# Notation Game async #}
         <script>
 
             {% if userGameNotation %}
@@ -96,6 +98,8 @@
                     .then(data => {
                     if (data.success) {
                         document.querySelector('#ajaxFlash').textContent = "Votre note a bien été pris en compte";
+                        document.getElementById('gameRatingMoyValue').innerHTML = data.newAverageNote;
+                        document.getElementById('gameRatingNbrValue').innerHTML = data.newVoteCount;
                         document.querySelector('#ajaxFlash').classList.add("ajaxFlashAnim", "successAjaxFlash");
                     } else {
                         document.querySelector('#ajaxFlash').textContent = "Il y a eu un problème lors de l'envoi de votre note";

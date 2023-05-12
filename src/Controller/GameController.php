@@ -390,9 +390,25 @@ class GameController extends AbstractController
             // Sauvegarder ne base de données
             $entityManager->persist($notation);
             $entityManager->flush();
+
+            // Calc moyenne des notes (Voir pour AVG() sql QueryBuilder)
+            $queryBuilder = $entityManager->createQueryBuilder();
+            $queryBuilder->select('AVG(n.note)')
+                ->from('App\Entity\Notation', 'n')
+                ->where('n.game = :game')
+                ->setParameter('game', $game);
+            $averageRating = number_format($queryBuilder->getQuery()->getSingleScalarResult(), 1);
+
+            // Compte du nombre de Notes pour ce jeu 
+            $nbrOfNotationsQuery = $notationRepo->createQueryBuilder('n')
+            ->select('COUNT(n.id)')
+            ->where('n.game = :game')
+            ->setParameter('game', $game)
+            ->getQuery();
+            $nbrOfNotations = $nbrOfNotationsQuery->getSingleScalarResult();
             
             // $this->addFlash('success', 'Votre note a été prise en compte');
-            return new JsonResponse(['success' => true]);  
+            return new JsonResponse(['success' => true, 'newAverageNote' => $averageRating, 'newVoteCount' => $nbrOfNotations]);  
 
         }
         else {

@@ -1,5 +1,6 @@
 Library: "Imagine" -> need extension php "GD"  (resize/compress img/gifs/png)
 
+Si reclick user sur la meme note que celle déjà donnée: retire le vote (et étoiles pré-remplies jaunes)
 
 Ajouter table assoc user/game avec lastSeenTopicId et lastSeenMediaId (pour les NEW des cards jeux)
 
