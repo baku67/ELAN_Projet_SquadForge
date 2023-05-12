@@ -1,5 +1,10 @@
 Library: "Imagine" -> need extension php "GD"  (resize/compress img/gifs/png)
 
+
+Ajouter table assoc user/game avec lastSeenTopicId et lastSeenMediaId (pour les NEW des cards jeux)
+
+Asynch des upvote/downvotes Topics
+
 Médias liste scroll infinie avec regen  (+ bouton toggle affichage grid/linéaire )
 
 Limite de topic/media par jour (pour modo et anti-spam)
