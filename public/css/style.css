@@ -386,13 +386,13 @@ nav {
 
 .gameCardFav {
     position: absolute;
-    bottom: -20px;
-    padding: 4px 6px 4px 10px;
+    bottom: -16px;
+    padding: 0px 4px 0 0;
     right: 0px;
-    background-color: rgb(22, 22, 22);
-    clip-path: polygon(0 0, 100% 0, 100% 100%, 18% 100%);
-    opacity: 0.7;
-    color: var(--primary-color);
+    /* background-color: rgb(22, 22, 22); */
+    /* clip-path: polygon(0 0, 100% 0, 100% 100%, 18% 100%); */
+    opacity: 0.9;
+    color: var(--primary-color) !important;
     /* filter: drop-shadow(2px 4px 8px black); */
     /* text-shadow: 1px 1px black; */
     text-shadow: -1px -1px 0 rgba(0, 0, 0, 0.6), 1px -1px 0 rgba(0, 0, 0, 0.6), -1px 1px 0 rgba(0, 0, 0, 0.6), 1px 1px 0 rgba(0, 0, 0, 0.6);
@@ -668,6 +668,11 @@ nav {
 
 .mediaCard {
     background-color: rgba(167, 167, 167,0.8);
+    border-radius: 5px;
+    padding: 1px 1px 1px 1px;
+}
+.mediaCardPreview {
+    /* background-color: rgba(167, 167, 167,0.8); */
     border-radius: 5px;
     padding: 1px 1px 1px 1px;
 }

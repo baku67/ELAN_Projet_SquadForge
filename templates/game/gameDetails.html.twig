@@ -272,8 +272,59 @@
 
                 {{ form_widget(formAddMedia._token) }}
             {{ form_end(formAddMedia) }}
+
+
+            <div class="mediaCardPreview">
+                <div id="preview-container">
+                            <div id="mediaCardHeader">
+                                <span class="mediaTitle">TES TEST</span>
+                
+                            </div>
+
+                </div>
+            </div>
             
+
+
+
         </div>
+
+
+        {# Script aperçu media upload #}
+        <script>
+            // Sélectionnez votre élément d'entrée de type fichier (input file)
+            const input = document.getElementById('media_url');
+
+            // Ajoutez un écouteur d'événements "change" sur l'élément d'entrée
+            input.addEventListener('change', (e) => {
+                // Obtenez le fichier sélectionné
+                const file = e.target.files[0];
+
+                if (file) {
+                    // Créez un objet FileReader
+                    const reader = new FileReader();
+
+                    // Définissez l'événement onload du FileReader
+                    reader.onload = (e) => {
+                        // Créez une balise d'image pour afficher la prévisualisation
+                        const img = document.createElement('img');
+                        img.src = e.target.result;
+
+                        // Ajoutez l'image prévisualisée à un élément de votre choix dans le DOM
+                        const previewContainer = document.getElementById('mediaCardHeader');
+                        previewContainer.innerHTML = '';
+                        previewContainer.prepend(img);
+                    };
+
+                    // Lisez le contenu du fichier en tant que données URL
+                    reader.readAsDataURL(file);
+                }
+            });
+
+        </script>
+
+
+
 
         <div class="listContainer marginTop mediaListGrid">
 
@@ -329,18 +380,13 @@
                     <div class="mediaCardStatsDiv">
 
                         {# Pas opti: bloucle sur tous les likes du post pour savoir si liké (boucle dans boucle) #}
+                        {% set liked = "" %}
                         {% if app.user %}
-
-                            {% set liked = "" %}
-
                             {% for upvote in media.UserUpvote %}
-
                                 {% if upvote == app.user %}
                                     {% set liked = "upBtnLiked" %}
                                 {% endif %}
-
                             {% endfor %}
-
                         {% endif %}
 
 
