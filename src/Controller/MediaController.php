@@ -19,7 +19,7 @@ use Symfony\Component\HttpFoundation\Request;
 class MediaController extends AbstractController
 {
 
-    // Listing tous les Médias du jeu 
+    // Listing tous les Médias du jeu (max 20 Repo)
     #[Route('/allMedias/{gameIdFrom}', name: 'app_allMedias')]
     public function getGameMedias(EntityManagerInterface $entityManager, int $gameIdFrom, Request $request): Response
     {
@@ -27,23 +27,10 @@ class MediaController extends AbstractController
         $gameRepo = $entityManager->getRepository(Game::class);
         $gameFrom = $gameRepo->find($gameIdFrom);
 
+        // Dernier Médias du jeu (max 20 Repo) (+ count DQL total)
         $mediaRepo = $entityManager->getRepository(Media::class);
-
-        // Requete (juste listé par publish_date pour l'instant)
-        $queryBuilder = $entityManager->createQueryBuilder();
-        $queryBuilder->select('m')
-            ->from('App\Entity\Media', 'm')
-            ->where('m.game = :game')
-            ->setParameter('game', $gameFrom)
-            // ->orderBy('t.topicPostsCount', 'DESC') champ non mappé: faut ajouter un select avec CASE WHEN etc ...
-            ->orderBy('m.publish_date', 'DESC');
-        $gameMediasDesc = $queryBuilder->getQuery()->getResult();
-
-        $gameMediasCount = count($gameMediasDesc);
-
-
-
-
+        $gameMediasDesc = $mediaRepo->findGameLastMedias($gameFrom);
+        $gameMediasCount = $mediaRepo->countGameMedias($gameFrom);
 
         // Form ajout Media (Affichage et handleRequest)
         $media = new Media();
@@ -292,35 +279,21 @@ class MediaController extends AbstractController
 
 
 
-
-
-
-
     // Tout les Medias globaux (from /homePage)
     #[Route('/allMediasGlobal', name: 'app_allMediasGlobal')]
     public function getAllMediasGlobal(EntityManagerInterface $entityManager): Response
     {
-
-        $gameRepo = $entityManager->getRepository(Game::class);
         $mediaRepo = $entityManager->getRepository(Media::class);
 
-        // Liste de tous les Médias 
-        // Todo: findBy plutot
-        $queryBuilder = $entityManager->createQueryBuilder();
-        $queryBuilder->select('m')
-            ->from('App\Entity\Media', 'm')
-            ->orderBy('m.publish_date', 'DESC');
-        $allMediasDesc = $queryBuilder->getQuery()->getResult();
-
-        $allMediasCount = count($allMediasDesc);
-
+        // Tous les médias (max 50 Repo) + count DQL total
+        $allMediasDesc = $mediaRepo->findGlobalLastMedias();
+        $allMediasCount = $mediaRepo->countGlobalMedias();
 
         return $this->render('media/allMediasGlobal.html.twig', [
             'allMediasDesc' => $allMediasDesc,
             'allMediasCount' => $allMediasCount,
         ]);
     }
-
 
 
 

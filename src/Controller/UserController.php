@@ -28,42 +28,15 @@ class UserController extends AbstractController
             $userRole = $this->getUser()->getRoles();
             $userFav = $this->getUser()->getFavoris();
 
-            // $userTopics = $user->getTopics();
+            // Derniers Topics du user (+ count total DQL)
+            $topicRepo = $entityManager->getRepository(Topic::class);
+            $userTopics = $topicRepo->findUserLastTopics($user);
+            $userTopicsCount = $topicRepo->countUserTopics($user);
 
-            // Topics du user limit 5 du plus récent au plus ancien
-            $queryBuilder = $entityManager->createQueryBuilder();
-            $queryBuilder->select('t')
-                ->from('App\Entity\Topic', 't')
-                ->where('t.user = :user')
-                ->setParameter('user', $this->getUser())
-                ->orderBy('t.publish_date', 'DESC')
-                ->setMaxResults(5); 
-            $userTopics = $queryBuilder->getQuery()->getResult();
-
-            $queryBuilder = $entityManager->createQueryBuilder();
-            $queryBuilder->select('COUNT(t.id)')
-                ->from(Topic::class, 't')
-                ->where('t.user = :user')
-                ->setParameter('user', $this->getUser());
-            $userTopicsCount = $queryBuilder->getQuery()->getSingleScalarResult();
-
-
-            // Médias du user limit 8 du plus récent au plus ancien
-            $queryBuilder = $entityManager->createQueryBuilder();
-            $queryBuilder->select('m')
-                ->from('App\Entity\Media', 'm')
-                ->where('m.user = :user')
-                ->setParameter('user', $this->getUser())
-                ->orderBy('m.publish_date', 'DESC')
-                ->setMaxResults(8); 
-            $userMedias = $queryBuilder->getQuery()->getResult();
-
-            $queryBuilder = $entityManager->createQueryBuilder();
-            $queryBuilder->select('COUNT(m.id)')
-                ->from(Media::class, 'm')
-                ->where('m.user = :user')
-                ->setParameter('user', $this->getUser());
-            $userMediasCount = $queryBuilder->getQuery()->getSingleScalarResult();
+            // Derniers médias du user (+ count total DQL)
+            $mediaRepo = $entityManager->getRepository(Media::class);
+            $userMedias = $mediaRepo->findUserLastMedias($user);
+            $userMediasCount = $mediaRepo->countUserMedias($user);
 
             return $this->render('user/profil.html.twig', [
                 'user' => $user,
@@ -86,12 +59,9 @@ class UserController extends AbstractController
     public function toggleAutoplayGifs(EntityManagerInterface $entityManager, Request $request): Response
     {
 
-        // Récupérez les données de l'input
-        // $autoPlay = $request->request->get('bool');
-
         $user = $this->getUser();
 
-        // On inverse le state BDD
+        // On inverse le state BDD (à changer par value checkbox)
         if(!$user->isAutoPlayGifs()) {
             $user->setAutoPlayGifs(true);
         }

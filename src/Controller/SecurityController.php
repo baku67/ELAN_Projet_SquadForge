@@ -68,31 +68,14 @@ class SecurityController extends AbstractController
             $userFav = null;
         }
 
-
         // Homepage: 5 derniers Topics
         $topicManager = $entityManager->getRepository(Topic::class);
-
-        $queryBuilder = $entityManager->createQueryBuilder();
-        $queryBuilder->select('t')
-            ->from('App\Entity\Topic', 't')
-            ->orderBy('t.publish_date', 'DESC')
-            ->setMaxResults(5); 
-        $lastTopics = $queryBuilder->getQuery()->getResult();
-
+        $lastTopics = $topicManager->findLastTopics();
 
         // Homepage: 5 derniers Médias
         $MediaManager = $entityManager->getRepository(Media::class);
+        $lastMedias = $MediaManager->findLastMedias();
                 
-        $queryBuilder = $entityManager->createQueryBuilder();
-        $queryBuilder->select('m')
-            ->from('App\Entity\Media', 'm')
-            ->orderBy('m.publish_date', 'DESC')
-            // 8 car grid-lignes de 4 (mettre 2 sur mobile pour rester pair)
-            ->setMaxResults(8); 
-        $lastMedias = $queryBuilder->getQuery()->getResult();
-
-
-
         return $this->render('security/home.html.twig', [
             'userFav' => $userFav,
             'lastTopics' => $lastTopics,
