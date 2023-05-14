@@ -71,6 +71,8 @@ class GameController extends AbstractController
     public function getGameDetails(EntityManagerInterface $entityManager, int $id, Request $request): Response
     {
         $gamesRepo = $entityManager->getRepository(Game::class);
+        $topicRepo = $entityManager->getRepository(Topic::class);
+        $mediaRepo = $entityManager->getRepository(Media::class);
         $game = $gamesRepo->find($id);
         $gameGenre = $game->getGenre()->getName();
         $user = $this->getUser();
@@ -94,42 +96,16 @@ class GameController extends AbstractController
             $userGameNotation = null;
         }
 
-        // Compte du nombre de Notes pour ce jeu 
-        $nbrOfNotationsQuery = $notationRepo->createQueryBuilder('n')
-            ->select('COUNT(n.id)')
-            ->where('n.game = :game')
-            ->setParameter('game', $game)
-            ->getQuery();
-        $nbrOfNotations = $nbrOfNotationsQuery->getSingleScalarResult();
+        // Nombre de Notations user pour le jeu
+        $nbrOfNotations = $notationRepo->countGameNotations($game);
+        // Calc moyenne des notes (arrondi .5)
+        $averageRating = ceil($notationRepo->getGameAverageNotation($game) * 2) / 2;
 
-        // Calc moyenne des notes (Voir pour AVG() sql QueryBuilder)
-        $queryBuilder = $entityManager->createQueryBuilder();
-        $queryBuilder->select('AVG(n.note)')
-            ->from('App\Entity\Notation', 'n')
-            ->where('n.game = :game')
-            ->setParameter('game', $game);
-        $averageRating = number_format($queryBuilder->getQuery()->getSingleScalarResult(), 1);
-
-
-        // MiniListe (max 5) des derniers Topics du jeu
-        $queryBuilder = $entityManager->createQueryBuilder();
-        $queryBuilder->select('t')
-            ->from('App\Entity\Topic', 't')
-            ->where('t.game = :game')
-            ->setParameter('game', $game)
-            ->orderBy('t.publish_date', 'DESC')
-            ->setMaxResults(5); 
-        $gameTopicsDesc = $queryBuilder->getQuery()->getResult();
-
+        // 5 derniers Topics du jeu
+        $gameTopicsDesc = $topicRepo->findBy(['game' => $game], ['publish_date' => 'DESC'], 5);
         // Compte des topics du jeu
-        $queryBuilder2 = $entityManager->createQueryBuilder();
-        $queryBuilder2->select('COUNT(t.id)')
-            ->from(Topic::class, 't')
-            ->where('t.game = :game')
-            ->setParameter('game', $game);
-        $gameTopicsCount = $queryBuilder2->getQuery()->getSingleScalarResult();
+        $gameTopicsCount = $topicRepo->countGameTopics($game);
         
-
 
         // Form ajout Topic (Affichage et handleRequest)
         $topic = new Topic();
@@ -192,24 +168,10 @@ class GameController extends AbstractController
         }
 
 
-        // MiniListe (max 5) des derniers Médias du jeu
-        $queryBuilder = $entityManager->createQueryBuilder();
-        $queryBuilder->select('m')
-            ->from('App\Entity\Media', 'm')
-            ->where('m.game = :game')
-            ->setParameter('game', $game)
-            ->orderBy('m.publish_date', 'DESC')
-            // 8 car grid-lignes de 4 (mettre 2 sur mobile pour rester pair)
-            ->setMaxResults(8); 
-        $gameMediasDesc = $queryBuilder->getQuery()->getResult();
-
+        // 5 derniers médias du jeu
+        $gameMediasDesc = $mediaRepo->findBy(['game' => $game], ['publish_date' => 'DESC'], 5);
         // Compte des médias du jeu
-        $queryBuilder2 = $entityManager->createQueryBuilder();
-        $queryBuilder2->select('COUNT(m.id)')
-            ->from(Media::class, 'm')
-            ->where('m.game = :game')
-            ->setParameter('game', $game);
-        $gameMediasCount = $queryBuilder2->getQuery()->getSingleScalarResult();
+        $gameMediasCount = $mediaRepo->countGameMedias($game);
 
 
         // Form ajout Media (Affichage et handleRequest)
@@ -362,7 +324,7 @@ class GameController extends AbstractController
     }
 
 
-    // MaJ notation d'un (idGame) (rating)
+    // MaJ notation d'un (idGame) (rating) ASYNC
     #[Route('/updateNotation/{id}/{rating}', name: 'app_updateNotation')]
     public function updateGameUserNotation(EntityManagerInterface $entityManager, int $id, int $rating, UrlGeneratorInterface $router, Request $request): Response
     {
@@ -391,21 +353,10 @@ class GameController extends AbstractController
             $entityManager->persist($notation);
             $entityManager->flush();
 
-            // Calc moyenne des notes (Voir pour AVG() sql QueryBuilder)
-            $queryBuilder = $entityManager->createQueryBuilder();
-            $queryBuilder->select('AVG(n.note)')
-                ->from('App\Entity\Notation', 'n')
-                ->where('n.game = :game')
-                ->setParameter('game', $game);
-            $averageRating = number_format($queryBuilder->getQuery()->getSingleScalarResult(), 1);
-
-            // Compte du nombre de Notes pour ce jeu 
-            $nbrOfNotationsQuery = $notationRepo->createQueryBuilder('n')
-            ->select('COUNT(n.id)')
-            ->where('n.game = :game')
-            ->setParameter('game', $game)
-            ->getQuery();
-            $nbrOfNotations = $nbrOfNotationsQuery->getSingleScalarResult();
+            // Calc moyenne des notes (arrondi .5)
+            $averageRating = ceil($notationRepo->getGameAverageNotation($game) * 2) / 2;
+            // Nombre de Notations user pour le jeu
+            $nbrOfNotations = $notationRepo->countGameNotations($game);
             
             // $this->addFlash('success', 'Votre note a été prise en compte');
             return new JsonResponse(['success' => true, 'newAverageNote' => $averageRating, 'newVoteCount' => $nbrOfNotations]);  

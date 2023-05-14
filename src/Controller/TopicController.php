@@ -24,18 +24,11 @@ class TopicController extends AbstractController
 
         $gameRepo = $entityManager->getRepository(Game::class);
         $gameFrom = $gameRepo->find($gameIdFrom);
-
         $topicRepo = $entityManager->getRepository(Topic::class);
 
-        // Liste de tous les Topics du jeu (le jeu d'où vient la requete)
-        $queryBuilder = $entityManager->createQueryBuilder();
-        $queryBuilder->select('t')
-            ->from('App\Entity\Topic', 't')
-            ->where('t.game = :game')
-            ->setParameter('game', $gameFrom)
-            // ->orderBy('t.topicPostsCount', 'DESC') champ non mappé: faut ajouter un select avec CASE WHEN etc ...
-            ->orderBy('t.publish_date', 'DESC');
-        $gameTopicsDesc = $queryBuilder->getQuery()->getResult();
+        // Liste de tous les Topics du jeu (le jeu d'où vient la requete) max 50
+        $gameTopicsDesc = $topicRepo->findGameLastTopics($gameFrom);
+        $gameTopicsCount = $topicRepo->countGameTopics($gameFrom);
 
         // Trier par nbrPosts (à voir parce que ducoup les nouveaux topics sont éclipsés)
         // $sortedTopics = $gameTopicsDesc;
@@ -43,16 +36,8 @@ class TopicController extends AbstractController
         //     return $b->getTopicPostsCount() - $a->getTopicPostsCount();
         // });
 
-        $gameTopicsCount = count($gameTopicsDesc);
-
-        // Liste de tous les Topics 
-        $queryBuilder = $entityManager->createQueryBuilder();
-        $queryBuilder->select('t')
-            ->from('App\Entity\Topic', 't')
-            ->orderBy('t.publish_date', 'DESC');
-        $allTopicsDesc = $queryBuilder->getQuery()->getResult();
-
-        $allTopicsCount = count($allTopicsDesc);
+        $allTopicsDesc = $topicRepo->findBy([], ['publish_date' => "DESC"]);
+        $allTopicsCount = $topicRepo->countAllTopics();
 
         if ($gameIdFrom != "home") {
             $from = "game";
@@ -60,7 +45,6 @@ class TopicController extends AbstractController
         else {
             $from = "home";
         }
-
 
         return $this->render('topic/index.html.twig', [
             'allTopicsDesc' => $allTopicsDesc,
@@ -83,15 +67,8 @@ class TopicController extends AbstractController
         $topicRepo = $entityManager->getRepository(Topic::class);
 
         // Liste de tous les Topics 
-        // Todo: findBy plutot
-        $queryBuilder = $entityManager->createQueryBuilder();
-        $queryBuilder->select('t')
-            ->from('App\Entity\Topic', 't')
-            ->orderBy('t.publish_date', 'DESC');
-        $allTopicsDesc = $queryBuilder->getQuery()->getResult();
-
-        $allTopicsCount = count($allTopicsDesc);
-
+        $allTopicsDesc = $topicRepo->findBy([], ['publish_date' => 'DESC'], 50);
+        $allTopicsCount = $topicRepo->countAllTopics();
 
         return $this->render('topic/allTopicsGlobal.html.twig', [
             'allTopicsDesc' => $allTopicsDesc,

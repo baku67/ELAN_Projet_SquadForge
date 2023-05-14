@@ -2,6 +2,7 @@
 
 namespace App\Repository;
 
+use App\Entity\Game;
 use App\Entity\Notation;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
@@ -63,4 +64,26 @@ class NotationRepository extends ServiceEntityRepository
 //            ->getOneOrNullResult()
 //        ;
 //    }
+
+    public function countGameNotations(Game $game)
+    {
+        return $this->createQueryBuilder('n')
+            ->select('COUNT(n.id)')
+            ->where('n.game = :game')
+            ->setParameter('game', $game)
+            ->getQuery()
+            ->getSingleScalarResult();
+    }
+
+
+    public function getGameAverageNotation(Game $game) 
+    {
+        return $this->createQueryBuilder('n')
+            ->select('AVG(n.note)')
+            ->where('n.game = :game')
+            ->setParameter('game', $game)
+            ->getQuery()
+            ->getSingleScalarResult();
+    }
+
 }

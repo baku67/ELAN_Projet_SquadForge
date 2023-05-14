@@ -2,6 +2,7 @@
 
 namespace App\Repository;
 
+use App\Entity\Game;
 use App\Entity\User;
 use App\Entity\Topic;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
@@ -76,6 +77,17 @@ class TopicRepository extends ServiceEntityRepository
             ->getResult();
     }
 
+    public function findGameLastTopics(Game $game, int $maxResults = 50) 
+    {
+        return $this->createQueryBuilder('t')
+            ->where('t.game = :game')
+            ->setParameter('game', $game)
+            ->orderBy('t.publish_date', 'DESC')
+            ->setMaxResults($maxResults)
+            ->getQuery()
+            ->getResult();
+    }
+
 
     public function findUserLastTopics(User $user, int $maxResults = 5) 
     {
@@ -88,12 +100,30 @@ class TopicRepository extends ServiceEntityRepository
             ->getResult();
     }
 
+    public function countAllTopics()
+    {
+        return $this->createQueryBuilder('t')
+            ->select('COUNT(t.id)')
+            ->getQuery()
+            ->getSingleScalarResult();
+    }
+
     public function countUserTopics(User $user)
     {
         return $this->createQueryBuilder('t')
             ->select('COUNT(t.id)')
             ->where('t.user = :user')
             ->setParameter('user', $user)
+            ->getQuery()
+            ->getSingleScalarResult();
+    }
+
+    public function countGameTopics(Game $game)
+    {
+        return $this->createQueryBuilder('t')
+            ->select('COUNT(t.id)')
+            ->where('t.game = :game')
+            ->setParameter('game', $game)
             ->getQuery()
             ->getSingleScalarResult();
     }
