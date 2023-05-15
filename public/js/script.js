@@ -149,6 +149,107 @@ window.addEventListener('load', function() {
             })
         })
 
+
+
+
+
+    // Asynch upvote MediaPost (et recalcul score)
+    var btns4 = document.getElementsByClassName("upMediaPostBtn");
+        Array.prototype.forEach.call(btns4, function(btn) {
+            
+            const idMediaPost = btn.getAttribute('mediaPostId');
+
+            btn.addEventListener("click", function() {
+                
+                fetch('/upvoteMediaPost/' + idMediaPost, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+
+                        document.querySelector('#ajaxFlash').textContent = "Upvoté";
+                        document.querySelector('#ajaxFlash').classList.add("ajaxFlashAnim", "successAjaxFlash");
+
+                        if (data.newState == "upvoted") {
+                            btn.firstChild.style.color = data.gameColor;
+                            document.getElementById("mediaPostScore" + idMediaPost).innerHTML = data.newScore;
+                            document.getElementById("mdown" + idMediaPost).firstChild.style.color = "grey";
+                        }
+                        else if (data.newState == "notUpvoted") {
+                            btn.firstChild.style.color = "rgb(165, 165, 165)";
+                            document.getElementById("mediaPostScore" + idMediaPost).innerHTML = data.newScore;
+                        }
+
+                        if (data.newScore < 0) {
+                            document.getElementById("mediaPostScore" + idMediaPost).style.color = "red";
+                        }
+                        else {
+                            document.getElementById("mediaPostScore" + idMediaPost).style.color = "white";
+                        }
+
+                    } else {
+                        document.querySelector('#ajaxFlash').textContent = "Vous devez être connecté pour upvoter un post";
+                        document.querySelector('#ajaxFlash').classList.add("ajaxFlashAnim", "errorAjaxFlash");
+                    }
+
+                })
+            })
+        })
+
+
+
+
+    // Asynch downvote MediaPost (et recalcul score)
+    var btns4 = document.getElementsByClassName("downMediaPostBtn");
+        Array.prototype.forEach.call(btns4, function(btn) {
+            
+            const idMediaPost = btn.getAttribute('mediaPostId');
+
+            btn.addEventListener("click", function() {
+                
+                fetch('/downvoteMediaPost/' + idMediaPost, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+
+                        document.querySelector('#ajaxFlash').textContent = "Downvoté";
+                        document.querySelector('#ajaxFlash').classList.add("ajaxFlashAnim", "successAjaxFlash");
+
+                        if (data.newState == "downvoted") {
+                            btn.firstChild.style.color = data.gameColor;
+                            document.getElementById("mediaPostScore" + idMediaPost).innerHTML = data.newScore;
+                            document.getElementById("mup" + idMediaPost).firstChild.style.color = "grey";
+                        }
+                        else if (data.newState == "notDownvoted") {
+                            btn.firstChild.style.color = "rgb(165, 165, 165)";
+                            document.getElementById("mediaPostScore" + idMediaPost).innerHTML = data.newScore;
+                        }
+
+                        if (data.newScore < 0) {
+                            document.getElementById("mediaPostScore" + idMediaPost).style.color = "red";
+                        }
+                        else {
+                            document.getElementById("mediaPostScore" + idMediaPost).style.color = "white";
+                        }
+
+                    } else {
+                        document.querySelector('#ajaxFlash').textContent = "Vous devez être connecté pour upvoter un post";
+                        document.querySelector('#ajaxFlash').classList.add("ajaxFlashAnim", "errorAjaxFlash");
+                    }
+
+                })
+            })
+        })
+
             
 
 

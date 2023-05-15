@@ -2,6 +2,7 @@
 
 namespace App\Repository;
 
+use App\Entity\MediaPost;
 use App\Entity\MediaPostLike;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
@@ -63,4 +64,37 @@ class MediaPostLikeRepository extends ServiceEntityRepository
 //            ->getOneOrNullResult()
 //        ;
 //    }
+
+    public function countMediaPostUpvotes(MediaPost $mediaPost) 
+    {
+        return $this->createQueryBuilder('pl')
+            ->select('COUNT(pl.id)')
+            ->where('pl.mediaPost = :mediaPost')
+            ->andWhere('pl.state = :upvote')
+            ->setParameter('mediaPost', $mediaPost)
+            ->setParameter('upvote', "upvote")
+            ->getQuery()
+            ->getSingleScalarResult();
+    }
+
+    public function countMediaPostDownvotes(MediaPost $mediaPost) 
+    {
+        return $this->createQueryBuilder('pl')
+            ->select('COUNT(pl.id)')
+            ->where('pl.mediaPost = :mediaPost')
+            ->andWhere('pl.state = :downvote')
+            ->setParameter('mediaPost', $mediaPost)
+            ->setParameter('downvote', "downvote")
+            ->getQuery()
+            ->getSingleScalarResult();
+    }
+
+
+    public function calcMediaPostScore(MediaPost $mediaPost) 
+    {
+        $mediaPostUpvotesNbr = $this->countMediaPostUpvotes($mediaPost);
+        $mediaPostDownvotesNbr = $this->countMediaPostDownvotes($mediaPost);
+
+        return $mediaPostUpvotesNbr - $mediaPostDownvotesNbr;
+    }
 }

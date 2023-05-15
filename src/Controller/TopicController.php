@@ -291,7 +291,6 @@ class TopicController extends AbstractController
                     $topicPostLike = $postLikeRepo->findOneBy(['user'=>$this->getUser(), 'topicPost' =>$topicPost]);
 
                     $postLikeRepo->remove($topicPostLike, true);
-                    // $topicPostRepo->flush();
 
                     // recalcul DownVote/Upvote
                     $newScore = $postLikeRepo->calcTopicPostScore($topicPost);

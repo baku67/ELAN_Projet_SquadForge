@@ -996,6 +996,6 @@ nav {
 
 
 
-  .upTopicPostBtn, .downTopicPostBtn {
+  .upTopicPostBtn, .downTopicPostBtn, .upMediaPostBtn, .downMediaPostBtn {
     cursor: pointer;
   }
