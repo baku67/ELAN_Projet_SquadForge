@@ -2,6 +2,8 @@
 
 namespace App\Controller;
 
+use Symfony\Component\HttpFoundation\JsonResponse;
+
 use App\Entity\Topic;
 use App\Entity\TopicPost;
 use App\Entity\PostLike;
@@ -193,71 +195,63 @@ class TopicController extends AbstractController
 
 
 
+    // PLUS BESOIN ? (Async)
 
-    // Like de topicPost par user (id: idTopicPost)
-    #[Route('/likeTopicPost/{id}', name: 'app_likeTopicPost')]
-    public function likeTopicPost(EntityManagerInterface $entityManager, int $id, Request $request): Response
-    {
+    // // Like de topicPost par user (id: idTopicPost)
+    // #[Route('/likeTopicPost/{id}', name: 'app_likeTopicPost')]
+    // public function likeTopicPost(EntityManagerInterface $entityManager, int $id, Request $request): Response
+    // {
 
-        if ($this->getUser()) {
+    //     if ($this->getUser()) {
 
-            $topicPostRepo = $entityManager->getRepository(TopicPost::class);
-            $topicPost = $topicPostRepo->find($id);
-            $topic = $topicPost->getTopic();
+    //         $topicPostRepo = $entityManager->getRepository(TopicPost::class);
+    //         $topicPost = $topicPostRepo->find($id);
+    //         $topic = $topicPost->getTopic();
 
-            $topicPost->addPostLike($this->getUser());
-            $entityManager->persist($this->getUser());
-            $entityManager->flush();
+    //         $topicPost->addPostLike($this->getUser());
+    //         $entityManager->persist($this->getUser());
+    //         $entityManager->flush();
 
 
-            $this->addFlash('success', 'Le post a bien été liké');
-            return $this->redirectToRoute('app_topicDetail', ['id' => $topic->getId()]);    
-        }
-        else {
-            $this->addFlash('error', 'Vous devez être connecté pour liker un post');
-            return $this->redirectToRoute('app_login');
-        }
+    //         $this->addFlash('success', 'Le post a bien été liké');
+    //         return $this->redirectToRoute('app_topicDetail', ['id' => $topic->getId()]);    
+    //     }
+    //     else {
+    //         $this->addFlash('error', 'Vous devez être connecté pour liker un post');
+    //         return $this->redirectToRoute('app_login');
+    //     }
     
-    }
+    // }
 
 
-    // Unlike de topicPost par user (id: idTopicPost)
-    #[Route('/unlikeTopicPost/{id}', name: 'app_unlikeTopicPost')]
-    public function unlikeTopicPost(EntityManagerInterface $entityManager, int $id, Request $request): Response
-    {
+    // // Unlike de topicPost par user (id: idTopicPost)
+    // #[Route('/unlikeTopicPost/{id}', name: 'app_unlikeTopicPost')]
+    // public function unlikeTopicPost(EntityManagerInterface $entityManager, int $id, Request $request): Response
+    // {
 
-        if ($this->getUser()) {
+    //     if ($this->getUser()) {
 
-            $topicPostRepo = $entityManager->getRepository(TopicPost::class);
-            $topicPost = $topicPostRepo->find($id);
-            $topic = $topicPost->getTopic();
+    //         $topicPostRepo = $entityManager->getRepository(TopicPost::class);
+    //         $topicPost = $topicPostRepo->find($id);
+    //         $topic = $topicPost->getTopic();
 
-            $topicPost->removePostLike($this->getUser());
-            $entityManager->flush();
+    //         $topicPost->removePostLike($this->getUser());
+    //         $entityManager->flush();
 
-            $this->addFlash('success', 'Le post a bien été unliké');
-            return $this->redirectToRoute('app_topicDetail', ['id' => $topic->getId()]);    
-        }
-        else {
-            $this->addFlash('error', 'Vous devez être connecté pour unliker un post');
-            return $this->redirectToRoute('app_login');
-        }
+    //         $this->addFlash('success', 'Le post a bien été unliké');
+    //         return $this->redirectToRoute('app_topicDetail', ['id' => $topic->getId()]);    
+    //     }
+    //     else {
+    //         $this->addFlash('error', 'Vous devez être connecté pour unliker un post');
+    //         return $this->redirectToRoute('app_login');
+    //     }
     
-    }
+    // }
 
 
 
 
-
-
-
-
-
-
-
-
-
-    // Upvote/unUpvote de topicPost par user (id: idTopicPost)
+    // Upvote/unUpvote de topicPost par user (id: idTopicPost) Async + calc Score
     #[Route('/upvoteTopicPost/{id}', name: 'app_upvoteTopicPost')]
     public function upvoteTopicPost(EntityManagerInterface $entityManager, int $id, Request $request): Response
     {
@@ -281,10 +275,14 @@ class TopicController extends AbstractController
     
                 $entityManager->persist($topicPostLike);
                 $entityManager->flush();
+
+                // recalcul DownVote/Upvote
+                $nbrUpvotes = $postLikeRepo->countTopicPostUpvotes($topicPost);
+                $newScore = $postLikeRepo->calcTopicPostScore($topicPost);
     
-    
-                $this->addFlash('success', 'Votre upvote a été pris en compte');
-                return $this->redirectToRoute('app_topicDetail', ['id' => $topic->getId()]); 
+                // JS FLASH: Votre upvote a été pris en compte
+                return new JsonResponse(['success' => true, 'newState' => 'upvoted', 'gameColor' => $topic->getGame()->getColor(), 'nbrUpvotes' => $nbrUpvotes, 'newScore' => $newScore]);   
+
             }
             // Si l'utilisateur a déjà upvoter le post: enleve l'upvote, s'il l'a déjà downvoté, upvote
             else {
@@ -296,9 +294,13 @@ class TopicController extends AbstractController
                     $postLikeRepo->remove($topicPostLike, true);
                     // $topicPostRepo->flush();
 
-                    $this->addFlash('success', 'Votre upvote a été retiré');
-                    return $this->redirectToRoute('app_topicDetail', ['id' => $topic->getId()]); 
-                
+                    // recalcul DownVote/Upvote
+                    $nbrUpvotes = $postLikeRepo->countTopicPostUpvotes($topicPost);
+                    $newScore = $postLikeRepo->calcTopicPostScore($topicPost);
+
+                    // AJOUTER JS FLASH: $this->addFlash('success', 'Votre upvote a été retiré');
+                    return new JsonResponse(['success' => true, 'newState' => 'notUpvoted', 'nbrUpvotes' => $nbrUpvotes, 'newScore' => $newScore]);   
+
                 }
                 else if($postLikeRepo->findOneBy(['user'=>$this->getUser(), 'topicPost' =>$topicPost])->getState() == "downvote" ) {
 
@@ -309,8 +311,13 @@ class TopicController extends AbstractController
                     $entityManager->persist($topicPostLike);
                     $entityManager->flush();
 
-                    $this->addFlash('success', 'Votre upvote a été pris en compte');
-                    return $this->redirectToRoute('app_topicDetail', ['id' => $topic->getId()]); 
+                    // recalcul DownVote/Upvote
+                    $nbrUpvotes = $postLikeRepo->countTopicPostUpvotes($topicPost);
+                    $newScore = $postLikeRepo->calcTopicPostScore($topicPost);
+
+                    // $this->addFlash('success', 'Votre upvote a été pris en compte');
+                    return new JsonResponse(['success' => true, 'newState' => 'upvoted', 'gameColor' => $topic->getGame()->getColor(), 'nbrUpvotes' => $nbrUpvotes, 'newScore' => $newScore]);   
+
                 }
             }
 

@@ -2,6 +2,7 @@
 
 namespace App\Repository;
 
+use App\Entity\TopicPost;
 use App\Entity\PostLike;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
@@ -63,4 +64,37 @@ class PostLikeRepository extends ServiceEntityRepository
 //            ->getOneOrNullResult()
 //        ;
 //    }
+
+    public function countTopicPostUpvotes(TopicPost $topicPost) 
+    {
+        return $this->createQueryBuilder('pl')
+            ->select('COUNT(pl.id)')
+            ->where('pl.topicPost = :topicPost')
+            ->andWhere('pl.state = :upvote')
+            ->setParameter('topicPost', $topicPost)
+            ->setParameter('upvote', "upvote")
+            ->getQuery()
+            ->getSingleScalarResult();
+    }
+
+    public function countTopicPostDownvotes(TopicPost $topicPost) 
+    {
+        return $this->createQueryBuilder('pl')
+            ->select('COUNT(pl.id)')
+            ->where('pl.topicPost = :topicPost')
+            ->andWhere('pl.state = :downvote')
+            ->setParameter('topicPost', $topicPost)
+            ->setParameter('downvote', "downvote")
+            ->getQuery()
+            ->getSingleScalarResult();
+    }
+
+
+    public function calcTopicPostScore(TopicPost $topicPost) 
+    {
+        $topicPostUpvotesNbr = $this->countTopicPostUpvotes($topicPost);
+        $topicPostDownvotesNbr = $this->countTopicPostDownvotes($topicPost);
+
+        return $topicPostUpvotesNbr - $topicPostDownvotesNbr;
+    }
 }

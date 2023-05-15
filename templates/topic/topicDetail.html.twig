@@ -139,18 +139,21 @@
                                 {% endif %}
                             {% endfor %}
 
+                            {# Upvote Asynch #}
                             {% if isUpvoted %}
-                                <span><a href="{{ path('app_upvoteTopicPost',{'id':post.id}) }}"><i class="fa-solid fa-caret-up" style="color:{{ topic.game.color }}"></i></a></span>
+                                <span class="upTopicPostBtn" postId="{{ post.id }}"><i class="fa-solid fa-caret-up" style="color:{{ topic.game.color }}"></i></span>
                             {% else %}
-                                <span><a href="{{ path('app_upvoteTopicPost',{'id':post.id}) }}"><i class="fa-solid fa-caret-up"></i></a></span>
+                                <span class="upTopicPostBtn" postId="{{ post.id }}"><i class="fa-solid fa-caret-up"></i></span>
                             {% endif %}
 
+                            {# Score calc #}
                             {% if post.score < 0 %}
-                                <span style="text-align:center; color:red; font-weight:900;">{{ post.score }}</span>
+                                <span id="topicPostScore{{ post.id }}" style="text-align:center; color:red; font-weight:900;">{{ post.score }}</span>
                             {% else %}
-                                <span style="text-align:center; font-weight:900;">{{ post.score }}</span>
+                                <span id="topicPostScore{{ post.id }}" style="text-align:center; font-weight:900;">{{ post.score }}</span>
                             {% endif %}
                             
+                            {# Down #}
                             {% if isDownvoted %}
                                 <span><a href="{{ path('app_unupvoteTopicPost',{'id':post.id}) }}"><i class="fa-solid fa-caret-down" style="color:{{ topic.game.color }}"></i></a></span>
                             {% else %}

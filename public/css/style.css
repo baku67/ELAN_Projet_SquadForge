@@ -993,3 +993,9 @@ nav {
 
 
 
+
+
+
+  .upTopicPostBtn, .downTopicPostBtn {
+    cursor: pointer;
+  }
