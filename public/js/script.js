@@ -69,20 +69,64 @@ window.addEventListener('load', function() {
                 .then(response => response.json())
                 .then(data => {
                     if (data.success) {
+                        
                         document.querySelector('#ajaxFlash').textContent = "Upvoté";
                         document.querySelector('#ajaxFlash').classList.add("ajaxFlashAnim", "successAjaxFlash");
+
+                        if (data.newState == "upvoted") {
+                            btn.firstChild.style.color = data.gameColor;
+                            document.getElementById("topicPostScore" + idTopicPost).innerHTML = data.newScore;
+                        }
+                        else if (data.newState == "notUpvoted") {
+                            btn.firstChild.style.color = "rgb(165, 165, 165)";
+                            document.getElementById("topicPostScore" + idTopicPost).innerHTML = data.newScore;
+                        }
+
                     } else {
                         document.querySelector('#ajaxFlash').textContent = "Vous devez être connecté pour upvoter un post";
                         document.querySelector('#ajaxFlash').classList.add("ajaxFlashAnim", "errorAjaxFlash");
                     }
 
-                    if (data.newState == "upvoted") {
-                        btn.firstChild.style.color = data.gameColor;
-                        document.getElementById("topicPostScore" + idTopicPost).innerHTML = data.newScore;
+                })
+            })
+        })
+
+
+
+
+    // Asynch downvote TopicPost (et recalcul score)
+    var btns3 = document.getElementsByClassName("downTopicPostBtn");
+        Array.prototype.forEach.call(btns3, function(btn) {
+            
+            const idTopicPost = btn.getAttribute('postId');
+
+            btn.addEventListener("click", function() {
+                
+                fetch('/downvoteTopicPost/' + idTopicPost, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
                     }
-                    else if (data.newState == "notUpvoted") {
-                        btn.firstChild.style.color = "rgb(165, 165, 165)";
-                        document.getElementById("topicPostScore" + idTopicPost).innerHTML = data.newScore;
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+
+                        document.querySelector('#ajaxFlash').textContent = "Downvoté";
+                        document.querySelector('#ajaxFlash').classList.add("ajaxFlashAnim", "successAjaxFlash");
+
+                        if (data.newState == "downvoted") {
+                            btn.firstChild.style.color = data.gameColor;
+                            document.getElementById("topicPostScore" + idTopicPost).innerHTML = data.newScore;
+                        }
+                        else if (data.newState == "notDownvoted") {
+                            btn.firstChild.style.color = "rgb(165, 165, 165)";
+                            document.getElementById("topicPostScore" + idTopicPost).innerHTML = data.newScore;
+                        }
+
+                    } else {
+                        document.querySelector('#ajaxFlash').textContent = "Vous devez être connecté pour downvoté un post";
+                        document.querySelector('#ajaxFlash').classList.add("ajaxFlashAnim", "errorAjaxFlash");
                     }
 
                 })

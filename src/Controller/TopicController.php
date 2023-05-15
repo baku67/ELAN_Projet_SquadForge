@@ -277,11 +277,10 @@ class TopicController extends AbstractController
                 $entityManager->flush();
 
                 // recalcul DownVote/Upvote
-                $nbrUpvotes = $postLikeRepo->countTopicPostUpvotes($topicPost);
                 $newScore = $postLikeRepo->calcTopicPostScore($topicPost);
     
                 // JS FLASH: Votre upvote a été pris en compte
-                return new JsonResponse(['success' => true, 'newState' => 'upvoted', 'gameColor' => $topic->getGame()->getColor(), 'nbrUpvotes' => $nbrUpvotes, 'newScore' => $newScore]);   
+                return new JsonResponse(['success' => true, 'newState' => 'upvoted', 'gameColor' => $topic->getGame()->getColor(), 'newScore' => $newScore]);   
 
             }
             // Si l'utilisateur a déjà upvoter le post: enleve l'upvote, s'il l'a déjà downvoté, upvote
@@ -295,11 +294,10 @@ class TopicController extends AbstractController
                     // $topicPostRepo->flush();
 
                     // recalcul DownVote/Upvote
-                    $nbrUpvotes = $postLikeRepo->countTopicPostUpvotes($topicPost);
                     $newScore = $postLikeRepo->calcTopicPostScore($topicPost);
 
                     // AJOUTER JS FLASH: $this->addFlash('success', 'Votre upvote a été retiré');
-                    return new JsonResponse(['success' => true, 'newState' => 'notUpvoted', 'nbrUpvotes' => $nbrUpvotes, 'newScore' => $newScore]);   
+                    return new JsonResponse(['success' => true, 'newState' => 'notUpvoted', 'newScore' => $newScore]);   
 
                 }
                 else if($postLikeRepo->findOneBy(['user'=>$this->getUser(), 'topicPost' =>$topicPost])->getState() == "downvote" ) {
@@ -312,19 +310,17 @@ class TopicController extends AbstractController
                     $entityManager->flush();
 
                     // recalcul DownVote/Upvote
-                    $nbrUpvotes = $postLikeRepo->countTopicPostUpvotes($topicPost);
                     $newScore = $postLikeRepo->calcTopicPostScore($topicPost);
 
                     // $this->addFlash('success', 'Votre upvote a été pris en compte');
-                    return new JsonResponse(['success' => true, 'newState' => 'upvoted', 'gameColor' => $topic->getGame()->getColor(), 'nbrUpvotes' => $nbrUpvotes, 'newScore' => $newScore]);   
+                    return new JsonResponse(['success' => true, 'newState' => 'upvoted', 'gameColor' => $topic->getGame()->getColor(), 'newScore' => $newScore]);   
 
                 }
             }
 
         }
         else {
-            $this->addFlash('error', 'Vous devez être connecté pour liker un post');
-            return $this->redirectToRoute('app_login');
+            return new JsonResponse(['success' => false, 'case' => 'logIn']);
         }
     
     }
@@ -332,9 +328,9 @@ class TopicController extends AbstractController
 
 
 
-    // Upvote/unUpvote de topicPost par user (id: idTopicPost)
-    #[Route('/unupvoteTopicPost/{id}', name: 'app_unupvoteTopicPost')]
-    public function unupvoteTopicPost(EntityManagerInterface $entityManager, int $id, Request $request): Response
+    // Downvote/UnDownvote de topicPost par user (id: idTopicPost) Async + calc Score
+    #[Route('/downvoteTopicPost/{id}', name: 'app_downvoteTopicPost')]
+    public function downvoteTopicPost(EntityManagerInterface $entityManager, int $id, Request $request): Response
     {
 
         if ($this->getUser()) {
@@ -345,8 +341,9 @@ class TopicController extends AbstractController
             $topicPost = $topicPostRepo->find($id);
             $topic = $topicPost->getTopic();
 
-            // Si l'utilisateur n'a pas déjà upvoter le post
+            // Si l'utilisateur n'a pas déjà upvoté 
             if(count($postLikeRepo->findBy(['user'=>$this->getUser(), 'topicPost' =>$topicPost])) == 0) {
+
                 $topicPostLike = new PostLike;
 
                 $topicPostLike->setUser($this->getUser());
@@ -355,12 +352,15 @@ class TopicController extends AbstractController
     
                 $entityManager->persist($topicPostLike);
                 $entityManager->flush();
+
+                // recalcul DownVote/Upvote
+                $newScore = $postLikeRepo->calcTopicPostScore($topicPost);
     
-    
-                $this->addFlash('success', 'Votre downvote a été pris en compte');
-                return $this->redirectToRoute('app_topicDetail', ['id' => $topic->getId()]); 
+                // JS FLASH: Votre downvote a été pris en compte
+                return new JsonResponse(['success' => true, 'newState' => 'downvoted', 'gameColor' => $topic->getGame()->getColor(), 'newScore' => $newScore]);   
+
             }
-            // Si l'utilisateur a déjà upvoter le post, supprime l'upvote
+            // Si l'utilisateur a déjà downvoter le post: enleve le downvote, s'il l'a déjà upvoté, le downvote
             else {
 
                 if($postLikeRepo->findOneBy(['user'=>$this->getUser(), 'topicPost' =>$topicPost])->getState() == "downvote" ) {
@@ -370,9 +370,12 @@ class TopicController extends AbstractController
                     $postLikeRepo->remove($topicPostLike, true);
                     // $topicPostRepo->flush();
 
-                    $this->addFlash('success', 'Votre downvote a été retiré');
-                    return $this->redirectToRoute('app_topicDetail', ['id' => $topic->getId()]); 
-                
+                    // recalcul DownVote/Upvote
+                    $newScore = $postLikeRepo->calcTopicPostScore($topicPost);
+
+                    // AJOUTER JS FLASH: $this->addFlash('success', 'Votre downvote a été retiré');
+                    return new JsonResponse(['success' => true, 'newState' => 'notDownvoted', 'newScore' => $newScore]);   
+
                 }
                 else if($postLikeRepo->findOneBy(['user'=>$this->getUser(), 'topicPost' =>$topicPost])->getState() == "upvote" ) {
 
@@ -383,25 +386,21 @@ class TopicController extends AbstractController
                     $entityManager->persist($topicPostLike);
                     $entityManager->flush();
 
-                    $this->addFlash('success', 'Votre downvote a été pris en compte');
-                    return $this->redirectToRoute('app_topicDetail', ['id' => $topic->getId()]); 
+                    // recalcul DownVote/Upvote
+                    $newScore = $postLikeRepo->calcTopicPostScore($topicPost);
+
+                    // $this->addFlash('success', 'Votre upvote a été pris en compte');
+                    return new JsonResponse(['success' => true, 'newState' => 'downvoted', 'gameColor' => $topic->getGame()->getColor(), 'newScore' => $newScore]);   
+
                 }
             }
 
         }
         else {
-            $this->addFlash('error', 'Vous devez être connecté pour liker un post');
-            return $this->redirectToRoute('app_login');
+            return new JsonResponse(['success' => false, 'case' => 'logIn']);
         }
     
     }
-
-
-
-
-
-
-
 
 
 
