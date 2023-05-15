@@ -141,9 +141,9 @@
 
                             {# Upvote Asynch #}
                             {% if isUpvoted %}
-                                <span class="upTopicPostBtn" postId="{{ post.id }}"><i class="fa-solid fa-caret-up" style="color:{{ topic.game.color }}"></i></span>
+                                <span class="upTopicPostBtn" postId="{{ post.id }}" id="up{{ post.id }}"><i class="fa-solid fa-caret-up" style="color:{{ topic.game.color }}"></i></span>
                             {% else %}
-                                <span class="upTopicPostBtn" postId="{{ post.id }}"><i class="fa-solid fa-caret-up"></i></span>
+                                <span class="upTopicPostBtn" postId="{{ post.id }}" id="up{{ post.id }}"><i class="fa-solid fa-caret-up"></i></span>
                             {% endif %}
 
                             {# Score calc #}
@@ -155,9 +155,9 @@
                             
                             {# Down #}
                             {% if isDownvoted %}
-                                <span class="downTopicPostBtn" postId="{{ post.id }}"><i class="fa-solid fa-caret-down" style="color:{{ topic.game.color }}"></i></span>
+                                <span class="downTopicPostBtn" postId="{{ post.id }}" id="down{{ post.id }}"><i class="fa-solid fa-caret-down" style="color:{{ topic.game.color }}"></i></span>
                             {% else %}
-                                <span class="downTopicPostBtn" postId="{{ post.id }}"><i class="fa-solid fa-caret-down"></i></span>
+                                <span class="downTopicPostBtn" postId="{{ post.id }}" id="down{{ post.id }}"><i class="fa-solid fa-caret-down"></i></span>
                             {% endif %}
 
                         </div>

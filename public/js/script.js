@@ -69,17 +69,25 @@ window.addEventListener('load', function() {
                 .then(response => response.json())
                 .then(data => {
                     if (data.success) {
-                        
+
                         document.querySelector('#ajaxFlash').textContent = "Upvoté";
                         document.querySelector('#ajaxFlash').classList.add("ajaxFlashAnim", "successAjaxFlash");
 
                         if (data.newState == "upvoted") {
                             btn.firstChild.style.color = data.gameColor;
                             document.getElementById("topicPostScore" + idTopicPost).innerHTML = data.newScore;
+                            document.getElementById("down" + idTopicPost).firstChild.style.color = "grey";
                         }
                         else if (data.newState == "notUpvoted") {
                             btn.firstChild.style.color = "rgb(165, 165, 165)";
                             document.getElementById("topicPostScore" + idTopicPost).innerHTML = data.newScore;
+                        }
+
+                        if (data.newScore < 0) {
+                            document.getElementById("topicPostScore" + idTopicPost).style.color = "red";
+                        }
+                        else {
+                            document.getElementById("topicPostScore" + idTopicPost).style.color = "white";
                         }
 
                     } else {
@@ -118,10 +126,18 @@ window.addEventListener('load', function() {
                         if (data.newState == "downvoted") {
                             btn.firstChild.style.color = data.gameColor;
                             document.getElementById("topicPostScore" + idTopicPost).innerHTML = data.newScore;
+                            document.getElementById("up" + idTopicPost).firstChild.style.color = "grey";
                         }
                         else if (data.newState == "notDownvoted") {
                             btn.firstChild.style.color = "rgb(165, 165, 165)";
                             document.getElementById("topicPostScore" + idTopicPost).innerHTML = data.newScore;
+                        }
+
+                        if (data.newScore < 0) {
+                            document.getElementById("topicPostScore" + idTopicPost).style.color = "red";
+                        }
+                        else {
+                            document.getElementById("topicPostScore" + idTopicPost).style.color = "white";
                         }
 
                     } else {
