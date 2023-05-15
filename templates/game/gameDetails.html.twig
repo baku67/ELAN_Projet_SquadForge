@@ -25,11 +25,14 @@
     <div class="main">
 
         {# Test Image Background BRUT #}
-        <div class="gameHeaderInfos" clas="gameSubImgBg" style="background-image: radial-gradient(circle, rgba(255,255,255,0) 0%, rgba(35,35,35,0.97) 65%), url('{{asset("img/games/headerBackground/overwatchHeaderBg.jpg")}}'); background-size:cover; background-repeat:no-repeat;">
+        <div class="gameHeaderInfos gameSubImgBg" style="background-image: radial-gradient(circle, rgba(255,255,255,0) 0%, rgba(35,35,35,0.97) 65%), url('{{asset("img/games/headerBackground/overwatchHeaderBg.jpg")}}');">
 
             {# Infos du jeu et Btn Favoris #}
             <div class="marginTop marginBottom" style="display:inline-flex; width:100%; justify-content:space-between;">
-                <h3 class="gameSubTitle noMarginBottom" style="background-color:{{ game.color }}">Infos</h3>
+                <div>
+                    <div class="gameInfosSubTitleBg" style="background-color:{{ game.color }};"></div>
+                    <h3 class="gameSubTitle noMarginBottom">Infos</h3>
+                </div>
                 {# Bouton Favoris state #}
                 {% if app.user %}
                     {% if isFavorited %}
@@ -129,10 +132,13 @@
         {# Ligne "Topics" + Bouton "+Créer" #}
         <div class="marginTop" style="display:inline-flex; width:100%; justify-content:space-between;">
             <a href="{{ path('app_allTopics', {'gameIdFrom': game.id}) }}">
-                <h3 class="gameSubTitle noMarginBottom" style="background-color:{{ game.color }}">
-                    Topics
-                    <span class="gameListCount">&nbsp;({{ gameTopicsCount }})</span>
-                </h3>
+                 <div>
+                    <div class="gameTopicsSubTitleBg" style="background-color:{{ game.color }};"></div>
+                    <h3 class="gameSubTitle noMarginBottom">
+                        Topics
+                        <span class="gameListCount">&nbsp;({{ gameTopicsCount }})</span>
+                    </h3>
+                </div>
             </a>  
             {# <a id="createTopicBtn" href="{{ path('app_addGameTopic', {'id': game.id }) }}" class="createButton" style="border-top: 1px solid {{ game.color }}; border-bottom: 1px solid {{ game.color }};"><i class="fa-solid fa-plus" style="color:{{ game.color }}"></i>&nbsp;Créer</a> #}
             
@@ -234,10 +240,13 @@
         <div class="marginTop" style="display:inline-flex; width:100%; justify-content:space-between;">
             
             <a href=" {{ path('app_allMedias', {'gameIdFrom': game.id}) }}">
-                <h3 class="gameSubTitle noMarginBottom" style="background-color:{{ game.color }}">
-                    Médias
-                    <span class="gameListCount">&nbsp;({{ gameMediasCount }})</span>
-                </h3>
+                <div>
+                    <div class="gameTopicsSubTitleBg" style="background-color:{{ game.color }};"></div>
+                    <h3 class="gameSubTitle noMarginBottom">
+                        Medias
+                        <span class="gameListCount">&nbsp;({{ gameMediasCount }})</span>
+                    </h3>
+                </div>
             </a>
                 
             {# <a id="createTopicBtn" href="{{ path('app_addGameTopic', {'id': game.id }) }}" class="createButton" style="border-top: 1px solid {{ game.color }}; border-bottom: 1px solid {{ game.color }};"><i class="fa-solid fa-plus" style="color:{{ game.color }}"></i>&nbsp;Créer</a> #}

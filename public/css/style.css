@@ -303,6 +303,24 @@ nav {
     color: black;
 
     clip-path: polygon(1% 0, 100% 0, 99% 100%, 0% 100%);
+
+    /* FadeIn provoqué par ajout JS de la classe .topicCardFadeInAnim  */
+    transform: rotateX(90deg);
+    opacity: 0;
+}
+@keyframes fadeInRotate {
+    0% {
+        opacity: 0;
+        transform: rotateX(90deg);
+    }
+    100% {
+        opacity: 1;
+        transform: rotateX(0deg);
+    }
+}
+
+.topicCardFadeInAnim {
+    animation: fadeInRotate 1s 0s ease forwards;
 }
 
 .topicCardPublishDate {
@@ -325,10 +343,66 @@ nav {
 
 
 .gameSubTitle {
+    position: relative;
     color: black;
     padding: 3px 29px;
     width: fit-content;
+    z-index: 10;
     
+}
+
+.gameInfosSubTitleBg {
+    position:absolute; 
+    /* height:35px; 
+    width:130px;  */
+    height: 0px;
+    width: 5px;
+    z-index:0;
+
+    animation: gameInfosSubTitleBg1 0.3s 0.1s ease-in-out forwards, gameInfosSubTitleBg2 0.4s 0.45s ease-in-out forwards;
+}
+@keyframes gameInfosSubTitleBg1 {
+    from {
+        height: 0px;
+    }
+    to {
+        height:35px; 
+    }
+}
+@keyframes gameInfosSubTitleBg2 {
+    from {
+        width: 5px;
+    }
+    to {
+        width:130px; 
+    }
+}
+
+.gameTopicsSubTitleBg {
+    position:absolute; 
+    /* height:35px; 
+    width:130px;  */
+    height: 0px;
+    width: 5px;
+    z-index:0;
+
+    animation: gameTopicsSubTitleBg1 0.3s 0.1s ease-in-out forwards, gameTopicsSubTitleBg2 0.4s 0.45s ease-in-out forwards;
+}
+@keyframes gameTopicsSubTitleBg1 {
+    from {
+        height: 0px;
+    }
+    to {
+        height:35px; 
+    }
+}
+@keyframes gameTopicsSubTitleBg2 {
+    from {
+        width: 5px;
+    }
+    to {
+        width:170px; 
+    }
 }
 
 .seeAllRedirect {
@@ -908,3 +982,14 @@ nav {
   .fa-circle-up {
     cursor:pointer;
   }
+
+
+
+  .gameHeaderInfos {
+
+    background-size:cover; 
+    background-repeat:no-repeat;
+  }
+
+
+
