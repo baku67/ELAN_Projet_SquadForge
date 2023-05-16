@@ -2,6 +2,8 @@
 
 namespace App\Controller;
 
+use Doctrine\Common\Collections\Collection;
+
 // Imagine: compression et resize Img Uploads (Médias)
 use Imagine\Image\Box;
 use Imagine\Image\ImageInterface;
@@ -368,54 +370,56 @@ class GameController extends AbstractController
     }
 
 
-    // Ajout du jeu au user (idUser) FAVORI
-    #[Route('/game/addfav/{id}', name: 'app_addfav')]
-    public function addGameToFav(EntityManagerInterface $entityManager, int $id): Response
+
+
+
+
+
+    // Async toggle Favoris Bouton (id Game)
+    #[Route('/game/toggleGameFav/{id}', name: 'app_toggleGameFav')]
+    public function toggleGameFav(EntityManagerInterface $entityManager, int $id): Response
     {
         if ($this->getUser()) {
-
+            
             $gamesRepo = $entityManager->getRepository(Game::class);
+            $userRepo = $entityManager->getRepository(User::class);
+            $user = $this->getUser();
             $game = $gamesRepo->find($id);
 
-            $this->getUser()->addFavori($game);
 
-            $entityManager->persist($this->getUser());
-            $entityManager->flush();
+            $userLikedGames = $user->getFavoris(); // userfavoris Class::Games collection
 
-            $this->addFlash('success', 'Le jeu a été ajouté à vos favoris');
-            return $this->redirectToRoute('app_game', ['id' => $id]);
+            // Si relation existe: favorisé -> unFavorise
+            if ($userLikedGames->contains($game)) {
+                
+                $user->removeFavori($game);
+                $entityManager->flush();
+
+                return new JsonResponse(['success' => true, 'newState' => 'notFavorited']);
+
+            }
+            // Sinon: favorise
+            else {
+
+                $user->addFavori($game);
+                $entityManager->flush();
+
+                return new JsonResponse(['success' => true, 'newState' => 'favorited']);
+
+            }
 
         }
         else {
-
-            $this->addFlash('error', 'Vous devez vous connecter pour ajouter un jeu à vos favoris');
-            return $this->redirectToRoute('app_login');
+            return new JsonResponse(['success' => false]);
         }
+
     }
 
-    // Retrait du jeu au user (idUser) FAVORI
-    #[Route('/game/removefav/{id}', name: 'app_removefav')]
-    public function removeGameToFav(EntityManagerInterface $entityManager, int $id): Response
-    {
-        if ($this->getUser()) {
 
-            $gamesRepo = $entityManager->getRepository(Game::class);
-            $game = $gamesRepo->find($id);
 
-            $this->getUser()->removeFavori($game);
 
-            // $entityManager->persist($this->getUser());
-            $entityManager->flush();
 
-            $this->addFlash('success', 'Le jeu a été retiré de vos favoris');
-            return $this->redirectToRoute('app_game', ['id' => $id]);
 
-        }
-        else {
-            $this->addFlash('error', 'Vous devez vous connecter pour retirer un jeu à vos favoris (?)');
-            return $this->redirectToRoute('app_login');
-        }
-    }
 
 
     // Route utilisée par les requêtes ajax JS asynchrones (recherche %LIKE%) *Recherche*

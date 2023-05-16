@@ -994,8 +994,18 @@ nav {
 
 
 
-
-
-  .upTopicPostBtn, .downTopicPostBtn, .upMediaPostBtn, .downMediaPostBtn {
+#favGameBtn {
     cursor: pointer;
-  }
+}
+
+.upTopicPostBtn, .downTopicPostBtn, .upMediaPostBtn, .downMediaPostBtn {
+cursor: pointer;
+}
+
+
+.fa-heart {
+    transition: all 0.5s;
+}
+.favGameBtn {
+    transition: all 0.5s;
+}

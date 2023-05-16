@@ -29,25 +29,94 @@
 
             {# Infos du jeu et Btn Favoris #}
             <div class="marginTop marginBottom" style="display:inline-flex; width:100%; justify-content:space-between;">
+
                 <div>
                     <div class="gameInfosSubTitleBg" style="background-color:{{ game.color }};"></div>
                     <h3 class="gameSubTitle noMarginBottom">Infos</h3>
                 </div>
+
                 {# Bouton Favoris state #}
                 {% if app.user %}
                     {% if isFavorited %}
-                        <a class="favButton" href="{{ path('app_removefav', {'id': game.id}) }}" style="border-top: 1px solid {{ game.color }}; border-bottom: 1px solid {{ game.color }};">Favoris <i  style="color:{{ game.color }};" class="fa-solid fa-heart"></i></a>
+                        <span id="favGameBtn" class="favButton" style="border-top: 1px solid {{ game.color }}; border-bottom: 1px solid {{ game.color }};">Favoris <i  style="color:{{ game.color }};" class="fa-solid fa-heart"></i></span>
                     {% else %}
-                        <a class="favButton" href="{{ path('app_addfav', {'id': game.id}) }}">Favoris <i class="fa-regular fa-heart"></i></a>
+                        <span id="favGameBtn" class="favButton">Favoris <i class="fa-regular fa-heart"></i></span>
                     {% endif %}
                 {% else %}
-                        <a class="favButton" href="{{ path('app_addfav', {'id': game.id}) }}">Favoris <i class="fa-regular fa-heart"></i></a>
+                        <span id="favGameBtn" class="favButton">Favoris <i class="fa-regular fa-heart"></i></span>
                 {% endif %}
+
             </div>
+
+            {# GameId et GameColor pour fav asynch (plutot que dans controller ?) #}
+            <span id="gameId" style="display:none;">{{ game.id }}</span>
+            <span id="gameColor" style="display:none;">{{ game.color }}</span>
+
+            {# Infos #}
             <p>Éditeur: {{ game.editor }}</p>
             <p>Date de sortie: {{ game.publishDate|date('Y-m-d') }}</p>
             <p>Genre: <a class="underlineLink" href="{{ path('app_genreGames', {'id': game.genre.id }) }}">{{ gameGenre }}</a></p>
             
+
+
+            <script>
+
+                const gameId = document.getElementById('gameId').textContent;
+
+                document.getElementById('favGameBtn').addEventListener("click", function() {
+                
+                    fetch('/game/toggleGameFav/' + gameId, {
+                        method: 'post',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        }
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.success) {
+
+                            document.querySelector('#ajaxFlash').textContent = "Favorisé/Défavorisé";
+                            document.querySelector('#ajaxFlash').classList.add("ajaxFlashAnim", "successAjaxFlash");
+
+                            if (data.newState == "favorited") {
+                                document.getElementById('favGameBtn').lastChild.className="fa-solid fa-heart";
+                                document.getElementById('favGameBtn').style.borderTop = "1px solid " + document.getElementById('gameColor').textContent;
+                                document.getElementById('favGameBtn').style.borderBottom = "1px solid " + document.getElementById('gameColor').textContent;
+
+                                document.getElementById('favGameBtn').lastChild.style.color = document.getElementById('gameColor').textContent;
+
+                            }
+                            else if (data.newState == "notFavorited") {
+                                document.getElementById('favGameBtn').lastChild.className="fa-regular fa-heart";
+                                document.getElementById('favGameBtn').style.borderTop = "1px solid rgb(255 255 255 / 20%)";
+                                document.getElementById('favGameBtn').style.borderBottom = "1px solid rgb(255 255 255 / 20%)";
+
+                                document.getElementById('favGameBtn').lastChild.style.color = "white";
+                            }
+
+                        } else {
+                            document.querySelector('#ajaxFlash').textContent = "Vous devez être connecté pour ajouter un jeu à vos favoris";
+                            document.querySelector('#ajaxFlash').classList.add("ajaxFlashAnim", "errorAjaxFlash");
+                        }
+
+                    })
+                })
+
+
+            </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
             {# Form Notation (Ajax) #}
             <div class="gameNotationDiv">
                 <div class="rate">
