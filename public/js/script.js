@@ -9,6 +9,83 @@ window.addEventListener('load', function() {
     ScrollReveal().reveal('.mediaCard');
 
 
+
+    // Anim fadeIn 5 Topics Game
+    var topicCards = document.querySelectorAll('.topicCard');
+
+    // Fonction pour ajouter une classe supplémentaire à chaque élément après un délai
+    function addClassWithDelay(element, className, delay) {
+        setTimeout(function() {
+            element.classList.add(className);
+        }, delay);
+    }
+
+    // Parcours de chaque élément et ajout de la classe avec un délai croissant
+    var delay = 0;
+    for (var i = 0; i < topicCards.length; i++) {
+        var card = topicCards[i];
+        addClassWithDelay(card, 'topicCardFadeInAnim', delay);
+        delay += 250; // Délai en millisecondes (ajuste le délai si nécessaire)
+    }
+
+
+
+
+
+
+    
+
+    // Asynch toggle Game Favori
+    const gameId = document.getElementById('gameId').textContent;
+
+    document.getElementById('favGameBtn').addEventListener("click", function() {
+
+        fetch('/game/toggleGameFav/' + gameId, {
+            method: 'post',
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+
+                if (data.newState == "favorited") {
+                    document.getElementById('favGameBtn').lastChild.className="fa-solid fa-heart";
+                    document.getElementById('favGameBtn').style.borderTop = "1px solid " + document.getElementById('gameColor').textContent;
+                    document.getElementById('favGameBtn').style.borderBottom = "1px solid " + document.getElementById('gameColor').textContent;
+
+                    document.getElementById('favGameBtn').lastChild.style.color = document.getElementById('gameColor').textContent;
+
+                    document.querySelector('#ajaxFlash').textContent = "Favorisé";
+
+                }
+                else if (data.newState == "notFavorited") {
+                    document.getElementById('favGameBtn').lastChild.className="fa-regular fa-heart";
+                    document.getElementById('favGameBtn').style.borderTop = "1px solid rgb(255 255 255 / 20%)";
+                    document.getElementById('favGameBtn').style.borderBottom = "1px solid rgb(255 255 255 / 20%)";
+
+                    document.getElementById('favGameBtn').lastChild.style.color = "white";
+
+                    document.querySelector('#ajaxFlash').textContent = "Défavorisé";
+                }
+
+                document.querySelector('#ajaxFlash').classList.add("ajaxFlashAnim", "successAjaxFlash");
+
+            } else {
+                document.querySelector('#ajaxFlash').textContent = "Vous devez être connecté pour ajouter un jeu à vos favoris";
+                document.querySelector('#ajaxFlash').classList.add("ajaxFlashAnim", "errorAjaxFlash");
+            }
+
+        })
+    })
+
+
+
+
+
+
+
     // Asynch des Likes de média
     var btns = document.getElementsByClassName("likeMedia");
     Array.prototype.forEach.call(btns, function(btn) {
@@ -251,34 +328,6 @@ window.addEventListener('load', function() {
         })
 
             
-
-
-
-
-    
-
-
-
-
-
-
-    // Anim fadeIn 5 Topics Game
-    var topicCards = document.querySelectorAll('.topicCard');
-
-    // Fonction pour ajouter une classe supplémentaire à chaque élément après un délai
-    function addClassWithDelay(element, className, delay) {
-        setTimeout(function() {
-            element.classList.add(className);
-        }, delay);
-    }
-
-    // Parcours de chaque élément et ajout de la classe avec un délai croissant
-    var delay = 0;
-    for (var i = 0; i < topicCards.length; i++) {
-        var card = topicCards[i];
-        addClassWithDelay(card, 'topicCardFadeInAnim', delay);
-        delay += 250; // Délai en millisecondes (ajuste le délai si nécessaire)
-    }
                     
 
 
