@@ -47,12 +47,23 @@ class ModerationController extends AbstractController
                     $censure->setCreationDate(new \DateTime());
                     $censure->setUser($this->getUser());
 
-                    // Maj BDD
-                    $entityManager->persist($censure);
-                    $entityManager->flush();
+                    
+                    // Check doublons
+                    if ($censureRepo->findOneBy(['word' => $censureWord])) {
+                        
+                        $this->addFlash('error', 'Le mot a déjà été ajouté');
+                        return $this->redirectToRoute('app_moderationDashboard');
+                    
+                    }
+                    else {
+                        // Maj BDD
+                        $entityManager->persist($censure);
+                        $entityManager->flush();
 
-                    $this->addFlash('success', 'Le mot a été ajouté');
-                    return $this->redirectToRoute('app_moderationDashboard');
+                        $this->addFlash('success', 'Le mot a été ajouté');
+                        return $this->redirectToRoute('app_moderationDashboard');
+
+                    }
 
                 }
 
@@ -73,6 +84,33 @@ class ModerationController extends AbstractController
         }
 
         
+
+    }
+
+
+    // id: idCensure
+    #[Route('/deleteCensure/{id}', name: 'app_deleteCensure')]
+    public function deleteCensure(EntityManagerInterface $entityManager, int $id, Request $request): Response
+    {
+
+        if ( $this->getUser() && in_array('ROLE_MODO', $this->getUser()->getRoles()) ) {
+
+            $censureRepo = $entityManager->getRepository(Censure::class);
+            $censure = $censureRepo->find($id);
+
+            $censureRepo->remove($censure, true);
+
+            $this->addFlash('success', 'Le mot a été retiré');
+            return $this->redirectToRoute('app_moderationDashboard');
+
+        }
+        else {
+
+            $this->addFlash('error', 'Vous devez être connecté ou modérateur pour retirer un mot');
+            return $this->redirectToRoute('app_login');
+
+        }
+
 
     }
 }

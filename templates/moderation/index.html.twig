@@ -28,7 +28,7 @@
                     <p>"{{ censureWord.word }}"</p>
                     <p>{{ time_diff(censureWord.creationDate) }}</p>
                     <p>par {{ censureWord.user.pseudo }}</p>
-                    <p>&times;</p>
+                    <a href="{{ path('app_deleteCensure', {'id': censureWord.id }) }}">&times;</a>
                 </div>
             {% endfor %}
 
