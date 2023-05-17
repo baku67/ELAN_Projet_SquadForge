@@ -129,7 +129,7 @@ class MediaController extends AbstractController
 
                 } 
                 else {
-                    $this->addFlash('error', 'Les données envoyées ne sont pas valides');
+                    $this->addFlash('error', 'Pas de vulgarités pour un titre');
                     return $this->redirectToRoute('app_game', ['id' => $gameFrom->getId()]);
                 }   
             }

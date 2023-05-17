@@ -36,49 +36,55 @@ window.addEventListener('load', function() {
     
 
     // Asynch toggle Game Favori
-    const gameId = document.getElementById('gameId').textContent;
+    if (document.getElementById('gameId') != null) {
 
-    document.getElementById('favGameBtn').addEventListener("click", function() {
+        const gameId = document.getElementById('gameId').textContent;
 
-        fetch('/game/toggleGameFav/' + gameId, {
-            method: 'post',
-            headers: {
-                'Content-Type': 'application/json'
-            }
-        })
-        .then(response => response.json())
-        .then(data => {
-            if (data.success) {
-
-                if (data.newState == "favorited") {
-                    document.getElementById('favGameBtn').lastChild.className="fa-solid fa-heart";
-                    document.getElementById('favGameBtn').style.borderTop = "1px solid " + document.getElementById('gameColor').textContent;
-                    document.getElementById('favGameBtn').style.borderBottom = "1px solid " + document.getElementById('gameColor').textContent;
-
-                    document.getElementById('favGameBtn').lastChild.style.color = document.getElementById('gameColor').textContent;
-
-                    document.querySelector('#ajaxFlash').textContent = "Favorisé";
-
+        document.getElementById('favGameBtn').addEventListener("click", function() {
+    
+            fetch('/game/toggleGameFav/' + gameId, {
+                method: 'post',
+                headers: {
+                    'Content-Type': 'application/json'
                 }
-                else if (data.newState == "notFavorited") {
-                    document.getElementById('favGameBtn').lastChild.className="fa-regular fa-heart";
-                    document.getElementById('favGameBtn').style.borderTop = "1px solid rgb(255 255 255 / 20%)";
-                    document.getElementById('favGameBtn').style.borderBottom = "1px solid rgb(255 255 255 / 20%)";
-
-                    document.getElementById('favGameBtn').lastChild.style.color = "white";
-
-                    document.querySelector('#ajaxFlash').textContent = "Défavorisé";
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+    
+                    if (data.newState == "favorited") {
+                        document.getElementById('favGameBtn').lastChild.className="fa-solid fa-heart";
+                        document.getElementById('favGameBtn').style.borderTop = "1px solid " + document.getElementById('gameColor').textContent;
+                        document.getElementById('favGameBtn').style.borderBottom = "1px solid " + document.getElementById('gameColor').textContent;
+    
+                        document.getElementById('favGameBtn').lastChild.style.color = document.getElementById('gameColor').textContent;
+    
+                        document.querySelector('#ajaxFlash').textContent = "Favorisé";
+    
+                    }
+                    else if (data.newState == "notFavorited") {
+                        document.getElementById('favGameBtn').lastChild.className="fa-regular fa-heart";
+                        document.getElementById('favGameBtn').style.borderTop = "1px solid rgb(255 255 255 / 20%)";
+                        document.getElementById('favGameBtn').style.borderBottom = "1px solid rgb(255 255 255 / 20%)";
+    
+                        document.getElementById('favGameBtn').lastChild.style.color = "white";
+    
+                        document.querySelector('#ajaxFlash').textContent = "Défavorisé";
+                    }
+    
+                    document.querySelector('#ajaxFlash').classList.add("ajaxFlashAnim", "successAjaxFlash");
+    
+                } else {
+                    document.querySelector('#ajaxFlash').textContent = "Vous devez être connecté pour ajouter un jeu à vos favoris";
+                    document.querySelector('#ajaxFlash').classList.add("ajaxFlashAnim", "errorAjaxFlash");
                 }
-
-                document.querySelector('#ajaxFlash').classList.add("ajaxFlashAnim", "successAjaxFlash");
-
-            } else {
-                document.querySelector('#ajaxFlash').textContent = "Vous devez être connecté pour ajouter un jeu à vos favoris";
-                document.querySelector('#ajaxFlash').classList.add("ajaxFlashAnim", "errorAjaxFlash");
-            }
-
+    
+            })
         })
-    })
+    
+
+    }
+
 
 
 
