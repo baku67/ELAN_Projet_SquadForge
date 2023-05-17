@@ -164,7 +164,7 @@ class TopicController extends AbstractController
     
                     } 
                     else {
-                        $this->addFlash('error', 'Les données envoyées ne sont pas valides');
+                        $this->addFlash('error', 'Pas de vulgarités pour un titre de Topic !');
                         return $this->redirectToRoute('app_topicDetail', ['id' => $topic->getId()]);
                     }   
 
