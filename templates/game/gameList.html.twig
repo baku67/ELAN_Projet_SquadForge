@@ -14,7 +14,7 @@
         <a href="{{ path('app_home') }}"><img src="{{ asset('img/logoSquadForge_Black_Rogned.png') }}" class="logoPng" /></a>
         <nav>
             <a href="{{ path('app_games') }}">Jeux</a>
-            {% if "ROLE_MODO" in app.user.roles %}
+            {% if app.user and "ROLE_MODO" in app.user.roles %}
                 <a href="{{ path('app_moderationDashboard') }}">Modération</a>
             {% endif %}
         </nav>

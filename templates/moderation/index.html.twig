@@ -9,7 +9,7 @@
         <a href="{{ path('app_home') }}"><img src="{{ asset('img/logoSquadForge_Black_Rogned.png') }}" class="logoPng" /></a>
         <nav>
             <a href="{{ path('app_games') }}">JEUX</a>
-            {% if "ROLE_MODO" in app.user.roles %}
+            {% if app.user and "ROLE_MODO" in app.user.roles %}
                 <a href="{{ path('app_moderationDashboard') }}">Modération</a>
             {% endif %}
         </nav>
@@ -20,7 +20,28 @@
 
         <h2>Espace Modération</h2>
 
-        {{ dump(censureWords) }}
+        <h3>Mots censurés</h3>
+        
+        <div style="display:inline-flex; flex-direction:column; width:80%;">
+            {% for censureWord in censureWords %}
+                <div style="display:inline-flex; justify-content:space-evenly;">
+                    <p>"{{ censureWord.word }}"</p>
+                    <p>{{ time_diff(censureWord.creationDate) }}</p>
+                    <p>par {{ censureWord.user.pseudo }}</p>
+                    <p>&times;</p>
+                </div>
+            {% endfor %}
+
+            {{ form_start(formAddCensoredWord) }}
+                <div class="inline" style="position:relative; margin: 5px auto;">
+                    {{ form_widget(formAddCensoredWord.word) }} 
+                    {{ form_widget(formAddCensoredWord.submit) }}
+                </div>
+            {{ form_end(formAddCensoredWord) }}
+        </div>
+
+
+        <h3>Médias en attente de validation</h3>
 
 
 
