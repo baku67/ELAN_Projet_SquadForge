@@ -19,9 +19,14 @@
 
         <h2>Tous les Topics <span class="gameListCount">({{ allTopicsCount }})</span></h2>
 
+        <div>
+            <span id="toggleNewSort">New</span>
+            <span id="toggleHotSort">Hot</span>
+        </div>
+
         <div class="listContainer topicList marginTop">
-            {% for topic in allTopicsDesc %}
-                <a href="{{ path('app_topicDetail', {'id': topic.id}) }}">
+            {% for topic in allTopicsDesc|sort((a, b) => b.getTopicPostsCount() - a.getTopicPostsCount()) %}
+                <a class="topicCardLink" href="{{ path('app_topicDetail', {'id': topic.id}) }}">
                     <div class="topicCard" style="border-bottom: 4px solid {{ topic.game.color }}">
                         <img class="tinyLogo" src="{{ asset('img/games/tinyLogo/' ~ topic.game.tinyLogo) }}" />
                         <span class="topicTitle">{{ topic.title|capitalize }}</span>
@@ -31,12 +36,60 @@
                         {% if topic.topicPostsCount == 0 %}
                             <span style="opacity:0.5;">{{ topic.topicPostsCount }} <i class="fa-solid fa-message" style="color:grey;"></i></span>
                         {% else %}
-                            <span>{{ topic.topicPostsCount }} <i class="fa-solid fa-message" style="color:{{ topic.game.color }}"></i></span>
+                            <span><span class="topicPostCount">{{ topic.topicPostsCount }}</span> <i class="fa-solid fa-message" style="color:{{ topic.game.color }}"></i></span>
                         {% endif %}
                     </div>
                 </a>
             {% endfor %}
         </div>
+
+
+        <script>
+            // window.onload = function() {
+
+            //     const topicListContainer = document.querySelector('.listContainer.topicList.marginTop');
+            //     let ascendingOrder = true;
+
+            //     document.getElementById('toggleNewSort').addEventListener('click', function() {
+
+                    
+            //         const topicCards = Array.from(document.getElementsByClassName('topicCard'));
+
+            //         // Toggle the ascending/descending order flag
+            //         ascendingOrder = !ascendingOrder;
+
+            //         // Sort the topic cards based on the topicPostCount value
+            //         topicCards.sort(function(a, b) {
+            //             console.log(parseInt(a.querySelector('.topicPostCount').innerText));
+            //             const topicPostCountA = parseInt(a.querySelector('.topicPostCount').innerText);
+            //             const topicPostCountB = parseInt(b.querySelector('.topicPostCount').innerText);
+
+            //             if (ascendingOrder) {
+            //                 return topicPostCountA - topicPostCountB;
+            //             } else {
+            //                 return topicPostCountB - topicPostCountA;
+            //             }
+            //         });
+
+            //         // Clear the container before appending the sorted topic cards
+            //         while (topicListContainer.firstChild) {
+            //             topicListContainer.removeChild(topicListContainer.firstChild);
+            //         }
+
+            //         // Append the sorted topic cards back to the container
+            //         topicCards.forEach(function(topicCard) {
+            //             topicListContainer.appendChild(topicCard);
+            //         });
+            //     })
+
+
+            //     document.getElementById('toggleHotSort').addEventListener('click', function() {
+                    
+            //     })
+            
+            // }
+
+        </script>
 
         
     </div>
