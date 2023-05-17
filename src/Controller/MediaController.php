@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Media;
+use App\Entity\Censure;
 use App\Entity\MediaPost;
 use App\Entity\MediaPostLike;
 use App\Entity\Game;
@@ -184,6 +185,9 @@ class MediaController extends AbstractController
 
         $mediaRepo = $entityManager->getRepository(Media::class);
         $mediaPostRepo = $entityManager->getRepository(MediaPost::class);
+        $censureRepo = $entityManager->getRepository(Censure::class);
+
+        $censures = $censureRepo->findAll();
 
         $media = $mediaRepo->find($id);
 
@@ -268,7 +272,8 @@ class MediaController extends AbstractController
             'formAddMediaPost' => $form->createView(),
             'media' => $media,
             'game' => $mediaGame,
-            'mediaPosts' => $mediaPosts
+            'mediaPosts' => $mediaPosts,
+            'censures' => $censures,
         ]);
 
     }
