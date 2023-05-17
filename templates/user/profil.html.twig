@@ -9,6 +9,9 @@
         <a href="{{ path('app_home') }}"><img src="{{ asset('img/logoSquadForge_Black_Rogned.png') }}" class="logoPng" /></a>
         <nav>
             <a href="{{ path('app_games') }}">JEUX</a>
+            {% if "ROLE_MODO" in app.user.roles %}
+                <a href="{{ path('app_moderationDashboard') }}">Modération</a>
+            {% endif %}
         </nav>
     </header>
     <div class="headerUnderline"></div>
@@ -29,8 +32,10 @@
 
         {% if userRole[0] == "ROLE_USER" %}
             <p>Rôle:<span class="roleUserData">Utilisateur</span></p>
-        {% else %}
-            <p>Rôle:<span class="roleUserData">Modérateur/Administrateur</span></p>
+        {% elseif userRole[0] == "ROLE_MODO" %}
+            <p>Rôle:<span class="roleUserData">Modérateur</span></p>
+        {% elseif userRole[0] == "ROLE_ADMIN" %}
+            <p>Rôle:<span class="roleUserData">Administrateur</span></p>
         {% endif %}
 
 

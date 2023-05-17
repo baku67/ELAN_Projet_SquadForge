@@ -68,6 +68,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(options: ['default' => true])]
     private ?bool $autoPlayGifs = null;
 
+    #[ORM\OneToMany(mappedBy: 'user', targetEntity: Censure::class)]
+    private Collection $censures;
+
     public function __construct()
     {
         $this->favoris = new ArrayCollection();
@@ -79,6 +82,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         $this->media = new ArrayCollection();
         $this->mediaPosts = new ArrayCollection();
         $this->mediaPostLikes = new ArrayCollection();
+        $this->censures = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -444,6 +448,36 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setAutoPlayGifs(bool $autoPlayGifs): self
     {
         $this->autoPlayGifs = $autoPlayGifs;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Censure>
+     */
+    public function getCensures(): Collection
+    {
+        return $this->censures;
+    }
+
+    public function addCensure(Censure $censure): self
+    {
+        if (!$this->censures->contains($censure)) {
+            $this->censures->add($censure);
+            $censure->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCensure(Censure $censure): self
+    {
+        if ($this->censures->removeElement($censure)) {
+            // set the owning side to null (unless already changed)
+            if ($censure->getUser() === $this) {
+                $censure->setUser(null);
+            }
+        }
 
         return $this;
     }
