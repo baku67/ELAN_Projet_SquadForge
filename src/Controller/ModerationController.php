@@ -38,6 +38,10 @@ class ModerationController extends AbstractController
                 if($form->isValid()) {
 
                     $censure = $form->getData();
+
+                    // mot toLower pour faciliter validation
+                    $censureWord = $form->get('word')->getData();
+                    $censure->setWord(strtolower($censureWord));
     
                     // Init de la publish_date du comment
                     $censure->setCreationDate(new \DateTime());

@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use Symfony\Component\HttpFoundation\JsonResponse;
 
+use App\Entity\Censure;
 use App\Entity\Topic;
 use App\Entity\TopicPost;
 use App\Entity\PostLike;
@@ -101,9 +102,11 @@ class TopicController extends AbstractController
     #[Route('/topicDetail/{id}', name: 'app_topicDetail')]
     public function getTopicDetail(EntityManagerInterface $entityManager, int $id, Request $request): Response
     {
-
+        $censureRepo = $entityManager->getRepository(Censure::class);
         $topicRepo = $entityManager->getRepository(Topic::class);
         $topicPostRepo = $entityManager->getRepository(TopicPost::class);
+
+        $censures = $censureRepo->findAll();
 
         $topic = $topicRepo->find($id);
 
@@ -187,7 +190,8 @@ class TopicController extends AbstractController
             'formAddTopicPost' => $form->createView(),
             'topic' => $topic,
             'game' => $topicGame,
-            'topicPosts' => $topicPosts
+            'topicPosts' => $topicPosts,
+            'censures' => $censures,
         ]);
 
     }
