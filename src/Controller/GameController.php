@@ -14,6 +14,7 @@ use App\Form\SearchType;
 use App\Form\TopicType;
 use App\Form\MediaType;
 use App\Entity\Game;
+use App\Entity\Censure;
 use App\Entity\Genre;
 use App\Entity\Notation;
 use App\Entity\User;
@@ -75,9 +76,12 @@ class GameController extends AbstractController
         $gamesRepo = $entityManager->getRepository(Game::class);
         $topicRepo = $entityManager->getRepository(Topic::class);
         $mediaRepo = $entityManager->getRepository(Media::class);
+        $censureRepo = $entityManager->getRepository(Censure::class);
         $game = $gamesRepo->find($id);
         $gameGenre = $game->getGenre()->getName();
         $user = $this->getUser();
+        $censures = $censureRepo->findAll();
+
 
         // Check si relation "Favoris" (user_game), customQuery mieux ?
         if ($this->getUser()) {
@@ -296,6 +300,7 @@ class GameController extends AbstractController
             'averageRating' => $averageRating,
             'gameMedias' => $gameMediasDesc,
             'gameMediasCount' => $gameMediasCount,
+            'censures' => $censures,
         ]);
 
     }
