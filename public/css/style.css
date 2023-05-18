@@ -785,10 +785,21 @@ nav {
 
 .mediaApproveBtn {
     color: var(--primary-color)
-    
+
 }
 .mediaRefuseBtn {
     color: rgb(219, 61, 21);
+}
+
+.refusedMediaLabel {
+    text-align: center;
+    padding: 5px;
+    background-color: #b43a3a;
+}
+.waitingMediaLabel {
+    text-align: center;
+    padding: 5px;
+    background-color: #b8a229;
 }
 
 

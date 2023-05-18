@@ -157,7 +157,7 @@
                             <div class="mediaCardHeader" style="border-bottom: 5px solid {{ media.game.color }}">
                                 <img class="tinyLogo" src="{{ asset('img/games/tinyLogo/' ~ media.game.tinyLogo) }}" />
                                 <span class="mediaTitle">{{ media.title|capitalize }}</span>
-                                <span>{{ media.validated }}</span>
+                                {# <span>{{ media.validated }}</span> #}
                                 {# <span>{{ media.status }}</span> #}
                                 <span class="topicCardPublishDate">{{ time_diff(media.publishDate) }}</span>
                             </div>
@@ -184,44 +184,58 @@
                     {% endif %}
 
 
-                    {# Upvote/downvote média + score + nbrPosts #}
-                    <div class="mediaCardStatsDiv">
+                    {% if media.validated == "validated" %}
 
-                        {# Upvote/downvote média + score + nbrPosts #}
-                        {# Pas opti: bloucle sur tous les likes du post pour savoir si liké (boucle dans boucle) #}
-                        {% set liked = "" %}
-                        
-                        {% if app.user %}
-
-                            {% for upvote in media.UserUpvote %}
-
-                                {% if upvote == app.user %}
-                                    {% set liked = "upBtnLiked" %}
-                                {% endif %}
-
-                            {% endfor %}
-                        {% endif %}
-                        <div class="inline">
-                            <i mediaId={{ media.id }} class="likeMedia fa-regular fa-circle-up {{ liked }}"></i>
-                            {# <i class="fa-regular fa-circle-down"></i> #}
-                            <p id="countLikesMedia{{ media.id }}" value="{{ media.upvoteCount }}"> {{ media.upvoteCount }} </p>
-                        </div>
                     
-                        {% if media.mediaPostsCount == 0 %}
-                            <a href="{{ path('app_mediaDetail', {'id':media.id}) }}">
-                                <span style="opacity:0.5;">{{ media.mediaPostsCount }} 
-                                    <i class="fa-solid fa-message" style="color:grey;"></i>
-                                </span>
-                            </a>
-                        {% else %}
-                            <a href="{{ path('app_mediaDetail', {'id':media.id}) }}">
-                                <span>{{ media.mediaPostsCount }} 
-                                    <i class="fa-solid fa-message" style="color:var(--primary-color)"></i>
-                                </span>
-                            </a>
-                        {% endif %}
+                        {# Upvote/downvote média + score + nbrPosts #}
+                        <div class="mediaCardStatsDiv">
 
-                    </div>
+                            {# Upvote/downvote média + score + nbrPosts #}
+                            {# Pas opti: bloucle sur tous les likes du post pour savoir si liké (boucle dans boucle) #}
+                            {% set liked = "" %}
+                            
+                            {% if app.user %}
+
+                                {% for upvote in media.UserUpvote %}
+
+                                    {% if upvote == app.user %}
+                                        {% set liked = "upBtnLiked" %}
+                                    {% endif %}
+
+                                {% endfor %}
+                            {% endif %}
+                            <div class="inline">
+                                <i mediaId={{ media.id }} class="likeMedia fa-regular fa-circle-up {{ liked }}"></i>
+                                {# <i class="fa-regular fa-circle-down"></i> #}
+                                <p id="countLikesMedia{{ media.id }}" value="{{ media.upvoteCount }}"> {{ media.upvoteCount }} </p>
+                            </div>
+                        
+                            {% if media.mediaPostsCount == 0 %}
+                                <a href="{{ path('app_mediaDetail', {'id':media.id}) }}">
+                                    <span style="opacity:0.5;">{{ media.mediaPostsCount }} 
+                                        <i class="fa-solid fa-message" style="color:grey;"></i>
+                                    </span>
+                                </a>
+                            {% else %}
+                                <a href="{{ path('app_mediaDetail', {'id':media.id}) }}">
+                                    <span>{{ media.mediaPostsCount }} 
+                                        <i class="fa-solid fa-message" style="color:var(--primary-color)"></i>
+                                    </span>
+                                </a>
+                            {% endif %}
+
+                        </div>
+
+                    {% elseif media.validated == "waiting" %}
+                        
+                        <p class="waitingMediaLabel">En attente...</p>
+
+                    {% elseif media.validated == "refused" %}
+
+                        <p class="refusedMediaLabel">Refusé</p>
+
+                    {% endif %}
+
 
                     <br>
                     {# <div style="width:100%; margin: 0 auto; height:3px; background-color: {{ media.game.color }}; opacity:0.5;"></div> #}

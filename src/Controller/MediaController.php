@@ -184,98 +184,112 @@ class MediaController extends AbstractController
     {
 
         $mediaRepo = $entityManager->getRepository(Media::class);
-        $mediaPostRepo = $entityManager->getRepository(MediaPost::class);
-        $censureRepo = $entityManager->getRepository(Censure::class);
-
-        $censures = $censureRepo->findAll();
-
         $media = $mediaRepo->find($id);
 
-        $mediaGame = $media->getGame();
+        if ($media->getValidated() == "validated") {
 
-        // A remplacer par customQuery: triés par nbr d'upvote et sinon par publishDate (récent en haut) [différent d'un chat]
-        // + On cherche uniquement les posts qui ne répondent pas à un post (parent = null (nullable))
-        // (les réponses au post s'afficheront avec ajax au click sur le post)
-
-        $mediaPosts = $mediaPostRepo->findBy(['media' => $media], ['publish_date' => 'DESC']);
-
-
-
-        // Form de publication de post sur un media
-        $mediaPost = new MediaPost();
-        $form = $this->createForm(MediaPostType::class, $mediaPost);
-        $form -> handleRequest($request);
-
-        // Vérifs/Filtres
-        if($form->isSubmitted()) {
-
-            // Vérif connecté pour poster un MediaPost
-            if($this->getUser()) {
-
-                // Vérification si le media est ouvert
-                if ($media->getStatus() == "open") {
-                    
-                    if($form->isValid()) {
-
-                        // Hydrataion du "MediaPost" a partir des données du form
-                        $mediaPost = $form->getData();
+            $mediaPostRepo = $entityManager->getRepository(MediaPost::class);
+            $censureRepo = $entityManager->getRepository(Censure::class);
     
-                        // Init de la publish_date du comment
-                        $mediaPost->setPublishDate(new \DateTime());
-                        $mediaPost->setUser($this->getUser());
-                        $mediaPost->setMedia($media);
+            $censures = $censureRepo->findAll();
+    
+    
+    
+            $mediaGame = $media->getGame();
+    
+            // A remplacer par customQuery: triés par nbr d'upvote et sinon par publishDate (récent en haut) [différent d'un chat]
+            // + On cherche uniquement les posts qui ne répondent pas à un post (parent = null (nullable))
+            // (les réponses au post s'afficheront avec ajax au click sur le post)
+    
+            $mediaPosts = $mediaPostRepo->findBy(['media' => $media], ['publish_date' => 'DESC']);
+    
+    
+    
+            // Form de publication de post sur un media
+            $mediaPost = new MediaPost();
+            $form = $this->createForm(MediaPostType::class, $mediaPost);
+            $form -> handleRequest($request);
+    
+            // Vérifs/Filtres
+            if($form->isSubmitted()) {
+    
+                // Vérif connecté pour poster un MediaPost
+                if($this->getUser()) {
+    
+                    // Vérification si le media est ouvert
+                    if ($media->getStatus() == "open") {
                         
-                        // Désactivation vérification nbr de mots etc...
-                        // // Récupération du titre
-                        // $textInputValue = $form->get('text')->getData();
-                        // // Liste des mots du commentaires
-                        // $words = str_word_count($textInputValue, 1);
-                        // // Décompte du nombre de mots dans la liste
-                        // $wordCount = count($words);
-                        // // Vérification du compte de mots
-                        // if ($wordCount >= 5) {
+                        if($form->isValid()) {
     
-                            // Modifs Base de données
-                            $entityManager->persist($mediaPost);
-                            $entityManager->flush();
-    
-                            $this->addFlash('success', 'Le post a bien été publié');
-                            return $this->redirectToRoute('app_mediaDetail', ['id' => $media->getId()]);
-                        // } else {
+                            // Hydrataion du "MediaPost" a partir des données du form
+                            $mediaPost = $form->getData();
+        
+                            // Init de la publish_date du comment
+                            $mediaPost->setPublishDate(new \DateTime());
+                            $mediaPost->setUser($this->getUser());
+                            $mediaPost->setMedia($media);
                             
-                        //     $this->addFlash('error', 'Le titre doit faire au minimum 5 mots !');
-                        //     return $this->redirectToRoute('app_game', ['id' => $game->getId()]);
-                        // }
+                            // Désactivation vérification nbr de mots etc...
+                            // // Récupération du titre
+                            // $textInputValue = $form->get('text')->getData();
+                            // // Liste des mots du commentaires
+                            // $words = str_word_count($textInputValue, 1);
+                            // // Décompte du nombre de mots dans la liste
+                            // $wordCount = count($words);
+                            // // Vérification du compte de mots
+                            // if ($wordCount >= 5) {
+        
+                                // Modifs Base de données
+                                $entityManager->persist($mediaPost);
+                                $entityManager->flush();
+        
+                                $this->addFlash('success', 'Le post a bien été publié');
+                                return $this->redirectToRoute('app_mediaDetail', ['id' => $media->getId()]);
+                            // } else {
+                                
+                            //     $this->addFlash('error', 'Le titre doit faire au minimum 5 mots !');
+                            //     return $this->redirectToRoute('app_game', ['id' => $game->getId()]);
+                            // }
+        
+                        } 
+                        else {
+                            $this->addFlash('error', 'Les données envoyées ne sont pas valides');
+                            return $this->redirectToRoute('app_mediaDetail', ['id' => $media->getId()]);
+                        }   
     
-                    } 
+                    }
                     else {
-                        $this->addFlash('error', 'Les données envoyées ne sont pas valides');
+                        $this->addFlash('error', 'Le media a été fermé, vous ne pouvez plus le commenter.');
                         return $this->redirectToRoute('app_mediaDetail', ['id' => $media->getId()]);
-                    }   
-
+                    }
+    
+    
+                    
                 }
                 else {
-                    $this->addFlash('error', 'Le media a été fermé, vous ne pouvez plus le commenter.');
-                    return $this->redirectToRoute('app_mediaDetail', ['id' => $media->getId()]);
+                    $this->addFlash('error', 'Vous devez être connecté pour publier un post');
+                    return $this->redirectToRoute('app_login');
                 }
+            }
+    
+            return $this->render('media/mediaDetail.html.twig', [
+                'formAddMediaPost' => $form->createView(),
+                'media' => $media,
+                'game' => $mediaGame,
+                'mediaPosts' => $mediaPosts,
+                'censures' => $censures,
+            ]);
 
 
-                
-            }
-            else {
-                $this->addFlash('error', 'Vous devez être connecté pour publier un post');
-                return $this->redirectToRoute('app_login');
-            }
+
         }
-
-        return $this->render('media/mediaDetail.html.twig', [
-            'formAddMediaPost' => $form->createView(),
-            'media' => $media,
-            'game' => $mediaGame,
-            'mediaPosts' => $mediaPosts,
-            'censures' => $censures,
-        ]);
-
+        else {
+            $this->addFlash('error', 'Le topic est en attente ou refusé par la modération');
+            return $this->redirectToRoute('app_user');
+        }
+        
+        
+        
     }
 
 
