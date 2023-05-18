@@ -3,6 +3,8 @@
 namespace App\Controller;
 
 use App\Entity\Censure;
+use App\Entity\Topic;
+use App\Entity\Media;
 use App\Form\CensureType;
 // use App\Entity\MediaPost;
 // use App\Entity\TopicPost;
@@ -27,6 +29,15 @@ class ModerationController extends AbstractController
 
             $censureRepo = $entityManager->getRepository(Censure::class);
             $censureWords = $censureRepo->findBy([], ["creation_date" => "DESC"]);
+
+            // Récup mini liste des topics/médias en attente (tout l'historique dans le détail "voir tout", avec filtre "en attente" only)
+            $topicRepo = $entityManager->getRepository(Topic::class);
+            $mediaRepo = $entityManager->getRepository(Media::class);
+            $lastWaitingTopics = $topicRepo->findLastWaitingTopics();
+            $lastWaitingMedias = $mediaRepo->findLastWaitingMedias();
+
+
+            $mediaRepo = $entityManager->getRepository(Media::class);
     
             // Ajouter le formType d'ajout
             $censure = new Censure;
@@ -72,7 +83,9 @@ class ModerationController extends AbstractController
 
             return $this->render('moderation/index.html.twig', [
                 'formAddCensoredWord' => $form->createView(),
-                'censureWords' => $censureWords
+                'censureWords' => $censureWords,
+                'lastWaitingTopics' => $lastWaitingTopics,
+                'lastWaitingMedias' => $lastWaitingMedias,
             ]);
     
         }

@@ -202,7 +202,7 @@ class GameController extends AbstractController
                     $media->setUser($user);
                     $media->setStatus("open");
                     // En attendant le système de validation avant publication par un modo:
-                    $media->setValidated("wainting");
+                    $media->setValidated("waiting");
                     
                     // Récupération du titre
                     $titleInputValue = $form2->get('title')->getData();

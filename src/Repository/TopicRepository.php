@@ -158,5 +158,18 @@ class TopicRepository extends ServiceEntityRepository
     }
 
 
+    // Modo: mini-liste des derniers topics en attente de vaidation
+    public function findLastWaitingTopics(int $maxResults = 5)
+    {
+
+        return $this->createQueryBuilder('t')
+            ->andwhere('t.validated = :state')
+            ->setParameter('state', "waiting")
+            ->orderBy('t.publish_date', 'DESC')
+            ->setMaxResults($maxResults)
+            ->getQuery()
+            ->getResult();
+
+    }
 
 }

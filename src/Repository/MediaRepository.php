@@ -156,4 +156,19 @@ class MediaRepository extends ServiceEntityRepository
             ->getQuery()
             ->getResult();
     }
+
+
+    // Modo: mini-liste des derniers médias en attente de vaidation
+    public function findLastWaitingMedias(int $maxResults = 5)
+    {
+
+        return $this->createQueryBuilder('m')
+            ->andwhere('m.validated = :state')
+            ->setParameter('state', "waiting")
+            ->orderBy('m.publish_date', 'DESC')
+            ->setMaxResults($maxResults)
+            ->getQuery()
+            ->getResult();
+
+    }
 }
