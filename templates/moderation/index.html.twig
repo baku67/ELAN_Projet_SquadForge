@@ -43,10 +43,16 @@
         </div>
 
 
-        {# OnClick: Affiche titre en entier et pour Topic affiche le 1st msg aussi #}
+        {# Dans l'idée: OnClick: Affiche titre en entier et pour Topic affiche le 1st msg aussi (anim clip-path css ?) #}
 
-        <h3>Topics en attente de validation</h3>
+        {% if lastWaitingTopics|length == 0 %}
 
+            <p class="emptyListMsg">Aucun topic en attente de validation</p>
+            
+        {% else %}
+
+            <h3>Topics en attente de validation</h3>
+                    
             {% for topic in lastWaitingTopics %}
 
                 <a href="{{ path('app_topicDetail', {'id': topic.id}) }}">
@@ -66,33 +72,53 @@
 
             {% endfor %}
 
+        {% endif %} 
+
 
 
         <h3>Médias en attente de validation</h3>
 
-        {# {{ dump(lastWaitingMedias)}} #}
-        <div class="listContainer marginTop mediaList">
 
-            {% for media in lastWaitingMedias %}
+        {% if lastWaitingMedias|length == 0 %}
 
-                <div class="mediaCard">
-                    <div class="mediaCardHeader" style="border-bottom: 4px solid {{ media.game.color }}">
-                        <img class="tinyLogo" src="{{ asset('img/games/tinyLogo/' ~ media.game.tinyLogo) }}" />
-                        <span class="mediaTitle">{{ media.title|capitalize }}</span>
-                        <span>{{ media.validated }}</span>
-                        {# <span>{{ media.user.pseudo }}</span> #}
-                        <span class="topicCardPublishDate">{{ time_diff(media.publishDate) }}</span>
-                    </div>
-                    <img src="{{ asset("img/uploads/" ~ media.url) }}" alt="media" class="mediaImg" />
-                </div>
+            <p class="emptyListMsg">Aucun média en attente de validation</p>
 
-                <div>
-                    <span><i class="fa-solid fa-check"></i></span>
-                    <span><i class="fa-solid fa-xmark"></i></span>
-                </div>
+        {% else %}
 
-            {% endfor %}
-        </div>
+            <div class="listContainer marginTop mediaList">
+
+                    {% for media in lastWaitingMedias %}
+
+                        <div id="mediaCard{{ media.id }}" class="mediaCard" style="cursor:pointer;">
+                            <div class="mediaCardHeader" style="border-bottom: 4px solid {{ media.game.color }}">
+                                <img class="tinyLogo" src="{{ asset('img/games/tinyLogo/' ~ media.game.tinyLogo) }}" />
+                                <span id="mediaCardTitle{{ media.id }}" class="mediaTitle" style="font-family:'K2D',sans-serif;">{{ media.title|capitalize }}</span>
+                                <span id="topicStatusValidate{{ media.id }}">{{ media.validated }}</span>
+                                {# <span>{{ media.user.pseudo }}</span> #}
+                                <span class="topicCardPublishDate">{{ time_diff(media.publishDate) }}</span>
+                            </div>
+                            <img src="{{ asset("img/uploads/" ~ media.url) }}" alt="media" class="mediaImg" />
+                        </div>
+
+                        <div class="mediaApprovalLine">
+                            <a href="{{ path('app_validateMedia', {'id': media.id}) }}"><span class="mediaApproveBtn"><i class="fa-solid fa-check"></i></span></a>
+                            <a href="{{ path('app_refuseMedia', {'id': media.id}) }}"><span class="mediaRefuseBtn"><i class="fa-solid fa-xmark"></i></span></a>
+                        </div>
+
+                        <script>
+                            document.getElementById('mediaCard{{ media.id }}').addEventListener('click', function() {
+                                console.log('proc mediaCardDetail');
+                                document.getElementById('mediaCard{{ media.id }}').classList.toggle('mediaCard');
+                                document.getElementById('mediaCardTitle{{ media.id }}').classList.toggle('mediaTitle');
+                                document.getElementById('topicStatusValidate{{ media.id }}').classList.toggle('mediaStatusValidate');
+                            });
+                        </script>
+
+                    {% endfor %}
+
+            </div>
+
+        {% endif %}
 
 
 

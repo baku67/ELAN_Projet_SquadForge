@@ -91,7 +91,7 @@ class ModerationController extends AbstractController
         }
         else {
 
-            $this->addFlash('error', 'Vous devez être connecté ou modérateur pour accéder à cette page');
+            $this->addFlash('error', 'Vous devez être modérateur pour accéder à cette page');
             return $this->redirectToRoute('app_login');
 
         }
@@ -119,11 +119,65 @@ class ModerationController extends AbstractController
         }
         else {
 
-            $this->addFlash('error', 'Vous devez être connecté ou modérateur pour retirer un mot');
+            $this->addFlash('error', 'Vous devez être modérateur pour retirer un mot');
             return $this->redirectToRoute('app_login');
 
         }
 
+    }
 
+
+    // id: Media à valider
+    #[Route('/validateMedia/{id}', name: 'app_validateMedia')]
+    public function validateMedia(EntityManagerInterface $entityManager, int $id, Request $request): Response
+    {
+
+        if ( $this->getUser() && in_array('ROLE_MODO', $this->getUser()->getRoles()) ) {
+
+            $mediaRepo = $entityManager->getRepository(Media::class);
+            $media = $mediaRepo->find($id);
+            
+            $media->setValidated("validated");
+            $entityManager->persist($media);
+            $entityManager->flush();
+
+            $this->addFlash('success', 'Le média a été validé');
+            return $this->redirectToRoute('app_moderationDashboard');
+
+        }
+        else {
+
+            $this->addFlash('error', 'Vous devez être modérateur pour valider un média');
+            return $this->redirectToRoute('app_login');
+
+        }
+    }
+
+
+
+    // id: Media à refuser
+    #[Route('/refuseMedia/{id}', name: 'app_refuseMedia')]
+    public function refuseMedia(EntityManagerInterface $entityManager, int $id, Request $request): Response
+    {
+
+        if ( $this->getUser() && in_array('ROLE_MODO', $this->getUser()->getRoles()) ) {
+
+            $mediaRepo = $entityManager->getRepository(Media::class);
+            $media = $mediaRepo->find($id);
+            
+            $media->setValidated("refused");
+            $entityManager->persist($media);
+            $entityManager->flush();
+
+            $this->addFlash('success', 'Le média a été refusé');
+            return $this->redirectToRoute('app_moderationDashboard');
+
+        }
+        else {
+
+            $this->addFlash('error', 'Vous devez être modérateur pour refuser un média');
+            return $this->redirectToRoute('app_login');
+
+        }
     }
 }

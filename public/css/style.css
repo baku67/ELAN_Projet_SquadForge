@@ -744,6 +744,8 @@ nav {
     background-color: rgba(167, 167, 167,0.8);
     border-radius: 5px;
     padding: 1px 1px 1px 1px;
+    cursor: pointer;
+
 }
 .mediaCardPreview {
     /* background-color: rgba(167, 167, 167,0.8); */
@@ -762,9 +764,31 @@ nav {
     background-repeat:no-repeat;
 } */
 
+.mediaStatusValidate {
+    display: none;
+}
+
 
 .gameHeaderInfos {
     
+}
+
+.mediaApprovalLine {
+    width: 100%;
+    display: inline-flex;
+    justify-content: space-around;
+}
+.mediaApprovalLine span {
+    padding: 10px 35px 3px 35px;
+    font-size: 1.2em;
+}
+
+.mediaApproveBtn {
+    color: var(--primary-color)
+    
+}
+.mediaRefuseBtn {
+    color: rgb(219, 61, 21);
 }
 
 
