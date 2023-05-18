@@ -45,13 +45,13 @@
 
         {# Dans l'idée: OnClick: Affiche titre en entier et pour Topic affiche le 1st msg aussi (anim clip-path css ?) #}
 
+        <h3>Topics en attente de validation</h3>
+
         {% if lastWaitingTopics|length == 0 %}
 
             <p class="emptyListMsg">Aucun topic en attente de validation</p>
             
         {% else %}
-
-            <h3>Topics en attente de validation</h3>
                     
             {% for topic in lastWaitingTopics %}
 
@@ -119,7 +119,7 @@
                             <img src="{{ asset("img/uploads/" ~ media.url) }}" alt="media" class="mediaImg" />
                         </div>
 
-                        <div class="mediaApprovalLine">
+                        <div id="mediaSubCard{{ media.id }}" class="mediaApprovalLine notDisplayed">
                             <a href="{{ path('app_validateMedia', {'id': media.id}) }}">
                                 <span class="mediaApproveBtn"><i class="fa-solid fa-check"></i></span>
                             </a>
@@ -131,7 +131,7 @@
                         {# OnClick MediaCard: détails et boutons validation/refus #}
                         <script>
                             document.getElementById('mediaCard{{ media.id }}').addEventListener('click', function() {
-                                console.log('proc mediaCardDetail');
+                                document.getElementById('mediaSubCard{{ media.id }}').classList.toggle('notDisplayed');
                                 document.getElementById('mediaCard{{ media.id }}').classList.toggle('mediaCard');
                                 document.getElementById('mediaCardTitle{{ media.id }}').classList.toggle('mediaTitle');
                                 document.getElementById('topicStatusValidate{{ media.id }}').classList.toggle('mediaStatusValidate');
