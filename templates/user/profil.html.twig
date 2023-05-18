@@ -9,7 +9,7 @@
         <a href="{{ path('app_home') }}"><img src="{{ asset('img/logoSquadForge_Black_Rogned.png') }}" class="logoPng" /></a>
         <nav>
             <a href="{{ path('app_games') }}">JEUX</a>
-            {% if app.user and "ROLE_MODO" in app.user.roles %}
+            {% if "ROLE_MODO" in app.user.roles %}
                 <a href="{{ path('app_moderationDashboard') }}">Modération</a>
             {% endif %}
         </nav>
@@ -117,8 +117,8 @@
                     <div class="topicCard" style="border-bottom: 4px solid {{ topic.game.color }}">
                         <img class="tinyLogo" src="{{ asset('img/games/tinyLogo/' ~ topic.game.tinyLogo) }}" />
                         <span class="topicTitle">{{ topic.title|capitalize }}</span>
-                        <span>{{ topic.status }}</span>
-                        <span>{{ topic.user.pseudo }}</span>
+                        {# <span>{{ topic.status }}</span> #}
+                        <span>{{ topic.validated }}</span>
                         <span class="topicCardPublishDate">{{ time_diff(topic.publishDate) }}</span>
                         {% if topic.topicPostsCount == 0 %}
                             <span style="opacity:0.5;">{{ topic.topicPostsCount }} <i class="fa-solid fa-message" style="color:grey;"></i></span>
@@ -157,8 +157,8 @@
                             <div class="mediaCardHeader" style="border-bottom: 5px solid {{ media.game.color }}">
                                 <img class="tinyLogo" src="{{ asset('img/games/tinyLogo/' ~ media.game.tinyLogo) }}" />
                                 <span class="mediaTitle">{{ media.title|capitalize }}</span>
-                                {# <span>{{ media.status }}</span>
-                                <span>{{ media.user.pseudo }}</span> #}
+                                <span>{{ media.validated }}</span>
+                                {# <span>{{ media.status }}</span> #}
                                 <span class="topicCardPublishDate">{{ time_diff(media.publishDate) }}</span>
                             </div>
                             {% if not app.user.autoPlayGifs %}

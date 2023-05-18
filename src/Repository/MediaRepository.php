@@ -71,6 +71,8 @@ class MediaRepository extends ServiceEntityRepository
     public function findLastMedias(int $maxResults = 8) 
     {
         return $this->createQueryBuilder('m')
+            ->where('m.validated = :state')
+            ->setParameter('state', "validated")
             ->orderBy('m.publish_date', 'DESC')
             ->setMaxResults($maxResults)
             ->getQuery()
@@ -80,6 +82,8 @@ class MediaRepository extends ServiceEntityRepository
     public function findGlobalLastMedias(int $maxResults = 50) 
     {
         return $this->createQueryBuilder('m')
+            ->where('m.validated = :state')
+            ->setParameter('state', "validated")
             ->orderBy('m.publish_date', 'DESC')
             ->setMaxResults($maxResults)
             ->getQuery()
@@ -120,6 +124,8 @@ class MediaRepository extends ServiceEntityRepository
     {
         return $this->createQueryBuilder('m')
         ->where('m.game = :game')
+        ->andwhere('m.validated = :state')
+        ->setParameter('state', "validated")
         ->setParameter('game', $game)
         ->orderBy('m.publish_date', 'DESC')
         ->setMaxResults($maxResults)
@@ -135,5 +141,19 @@ class MediaRepository extends ServiceEntityRepository
             ->setParameter('game', $game)
             ->getQuery()
             ->getSingleScalarResult();
+    }
+
+
+    public function findByGameMin(Game $game, int $maxResults = 10) 
+    {
+        return $this->createQueryBuilder('m')
+            ->where('m.game = :game')
+            ->andwhere('m.validated = :state')
+            ->setParameter('state', "validated")
+            ->setParameter('game', $game)
+            ->orderBy('m.publish_date', 'DESC')
+            ->setMaxResults($maxResults)
+            ->getQuery()
+            ->getResult();
     }
 }

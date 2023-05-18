@@ -71,6 +71,19 @@ class TopicRepository extends ServiceEntityRepository
     public function findLastTopics(int $maxResults = 5) 
     {
         return $this->createQueryBuilder('t')
+            ->where('t.validated = :state')
+            ->setParameter('state', "validated")
+            ->orderBy('t.publish_date', 'DESC')
+            ->setMaxResults($maxResults)
+            ->getQuery()
+            ->getResult();
+    }
+
+    public function findAllTopics(int $maxResults = 50) 
+    {
+        return $this->createQueryBuilder('t')
+            ->where('t.validated = :state')
+            ->setParameter('state', "validated")
             ->orderBy('t.publish_date', 'DESC')
             ->setMaxResults($maxResults)
             ->getQuery()
@@ -81,6 +94,8 @@ class TopicRepository extends ServiceEntityRepository
     {
         return $this->createQueryBuilder('t')
             ->where('t.game = :game')
+            ->andwhere('t.validated = :state')
+            ->setParameter('state', "validated")
             ->setParameter('game', $game)
             ->orderBy('t.publish_date', 'DESC')
             ->setMaxResults($maxResults)
@@ -126,6 +141,20 @@ class TopicRepository extends ServiceEntityRepository
             ->setParameter('game', $game)
             ->getQuery()
             ->getSingleScalarResult();
+    }
+
+
+    public function findByGameMin(Game $game, int $maxResults = 5) 
+    {
+        return $this->createQueryBuilder('t')
+            ->where('t.game = :game')
+            ->andwhere('t.validated = :state')
+            ->setParameter('state', "validated")
+            ->setParameter('game', $game)
+            ->orderBy('t.publish_date', 'DESC')
+            ->setMaxResults($maxResults)
+            ->getQuery()
+            ->getResult();
     }
 
 

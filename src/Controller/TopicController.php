@@ -39,7 +39,7 @@ class TopicController extends AbstractController
         //     return $b->getTopicPostsCount() - $a->getTopicPostsCount();
         // });
 
-        $allTopicsDesc = $topicRepo->findBy([], ['publish_date' => "DESC"]);
+        $allTopicsDesc = $topicRepo->findAllTopics();
         $allTopicsCount = $topicRepo->countAllTopics();
 
         if ($gameIdFrom != "home") {
@@ -87,7 +87,9 @@ class TopicController extends AbstractController
     {
         $topicRepo = $entityManager->getRepository(Topic::class);
 
+        // Sur le profil: On affiche les status "validated" "en attente" des Topics et Médias
         $userTopicsDesc = $topicRepo->findBy(['user' => $this->getUser()], ['publish_date' => 'DESC']);
+        // $userTopicsDesc = $topicRepo->findAllTopicsByUserValidated($user);
         $userTopicsCount = count($userTopicsDesc);
 
         return $this->render('user/allTopicsUser.html.twig', [

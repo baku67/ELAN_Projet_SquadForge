@@ -108,7 +108,8 @@ class GameController extends AbstractController
         $averageRating = ceil($notationRepo->getGameAverageNotation($game) * 2) / 2;
 
         // 5 derniers Topics du jeu
-        $gameTopicsDesc = $topicRepo->findBy(['game' => $game], ['publish_date' => 'DESC'], 5);
+        $gameTopicsDesc = $topicRepo->findByGameMin($game);
+
         // Compte des topics du jeu
         $gameTopicsCount = $topicRepo->countGameTopics($game);
         
@@ -134,7 +135,7 @@ class GameController extends AbstractController
                     $topic->setUser($user);
                     $topic->setStatus("open");
                     // En attendant le système de validation avant publication par un modo:
-                    $topic->setValidated("validated");
+                    $topic->setValidated("waiting");
                     
                     // Récupération du titre
                     $titleInputValue = $form->get('title')->getData();
@@ -175,7 +176,7 @@ class GameController extends AbstractController
 
 
         // 5 derniers médias du jeu
-        $gameMediasDesc = $mediaRepo->findBy(['game' => $game], ['publish_date' => 'DESC'], 5);
+        $gameMediasDesc = $mediaRepo->findByGameMin($game);
         // Compte des médias du jeu
         $gameMediasCount = $mediaRepo->countGameMedias($game);
 
@@ -201,7 +202,7 @@ class GameController extends AbstractController
                     $media->setUser($user);
                     $media->setStatus("open");
                     // En attendant le système de validation avant publication par un modo:
-                    $media->setValidated("validated");
+                    $media->setValidated("wainting");
                     
                     // Récupération du titre
                     $titleInputValue = $form2->get('title')->getData();
