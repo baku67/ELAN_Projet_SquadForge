@@ -54,7 +54,7 @@ class MediaController extends AbstractController
                     $media->setUser($this->getUser());
                     $media->setStatus("ouvert");
                     // En attendant le système de validation avant publication par un modo:
-                    $media->setValidated("validated");
+                    $media->setValidated("waiting");
                     
                     // Récupération du titre
                     $titleInputValue = $form2->get('title')->getData();
@@ -284,7 +284,7 @@ class MediaController extends AbstractController
 
         }
         else {
-            $this->addFlash('error', 'Le topic est en attente ou refusé par la modération');
+            $this->addFlash('error', 'Le média est en attente ou refusé par la modération');
             return $this->redirectToRoute('app_user');
         }
         

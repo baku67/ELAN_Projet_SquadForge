@@ -773,6 +773,15 @@ nav {
     
 }
 
+.topicSubCard {
+    background-color: rgb(44 44 44);
+    padding: 10px;
+    margin-bottom: 20px;
+}
+.notDisplayed {
+    display: none;
+}
+
 .mediaApprovalLine {
     width: 100%;
     display: inline-flex;

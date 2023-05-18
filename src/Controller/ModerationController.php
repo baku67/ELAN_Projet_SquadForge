@@ -137,6 +137,8 @@ class ModerationController extends AbstractController
             $mediaRepo = $entityManager->getRepository(Media::class);
             $media = $mediaRepo->find($id);
             
+            // Date publish mise à jour à la validation
+            $media->setPublishDate(new \DateTime());
             $media->setValidated("validated");
             $entityManager->persist($media);
             $entityManager->flush();
@@ -180,4 +182,65 @@ class ModerationController extends AbstractController
 
         }
     }
+
+
+
+
+
+        // id: Topic à valider
+        #[Route('/validateTopic/{id}', name: 'app_validateTopic')]
+        public function validateTopic(EntityManagerInterface $entityManager, int $id, Request $request): Response
+        {
+    
+            if ( $this->getUser() && in_array('ROLE_MODO', $this->getUser()->getRoles()) ) {
+    
+                $topicRepo = $entityManager->getRepository(Topic::class);
+                $topic = $topicRepo->find($id);
+                
+                // Date publish mise à jour à la validation
+                $topic->setPublishDate(new \DateTime());
+                $topic->setValidated("validated");
+                $entityManager->persist($topic);
+                $entityManager->flush();
+    
+                $this->addFlash('success', 'Le topic a été validé');
+                return $this->redirectToRoute('app_moderationDashboard');
+    
+            }
+            else {
+    
+                $this->addFlash('error', 'Vous devez être modérateur pour valider un topic');
+                return $this->redirectToRoute('app_login');
+    
+            }
+        }
+    
+    
+    
+        // id: Topic à refuser
+        #[Route('/refuseTopic/{id}', name: 'app_refuseTopic')]
+        public function refuseTopic(EntityManagerInterface $entityManager, int $id, Request $request): Response
+        {
+    
+            if ( $this->getUser() && in_array('ROLE_MODO', $this->getUser()->getRoles()) ) {
+    
+                $topicRepo = $entityManager->getRepository(Topic::class);
+                $topic = $topicRepo->find($id);
+                
+                $topic->setValidated("refused");
+                $entityManager->persist($topic);
+                $entityManager->flush();
+    
+                $this->addFlash('success', 'Le topic a été refusé');
+                return $this->redirectToRoute('app_moderationDashboard');
+    
+            }
+            else {
+    
+                $this->addFlash('error', 'Vous devez être modérateur pour refuser un topic');
+                return $this->redirectToRoute('app_login');
+    
+            }
+        }
+    
 }
