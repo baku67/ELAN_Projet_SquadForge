@@ -179,11 +179,6 @@
                     {% endif %}
 
 
-                    {% if not app.user.autoPlayGifs %}
-                        <a href="{{ path('app_mediaDetail', {'id': media.id}) }}">Voir</a>
-                    {% endif %}
-
-
                     {% if media.validated == "validated" %}
 
                     

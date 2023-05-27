@@ -61,6 +61,9 @@ class Game
     #[ORM\OneToMany(mappedBy: 'game', targetEntity: Media::class)]
     private Collection $media;
 
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $subBanner = null;
+
     public function __construct()
     {
         $this->favUsers = new ArrayCollection();
@@ -325,6 +328,18 @@ class Game
                 $medium->setGame(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getSubBanner(): ?string
+    {
+        return $this->subBanner;
+    }
+
+    public function setSubBanner(?string $subBanner): self
+    {
+        $this->subBanner = $subBanner;
 
         return $this;
     }

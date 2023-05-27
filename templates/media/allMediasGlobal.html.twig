@@ -66,10 +66,6 @@
                 {% endif %}
 
 
-                {% if app.user and not app.user.autoPlayGifs %}
-                    <a href="{{ path('app_mediaDetail', {'id': media.id}) }}">Voir</a>
-                {% endif %}
-
                 {# Upvote/downvote média + score + nbrPosts #}
                 {# Pas opti: bloucle sur tous les likes du post pour savoir si liké (boucle dans boucle) #}
                 {% set liked = "" %}

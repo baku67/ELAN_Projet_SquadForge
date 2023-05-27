@@ -127,10 +127,6 @@
                     {% endif %}
 
 
-                    {% if app.user and not app.user.autoPlayGifs %}
-                        <a href="{{ path('app_mediaDetail', {'id': media.id}) }}">Voir</a>
-                    {% endif %}
-
 
 
                     {# Upvote/downvote média + score + nbrPosts #}

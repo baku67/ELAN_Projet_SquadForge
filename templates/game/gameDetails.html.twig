@@ -28,7 +28,7 @@
     <div class="main">
 
         {# Test Image Background BRUT #}
-        <div class="gameHeaderInfos gameSubImgBg" style="background-image: radial-gradient(circle, rgba(255,255,255,0) 0%, rgba(35,35,35,0.97) 65%), url('{{asset("img/games/headerBackground/overwatchHeaderBg.jpg")}}');">
+        <div class="gameHeaderInfos gameSubImgBg" style="background-image: radial-gradient(circle, rgba(255,255,255,0) 0%, rgba(35,35,35,0.995) 69%), url('{{asset("img/games/headerBackground/" ~ game.subBanner)}}'); padding:20px;">
 
             {# Infos du jeu et Btn Favoris #}
             <div class="marginTop marginBottom" style="display:inline-flex; width:100%; justify-content:space-between;">
@@ -409,10 +409,6 @@
                     </a>
                     {% endif %}
 
-
-                    {% if app.user and not app.user.autoPlayGifs %}
-                        <a href="{{ path('app_mediaDetail', {'id': media.id}) }}">Voir</a>
-                    {% endif %}
 
 
 

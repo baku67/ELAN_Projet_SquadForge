@@ -499,6 +499,7 @@ nav {
     opacity: 0.8;
     font-weight: 100;
     color: #00ffaf;
+    font-size: 1.3em;
 }
 .topicClosed {
     font-weight: 400 !important;
@@ -510,6 +511,13 @@ nav {
 
 #notation-input {
     width: 60px !important;
+}
+
+.mediaDetailTitle {
+    display:inline-flex; 
+    width:100%; 
+    align-items: baseline;
+    margin: 45px 0 20px 0;
 }
 
 
@@ -767,9 +775,46 @@ nav {
     display: none;
 }
 
+h1, h2, h3, h4 {
+    padding: 0;
+    margin: 0;
+}
+
 
 .gameHeaderInfos {
     
+}
+
+.reportBtn {
+    font-family: "K2D, sans-serif";
+    color: rgba(180, 58, 58, 1);
+    font-size: 0.6em;
+
+    align-items: flex-start;
+    transition: all 0.5s;
+}
+.reportBtn:hover {
+    color: rgba(180, 58, 58, 1);
+}
+
+.mediaUpvoteLine {
+    font-size: 3em;
+
+    width: 100%;
+    display: inline-flex;
+    align-items: center;
+
+    justify-content: space-between;
+}
+.likeMediaDetail {
+    padding: 20px 30px;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    border-radius: 5px;
+    cursor: pointer;
+}
+.nbrMediaUpvotes {
+    margin-left: 30px;
+    font-size: 0.75em;
 }
 
 .topicSubCard {

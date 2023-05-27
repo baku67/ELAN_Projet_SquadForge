@@ -31,8 +31,8 @@
 
     <div class="main">
 
-        <div style="display:inline-flex;">
-            <h2 style="font-weight:bold; color:{{game.color}}">Média</h2>
+        <div class="mediaDetailTitle">
+            <h2 style="font-weight:bold; color:{{game.color}};">Média</h2>
             {# TODO: status ouvert/fermé par auteur ou modo/admin (hardCoded pour l'instant) #}
             {% if media.status == "closed" %}
                 <span class="topicStatus topicClosed">fermé</span>
@@ -88,10 +88,12 @@
                 {% endfor %}
             {% endif %}
 
-            <div class="inline">
-                <i mediaId={{ media.id }} class="likeMedia fa-regular fa-circle-up {{ liked }}"></i>
-                {# <i class="fa-regular fa-circle-down"></i> #}
-                <p id="countLikesMedia{{ media.id }}" value="{{ media.upvoteCount }}"> {{ media.upvoteCount }} </p>
+            <div class="mediaUpvoteLine inline">
+                <div>
+                    <i mediaId={{ media.id }} class="likeMedia likeMediaDetail fa-solid fa-arrow-up {{ liked }}"></i>
+                    <span id="countLikesMedia{{ media.id }}" value="{{ media.upvoteCount }}" class="nbrMediaUpvotes"> {{ media.upvoteCount }} </span>
+                </div>
+                <a href="" class="reportBtn">Signaler</a>
             </div>
 
 
