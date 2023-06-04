@@ -64,12 +64,16 @@ class Game
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $subBanner = null;
 
+    #[ORM\OneToMany(mappedBy: 'game', targetEntity: Group::class, orphanRemoval: true)]
+    private Collection $gameGroups;
+
     public function __construct()
     {
         $this->favUsers = new ArrayCollection();
         $this->topics = new ArrayCollection();
         $this->notations = new ArrayCollection();
         $this->media = new ArrayCollection();
+        $this->gameGroups = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -340,6 +344,36 @@ class Game
     public function setSubBanner(?string $subBanner): self
     {
         $this->subBanner = $subBanner;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Group>
+     */
+    public function getGameGroups(): Collection
+    {
+        return $this->gameGroups;
+    }
+
+    public function addGameGroup(Group $gameGroup): self
+    {
+        if (!$this->gameGroups->contains($gameGroup)) {
+            $this->gameGroups->add($gameGroup);
+            $gameGroup->setGame($this);
+        }
+
+        return $this;
+    }
+
+    public function removeGameGroup(Group $gameGroup): self
+    {
+        if ($this->gameGroups->removeElement($gameGroup)) {
+            // set the owning side to null (unless already changed)
+            if ($gameGroup->getGame() === $this) {
+                $gameGroup->setGame(null);
+            }
+        }
 
         return $this;
     }

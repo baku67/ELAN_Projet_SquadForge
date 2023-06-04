@@ -32,20 +32,21 @@
     <div class="main">
 
         <div class="mediaDetailTitle">
-            <h2 style="font-weight:bold; color:{{game.color}};">Média</h2>
-            {# TODO: status ouvert/fermé par auteur ou modo/admin (hardCoded pour l'instant) #}
+
+            <h2 style="font-weight:bold; color:{{game.color}};">{{ media.title|capitalize }}</h2>
+
             {% if media.status == "closed" %}
                 <span class="topicStatus topicClosed">fermé</span>
             {% elseif media.status == "open" %}
                 <span class="topicStatus topicOpen">ouvert</span>
             {% endif %}
+
         </div>
 
 
         <div class="mainMediaDetail">
 
-            <div class="listContainer">
-                <p style="color: {{ media.game.color }}">{{ media.title|capitalize }}</p>
+            <div class="listContainer mediaDetailBg">
                 
                 <img src="{{ asset("img/uploads/" ~ media.url) }}" alt="media" class="mediaImg mediaDetailImg"/>
 
@@ -57,7 +58,7 @@
                     {% endif %}
                     <span>Il y a {{ time_diff(media.publishDate) }}</span>
                 </div>
-                {# <p>Intro</p> #}
+
             </div>
 
             {# Si auteur du topic: Btn fermer/ouvrir le topic (A voir: si fermer par Admin, pas possible de rouvrir en tant qu'author) #}

@@ -92,7 +92,7 @@ window.addEventListener('load', function() {
 
 
 
-    // Asynch des Likes de média
+    // Asynch des Likes de média (+ recalcule du compte)
     var btns = document.getElementsByClassName("likeMedia");
     Array.prototype.forEach.call(btns, function(btn) {
         
@@ -118,13 +118,13 @@ window.addEventListener('load', function() {
                 }
 
                 if (data.newState == "liked") {
-                    console.log("liked");
                     btn.style.color = "var(--primary-color)";
+                    btn.style.borderColor = "var(--primary-color)";
                     document.getElementById("countLikesMedia" + id).innerHTML = data.newCountLikes;
                 }
                 else if (data.newState == "unliked") {
-                    console.log("unliked");
                     btn.style.color = "var(--white)";
+                    btn.style.borderColor = "rgba(255, 255, 255, 0.3)";
                     document.getElementById("countLikesMedia" + id).innerHTML = data.newCountLikes;
                 }
             })

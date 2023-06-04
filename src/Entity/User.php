@@ -71,6 +71,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToMany(mappedBy: 'user', targetEntity: Censure::class)]
     private Collection $censures;
 
+    #[ORM\OneToMany(mappedBy: 'leader', targetEntity: Group::class)]
+    private Collection $leadedGroups;
+
     public function __construct()
     {
         $this->favoris = new ArrayCollection();
@@ -83,6 +86,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         $this->mediaPosts = new ArrayCollection();
         $this->mediaPostLikes = new ArrayCollection();
         $this->censures = new ArrayCollection();
+        $this->leadedGroups = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -476,6 +480,36 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
             // set the owning side to null (unless already changed)
             if ($censure->getUser() === $this) {
                 $censure->setUser(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Group>
+     */
+    public function getLeadedGroups(): Collection
+    {
+        return $this->leadedGroups;
+    }
+
+    public function addLeadedGroup(Group $leadedGroup): self
+    {
+        if (!$this->leadedGroups->contains($leadedGroup)) {
+            $this->leadedGroups->add($leadedGroup);
+            $leadedGroup->setLeader($this);
+        }
+
+        return $this;
+    }
+
+    public function removeLeadedGroup(Group $leadedGroup): self
+    {
+        if ($this->leadedGroups->removeElement($leadedGroup)) {
+            // set the owning side to null (unless already changed)
+            if ($leadedGroup->getLeader() === $this) {
+                $leadedGroup->setLeader(null);
             }
         }
 
