@@ -540,10 +540,26 @@ nav {
     background-color: rgb(69 69 69);
     color: white;
     cursor: pointer;
+
+    overflow: hidden;
     transition: all 0.4s;
 }
 .gameTeamBtn:hover {
     color: black;
+}
+
+.teamBtnBg {
+    position: absolute;
+    /* z-index: 10; */
+
+    width: 240px;
+    height: 181px;
+    transform: translate(-38px, -32px);
+    clip-path: polygon(0 0, 0 0, 0 100%, 0 100%);
+    transition: all 0.4s;
+}
+.gameTeamBtn:hover .teamBtnBg {
+    clip-path: polygon(0 0, 100% 0, 91% 100%, 0 100%);
 }
 
 .gameTeamBtn1 {

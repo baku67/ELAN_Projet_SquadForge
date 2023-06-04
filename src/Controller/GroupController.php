@@ -18,7 +18,7 @@ class GroupController extends AbstractController
     // Creation Team: Id Game
     #[Route('/createGroup/{gameIdFrom}', name: 'app_createGroup')]
     public function createGroup(EntityManagerInterface $entityManager, int $gameIdFrom, Request $request): Response
-    {
+    {    
         $gameRepo = $entityManager->getRepository(Game::class);
         $gameFrom = $gameRepo->find($gameIdFrom);
 
@@ -101,14 +101,16 @@ class GroupController extends AbstractController
     #[Route('/groupList/{gameIdFrom}', name: 'app_groupList')]
     public function groupList(EntityManagerInterface $entityManager, int $gameIdFrom, Request $request): Response
     {
-
-
         $gameRepo = $entityManager->getRepository(Game::class);
         $gameFrom = $gameRepo->find($gameIdFrom);
 
+        // Toutes les teams du jeu (publiques et orderBy)
+        $groupRepo = $entityManager->getRepository(Group::class);
+        $groups = $groupRepo->findAll($gameFrom); 
 
-        return $this->render('group/createGroup.html.twig', [
+        return $this->render('group/groupList.html.twig', [
             'gameFrom' => $gameFrom,
+            'groups' => $groups,
         ]);
     }
 

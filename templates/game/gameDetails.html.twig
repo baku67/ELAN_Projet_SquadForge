@@ -156,10 +156,16 @@
 
             <div style="display:inline-flex; width:100%; justify-content:center;">
                 <a href="{{ path('app_groupList', {'gameIdFrom': game.id}) }}">
-                    <div class="gameTeamBtn gameTeamBtn1" onmouseover="this.style.backgroundColor = '{{ game.color }}';" onmouseout="this.style.backgroundColor = 'rgb(69 69 69)';">Rejoindre une Team (0)</div>
+                    <div class="gameTeamBtn gameTeamBtn1" onmouseover="this.style.backgroundColor = '{{ game.color }}';" onmouseout="this.style.backgroundColor = 'rgb(69 69 69)';">
+                        <div class="teamBtnBg" style="background-color: {{ game.color }}"></div>
+                        <span style="position:relative; z-index:10;">Rejoindre une Team (0)</span>
+                    </div>
                 </a>
                 <a href="{{ path('app_createGroup', {'gameIdFrom': game.id}) }}">
-                    <div class="gameTeamBtn gameTeamBtn2" onmouseover="this.style.backgroundColor = '{{ game.color }}';" onmouseout="this.style.backgroundColor = 'rgb(69 69 69)';">Créer une Team</div>
+                    <div class="gameTeamBtn gameTeamBtn2" onmouseover="this.style.backgroundColor = '{{ game.color }}';" onmouseout="this.style.backgroundColor = 'rgb(69 69 69)';">
+                        <div class="teamBtnBg" style="background-color: {{ game.color }}"></div>
+                        <span style="position:relative; z-index:10;">Créer une Team</span>
+                    </div>
                 </a>
             </div>
         </div> 

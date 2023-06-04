@@ -2,6 +2,7 @@
 
 namespace App\Repository;
 
+use App\Entity\Game;
 use App\Entity\Group;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
@@ -40,9 +41,18 @@ class GroupRepository extends ServiceEntityRepository
     }
 
 
-    public function findAll(): Collection
+    public function findAllByGame(Game $game): Collection
     {
-        // where status = public
+        // where status = public, game, orderBy
+        return $this->createQueryBuilder('g')
+        ->where('g.game = :game')
+        ->andwhere('m.status = :status')
+        ->setParameter('status', "public")
+        ->setParameter('game', $game)
+        ->orderBy('g.creation_date', 'DESC')
+        // ->setMaxResults(50)
+        ->getQuery()
+        ->getResult();
     }
 
 
