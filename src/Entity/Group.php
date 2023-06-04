@@ -47,6 +47,9 @@ class Group
     #[ORM\JoinColumn(nullable: false)]
     private ?Game $game = null;
 
+    #[ORM\Column(nullable: true)]
+    private ?bool $restriction_mic = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -168,6 +171,18 @@ class Group
     public function setGame(?Game $game): self
     {
         $this->game = $game;
+
+        return $this;
+    }
+
+    public function isRestrictionMic(): ?bool
+    {
+        return $this->restriction_mic;
+    }
+
+    public function setRestrictionMic(?bool $restriction_mic): self
+    {
+        $this->restriction_mic = $restriction_mic;
 
         return $this;
     }

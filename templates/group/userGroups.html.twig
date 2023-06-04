@@ -1,0 +1,44 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Topics{% endblock %}
+
+{% block body %}
+
+
+    <header class="gameHeader" style="background: url('{{ asset('img/banner.jpg') }}' )">
+        <a href="{{ path('app_home') }}"><img src="{{ asset('img/logoSquadForge_White_Rogned.png') }}" class="logoPng" id="logoPng" /></a>
+        <nav>
+            <a href="{{ path('app_games') }}">Jeux</a>
+            {% if app.user %}
+                <a href="{{ path('app_userGroups') }}">TEAMS</a>
+            {% endif %}
+            {% if app.user and "ROLE_MODO" in app.user.roles %}
+                <a href="{{ path('app_moderationDashboard') }}">Modération</a>
+            {% endif %}
+        </nav>
+    </header>
+    <div class="headerUnderline" style="background-color: var(--primary-color)"></div>
+
+
+    <div class="main">
+
+        <p><a class="underlineLink" href="{{ path('app_user') }}">Profil</a> - Teams</p>
+
+        <h2>TEAMS</h2>
+        
+        <div class="groupsGrid">
+            {% for group in groups %}
+                <a href="{{ path('app_groupDetails', {'groupId': group.id } ) }}">
+                    <div>
+                        <p>{{ group.title }}</p>
+                    </div>
+                </a>
+            {% endfor %}
+
+        </div>
+
+
+    </div>
+
+
+{% endblock %}

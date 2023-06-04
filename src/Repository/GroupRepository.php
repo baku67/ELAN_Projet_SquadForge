@@ -2,6 +2,7 @@
 
 namespace App\Repository;
 
+use App\Entity\User;
 use App\Entity\Game;
 use App\Entity\Group;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
@@ -41,12 +42,12 @@ class GroupRepository extends ServiceEntityRepository
     }
 
 
-    public function findAllByGame(Game $game): Collection
+    public function findAllByGame(Game $game): array
     {
         // where status = public, game, orderBy
         return $this->createQueryBuilder('g')
         ->where('g.game = :game')
-        ->andwhere('m.status = :status')
+        ->andwhere('g.status = :status')
         ->setParameter('status', "public")
         ->setParameter('game', $game)
         ->orderBy('g.creation_date', 'DESC')
@@ -59,6 +60,19 @@ class GroupRepository extends ServiceEntityRepository
     public function getPublicGroupsCount(): int 
     {
         // where status = public
+    }
+
+    // Liste des groups dont l'user est memebre/(leader? sépraré)
+    public function findUserGroups(User $user): array
+    {   
+        // where status = public, game, orderBy
+        return $this->createQueryBuilder('g')
+        ->where('g.leader = :leader')
+        ->setParameter('leader', $user->getId())
+        ->orderBy('g.creation_date', 'DESC')
+        // ->setMaxResults(50)
+        ->getQuery()
+        ->getResult();
     }
 
 //    /**

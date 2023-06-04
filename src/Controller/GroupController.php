@@ -106,7 +106,7 @@ class GroupController extends AbstractController
 
         // Toutes les teams du jeu (publiques et orderBy)
         $groupRepo = $entityManager->getRepository(Group::class);
-        $groups = $groupRepo->findAll($gameFrom); 
+        $groups = $groupRepo->findAllByGame($gameFrom); 
 
         return $this->render('group/groupList.html.twig', [
             'gameFrom' => $gameFrom,
@@ -131,6 +131,21 @@ class GroupController extends AbstractController
         return $this->render('group/groupDetails.html.twig', [
             'group' => $group,
             'gameFrom' => $game,
+        ]);
+    }
+
+
+    // Liste des groupes de l'userConnected
+    #[Route('/userGroups', name: 'app_userGroups')]
+    public function userGroups(EntityManagerInterface $entityManager): Response
+    {
+        // Groupes user incluant les privés
+        $groupRepo = $entityManager->getRepository(Group::class);
+        $groups = $groupRepo->findUserGroups($this->getUser());
+
+
+        return $this->render('group/userGroups.html.twig', [
+            'groups' => $groups,
         ]);
     }
 }

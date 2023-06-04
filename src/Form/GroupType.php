@@ -42,12 +42,13 @@ class GroupType extends AbstractType
                 'required' => true,
                 'attr' => [
                     "class" => "form-control",
-                    'placeholder' => 'Description de la team...'
-                    // 'rows' => 1
+                    'placeholder' => 'Description de la team...',
+                    'rows' => 2
                 ]
             ])
             ->add('nbrPlaces')
             ->add('restriction_18')
+            ->add('restriction_mic')
             ->add('restriction_lang')
 
             // ajouter logo/img (vérif taille et dimension + aperçu ici)

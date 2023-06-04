@@ -9,6 +9,9 @@
         <a href="{{ path('app_home') }}"><img src="{{ asset('img/logoSquadForge_White_Rogned.png') }}" class="logoPng" id="logoPng" /></a>
         <nav>
             <a href="{{ path('app_games') }}" style="color:{{ gameFrom.fontColor }};">Jeux</a>
+            {% if app.user %}
+                <a href="{{ path('app_userGroups') }}" style="color:{{ gameFrom.fontColor }};">TEAMS</a>
+            {% endif %}
             {% if app.user and "ROLE_MODO" in app.user.roles %}
                 <a href="{{ path('app_moderationDashboard') }}" style="color:{{ gameFrom.fontColor }};">Modération</a>
             {% endif %}

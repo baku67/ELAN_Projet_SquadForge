@@ -1,5 +1,5 @@
 :root {
-    --primary-color: #00F38D;
+    --primary-color: #00d279;
     --background-color: #232323;
     --sectionBg-color: #363636;
     --white: #D9D9D9;
@@ -69,7 +69,7 @@ header {
     position: relative;
     background-color: var(--primary-color);
 }
-.gameHeader {
+.gameHeader, .globalBanner {
     background-size: cover !important;
     background-position: center !important;
     position: relative;
@@ -78,7 +78,7 @@ header {
 .gameHeader img {
     opacity: 0.8;
 }
-.gameHeader:before {
+.gameHeader:before, .globalBanner:before {
     content: "";
     position: absolute;
     top: 0;
@@ -259,13 +259,13 @@ nav {
     border-radius: 5px;
 }
 .gameCardLink {
-    margin: 7px 10px;
+    margin: 7px 4px;
 }
 .gameLogo {
     width: 150px;
     height: 80px;
-    border-top-left-radius: 5px;
-    border-top-right-radius: 5px;
+    /* border-top-left-radius: 5px;
+    border-top-right-radius: 5px; */
 
 }
 .gameCardUnderline {
@@ -554,12 +554,12 @@ nav {
 
     width: 240px;
     height: 181px;
-    transform: translate(-38px, -32px);
-    clip-path: polygon(0 0, 0 0, 0 100%, 0 100%);
+    transform: translate(-38px, -60px);
+    clip-path: polygon(0% 0, 0 0, 0 100%, 0 100%);
     transition: all 0.4s;
 }
 .gameTeamBtn:hover .teamBtnBg {
-    clip-path: polygon(0 0, 100% 0, 91% 100%, 0 100%);
+    clip-path: polygon(0% 0, 100% 0, 81% 100%, 0 100%);
 }
 
 .gameTeamBtn1 {
@@ -746,8 +746,8 @@ nav {
     display: flex;
     justify-content: center;
     /* border-radius: 5px; */
-    border-bottom-left-radius: 5px;
-    border-bottom-right-radius: 5px;
+    /* border-bottom-left-radius: 5px;
+    border-bottom-right-radius: 5px; */
 }
 
  
@@ -758,11 +758,11 @@ nav {
 }
 
 .mediaDetailImg {
-    border-radius: 20px !important;
+    border-radius: 3px !important;
 }
 
 .mediaDetailBg {
-    border-radius: 20px !important;
+    border-radius: 3px !important;
 }
 
 
@@ -777,8 +777,8 @@ nav {
     background-color: #e7e7e7;
     color: black;
 
-    border-top-left-radius: 5px;
-    border-top-right-radius: 5px;
+    /* border-top-left-radius: 5px;
+    border-top-right-radius: 5px; */
 
     /* clip-path: polygon(1% 0, 100% 0, 99% 100%, 0% 100%); */
 }
@@ -807,11 +807,11 @@ nav {
 
 .mediaCard {
     background-color: rgba(167, 167, 167,0.8);
-    border-radius: 5px;
+    /* border-radius: 5px; */
     padding: 1px 1px 1px 1px;
     cursor: pointer;
 
-    margin-bottom: 15px;
+    /* margin-bottom: 15px; */
 }
 .mediaCardPreview {
     /* background-color: rgba(167, 167, 167,0.8); */
