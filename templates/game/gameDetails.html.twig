@@ -156,10 +156,10 @@
 
             <div style="display:inline-flex; width:100%; justify-content:center;">
                 <a href="{{ path('app_groupList', {'gameIdFrom': game.id}) }}">
-                    <div class="gameTeamBtn" onmouseover="this.style.backgroundColor = '{{ game.color }}';" onmouseout="this.style.backgroundColor = 'rgb(69 69 69)';">Rejoindre une Team (0)</div>
+                    <div class="gameTeamBtn gameTeamBtn1" onmouseover="this.style.backgroundColor = '{{ game.color }}';" onmouseout="this.style.backgroundColor = 'rgb(69 69 69)';">Rejoindre une Team (0)</div>
                 </a>
                 <a href="{{ path('app_createGroup', {'gameIdFrom': game.id}) }}">
-                    <div class="gameTeamBtn" onmouseover="this.style.backgroundColor = '{{ game.color }}';" onmouseout="this.style.backgroundColor = 'rgb(69 69 69)';">Créer une Team</div>
+                    <div class="gameTeamBtn gameTeamBtn2" onmouseover="this.style.backgroundColor = '{{ game.color }}';" onmouseout="this.style.backgroundColor = 'rgb(69 69 69)';">Créer une Team</div>
                 </a>
             </div>
         </div> 
@@ -262,7 +262,8 @@
 
             {% for topic in gameTopics %}
                 <a href="{{ path('app_topicDetail', {'id': topic.id}) }}">
-                    <div class="topicCard" style="border-bottom: 4px solid {{ game.color }}">
+                    {# Faire une div BG absolute pour chaque card avec clipPath anim onmouseover #}
+                    <div class="topicCard" style="border-bottom: 4px solid {{ game.color }}" onmouseover="" onmouseout="">
                         <img class="tinyLogo" src="{{ asset('img/games/tinyLogo/' ~ topic.game.tinyLogo) }}" />
                         <span class="topicTitle">{{ topic.title|capitalize }}</span>
                         <span>{{ topic.status }}</span>
@@ -342,7 +343,7 @@
             <div class="mediaCardPreview">
                 <div id="preview-container">
                             <div id="mediaCardHeader">
-                                <span class="mediaTitle">TES TEST</span>
+                                <span class="mediaTitle"></span>
                 
                             </div>
 

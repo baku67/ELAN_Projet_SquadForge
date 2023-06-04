@@ -19,6 +19,13 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class GroupType extends AbstractType
 {
+
+
+    public function __construct(private CensureRepository $censureRepository)
+    {
+    }
+
+
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder

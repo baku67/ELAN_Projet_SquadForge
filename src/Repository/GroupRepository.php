@@ -39,6 +39,18 @@ class GroupRepository extends ServiceEntityRepository
         }
     }
 
+
+    public function findAll(): Collection
+    {
+        // where status = public
+    }
+
+
+    public function getPublicGroupsCount(): int 
+    {
+        // where status = public
+    }
+
 //    /**
 //     * @return Group[] Returns an array of Group objects
 //     */

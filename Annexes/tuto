@@ -1,3 +1,5 @@
+TopicCards: {# Faire une div BG absolute pour chaque card avec clipPath anim onmouseover #}
+
 Library: "Imagine" -> need extension php "GD"  (resize/compress img/gifs/png)
 
 Si reclick user sur la meme note que celle déjà donnée: retire le vote (et étoiles pré-remplies jaunes)

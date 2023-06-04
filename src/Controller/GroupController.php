@@ -41,9 +41,10 @@ class GroupController extends AbstractController
                         $group = $form->getData();
     
                         // Init de la publish_date du comment
-                        $group->setPublishDate(new \DateTime());
-                        $group->setUser($this->getUser());
-                        $group->setTopic($topic);
+                        $group->setCreationDate(new \DateTime());
+                        $group->setLeader($this->getUser());
+                        $group->setGame($gameFrom);
+                        $group->setStatus("public"); // Demander dans form
                         
                         // Désactivation vérification nbr de mots etc...
                         // // Récupération du titre
@@ -55,12 +56,12 @@ class GroupController extends AbstractController
                         // // Vérification du compte de mots
                         // if ($wordCount >= 5) {
     
-                            // Modifs Base de données
-                            $entityManager->persist($group);
-                            $entityManager->flush();
-    
-                            $this->addFlash('success', 'Le groupe a bien été créer');
-                            return $this->redirectToRoute('app_groupDetail', ['id' => $group->getId()]);
+                        // Modifs Base de données
+                        $entityManager->persist($group);
+                        $entityManager->flush();
+
+                        $this->addFlash('success', 'Le groupe a bien été créé');
+                        return $this->redirectToRoute('app_groupDetails', ['groupId' => $group->getId()]);
                         // } else {
                             
                         //     $this->addFlash('error', 'Le titre doit faire au minimum 5 mots !');
@@ -117,12 +118,17 @@ class GroupController extends AbstractController
     public function groupDetails(EntityManagerInterface $entityManager, int $groupId, Request $request): Response
     {
         // find group id, game associé
+        $groupRepo = $entityManager->getRepository(Group::class);
+        $group = $groupRepo->find($groupId);
+
+        $game = $group->getGame();
 
         // Vérifs si group bien public
 
 
-        return $this->render('group/createGroup.html.twig', [
-            'gameFrom' => $gameFrom,
+        return $this->render('group/groupDetails.html.twig', [
+            'group' => $group,
+            'gameFrom' => $game,
         ]);
     }
 }

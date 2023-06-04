@@ -20,19 +20,13 @@
 
     <div class="main">
 
-        <p><a class="underlineLink" href="{{ path('app_games') }}">Jeux</a> - <a class="underlineLink" href="{{ path('app_game', {'id': gameFrom.id }) }}">{{ gameFrom.title }}</a> - Créer une team</p>
+        <p><a class="underlineLink" href="{{ path('app_games') }}">Jeux</a> - <a class="underlineLink" href="{{ path('app_game', {'id': gameFrom.id }) }}">{{ gameFrom.title }}</a> - Teams - {{ group.title }}</p>
 
         <h2>TEAMS</h2>
+        <h3>{{ group.title }}</h3>
 
-        <div class="formAddGroup">
-            {{ form_start(formAddGroup) }}
-
-            {{ form_end(formAddGroup) }}
-        </div>
 
     </div>
-
-
 
 
 {% endblock %}
