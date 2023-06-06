@@ -71,7 +71,24 @@
                 {% endif %}
 
                 <p>Leader</p>
-                <p>Passer le lead</p>
+
+                <div style="display:inline-flex; width:100%;">
+                    <p style="width:auto;">Passer le lead</p>
+                    <form id="switchTeamLeader" action="{{ path('app_switchTeamLeader',{ 'groupId':group.id }) }}" method="post" style="display:inline-flex;">
+                        <select class="form-select" name="memberId">
+                            <option value="">-- Choisir</option>
+                            {% for member in group.members %}
+                                {% if member != app.user %}
+                                    <option value="{{member.id}}">{{member.pseudo}}</option>
+                                {% endif %}
+                            {% endfor %}
+                        </select>
+                        <input type="submit" value="Appliquer"> 
+                    </form>
+                </div>
+
+                <br>
+
                 <div style="display:inline-flex;">
                     <p>Visibilité: </p>
                     <form id="toggleGroupVisibilityForm" action="{{ path('app_toggleGroupVisibility',{ 'groupId':group.id }) }}" method="post">

@@ -233,13 +233,43 @@ class GroupController extends AbstractController
         else {
             return new JsonResponse(['success' => false]); 
         }
-
-
     }
 
 
 
-    
+    // Leader: passe le lead a un membre (select)
+    #[Route('/switchTeamLeader/{groupId}', name: 'app_switchTeamLeader')]
+    public function switchTeamLeader(EntityManagerInterface $entityManager, int $groupId, Request $request): Response
+    {
+
+        $groupRepo = $entityManager->getRepository(Group::class);
+        $group = $groupRepo->find($groupId);
+
+        // check si user = leader 
+        if ($group->getLeader() == $this->getUser() ) {
+
+            $memberId = $request->request->get('memberId');
+            $userRepo = $entityManager->getRepository(User::class);
+            $userTarget = $userRepo->find($memberId);
+            $userTargetPseudo = $userTarget->getPseudo();
+
+            $group->setLeader($userTarget);
+
+            $entityManager->persist($group);
+            $entityManager->flush();
+
+            $this->addFlash('success', 'Vous avez nommé ' . $userTarget->getPseudo() . ' leader de la team');
+            return $this->redirectToRoute('app_groupDetails', ['groupId' => $groupId]);
+        }
+        else {
+            $this->addFlash('error', 'Vous devez être leader du groupe pour passer le lead');
+            return $this->redirectToRoute('app_groupDetails', ['groupId' => $groupId]); 
+        }
+    }
+
+
+
+
 
 }
 
