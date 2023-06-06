@@ -38,6 +38,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(length: 20)]
     private ?string $pseudo = null;
 
+    #[ORM\JoinTable(name: 'favoris')]
     #[ORM\ManyToMany(targetEntity: Game::class, inversedBy: 'favUsers')]
     private Collection $favoris;
 
@@ -74,6 +75,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToMany(mappedBy: 'leader', targetEntity: Group::class)]
     private Collection $leadedGroups;
 
+    #[ORM\ManyToMany(targetEntity: Group::class, mappedBy: 'members')]
+    private Collection $groupes;
+
     public function __construct()
     {
         $this->favoris = new ArrayCollection();
@@ -87,6 +91,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         $this->mediaPostLikes = new ArrayCollection();
         $this->censures = new ArrayCollection();
         $this->leadedGroups = new ArrayCollection();
+        $this->groupes = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -511,6 +516,33 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
             if ($leadedGroup->getLeader() === $this) {
                 $leadedGroup->setLeader(null);
             }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Group>
+     */
+    public function getGroupes(): Collection
+    {
+        return $this->groupes;
+    }
+
+    public function addGroupe(Group $groupe): self
+    {
+        if (!$this->groupes->contains($groupe)) {
+            $this->groupes->add($groupe);
+            $groupe->addMember($this);
+        }
+
+        return $this;
+    }
+
+    public function removeGroupe(Group $groupe): self
+    {
+        if ($this->groupes->removeElement($groupe)) {
+            $groupe->removeMember($this);
         }
 
         return $this;

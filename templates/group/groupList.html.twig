@@ -31,7 +31,8 @@
             {% for group in groups %}
                 <a href="{{ path('app_groupDetails', {'groupId': group.id } ) }}">
                     <div>
-                        <p>{{ group.title }}</p>
+                        {% set membersCount = group.members|length %}
+                        <p>{{ group.title }} &nbsp; ( {{ membersCount }} / {{ group.nbrPlaces }} )</p>
                     </div>
                 </a>
             {% endfor %}

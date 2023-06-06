@@ -26,7 +26,29 @@
         <p><a class="underlineLink" href="{{ path('app_games') }}">Jeux</a> - <a class="underlineLink" href="{{ path('app_game', {'id': gameFrom.id }) }}">{{ gameFrom.title }}</a> - Teams - {{ group.title }}</p>
 
         <h2>TEAMS</h2>
-        <h3>{{ group.title }}</h3>
+
+        <br>
+        <h3 style="text-align:center; width:100%;">{{ group.title }}</h3>
+
+        <p class="groupDescription">
+            <i class="fa-solid fa-quote-left"></i>
+            {{ group.description }}
+            <i class="fa-solid fa-quote-right"></i>
+        </p>
+        <p class="groupLeader">Leader: <span>{{ group.leader.pseudo }}</span></p>
+
+        <div>
+            <div class="gameInfosSubTitleBg" style="background-color:#ff4655;"></div>
+            <h3 class="gameSubTitle noMarginBottom">Membres ( {{ group.members|length }} / {{ group.nbrPlaces }} )</h3>
+        </div>
+
+        {% if app.user in group.members %}
+            <p>membre</p>
+            <a href="{{ path('app_leaveGroup', {group.id} )}}">Quitter le groupe</a>
+        {% else %}
+            <p>Candidater</p>
+        {% endif %}
+        
 
 
     </div>

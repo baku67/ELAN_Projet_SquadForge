@@ -45,6 +45,7 @@ class GroupController extends AbstractController
                         $group->setLeader($this->getUser());
                         $group->setGame($gameFrom);
                         $group->setStatus("public"); // Demander dans form
+                        $group->addMember($this->getUser());
                         
                         // Désactivation vérification nbr de mots etc...
                         // // Récupération du titre
@@ -122,6 +123,7 @@ class GroupController extends AbstractController
         // find group id, game associé
         $groupRepo = $entityManager->getRepository(Group::class);
         $group = $groupRepo->find($groupId);
+        $members = $group->getMembers();
 
         $game = $group->getGame();
 
@@ -131,6 +133,7 @@ class GroupController extends AbstractController
         return $this->render('group/groupDetails.html.twig', [
             'group' => $group,
             'gameFrom' => $game,
+            'members' => $members,
         ]);
     }
 
@@ -146,6 +149,43 @@ class GroupController extends AbstractController
 
         return $this->render('group/userGroups.html.twig', [
             'groups' => $groups,
+        ]);
+    }
+
+
+    // Quitter le groupe (userConnected) (Id Group) 
+    #[Route('/leaveGroup/{groupId}', name: 'app_leaveGroup')]
+    public function leaveGroup(EntityManagerInterface $entityManager, int $groupId, Request $request): Response
+    {
+        // Retire le membre du groupe
+        $groupRepo = $entityManager->getRepository(Group::class);
+        $group = $groupRepo->find($groupId);
+        $game = $group->getGame();
+        $group->removeMember($this->getUser());
+
+        // Persist intermédiaire pour empecher repasser le lead random au user
+        $entityManager->persist($group);
+
+        // Si Leader, passe le lead a un membre random (s'il y en a, sinon supprime le group aussi)
+        $userRepo = $entityManager->getRepository(User::class);
+        $members = $group->getMembers();
+        if ( $userRepo->isLeader($this->getUser(), $group) ) {
+            if ($members->count() > 0) {
+                $groupRepo->setLeader($members->random());
+                $entityManager->persist($group);
+            }
+            // Si seul membre, suppr le group
+            else {
+                $groupRepo->remove($group);
+            }
+        }
+
+        $entityManager->flush(); 
+
+        return $this->render('group/groupDetails.html.twig', [
+            'group' => $group,
+            'gameFrom' => $game,
+            'members' => $members,
         ]);
     }
 }

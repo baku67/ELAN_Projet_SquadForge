@@ -40,6 +40,7 @@ class Media
     #[ORM\OneToMany(mappedBy: 'media', targetEntity: MediaPost::class)]
     private Collection $mediaPosts;
 
+    #[ORM\JoinTable(name: 'media_upvotes')]
     #[ORM\ManyToMany(targetEntity: User::class)]
     private Collection $userUpvote;
 
