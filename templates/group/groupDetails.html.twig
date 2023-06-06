@@ -23,7 +23,13 @@
 
     <div class="main">
 
-        <p><a class="underlineLink" href="{{ path('app_games') }}">Jeux</a> - <a class="underlineLink" href="{{ path('app_game', {'id': gameFrom.id }) }}">{{ gameFrom.title }}</a> - Teams - {{ group.title }}</p>
+        {# Fil d'Ariane #}
+        <p>
+            <a class="underlineLink" href="{{ path('app_games') }}">Jeux</a>
+             - <a class="underlineLink" href="{{ path('app_game', {'id': gameFrom.id }) }}">{{ gameFrom.title }}</a>
+             - <a class="underlineLink" href="{{ path('app_groupList', {'gameIdFrom': gameFrom.id }) }}">Teams</a>
+             - {{ group.title }}
+        </p>
 
         <h2>TEAMS</h2>
 
@@ -42,8 +48,25 @@
             <h3 class="gameSubTitle noMarginBottom">Membres ( {{ group.members|length }} / {{ group.nbrPlaces }} )</h3>
         </div>
 
+        <ul class="membersList">
+        {% for member in members %}
+            <li>{{ member.pseudo }}</li>
+        {% endfor %}
+        </ul>
+
+        {# Reste des emplacements vides (compte nbrPlaces - members:length) #}
+
+        <br><br>
+
         {% if app.user in group.members %}
-            <p>membre</p>
+            {% if group.leader == app.user %}
+                <p>Leader</p>
+                <p>Passer le lead</p>
+            {% else %}
+                <p>Membre Standard</p>
+            {% endif %}
+            
+           
             <a href="{{ path('app_leaveGroup', {'groupId':group.id} )}}">Quitter le groupe</a>
         {% else %}
             <p>Candidater</p>

@@ -8,6 +8,8 @@ use App\Entity\User;
 use App\Form\GroupType;
 use App\Repository\GroupRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use Doctrine\ORM\PersistentCollection;
+
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
@@ -172,7 +174,13 @@ class GroupController extends AbstractController
         $members = $group->getMembers();
         if ($members->count() > 0) {
             if ( $group->getLeader() == $this->getUser() ) {
-                $groupRepo->setLeader($members->random());
+
+                // $group->setLeader($members->random());
+                $membersArray = $members->toArray();
+                $randomIndex = array_rand($membersArray);
+                $randomMember = $membersArray[$randomIndex];
+                $group->setLeader($randomMember);
+
                 $entityManager->persist($group);
 
                 $entityManager->flush(); 

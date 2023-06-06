@@ -568,12 +568,19 @@ nav {
 .gameTeamBtn2 {
     clip-path: polygon(9% 0px, 100% 0px, 91% 100%, 0px 100%);
     position: relative;
-    transform: translateX(-15px);
+    transform: translateX(-18px);
 }
 
 
-
-
+.membersList {
+    display: inline-flex;
+    width: 100%;
+    margin: 0 auto;
+    justify-content: flex-start;
+}
+.membersList li {
+    margin: 0 15px;
+}
 
 .formAddGroup {
     width: 70%;
