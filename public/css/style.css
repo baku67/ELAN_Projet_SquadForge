@@ -572,6 +572,15 @@ nav {
 }
 
 
+#leaveGroupBtn {
+    padding: 10px 15px;
+    background-color: #b43a3a;
+    margin-top: 55px;
+}
+
+
+
+
 .membersList {
     display: inline-flex;
     width: 100%;

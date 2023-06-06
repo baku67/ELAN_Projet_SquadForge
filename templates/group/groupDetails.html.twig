@@ -59,17 +59,68 @@
         <br><br>
 
         {% if app.user in group.members %}
+
             {% if group.leader == app.user %}
+
+                <span id="groupId" hidden>{{ group.id }}</span>
+                {# Toggle Lecture automatique des Gifs #}
+                {% if group.status == "public" %}
+                    {% set checked = "checked" %}
+                {% else %}
+                    {% set checked = "" %}
+                {% endif %}
+
                 <p>Leader</p>
                 <p>Passer le lead</p>
+                <div style="display:inline-flex;">
+                    <p>Visibilité: </p>
+                    <form id="toggleGroupVisibilityForm" action="{{ path('app_toggleGroupVisibility',{ 'groupId':group.id }) }}" method="post">
+                        <label class="toggleAutoPlay">
+                            <input type="checkbox" {{ checked }} name="autoPlay" id="toggleVisi">
+                            <span class="slider"></span>
+                        </label>
+                    </form>
+                </div>
+
+                {# Asynch toggleGroupVisibility #}
+                <script>
+                    document.getElementById('toggleGroupVisibilityForm').addEventListener('change', function(event) {
+                        
+                        event.preventDefault(); // Empêche la soumission normale du formulaire
+
+                        const groupId = parseInt(document.getElementById("groupId").textContent);
+                        fetch('/toggleGroupVisibility/' + groupId, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        }})
+                        .then(response => response.json())
+                        .then(data => {
+                            if (data.success) {
+                                document.querySelector('#ajaxFlash').textContent = "La team est désormais " + data.newState;
+                                document.querySelector('#ajaxFlash').classList.add("ajaxFlashAnim", "successAjaxFlash");
+                            } else {
+                                document.querySelector('#ajaxFlash').textContent = "Vous devez être le leader du groupe pour changer sa visibilité";
+                                document.querySelector('#ajaxFlash').classList.add("ajaxFlashAnim", "errorAjaxFlash");
+                            }
+                        });
+                    });
+
+                </script>
+
             {% else %}
+
                 <p>Membre Standard</p>
+
             {% endif %}
-            
-           
-            <a href="{{ path('app_leaveGroup', {'groupId':group.id} )}}">Quitter le groupe</a>
+
+            <br>
+            <a id="leaveGroupBtn" href="{{ path('app_leaveGroup', {'groupId':group.id} )}}">Quitter le groupe</a>
+
         {% else %}
+
             <p>Candidater</p>
+
         {% endif %}
         
 

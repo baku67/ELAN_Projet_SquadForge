@@ -9,6 +9,7 @@ use App\Form\GroupType;
 use App\Repository\GroupRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\PersistentCollection;
+use Symfony\Component\HttpFoundation\JsonResponse;
 
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -201,4 +202,44 @@ class GroupController extends AbstractController
 
         return $this->redirectToRoute('app_groupList', ['gameIdFrom' => $game->getId()]);
     }
+
+
+    
+    // Ajax Asynch toggleGroupVisibility (A fixer! juste inversion bool BDD pour l'instant)
+    #[Route('/toggleGroupVisibility/{groupId}', name: 'app_toggleGroupVisibility')]
+    public function toggleGroupVisibility(EntityManagerInterface $entityManager, int $groupId, Request $request): Response
+    {
+        
+        $groupRepo = $entityManager->getRepository(Group::class);
+        $group = $groupRepo->find($groupId);
+
+        // check si user = leader 
+        if ($group->getLeader() == $this->getUser() ) {
+
+            if ($group->getStatus() == "public") {
+                $group->setStatus("hidden");
+                $newState = "cachée";
+            }
+            else if ($group->getStatus() == "hidden") {
+                $group->setStatus("public");
+                $newState = "publique";
+            }
+
+            $entityManager->persist($group);
+            $entityManager->flush();
+
+            return new JsonResponse(['success' => true, "newState" => $newState]); 
+        }
+        else {
+            return new JsonResponse(['success' => false]); 
+        }
+
+
+    }
+
+
+
+    
+
 }
+

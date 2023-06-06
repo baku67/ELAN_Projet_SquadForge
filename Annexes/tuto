@@ -1,5 +1,8 @@
 dans homepage, barre de recherche avec un select dans quoi on cherche ("tout", "jeux", "topic", "medias", "groupes")
  
+/viewProfil si public: btn toggle public dans /profil
+-> Stats (nbr de posts, de Topics, de médias, membres de quels groupes, nbr de likes, etc ...)
+
 TopicCards: {# Faire une div BG absolute pour chaque card avec clipPath anim onmouseover #}
 
 Library: "Imagine" -> need extension php "GD"  (resize/compress img/gifs/png)
