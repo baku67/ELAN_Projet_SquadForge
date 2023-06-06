@@ -20,6 +20,7 @@ use App\Entity\Notation;
 use App\Entity\User;
 use App\Entity\Topic;
 use App\Entity\Media;
+use App\Entity\Group;
 use Doctrine\ORM\PersistentCollection;
 
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -77,11 +78,13 @@ class GameController extends AbstractController
         $topicRepo = $entityManager->getRepository(Topic::class);
         $mediaRepo = $entityManager->getRepository(Media::class);
         $censureRepo = $entityManager->getRepository(Censure::class);
+        $groupRepo = $entityManager->getRepository(Group::class);
         $game = $gamesRepo->find($id);
         $gameGenre = $game->getGenre()->getName();
         $user = $this->getUser();
         $censures = $censureRepo->findAll();
 
+        $nbrOfTeams = count($groupRepo->findBy(["game" => $game, "status" => "public"]));
 
         // Check si relation "Favoris" (user_game), customQuery mieux ?
         if ($this->getUser()) {
@@ -302,6 +305,7 @@ class GameController extends AbstractController
             'gameMedias' => $gameMediasDesc,
             'gameMediasCount' => $gameMediasCount,
             'censures' => $censures,
+            'nbrOfTeams' => $nbrOfTeams,
         ]);
 
     }

@@ -44,7 +44,7 @@
 
         {% if app.user in group.members %}
             <p>membre</p>
-            <a href="{{ path('app_leaveGroup', {group.id} )}}">Quitter le groupe</a>
+            <a href="{{ path('app_leaveGroup', {'groupId':group.id} )}}">Quitter le groupe</a>
         {% else %}
             <p>Candidater</p>
         {% endif %}

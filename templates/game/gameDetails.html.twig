@@ -161,7 +161,7 @@
                 <a href="{{ path('app_groupList', {'gameIdFrom': game.id}) }}">
                     <div class="gameTeamBtn gameTeamBtn1" onmouseover="this.style.backgroundColor = '{{ game.color }}';" onmouseout="this.style.backgroundColor = 'rgb(69 69 69)';">
                         <div class="teamBtnBg" style="background-color: {{ game.color }}"></div>
-                        <span style="position:relative; z-index:10;">Rejoindre une Team (0)</span>
+                        <span style="position:relative; z-index:10;">Rejoindre une Team ({{ nbrOfTeams }})</span>
                     </div>
                 </a>
                 <a href="{{ path('app_createGroup', {'gameIdFrom': game.id}) }}">

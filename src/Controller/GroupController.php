@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Group;
 use App\Entity\Game;
+use App\Entity\User;
 use App\Form\GroupType;
 use App\Repository\GroupRepository;
 use Doctrine\ORM\EntityManagerInterface;
@@ -166,26 +167,30 @@ class GroupController extends AbstractController
         // Persist intermédiaire pour empecher repasser le lead random au user
         $entityManager->persist($group);
 
-        // Si Leader, passe le lead a un membre random (s'il y en a, sinon supprime le group aussi)
+        // Si après le leave, il reste des membre et que l'User était leader, passe le lead, si plus aucun membre: suppr le groupe
         $userRepo = $entityManager->getRepository(User::class);
         $members = $group->getMembers();
-        if ( $userRepo->isLeader($this->getUser(), $group) ) {
-            if ($members->count() > 0) {
+        if ($members->count() > 0) {
+            if ( $group->getLeader() == $this->getUser() ) {
                 $groupRepo->setLeader($members->random());
                 $entityManager->persist($group);
+
+                $entityManager->flush(); 
+
+                return $this->render('group/groupDetails.html.twig', [
+                    'group' => $group,
+                    'gameFrom' => $game,
+                    'members' => $members,
+                ]);
             }
-            // Si seul membre, suppr le group
-            else {
-                $groupRepo->remove($group);
-            }
+        // Si apprès le leave, aucun membre: suppr le groupe
+        } 
+        else {
+            $groupRepo->remove($group);
         }
 
         $entityManager->flush(); 
 
-        return $this->render('group/groupDetails.html.twig', [
-            'group' => $group,
-            'gameFrom' => $game,
-            'members' => $members,
-        ]);
+        return $this->redirectToRoute('app_groupList', ['gameIdFrom' => $game->getId()]);
     }
 }
