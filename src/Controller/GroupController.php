@@ -68,14 +68,14 @@ class GroupController extends AbstractController
                         if($isMicChecked) {
                             $group->setRestrictionMic(true); 
                         } else {
-                            $group->setRestrictionMic(true); 
+                            $group->setRestrictionMic(false); 
                         }
 
                         $is18Checked = $group->isRestriction18();
                         if($is18Checked) {
                             $group->setRestriction18(true); 
                         } else {
-                            $group->setRestriction18(true); 
+                            $group->setRestriction18(false); 
                         }
                         
                         
