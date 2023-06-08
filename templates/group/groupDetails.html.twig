@@ -44,7 +44,7 @@
         <p class="groupLeader">Leader: <span>{{ group.leader.pseudo }}</span></p>
 
         <div>
-            <div class="gameInfosSubTitleBg" style="background-color:#ff4655;"></div>
+            <div class="gameInfosSubTitleBg" style="background-color: {{ gameFrom.color }}"></div>
             <h3 class="gameSubTitle noMarginBottom">Membres ( {{ group.members|length }} / {{ group.nbrPlaces }} )</h3>
         </div>
 

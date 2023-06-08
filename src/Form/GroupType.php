@@ -11,7 +11,11 @@ use Doctrine\Common\Collections\ArrayCollection;
 
 use App\Entity\Group;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\IntegerType;
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -32,24 +36,56 @@ class GroupType extends AbstractType
             ->add('title', TextType::class, [
                 'label' => 'Titre',
                 'required' => true,
-                'attr' => ["class" => "form-control"],
+                'attr' => [
+                    "class" => "form-control",
+                    'placeholder' => 'Entrez le nom de la team...',
+                ],
                 'constraints' => [
                     new Callback([$this, 'validateTextInput']),
                 ],
             ])
-            ->add('description', TextType::class, [
+            ->add('description', TextareaType::class, [
                 // 'label' => 'Message',
                 'required' => true,
                 'attr' => [
                     "class" => "form-control",
-                    'placeholder' => 'Description de la team...',
-                    'rows' => 2
+                    'placeholder' => 'Entrez une présentation de la team...',
+                    'rows' => 3
                 ]
             ])
-            ->add('nbrPlaces')
-            ->add('restriction_18')
-            ->add('restriction_mic')
-            ->add('restriction_lang')
+            ->add('nbrPlaces', IntegerType::class, [
+                'label' => "Places",
+                "required" => true,
+                'attr' => [
+                    "class" => "form-control nbrPlaceInput",
+                    'placeholder' => '0',
+                ],
+            ])
+            ->add('restriction_18', CheckboxType::class, [
+                'label' => "Restriction d'âge",
+                'required' => false,
+                'attr' => ["class" => "form-check-input"],
+            ])
+            ->add('restriction_mic', CheckboxType::class, [
+                'label' => "Micro obligatoire",
+                'required' => false,
+                'attr' => ["class" => "form-check-input"],
+            ])
+            ->add('restriction_lang', ChoiceType::class, [
+                'label' => 'Langue',
+                'choices' => [
+                    'French' => 'fr',
+                    'English' => 'en',
+                    'German' => 'ge',
+                ],
+                'placeholder' => '--Choisir', // Optional: Add a placeholder option
+                'attr' => ["class" => "form-control"],
+            ])
+            ->add('status', CheckboxType::class, [
+                'label' => "Visibilité",
+                'required' => false,
+                'attr' => ["class" => "form-check-input"],
+            ])
 
             // ajouter logo/img (vérif taille et dimension + aperçu ici)
 

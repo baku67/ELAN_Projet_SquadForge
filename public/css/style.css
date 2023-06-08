@@ -1189,3 +1189,16 @@ cursor: pointer;
 .favGameBtn {
     transition: all 0.5s;
 }
+
+
+
+
+
+
+
+
+
+
+.nbrPlaceInput {
+    width: 70px;
+}
