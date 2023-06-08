@@ -164,13 +164,36 @@
                         <span style="position:relative; z-index:10;">Rejoindre une Team ({{ nbrOfTeams }})</span>
                     </div>
                 </a>
+                {% if app.user %}
                 <a href="{{ path('app_createGroup', {'gameIdFrom': game.id}) }}">
                     <div class="gameTeamBtn gameTeamBtn2" onmouseover="this.style.backgroundColor = '{{ game.color }}';" onmouseout="this.style.backgroundColor = 'rgb(69 69 69)';">
                         <div class="teamBtnBg" style="background-color: {{ game.color }}"></div>
                         <span style="position:relative; z-index:10;">Créer une Team</span>
                     </div>
                 </a>
+                {% else %}
+                <a href="{{ path('app_login') }}">
+                    <div class="gameTeamBtn gameTeamBtn2" onmouseover="this.style.backgroundColor = '{{ game.color }}';" onmouseout="this.style.backgroundColor = 'rgb(69 69 69)';">
+                        <div class="teamBtnBg" style="background-color: {{ game.color }}"></div>
+                        <span style="position:relative; z-index:10;">Créer une Team</span>
+                    </div>
+                </a>
+                {% endif %}
             </div>
+
+            {% if userGameGroups is not null %}
+            <div class="groupListGrid">
+                {% for userGameGroup in userGameGroups %}
+                    <a class="groupCard" href="{{ path('app_groupDetails', {'groupId': userGameGroup.id } ) }}" style="background-color: {{ game.color }}">
+                        <div>
+                            <h5>{{ userGameGroup.title }}</h5>
+                        </div>
+                    </a>
+                {% endfor %}
+            </div>
+            {% endif %}
+            
+            
         </div> 
 
 

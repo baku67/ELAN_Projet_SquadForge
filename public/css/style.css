@@ -576,29 +576,6 @@ nav {
 }
 
 
-#leaveGroupBtn {
-    padding: 10px 15px;
-    background-color: #b43a3a;
-    margin-top: 55px;
-}
-
-
-
-
-.membersList {
-    display: inline-flex;
-    width: 100%;
-    margin: 0 auto;
-    justify-content: flex-start;
-}
-.membersList li {
-    margin: 0 15px;
-}
-
-.formAddGroup {
-    width: 70%;
-    margin: 0 auto;
-}
 
 .rate {
     float: left;
@@ -1201,4 +1178,59 @@ cursor: pointer;
 
 .nbrPlaceInput {
     width: 70px;
+}
+
+.groupListGrid {
+    display: inline-flex;
+    margin: 20px 0px;
+    text-align: center;
+    justify-content: space-evenly;
+    width: 100%;
+}
+
+.groupCard {
+    font-family: 'K2D', sans-serif;
+    width: 180px;
+    height: 200px;
+    /* background-color: #d3d3d3; */
+    border-radius: 2px;
+    /* clip-path: polygon(16% 0, 100% 0, 84% 100%, 0% 100%); */
+
+}
+
+
+#leaveGroupBtn {
+    padding: 10px 15px;
+    background-color: #b43a3a;
+    margin-top: 55px;
+}
+
+
+.membersList {
+    display: inline-flex;
+    width: 100%;
+    margin: 20px auto;
+    justify-content: flex-start;
+}
+.membersList li {
+    margin: 0 15px;
+}
+
+.memberCard {
+    color: black;
+    font-family: 'K2D', sans-serif;
+    padding: 3px 10px;
+    border-radius: 2px;
+    /* background-color: ; */
+}
+.voidMember {
+    color: black;
+    font-family: 'K2D', sans-serif;
+    padding: 3px 10px;
+    border-radius: 2px;
+}
+
+.formAddGroup {
+    width: 70%;
+    margin: 0 auto;
 }

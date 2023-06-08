@@ -83,6 +83,12 @@ class GameController extends AbstractController
         $gameGenre = $game->getGenre()->getName();
         $user = $this->getUser();
         $censures = $censureRepo->findAll();
+        if($user) {
+            $userGameGroups = $groupRepo->findGroupsByUserAndGame($user, $game);
+        } 
+        else {
+            $userGameGroups = null;
+        }
 
         $nbrOfTeams = count($groupRepo->findBy(["game" => $game, "status" => "public"]));
 
@@ -306,6 +312,7 @@ class GameController extends AbstractController
             'gameMediasCount' => $gameMediasCount,
             'censures' => $censures,
             'nbrOfTeams' => $nbrOfTeams,
+            'userGameGroups' => $userGameGroups,
         ]);
 
     }

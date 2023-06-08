@@ -43,18 +43,36 @@
         </p>
         <p class="groupLeader">Leader: <span>{{ group.leader.pseudo }}</span></p>
 
+        {# Liste des membres du groupe #}
         <div>
             <div class="gameInfosSubTitleBg" style="background-color: {{ gameFrom.color }}"></div>
             <h3 class="gameSubTitle noMarginBottom">Membres ( {{ group.members|length }} / {{ group.nbrPlaces }} )</h3>
         </div>
 
-        <ul class="membersList">
+        <ul id="membersList" class="membersList">
         {% for member in members %}
-            <li>{{ member.pseudo }}</li>
+            <li class="memberCard" style="background-color: {{ gameFrom.color }}">{{ member.pseudo }}</li>
         {% endfor %}
         </ul>
 
-        {# Reste des emplacements vides (compte nbrPlaces - members:length) #}
+        {# Emplacements de membre vides #}
+        <span id="nbrPlacesGroup" hidden>{{ group.nbrPlaces }}</span>
+        <span id="groupColor" hidden>{{ gameFrom.color }}</span>
+        <script>
+            window.onload = function() {
+                var nbrPlaces = parseInt(document.getElementById("nbrPlacesGroup").textContent);
+                var membresCount = document.getElementById("membersList").childElementCount;
+
+                for (let index = 0; index < (nbrPlaces - membresCount); index++) {
+                    var voidMember = document.createElement("li");
+                    voidMember.className = "voidMember";
+                    voidMember.innerHTML = "+";
+                    voidMember.style.backgroundColor = document.getElementById("groupColor").innerText;
+
+                    document.getElementById("membersList").append(voidMember);
+                }
+            }
+        </script>
 
         <br><br>
 
