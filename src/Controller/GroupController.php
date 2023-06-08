@@ -248,6 +248,11 @@ class GroupController extends AbstractController
         // check si user = leader 
         if ($group->getLeader() == $this->getUser() ) {
 
+            if(($request->request->get('memberId') == "")) {
+                $this->addFlash('error', 'Vous n"avez pas choisi de membre');
+                return $this->redirectToRoute('app_groupDetails', ['groupId' => $groupId]); 
+            }
+
             $memberId = $request->request->get('memberId');
             $userRepo = $entityManager->getRepository(User::class);
             $userTarget = $userRepo->find($memberId);

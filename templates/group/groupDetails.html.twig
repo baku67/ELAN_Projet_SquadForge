@@ -80,33 +80,48 @@
 
             {% if group.leader == app.user %}
 
+                <p>Leader</p>
+
                 <span id="groupId" hidden>{{ group.id }}</span>
-                {# Toggle Lecture automatique des Gifs #}
+                {# Toggle Visibilité du group #}
                 {% if group.status == "public" %}
                     {% set checked = "checked" %}
                 {% else %}
                     {% set checked = "" %}
                 {% endif %}
 
-                <p>Leader</p>
-
+                <h4>Paramètres</h4>
+                {# Leader: Passer le lead #}
                 <div style="display:inline-flex; width:100%;">
                     <p style="width:auto;">Passer le lead</p>
                     <form id="switchTeamLeader" action="{{ path('app_switchTeamLeader',{ 'groupId':group.id }) }}" method="post" style="display:inline-flex;">
-                        <select class="form-select" name="memberId">
-                            <option value="">-- Choisir</option>
+                        <select id="memberLeadSelect" class="form-select" name="memberId" style="font-family: 'K2D', sans serif;">
+                            <option id="voidSelect" value="">-- Choisir</option>
                             {% for member in group.members %}
                                 {% if member != app.user %}
                                     <option value="{{member.id}}">{{member.pseudo}}</option>
                                 {% endif %}
                             {% endfor %}
                         </select>
-                        <input type="submit" value="Appliquer"> 
+                        <input id="memberLeadSubmit" type="submit" value="Valider" class="btn btn-primary" style="background-color:{{ gameFrom.color }}" disabled> 
                     </form>
                 </div>
 
+                <script>    
+                    document.getElementById("memberLeadSelect").addEventListener("change", function() {
+                        if (document.getElementById("voidSelect").selected) {
+                            document.getElementById("memberLeadSubmit").disabled = true;
+                        }
+                        else {
+                            document.getElementById("memberLeadSubmit").disabled = false;
+                        }
+                    })
+
+                </script>
+
                 <br>
 
+                {# Asynch toggleGroupVisibility #}
                 <div style="display:inline-flex;">
                     <p>Visibilité: </p>
                     <form id="toggleGroupVisibilityForm" action="{{ path('app_toggleGroupVisibility',{ 'groupId':group.id }) }}" method="post">
@@ -117,7 +132,6 @@
                     </form>
                 </div>
 
-                {# Asynch toggleGroupVisibility #}
                 <script>
                     document.getElementById('toggleGroupVisibilityForm').addEventListener('change', function(event) {
                         
@@ -142,6 +156,14 @@
                     });
 
                 </script>
+
+                {# Customisation des candidature #}
+                <h4>Candidature</h4>
+                <h5>Message de l'offre<h5>
+
+                {# + checkbox bool obligatoire #}
+                <h5>Questions posés</h5> 
+
 
             {% else %}
 
