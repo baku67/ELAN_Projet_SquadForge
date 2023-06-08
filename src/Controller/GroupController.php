@@ -43,13 +43,41 @@ class GroupController extends AbstractController
 
                         // Hydrataion du "Group" a partir des données du form
                         $group = $form->getData();
+
+                        // Vérif au moins 2 places
+                        if($group->getNbrPlaces() < 2) {
+                            $this->addFlash('error', 'Le groupe doit avoir au moins 2 places');
+                            return $this->redirectToRoute('app_createGroup', ['gameIdFrom' => $gameFrom->getId()]);
+                        }
     
                         // Init de la publish_date du comment
                         $group->setCreationDate(new \DateTime());
                         $group->setLeader($this->getUser());
                         $group->setGame($gameFrom);
-                        $group->setStatus("public"); // Demander dans form
                         $group->addMember($this->getUser());
+
+                        // Paramètres du Group
+                        $isPublicChecked = $group->getStatus();
+                        if($isPublicChecked) {
+                            $group->setStatus("public"); 
+                        } else {
+                            $group->setStatus("hidden"); 
+                        }
+
+                        $isMicChecked = $group->isRestrictionMic();
+                        if($isMicChecked) {
+                            $group->setRestrictionMic(true); 
+                        } else {
+                            $group->setRestrictionMic(true); 
+                        }
+
+                        $is18Checked = $group->isRestriction18();
+                        if($is18Checked) {
+                            $group->setRestriction18(true); 
+                        } else {
+                            $group->setRestriction18(true); 
+                        }
+                        
                         
                         // Désactivation vérification nbr de mots etc...
                         // // Récupération du titre
@@ -76,7 +104,7 @@ class GroupController extends AbstractController
                     } 
                     else {
                         $this->addFlash('error', 'Pas de vulgarités pour un titre');
-                        return $this->redirectToRoute('app_topicDetail', ['id' => $group->getId()]);
+                        return $this->redirectToRoute('app_groupDetails', ['groupId' => $group->getId()]);
                     }   
 
                 // }

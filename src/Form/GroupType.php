@@ -64,27 +64,39 @@ class GroupType extends AbstractType
             ->add('restriction_18', CheckboxType::class, [
                 'label' => "Restriction d'âge",
                 'required' => false,
-                'attr' => ["class" => "form-check-input"],
+                'attr' => [
+                    // "value" => "",
+                    "class" => "form-check-input",
+                ],
             ])
             ->add('restriction_mic', CheckboxType::class, [
                 'label' => "Micro obligatoire",
                 'required' => false,
-                'attr' => ["class" => "form-check-input"],
+                'attr' => [
+                    // "value" => "",
+                    "class" => "form-check-input"
+                ],
             ])
             ->add('restriction_lang', ChoiceType::class, [
                 'label' => 'Langue',
+                'required' => false,
                 'choices' => [
                     'French' => 'fr',
                     'English' => 'en',
                     'German' => 'ge',
                 ],
                 'placeholder' => '--Choisir', // Optional: Add a placeholder option
-                'attr' => ["class" => "form-control"],
+                'attr' => [
+                    // "value" => "",
+                    "class" => "form-control",
+                ],
             ])
             ->add('status', CheckboxType::class, [
-                'label' => "Visibilité",
+                'label' => "Publique",
                 'required' => false,
-                'attr' => ["class" => "form-check-input"],
+                'attr' => [
+                    "class" => "form-check-input"
+                ],
             ])
 
             // ajouter logo/img (vérif taille et dimension + aperçu ici)
