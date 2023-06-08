@@ -126,7 +126,7 @@ class Group
         return $this;
     }
 
-    public function isRestrictionLang(): ?string
+    public function getRestrictionLang(): ?string
     {
         return $this->restriction_lang;
     }

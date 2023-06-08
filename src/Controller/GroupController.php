@@ -209,7 +209,6 @@ class GroupController extends AbstractController
     #[Route('/toggleGroupVisibility/{groupId}', name: 'app_toggleGroupVisibility')]
     public function toggleGroupVisibility(EntityManagerInterface $entityManager, int $groupId, Request $request): Response
     {
-        
         $groupRepo = $entityManager->getRepository(Group::class);
         $group = $groupRepo->find($groupId);
 
@@ -218,11 +217,11 @@ class GroupController extends AbstractController
 
             if ($group->getStatus() == "public") {
                 $group->setStatus("hidden");
-                $newState = "cachée";
+                $newState = "La team est désormais cachée";
             }
             else if ($group->getStatus() == "hidden") {
                 $group->setStatus("public");
-                $newState = "publique";
+                $newState = "Le team est désormais publique et apparait dans les recherches et les listes";
             }
 
             $entityManager->persist($group);
@@ -235,6 +234,65 @@ class GroupController extends AbstractController
         }
     }
 
+    
+    // Ajax Asynch toggleGroupRestriction18 (A fixer! juste inversion bool BDD pour l'instant)
+    #[Route('/toggleGroupRestriction18/{groupId}', name: 'app_toggleGroupRestriction18')]
+    public function toggleGroupRestriction18(EntityManagerInterface $entityManager, int $groupId, Request $request): Response
+    {
+        $groupRepo = $entityManager->getRepository(Group::class);
+        $group = $groupRepo->find($groupId);
+
+        // check si user = leader 
+        if ($group->getLeader() == $this->getUser() ) {
+
+            if ($group->isRestriction18()) {
+                $group->setRestriction18(false);
+                $newState = "La team est désormais ouverte aux personnes mineures";
+            }
+            else {
+                $group->setRestriction18(true);
+                $newState = "La team n'accepte désormais plus personnes mineures";
+            }
+
+            $entityManager->persist($group);
+            $entityManager->flush();
+
+            return new JsonResponse(['success' => true, "newState" => $newState]); 
+        }
+        else {
+            return new JsonResponse(['success' => false]); 
+        }
+    }
+
+
+    // Ajax Asynch toggleGroupRestrictionMic (A fixer! juste inversion bool BDD pour l'instant)
+    #[Route('/toggleGroupRestrictionMic/{groupId}', name: 'app_toggleGroupRestrictionMic')]
+    public function toggleGroupRestrictionMic(EntityManagerInterface $entityManager, int $groupId, Request $request): Response
+    {
+        $groupRepo = $entityManager->getRepository(Group::class);
+        $group = $groupRepo->find($groupId);
+
+        // check si user = leader 
+        if ($group->getLeader() == $this->getUser() ) {
+
+            if ($group->isRestrictionMic()) {
+                $group->setRestrictionMic(false);
+                $newState = "Le micro n'est désormais plus obligatoire pour candidater";
+            }
+            else {
+                $group->setRestrictionMic(true);
+                $newState = "Le micro est désormais obligatoire pour candidater";
+            }
+
+            $entityManager->persist($group);
+            $entityManager->flush();
+
+            return new JsonResponse(['success' => true, "newState" => $newState]); 
+        }
+        else {
+            return new JsonResponse(['success' => false]); 
+        }
+    }
 
 
     // Leader: passe le lead a un membre (select)

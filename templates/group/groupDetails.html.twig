@@ -85,10 +85,24 @@
                 <span id="groupId" hidden>{{ group.id }}</span>
                 {# Toggle Visibilité du group #}
                 {% if group.status == "public" %}
-                    {% set checked = "checked" %}
+                    {% set visibilityState = "checked" %}
                 {% else %}
-                    {% set checked = "" %}
+                    {% set visibilityState = "" %}
                 {% endif %}
+
+                {% if group.restriction18 %}
+                    {% set restriction18State = "checked" %}
+                {% else %}
+                    {% set restriction18State = "" %}
+                {% endif %}
+
+                {% if group.restrictionMic %}
+                    {% set restrictionMicState = "checked" %}
+                {% else %}
+                    {% set restrictionMicState = "" %}
+                {% endif %}
+                restrictionMicState
+                
 
                 <h4>Paramètres</h4>
                 {# Leader: Passer le lead #}
@@ -126,7 +140,7 @@
                     <p>Visibilité: </p>
                     <form id="toggleGroupVisibilityForm" action="{{ path('app_toggleGroupVisibility',{ 'groupId':group.id }) }}" method="post">
                         <label class="toggleAutoPlay">
-                            <input type="checkbox" {{ checked }} name="autoPlay" id="toggleVisi">
+                            <input type="checkbox" {{ visibilityState }} name="autoPlay" id="toggleVisi">
                             <span class="slider"></span>
                         </label>
                     </form>
@@ -146,15 +160,85 @@
                         .then(response => response.json())
                         .then(data => {
                             if (data.success) {
-                                document.querySelector('#ajaxFlash').textContent = "La team est désormais " + data.newState;
+                                document.querySelector('#ajaxFlash').textContent = data.newState;
                                 document.querySelector('#ajaxFlash').classList.add("ajaxFlashAnim", "successAjaxFlash");
+                                
                             } else {
                                 document.querySelector('#ajaxFlash').textContent = "Vous devez être le leader du groupe pour changer sa visibilité";
                                 document.querySelector('#ajaxFlash').classList.add("ajaxFlashAnim", "errorAjaxFlash");
                             }
                         });
                     });
+                </script>
 
+                {# Asynch toggleRestriction18 #}
+                <div style="display:inline-flex;">
+                    <p>Majorité obligatoire: </p>
+                    <form id="toggleGroupRestriction18Form" action="{{ path('app_toggleGroupRestriction18',{ 'groupId':group.id }) }}" method="post">
+                        <label class="toggleAutoPlay">
+                            <input type="checkbox" {{ restriction18State }} name="autoPlay" id="toggleVisi">
+                            <span class="slider"></span>
+                        </label>
+                    </form>
+                </div>
+
+                <script>
+                    document.getElementById('toggleGroupRestriction18Form').addEventListener('change', function(event) {
+                        
+                        event.preventDefault(); // Empêche la soumission normale du formulaire
+
+                        const groupId = parseInt(document.getElementById("groupId").textContent);
+                        fetch('/toggleGroupRestriction18/' + groupId, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        }})
+                        .then(response => response.json())
+                        .then(data => {
+                            if (data.success) {
+                                document.querySelector('#ajaxFlash').textContent = data.newState;
+                                document.querySelector('#ajaxFlash').classList.add("ajaxFlashAnim", "successAjaxFlash");
+                            } else {
+                                document.querySelector('#ajaxFlash').textContent = "Vous devez être le leader du groupe pour changer ce critère";
+                                document.querySelector('#ajaxFlash').classList.add("ajaxFlashAnim", "errorAjaxFlash");
+                            }
+                        });
+                    });
+                </script>
+
+                {# Asynch toggleRestrictionMic #}
+                <div style="display:inline-flex;">
+                    <p>Micro obligatoire: </p>
+                    <form id="toggleGroupRestrictionMicForm" action="{{ path('app_toggleGroupRestrictionMic',{ 'groupId':group.id }) }}" method="post">
+                        <label class="toggleAutoPlay">
+                            <input type="checkbox" {{ restrictionMicState }} name="autoPlay" id="toggleVisi">
+                            <span class="slider"></span>
+                        </label>
+                    </form>
+                </div>
+
+                <script>
+                    document.getElementById('toggleGroupRestrictionMicForm').addEventListener('change', function(event) {
+                        
+                        event.preventDefault(); // Empêche la soumission normale du formulaire
+
+                        const groupId = parseInt(document.getElementById("groupId").textContent);
+                        fetch('/toggleGroupRestrictionMic/' + groupId, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        }})
+                        .then(response => response.json())
+                        .then(data => {
+                            if (data.success) {
+                                document.querySelector('#ajaxFlash').textContent = data.newState;
+                                document.querySelector('#ajaxFlash').classList.add("ajaxFlashAnim", "successAjaxFlash");
+                            } else {
+                                document.querySelector('#ajaxFlash').textContent = "Vous devez être le leader du groupe pour changer ce critère";
+                                document.querySelector('#ajaxFlash').classList.add("ajaxFlashAnim", "errorAjaxFlash");
+                            }
+                        });
+                    });
                 </script>
 
                 {# Customisation des candidature #}
