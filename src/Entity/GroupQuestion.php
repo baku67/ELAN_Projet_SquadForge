@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use App\Repository\GroupQuestionRepository;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: GroupQuestionRepository::class)]
@@ -21,6 +22,9 @@ class GroupQuestion
 
     #[ORM\ManyToOne(inversedBy: 'groupQuestions')]
     private ?Group $groupe = null;
+
+    #[ORM\Column(type: Types::SMALLINT)]
+    private ?int $number = null;
 
     public function getId(): ?int
     {
@@ -59,6 +63,18 @@ class GroupQuestion
     public function setGroupe(?Group $groupe): self
     {
         $this->groupe = $groupe;
+
+        return $this;
+    }
+
+    public function getNumber(): ?int
+    {
+        return $this->number;
+    }
+
+    public function setNumber(int $number): self
+    {
+        $this->number = $number;
 
         return $this;
     }

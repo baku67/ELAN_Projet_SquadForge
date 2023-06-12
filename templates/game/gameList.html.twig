@@ -120,7 +120,7 @@
             <h3 class="genreTitle">FPS <span class="gameListCount">({{ fpsGamesCount }})</span></h3>
             <div class="genreGameList">
                 {% for game in fpsGames %}
-                    <a class="gameCardLink" href="{{ path('app_game', {'id': game.id} )}}">
+                    <a class="gameCardLink" href="{{ path('app_game', {'id': game.id} )}}" onmouseover="this.style.filter='drop-shadow(0px 0px 6px {{ game.color }})'" onmouseout="this.style.filter='drop-shadow(0px 0px 5px black)'">
                         <div class="gameCard">
 
                             <div style="position:relative;">
@@ -146,7 +146,7 @@
             <h3 class="genreTitle">Battle Royal <span class="gameListCount">({{ brGamesCount }})</span></h3>
             <div class="genreGameList">
                 {% for game in battleRoyalGames %}
-                    <a class="gameCardLink" href="{{ path('app_game', {'id': game.id} )}}">
+                    <a class="gameCardLink" href="{{ path('app_game', {'id': game.id} )}}" onmouseover="this.style.filter='drop-shadow(0px 0px 4px {{ game.color }})'" onmouseout="this.style.filter='drop-shadow(0px 0px 4px black)'">
                         <div class="gameCard">
 
                             <div style="position:relative;">
@@ -173,7 +173,7 @@
             <h3 class="genreTitle">Indés <span class="gameListCount">({{ indieGamesCount }})</span></h3>
             <div class="genreGameList">
                 {% for game in indieGames %}
-                    <a class="gameCardLink" href="{{ path('app_game', {'id': game.id} )}}">
+                    <a class="gameCardLink" href="{{ path('app_game', {'id': game.id} )}}" onmouseover="this.style.filter='drop-shadow(0px 0px 4px {{ game.color }})'" onmouseout="this.style.filter='drop-shadow(0px 0px 4px black)'">
                         <div class="gameCard">
 
                             <div style="position:relative;">

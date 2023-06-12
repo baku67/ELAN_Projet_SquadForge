@@ -263,13 +263,19 @@ nav {
     border-radius: 5px;
 }
 .gameCardLink {
-    margin: 7px 4px;
+    filter: drop-shadow(0px 0px 6px black); 
+    margin: 5px 11px;
+    transition: all 0.3s;
 }
+/* .gameCardLink:hover {
+    filter: drop-shadow(2px 1px 4px black);
+} */
 .gameLogo {
     width: 150px;
     height: 80px;
-    /* border-top-left-radius: 5px;
-    border-top-right-radius: 5px; */
+
+    border-top-left-radius: 4px;
+    border-top-right-radius: 4px;
 
 }
 .gameCardUnderline {
@@ -1240,3 +1246,25 @@ cursor: pointer;
     width: 70%;
     margin: 0 auto;
 }
+
+
+
+
+#questionsContainer {
+    display: inline-flex;
+    flex-direction: column;
+    width: 100%;
+}
+
+.questionLine {
+    display: inline-flex;
+    justify-content: space-between;
+    width: 100%;
+}
+
+
+.questionRequired {
+    padding: 10px;
+    margin-left: 20px;
+}
+

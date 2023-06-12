@@ -249,7 +249,27 @@
                 <h5>Message de l'offre<h5>
 
                 {# + checkbox bool obligatoire #}
-                <h5>Questions posés</h5> 
+                <div style="display:inline-flex; width:100%; justify-content:space-between;">
+                    <h5>Questions posés</h5> 
+                    <span style="opacity:0.5; position:relative; left:4px;">(<span style="color:red; font-size:0.8em;"><i class="fa-solid fa-star-of-life"></i></span>)</span>
+                </div>
+
+                {# <form id="questionsContainer" action="{{ path('app_updateGroupQuestions',{'groupId': group.id}) }}" method="post">
+                    <div class="questionLine">
+                        <input type="text" name="question1" placeholder="Question de candidature n°1" class="form-control"></input>
+                        <input type="checkbox" name="question1required" class="questionRequired form-check-input"></input>
+                    </div>
+                    <div class="questionLine">
+                        <input type="text" name="question2" placeholder="Question de candidature n°2" class="form-control"></input>
+                        <input type="checkbox" name="question1required" class="questionRequired form-check-input"></input>
+                    </div>
+                    <div class="questionLine">
+                        <input type="text" name="question3" placeholder="Question de candidature n°3" class="form-control"></input>
+                        <input type="checkbox" name="question1required" class="questionRequired form-check-input"></input>
+                    </div>
+
+                    <input type="submit" value="Mettre à jour" class="btn btn-primary"/>
+                </form> #}
 
 
             {% else %}

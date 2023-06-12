@@ -25,7 +25,7 @@
             <h3 class="gameSubTitle noMarginBottom"  style="background-color: var(--primary-color);">Jeux Favoris</h3>
             <div class="genreGameList">
                 {% for gameFav in userFav %}
-                    <a  class="gameCardLink" href="{{ path('app_game', {'id': gameFav.id} )}}">
+                    <a  class="gameCardLink" href="{{ path('app_game', {'id': gameFav.id} )}}" onmouseover="this.style.filter='drop-shadow(0px 0px 6px {{ gameFav.color }})'" onmouseout="this.style.filter='drop-shadow(0px 0px 5px black)'">
                         <div class="gameCard">
                             <img src="{{ asset("img/games/logo/" ~ gameFav.logo) }}" class="gameLogo" alt="logo {{ gameFav.title }}"/>
                             <div class="gameCardUnderline" style="background-color:{{ gameFav.color }}"></div>

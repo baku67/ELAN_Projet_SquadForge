@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Group;
+use App\Entity\GroupQuestion;
 use App\Entity\Game;
 use App\Entity\User;
 use App\Form\GroupType;
@@ -357,6 +358,47 @@ class GroupController extends AbstractController
             return $this->redirectToRoute('app_groupDetails', ['groupId' => $groupId]); 
         }
     }
+
+
+
+    // // Leader: Mettre à jour les questions candidature
+    // #[Route('/updateGroupQuestions/{groupId}', name: 'app_updateGroupQuestions')]
+    // public function updateGroupQuestions(EntityManagerInterface $entityManager, int $groupId, Request $request): Response
+    // {
+
+    //     $groupRepo = $entityManager->getRepository(Group::class);
+    //     $group = $groupRepo->find($groupId);
+
+    //     $groupQuestion = new GroupQuestion;
+
+
+
+    //     // check si user = leader 
+    //     if ($group->getLeader() == $this->getUser() ) {
+
+    //         if( !is_null($request->request->get('question1')) ) {
+    //             // voir si existe deja avec group 
+    //             if ($group->getGroupQuestions()->contains($request->request->get('question1'))) {
+
+    //             }
+
+    //         }
+    //         if( !is_null($request->request->get('question2')) ) {
+
+    //         }
+    //         if( !is_null($request->request->get('question3')) ) {
+
+    //         }
+
+
+    //         $this->addFlash('success', 'Les questions de candidatures ont été mises à jour');
+    //         return $this->redirectToRoute('app_groupDetails', ['groupId' => $groupId]);
+    //     }
+    //     else {
+    //         $this->addFlash('error', 'Vous devez être leader du groupe pour mettre à jour les questions');
+    //         return $this->redirectToRoute('app_groupDetails', ['groupId' => $groupId]); 
+    //     }
+    // }
 
 
 
