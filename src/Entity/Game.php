@@ -67,6 +67,9 @@ class Game
     #[ORM\OneToMany(mappedBy: 'game', targetEntity: Group::class, orphanRemoval: true)]
     private Collection $gameGroups;
 
+    #[ORM\Column(type: Types::SMALLINT)]
+    private ?int $nbrMaxPlaces = null;
+
     public function __construct()
     {
         $this->favUsers = new ArrayCollection();
@@ -374,6 +377,18 @@ class Game
                 $gameGroup->setGame(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getNbrPlaces(): ?int
+    {
+        return $this->nbrPlaces;
+    }
+
+    public function setNbrPlaces(int $nbrPlaces): self
+    {
+        $this->nbrPlaces = $nbrPlaces;
 
         return $this;
     }

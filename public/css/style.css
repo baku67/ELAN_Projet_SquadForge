@@ -902,13 +902,34 @@ h1, h2, h3, h4 {
 
 .refusedMediaLabel {
     text-align: center;
-    padding: 5px;
-    background-color: #b43a3a;
+    padding: 18px;
+    font-weight: bold;
+    background-color: #404040;
+    color: #d34242;
+    font-size: 1.3em;
+
+    border-bottom: 1px solid;
+    border-right: 1px solid;
+    border-left: 1px solid;
+
+    border-bottom-left-radius: 5px;
+    border-bottom-right-radius: 5px;
 }
+
 .waitingMediaLabel {
     text-align: center;
-    padding: 5px;
-    background-color: #b8a229;
+    padding: 18px;
+    font-weight: bold;
+    background-color: #404040;
+    color: #b8a229;
+    font-size: 1.3em;
+
+    border-bottom: 1px solid;
+    border-right: 1px solid;
+    border-left: 1px solid;
+
+    border-bottom-left-radius: 5px;
+    border-bottom-right-radius: 5px;
 }
 
 
@@ -939,6 +960,11 @@ h1, h2, h3, h4 {
     /* right: 3px; */
     padding-top: 15px;
     font-size: 1.5em;
+    color: whitesmoke;
+
+    border-bottom: 1px solid;
+    border-right: 1px solid;
+    border-left: 1px solid;
 
     border-bottom-left-radius: 5px;
     border-bottom-right-radius: 5px;
@@ -1039,28 +1065,6 @@ h1, h2, h3, h4 {
     width: 70%;
     margin: 10px auto;
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -1217,6 +1221,8 @@ cursor: pointer;
 }
 
 .memberCard {
+    display: inline-flex;
+    flex-direction: column;
     color: black;
     font-family: 'K2D', sans-serif;
     padding: 3px 10px;

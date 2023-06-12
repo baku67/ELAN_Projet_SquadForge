@@ -360,6 +360,42 @@ class GroupController extends AbstractController
 
 
 
+    
+    // Leader: Kick un membre du groupe
+    #[Route('/kickGroupMember/{memberId}/{groupId}', name: 'app_kickGroupMember')]
+    public function kickGroupMember(EntityManagerInterface $entityManager, int $memberId, int $groupId, Request $request): Response
+    {
+
+        $groupRepo = $entityManager->getRepository(Group::class);
+        $group = $groupRepo->find($groupId);
+
+        $userRepo = $entityManager->getRepository(User::class);
+        $userKicked = $userRepo->find($memberId);
+
+        // check si user = leader 
+        if($group->getLeader() == $this->getUser() ) {
+
+            // Controle leader != kickedUser
+            if($userKicked == $this->getUser()) {
+                $this->addFlash('error', 'Vous ne pouvez pas vous expulser de votre groupe, vous devez le quitter');
+                return $this->redirectToRoute('app_groupDetails', ['groupId' => $groupId]);
+            }
+
+            $group->removeMember($userKicked);
+
+            $entityManager->persist($group);
+            $entityManager->flush();
+
+            $this->addFlash('success', 'Vous avez expulser ' . $userKicked->getPseudo() . ' de la team');
+            return $this->redirectToRoute('app_groupDetails', ['groupId' => $groupId]);
+        }
+        else {
+            $this->addFlash('error', 'Vous devez être leader du groupe pour expluser un membre');
+            return $this->redirectToRoute('app_groupDetails', ['groupId' => $groupId]); 
+        }
+    }
+
+
 
 
 }

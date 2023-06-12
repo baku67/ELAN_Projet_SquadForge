@@ -66,7 +66,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToMany(mappedBy: 'user', targetEntity: MediaPostLike::class)]
     private Collection $mediaPostLikes;
 
-    #[ORM\Column(options: ['default' => true])]
+    #[ORM\Column(nullable: true, options: ['default' => true])]
     private ?bool $autoPlayGifs = null;
 
     #[ORM\OneToMany(mappedBy: 'user', targetEntity: Censure::class)]
