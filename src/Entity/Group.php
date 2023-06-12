@@ -56,9 +56,13 @@ class Group
     #[ORM\ManyToMany(targetEntity: User::class, inversedBy: 'groupes')]
     private Collection $members;
 
+    #[ORM\OneToMany(mappedBy: 'groupe', targetEntity: GroupQuestion::class)]
+    private Collection $groupQuestions;
+
     public function __construct()
     {
         $this->members = new ArrayCollection();
+        $this->groupQuestions = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -218,6 +222,36 @@ class Group
     public function removeMember(User $member): self
     {
         $this->members->removeElement($member);
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, GroupQuestion>
+     */
+    public function getGroupQuestions(): Collection
+    {
+        return $this->groupQuestions;
+    }
+
+    public function addGroupQuestion(GroupQuestion $groupQuestion): self
+    {
+        if (!$this->groupQuestions->contains($groupQuestion)) {
+            $this->groupQuestions->add($groupQuestion);
+            $groupQuestion->setGroupe($this);
+        }
+
+        return $this;
+    }
+
+    public function removeGroupQuestion(GroupQuestion $groupQuestion): self
+    {
+        if ($this->groupQuestions->removeElement($groupQuestion)) {
+            // set the owning side to null (unless already changed)
+            if ($groupQuestion->getGroupe() === $this) {
+                $groupQuestion->setGroupe(null);
+            }
+        }
 
         return $this;
     }
