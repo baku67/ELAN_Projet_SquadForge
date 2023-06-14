@@ -2,16 +2,17 @@
 
 namespace App\Controller;
 
+use App\Entity\Candidature;
 use App\Entity\Group;
 use App\Entity\GroupQuestion;
 use App\Entity\Game;
 use App\Entity\User;
 use App\Form\GroupType;
+use App\Form\CandidatureType;
 use App\Repository\GroupRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\PersistentCollection;
 use Symfony\Component\HttpFoundation\JsonResponse;
-
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
@@ -167,6 +168,16 @@ class GroupController extends AbstractController
         $members = $group->getMembers();
         $questions = $group->getGroupQuestions();
 
+        $candidatureRepo = $entityManager->getRepository(Candidature::class);
+        // $waitingCandidature = $candidatureRepo->findIfWaitingCandidature($this->getUser(), $group);
+        $waitingCandidatures = count($candidatureRepo->findBy(["user" => $this->getUser(), "groupe" => $group, "status" => "pending"]));
+        if ($waitingCandidatures > 0) {
+            $waitingCandidature = true;
+        }
+        else {
+            $waitingCandidature = false;
+        }
+
         $game = $group->getGame();
 
         // Vérifs si group bien public
@@ -177,6 +188,7 @@ class GroupController extends AbstractController
             'gameFrom' => $game,
             'members' => $members,
             'questions' => $questions,
+            'waitingCandidature' => $waitingCandidature,
         ]);
     }
 
@@ -338,34 +350,34 @@ class GroupController extends AbstractController
     }
 
 
-        // Ajax Asynch toggleRestrictionImgProof (A fixer! juste inversion bool BDD pour l'instant)
-        #[Route('/toggleRestrictionImgProof/{groupId}', name: 'app_toggleRestrictionImgProof')]
-        public function toggleRestrictionImgProof(EntityManagerInterface $entityManager, int $groupId, Request $request): Response
-        {
-            $groupRepo = $entityManager->getRepository(Group::class);
-            $group = $groupRepo->find($groupId);
-    
-            // check si user = leader 
-            if ($group->getLeader() == $this->getUser() ) {
-    
-                if ($group->isRestrictionImgProof()) {
-                    $group->setRestrictionImgProof(false);
-                    $newState = "L'upload de pièce jointe est désormais autorisé";
-                }
-                else {
-                    $group->setRestrictionImgProof(true);
-                    $newState = "L'upload de pièce jointe n'est désormais plus autorisé";
-                }
-    
-                $entityManager->persist($group);
-                $entityManager->flush();
-    
-                return new JsonResponse(['success' => true, "newState" => $newState]); 
+    // Ajax Asynch toggleRestrictionImgProof (A fixer! juste inversion bool BDD pour l'instant)
+    #[Route('/toggleRestrictionImgProof/{groupId}', name: 'app_toggleRestrictionImgProof')]
+    public function toggleRestrictionImgProof(EntityManagerInterface $entityManager, int $groupId, Request $request): Response
+    {
+        $groupRepo = $entityManager->getRepository(Group::class);
+        $group = $groupRepo->find($groupId);
+
+        // check si user = leader 
+        if ($group->getLeader() == $this->getUser() ) {
+
+            if ($group->isRestrictionImgProof()) {
+                $group->setRestrictionImgProof(false);
+                $newState = "L'upload de pièce jointe est désormais autorisé";
             }
             else {
-                return new JsonResponse(['success' => false]); 
+                $group->setRestrictionImgProof(true);
+                $newState = "L'upload de pièce jointe n'est désormais plus autorisé";
             }
+
+            $entityManager->persist($group);
+            $entityManager->flush();
+
+            return new JsonResponse(['success' => true, "newState" => $newState]); 
         }
+        else {
+            return new JsonResponse(['success' => false]); 
+        }
+    }
 
 
 
@@ -517,6 +529,64 @@ class GroupController extends AbstractController
         else {
             $this->addFlash('error', 'Vous devez être leader du groupe pour expluser un membre');
             return $this->redirectToRoute('app_groupDetails', ['groupId' => $groupId]); 
+        }
+    }
+
+
+    
+    #[Route('/showCandidatureForm/{groupId}', name: 'app_showCandidatureForm')]
+    public function showCandidatureForm(EntityManagerInterface $entityManager, int $groupId, Request $request): Response
+    {
+        $groupRepo = $entityManager->getRepository(Group::class);
+        $group = $groupRepo->find($groupId);
+        $gameFrom = $group->getGame();
+
+        // check si pas deja membre
+        if( !$group->getMembers()->contains($this->getUser()) ) {
+
+            // check si candidature existe deja 
+            $candidatureRepo = $entityManager->getRepository(Candidature::class);
+            $countExist = count($candidatureRepo->findBy(["user" => $this->getUser(), "groupe" => $group]));
+            if ($countExist == 0) {
+
+                $candidature = new Candidature;
+                $form = $this->createForm(CandidatureType::class, $candidature);
+                $form -> handleRequest($request);
+
+                // Vérifs/Filtres
+                if($form->isSubmitted()) {
+                    if($form->isValid()) {
+
+                        $candidature = $form->getData();
+
+                        $candidature->setUser($this->getUser());
+                        $candidature->setGroupe($group);
+                        $candidature->setCreationDate(new \Datetime());
+                        $candidature->setStatus("pending");
+
+                        $entityManager->persist($candidature);
+                        $entityManager->flush();
+
+                        $this->addFlash('success', 'Votre candidature a bien été envoyée');
+                        return $this->redirectToRoute('app_groupDetails', ['groupId' => $groupId]); 
+                    }
+                }
+
+                return $this->render('group/groupCandidatureForm.html.twig', [
+                    'formCandidature' => $form->createView(),
+                    'group' => $group,
+                    'gameFrom' => $gameFrom,
+                ]);
+
+            }
+            else {
+                $this->addFlash('error', 'Vous avez déjà candidaté à cette team');
+                return $this->redirectToRoute('app_groupDetails', ['groupId' => $groupId]);
+            }
+        }
+        else {
+            $this->addFlash('error', 'Vous êtes déjà membre de ce groupe ou n\'êtes pas connecté');
+            return $this->redirectToRoute('app_groupDetails', ['groupId' => $groupId]);
         }
     }
 

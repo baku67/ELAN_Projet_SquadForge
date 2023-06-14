@@ -1,0 +1,47 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Topics{% endblock %}
+
+{% block body %}
+
+
+    <header class="gameHeader" style="background: url('{{ asset('img/games/banner/' ~ gameFrom.banner ) }}' )">
+        <a href="{{ path('app_home') }}"><img src="{{ asset('img/logoSquadForge_White_Rogned.png') }}" class="logoPng" id="logoPng" /></a>
+        <nav>
+            <a href="{{ path('app_games') }}" style="color:{{ gameFrom.fontColor }};">Jeux</a>
+            {% if app.user %}
+                <a href="{{ path('app_userGroups') }}" style="color:{{ gameFrom.fontColor }};">TEAMS</a>
+            {% endif %}
+            {% if app.user and "ROLE_MODO" in app.user.roles %}
+                <a href="{{ path('app_moderationDashboard') }}" style="color:{{ gameFrom.fontColor }};">Modération</a>
+            {% endif %}
+        </nav>
+        <a href="{{ path('app_game', {'id': gameFrom.id }) }}"><h2 class="headerGameTitle"  style="border-right:15px solid {{ gameFrom.color }};">{{ gameFrom.title }}</h2></a>
+    </header>
+    <div class="headerUnderline" style="background-color: {{ gameFrom.color }}"></div>
+
+
+    <div class="main">
+
+        {# Fil d'Ariane #}
+        <p>
+            <a class="underlineLink" href="{{ path('app_games') }}">Jeux</a>
+             - <a class="underlineLink" href="{{ path('app_game', {'id': gameFrom.id }) }}">{{ gameFrom.title }}</a>
+             - <a class="underlineLink" href="{{ path('app_groupList', {'gameIdFrom': gameFrom.id }) }}">Teams</a>
+             - <a class="underlineLink" href="{{ path('app_groupDetails', {'groupId': group.id }) }}">{{ group.title }}</a>
+             - Candidature
+        </p>
+
+        <h2>Candidature</h2>
+
+        {{ form_start(formCandidature) }}
+
+            {{ form_label(formCandidature.text, 'Introduction')}}
+            {{ form_widget(formCandidature.text) }} 
+
+        {{ form_end(formCandidature) }}
+
+    </div>
+
+
+{% endblock %}

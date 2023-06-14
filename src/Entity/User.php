@@ -78,6 +78,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\ManyToMany(targetEntity: Group::class, mappedBy: 'members')]
     private Collection $groupes;
 
+    #[ORM\OneToMany(mappedBy: 'user', targetEntity: Candidature::class)]
+    private Collection $candidatures;
+
     public function __construct()
     {
         $this->favoris = new ArrayCollection();
@@ -92,6 +95,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         $this->censures = new ArrayCollection();
         $this->leadedGroups = new ArrayCollection();
         $this->groupes = new ArrayCollection();
+        $this->candidatures = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -543,6 +547,36 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     {
         if ($this->groupes->removeElement($groupe)) {
             $groupe->removeMember($this);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Candidature>
+     */
+    public function getCandidatures(): Collection
+    {
+        return $this->candidatures;
+    }
+
+    public function addCandidature(Candidature $candidature): self
+    {
+        if (!$this->candidatures->contains($candidature)) {
+            $this->candidatures->add($candidature);
+            $candidature->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCandidature(Candidature $candidature): self
+    {
+        if ($this->candidatures->removeElement($candidature)) {
+            // set the owning side to null (unless already changed)
+            if ($candidature->getUser() === $this) {
+                $candidature->setUser(null);
+            }
         }
 
         return $this;

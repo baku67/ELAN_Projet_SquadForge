@@ -334,11 +334,16 @@
             {% endif %}
 
             <br>
-            <a id="leaveGroupBtn" href="{{ path('app_leaveGroup', {'groupId':group.id} )}}">Quitter le groupe</a>
+            <a id="leaveGroupBtn" href="{{ path('app_leaveGroup', {'groupId': group.id} )}}">Quitter le groupe</a>
 
         {% else %}
 
-            <p>Candidater</p>
+            {# si candidature en attente #}
+            {% if waitingCandidature %}
+                <span>Candidature en attente</span>
+            {% else %}
+                <a href="{{ path('app_showCandidatureForm',{'groupId': group.id}) }}">Candidater</p>
+            {% endif %}
 
         {% endif %}
         

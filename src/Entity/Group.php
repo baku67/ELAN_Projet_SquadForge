@@ -65,10 +65,14 @@ class Group
     #[ORM\Column]
     private ?bool $restriction_imgProof = null;
 
+    #[ORM\OneToMany(mappedBy: 'groupe', targetEntity: Candidature::class)]
+    private Collection $candidatures;
+
     public function __construct()
     {
         $this->members = new ArrayCollection();
         $this->groupQuestions = new ArrayCollection();
+        $this->candidatures = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -282,6 +286,36 @@ class Group
     public function setRestrictionImgProof(bool $restriction_imgProof): self
     {
         $this->restriction_imgProof = $restriction_imgProof;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Candidature>
+     */
+    public function getCandidatures(): Collection
+    {
+        return $this->candidatures;
+    }
+
+    public function addCandidature(Candidature $candidature): self
+    {
+        if (!$this->candidatures->contains($candidature)) {
+            $this->candidatures->add($candidature);
+            $candidature->setGroupe($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCandidature(Candidature $candidature): self
+    {
+        if ($this->candidatures->removeElement($candidature)) {
+            // set the owning side to null (unless already changed)
+            if ($candidature->getGroupe() === $this) {
+                $candidature->setGroupe(null);
+            }
+        }
 
         return $this;
     }
