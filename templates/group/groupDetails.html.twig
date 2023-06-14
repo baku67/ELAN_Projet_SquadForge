@@ -246,36 +246,34 @@
 
                 {# Customisation des candidature #}
                 <h4>Candidature</h4>
-                <h5>Message de l'offre<h5>
+                <h5>Message de l'offre</h5>
 
-                {# + checkbox bool obligatoire #}
-                <div style="display:inline-flex; width:100%; justify-content:space-between;">
-                    <h5>Questions posés</h5> 
-                    <span style="opacity:0.5; position:relative; left:4px;">(<span style="color:red; font-size:0.8em;"><i class="fa-solid fa-star-of-life"></i></span>)</span>
+                <h5>Questions posés</h5> 
+                {# Liste des questions #}
+                <div class="questionsContainer">
+                {% for question in questions %}
+                    <div class="questionLine">
+                        <div style="display:inline-flex">
+                            <p>{{ question.text }}</p>
+                            {% if question.required %}
+                                <span style="color:#b43a3a; font-size:0.8em; margin-left:5px"><i class="fa-solid fa-star-of-life"></i></span>
+                            {% endif %}
+                        </div>
+                        <a href="{{ path('app_deleteGroupQuestion',{'groupId': group.id, 'questionId': question.id}) }}" class="deleteQuestionBtn"><i class="fa-solid fa-trash"></i></a>
+                    </div>
+                {% endfor %}
                 </div>
 
-                {# *******************************************************************   #}
-                    {# // Remplacer par formType entity:group qui add/upgrade juste les question 1, 2 et 3 (ajouter les paramètre doctrine à Group) #}
-                    {# Du coup remove Entity:group_question et repo #}
-
-                    {# <form id="questionsContainer" action="{{ path('app_updateGroupQuestions',{'groupId': group.id}) }}" method="post">
-                        <div class="questionLine">
-                            <input type="text" name="question1" placeholder="Question de candidature n°1" class="form-control"></input>
-                            <input type="checkbox" name="question1required" class="questionRequired form-check-input"></input>
-                        </div>
-                        <div class="questionLine">
-                            <input type="text" name="question2" placeholder="Question de candidature n°2" class="form-control"></input>
-                            <input type="checkbox" name="question1required" class="questionRequired form-check-input"></input>
-                        </div>
-                        <div class="questionLine">
-                            <input type="text" name="question3" placeholder="Question de candidature n°3" class="form-control"></input>
-                            <input type="checkbox" name="question1required" class="questionRequired form-check-input"></input>
-                        </div>
-
-                        <input type="submit" value="Mettre à jour" class="btn btn-primary"/>
-                    </form> #}
-                {# *******************************************************************   #}
-
+                {# Ajouter une question #}                
+                <form id="questionsContainer" action="{{ path('app_addGroupQuestion',{'groupId': group.id}) }}" method="post">
+                    <div class="inputQuestionLine">
+                        <input type="text" id="questionText" name="questionText" placeholder="Entrez une quesion de candidature..." class="form-control"></input>
+                        <label for="required">requis:</label>
+                        <input type="checkbox" name="required" value="checked" class="questionRequired form-check-input"></input>
+                    </div>
+                    <input type="submit" class="btn btn-primary" value="Ajouter"></input>
+                </form>
+                
 
             {% else %}
 

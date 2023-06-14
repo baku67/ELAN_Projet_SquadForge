@@ -149,6 +149,7 @@ class GroupController extends AbstractController
     }
 
 
+
     // Detail du groupe: Id Group
     #[Route('/groupDetails/{groupId}', name: 'app_groupDetails')]
     public function groupDetails(EntityManagerInterface $entityManager, int $groupId, Request $request): Response
@@ -157,6 +158,7 @@ class GroupController extends AbstractController
         $groupRepo = $entityManager->getRepository(Group::class);
         $group = $groupRepo->find($groupId);
         $members = $group->getMembers();
+        $questions = $group->getGroupQuestions();
 
         $game = $group->getGame();
 
@@ -167,8 +169,10 @@ class GroupController extends AbstractController
             'group' => $group,
             'gameFrom' => $game,
             'members' => $members,
+            'questions' => $questions,
         ]);
     }
+
 
 
     // Liste des groupes de l'userConnected
@@ -184,6 +188,7 @@ class GroupController extends AbstractController
             'groups' => $groups,
         ]);
     }
+
 
 
     // Quitter le groupe (userConnected) (Id Group) 
@@ -263,6 +268,7 @@ class GroupController extends AbstractController
         }
     }
 
+
     
     // Ajax Asynch toggleGroupRestriction18 (A fixer! juste inversion bool BDD pour l'instant)
     #[Route('/toggleGroupRestriction18/{groupId}', name: 'app_toggleGroupRestriction18')]
@@ -292,6 +298,7 @@ class GroupController extends AbstractController
             return new JsonResponse(['success' => false]); 
         }
     }
+
 
 
     // Ajax Asynch toggleGroupRestrictionMic (A fixer! juste inversion bool BDD pour l'instant)
@@ -324,11 +331,11 @@ class GroupController extends AbstractController
     }
 
 
+
     // Leader: passe le lead a un membre (select)
     #[Route('/switchTeamLeader/{groupId}', name: 'app_switchTeamLeader')]
     public function switchTeamLeader(EntityManagerInterface $entityManager, int $groupId, Request $request): Response
     {
-
         $groupRepo = $entityManager->getRepository(Group::class);
         $group = $groupRepo->find($groupId);
 
@@ -361,45 +368,86 @@ class GroupController extends AbstractController
 
 
 
-    // // Leader: Mettre à jour les questions candidature
-    // #[Route('/updateGroupQuestions/{groupId}', name: 'app_updateGroupQuestions')]
-    // public function updateGroupQuestions(EntityManagerInterface $entityManager, int $groupId, Request $request): Response
-    // {
+    // // Leader: ajouter une question candidature
+    #[Route('/addGroupQuestion/{groupId}', name: 'app_addGroupQuestion')]
+    public function addGroupQuestion(EntityManagerInterface $entityManager, int $groupId, Request $request): Response
+    {
+        $groupRepo = $entityManager->getRepository(Group::class);
+        $group = $groupRepo->find($groupId);
+        $groupQuestion = $entityManager->getRepository(GroupQuestion::class);
+        $groupQuestionCount = count($groupQuestion->findBy(["groupe" => $group]));
 
-    //     $groupRepo = $entityManager->getRepository(Group::class);
-    //     $group = $groupRepo->find($groupId);
+        // Si groupe a pas déjà 5 questions
+        if($groupQuestionCount < 5) {
 
-    //     $groupQuestion = new GroupQuestion;
+            $groupQuestion = new GroupQuestion;
 
+            // check si user = leader 
+            if ($group->getLeader() == $this->getUser() ) {
+    
+                if( !is_null($request->request->get('questionText')) ) {
+                    $groupQuestion->setText($request->request->get('questionText'));
+                    $groupQuestion->setGroupe($group);
+    
+                    if($request->request->get('required') == "checked") {
+                        $groupQuestion->setRequired(true);
+                    }
+                    else {
+                        $groupQuestion->setRequired(false);
+                    }
+                    // $groupQuestion->setRequired(true);
+    
+                    $entityManager->persist($groupQuestion);
+                    $entityManager->flush();
+    
+                    $this->addFlash('success', 'La question a été ajouté');
+                    return $this->redirectToRoute('app_groupDetails', ['groupId' => $groupId]);
+                }
+                else {
+                    $this->addFlash('error', 'Vous devez entrer une question');
+                    return $this->redirectToRoute('app_groupDetails', ['groupId' => $groupId]); 
+                }
+                
+            }
+            else {
+                $this->addFlash('error', 'Vous devez être leader du groupe pour ajouter une question');
+                return $this->redirectToRoute('app_groupDetails', ['groupId' => $groupId]); 
+            }
+    
+        }
+        else {
+            $this->addFlash('error', 'Vous avez atteint la limite de question autorisée');
+            return $this->redirectToRoute('app_groupDetails', ['groupId' => $groupId]); 
+        }
+    }
 
+    
 
-    //     // check si user = leader 
-    //     if ($group->getLeader() == $this->getUser() ) {
+    // // Leader: surrpimer une question candidature
+    #[Route('/deleteGroupQuestion/{groupId}/{questionId}', name: 'app_deleteGroupQuestion')]
+    public function deleteGroupQuestion(EntityManagerInterface $entityManager, int $groupId, int $questionId, Request $request): Response
+    {
+        $groupRepo = $entityManager->getRepository(Group::class);
+        $group = $groupRepo->find($groupId);
+        $groupQuestionRepo = $entityManager->getRepository(GroupQuestion::class);
 
-    //         if( !is_null($request->request->get('question1')) ) {
-    //             // voir si existe deja avec group 
-    //             if ($group->getGroupQuestions()->contains($request->request->get('question1'))) {
+        $groupQuestion = $groupQuestionRepo->find($questionId);
 
-    //             }
+        // check si user = leader 
+        if ($group->getLeader() == $this->getUser() ) {
 
-    //         }
-    //         if( !is_null($request->request->get('question2')) ) {
+            $groupQuestionRepo->remove($groupQuestion);
+            $entityManager->flush();
 
-    //         }
-    //         if( !is_null($request->request->get('question3')) ) {
-
-    //         }
-
-
-    //         $this->addFlash('success', 'Les questions de candidatures ont été mises à jour');
-    //         return $this->redirectToRoute('app_groupDetails', ['groupId' => $groupId]);
-    //     }
-    //     else {
-    //         $this->addFlash('error', 'Vous devez être leader du groupe pour mettre à jour les questions');
-    //         return $this->redirectToRoute('app_groupDetails', ['groupId' => $groupId]); 
-    //     }
-    // }
-
+            $this->addFlash('success', 'La question a été supprimé');
+            return $this->redirectToRoute('app_groupDetails', ['groupId' => $groupId]);
+            
+        }
+        else {
+            $this->addFlash('error', 'Vous devez être leader du groupe pour supprimer une question');
+            return $this->redirectToRoute('app_groupDetails', ['groupId' => $groupId]); 
+        }
+    }
 
 
     
@@ -407,7 +455,6 @@ class GroupController extends AbstractController
     #[Route('/kickGroupMember/{memberId}/{groupId}', name: 'app_kickGroupMember')]
     public function kickGroupMember(EntityManagerInterface $entityManager, int $memberId, int $groupId, Request $request): Response
     {
-
         $groupRepo = $entityManager->getRepository(Group::class);
         $group = $groupRepo->find($groupId);
 

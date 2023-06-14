@@ -1256,15 +1256,35 @@ cursor: pointer;
     width: 100%;
 }
 
-.questionLine {
+.inputQuestionLine {
     display: inline-flex;
     justify-content: space-between;
-    width: 100%;
+    width: 92%;
+    margin: 0 auto;
 }
 
 
 .questionRequired {
     padding: 10px;
     margin-left: 20px;
+}
+
+.questionsContainer {
+    display:flex; 
+    flex-direction:column;
+    width: 92%;
+    margin: 20px auto;
+}
+.questionLine {
+    background-color: #404040;
+    font-family: 'K2D', sans-serif;
+    display:inline-flex;
+    justify-content: space-between;
+    margin-top: 1px;
+    padding: 10px 10px 0 10px;
+}
+
+.deleteQuestionBtn {
+    cursor: pointer;
 }
 

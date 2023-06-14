@@ -23,9 +23,6 @@ class GroupQuestion
     #[ORM\ManyToOne(inversedBy: 'groupQuestions')]
     private ?Group $groupe = null;
 
-    #[ORM\Column(type: Types::SMALLINT)]
-    private ?int $number = null;
-
     public function getId(): ?int
     {
         return $this->id;
@@ -63,18 +60,6 @@ class GroupQuestion
     public function setGroupe(?Group $groupe): self
     {
         $this->groupe = $groupe;
-
-        return $this;
-    }
-
-    public function getNumber(): ?int
-    {
-        return $this->number;
-    }
-
-    public function setNumber(int $number): self
-    {
-        $this->number = $number;
 
         return $this;
     }

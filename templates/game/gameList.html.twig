@@ -4,12 +4,6 @@
 
 {% block body %}
 
-    {# (Désactivé) bundle routing js pour lien sur résultats de recherche "fos_js_routing.yaml" #}
-    {# {% block javascripts %}
-        {{ encore_entry_script_tags('app') }}
-        {{ fos_js_routing_js() }}
-    {% endblock %} #}
-
     <header class="globalBanner" style="background: url('{{ asset('img/banner.jpg') }}' )">
         <a href="{{ path('app_home') }}"><img src="{{ asset('img/logoSquadForge_White_Rogned.png') }}" class="logoPng" /></a>
         <nav>
@@ -28,10 +22,6 @@
 
         <div style="display:inline-flex; width: 100%; justify-content:space-between;">
             <h2 class="pageTitle">Parcourir les jeux</h2>
-
-            {# (Désactivé) Form Search synchrone (Symfony Type) #}
-            {# {{ form_start(formSearch) }}
-            {{ form_end(formSearch) }} #}
 
             {# Test form Search asynchrone (Ajax JS) #}
             <form id="search-form" action="{{ path('app_search') }}" method="GET">
@@ -71,7 +61,6 @@
                                 let html = '';
                                 if (count >= 1) {
                                     results.forEach((result) => {
-                                        // html += `<a href="game/${result.id}"><div>${result.title}</div></a>`;
                                         html += 
                                         `<a class="gameCardLink" href="game/` + result.id + `" onmouseover="this.style.filter='drop-shadow(0px 0px 6px ` + result.color + `)'" onmouseout="this.style.filter='drop-shadow(0px 0px 5px black)'">` +
                                             `<div class="gameCard">` +
@@ -103,7 +92,6 @@
                         searchResults.innerHTML = '';
                     }
                 });
-
             }
         </script>
 
@@ -114,8 +102,7 @@
 
 
 
-
-
+        {# Liste jeux catégorie "FPS" #}
         <div id="gamesLists">
             <h3 class="genreTitle">FPS <span class="gameListCount">({{ fpsGamesCount }})</span></h3>
             <div class="genreGameList">
@@ -134,7 +121,6 @@
                             <div class="gameCardUnderline" style="background-color:{{ game.color }}"></div>
 
                             <div class="gameCardInfos">
-                                {# <p class="gameCardTitle">{{ game.title }}</p> #}
                                 <p><span>New</span> Topics <span>0</span></p>
                                 <p><span>New</span> Medias <span>0</span></p>
                             </div>
@@ -143,6 +129,7 @@
                 {% endfor %}
             </div>
 
+            {# Liste jeux catégorie "Battle royal"" #}
             <h3 class="genreTitle">Battle Royal <span class="gameListCount">({{ brGamesCount }})</span></h3>
             <div class="genreGameList">
                 {% for game in battleRoyalGames %}
@@ -160,7 +147,6 @@
                             <div class="gameCardUnderline" style="background-color:{{ game.color }}"></div>
 
                                 <div class="gameCardInfos">
-                                    {# <p class="gameCardTitle">{{ game.title }}</p> #}
                                     <p><span>New</span> Topics <span>0</span></p>
                                     <p><span>New</span> Medias <span>0</span></p>
                                 </div>
@@ -169,7 +155,7 @@
                 {% endfor %}
             </div>
 
-
+            {# Liste jeux catégorie "jeux indépendants" #}
             <h3 class="genreTitle">Indés <span class="gameListCount">({{ indieGamesCount }})</span></h3>
             <div class="genreGameList">
                 {% for game in indieGames %}
@@ -187,7 +173,6 @@
                             <div class="gameCardUnderline" style="background-color:{{ game.color }}"></div>
 
                             <div class="gameCardInfos">
-                                {# <p class="gameCardTitle">{{ game.title }}</p> #}
                                 <p><span>New</span> Topics <span>0</span></p>
                                 <p><span>New</span> Medias <span>0</span></p>
                             </div>
