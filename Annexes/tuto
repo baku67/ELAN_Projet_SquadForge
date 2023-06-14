@@ -1,3 +1,11 @@
+En cours: Candidatures: questions/réponse + affichage liste candidatures (GroupDetai et Profil+status) + refus/validation candidature leader
+
+Tags de Medias (définis, table pour pouvoir ajouter facilement en tant que modo) (+Filtres disponibles)
+
+Mettre des anims de clip-path partout :onHover + :onActive (pour mobile)
+
+Ne pas oublier d'intégrer Censure dans les nouveaux forms (Candidatures, GroupQuestion, Group, etc...) + factoriser
+
 dans homepage, barre de recherche avec un select dans quoi on cherche ("tout", "jeux", "topic", "medias", "groupes")
  
 /viewProfil si public: btn toggle public dans /profil
@@ -11,22 +19,12 @@ Si reclick user sur la meme note que celle déjà donnée: retire le vote (et é
 
 Ajouter table assoc user/game avec lastSeenTopicId et lastSeenMediaId (pour les NEW des cards jeux)
  
-Asynch des upvote/downvotes Topics
-
 Médias liste scroll infinie avec regen  (+ bouton toggle affichage grid/linéaire )
 
 Limite de topic/media par jour (pour modo et anti-spam)
 
-MediaQueries
-
-Rename table BDD ?
-
 /!\ Groupe: Admin peut changer le header background (need approv modo parce que img publique)
 
-Médias: il faut click sur "GIF" pour lancer la vidéo (sinon lancé au chargement de la page et désynchro avec le scroll user ducoup)
-
-Sur homepage: intégrer fav user si app.user tout en haut (juste logo avec color) /!\
-Sur homepage: "voit tout" médias 
 
 Factoriser form ajouts topics depuis mini-list et listDetails
 
@@ -34,13 +32,7 @@ Dans /home: mettre un flux Médias global basé sur les favoris (et auto gen qua
 
 
 
-En cours:
-    Profil: list Topic publié
-    Topic Détails depuis Game et Profil
 
-Puis: 
-    Création de Topic
-    Favoris Btn asynchrone
 
 
 TODO:
@@ -57,18 +49,12 @@ regex mdp (création de compte)
 
 Le nbr_views dans table Topic: faire plutot une table assoc pour 1 vue possible par user (anti-span), au moment ou il voit le detail du topic
 
-Faire les "Auteur: Vous" dans topicDetail et post Author
-
-Oskour:
-Si signalement automatique lorsque upvote trop négatif: il faut pouvoir dislike (PB: Like est une relation pas une entitée, donc pas de champ "like/dislike" possible en plus des clées)
--> Avec dislikes ducoup on compte plus juste le nombre de relations, soit on compte selon champ 'like/dislike', soit on calcule avec un champ "1"/"-1" jsp
 
 
 
-
-Notifications: "un tel a liké ce commentaire"
-"Un tel a commenté ce topic" 
-Plus tard: "votre topic/media a été validé par la modération"
+Notifications: "un tel a liké votre <a ref>commentaire</a>" 
+"Un tel a commenté votre <a refComm>topic</a>" 
+Plus tard: "votre <a ref>topic/media</a> a été validé par la modération"
 (Dans profil et bulle Nav)
 
 

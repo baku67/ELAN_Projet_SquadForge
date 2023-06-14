@@ -533,7 +533,7 @@ class GroupController extends AbstractController
     }
 
 
-    
+    // Affichage de la page de candidature (form)
     #[Route('/showCandidatureForm/{groupId}', name: 'app_showCandidatureForm')]
     public function showCandidatureForm(EntityManagerInterface $entityManager, int $groupId, Request $request): Response
     {
