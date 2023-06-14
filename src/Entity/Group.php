@@ -59,6 +59,12 @@ class Group
     #[ORM\OneToMany(mappedBy: 'groupe', targetEntity: GroupQuestion::class)]
     private Collection $groupQuestions;
 
+    #[ORM\Column(type: Types::TEXT, nullable: true)]
+    private ?bool $candidature_description = null;
+
+    #[ORM\Column]
+    private ?bool $restriction_imgProof = null;
+
     public function __construct()
     {
         $this->members = new ArrayCollection();
@@ -252,6 +258,30 @@ class Group
                 $groupQuestion->setGroupe(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getCandidatureDescription(): ?string
+    {
+        return $this->candidature_description;
+    }
+
+    public function setCandidatureDescription(?string $candidature_description): self
+    {
+        $this->candidature_description = $candidature_description;
+
+        return $this;
+    }
+
+    public function isRestrictionImgProof(): ?bool
+    {
+        return $this->restriction_imgProof;
+    }
+
+    public function setRestrictionImgProof(bool $restriction_imgProof): self
+    {
+        $this->restriction_imgProof = $restriction_imgProof;
 
         return $this;
     }

@@ -45,7 +45,6 @@ class GroupType extends AbstractType
                 ],
             ])
             ->add('description', TextareaType::class, [
-                // 'label' => 'Message',
                 'required' => true,
                 'attr' => [
                     "class" => "form-control",
@@ -65,7 +64,6 @@ class GroupType extends AbstractType
                 'label' => "Restriction d'âge",
                 'required' => false,
                 'attr' => [
-                    // "value" => "",
                     "class" => "form-check-input",
                 ],
             ])
@@ -73,7 +71,13 @@ class GroupType extends AbstractType
                 'label' => "Micro obligatoire",
                 'required' => false,
                 'attr' => [
-                    // "value" => "",
+                    "class" => "form-check-input"
+                ],
+            ])
+            ->add('restriction_imgProof', CheckboxType::class, [
+                'label' => "Autoriser pièce jointe: ",
+                'required' => false,
+                'attr' => [
                     "class" => "form-check-input"
                 ],
             ])

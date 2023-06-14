@@ -78,6 +78,13 @@ class GroupController extends AbstractController
                         } else {
                             $group->setRestriction18(false); 
                         }
+
+                        $isImgProofChecked = $group->isRestrictionImgProof();
+                        if($isImgProofChecked) {
+                            $group->setRestrictionImgProof(true); 
+                        } else {
+                            $group->setRestrictionImgProof(false); 
+                        }
                         
                         
                         // Désactivation vérification nbr de mots etc...
@@ -331,6 +338,36 @@ class GroupController extends AbstractController
     }
 
 
+        // Ajax Asynch toggleRestrictionImgProof (A fixer! juste inversion bool BDD pour l'instant)
+        #[Route('/toggleRestrictionImgProof/{groupId}', name: 'app_toggleRestrictionImgProof')]
+        public function toggleRestrictionImgProof(EntityManagerInterface $entityManager, int $groupId, Request $request): Response
+        {
+            $groupRepo = $entityManager->getRepository(Group::class);
+            $group = $groupRepo->find($groupId);
+    
+            // check si user = leader 
+            if ($group->getLeader() == $this->getUser() ) {
+    
+                if ($group->isRestrictionImgProof()) {
+                    $group->setRestrictionImgProof(false);
+                    $newState = "L'upload de pièce jointe est désormais autorisé";
+                }
+                else {
+                    $group->setRestrictionImgProof(true);
+                    $newState = "L'upload de pièce jointe n'est désormais plus autorisé";
+                }
+    
+                $entityManager->persist($group);
+                $entityManager->flush();
+    
+                return new JsonResponse(['success' => true, "newState" => $newState]); 
+            }
+            else {
+                return new JsonResponse(['success' => false]); 
+            }
+        }
+
+
 
     // Leader: passe le lead a un membre (select)
     #[Route('/switchTeamLeader/{groupId}', name: 'app_switchTeamLeader')]
@@ -395,7 +432,6 @@ class GroupController extends AbstractController
                     else {
                         $groupQuestion->setRequired(false);
                     }
-                    // $groupQuestion->setRequired(true);
     
                     $entityManager->persist($groupQuestion);
                     $entityManager->flush();

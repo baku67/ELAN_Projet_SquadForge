@@ -105,9 +105,17 @@
                 {% else %}
                     {% set restrictionMicState = "" %}
                 {% endif %}
-                
 
-                <h4>Paramètres</h4>
+                {% if group.restrictionImgProof %}
+                    {% set restrictionImgProofState = "checked" %}
+                {% else %}
+                    {% set restrictionImgProofState = "" %}
+                {% endif %}
+
+                <div>
+                    <div class="gameInfosSubTitleBg" style="background-color: {{ gameFrom.color }}"></div>
+                    <h3 class="gameSubTitle noMarginBottom">Paramètres</h3>
+                </div>
                 {# Leader: Passer le lead #}
                 <div style="display:inline-flex; width:100%;">
                     <p style="width:auto;">Passer le lead</p>
@@ -138,115 +146,159 @@
 
                 <br>
 
-                {# Asynch toggleGroupVisibility #}
-                <div style="display:inline-flex;">
-                    <p>Visibilité: </p>
-                    <form id="toggleGroupVisibilityForm" action="{{ path('app_toggleGroupVisibility',{ 'groupId':group.id }) }}" method="post">
-                        <label class="toggleAutoPlay">
-                            <input type="checkbox" {{ visibilityState }} name="autoPlay" id="toggleVisi">
-                            <span class="slider"></span>
-                        </label>
-                    </form>
-                </div>
+                <div style="display:flex; flex-direction:column;">
 
-                <script>
-                    document.getElementById('toggleGroupVisibilityForm').addEventListener('change', function(event) {
-                        
-                        event.preventDefault(); // Empêche la soumission normale du formulaire
+                    {# Asynch toggleGroupVisibility #}
+                    <div style="display:inline-flex;">
+                        <p>Visibilité: </p>
+                        <form id="toggleGroupVisibilityForm" action="{{ path('app_toggleGroupVisibility',{ 'groupId':group.id }) }}" method="post">
+                            <label class="toggleAutoPlay">
+                                <input type="checkbox" {{ visibilityState }} name="autoPlay" id="toggleVisi">
+                                <span class="slider"></span>
+                            </label>
+                        </form>
+                    </div>
 
-                        const groupId = parseInt(document.getElementById("groupId").textContent);
-                        fetch('/toggleGroupVisibility/' + groupId, {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json'
-                        }})
-                        .then(response => response.json())
-                        .then(data => {
-                            if (data.success) {
-                                document.querySelector('#ajaxFlash').textContent = data.newState;
-                                document.querySelector('#ajaxFlash').classList.add("ajaxFlashAnim", "successAjaxFlash");
-                                
-                            } else {
-                                document.querySelector('#ajaxFlash').textContent = "Vous devez être le leader du groupe pour changer sa visibilité";
-                                document.querySelector('#ajaxFlash').classList.add("ajaxFlashAnim", "errorAjaxFlash");
-                            }
+                    <script>
+                        document.getElementById('toggleGroupVisibilityForm').addEventListener('change', function(event) {
+                            
+                            event.preventDefault(); // Empêche la soumission normale du formulaire
+
+                            const groupId = parseInt(document.getElementById("groupId").textContent);
+                            fetch('/toggleGroupVisibility/' + groupId, {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json'
+                            }})
+                            .then(response => response.json())
+                            .then(data => {
+                                if (data.success) {
+                                    document.querySelector('#ajaxFlash').textContent = data.newState;
+                                    document.querySelector('#ajaxFlash').classList.add("ajaxFlashAnim", "successAjaxFlash");
+                                    
+                                } else {
+                                    document.querySelector('#ajaxFlash').textContent = "Vous devez être le leader du groupe pour changer sa visibilité";
+                                    document.querySelector('#ajaxFlash').classList.add("ajaxFlashAnim", "errorAjaxFlash");
+                                }
+                            });
                         });
-                    });
-                </script>
+                    </script>
 
-                {# Asynch toggleRestriction18 #}
-                <div style="display:inline-flex;">
-                    <p>Majorité obligatoire: </p>
-                    <form id="toggleGroupRestriction18Form" action="{{ path('app_toggleGroupRestriction18',{ 'groupId':group.id }) }}" method="post">
-                        <label class="toggleAutoPlay">
-                            <input type="checkbox" {{ restriction18State }} name="autoPlay" id="toggleVisi">
-                            <span class="slider"></span>
-                        </label>
-                    </form>
-                </div>
+                    {# Asynch toggleRestriction18 #}
+                    <div style="display:inline-flex;">
+                        <p>Majorité obligatoire: </p>
+                        <form id="toggleGroupRestriction18Form" action="{{ path('app_toggleGroupRestriction18',{ 'groupId':group.id }) }}" method="post">
+                            <label class="toggleAutoPlay">
+                                <input type="checkbox" {{ restriction18State }} name="autoPlay" id="toggleVisi">
+                                <span class="slider"></span>
+                            </label>
+                        </form>
+                    </div>
 
-                <script>
-                    document.getElementById('toggleGroupRestriction18Form').addEventListener('change', function(event) {
-                        
-                        event.preventDefault(); // Empêche la soumission normale du formulaire
+                    <script>
+                        document.getElementById('toggleGroupRestriction18Form').addEventListener('change', function(event) {
+                            
+                            event.preventDefault(); // Empêche la soumission normale du formulaire
 
-                        const groupId = parseInt(document.getElementById("groupId").textContent);
-                        fetch('/toggleGroupRestriction18/' + groupId, {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json'
-                        }})
-                        .then(response => response.json())
-                        .then(data => {
-                            if (data.success) {
-                                document.querySelector('#ajaxFlash').textContent = data.newState;
-                                document.querySelector('#ajaxFlash').classList.add("ajaxFlashAnim", "successAjaxFlash");
-                            } else {
-                                document.querySelector('#ajaxFlash').textContent = "Vous devez être le leader du groupe pour changer ce critère";
-                                document.querySelector('#ajaxFlash').classList.add("ajaxFlashAnim", "errorAjaxFlash");
-                            }
+                            const groupId = parseInt(document.getElementById("groupId").textContent);
+                            fetch('/toggleGroupRestriction18/' + groupId, {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json'
+                            }})
+                            .then(response => response.json())
+                            .then(data => {
+                                if (data.success) {
+                                    document.querySelector('#ajaxFlash').textContent = data.newState;
+                                    document.querySelector('#ajaxFlash').classList.add("ajaxFlashAnim", "successAjaxFlash");
+                                } else {
+                                    document.querySelector('#ajaxFlash').textContent = "Vous devez être le leader du groupe pour changer ce critère";
+                                    document.querySelector('#ajaxFlash').classList.add("ajaxFlashAnim", "errorAjaxFlash");
+                                }
+                            });
                         });
-                    });
-                </script>
+                    </script>
 
-                {# Asynch toggleRestrictionMic #}
-                <div style="display:inline-flex;">
-                    <p>Micro obligatoire: </p>
-                    <form id="toggleGroupRestrictionMicForm" action="{{ path('app_toggleGroupRestrictionMic',{ 'groupId':group.id }) }}" method="post">
-                        <label class="toggleAutoPlay">
-                            <input type="checkbox" {{ restrictionMicState }} name="autoPlay" id="toggleVisi">
-                            <span class="slider"></span>
-                        </label>
-                    </form>
-                </div>
+                    {# Asynch toggleRestrictionMic #}
+                    <div style="display:inline-flex;">
+                        <p>Micro obligatoire: </p>
+                        <form id="toggleGroupRestrictionMicForm" action="{{ path('app_toggleGroupRestrictionMic',{ 'groupId':group.id }) }}" method="post">
+                            <label class="toggleAutoPlay">
+                                <input type="checkbox" {{ restrictionMicState }} name="autoPlay" id="toggleVisi">
+                                <span class="slider"></span>
+                            </label>
+                        </form>
+                    </div>
 
-                <script>
-                    document.getElementById('toggleGroupRestrictionMicForm').addEventListener('change', function(event) {
-                        
-                        event.preventDefault(); // Empêche la soumission normale du formulaire
+                    <script>
+                        document.getElementById('toggleGroupRestrictionMicForm').addEventListener('change', function(event) {
+                            
+                            event.preventDefault(); // Empêche la soumission normale du formulaire
 
-                        const groupId = parseInt(document.getElementById("groupId").textContent);
-                        fetch('/toggleGroupRestrictionMic/' + groupId, {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json'
-                        }})
-                        .then(response => response.json())
-                        .then(data => {
-                            if (data.success) {
-                                document.querySelector('#ajaxFlash').textContent = data.newState;
-                                document.querySelector('#ajaxFlash').classList.add("ajaxFlashAnim", "successAjaxFlash");
-                            } else {
-                                document.querySelector('#ajaxFlash').textContent = "Vous devez être le leader du groupe pour changer ce critère";
-                                document.querySelector('#ajaxFlash').classList.add("ajaxFlashAnim", "errorAjaxFlash");
-                            }
+                            const groupId = parseInt(document.getElementById("groupId").textContent);
+                            fetch('/toggleGroupRestrictionMic/' + groupId, {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json'
+                            }})
+                            .then(response => response.json())
+                            .then(data => {
+                                if (data.success) {
+                                    document.querySelector('#ajaxFlash').textContent = data.newState;
+                                    document.querySelector('#ajaxFlash').classList.add("ajaxFlashAnim", "successAjaxFlash");
+                                } else {
+                                    document.querySelector('#ajaxFlash').textContent = "Vous devez être le leader du groupe pour changer ce critère";
+                                    document.querySelector('#ajaxFlash').classList.add("ajaxFlashAnim", "errorAjaxFlash");
+                                }
+                            });
                         });
-                    });
-                </script>
+                    </script>
+
+                    {# Asynch toggleRestrictionImgProof (Autoriser l'upload d'une image pour prouver un Lvl par exemple, à accompagner d'une description du screen attendu) #}
+                    <div style="display:inline-flex;">
+                        <p>Autoriser pièce jointe: </p>
+                        <form id="toggleRestrictionImgProof" action="{{ path('app_toggleRestrictionImgProof',{ 'groupId':group.id }) }}" method="post">
+                            <label class="toggleAutoPlay">
+                                <input type="checkbox" {{ restrictionImgProofState }} name="autoPlay" id="toggleVisi">
+                                <span class="slider"></span>
+                            </label>
+                        </form>
+                    </div>
+
+                    <script>
+                        document.getElementById('toggleRestrictionImgProof').addEventListener('change', function(event) {
+                            
+                            event.preventDefault(); // Empêche la soumission normale du formulaire
+
+                            const groupId = parseInt(document.getElementById("groupId").textContent);
+                            fetch('/toggleRestrictionImgProof/' + groupId, {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json'
+                            }})
+                            .then(response => response.json())
+                            .then(data => {
+                                if (data.success) {
+                                    document.querySelector('#ajaxFlash').textContent = data.newState;
+                                    document.querySelector('#ajaxFlash').classList.add("ajaxFlashAnim", "successAjaxFlash");
+                                } else {
+                                    document.querySelector('#ajaxFlash').textContent = "Vous devez être le leader du groupe pour changer ce critère";
+                                    document.querySelector('#ajaxFlash').classList.add("ajaxFlashAnim", "errorAjaxFlash");
+                                }
+                            });
+                        });
+                    </script>
+
+                </div>
 
                 {# Customisation des candidature #}
-                <h4>Candidature</h4>
+                <div>
+                    <div class="gameInfosSubTitleBg" style="background-color: {{ gameFrom.color }}"></div>
+                    <h3 class="gameSubTitle noMarginBottom">Candidature</h3>
+                </div>
+
                 <h5>Message de l'offre</h5>
+                <p style="font-family:'K2D';">{{ group.candidatureDescription }}</p>
 
                 <h5>Questions posés</h5> 
                 {# Liste des questions #}
