@@ -397,46 +397,17 @@ class MediaController extends AbstractController
             $mediaPost = $mediaPostRepo->find($id);
             $media = $mediaPost->getMedia();
 
+            // Upvote possible que si pas auteur
+            if ($this->getUser() != $mediaPost->getUser()) {
 
-            // Si l'utilisateur n'a pas déjà upvoté 
-            if(count($postLikeRepo->findBy(['user' => $this->getUser(), 'mediaPost' => $mediaPost])) == 0) {
+                // Si l'utilisateur n'a pas déjà upvoté 
+                if(count($postLikeRepo->findBy(['user' => $this->getUser(), 'mediaPost' => $mediaPost])) == 0) {
 
-                $mediaPostLike = new MediaPostLike();
-
-                $mediaPostLike->setState("upvote");
-                $mediaPostLike->setUser($this->getUser());
-                $mediaPostLike->setMediaPost($mediaPost);
-
-                $entityManager->persist($mediaPostLike);
-                $entityManager->flush();
-
-                // recalcul DownVote/Upvote
-                $newScore = $postLikeRepo->calcMediaPostScore($mediaPost);
-
-                // JS FLASH: Votre upvote a été pris en compte
-                return new JsonResponse(['success' => true, 'newState' => 'upvoted', 'gameColor' => $media->getGame()->getColor(), 'newScore' => $newScore]);   
-
-            
-            } 
-            else {
-
-                if($postLikeRepo->findOneBy(['user' => $this->getUser(), 'mediaPost' => $mediaPost])->getState() == "upvote" ) {
-
-                    $mediaPostLike = $postLikeRepo->findOneBy(['user' => $this->getUser(), 'mediaPost' => $mediaPost]);
-
-                    $postLikeRepo->remove($mediaPostLike, true);
-
-                    // recalcul DownVote/Upvote
-                    $newScore = $postLikeRepo->calcMediaPostScore($mediaPost);
-
-                    return new JsonResponse(['success' => true, 'newState' => 'notUpvoted', 'newScore' => $newScore]);   
-                
-                }
-                else if($postLikeRepo->findOneBy(['user' => $this->getUser(), 'mediaPost' => $mediaPost])->getState() == "downvote" ) {
-
-                    $mediaPostLike = $postLikeRepo->findOneBy(['user' => $this->getUser(), 'mediaPost' => $mediaPost]);
+                    $mediaPostLike = new MediaPostLike();
 
                     $mediaPostLike->setState("upvote");
+                    $mediaPostLike->setUser($this->getUser());
+                    $mediaPostLike->setMediaPost($mediaPost);
 
                     $entityManager->persist($mediaPostLike);
                     $entityManager->flush();
@@ -444,15 +415,49 @@ class MediaController extends AbstractController
                     // recalcul DownVote/Upvote
                     $newScore = $postLikeRepo->calcMediaPostScore($mediaPost);
 
+                    // JS FLASH: Votre upvote a été pris en compte
                     return new JsonResponse(['success' => true, 'newState' => 'upvoted', 'gameColor' => $media->getGame()->getColor(), 'newScore' => $newScore]);   
-                }
-            }
 
+                
+                } 
+                else {
+
+                    if($postLikeRepo->findOneBy(['user' => $this->getUser(), 'mediaPost' => $mediaPost])->getState() == "upvote" ) {
+
+                        $mediaPostLike = $postLikeRepo->findOneBy(['user' => $this->getUser(), 'mediaPost' => $mediaPost]);
+
+                        $postLikeRepo->remove($mediaPostLike, true);
+
+                        // recalcul DownVote/Upvote
+                        $newScore = $postLikeRepo->calcMediaPostScore($mediaPost);
+
+                        return new JsonResponse(['success' => true, 'newState' => 'notUpvoted', 'newScore' => $newScore]);   
+                    
+                    }
+                    else if($postLikeRepo->findOneBy(['user' => $this->getUser(), 'mediaPost' => $mediaPost])->getState() == "downvote" ) {
+
+                        $mediaPostLike = $postLikeRepo->findOneBy(['user' => $this->getUser(), 'mediaPost' => $mediaPost]);
+
+                        $mediaPostLike->setState("upvote");
+
+                        $entityManager->persist($mediaPostLike);
+                        $entityManager->flush();
+
+                        // recalcul DownVote/Upvote
+                        $newScore = $postLikeRepo->calcMediaPostScore($mediaPost);
+
+                        return new JsonResponse(['success' => true, 'newState' => 'upvoted', 'gameColor' => $media->getGame()->getColor(), 'newScore' => $newScore]);   
+                    }
+                }
+            } 
+            else {
+                return new JsonResponse(['success' => false, 'newState' => 'Vous ne pouvez pas upvoter vos commentaires', 'gameColor' => $topic->getGame()->getColor(), 'newScore' => $newScore]);   
+            }
         }
         else {
             return new JsonResponse(['success' => false, 'case' => 'logIn']);
         }
-    
+
     }
 
 
@@ -471,45 +476,17 @@ class MediaController extends AbstractController
             $media = $mediaPost->getMedia();
 
 
-            // Si l'utilisateur n'a pas déjà upvoté 
-            if(count($postLikeRepo->findBy(['user' => $this->getUser(), 'mediaPost' => $mediaPost])) == 0) {
+            // Downvote possible que si pas auteur
+                if ($this->getUser() != $mediaPost->getUser()) {
 
-                $mediaPostLike = new MediaPostLike();
+                // Si l'utilisateur n'a pas déjà upvoté 
+                if(count($postLikeRepo->findBy(['user' => $this->getUser(), 'mediaPost' => $mediaPost])) == 0) {
 
-                $mediaPostLike->setState("downvote");
-                $mediaPostLike->setUser($this->getUser());
-                $mediaPostLike->setMediaPost($mediaPost);
-
-                $entityManager->persist($mediaPostLike);
-                $entityManager->flush();
-
-                // recalcul DownVote/Upvote
-                $newScore = $postLikeRepo->calcMediaPostScore($mediaPost);
-
-                // JS FLASH: Votre upvote a été pris en compte
-                return new JsonResponse(['success' => true, 'newState' => 'downvoted', 'gameColor' => $media->getGame()->getColor(), 'newScore' => $newScore]);   
-
-            
-            } 
-            else {
-
-                if($postLikeRepo->findOneBy(['user' => $this->getUser(), 'mediaPost' => $mediaPost])->getState() == "downvote" ) {
-
-                    $mediaPostLike = $postLikeRepo->findOneBy(['user' => $this->getUser(), 'mediaPost' => $mediaPost]);
-
-                    $postLikeRepo->remove($mediaPostLike, true);
-
-                    // recalcul DownVote/Upvote
-                    $newScore = $postLikeRepo->calcMediaPostScore($mediaPost);
-
-                    return new JsonResponse(['success' => true, 'newState' => 'notDownvoted', 'newScore' => $newScore]);   
-                
-                }
-                else if($postLikeRepo->findOneBy(['user' => $this->getUser(), 'mediaPost' => $mediaPost])->getState() == "upvote" ) {
-
-                    $mediaPostLike = $postLikeRepo->findOneBy(['user' => $this->getUser(), 'mediaPost' => $mediaPost]);
+                    $mediaPostLike = new MediaPostLike();
 
                     $mediaPostLike->setState("downvote");
+                    $mediaPostLike->setUser($this->getUser());
+                    $mediaPostLike->setMediaPost($mediaPost);
 
                     $entityManager->persist($mediaPostLike);
                     $entityManager->flush();
@@ -517,15 +494,49 @@ class MediaController extends AbstractController
                     // recalcul DownVote/Upvote
                     $newScore = $postLikeRepo->calcMediaPostScore($mediaPost);
 
+                    // JS FLASH: Votre upvote a été pris en compte
                     return new JsonResponse(['success' => true, 'newState' => 'downvoted', 'gameColor' => $media->getGame()->getColor(), 'newScore' => $newScore]);   
+
+                
+                } 
+                else {
+
+                    if($postLikeRepo->findOneBy(['user' => $this->getUser(), 'mediaPost' => $mediaPost])->getState() == "downvote" ) {
+
+                        $mediaPostLike = $postLikeRepo->findOneBy(['user' => $this->getUser(), 'mediaPost' => $mediaPost]);
+
+                        $postLikeRepo->remove($mediaPostLike, true);
+
+                        // recalcul DownVote/Upvote
+                        $newScore = $postLikeRepo->calcMediaPostScore($mediaPost);
+
+                        return new JsonResponse(['success' => true, 'newState' => 'notDownvoted', 'newScore' => $newScore]);   
+                    
+                    }
+                    else if($postLikeRepo->findOneBy(['user' => $this->getUser(), 'mediaPost' => $mediaPost])->getState() == "upvote" ) {
+
+                        $mediaPostLike = $postLikeRepo->findOneBy(['user' => $this->getUser(), 'mediaPost' => $mediaPost]);
+
+                        $mediaPostLike->setState("downvote");
+
+                        $entityManager->persist($mediaPostLike);
+                        $entityManager->flush();
+
+                        // recalcul DownVote/Upvote
+                        $newScore = $postLikeRepo->calcMediaPostScore($mediaPost);
+
+                        return new JsonResponse(['success' => true, 'newState' => 'downvoted', 'gameColor' => $media->getGame()->getColor(), 'newScore' => $newScore]);   
+                    }
                 }
             }
-
+            else {
+                return new JsonResponse(['success' => false, 'newState' => 'Vous ne pouvez pas downvoter vos commentaires', 'gameColor' => $topic->getGame()->getColor(), 'newScore' => $newScore]);   
+            }
         }
         else {
             return new JsonResponse(['success' => false, 'case' => 'logIn']);
         }
-    
+
     }
 
 

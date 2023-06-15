@@ -279,57 +279,64 @@ class TopicController extends AbstractController
             $topicPost = $topicPostRepo->find($id);
             $topic = $topicPost->getTopic();
 
-            // Si l'utilisateur n'a pas déjà upvoté 
-            if(count($postLikeRepo->findBy(['user'=>$this->getUser(), 'topicPost' =>$topicPost])) == 0) {
+            // Upvote possible que si pas auteur
+            if ($this->getUser() != $topicPost->getUser()) {
 
-                $topicPostLike = new PostLike;
+                // Si l'utilisateur n'a pas déjà upvoté 
+                if(count($postLikeRepo->findBy(['user'=>$this->getUser(), 'topicPost' =>$topicPost])) == 0) {
 
-                $topicPostLike->setUser($this->getUser());
-                $topicPostLike->setTopicPost($topicPost);
-                $topicPostLike->setState("upvote");
-    
-                $entityManager->persist($topicPostLike);
-                $entityManager->flush();
+                    $topicPostLike = new PostLike;
 
-                // recalcul DownVote/Upvote
-                $newScore = $postLikeRepo->calcTopicPostScore($topicPost);
-    
-                // JS FLASH: Votre upvote a été pris en compte
-                return new JsonResponse(['success' => true, 'newState' => 'upvoted', 'gameColor' => $topic->getGame()->getColor(), 'newScore' => $newScore]);   
-
-            }
-            // Si l'utilisateur a déjà upvoter le post: enleve l'upvote, s'il l'a déjà downvoté, upvote
-            else {
-
-                if($postLikeRepo->findOneBy(['user'=>$this->getUser(), 'topicPost' =>$topicPost])->getState() == "upvote" ) {
-
-                    $topicPostLike = $postLikeRepo->findOneBy(['user'=>$this->getUser(), 'topicPost' =>$topicPost]);
-
-                    $postLikeRepo->remove($topicPostLike, true);
-
-                    // recalcul DownVote/Upvote
-                    $newScore = $postLikeRepo->calcTopicPostScore($topicPost);
-
-                    // AJOUTER JS FLASH: $this->addFlash('success', 'Votre upvote a été retiré');
-                    return new JsonResponse(['success' => true, 'newState' => 'notUpvoted', 'newScore' => $newScore]);   
-
-                }
-                else if($postLikeRepo->findOneBy(['user'=>$this->getUser(), 'topicPost' =>$topicPost])->getState() == "downvote" ) {
-
-                    $topicPostLike = $postLikeRepo->findOneBy(['user'=>$this->getUser(), 'topicPost' =>$topicPost]);
-
+                    $topicPostLike->setUser($this->getUser());
+                    $topicPostLike->setTopicPost($topicPost);
                     $topicPostLike->setState("upvote");
-
+        
                     $entityManager->persist($topicPostLike);
                     $entityManager->flush();
 
                     // recalcul DownVote/Upvote
                     $newScore = $postLikeRepo->calcTopicPostScore($topicPost);
-
-                    // $this->addFlash('success', 'Votre upvote a été pris en compte');
+        
+                    // JS FLASH: Votre upvote a été pris en compte
                     return new JsonResponse(['success' => true, 'newState' => 'upvoted', 'gameColor' => $topic->getGame()->getColor(), 'newScore' => $newScore]);   
 
                 }
+                // Si l'utilisateur a déjà upvoter le post: enleve l'upvote, s'il l'a déjà downvoté, upvote
+                else {
+
+                    if($postLikeRepo->findOneBy(['user'=>$this->getUser(), 'topicPost' =>$topicPost])->getState() == "upvote" ) {
+
+                        $topicPostLike = $postLikeRepo->findOneBy(['user'=>$this->getUser(), 'topicPost' =>$topicPost]);
+
+                        $postLikeRepo->remove($topicPostLike, true);
+
+                        // recalcul DownVote/Upvote
+                        $newScore = $postLikeRepo->calcTopicPostScore($topicPost);
+
+                        // AJOUTER JS FLASH: $this->addFlash('success', 'Votre upvote a été retiré');
+                        return new JsonResponse(['success' => true, 'newState' => 'notUpvoted', 'newScore' => $newScore]);   
+
+                    }
+                    else if($postLikeRepo->findOneBy(['user'=>$this->getUser(), 'topicPost' =>$topicPost])->getState() == "downvote" ) {
+
+                        $topicPostLike = $postLikeRepo->findOneBy(['user'=>$this->getUser(), 'topicPost' =>$topicPost]);
+
+                        $topicPostLike->setState("upvote");
+
+                        $entityManager->persist($topicPostLike);
+                        $entityManager->flush();
+
+                        // recalcul DownVote/Upvote
+                        $newScore = $postLikeRepo->calcTopicPostScore($topicPost);
+
+                        // $this->addFlash('success', 'Votre upvote a été pris en compte');
+                        return new JsonResponse(['success' => true, 'newState' => 'upvoted', 'gameColor' => $topic->getGame()->getColor(), 'newScore' => $newScore]);   
+
+                    }
+                }
+            }
+            else {
+                return new JsonResponse(['success' => false, 'newState' => 'Vous ne pouvez pas upvoter vos commentaires', 'gameColor' => $topic->getGame()->getColor(), 'newScore' => $newScore]);   
             }
 
         }
@@ -355,64 +362,72 @@ class TopicController extends AbstractController
             $topicPost = $topicPostRepo->find($id);
             $topic = $topicPost->getTopic();
 
-            // Si l'utilisateur n'a pas déjà upvoté 
-            if(count($postLikeRepo->findBy(['user'=>$this->getUser(), 'topicPost' =>$topicPost])) == 0) {
+            // Upvote possible que si pas auteur
+            if ($this->getUser() != $topicPost->getUser()) {
 
-                $topicPostLike = new PostLike;
+                // Si l'utilisateur n'a pas déjà upvoté 
+                if(count($postLikeRepo->findBy(['user'=>$this->getUser(), 'topicPost' =>$topicPost])) == 0) {
 
-                $topicPostLike->setUser($this->getUser());
-                $topicPostLike->setTopicPost($topicPost);
-                $topicPostLike->setState("downvote");
-    
-                $entityManager->persist($topicPostLike);
-                $entityManager->flush();
+                    $topicPostLike = new PostLike;
 
-                // recalcul DownVote/Upvote
-                $newScore = $postLikeRepo->calcTopicPostScore($topicPost);
-    
-                // JS FLASH: Votre downvote a été pris en compte
-                return new JsonResponse(['success' => true, 'newState' => 'downvoted', 'gameColor' => $topic->getGame()->getColor(), 'newScore' => $newScore]);   
-
-            }
-            // Si l'utilisateur a déjà downvoter le post: enleve le downvote, s'il l'a déjà upvoté, le downvote
-            else {
-
-                if($postLikeRepo->findOneBy(['user'=>$this->getUser(), 'topicPost' =>$topicPost])->getState() == "downvote" ) {
-
-                    $topicPostLike = $postLikeRepo->findOneBy(['user'=>$this->getUser(), 'topicPost' =>$topicPost]);
-
-                    $postLikeRepo->remove($topicPostLike, true);
-                    // $topicPostRepo->flush();
-
-                    // recalcul DownVote/Upvote
-                    $newScore = $postLikeRepo->calcTopicPostScore($topicPost);
-
-                    // AJOUTER JS FLASH: $this->addFlash('success', 'Votre downvote a été retiré');
-                    return new JsonResponse(['success' => true, 'newState' => 'notDownvoted', 'newScore' => $newScore]);   
-
-                }
-                else if($postLikeRepo->findOneBy(['user'=>$this->getUser(), 'topicPost' =>$topicPost])->getState() == "upvote" ) {
-
-                    $topicPostLike = $postLikeRepo->findOneBy(['user'=>$this->getUser(), 'topicPost' =>$topicPost]);
-
+                    $topicPostLike->setUser($this->getUser());
+                    $topicPostLike->setTopicPost($topicPost);
                     $topicPostLike->setState("downvote");
-
+        
                     $entityManager->persist($topicPostLike);
                     $entityManager->flush();
 
                     // recalcul DownVote/Upvote
                     $newScore = $postLikeRepo->calcTopicPostScore($topicPost);
-
-                    // $this->addFlash('success', 'Votre upvote a été pris en compte');
+        
+                    // JS FLASH: Votre downvote a été pris en compte
                     return new JsonResponse(['success' => true, 'newState' => 'downvoted', 'gameColor' => $topic->getGame()->getColor(), 'newScore' => $newScore]);   
 
                 }
-            }
+                // Si l'utilisateur a déjà downvoter le post: enleve le downvote, s'il l'a déjà upvoté, le downvote
+                else {
 
+                    if($postLikeRepo->findOneBy(['user'=>$this->getUser(), 'topicPost' =>$topicPost])->getState() == "downvote" ) {
+
+                        $topicPostLike = $postLikeRepo->findOneBy(['user'=>$this->getUser(), 'topicPost' =>$topicPost]);
+
+                        $postLikeRepo->remove($topicPostLike, true);
+                        // $topicPostRepo->flush();
+
+                        // recalcul DownVote/Upvote
+                        $newScore = $postLikeRepo->calcTopicPostScore($topicPost);
+
+                        // AJOUTER JS FLASH: $this->addFlash('success', 'Votre downvote a été retiré');
+                        return new JsonResponse(['success' => true, 'newState' => 'notDownvoted', 'newScore' => $newScore]);   
+
+                    }
+                    else if($postLikeRepo->findOneBy(['user'=>$this->getUser(), 'topicPost' =>$topicPost])->getState() == "upvote" ) {
+
+                        $topicPostLike = $postLikeRepo->findOneBy(['user'=>$this->getUser(), 'topicPost' =>$topicPost]);
+
+                        $topicPostLike->setState("downvote");
+
+                        $entityManager->persist($topicPostLike);
+                        $entityManager->flush();
+
+                        // recalcul DownVote/Upvote
+                        $newScore = $postLikeRepo->calcTopicPostScore($topicPost);
+
+                        // $this->addFlash('success', 'Votre upvote a été pris en compte');
+                        return new JsonResponse(['success' => true, 'newState' => 'downvoted', 'gameColor' => $topic->getGame()->getColor(), 'newScore' => $newScore]);   
+
+                    }
+                }
+            }
+            else {
+                return new JsonResponse(['success' => false, 'newState' => 'Vous ne pouvez pas downvoter vos commentaires', 'gameColor' => $topic->getGame()->getColor(), 'newScore' => $newScore]);   
+    
+            }
         }
         else {
             return new JsonResponse(['success' => false, 'case' => 'logIn']);
         }
+
     
     }
 

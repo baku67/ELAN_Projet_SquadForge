@@ -216,11 +216,14 @@
                                     {% endif %}
                                 {% endfor %}
 
+                                {# Upvote/Downvote que si pas auteur #}
                                 {# Upvote Asynch #}
-                                {% if isUpvoted %}
-                                    <span class="upMediaPostBtn" mediaPostId="{{ post.id }}" id="mup{{ post.id }}"><i class="fa-solid fa-caret-up" style="color:{{ media.game.color }}"></i></span>
-                                {% else %}
-                                    <span class="upMediaPostBtn" mediaPostId="{{ post.id }}" id="mup{{ post.id }}"><i class="fa-solid fa-caret-up"></i></span>
+                                {% if app.user != post.user %}
+                                    {% if isUpvoted %}
+                                        <span class="upMediaPostBtn" mediaPostId="{{ post.id }}" id="mup{{ post.id }}"><i class="fa-solid fa-caret-up" style="color:{{ media.game.color }}"></i></span>
+                                    {% else %}
+                                        <span class="upMediaPostBtn" mediaPostId="{{ post.id }}" id="mup{{ post.id }}"><i class="fa-solid fa-caret-up"></i></span>
+                                    {% endif %}
                                 {% endif %}
 
                                 {# Score calc #}
@@ -231,10 +234,12 @@
                                 {% endif %}
                                 
                                 {# Down #}
-                                {% if isDownvoted %}
-                                    <span class="downMediaPostBtn" mediaPostId="{{ post.id }}" id="mdown{{ post.id }}"><i class="fa-solid fa-caret-down" style="color:{{ media.game.color }}"></i></span>
-                                {% else %}
-                                    <span class="downMediaPostBtn" mediaPostId="{{ post.id }}" id="mdown{{ post.id }}"><i class="fa-solid fa-caret-down"></i></span>
+                                {% if app.user != post.user %}
+                                    {% if isDownvoted %}
+                                        <span class="downMediaPostBtn" mediaPostId="{{ post.id }}" id="mdown{{ post.id }}"><i class="fa-solid fa-caret-down" style="color:{{ media.game.color }}"></i></span>
+                                    {% else %}
+                                        <span class="downMediaPostBtn" mediaPostId="{{ post.id }}" id="mdown{{ post.id }}"><i class="fa-solid fa-caret-down"></i></span>
+                                    {% endif %}
                                 {% endif %}
 
                             </div>

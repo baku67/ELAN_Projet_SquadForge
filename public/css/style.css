@@ -1,5 +1,5 @@
 :root {
-    --primary-color: #00d279;
+    --primary-color: #00d29c;
     --background-color: #232323;
     --sectionBg-color: #363636;
     --white: #D9D9D9;
@@ -143,6 +143,9 @@ nav {
 .authenticationDiv {
     position:absolute; 
     display:inline-flex; 
+    background-color: var(--primary-color);
+    clip-path: polygon(0 0, 100% 0, 100% 100%, 15% 100%);
+    padding-left: 20px;
     z-index: 10;
     top:0px; 
     right:0px;

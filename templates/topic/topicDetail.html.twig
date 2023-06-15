@@ -183,11 +183,14 @@
                                 {% endif %}
                             {% endfor %}
 
+                            {# Upvote/Downvote que si pas auteur #}
                             {# Upvote Asynch #}
-                            {% if isUpvoted %}
-                                <span class="upTopicPostBtn" postId="{{ post.id }}" id="up{{ post.id }}"><i class="fa-solid fa-caret-up" style="color:{{ topic.game.color }}"></i></span>
-                            {% else %}
-                                <span class="upTopicPostBtn" postId="{{ post.id }}" id="up{{ post.id }}"><i class="fa-solid fa-caret-up"></i></span>
+                            {% if app.user != post.user %}
+                                {% if isUpvoted %}
+                                    <span class="upTopicPostBtn" postId="{{ post.id }}" id="up{{ post.id }}"><i class="fa-solid fa-caret-up" style="color:{{ topic.game.color }}"></i></span>
+                                {% else %}
+                                    <span class="upTopicPostBtn" postId="{{ post.id }}" id="up{{ post.id }}"><i class="fa-solid fa-caret-up"></i></span>
+                                {% endif %}
                             {% endif %}
 
                             {# Score calc #}
@@ -196,12 +199,14 @@
                             {% else %}
                                 <span id="topicPostScore{{ post.id }}" style="text-align:center; font-weight:900;">{{ post.score }}</span>
                             {% endif %}
-                            
+                                
                             {# Down #}
-                            {% if isDownvoted %}
-                                <span class="downTopicPostBtn" postId="{{ post.id }}" id="down{{ post.id }}"><i class="fa-solid fa-caret-down" style="color:{{ topic.game.color }}"></i></span>
-                            {% else %}
-                                <span class="downTopicPostBtn" postId="{{ post.id }}" id="down{{ post.id }}"><i class="fa-solid fa-caret-down"></i></span>
+                            {% if app.user != post.user %}
+                                {% if isDownvoted %}
+                                    <span class="downTopicPostBtn" postId="{{ post.id }}" id="down{{ post.id }}"><i class="fa-solid fa-caret-down" style="color:{{ topic.game.color }}"></i></span>
+                                {% else %}
+                                    <span class="downTopicPostBtn" postId="{{ post.id }}" id="down{{ post.id }}"><i class="fa-solid fa-caret-down"></i></span>
+                                {% endif %}
                             {% endif %}
 
                         </div>
