@@ -24,6 +24,11 @@ class CandidatureType extends AbstractType
                     'rows' => 3,
                 ]
             ])
+            // ->add('groupQuestions', CollectionType::class, [
+            //     'entry_type' => GroupQuestionsType::class,
+            //     'allow_add' => true,
+            //     'by_reference' => false,
+            // ])
             ->add('submit', SubmitType::class, [
                 'label' => 'Envoyer&nbsp;<i class="fa-solid fa-paper-plane"></i>',
                 'label_html' => true,

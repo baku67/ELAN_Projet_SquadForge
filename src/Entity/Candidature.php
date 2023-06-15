@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\CandidatureRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Form\FormTypeInterface;
@@ -29,6 +31,14 @@ class Candidature
 
     #[ORM\Column(length: 50)]
     private ?string $status = null;
+
+    #[ORM\OneToMany(mappedBy: 'candidature', targetEntity: GroupAnswer::class)]
+    private Collection $groupAnswers;
+
+    public function __construct()
+    {
+        $this->groupAnswers = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -91,6 +101,36 @@ class Candidature
     public function setStatus(string $status): self
     {
         $this->status = $status;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, GroupAnswer>
+     */
+    public function getGroupAnswers(): Collection
+    {
+        return $this->groupAnswers;
+    }
+
+    public function addGroupAnswer(GroupAnswer $groupAnswer): self
+    {
+        if (!$this->groupAnswers->contains($groupAnswer)) {
+            $this->groupAnswers->add($groupAnswer);
+            $groupAnswer->setCandidature($this);
+        }
+
+        return $this;
+    }
+
+    public function removeGroupAnswer(GroupAnswer $groupAnswer): self
+    {
+        if ($this->groupAnswers->removeElement($groupAnswer)) {
+            // set the owning side to null (unless already changed)
+            if ($groupAnswer->getCandidature() === $this) {
+                $groupAnswer->setCandidature(null);
+            }
+        }
 
         return $this;
     }

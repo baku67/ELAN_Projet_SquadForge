@@ -38,7 +38,7 @@
 
         <p class="groupDescription">
             <i class="fa-solid fa-quote-left"></i>
-            {{ group.description }}
+            <span style="font-family:'K2D', sans-serif;">{{ group.description|capitalize }}</span>
             <i class="fa-solid fa-quote-right"></i>
         </p>
         <p class="groupLeader">Leader: <span>{{ group.leader.pseudo }}</span></p>
@@ -298,7 +298,7 @@
                 </div>
 
                 <h5>Message de l'offre</h5>
-                <p style="font-family:'K2D';">{{ group.candidatureDescription }}</p>
+                <p style="font-family:'K2D';">{{ group.candidatureDescription|capitalize }}</p>
 
                 <h5>Questions posés</h5> 
                 {# Liste des questions #}
@@ -339,7 +339,7 @@
         {% else %}
 
             {# si candidature en attente #}
-            {% if waitingCandidature %}
+            {% if waitingCandidature is not null and waitingCandidature %}
                 <span>Candidature en attente</span>
             {% else %}
                 <a href="{{ path('app_showCandidatureForm',{'groupId': group.id}) }}">Candidater</p>

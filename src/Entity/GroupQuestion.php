@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\GroupQuestionRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -22,6 +24,14 @@ class GroupQuestion
 
     #[ORM\ManyToOne(inversedBy: 'groupQuestions')]
     private ?Group $groupe = null;
+
+    #[ORM\OneToMany(mappedBy: 'groupQuestion', targetEntity: GroupAnswer::class)]
+    private Collection $groupAnswers;
+
+    public function __construct()
+    {
+        $this->groupAnswers = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -60,6 +70,36 @@ class GroupQuestion
     public function setGroupe(?Group $groupe): self
     {
         $this->groupe = $groupe;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, GroupAnswer>
+     */
+    public function getGroupAnswers(): Collection
+    {
+        return $this->groupAnswers;
+    }
+
+    public function addGroupAnswer(GroupAnswer $groupAnswer): self
+    {
+        if (!$this->groupAnswers->contains($groupAnswer)) {
+            $this->groupAnswers->add($groupAnswer);
+            $groupAnswer->setGroupQuestion($this);
+        }
+
+        return $this;
+    }
+
+    public function removeGroupAnswer(GroupAnswer $groupAnswer): self
+    {
+        if ($this->groupAnswers->removeElement($groupAnswer)) {
+            // set the owning side to null (unless already changed)
+            if ($groupAnswer->getGroupQuestion() === $this) {
+                $groupAnswer->setGroupQuestion(null);
+            }
+        }
 
         return $this;
     }

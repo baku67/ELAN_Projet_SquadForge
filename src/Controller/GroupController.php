@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Candidature;
 use App\Entity\Group;
 use App\Entity\GroupQuestion;
+use App\Entity\GroupAnswer;
 use App\Entity\Game;
 use App\Entity\User;
 use App\Form\GroupType;
@@ -239,11 +240,7 @@ class GroupController extends AbstractController
 
                 $entityManager->flush(); 
 
-                return $this->render('group/groupDetails.html.twig', [
-                    'group' => $group,
-                    'gameFrom' => $game,
-                    'members' => $members,
-                ]);
+                return $this->redirectToRoute('app_groupDetails', ['groupId' => $group->getId()]);
             }
         // Si apprès le leave, aucun membre: suppr le groupe
         } 
@@ -540,6 +537,7 @@ class GroupController extends AbstractController
         $groupRepo = $entityManager->getRepository(Group::class);
         $group = $groupRepo->find($groupId);
         $gameFrom = $group->getGame();
+        $groupQuestions = $group->getGroupQuestions();
 
         // check si pas deja membre
         if( !$group->getMembers()->contains($this->getUser()) ) {
@@ -559,6 +557,18 @@ class GroupController extends AbstractController
 
                         $candidature = $form->getData();
 
+                        // Associez chaque GroupAnswer à chaque GroupQuestion (candidature form)
+                        foreach ($groupQuestions as $groupQuestion) {
+                            $idQuestion = $groupQuestion->getId();
+                            $answer = new GroupAnswer;
+                            $answer->setCandidature($candidature);
+                            // $answer->setGroupQuestion($groupQuestion);
+                            $candidature->addGroupAnswer($answer);
+
+                            $entityManager->persist($answer);
+                        }
+                        // Ou alors créer un groupReponse pour chaque input à l'ancienne + verif si exite '
+
                         $candidature->setUser($this->getUser());
                         $candidature->setGroupe($group);
                         $candidature->setCreationDate(new \Datetime());
@@ -576,6 +586,7 @@ class GroupController extends AbstractController
                     'formCandidature' => $form->createView(),
                     'group' => $group,
                     'gameFrom' => $gameFrom,
+                    'groupQuestions' => $groupQuestions,
                 ]);
 
             }

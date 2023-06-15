@@ -227,10 +227,18 @@
                                 {% endif %}
 
                                 {# Score calc #}
-                                {% if post.score < 0 %}
-                                    <span id="mediaPostScore{{ post.id }}" style="text-align:center; color:red; font-weight:900;">{{ post.score }}</span>
+                                {% if app.user != post.user %}
+                                    {% if post.score < 0 %}
+                                        <span id="mediaPostScore{{ post.id }}" style="text-align:center; color:red; font-weight:900;">{{ post.score }}</span>
+                                    {% else %}
+                                        <span id="mediaPostScore{{ post.id }}" style="text-align:center; font-weight:900;">{{ post.score }}</span>
+                                    {% endif %}
                                 {% else %}
-                                    <span id="mediaPostScore{{ post.id }}" style="text-align:center; font-weight:900;">{{ post.score }}</span>
+                                    {% if post.score < 0 %}
+                                        <span class="verticalCenter" id="mediaPostScore{{ post.id }}" style="text-align:center; color:red; font-weight:900;">{{ post.score }}</span>
+                                    {% else %}
+                                        <span class="verticalCenter" id="mediaPostScore{{ post.id }}" style="text-align:center; font-weight:900;">{{ post.score }}</span>
+                                    {% endif %}
                                 {% endif %}
                                 
                                 {# Down #}

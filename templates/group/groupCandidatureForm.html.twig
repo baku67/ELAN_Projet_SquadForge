@@ -34,13 +34,38 @@
 
         <h2>Candidature</h2>
 
+        {# Mix CandidatureType et GroupQuestion #}
         {{ form_start(formCandidature) }}
 
             {{ form_label(formCandidature.text, 'Introduction')}}
             {{ form_widget(formCandidature.text) }} 
 
-        {{ form_end(formCandidature) }}
+            {# Pour chaque question: afficher un fomulaire GroupRéponseType (comment link l'entité Réponse à groupQuestion) #}
+            {% if groupQuestions is not null %}
 
+                <h3>Questions</h3>
+
+                <div class="questionsContainer">
+
+                    {% for question in groupQuestions %}
+
+                        <div class="questionLine">
+                            <label for="question{{ question.id }}" style="font-family:'K2D', sans-serif;">{{ question.text|capitalize }}</label>
+                            {% if question.required %}
+                                <span style="color:#b43a3a; font-size:0.8em; margin-left:5px">
+                                    <i class="fa-solid fa-star-of-life"></i>
+                                </span>
+                            {% endif %}
+                        </div>
+                        
+                        <input type="text" id="question{{ question.id }}" name="question{{ question.id }}" placeholder="Entrez votre réponse..." class="form-control" />
+                    
+                    {% endfor %}
+                </div>
+            {% endif %}
+
+        {{ form_end(formCandidature) }}
+        
     </div>
 
 

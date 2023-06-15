@@ -1,5 +1,7 @@
 En cours: Candidatures: questions/réponse + affichage liste candidatures (GroupDetai et Profil+status) + refus/validation candidature leader
 
+LeaderGroup: changer nbr Place + handle nbrMembers (à voir si modes de jeu) 
+
 Tags de Medias (définis, table pour pouvoir ajouter facilement en tant que modo) (+Filtres disponibles)
 
 Mettre des anims de clip-path partout :onHover + :onActive (pour mobile)
