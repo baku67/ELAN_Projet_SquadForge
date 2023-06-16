@@ -26,12 +26,27 @@ class CandidatureController extends AbstractController
     #[Route('/candidatureList/{groupId}', name: 'app_candidatureList')]
     public function candidatureList(EntityManagerInterface $entityManager, int $groupId, Request $request): Response
     {
+        $groupRepo = $entityManager->getRepository(Group::class);
+        $group = $groupRepo->find($groupId);
+        $gameFrom = $group->getGame();
+        $candidatures = $group->getCandidatures();
 
         // if is leader
+        if ($this->getUser() == $group->getLeader() ) {
 
-        return $this->render('candidature/candidatureList.html.twig', [
-            'controller_name' => 'CandidatureController',
-        ]);
+            return $this->render('candidature/candidatureList.html.twig', [
+                'candidatures' => $candidatures,
+                'group' => $group,
+                'gameFrom' => $gameFrom,
+
+            ]);
+        }
+        else {
+            $this->addFlash('error', 'Vous devez être le leader pour accéder à cette page');
+            return $this->redirectToRoute('app_groupDetails', ['groupId' => $group->getId()]);
+        }
+
+        
     }
 
     
@@ -43,13 +58,21 @@ class CandidatureController extends AbstractController
         $candidature = $candidatureRepo->find($candidatureId);
         $group = $candidature->getGroupe();
 
-        $candidatureRepo->remove($candidature);
-        $entityManager->flush();
+        // Vérif si userCo est bien auteur de la candidature
+        if ($candidature->getUser() == $this->getUser()) {
 
-        // verif if is candidature et si bien l'auteur co
+            $candidatureRepo->remove($candidature);
+            $entityManager->flush();
 
-        $this->addFlash('success', 'Candidature annulée');
-        return $this->redirectToRoute('app_groupDetails', ['groupId' => $group->getId()]);
+            $this->addFlash('success', 'Candidature annulée');
+            return $this->redirectToRoute('app_groupDetails', ['groupId' => $group->getId()]);
+        }
+        else {
+            $this->addFlash('error', 'Vous devez être l\'auteur de la candidature pour l\'annuler');
+            return $this->redirectToRoute('app_groupDetails', ['groupId' => $group->getId()]);
+        }
+
+        
     }
 
 
