@@ -297,6 +297,8 @@
                     <h3 class="gameSubTitle noMarginBottom">Candidature</h3>
                 </div>
 
+                <a href="{{ path('app_candidatureList',{'groupId':group.id}) }}" class="candidaturesListBtn" style="border-color: {{ gameFrom.color }}", onmouseover="this.style.backgroundColor = '{{ gameFrom.color }}';" onmouseout="this.style.backgroundColor = 'rgba(0,0,0,0)';">En attente ({{ candidatureCount }})</a>
+
                 <h5>Message de l'offre</h5>
                 <p style="font-family:'K2D';">{{ group.candidatureDescription|capitalize }}</p>
 
@@ -304,14 +306,14 @@
                 {# Liste des questions #}
                 <div class="questionsContainer">
                 {% for question in questions %}
-                    <div class="questionLine">
-                        <div style="display:inline-flex">
+                    <div class="questionLineList">
+                        <div style="display:inline-flex; line-height:0;">
                             <p>{{ question.text }}</p>
                             {% if question.required %}
                                 <span class="requiredStar"><i class="fa-solid fa-star-of-life"></i></span>
                             {% endif %}
                         </div>
-                        <a href="{{ path('app_deleteGroupQuestion',{'groupId': group.id, 'questionId': question.id}) }}" class="deleteQuestionBtn"><i class="fa-solid fa-trash"></i></a>
+                        <a class="deleteQuestion" href="{{ path('app_deleteGroupQuestion',{'groupId': group.id, 'questionId': question.id}) }}" class="deleteQuestionBtn"><i class="fa-solid fa-trash"></i></a>
                     </div>
                 {% endfor %}
                 </div>
@@ -333,14 +335,15 @@
 
             {% endif %}
 
-            <br>
             <a id="leaveGroupBtn" href="{{ path('app_leaveGroup', {'groupId': group.id} )}}">Quitter le groupe</a>
-
+            
         {% else %}
 
             {# si candidature en attente #}
             {% if waitingCandidature is not null and waitingCandidature %}
                 <span>Candidature en attente</span>
+                {# Récup l'id de la candidature (findBy User/group + getOneResult) #}
+                <a href="{{ path('app_cancelCandidature',{'candidatureId':candidature.id}) }}">Annuler</a>
             {% else %}
                 <a href="{{ path('app_showCandidatureForm',{'groupId': group.id}) }}">Candidater</p>
             {% endif %}

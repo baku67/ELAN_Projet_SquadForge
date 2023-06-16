@@ -43,13 +43,13 @@
         {# Mix CandidatureType et GroupQuestion #}
         {{ form_start(formCandidature) }}
 
-            {{ form_label(formCandidature.text)}}
+            <h5>{{ form_label(formCandidature.text)}}</h5>
             {{ form_widget(formCandidature.text) }} 
 
             {# Pour chaque question: afficher un fomulaire GroupRéponseType (comment link l'entité Réponse à groupQuestion) #}
             {% if groupQuestions is not null %}
 
-                <h3>Questions</h3>
+                <h5>Questions</h5>
 
                 <div class="questionsContainer">
 
@@ -82,7 +82,7 @@
                 </div>
             {% endif %}
 
-            <div class="gameTeamBtn gameTeamBtn2 candidatureSubmitBtn" style="margin:0 auto !important;">
+            <div class="gameTeamBtn candidatureSubmitBtn" style="margin:0 auto !important;">
                 {{ form_row(formCandidature.submit, 
                     { 
                         'label': 'Envoyer&nbsp;<i class="fa-solid fa-paper-plane"></i>', 

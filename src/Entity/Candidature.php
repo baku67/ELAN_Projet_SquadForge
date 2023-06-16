@@ -32,7 +32,7 @@ class Candidature
     #[ORM\Column(length: 50)]
     private ?string $status = null;
 
-    #[ORM\OneToMany(mappedBy: 'candidature', targetEntity: GroupAnswer::class)]
+    #[ORM\OneToMany(mappedBy: 'candidature', targetEntity: GroupAnswer::class, cascade: ['remove'])]
     private Collection $groupAnswers;
 
     public function __construct()

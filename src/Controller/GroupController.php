@@ -168,10 +168,12 @@ class GroupController extends AbstractController
         $group = $groupRepo->find($groupId);
         $members = $group->getMembers();
         $questions = $group->getGroupQuestions();
+        $candidatureCount = count($group->getCandidatures());
 
         $candidatureRepo = $entityManager->getRepository(Candidature::class);
         // $waitingCandidature = $candidatureRepo->findIfWaitingCandidature($this->getUser(), $group);
         $waitingCandidatures = count($candidatureRepo->findBy(["user" => $this->getUser(), "groupe" => $group, "status" => "pending"]));
+        $candidature = $candidatureRepo->findOneBy(["user" => $this->getUser(), "groupe" => $group]);
         if ($waitingCandidatures > 0) {
             $waitingCandidature = true;
         }
@@ -190,6 +192,8 @@ class GroupController extends AbstractController
             'members' => $members,
             'questions' => $questions,
             'waitingCandidature' => $waitingCandidature,
+            'candidatureCount' => $candidatureCount,
+            'candidature' => $candidature,
         ]);
     }
 
@@ -530,93 +534,6 @@ class GroupController extends AbstractController
     }
 
 
-    // Affichage de la page de candidature (form)
-    #[Route('/showCandidatureForm/{groupId}', name: 'app_showCandidatureForm')]
-    public function showCandidatureForm(EntityManagerInterface $entityManager, int $groupId, Request $request): Response
-    {
-        $groupRepo = $entityManager->getRepository(Group::class);
-        $group = $groupRepo->find($groupId);
-        $gameFrom = $group->getGame();
-        $groupQuestions = $group->getGroupQuestions();
-
-        // check si pas deja membre
-        if( !$group->getMembers()->contains($this->getUser()) ) {
-
-            // check si candidature existe deja 
-            $candidatureRepo = $entityManager->getRepository(Candidature::class);
-            $countExist = count($candidatureRepo->findBy(["user" => $this->getUser(), "groupe" => $group]));
-            if ($countExist == 0) {
-
-                $candidature = new Candidature;
-                $form = $this->createForm(CandidatureType::class, $candidature);
-                $form -> handleRequest($request);
-
-                // Vérifs/Filtres
-                if($form->isSubmitted()) {
-                    if($form->isValid()) {
-
-                        $candidature = $form->getData();
-
-                        // Vérif si Texte de candidature répondu (obligatoire) (testé)
-                        if($candidature->getText() == "") {
-                            $this->addFlash('error', 'Vous n\'avez pas rempli votre introduction');
-                            return $this->redirectToRoute('app_showCandidatureForm', ['groupId' => $groupId]); 
-                        }
-
-                        // Associez chaque GroupAnswer à chaque GroupQuestion (candidature form)
-                        $index = 0;
-                        foreach ($groupQuestions as $groupQuestion) {
-
-                            $index++;
-                            $idQuestion = $groupQuestion->getId();
-
-                            // Vérif si questions obligatoires répondues (testé)
-                            if ($groupQuestion->isRequired() && $request->request->get('answer' . $index) == "" ) {
-                                $this->addFlash('error', 'Vous n\'avez pas répondu à toutes les questions obligatoires');
-                                return $this->redirectToRoute('app_showCandidatureForm', ['groupId' => $groupId]); 
-                            }
-                            
-                            $answer = new GroupAnswer;
-                            $answer->setCandidature($candidature);
-                            $answer->setText($request->request->get('answer' . $index));
-                            $answer->setGroupQuestion($groupQuestion);
-                            $candidature->addGroupAnswer($answer);
-
-                            $entityManager->persist($answer);
-                        }
-                        // Ou alors créer un groupReponse pour chaque input à l'ancienne + verif si exite '
-
-                        $candidature->setUser($this->getUser());
-                        $candidature->setGroupe($group);
-                        $candidature->setCreationDate(new \Datetime());
-                        $candidature->setStatus("pending");
-
-                        $entityManager->persist($candidature);
-                        $entityManager->flush();
-
-                        $this->addFlash('success', 'Votre candidature a bien été envoyée');
-                        return $this->redirectToRoute('app_groupDetails', ['groupId' => $groupId]); 
-                    }
-                }
-
-                return $this->render('group/groupCandidatureForm.html.twig', [
-                    'formCandidature' => $form->createView(),
-                    'group' => $group,
-                    'gameFrom' => $gameFrom,
-                    'groupQuestions' => $groupQuestions,
-                ]);
-
-            }
-            else {
-                $this->addFlash('error', 'Vous avez déjà candidaté à cette team');
-                return $this->redirectToRoute('app_groupDetails', ['groupId' => $groupId]);
-            }
-        }
-        else {
-            $this->addFlash('error', 'Vous êtes déjà membre de ce groupe ou n\'êtes pas connecté');
-            return $this->redirectToRoute('app_groupDetails', ['groupId' => $groupId]);
-        }
-    }
 
 
 
