@@ -17,6 +17,8 @@ class CandidatureType extends AbstractType
     {
         $builder
             ->add('text', TextareaType::class, [
+                'label' => 'Introduction <span class="requiredStar"><i class="fa-solid fa-star-of-life"></i></span>',
+                'label_html' => true,
                 'required' => true,
                 'attr' => [
                     "class" => "form-control",
@@ -32,7 +34,9 @@ class CandidatureType extends AbstractType
             ->add('submit', SubmitType::class, [
                 'label' => 'Envoyer&nbsp;<i class="fa-solid fa-paper-plane"></i>',
                 'label_html' => true,
-                'attr' => ["class" => "btn btn-primary"]
+                'attr' => [
+                    "class" => "candidatureSubmitBg"
+                ]
             ]);
             // ->add('creation_date')
             // ->add('groupe')

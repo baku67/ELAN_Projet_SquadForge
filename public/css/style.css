@@ -546,43 +546,88 @@ nav {
 }
 
 
+.candidatureTeamName {
+        text-align: center;
+        width: fit-content;
+        margin: 0 auto;
+
+        color: black;
+        padding-left: 61px;
+        padding-right: 16px;
+        padding-top: 2px;
+        padding-bottom: 2px;
+        clip-path: polygon(10% 0, 100% 0, 100% 100%, 0% 100%);
+        background-color: #f1f1f1;
+        border-right: 30px solid red;
+}
+
+
 .gameTeamBtn {
+    position: relative;
     padding: 25px 35px;
     margin: 1px;
     border-radius: 0px;
     background-color: rgb(69 69 69);
     color: white;
     cursor: pointer;
-
     overflow: hidden;
     transition: all 0.4s;
-}
-.gameTeamBtn:hover {
+  }
+  
+  .gameTeamBtn:hover {
     color: black;
-}
-
-.teamBtnBg {
+  }
+  
+  
+  .candidatureSubmitBtn {
+    z-index: 2;
+    width: 200px;
+    height: 60px;
+  }
+  
+  .teamBtnBg {
     position: absolute;
-    /* z-index: 10; */
-
+    z-index: 1;
     width: 240px;
     height: 181px;
     transform: translate(-38px, -60px);
     clip-path: polygon(0% 0, 0 0, 0 100%, 0 100%);
     transition: all 0.4s;
-}
-.gameTeamBtn:hover .teamBtnBg {
+  }
+  
+  .gameTeamBtn:hover .teamBtnBg {
     clip-path: polygon(0% 0, 100% 0, 81% 100%, 0 100%);
-}
-
-.gameTeamBtn1 {
+  }
+  
+  .gameTeamBtn1 {
     clip-path: polygon(7% 0px, 100% 0px, 93% 100%, 0px 100%);
-}
-.gameTeamBtn2 {
+  }
+  
+  .gameTeamBtn2 {
     clip-path: polygon(9% 0px, 100% 0px, 91% 100%, 0px 100%);
     position: relative;
     transform: translateX(-18px);
-}
+  }
+  
+  .candidatureSubmitBg {
+    position: absolute;
+    z-index: 3;
+    color: black;
+    width: 240px;
+    height: 181px;
+    transform: translate(-54px, -84px);
+    clip-path: polygon(0% 0, 0 0, 0 100%, 0 100%);
+    transition: all 0.4s;
+  }
+  
+  .gameTeamBtn:hover .candidatureSubmitBg {
+    clip-path: polygon(0% 0, 100% 0, 81% 100%, 0 100%);
+  }
+  
+  .gameTeamBtn:hover .candidatureSubmitBtn {
+    color: white;
+  }
+
 
 
 
@@ -1279,12 +1324,23 @@ cursor: pointer;
     margin: 20px auto;
 }
 .questionLine {
-    background-color: #2b2b2b;
     font-family: 'K2D', sans-serif;
-    display:inline-flex;
     justify-content: space-between;
     margin-top: 1px;
-    padding: 10px 10px 0 10px;
+    padding: 10px 10px 5px 5px;
+}
+.requiredStar {
+    color: #b43a3a;
+    font-size: 0.7em;
+    margin-left: 5px;
+    position: relative;
+    bottom: 4px;
+}
+
+
+.questionAndAnswer {
+    margin: 2px auto;
+    width: 100%;
 }
 
 .deleteQuestionBtn {

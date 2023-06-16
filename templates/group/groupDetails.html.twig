@@ -308,7 +308,7 @@
                         <div style="display:inline-flex">
                             <p>{{ question.text }}</p>
                             {% if question.required %}
-                                <span style="color:#b43a3a; font-size:0.8em; margin-left:5px"><i class="fa-solid fa-star-of-life"></i></span>
+                                <span class="requiredStar"><i class="fa-solid fa-star-of-life"></i></span>
                             {% endif %}
                         </div>
                         <a href="{{ path('app_deleteGroupQuestion',{'groupId': group.id, 'questionId': question.id}) }}" class="deleteQuestionBtn"><i class="fa-solid fa-trash"></i></a>

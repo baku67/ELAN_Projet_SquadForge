@@ -36,14 +36,14 @@
 
         <br>
 
-        <h3 style="text-align:center; width:100%;">{{ group.title }}</h3>
+        <h3 class="candidatureTeamName" style="border-color:{{ gameFrom.color }}">{{ group.title }}</h3>
 
         <br>
 
         {# Mix CandidatureType et GroupQuestion #}
         {{ form_start(formCandidature) }}
 
-            {{ form_label(formCandidature.text, 'Introduction')}}
+            {{ form_label(formCandidature.text)}}
             {{ form_widget(formCandidature.text) }} 
 
             {# Pour chaque question: afficher un fomulaire GroupRéponseType (comment link l'entité Réponse à groupQuestion) #}
@@ -65,22 +65,45 @@
 
                         {% set index = index + 1 %}
                         
-                        <div class="questionLine">
-                            <label for="question{{ question.id }}" style="font-family:'K2D', sans-serif;">{{ question.text|capitalize }}</label>
-                            {% if question.required %}
-                                <span style="color:#b43a3a; font-size:0.8em; margin-left:5px">
-                                    <i class="fa-solid fa-star-of-life"></i>
-                                </span>
-                            {% endif %}
+                        <div class="questionAndAnswer">
+                            <div class="questionLine">
+                                <label for="question{{ question.id }}" style="font-family:'K2D', sans-serif;">{{ question.text|capitalize }}</label>
+                                {% if question.required %}
+                                    <span class="requiredStar">
+                                        <i class="fa-solid fa-star-of-life"></i>
+                                    </span>
+                                {% endif %}
+                            </div>
+                            
+                            <input {{ required }} type="text" id="answer{{ index }}" name="answer{{ index }}" placeholder="Entrez votre réponse..." class="form-control" />
                         </div>
-                        
-                        <input {{ required }} type="text" id="answer{{ index }}" name="answer{{ index }}" placeholder="Entrez votre réponse..." class="form-control" />
-                    
+
                     {% endfor %}
                 </div>
             {% endif %}
 
+            <div class="gameTeamBtn gameTeamBtn2 candidatureSubmitBtn" style="margin:0 auto !important;">
+                {{ form_row(formCandidature.submit, 
+                    { 
+                        'label': 'Envoyer&nbsp;<i class="fa-solid fa-paper-plane"></i>', 
+                        'label_html' : true, 
+                        'id': 'candidatureSubmitBg',
+                        'attr': { 
+                            'class': 'candidatureSubmitBg', 
+                        } 
+                    }) 
+                }}
+            </div>
+
         {{ form_end(formCandidature) }}
+
+        {# Couleur du bouton adapté au jeu #}
+        <span id="gameColor" hidden>{{ gameFrom.color }}</span>
+        <script>
+            window.onload = function() {
+                document.getElementById('candidatureSubmitBg').style.backgroundColor = document.getElementById('gameColor').textContent;
+            }
+        </script>
         
     </div>
 
