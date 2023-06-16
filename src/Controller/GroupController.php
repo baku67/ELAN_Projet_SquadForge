@@ -557,11 +557,24 @@ class GroupController extends AbstractController
 
                         $candidature = $form->getData();
 
+                        // Vérif si Texte de candidature répondu (obligatoire) (testé)
+                        if($candidature->getText() == "") {
+                            $this->addFlash('error', 'Vous n\'avez pas rempli votre introduction');
+                            return $this->redirectToRoute('app_showCandidatureForm', ['groupId' => $groupId]); 
+                        }
+
                         // Associez chaque GroupAnswer à chaque GroupQuestion (candidature form)
                         $index = 0;
                         foreach ($groupQuestions as $groupQuestion) {
+
                             $index++;
                             $idQuestion = $groupQuestion->getId();
+
+                            // Vérif si questions obligatoires répondues (testé)
+                            if ($groupQuestion->isRequired() && $request->request->get('answer' . $index) == "" ) {
+                                $this->addFlash('error', 'Vous n\'avez pas répondu à toutes les questions obligatoires');
+                                return $this->redirectToRoute('app_showCandidatureForm', ['groupId' => $groupId]); 
+                            }
                             
                             $answer = new GroupAnswer;
                             $answer->setCandidature($candidature);

@@ -34,6 +34,12 @@
 
         <h2>Candidature</h2>
 
+        <br>
+
+        <h3 style="text-align:center; width:100%;">{{ group.title }}</h3>
+
+        <br>
+
         {# Mix CandidatureType et GroupQuestion #}
         {{ form_start(formCandidature) }}
 
@@ -51,6 +57,12 @@
 
                     {% for question in groupQuestions %}
 
+                        {% if question.isRequired %}
+                            {% set required = "required" %}
+                        {% else %}
+                            {% set required = "" %}
+                        {% endif %}
+
                         {% set index = index + 1 %}
                         
                         <div class="questionLine">
@@ -62,7 +74,7 @@
                             {% endif %}
                         </div>
                         
-                        <input type="text" id="answer{{ index }}" name="answer{{ index }}" placeholder="Entrez votre réponse..." class="form-control" />
+                        <input {{ required }} type="text" id="answer{{ index }}" name="answer{{ index }}" placeholder="Entrez votre réponse..." class="form-control" />
                     
                     {% endfor %}
                 </div>
