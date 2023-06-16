@@ -47,8 +47,12 @@
 
                 <div class="questionsContainer">
 
+                    {% set index = 0 %}
+
                     {% for question in groupQuestions %}
 
+                        {% set index = index + 1 %}
+                        
                         <div class="questionLine">
                             <label for="question{{ question.id }}" style="font-family:'K2D', sans-serif;">{{ question.text|capitalize }}</label>
                             {% if question.required %}
@@ -58,7 +62,7 @@
                             {% endif %}
                         </div>
                         
-                        <input type="text" id="question{{ question.id }}" name="question{{ question.id }}" placeholder="Entrez votre réponse..." class="form-control" />
+                        <input type="text" id="answer{{ index }}" name="answer{{ index }}" placeholder="Entrez votre réponse..." class="form-control" />
                     
                     {% endfor %}
                 </div>

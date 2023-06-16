@@ -558,11 +558,15 @@ class GroupController extends AbstractController
                         $candidature = $form->getData();
 
                         // Associez chaque GroupAnswer à chaque GroupQuestion (candidature form)
+                        $index = 0;
                         foreach ($groupQuestions as $groupQuestion) {
+                            $index++;
                             $idQuestion = $groupQuestion->getId();
+                            
                             $answer = new GroupAnswer;
                             $answer->setCandidature($candidature);
-                            // $answer->setGroupQuestion($groupQuestion);
+                            $answer->setText($request->request->get('answer' . $index));
+                            $answer->setGroupQuestion($groupQuestion);
                             $candidature->addGroupAnswer($answer);
 
                             $entityManager->persist($answer);
