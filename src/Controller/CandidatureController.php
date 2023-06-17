@@ -10,10 +10,11 @@ use App\Entity\Game;
 use App\Entity\User;
 use App\Form\CandidatureType;
 use App\Repository\GroupRepository;
+use App\Repository\NotificationRepository;
+
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\PersistentCollection;
 use Symfony\Component\HttpFoundation\JsonResponse;
-
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -21,6 +22,14 @@ use Symfony\Component\HttpFoundation\Request;
 
 class CandidatureController extends AbstractController
 {
+
+    private $notifController;
+
+    public function __construct(NotificationController $notifController) {
+
+        $this->notifController = $notifController;
+    }
+
 
     // Affiche de la liste des candidature d'un groupe (leader)
     #[Route('/candidatureList/{groupId}', name: 'app_candidatureList')]
@@ -139,6 +148,9 @@ class CandidatureController extends AbstractController
     
                 $candidatureRepo->remove($candidature);
                 $entityManager->flush();
+
+                // Notification au User
+                $this->notifController->notifUpdateCandidature("accept", $candidature->getUser(), $group);
     
                 $this->addFlash('success', $candidature->getUser()->getPseudo() . ' a rejoint la team');
                 return $this->redirectToRoute('app_groupDetails', ['groupId' => $group->getId()]);
@@ -172,6 +184,9 @@ class CandidatureController extends AbstractController
             $candidatureRepo->remove($candidature);
             $entityManager->flush();
 
+            // Notification au User (ne précise pas si refus définitif, todo?)
+            $this->notifController->notifUpdateCandidature("reject", $candidature->getUser(), $group);
+
             $this->addFlash('success', 'Vous avez refusé la candidature de ' . $candidature->getUser()->getPseudo());
             return $this->redirectToRoute('app_groupDetails', ['groupId' => $group->getId()]);
             
@@ -191,6 +206,11 @@ class CandidatureController extends AbstractController
         $group = $groupRepo->find($groupId);
         $gameFrom = $group->getGame();
         $groupQuestions = $group->getGroupQuestions();
+
+        if(is_null($this->getUser())) {
+            $this->addFlash('error', 'Vous devez être connecté pour candidater');
+            return $this->redirectToRoute('app_login'); 
+        }
 
         // check si pas deja membre
         if( !$group->getMembers()->contains($this->getUser()) ) {
@@ -267,6 +287,9 @@ class CandidatureController extends AbstractController
 
                         $entityManager->persist($candidature);
                         $entityManager->flush();
+
+                        // Notif newCandidature au leader de la team 
+                        $this->notifController->notifNewCandidature($group->getLeader(), $candidature);
 
                         $this->addFlash('success', 'Votre candidature a bien été envoyée');
                         return $this->redirectToRoute('app_groupDetails', ['groupId' => $groupId]); 

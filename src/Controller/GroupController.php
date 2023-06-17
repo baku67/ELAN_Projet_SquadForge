@@ -11,11 +11,12 @@ use App\Entity\User;
 use App\Form\GroupType;
 use App\Form\CandidatureType;
 use App\Repository\GroupRepository;
+use App\Repository\NotificationRepository;
+
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\PersistentCollection;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Doctrine\Common\Collections\Collection;
-
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -23,6 +24,15 @@ use Symfony\Component\HttpFoundation\Request;
 
 class GroupController extends AbstractController
 {
+
+    private $notifController;
+
+    public function __construct(NotificationController $notifController) {
+
+        $this->notifController = $notifController;
+    }
+
+
     // Creation Team: Id Game
     #[Route('/createGroup/{gameIdFrom}', name: 'app_createGroup')]
     public function createGroup(EntityManagerInterface $entityManager, int $gameIdFrom, Request $request): Response
@@ -237,7 +247,8 @@ class GroupController extends AbstractController
     {
         // Groupes user incluant les privés
         $groupRepo = $entityManager->getRepository(Group::class);
-        $groups = $groupRepo->findUserGroups($this->getUser());
+        $groups = $this->getUser()->getGroupes();
+        // $groups = $groupRepo->findUserGroups($this->getUser());
 
 
         return $this->render('group/userGroups.html.twig', [
@@ -260,17 +271,22 @@ class GroupController extends AbstractController
         // Persist intermédiaire pour empecher repasser le lead random au user
         $entityManager->persist($group);
 
+        // Notif aux autres membres (group(+membres), leaver)
+        $this->notifController->notifMemberLeave($group, $this->getUser());
+
         // Si après le leave, il reste des membre et que l'User était leader, passe le lead, si plus aucun membre: suppr le groupe
         $userRepo = $entityManager->getRepository(User::class);
         $members = $group->getMembers();
+
         if ($members->count() > 0) {
             if ( $group->getLeader() == $this->getUser() ) {
 
-                // $group->setLeader($members->random());
                 $membersArray = $members->toArray();
                 $randomIndex = array_rand($membersArray);
                 $randomMember = $membersArray[$randomIndex];
                 $group->setLeader($randomMember);
+                // Envoi notif au nouveau leader
+                $this->notifController->notifNewLeader($randomMember, $group);
 
                 $entityManager->persist($group);
 
@@ -440,6 +456,9 @@ class GroupController extends AbstractController
                 $entityManager->persist($group);
                 $entityManager->flush();
 
+                // Notifs différentes au nouveau Leader et aux autres membres 
+                $this->notifController->notifNewLeader($userTarget, $group);
+
                 $this->addFlash('success', 'Vous avez nommé ' . $userTarget->getPseudo() . ' leader de la team');
                 return $this->redirectToRoute('app_groupDetails', ['groupId' => $groupId]);
             }
@@ -562,6 +581,10 @@ class GroupController extends AbstractController
 
             $entityManager->persist($group);
             $entityManager->flush();
+
+            // Notif différente au membre expulsé et aux autre membres
+            $this->notifController->notifKickedFromGroup($group, $userKicked);
+            // Déplacé dans notifKickedFromGroup() "$this->notifController->notifMemberLeave($group, $userKicked);"
 
             $this->addFlash('success', 'Vous avez expulser ' . $userKicked->getPseudo() . ' de la team');
             return $this->redirectToRoute('app_groupDetails', ['groupId' => $groupId]);
