@@ -14,12 +14,16 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class NotificationController extends AbstractController
 {
+
+
     private $entityManager;
 
     public function __construct(EntityManagerInterface $entityManager)
     {
         $this->entityManager = $entityManager;
     }
+
+
 
     public function notifUpdateCandidature(string $case, User $user, Group $group): bool
     {
@@ -42,7 +46,8 @@ class NotificationController extends AbstractController
         return true;
     }
 
-    public function notifNewLeader(User $user, Group $group): bool
+
+    public function notifNewLeader(User $newLeader, Group $group): bool
     {
         $notification = new Notification();
 
@@ -50,7 +55,7 @@ class NotificationController extends AbstractController
         $notification->setText("Vous êtes désormais leader de la team \"" . $group->getTitle() . "\"");
         
         $notification->setDateCreation(new \DateTime());
-        $notification->setUser($user);
+        $notification->setUser($newLeader);
 
         $this->entityManager->persist($notification);
         $this->entityManager->flush();
@@ -59,11 +64,11 @@ class NotificationController extends AbstractController
         $members = $group->getMembers();
 
         foreach ($members as $member) {
-            if($members != $user) {
+            if($members != $newLeader) {
                 $notification2 = new Notification();
 
                 // Message de la notif
-                $notification2->setText("\"" . $user->getPseudo() . "\" est désormai leader de la team \"" . $group->getTitle() . "\"");
+                $notification2->setText("\"" . $newLeader->getPseudo() . "\" est désormai leader de la team \"" . $group->getTitle() . "\"");
                 
                 $notification2->setDateCreation(new \DateTime());
                 $notification2->setUser($member);
@@ -72,12 +77,12 @@ class NotificationController extends AbstractController
                 $this->entityManager->flush();
             }
         }
-
         return true;
     }
 
     
-    public function notifMemberLeave(Group $group, User $user): bool
+
+    public function notifMemberLeave(Group $group, User $leavingUser): bool
     {
         $members = $group->getMembers();
 
@@ -85,7 +90,7 @@ class NotificationController extends AbstractController
             $notification = new Notification();
 
             // Message de la notif
-            $notification->setText("\"" . $user->getPseudo() . "\" a quitté la team \"" . $group->getTitle() . "\"");
+            $notification->setText("\"" . $leavingUser->getPseudo() . "\" a quitté la team \"" . $group->getTitle() . "\"");
             
             $notification->setDateCreation(new \DateTime());
             $notification->setUser($member);
@@ -93,12 +98,12 @@ class NotificationController extends AbstractController
             $this->entityManager->persist($notification);
             $this->entityManager->flush();
         }
-        
         return true;
     }
 
 
-    public function notifKickedFromGroup(Group $group, User $user): bool
+
+    public function notifKickedFromGroup(Group $group, User $userKicked): bool
     {
         $notification = new Notification();
 
@@ -106,19 +111,20 @@ class NotificationController extends AbstractController
         $notification->setText("Vous avez été expulsé de la team \"" . $group->getTitle() . "\"");
 
         $notification->setDateCreation(new \DateTime());
-        $notification->setUser($user);
+        $notification->setUser($userKicked);
 
         $this->entityManager->persist($notification);
         $this->entityManager->flush();
 
         // Notifs aux autres membres
-        $this->notifMemberLeave($group, $user);
+        $this->notifMemberLeave($group, $userKicked);
 
         return true;
     }
 
 
     
+
     public function notifNewCandidature(User $leader, Candidature $candidature): bool
     {
         $notification = new Notification();
@@ -134,6 +140,69 @@ class NotificationController extends AbstractController
 
         // Notifs aux autres membres
         $this->notifMemberLeave($group, $user);
+
+        return true;
+    }
+
+
+
+
+    public function notifValidatedMedia(User $author, Media $media): bool 
+    {
+        $notification = new Notification();
+
+        $notification->setText("Votre média \"" . $media->getTitle() . "\" a été approuvé par la modération");
+
+        $notification->setDateCreation(new \DateTime());
+        $notification->setUser($author);
+
+        $this->entityManager->persist($notification);
+        $this->entityManager->flush();
+
+        return true;
+    }
+
+    public function notifRefusedMedia(User $author, Media $media): bool 
+    {
+        $notification = new Notification();
+
+        $notification->setText("Votre média \"" . $media->getTitle() . "\" a été refusé par la modération");
+
+        $notification->setDateCreation(new \DateTime());
+        $notification->setUser($author);
+
+        $this->entityManager->persist($notification);
+        $this->entityManager->flush();
+
+        return true;
+    }
+
+    public function notifValidatedTopic(User $author, Topic $topic): bool 
+    {
+        $notification = new Notification();
+
+        $notification->setText("Votre topic \"" . $topic->getTitle() . "\" a été approuvé par la modération");
+
+        $notification->setDateCreation(new \DateTime());
+        $notification->setUser($author);
+
+        $this->entityManager->persist($notification);
+        $this->entityManager->flush();
+
+        return true;
+    }
+
+    public function notifRefusedTopic(User $author, Topic $topic): bool 
+    {
+        $notification = new Notification();
+
+        $notification->setText("Votre topic \"" . $topic->getTitle() . "\" a été refusé par la modération");
+
+        $notification->setDateCreation(new \DateTime());
+        $notification->setUser($author);
+
+        $this->entityManager->persist($notification);
+        $this->entityManager->flush();
 
         return true;
     }

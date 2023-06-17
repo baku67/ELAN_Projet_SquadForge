@@ -21,10 +21,18 @@ use Symfony\Component\HttpFoundation\Request;
 
 class ModerationController extends AbstractController
 {
+
+    private $notifController;
+
+    public function __construct(NotificationController $notifController) {
+
+        $this->notifController = $notifController;
+    }
+
+
     #[Route('/moderationDashboard', name: 'app_moderationDashboard')]
     public function moderationDashboard(EntityManagerInterface $entityManager, Request $request): Response
     {
-
         if ( $this->getUser() && in_array('ROLE_MODO', $this->getUser()->getRoles()) ) {
 
             $censureRepo = $entityManager->getRepository(Censure::class);
@@ -64,7 +72,6 @@ class ModerationController extends AbstractController
                         
                         $this->addFlash('error', 'Le mot a déjà été ajouté');
                         return $this->redirectToRoute('app_moderationDashboard');
-                    
                     }
                     else {
                         // Maj BDD
@@ -73,31 +80,21 @@ class ModerationController extends AbstractController
 
                         $this->addFlash('success', 'Le mot a été ajouté');
                         return $this->redirectToRoute('app_moderationDashboard');
-
                     }
-
                 }
-
             }
-
-
             return $this->render('moderation/index.html.twig', [
                 'formAddCensoredWord' => $form->createView(),
                 'censureWords' => $censureWords,
                 'lastWaitingTopics' => $lastWaitingTopics,
                 'lastWaitingMedias' => $lastWaitingMedias,
             ]);
-    
         }
         else {
 
             $this->addFlash('error', 'Vous devez être modérateur pour accéder à cette page');
             return $this->redirectToRoute('app_login');
-
         }
-
-        
-
     }
 
 
@@ -105,7 +102,6 @@ class ModerationController extends AbstractController
     #[Route('/deleteCensure/{id}', name: 'app_deleteCensure')]
     public function deleteCensure(EntityManagerInterface $entityManager, int $id, Request $request): Response
     {
-
         if ( $this->getUser() && in_array('ROLE_MODO', $this->getUser()->getRoles()) ) {
 
             $censureRepo = $entityManager->getRepository(Censure::class);
@@ -118,10 +114,8 @@ class ModerationController extends AbstractController
 
         }
         else {
-
             $this->addFlash('error', 'Vous devez être modérateur pour retirer un mot');
             return $this->redirectToRoute('app_login');
-
         }
 
     }
@@ -131,7 +125,6 @@ class ModerationController extends AbstractController
     #[Route('/validateMedia/{id}', name: 'app_validateMedia')]
     public function validateMedia(EntityManagerInterface $entityManager, int $id, Request $request): Response
     {
-
         if ( $this->getUser() && in_array('ROLE_MODO', $this->getUser()->getRoles()) ) {
 
             $mediaRepo = $entityManager->getRepository(Media::class);
@@ -140,18 +133,20 @@ class ModerationController extends AbstractController
             // Date publish mise à jour à la validation
             $media->setPublishDate(new \DateTime());
             $media->setValidated("validated");
+
             $entityManager->persist($media);
             $entityManager->flush();
+
+            // Notification à l'auteur
+            $this->notifController->notifValidatedMedia($media->getUser(), $media);
 
             $this->addFlash('success', 'Le média a été validé');
             return $this->redirectToRoute('app_moderationDashboard');
 
         }
         else {
-
             $this->addFlash('error', 'Vous devez être modérateur pour valider un média');
             return $this->redirectToRoute('app_login');
-
         }
     }
 
@@ -161,13 +156,16 @@ class ModerationController extends AbstractController
     #[Route('/refuseMedia/{id}', name: 'app_refuseMedia')]
     public function refuseMedia(EntityManagerInterface $entityManager, int $id, Request $request): Response
     {
-
         if ( $this->getUser() && in_array('ROLE_MODO', $this->getUser()->getRoles()) ) {
 
             $mediaRepo = $entityManager->getRepository(Media::class);
             $media = $mediaRepo->find($id);
             
             $media->setValidated("refused");
+
+            // Notification à l'auteur
+            $this->notifController->notifRefusedMedia($media->getUser(), $media);
+
             $entityManager->persist($media);
             $entityManager->flush();
 
@@ -176,10 +174,8 @@ class ModerationController extends AbstractController
 
         }
         else {
-
             $this->addFlash('error', 'Vous devez être modérateur pour refuser un média');
             return $this->redirectToRoute('app_login');
-
         }
     }
 
@@ -191,7 +187,6 @@ class ModerationController extends AbstractController
         #[Route('/validateTopic/{id}', name: 'app_validateTopic')]
         public function validateTopic(EntityManagerInterface $entityManager, int $id, Request $request): Response
         {
-    
             if ( $this->getUser() && in_array('ROLE_MODO', $this->getUser()->getRoles()) ) {
     
                 $topicRepo = $entityManager->getRepository(Topic::class);
@@ -200,18 +195,20 @@ class ModerationController extends AbstractController
                 // Date publish mise à jour à la validation
                 $topic->setPublishDate(new \DateTime());
                 $topic->setValidated("validated");
+
+                // Notification à l'auteur
+                $this->notifController->notifValidatedTopic($topic->getUser(), $topic);
+
                 $entityManager->persist($topic);
                 $entityManager->flush();
     
                 $this->addFlash('success', 'Le topic a été validé');
                 return $this->redirectToRoute('app_moderationDashboard');
-    
+
             }
             else {
-    
                 $this->addFlash('error', 'Vous devez être modérateur pour valider un topic');
                 return $this->redirectToRoute('app_login');
-    
             }
         }
     
@@ -221,13 +218,16 @@ class ModerationController extends AbstractController
         #[Route('/refuseTopic/{id}', name: 'app_refuseTopic')]
         public function refuseTopic(EntityManagerInterface $entityManager, int $id, Request $request): Response
         {
-    
             if ( $this->getUser() && in_array('ROLE_MODO', $this->getUser()->getRoles()) ) {
     
                 $topicRepo = $entityManager->getRepository(Topic::class);
                 $topic = $topicRepo->find($id);
                 
                 $topic->setValidated("refused");
+
+                // Notification à l'auteur
+                $this->notifController->notifRefusedTopic($topic->getUser(), $topic);
+
                 $entityManager->persist($topic);
                 $entityManager->flush();
     
@@ -236,10 +236,8 @@ class ModerationController extends AbstractController
     
             }
             else {
-    
                 $this->addFlash('error', 'Vous devez être modérateur pour refuser un topic');
                 return $this->redirectToRoute('app_login');
-    
             }
         }
     
