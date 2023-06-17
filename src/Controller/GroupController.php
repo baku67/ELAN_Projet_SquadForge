@@ -39,9 +39,6 @@ class GroupController extends AbstractController
 
             // Vérif connecté pour créer un Group
             if($this->getUser()) {
-
-                // Vérification si le group est ouvert
-                // if ($group->getStatus() == "public") {
                     
                     if($form->isValid()) {
 
@@ -89,7 +86,6 @@ class GroupController extends AbstractController
                             $group->setRestrictionImgProof(false); 
                         }
                         
-                        
                         // Désactivation vérification nbr de mots etc...
                         // // Récupération du titre
                         // $textInputValue = $form->get('text')->getData();
@@ -100,40 +96,22 @@ class GroupController extends AbstractController
                         // // Vérification du compte de mots
                         // if ($wordCount >= 5) {
     
-                        // Modifs Base de données
                         $entityManager->persist($group);
                         $entityManager->flush();
 
                         $this->addFlash('success', 'Le groupe a bien été créé');
                         return $this->redirectToRoute('app_groupDetails', ['groupId' => $group->getId()]);
-                        // } else {
-                            
-                        //     $this->addFlash('error', 'Le titre doit faire au minimum 5 mots !');
-                        //     return $this->redirectToRoute('app_game', ['id' => $game->getId()]);
-                        // }
-    
                     } 
                     else {
                         $this->addFlash('error', 'Pas de vulgarités pour un titre');
                         return $this->redirectToRoute('app_groupDetails', ['groupId' => $group->getId()]);
-                    }   
-
-                // }
-                // else {
-                //     $this->addFlash('error', 'Le Group est privé, vous devez être membre pour accéder à cette page.');
-                //     return $this->redirectToRoute('app_groupList', ['gameIdFrom' => $group->getGame()->getId()]);
-                // }
-
-
-                
+                    }  
             }
             else {
                 $this->addFlash('error', 'Vous devez être connecté pour créer un groupe');
                 return $this->redirectToRoute('app_login');
             }
         }
-
-
         return $this->render('group/createGroup.html.twig', [
             'formAddGroup' => $form->createView(),
             'gameFrom' => $gameFrom,
@@ -150,7 +128,7 @@ class GroupController extends AbstractController
 
         // Toutes les teams du jeu (publiques et orderBy)
         $groupRepo = $entityManager->getRepository(Group::class);
-        $groups = $groupRepo->findAllByGame($gameFrom); 
+        $groups = $groupRepo->findAllByGame($gameFrom); // where "public" ok
 
         return $this->render('group/groupList.html.twig', [
             'gameFrom' => $gameFrom,
@@ -164,38 +142,43 @@ class GroupController extends AbstractController
     #[Route('/groupDetails/{groupId}', name: 'app_groupDetails')]
     public function groupDetails(EntityManagerInterface $entityManager, int $groupId, Request $request): Response
     {
-        // find group id, game associé
         $groupRepo = $entityManager->getRepository(Group::class);
         $group = $groupRepo->find($groupId);
-        $members = $group->getMembers();
-        $questions = $group->getGroupQuestions();
-        $candidatureCount = count($group->getCandidatures());
+        
+        // Vérif si groupe public (todo)
+        if ($group->getStatus() == "public") {
+            $game = $group->getGame();
+            $members = $group->getMembers();
+            $questions = $group->getGroupQuestions();
+            $candidatureCount = count($group->getCandidatures());
 
-        $candidatureRepo = $entityManager->getRepository(Candidature::class);
-        // $waitingCandidature = $candidatureRepo->findIfWaitingCandidature($this->getUser(), $group);
-        $waitingCandidatures = count($candidatureRepo->findBy(["user" => $this->getUser(), "groupe" => $group, "status" => "pending"]));
-        $candidature = $candidatureRepo->findOneBy(["user" => $this->getUser(), "groupe" => $group]);
-        if ($waitingCandidatures > 0) {
-            $waitingCandidature = true;
+            $candidatureRepo = $entityManager->getRepository(Candidature::class);
+            $waitingCandidatures = count($candidatureRepo->findBy(["user" => $this->getUser(), "groupe" => $group, "status" => "pending"]));
+            $candidature = $candidatureRepo->findOneBy(["user" => $this->getUser(), "groupe" => $group]);
+
+            if ($waitingCandidatures > 0) {
+                $waitingCandidature = true;
+            }
+            else {
+                $waitingCandidature = false;
+            }
+
+            return $this->render('group/groupDetails.html.twig', [
+                'group' => $group,
+                'gameFrom' => $game,
+                'members' => $members,
+                'questions' => $questions,
+                'waitingCandidature' => $waitingCandidature,
+                'candidatureCount' => $candidatureCount,
+                'candidature' => $candidature,
+            ]);
         }
         else {
-            $waitingCandidature = false;
+            $this->addFlash('error', 'La team n\'est pas publique');
+            return $this->redirectToRoute('app_groupList', ['gameIdFrom' => $game->getId()]);
         }
 
-        $game = $group->getGame();
-
-        // Vérifs si group bien public
-
-
-        return $this->render('group/groupDetails.html.twig', [
-            'group' => $group,
-            'gameFrom' => $game,
-            'members' => $members,
-            'questions' => $questions,
-            'waitingCandidature' => $waitingCandidature,
-            'candidatureCount' => $candidatureCount,
-            'candidature' => $candidature,
-        ]);
+        
     }
 
 
