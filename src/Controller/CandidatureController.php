@@ -49,6 +49,48 @@ class CandidatureController extends AbstractController
         
     }
 
+
+    
+    // Page Candidature détaillée (leader)
+    #[Route('/candidatureDetails/{candidatureId}', name: 'app_candidatureDetails')]
+    public function candidatureDetails(EntityManagerInterface $entityManager, int $candidatureId, Request $request): Response
+    {
+        $groupRepo = $entityManager->getRepository(Group::class);
+        $candidatureRepo = $entityManager->getRepository(Candidature::class);
+        $groupQuestionRepo = $entityManager->getRepository(GroupQuestion::class);
+        $groupAnswerRepo = $entityManager->getRepository(GroupAnswer::class);
+
+        $candidature = $candidatureRepo->find($candidatureId);
+        $group = $candidature->getGroupe();
+        $gameFrom = $group->getGame();
+
+        // Tableau assoc Question/Réponse (juste text)
+        $groupAnswers = $candidature->getGroupAnswers();
+        $questionData = [];
+        foreach ($groupAnswers as $answer) {
+            $associatedQuestion = $answer->getGroupQuestion()->getText();
+            $newTab = [$associatedQuestion, $answer->getText()];
+            $questionData[] = $newTab;
+        }
+
+        // if is leader
+        if ($this->getUser() == $group->getLeader()) {
+
+            return $this->render('candidature/candidatureDetails.html.twig', [
+                'candidature' => $candidature,
+                'group' => $group,
+                'gameFrom' => $gameFrom,
+                'questionData' => $questionData,
+            ]);
+        }
+        else {
+            $this->addFlash('error', 'Vous devez être le leader pour accéder à cette page');
+            return $this->redirectToRoute('app_groupDetails', ['groupId' => $group->getId()]);
+        }
+
+        
+    }
+
     
     #[Route('/cancelCandidature/{candidatureId}', name: 'app_cancelCandidature')]
     public function cancelCandidature(EntityManagerInterface $entityManager, int $candidatureId, Request $request): Response
@@ -71,8 +113,40 @@ class CandidatureController extends AbstractController
             $this->addFlash('error', 'Vous devez être l\'auteur de la candidature pour l\'annuler');
             return $this->redirectToRoute('app_groupDetails', ['groupId' => $group->getId()]);
         }
+    }
 
-        
+
+    #[Route('/acceptCandidature/{candidatureId}', name: 'app_acceptCandidature')]
+    public function acceptCandidature(EntityManagerInterface $entityManager, int $candidatureId, Request $request): Response
+    {
+        $candidatureRepo = $entityManager->getRepository(Candidature::class);
+        $groupRepo = $entityManager->getRepository(Group::class);
+        $candidature = $candidatureRepo->find($candidatureId);
+        $group = $candidature->getGroupe();
+
+        // Vérif leader
+        if ($this->getUser() == $group->getLeader()) {
+
+            // Vérif si groupe plein
+            if ($group->getNbrPlaces() <= count($group->getMembers())) {
+                $this->addFlash('error', 'Le groupe est plein');
+                return $this->redirectToRoute('app_groupDetails', ['groupId' => $group->getId()]);
+            }
+            else {
+                $userToAdd = $candidature->getUser();
+                $group->addMember($userToAdd);
+    
+                $candidatureRepo->remove($candidature);
+                $entityManager->flush();
+    
+                $this->addFlash('success', $candidature->getUser()->getPseudo() . ' a rejoint la team');
+                return $this->redirectToRoute('app_groupDetails', ['groupId' => $group->getId()]);
+            }
+        }
+        else {
+            $this->addFlash('error', 'Vous devez être l\'auteur de la candidature pour l\'annuler');
+            return $this->redirectToRoute('app_groupDetails', ['groupId' => $group->getId()]);
+        }
     }
 
 

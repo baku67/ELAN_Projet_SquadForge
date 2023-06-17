@@ -29,7 +29,7 @@
              - <a class="underlineLink" href="{{ path('app_game', {'id': gameFrom.id }) }}">{{ gameFrom.title }}</a>
              - <a class="underlineLink" href="{{ path('app_groupList', {'gameIdFrom': gameFrom.id }) }}">Teams</a>
              - <a class="underlineLink" href="{{ path('app_groupDetails', {'groupId': group.id }) }}">{{ group.title }}</a>
-             - Candidatures
+             - Candidature
         </p>
 
         
@@ -40,19 +40,57 @@
 
         <br>
 
-        <h2>Candidatures</h2>
+        <h2>Candidature</h2>
 
         <br>
 
-        {% for candidature in candidatures %}
-            <a href="{{ path('app_candidatureDetails',{'candidatureId':candidature.id}) }}">
-                <div class="candidatureCard">
-                    <span>{{ candidature.user.pseudo }}</span>
-                    <p style="font-family:'K2D', sans-serif;">{{ candidature.text }}</p>
-                    <span class="topicCardPublishDate">{{ time_diff(candidature.creationDate) }}</span>
+            <span style="font-family:'K2D', sans-serif;">{{ candidature.user.pseudo|capitalize }}</span>
+
+        <br>
+
+        <h4>Présentation</h4>
+        <p style="font-family:'K2D', sans-serif; text-align:center">
+            <i class="fa-solid fa-quote-left"></i> 
+                {{ candidature.text|capitalize }}
+            <i class="fa-solid fa-quote-right"></i>
+        </p>
+
+        <br><br>
+
+        <h4>Réponses</h4>
+        <div style="display:flex; flex-direction:column; margin:25px auto; font-family:'K2D', sans-serif;">
+            
+            {% for data in questionData %}
+
+                <div class="questionAnswerContainer">
+
+                    {# Intitulé de la question #}
+                    <span class="candidatureQuestion">{{ data[0] }}</span>
+
+                    {# Réponse à la question + handle pas de réponse si question pas required et "" #}
+                    {% if data[1] == "" %}
+                        <span class="emptyListMsg" style="text-align:left;">Le candidat n'a pas répondu</span>
+                    {% else %}
+                        <span>> {{ data[1]|capitalize }}</span>
+                    {% endif %}
+
                 </div>
-            </a>
-        {% endfor %}
+            {% endfor %}
+
+        </div>
+
+        {# Si upload autorisé/requis #}
+        <h4>Image</h4>
+
+
+
+        <div style="display:inline-flex; justify-content:space-evenly; width:100%; margin:30px auto;">
+            <a href="{{ path('app_acceptCandidature',{'candidatureId':candidature.id}) }}">Accepter</a>
+            <a>Refuser</a>
+            <a>Refuser définitivement</a>
+        </div>
+
+        
         
 
 

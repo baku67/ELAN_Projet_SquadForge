@@ -1401,3 +1401,24 @@ cursor: pointer;
 
     transition: all 0.4s;
 }
+
+
+
+.questionAnswerContainer {
+    display:flex; 
+    flex-direction:column;
+    margin: 10px auto;
+    padding: 5px 10px;
+    border: 1px solid rgba(116, 116, 116, 0.5);
+    border-radius: 3px;
+    width: 100%;
+}
+
+.candidatureQuestion {
+
+
+}
+
+.leaderCard {
+    border: 1px solid gold;
+}
