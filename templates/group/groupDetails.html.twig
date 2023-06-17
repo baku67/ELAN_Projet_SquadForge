@@ -50,13 +50,24 @@
         </div>
 
         <ul id="membersList" class="membersList">
+
+        {# Card Leader (position 1) #}
+        {% if group.leader == app.user %}
+            {% set leaderPseudo = "Vous" %}
+        {% else %}
+            {% set leaderPseudo = group.leader.pseudo %}
+        {% endif %}
+
+        <li class="memberCard leaderCard" style="background-color: {{ gameFrom.color }}">
+            {{ leaderPseudo }}
+        </li>
+        
+
         {% for member in members %}
+
+            {% if member != group.leader %}
+            
                 {# Leader Card #}
-                {% if member == group.leader %}
-                    {% set leaderCard = "leaderCard" %}
-                {% else %}
-                    {% set leaderCard = "" %}
-                {% endif %}
                 {% if member == app.user %}
                     {% set memberPseudo = "Vous" %}
                 {% else %}
@@ -64,11 +75,15 @@
                 {% endif %}
                 
                 
-                <li class="memberCard {{ leaderCard }}" style="background-color: {{ gameFrom.color }}">{{ memberPseudo }}
+                <li class="memberCard" style="background-color: {{ gameFrom.color }}">{{ memberPseudo }}
                 {% if app.user == group.leader and app.user != member %}    
                     <a href="{{ path('app_kickGroupMember',{'memberId': member.id, 'groupId': group.id}) }}">Expulser</a>        
                 {% endif %}
                 </li>
+            
+            {% endif %}
+            
+                
         {% endfor %}
         </ul>
 
