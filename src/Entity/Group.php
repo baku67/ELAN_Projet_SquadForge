@@ -68,11 +68,15 @@ class Group
     #[ORM\OneToMany(mappedBy: 'groupe', targetEntity: Candidature::class)]
     private Collection $candidatures;
 
+    #[ORM\ManyToMany(targetEntity: User::class, inversedBy: 'groupsWhereBlackisted')]
+    private Collection $blacklistedUsers;
+
     public function __construct()
     {
         $this->members = new ArrayCollection();
         $this->groupQuestions = new ArrayCollection();
         $this->candidatures = new ArrayCollection();
+        $this->blacklistedUsers = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -316,6 +320,30 @@ class Group
                 $candidature->setGroupe(null);
             }
         }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, User>
+     */
+    public function getBlacklistedUsers(): Collection
+    {
+        return $this->blacklistedUsers;
+    }
+
+    public function addBlacklistedUser(User $blacklistedUser): self
+    {
+        if (!$this->blacklistedUsers->contains($blacklistedUser)) {
+            $this->blacklistedUsers->add($blacklistedUser);
+        }
+
+        return $this;
+    }
+
+    public function removeBlacklistedUser(User $blacklistedUser): self
+    {
+        $this->blacklistedUsers->removeElement($blacklistedUser);
 
         return $this;
     }

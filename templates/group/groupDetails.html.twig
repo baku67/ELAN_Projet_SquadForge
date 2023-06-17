@@ -376,7 +376,13 @@
                 {# Récup l'id de la candidature (findBy User/group + getOneResult) #}
                 <a href="{{ path('app_cancelCandidature',{'candidatureId':candidature.id}) }}">Annuler</a>
             {% else %}
-                <a href="{{ path('app_showCandidatureForm',{'groupId': group.id}) }}">Candidater</p>
+                {% if app.user in group.blacklistedUsers %}
+                    <span style="color: grey;">Candidater</span>
+                    <br>
+                    <span class="emptyListMsg">(Vous ne pouvez plus candidater)</span>
+                {% else %}   
+                    <a href="{{ path('app_showCandidatureForm',{'groupId': group.id}) }}">Candidater</p>
+                {% endif %}
             {% endif %}
 
         {% endif %}

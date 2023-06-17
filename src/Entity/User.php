@@ -81,6 +81,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToMany(mappedBy: 'user', targetEntity: Candidature::class)]
     private Collection $candidatures;
 
+    #[ORM\ManyToMany(targetEntity: Group::class, mappedBy: 'blacklistedUsers')]
+    private Collection $groupsWhereBlackisted;
+
     public function __construct()
     {
         $this->favoris = new ArrayCollection();
@@ -96,6 +99,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         $this->leadedGroups = new ArrayCollection();
         $this->groupes = new ArrayCollection();
         $this->candidatures = new ArrayCollection();
+        $this->groupsWhereBlackisted = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -577,6 +581,33 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
             if ($candidature->getUser() === $this) {
                 $candidature->setUser(null);
             }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Group>
+     */
+    public function getGroupsWhereBlackisted(): Collection
+    {
+        return $this->groupsWhereBlackisted;
+    }
+
+    public function addGroupsWhereBlackisted(Group $groupsWhereBlackisted): self
+    {
+        if (!$this->groupsWhereBlackisted->contains($groupsWhereBlackisted)) {
+            $this->groupsWhereBlackisted->add($groupsWhereBlackisted);
+            $groupsWhereBlackisted->addBlacklistedUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeGroupsWhereBlackisted(Group $groupsWhereBlackisted): self
+    {
+        if ($this->groupsWhereBlackisted->removeElement($groupsWhereBlackisted)) {
+            $groupsWhereBlackisted->removeBlacklistedUser($this);
         }
 
         return $this;

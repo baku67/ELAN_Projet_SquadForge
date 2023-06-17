@@ -116,6 +116,7 @@ class CandidatureController extends AbstractController
     }
 
 
+    // Leader: ajout membre
     #[Route('/acceptCandidature/{candidatureId}', name: 'app_acceptCandidature')]
     public function acceptCandidature(EntityManagerInterface $entityManager, int $candidatureId, Request $request): Response
     {
@@ -150,6 +151,38 @@ class CandidatureController extends AbstractController
     }
 
 
+    // Leader: refus de candidature OU refus + blacklist
+    #[Route('/rejectCandidature/{candidatureId}/{isBlacklisted}', name: 'app_rejectCandidature')]
+    public function rejectCandidature(EntityManagerInterface $entityManager, int $candidatureId, string $isBlacklisted, Request $request): Response
+    {
+        $candidatureRepo = $entityManager->getRepository(Candidature::class);
+        $groupRepo = $entityManager->getRepository(Group::class);
+        $candidature = $candidatureRepo->find($candidatureId);
+        $group = $candidature->getGroupe();
+
+        // Vérif leader
+        if ($this->getUser() == $group->getLeader()) {
+
+            // Si btn "refus définitif": blacklist user
+            if ($isBlacklisted == "true") {
+                $group->addBlacklistedUser($candidature->getUser());
+                $entityManager->persist($group);
+            }
+            
+            $candidatureRepo->remove($candidature);
+            $entityManager->flush();
+
+            $this->addFlash('success', 'Vous avez refusé la candidature de ' . $candidature->getUser()->getPseudo());
+            return $this->redirectToRoute('app_groupDetails', ['groupId' => $group->getId()]);
+            
+        }
+        else {
+            $this->addFlash('error', 'Vous devez être leader de la team pour refuser un candidat');
+            return $this->redirectToRoute('app_groupDetails', ['groupId' => $group->getId()]);
+        }
+    }
+
+
     // Affichage de la page de candidature (form)
     #[Route('/showCandidatureForm/{groupId}', name: 'app_showCandidatureForm')]
     public function showCandidatureForm(EntityManagerInterface $entityManager, int $groupId, Request $request): Response
@@ -161,6 +194,27 @@ class CandidatureController extends AbstractController
 
         // check si pas deja membre
         if( !$group->getMembers()->contains($this->getUser()) ) {
+
+            // check si pas blacklisted
+            $userToCheck = $this->getUser();
+            $groupId = $group->getId();
+            
+            $connection = $entityManager->getConnection();
+            $statement = $connection->prepare('
+                SELECT COUNT(*) AS count
+                FROM group_user
+                WHERE group_id = :groupId
+                AND user_id = :userId
+            ');
+            $statement->bindValue('groupId', $groupId);
+            $statement->bindValue('userId', $userToCheck->getId());
+            $result = $statement->executeQuery()->fetchAssociative();
+            
+            $isBlacklisted = $result['count'] > 0;
+            if ($isBlacklisted) {
+                $this->addFlash('error', 'Vous ne pouvez plus candidater pour cette team');
+                return $this->redirectToRoute('app_groupDetails', ['groupId' => $groupId]); 
+            }
 
             // check si candidature existe deja 
             $candidatureRepo = $entityManager->getRepository(Candidature::class);

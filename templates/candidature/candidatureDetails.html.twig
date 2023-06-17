@@ -86,8 +86,8 @@
 
         <div style="display:inline-flex; justify-content:space-evenly; width:100%; margin:30px auto;">
             <a href="{{ path('app_acceptCandidature',{'candidatureId':candidature.id}) }}">Accepter</a>
-            <a>Refuser</a>
-            <a>Refuser définitivement</a>
+            <a href="{{ path('app_rejectCandidature',{'candidatureId':candidature.id,'isBlacklisted':"false"}) }}">Refuser</a>
+            <a href="{{ path('app_rejectCandidature',{'candidatureId':candidature.id,'isBlacklisted':"true"}) }}">Refuser définitivement</a>
         </div>
 
         
