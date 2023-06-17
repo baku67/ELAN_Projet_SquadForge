@@ -14,6 +14,7 @@ use App\Repository\GroupRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\PersistentCollection;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Doctrine\Common\Collections\Collection;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
@@ -402,13 +403,20 @@ class GroupController extends AbstractController
             $userTarget = $userRepo->find($memberId);
             $userTargetPseudo = $userTarget->getPseudo();
 
-            $group->setLeader($userTarget);
+            if ($group->getMembers()->contains($userTarget)) {
+                $group->setLeader($userTarget);
 
-            $entityManager->persist($group);
-            $entityManager->flush();
+                $entityManager->persist($group);
+                $entityManager->flush();
 
-            $this->addFlash('success', 'Vous avez nommé ' . $userTarget->getPseudo() . ' leader de la team');
-            return $this->redirectToRoute('app_groupDetails', ['groupId' => $groupId]);
+                $this->addFlash('success', 'Vous avez nommé ' . $userTarget->getPseudo() . ' leader de la team');
+                return $this->redirectToRoute('app_groupDetails', ['groupId' => $groupId]);
+            }
+            else {
+                $this->addFlash('error', 'L\'utilisateur doit être membre pour être promu');
+                return $this->redirectToRoute('app_groupDetails', ['groupId' => $groupId]); 
+            }
+            
         }
         else {
             $this->addFlash('error', 'Vous devez être leader du groupe pour passer le lead');

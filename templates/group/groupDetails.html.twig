@@ -74,7 +74,6 @@
                     {% set memberPseudo = member.pseudo %}
                 {% endif %}
                 
-                
                 <li class="memberCard" style="background-color: {{ gameFrom.color }}">{{ memberPseudo }}
                 {% if app.user == group.leader and app.user != member %}    
                     <a href="{{ path('app_kickGroupMember',{'memberId': member.id, 'groupId': group.id}) }}">Expulser</a>        
