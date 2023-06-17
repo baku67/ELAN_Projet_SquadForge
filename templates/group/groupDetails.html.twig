@@ -358,6 +358,11 @@
                     </div>
                     <input type="submit" class="btn btn-primary" value="Ajouter"></input>
                 </form>
+
+
+                <br>
+                {# Bouton liste blacklistedUsers #}
+                <a class="blacklistBtn" href="{{ path('app_groupBlacklist',{'groupId': group.id}) }}">Blacklist</a>
                 
 
             {% else %}

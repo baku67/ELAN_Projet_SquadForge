@@ -1394,6 +1394,15 @@ cursor: pointer;
 }
 
 
+.blacklistBtn {
+    padding: 5px 10px;
+    border-radius: 3px;
+    border: 1px solid red;
+
+    transition: all 0.4s;
+}
+
+
 .candidatureCard {
     background-color: #4b4b4b;
     border-radius: 3px;

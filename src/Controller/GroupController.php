@@ -177,9 +177,57 @@ class GroupController extends AbstractController
             $this->addFlash('error', 'La team n\'est pas publique');
             return $this->redirectToRoute('app_groupList', ['gameIdFrom' => $game->getId()]);
         }
-
-        
     }
+
+
+
+    // Leader: Blacklist du group
+    #[Route('/groupBlacklist/{groupId}', name: 'app_groupBlacklist')]
+    public function groupBlacklist(EntityManagerInterface $entityManager, int $groupId, Request $request): Response
+    {
+        $groupRepo = $entityManager->getRepository(Group::class);
+        $group = $groupRepo->find($groupId);
+        $game = $group->getGame();
+        
+        // Vérif si leader
+        if ($group->getLeader() == $this->getUser()) {
+            
+            return $this->render('group/blacklist.html.twig', [
+                'group' => $group,
+                'gameFrom' => $game,
+            ]);
+        }
+        else {
+            $this->addFlash('error', 'Vous devez être le leader pour accéder à cette page');
+            return $this->redirectToRoute('app_groupList', ['gameIdFrom' => $game->getId()]);
+        }
+    }
+
+    
+    #[Route('/removeFromBlacklist/{groupId}/{userId}', name: 'app_removeFromBlacklist')]
+    public function removeFromBlacklist(EntityManagerInterface $entityManager, int $groupId, int $userId, Request $request): Response
+    {
+        $groupRepo = $entityManager->getRepository(Group::class);
+        $userRepo = $entityManager->getRepository(User::class);
+        $group = $groupRepo->find($groupId);
+        $targetedUser = $userRepo->find($userId);
+        
+        // Vérif si leader
+        if ($group->getLeader() == $this->getUser()) {
+            
+            $group->removeBlacklistedUser($targetedUser);
+            $entityManager->persist($group);
+            $entityManager->flush();
+
+            $this->addFlash('success', 'Vous avez retiré ' . $targetedUser->getPseudo() . ' de la blacklist');
+            return $this->redirectToRoute('app_groupBlacklist', ['groupId' => $group->getId()]);
+        }
+        else {
+            $this->addFlash('error', 'Vous devez être le leader pour faire ceci');
+            return $this->redirectToRoute('app_groupList', ['gameIdFrom' => $game->getId()]);
+        }
+    }
+
 
 
 
