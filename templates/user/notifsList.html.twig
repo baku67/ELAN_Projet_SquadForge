@@ -32,7 +32,7 @@
         <div class="notifsContainer">
 
             {% for notif in notifs %}
-                <a href="">
+                <a href="{{ notif.link }}">
                     <div class="notifCard">
                         <p style="margin-bottom:0;">{{ notif.text }}</p>
                         <span class="notifCardPublishDate ">{{ time_diff(notif.dateCreation) }}</span>

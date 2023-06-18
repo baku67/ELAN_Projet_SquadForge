@@ -27,6 +27,9 @@ class Notification
     #[ORM\Column(options:["default" => false], nullable:true)]
     private ?bool $seen = null;
 
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $link = null;
+
     public function __construct() {
         $this->seen = false;
     }
@@ -80,6 +83,18 @@ class Notification
     public function setSeen(bool $seen): self
     {
         $this->seen = $seen;
+
+        return $this;
+    }
+
+    public function getLink(): ?string
+    {
+        return $this->link;
+    }
+
+    public function setLink(?string $link): self
+    {
+        $this->link = $link;
 
         return $this;
     }

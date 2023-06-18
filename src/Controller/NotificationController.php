@@ -2,14 +2,17 @@
 
 namespace App\Controller;
 
+use App\Entity\Notification;
 use App\Entity\Candidature;
 use App\Entity\Media;
 use App\Entity\Group;
 use App\Entity\Topic;
 use App\Entity\User;
-use App\Entity\Notification;
-use Doctrine\ORM\EntityManagerInterface;
+use App\Repository\NotificationRepository;
 
+use Doctrine\ORM\PersistentCollection;
+use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
@@ -18,28 +21,35 @@ use Symfony\Component\Routing\Annotation\Route;
 class NotificationController extends AbstractController
 {
 
-
+    private $urlGenerator;
+    private $notifRepo;
     private $entityManager;
 
-    public function __construct(EntityManagerInterface $entityManager)
+    public function __construct(EntityManagerInterface $entityManager, UrlGeneratorInterface $urlGenerator, NotificationRepository $notifRepo)
     {
         $this->entityManager = $entityManager;
+        $this->urlGenerator = $urlGenerator;
+        $this->notifRepo = $notifRepo;
     }
 
 
-    // Page de listing notifications User connecté
+    // Page de listing notifications User connecté (OrderBy HS: Le notifRepo marche pas ni avec entityManager )
     #[Route('/showNotifsList', name: 'app_showNotifsList')]
-    public function showNotifsList(EntityManagerInterface $entityManager, Request $request): Response
+    public function showNotifsList(Request $request): Response
     {
         $user = $this->getUser();
+
+        // (OrderBy HS: Le notifRepo marche pas ni avec entityManager )
+        // $notifRepo = $this->entityManager->getRepository(Notification::class);
+        // $notifs = $this->notifRepo->findAll();
         $notifs = $user->getNotifications();
 
         // Toutes les notifs passent en "seen" (pas de /notifDetails)
         foreach ($notifs as $notif) {
             $notif->setSeen(true);
-            $entityManager->persist($notif);
+            $this->entityManager->persist($notif);
         }
-        $entityManager->flush();
+        $this->entityManager->flush();
 
         return $this->render('user/notifsList.html.twig', [
             'user' => $user,
@@ -67,6 +77,10 @@ class NotificationController extends AbstractController
             $notification->setText("Votre candidature pour rejoindre la team \"" . $group->getTitle() . "\" a été rejetée.");
         }
 
+        // Lien notif (format localhost pour test mais marche en prod normalement):
+        $link = $this->urlGenerator->generate('app_groupDetails', ['groupId' => $group->getId()], UrlGeneratorInterface::ABSOLUTE_URL);
+        $notification->setLink($link);
+            
         $notification->setDateCreation(new \DateTime());
         $notification->setUser($user);
 
@@ -83,6 +97,10 @@ class NotificationController extends AbstractController
 
         // Message de la notif au nouveau leader
         $notification->setText("Vous êtes désormais leader de la team \"" . $group->getTitle() . "\"");
+
+        // Lien notif (format localhost pour test mais marche en prod normalement):
+        $link = $this->urlGenerator->generate('app_groupDetails', ['groupId' => $group->getId()], UrlGeneratorInterface::ABSOLUTE_URL);
+        $notification->setLink($link);
         
         $notification->setDateCreation(new \DateTime());
         $notification->setUser($newLeader);
@@ -114,6 +132,8 @@ class NotificationController extends AbstractController
 
     public function notifMemberLeave(Group $group, User $leavingUser): bool
     {
+        $groupRepo = $this->entityManager->getRepository(Group::class);
+        $group = $groupRepo->find($group);
         $members = $group->getMembers();
 
         foreach ($members as $member) {
@@ -122,6 +142,10 @@ class NotificationController extends AbstractController
             // Message de la notif
             $notification->setText("\"" . $leavingUser->getPseudo() . "\" a quitté la team \"" . $group->getTitle() . "\"");
             
+            // Lien notif (format localhost pour test mais marche en prod normalement):
+            $link = $this->urlGenerator->generate('app_groupDetails', ['groupId' => $group->getId()], UrlGeneratorInterface::ABSOLUTE_URL);
+            $notification->setLink($link);
+
             $notification->setDateCreation(new \DateTime());
             $notification->setUser($member);
 
@@ -139,6 +163,11 @@ class NotificationController extends AbstractController
 
         // Message de la notif 
         $notification->setText("Vous avez été expulsé de la team \"" . $group->getTitle() . "\"");
+
+        // Lien notif (format localhost pour test mais marche en prod normalement):
+        $link = $this->urlGenerator->generate('app_groupDetails', ['groupId' => $group->getId()], UrlGeneratorInterface::ABSOLUTE_URL);
+        $notification->setLink($link);
+            
 
         $notification->setDateCreation(new \DateTime());
         $notification->setUser($userKicked);
@@ -162,6 +191,10 @@ class NotificationController extends AbstractController
         // Message de la notif 
         $notification->setText("Nouvelle candidature de \"" . $candidature->getUser()->getPseudo() . "\" pour votre team \"" . $candidature->getGroupe()->getTitle() . "\"");
 
+        // Lien notif (format localhost pour test mais marche en prod normalement):
+        $link = $this->urlGenerator->generate('app_groupDetails', ['groupId' => $candidature->getGroupe()->getId()], UrlGeneratorInterface::ABSOLUTE_URL);
+        $notification->setLink($link);
+
         $notification->setDateCreation(new \DateTime());
         $notification->setUser($leader);
 
@@ -180,6 +213,10 @@ class NotificationController extends AbstractController
 
         $notification->setText("Votre média \"" . $media->getTitle() . "\" a été approuvé par la modération");
 
+        // Lien notif (format localhost pour test mais marche en prod normalement):
+        $link = $this->urlGenerator->generate('app_mediaDetail', ['id' => $media->getId()], UrlGeneratorInterface::ABSOLUTE_URL);
+        $notification->setLink($link); 
+
         $notification->setDateCreation(new \DateTime());
         $notification->setUser($author);
 
@@ -194,6 +231,10 @@ class NotificationController extends AbstractController
         $notification = new Notification();
 
         $notification->setText("Votre média \"" . $media->getTitle() . "\" a été refusé par la modération");
+
+        // Lien notif (format localhost pour test mais marche en prod normalement):
+        $link = $this->urlGenerator->generate('app_user', [], UrlGeneratorInterface::ABSOLUTE_URL);
+        $notification->setLink($link);    
 
         $notification->setDateCreation(new \DateTime());
         $notification->setUser($author);
@@ -210,6 +251,10 @@ class NotificationController extends AbstractController
 
         $notification->setText("Votre topic \"" . $topic->getTitle() . "\" a été approuvé par la modération");
 
+        // Lien notif (format localhost pour test mais marche en prod normalement):
+        $link = $this->urlGenerator->generate('app_topicDetail', ['id' => $topic->getId()], UrlGeneratorInterface::ABSOLUTE_URL);
+        $notification->setLink($link); 
+    
         $notification->setDateCreation(new \DateTime());
         $notification->setUser($author);
 
@@ -224,6 +269,10 @@ class NotificationController extends AbstractController
         $notification = new Notification();
 
         $notification->setText("Votre topic \"" . $topic->getTitle() . "\" a été refusé par la modération");
+
+        // Lien notif (format localhost pour test mais marche en prod normalement):
+        $link = $this->urlGenerator->generate('app_user', [], UrlGeneratorInterface::ABSOLUTE_URL);
+        $notification->setLink($link); 
 
         $notification->setDateCreation(new \DateTime());
         $notification->setUser($author);
