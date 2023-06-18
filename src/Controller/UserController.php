@@ -85,25 +85,4 @@ class UserController extends AbstractController
     }
 
 
-
-    #[Route('/showNotifsList', name: 'app_showNotifsList')]
-    public function showNotifsList(EntityManagerInterface $entityManager, Request $request): Response
-    {
-        $user = $this->getUser();
-        $notifs = $user->getNotifications();
-
-        // Toutes les notifs passent en "seen" (pas de /notifDetails)
-        foreach ($notifs as $notif) {
-            $notif->setSeen(true);
-            $entityManager->persist($notif);
-        }
-        $entityManager->flush();
-
-        return $this->render('user/notifsList.html.twig', [
-            'user' => $user,
-            'notifs' => $notifs,
-        ]);
-
-    }
-
 }

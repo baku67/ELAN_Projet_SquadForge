@@ -1453,8 +1453,11 @@ cursor: pointer;
     color: white;
 }
 .newNotifBubbleCount {
+    /* Pour diff entre 1 et 2 etc... */
+    width: 20px;
+
     position: absolute;
-    right: -9px;
+    right: -12px;
     background-color: var(--primary-color);
     color: black;
     padding: 0px 4px;

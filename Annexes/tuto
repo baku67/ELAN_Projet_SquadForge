@@ -1,11 +1,10 @@
 En cours: notifs modération signalements, notifs likes (par packs)
+En cours: -> Front différence notifCard vu/ non vu (Quand pop sur listNotifs et qu'il y'a du nouveau)
 
+! Ajouter une bubulle à coté de "Modération" qui count les nouveaux éléments en atttente de validation ( MAIS : le "seen" s'adapte en fontion du modo héhéhéhéhéhéhéhéhéhéhéhéhé)
 
 ChatGPT NOTIFS DE LIKES GROUPÉES  !!!!!!! (spoiler c'est chaud):
 https://chat.openai.com/share/2025dcea-0ed8-4acf-b95e-eba72112a23c
-
-quand je clique sur la route showNotif = set 1 "seen" all notif user
--> Front différence notifCard vu/ non vu
 
 LeaderGroup: changer nbr Place + handle nbrMembers (à voir si modes de jeu) 
 

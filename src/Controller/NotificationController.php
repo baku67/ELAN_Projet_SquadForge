@@ -3,13 +3,16 @@
 namespace App\Controller;
 
 use App\Entity\Candidature;
+use App\Entity\Media;
 use App\Entity\Group;
+use App\Entity\Topic;
 use App\Entity\User;
 use App\Entity\Notification;
 use Doctrine\ORM\EntityManagerInterface;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 
 class NotificationController extends AbstractController
@@ -23,6 +26,33 @@ class NotificationController extends AbstractController
         $this->entityManager = $entityManager;
     }
 
+
+    // Page de listing notifications User connecté
+    #[Route('/showNotifsList', name: 'app_showNotifsList')]
+    public function showNotifsList(EntityManagerInterface $entityManager, Request $request): Response
+    {
+        $user = $this->getUser();
+        $notifs = $user->getNotifications();
+
+        // Toutes les notifs passent en "seen" (pas de /notifDetails)
+        foreach ($notifs as $notif) {
+            $notif->setSeen(true);
+            $entityManager->persist($notif);
+        }
+        $entityManager->flush();
+
+        return $this->render('user/notifsList.html.twig', [
+            'user' => $user,
+            'notifs' => $notifs,
+        ]);
+    }
+
+
+
+
+    // **************************************************************************************************************************
+    // Fonctions "d'envoi" de notifications
+    // **************************************************************************************************************************
 
 
     public function notifUpdateCandidature(string $case, User $user, Group $group): bool
