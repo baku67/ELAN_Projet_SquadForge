@@ -112,12 +112,16 @@ class NotificationController extends AbstractController
         $members = $group->getMembers();
 
         foreach ($members as $member) {
-            if($members != $newLeader) {
+            if($member != $newLeader) {
                 $notification2 = new Notification();
 
                 // Message de la notif
                 $notification2->setText("\"" . $newLeader->getPseudo() . "\" est désormai leader de la team \"" . $group->getTitle() . "\"");
                 
+                // Lien notif (format localhost pour test mais marche en prod normalement):
+                $link = $this->urlGenerator->generate('app_groupDetails', ['groupId' => $group->getId()], UrlGeneratorInterface::ABSOLUTE_URL);
+                $notification2->setLink($link);
+
                 $notification2->setDateCreation(new \DateTime());
                 $notification2->setUser($member);
     
@@ -192,7 +196,7 @@ class NotificationController extends AbstractController
         $notification->setText("Nouvelle candidature de \"" . $candidature->getUser()->getPseudo() . "\" pour votre team \"" . $candidature->getGroupe()->getTitle() . "\"");
 
         // Lien notif (format localhost pour test mais marche en prod normalement):
-        $link = $this->urlGenerator->generate('app_groupDetails', ['groupId' => $candidature->getGroupe()->getId()], UrlGeneratorInterface::ABSOLUTE_URL);
+        $link = $this->urlGenerator->generate('app_candidatureDetails', ['candidatureId' => $candidature->getId()], UrlGeneratorInterface::ABSOLUTE_URL);
         $notification->setLink($link);
 
         $notification->setDateCreation(new \DateTime());
