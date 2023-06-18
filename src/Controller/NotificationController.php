@@ -22,8 +22,8 @@ class NotificationController extends AbstractController
 {
 
     private $urlGenerator;
-    private $notifRepo;
     private $entityManager;
+    private $notifRepo;
 
     public function __construct(EntityManagerInterface $entityManager, UrlGeneratorInterface $urlGenerator, NotificationRepository $notifRepo)
     {
@@ -50,6 +50,28 @@ class NotificationController extends AbstractController
             $this->entityManager->persist($notif);
         }
         $this->entityManager->flush();
+
+        return $this->render('user/notifsList.html.twig', [
+            'user' => $user,
+            'notifs' => $notifs,
+        ]);
+    }
+
+
+    // Clean des notifs user (HS notifRepo !!!! j'ai tout tenté)
+    #[Route('/cleanNotifsUser', name: 'app_cleanNotifsUser')]
+    public function cleanNotifsUser(Request $request): Response
+    {
+        $user = $this->getUser();
+
+        // $notifRepo = $this->getDoctrine()->getRepository(Notification::class);
+        // $notifs = $user->getNotifications();
+        $notifs = $this->notifRepo->findAll();
+
+        // Delete all notifs user
+        // foreach ($notifs as $notif) {
+        //     $notifRepo->remove($notif, true);
+        // }
 
         return $this->render('user/notifsList.html.twig', [
             'user' => $user,
@@ -137,7 +159,6 @@ class NotificationController extends AbstractController
     public function notifMemberLeave(Group $group, User $leavingUser): bool
     {
         $groupRepo = $this->entityManager->getRepository(Group::class);
-        $group = $groupRepo->find($group);
         $members = $group->getMembers();
 
         foreach ($members as $member) {

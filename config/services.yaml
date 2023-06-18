@@ -7,6 +7,10 @@ parameters:
     upload_directory: '%kernel.project_dir%/public/img/uploads'
 
 services:
+    Doctrine\ORM\EntityManagerInterface: '@doctrine.orm.default_entity_manager'
+    App\Repository\NotificationRepository:
+        arguments:
+            - '@doctrine.orm.default_entity_manager'
     # default configuration for services in *this* file
     _defaults:
         autowire: true      # Automatically injects dependencies in your services.

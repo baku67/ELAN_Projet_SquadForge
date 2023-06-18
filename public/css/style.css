@@ -1478,3 +1478,17 @@ cursor: pointer;
     border-radius: 3px;
     margin: 2px auto;
 }
+
+
+.cleanNotifsBtn {
+    color: #fe6565;
+    padding: 15px 18px;
+    font-size: 1.5em;
+    border-radius: 100px;
+    border: 1px solid grey;
+    background-color: var(--sectionBg-color);
+    display: block;
+    text-align: center;
+    width: fit-content;
+    margin: 25px auto;
+}
