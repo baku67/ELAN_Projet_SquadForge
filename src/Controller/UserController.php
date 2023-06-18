@@ -17,6 +17,8 @@ use Symfony\Component\HttpFoundation\Request;
 
 class UserController extends AbstractController
 {
+
+    
     #[Route('/user', name: 'app_user')]
     public function profil(EntityManagerInterface $entityManager): Response
     {
@@ -59,6 +61,8 @@ class UserController extends AbstractController
         }
     }
 
+
+
     // Ajax Asynch toggleAutoplayGifs (A fixer! juste inversion bool BDD pour l'instant)
     #[Route('/toggleAutoplayGifs', name: 'app_toggleAutoplayGifs')]
     public function toggleAutoplayGifs(EntityManagerInterface $entityManager, Request $request): Response
@@ -82,14 +86,18 @@ class UserController extends AbstractController
 
 
 
-
-    
     #[Route('/showNotifsList', name: 'app_showNotifsList')]
     public function showNotifsList(EntityManagerInterface $entityManager, Request $request): Response
     {
-
         $user = $this->getUser();
         $notifs = $user->getNotifications();
+
+        // Toutes les notifs passent en "seen" (pas de /notifDetails)
+        foreach ($notifs as $notif) {
+            $notif->setSeen(true);
+            $entityManager->persist($notif);
+        }
+        $entityManager->flush();
 
         return $this->render('user/notifsList.html.twig', [
             'user' => $user,

@@ -1,0 +1,55 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Notifications{% endblock %}
+
+{% block body %} 
+
+    
+    <header class="globalBanner" style="background: url('{{ asset('img/banner.jpg') }}' )">
+        <a href="{{ path('app_home') }}"><img src="{{ asset('img/logoSquadForge_White_Rogned.png') }}" class="logoPng" /></a>
+        <nav class="navLine">
+            <a href="{{ path('app_games') }}">JEUX</a>
+            {% if app.user %}
+                <a href="{{ path('app_userGroups') }}" style="white;">TEAMS</a>
+                <a href="{{ path('app_showNotifsList') }}">
+                    <div style="position:relative; margin-right:10px;">
+                        <i class="fa-solid fa-bell notifBell"></i>
+                        {# Pas de bubbleNbr car all-seen ici#}
+                    </div>
+                </a>
+            {% endif %}
+            {% if "ROLE_MODO" in app.user.roles %}
+                <a href="{{ path('app_moderationDashboard') }}">Modération</a>
+            {% endif %}
+        </nav>
+    </header>
+    <div class="headerUnderline"></div>
+
+    <div class="main">
+
+        <h2 class="pageTitle">Notifications</h2>
+
+        {% for notif in notifs %}
+            <a href="">
+                <div class="notifCard">
+                    <p>{{ notif.text }}</p>
+                    <span class="topicCardPublishDate">{{ time_diff(notif.dateCreation) }}</span>
+                </div>
+            </a>
+        {% endfor %}
+
+
+
+
+
+
+
+
+
+        
+
+        
+
+    </div>
+
+{% endblock %}
