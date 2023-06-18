@@ -33,8 +33,6 @@ class SecurityController extends AbstractController
                 return $this->render('security/home.html.twig');
             }
         }
-
-
         // get the login error if there is one
         $error = $authenticationUtils->getLastAuthenticationError();
         // last username entered by the user
@@ -59,7 +57,6 @@ class SecurityController extends AbstractController
     #[Route(path: '/home', name: 'app_home')]
     public function homepage(EntityManagerInterface $entityManager)
     {
-
         // Si connecté: raccourcis Games favoris
         if($this->getUser()) {
             $userFav = $this->getUser()->getFavoris();

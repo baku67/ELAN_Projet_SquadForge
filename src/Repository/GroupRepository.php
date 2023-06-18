@@ -57,11 +57,6 @@ class GroupRepository extends ServiceEntityRepository
     }
 
 
-    public function getPublicGroupsCount(): int 
-    {
-        // where status = public
-    }
-
     // Liste des groups dont l'user est memebre/(leader? sépraré)
     public function findUserGroups(User $user): array
     {   
@@ -79,25 +74,6 @@ class GroupRepository extends ServiceEntityRepository
     // Liste des groups du User sur jeuDetail
     public function findGroupsByUserAndGame(User $user, Game $game): array
     {
-        // return $this->createQueryBuilder('g')
-        // ->leftJoin('g.membre_group', 'mg')
-        // ->where('mg.user = :user')
-        // ->andWhere('g.game = :game')
-        // ->setParameter('user', $user)
-        // ->setParameter('game', $game)
-        // // ->setMaxResults(10)
-        // ->getQuery()
-        // ->getResult();
-
-        // return $this->createQueryBuilder('g')
-        // ->innerJoin('App\Entity\UserGroup', 'ug', 'WITH', 'g.id = ug.group')
-        // ->innerJoin('App\Entity\User', 'u', 'WITH', 'ug.user = u.id')
-        // ->where('u.id = :user')
-        // ->andWhere('g.game = :game')
-        // ->setParameter('user', $user->getId())
-        // ->setParameter('game', $game)
-        // ->getQuery()
-        // ->getResult();
 
         return $this->createQueryBuilder('g')
             ->innerJoin('g.members', 'u')

@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\Notification;
 use App\Entity\Candidature;
 use App\Entity\Group;
 use App\Entity\GroupQuestion;
@@ -68,6 +69,10 @@ class CandidatureController extends AbstractController
         $candidatureRepo = $entityManager->getRepository(Candidature::class);
         $groupQuestionRepo = $entityManager->getRepository(GroupQuestion::class);
         $groupAnswerRepo = $entityManager->getRepository(GroupAnswer::class);
+        $notifRepo = $entityManager->getRepository(Notification::class);
+
+        // Nombre de notifs "non-vues"
+        $userNotifCount = count($notifRepo->findByUserNotSeen($this->getUser()));
 
         $candidature = $candidatureRepo->find($candidatureId);
         $group = $candidature->getGroupe();
@@ -86,6 +91,7 @@ class CandidatureController extends AbstractController
         if ($this->getUser() == $group->getLeader()) {
 
             return $this->render('candidature/candidatureDetails.html.twig', [
+                'userNotifCount' => $userNotifCount,
                 'candidature' => $candidature,
                 'group' => $group,
                 'gameFrom' => $gameFrom,

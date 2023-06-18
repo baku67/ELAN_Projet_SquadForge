@@ -20,11 +20,18 @@ use Symfony\Component\HttpFoundation\Request;
 class MediaController extends AbstractController
 {
 
+    private $notifController;
+
+    public function __construct(NotificationController $notifController) {
+
+        $this->notifController = $notifController;
+    }
+
+
     // Listing tous les Médias du jeu (max 20 Repo)
     #[Route('/allMedias/{gameIdFrom}', name: 'app_allMedias')]
     public function getGameMedias(EntityManagerInterface $entityManager, int $gameIdFrom, Request $request): Response
     {
-
         $gameRepo = $entityManager->getRepository(Game::class);
         $gameFrom = $gameRepo->find($gameIdFrom);
 
@@ -91,7 +98,6 @@ class MediaController extends AbstractController
                     //     $image->save($pathToSave, ['jpeg_quality' => 80]);
                     // }
 
-
                     $genImgName = $this->generateCustomFileName() . "." . $fileExt;
 
                     try {
@@ -105,7 +111,6 @@ class MediaController extends AbstractController
                         return $this->redirectToRoute('app_game', ['id' => $gameFrom->getId()]);
                     }
                     $media->setUrl($genImgName);
-
 
                     // Liste des mots du commentaires
                     $words = str_word_count($titleInputValue, 1);
@@ -126,7 +131,6 @@ class MediaController extends AbstractController
                         $this->addFlash('error', 'Le titre doit faire au minimum 5 mots !');
                         return $this->redirectToRoute('app_game', ['id' => $gameFrom->getId()]);
                     }
-
                 } 
                 else {
                     $this->addFlash('error', 'Pas de vulgarités pour un titre');
@@ -139,15 +143,12 @@ class MediaController extends AbstractController
             }
         }
 
-
-
         if ($gameIdFrom != "home") {
             $from = "game";
         }
         else {
             $from = "home";
         }
-
 
         return $this->render('media/gameMedias.html.twig', [
             'formAddMedia' => $form2->createView(),
@@ -182,7 +183,6 @@ class MediaController extends AbstractController
     #[Route('/mediaDetail/{id}', name: 'app_mediaDetail')]
     public function getMediaDetail(EntityManagerInterface $entityManager, int $id, Request $request): Response
     {
-
         $mediaRepo = $entityManager->getRepository(Media::class);
         $media = $mediaRepo->find($id);
 
@@ -193,8 +193,6 @@ class MediaController extends AbstractController
     
             $censures = $censureRepo->findAll();
     
-    
-    
             $mediaGame = $media->getGame();
     
             // A remplacer par customQuery: triés par nbr d'upvote et sinon par publishDate (récent en haut) [différent d'un chat]
@@ -202,8 +200,6 @@ class MediaController extends AbstractController
             // (les réponses au post s'afficheront avec ajax au click sur le post)
     
             $mediaPosts = $mediaPostRepo->findBy(['media' => $media], ['publish_date' => 'DESC']);
-    
-    
     
             // Form de publication de post sur un media
             $mediaPost = new MediaPost();
@@ -250,28 +246,22 @@ class MediaController extends AbstractController
                             //     $this->addFlash('error', 'Le titre doit faire au minimum 5 mots !');
                             //     return $this->redirectToRoute('app_game', ['id' => $game->getId()]);
                             // }
-        
                         } 
                         else {
                             $this->addFlash('error', 'Les données envoyées ne sont pas valides');
                             return $this->redirectToRoute('app_mediaDetail', ['id' => $media->getId()]);
                         }   
-    
                     }
                     else {
                         $this->addFlash('error', 'Le media a été fermé, vous ne pouvez plus le commenter.');
                         return $this->redirectToRoute('app_mediaDetail', ['id' => $media->getId()]);
                     }
-    
-    
-                    
                 }
                 else {
                     $this->addFlash('error', 'Vous devez être connecté pour publier un post');
                     return $this->redirectToRoute('app_login');
                 }
             }
-    
             return $this->render('media/mediaDetail.html.twig', [
                 'formAddMediaPost' => $form->createView(),
                 'media' => $media,
@@ -279,17 +269,11 @@ class MediaController extends AbstractController
                 'mediaPosts' => $mediaPosts,
                 'censures' => $censures,
             ]);
-
-
-
         }
         else {
             $this->addFlash('error', 'Le média est en attente ou refusé par la modération');
             return $this->redirectToRoute('app_user');
         }
-        
-        
-        
     }
 
 
@@ -319,11 +303,10 @@ class MediaController extends AbstractController
 
 
 
-    // Like d'un Media par user (id: idMedia)
+    // Asynch: Like d'un Media par user (id: idMedia)
     #[Route('/likeMedia/{id}', name: 'app_likeMedia')]
     public function likeMedia(EntityManagerInterface $entityManager, int $id, Request $request): Response
     {
-
         if ($this->getUser()) {
 
             $mediaRepo = $entityManager->getRepository(Media::class);
@@ -334,44 +317,29 @@ class MediaController extends AbstractController
             // Vérification si déjà like = remove
             if ($media->getUserUpvote()->contains($user)) {
 
-                // En attendant l'asynch (pour l'instant le redirect est deg)
                 $media->removeUserUpvote($user);
-                // $this->addFlash('success', 'Votre avez unliké');
 
                 $entityManager->flush();
 
                 // Nouveau compte de likes du média
                 $likeCount = count($media->getUserUpvote());
 
-                // unliké
                 return new JsonResponse(['success' => true, 'newState' => "unliked", 'newCountLikes' => $likeCount]);
-
             }
             else {
-                // En attendant l'asynch (pour l'instant le redirect est deg)
                 $media->addUserUpvote($user);
-                // $this->addFlash('success', 'Votre avez liké');
 
                 $entityManager->flush();
 
                 // Nouveau compte de likes du média
                 $likeCount = count($media->getUserUpvote());
 
-                // liké
                 return new JsonResponse(['success' => true, 'newState' => "liked", 'newCountLikes' => $likeCount]);
             }
-
-            // $entityManager->flush();
-
-            // return $this->redirectToRoute('app_mediaDetail', ['id' => $media->getId()]);
-
         }
         else {
-
             return new JsonResponse(['success' => false]);
-
         }
-        
     }
 
 
@@ -384,11 +352,10 @@ class MediaController extends AbstractController
 
 
 
-    // Upvote/unUpvote de mediaPost par user (id: idMediaPost)
+    // Asynch Upvote/unUpvote de mediaPost par user (id: idMediaPost)
     #[Route('/upvoteMediaPost/{id}', name: 'app_upvoteMediaPost')]
     public function upvoteMediaPost(EntityManagerInterface $entityManager, int $id, Request $request): Response
     {
-
         if ($this->getUser()) {
 
             $postLikeRepo = $entityManager->getRepository(MediaPostLike::class);
@@ -417,7 +384,6 @@ class MediaController extends AbstractController
 
                     // JS FLASH: Votre upvote a été pris en compte
                     return new JsonResponse(['success' => true, 'newState' => 'upvoted', 'gameColor' => $media->getGame()->getColor(), 'newScore' => $newScore]);   
-
                 
                 } 
                 else {
@@ -457,16 +423,14 @@ class MediaController extends AbstractController
         else {
             return new JsonResponse(['success' => false, 'case' => 'logIn']);
         }
-
     }
 
 
 
-    // Downvote/unDownvote de mediaPost par user (id: idMediaPost)
+    // Asynch Downvote/unDownvote de mediaPost par user (id: idMediaPost)
     #[Route('/downvoteMediaPost/{id}', name: 'app_downvoteMediaPost')]
     public function downvoteMediaPost(EntityManagerInterface $entityManager, int $id, Request $request): Response
     {
-
         if ($this->getUser()) {
 
             $postLikeRepo = $entityManager->getRepository(MediaPostLike::class);
@@ -474,7 +438,6 @@ class MediaController extends AbstractController
 
             $mediaPost = $mediaPostRepo->find($id);
             $media = $mediaPost->getMedia();
-
 
             // Downvote possible que si pas auteur
                 if ($this->getUser() != $mediaPost->getUser()) {
@@ -497,12 +460,11 @@ class MediaController extends AbstractController
                     // JS FLASH: Votre upvote a été pris en compte
                     return new JsonResponse(['success' => true, 'newState' => 'downvoted', 'gameColor' => $media->getGame()->getColor(), 'newScore' => $newScore]);   
 
-                
                 } 
                 else {
 
-                    if($postLikeRepo->findOneBy(['user' => $this->getUser(), 'mediaPost' => $mediaPost])->getState() == "downvote" ) {
-
+                    if($postLikeRepo->findOneBy(['user' => $this->getUser(), 'mediaPost' => $mediaPost])->getState() == "downvote" ) 
+                    {
                         $mediaPostLike = $postLikeRepo->findOneBy(['user' => $this->getUser(), 'mediaPost' => $mediaPost]);
 
                         $postLikeRepo->remove($mediaPostLike, true);
@@ -513,8 +475,8 @@ class MediaController extends AbstractController
                         return new JsonResponse(['success' => true, 'newState' => 'notDownvoted', 'newScore' => $newScore]);   
                     
                     }
-                    else if($postLikeRepo->findOneBy(['user' => $this->getUser(), 'mediaPost' => $mediaPost])->getState() == "upvote" ) {
-
+                    else if($postLikeRepo->findOneBy(['user' => $this->getUser(), 'mediaPost' => $mediaPost])->getState() == "upvote" ) 
+                    {
                         $mediaPostLike = $postLikeRepo->findOneBy(['user' => $this->getUser(), 'mediaPost' => $mediaPost]);
 
                         $mediaPostLike->setState("downvote");
@@ -536,12 +498,7 @@ class MediaController extends AbstractController
         else {
             return new JsonResponse(['success' => false, 'case' => 'logIn']);
         }
-
     }
-
-
-
-
 
 
 
@@ -565,58 +522,53 @@ class MediaController extends AbstractController
 
 
 
+    // Fermeture de Média par author (id: idMédia)  
+    #[Route('/closeMedia/{id}', name: 'app_closeMedia')]
+    public function closeMedia(EntityManagerInterface $entityManager, int $id, Request $request): Response
+    {
+        $mediaRepo = $entityManager->getRepository(Media::class);
 
+        $media = $mediaRepo->find($id);
 
+        // Vérif si user est bien l'auteur du média
+        if ($this->getUser() == $media->getUser()) {
 
+            $media->setStatus("closed");
+            $entityManager->flush();
 
-
-
-
-        // Fermeture de Média par author (id: idMédia)  
-        #[Route('/closeMedia/{id}', name: 'app_closeMedia')]
-        public function closeMedia(EntityManagerInterface $entityManager, int $id, Request $request): Response
-        {
-            $mediaRepo = $entityManager->getRepository(Media::class);
-    
-            $media = $mediaRepo->find($id);
-    
-            // Vérif si user est bien l'auteur du média
-            if ($this->getUser() == $media->getUser()) {
-    
-                $media->setStatus("closed");
-                $entityManager->flush();
-    
-                $this->addFlash('success', 'Le média a bien été fermé');
-                return $this->redirectToRoute('app_mediaDetail', ['id' => $id]); 
-            }
-            else {
-                $this->addFlash('error', 'Vous devez être l\'auteur du média ou admin pour pouvoir le fermer');
-                return $this->redirectToRoute('app_mediaDetail', ['id' => $id]); 
-            }
+            $this->addFlash('success', 'Le média a bien été fermé');
+            return $this->redirectToRoute('app_mediaDetail', ['id' => $id]); 
         }
-    
-        // Réouverture du Média par author (id: idMedia)  
-        #[Route('/openMedia/{id}', name: 'app_openMedia')]
-        public function openMedia(EntityManagerInterface $entityManager, int $id, Request $request): Response
-        {
-            $mediaRepo = $entityManager->getRepository(Media::class);
-    
-            $media = $mediaRepo->find($id);
-    
-            // Vérif si user est bien l'auteur du media
-            if ($this->getUser() == $media->getUser()) {
-    
-                $media->setStatus("open");
-                $entityManager->flush();
-    
-                $this->addFlash('success', 'Le media a bien été rouvert');
-                return $this->redirectToRoute('app_mediaDetail', ['id' => $id]); 
-            }
-            else {
-                $this->addFlash('error', 'Vous devez être l\'auteur du media ou admin pour pouvoir le rouvrir');
-                return $this->redirectToRoute('app_mediaDetail', ['id' => $id]); 
-            }
+        else {
+            $this->addFlash('error', 'Vous devez être l\'auteur du média ou admin pour pouvoir le fermer');
+            return $this->redirectToRoute('app_mediaDetail', ['id' => $id]); 
         }
+    }
+    
+
+
+    // Réouverture du Média par author (id: idMedia)  
+    #[Route('/openMedia/{id}', name: 'app_openMedia')]
+    public function openMedia(EntityManagerInterface $entityManager, int $id, Request $request): Response
+    {
+        $mediaRepo = $entityManager->getRepository(Media::class);
+
+        $media = $mediaRepo->find($id);
+
+        // Vérif si user est bien l'auteur du media
+        if ($this->getUser() == $media->getUser()) {
+
+            $media->setStatus("open");
+            $entityManager->flush();
+
+            $this->addFlash('success', 'Le media a bien été rouvert');
+            return $this->redirectToRoute('app_mediaDetail', ['id' => $id]); 
+        }
+        else {
+            $this->addFlash('error', 'Vous devez être l\'auteur du media ou admin pour pouvoir le rouvrir');
+            return $this->redirectToRoute('app_mediaDetail', ['id' => $id]); 
+        }
+    }
     
 
 }

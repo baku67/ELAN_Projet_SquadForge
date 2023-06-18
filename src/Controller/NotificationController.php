@@ -130,16 +130,13 @@ class NotificationController extends AbstractController
         $notification = new Notification();
 
         // Message de la notif 
-        $notification->setText("Nouvlle candidature de \"" . $candidature->getUser()->getPseudo() . "\" pour votre team \"" . $candidature->getGroupe()->getTitle() . "\"");
+        $notification->setText("Nouvelle candidature de \"" . $candidature->getUser()->getPseudo() . "\" pour votre team \"" . $candidature->getGroupe()->getTitle() . "\"");
 
         $notification->setDateCreation(new \DateTime());
         $notification->setUser($leader);
 
         $this->entityManager->persist($notification);
         $this->entityManager->flush();
-
-        // Notifs aux autres membres
-        $this->notifMemberLeave($group, $user);
 
         return true;
     }

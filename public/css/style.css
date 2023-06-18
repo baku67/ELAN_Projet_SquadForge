@@ -1431,3 +1431,27 @@ cursor: pointer;
 .leaderCard {
     border: 1px solid gold;
 }
+
+
+.navLine {
+    display: inline-flex;
+}
+.navLine * {
+    margin: 0 4px;
+}
+.notifBell {
+    color: white;
+}
+.newNotifBubbleCount {
+    position: absolute;
+    right: -9px;
+    background-color: var(--primary-color);
+    color: black;
+    padding: 0px 4px;
+    padding-top: 2px;
+    border-radius: 100px;
+    top: 2px;
+    line-height: 15px;
+    font-weight: 600;
+    border: 1px solid rgba(0, 0, 0, 0.4);
+}

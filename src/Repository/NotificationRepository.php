@@ -2,9 +2,12 @@
 
 namespace App\Repository;
 
+use App\Entity\User;
 use App\Entity\Notification;
+
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
+use Doctrine\ORM\EntityManagerInterface;
 
 /**
  * @extends ServiceEntityRepository<Notification>
@@ -16,10 +19,13 @@ use Doctrine\Persistence\ManagerRegistry;
  */
 class NotificationRepository extends ServiceEntityRepository
 {
-    public function __construct(ManagerRegistry $registry)
+
+    private $entityManager;
+    public function __construct(EntityManagerInterface $entityManager)
     {
-        parent::__construct($registry, Notification::class);
+        $this->entityManager = $entityManager;
     }
+
 
     public function save(Notification $entity, bool $flush = false): void
     {
@@ -39,6 +45,23 @@ class NotificationRepository extends ServiceEntityRepository
         }
     }
 
+
+    public function findByUserNotSeen(User $user): array
+    {
+        $queryBuilder = $this->entityManager->createQueryBuilder();
+
+        $queryBuilder
+            ->select('n')
+            ->from('App\Entity\Notification', 'n')
+            ->where('n.user = :user')
+            ->andWhere('n.seen = :seen')
+            ->setParameter('user', $user)
+            ->setParameter('seen', 0);
+
+        $result = $queryBuilder->getQuery()->getResult();
+
+        return $result;
+    }
 //    /**
 //     * @return Notification[] Returns an array of Notification objects
 //     */
