@@ -338,8 +338,18 @@ nav {
     animation: fadeInRotate 1s 0s ease forwards;
 }
 
-.topicCardPublishDate {
+.topicCardPublishDate, .notifCardPublishDate {
     font-family: 'K2D', sans-serif;
+}
+.notifCardPublishDate {
+    position: absolute;
+    right: 7px;
+    bottom: 3px;
+    font-size: 0.7em;
+}
+
+.notifsContainer {
+    margin-top: 30px;
 }
 
 .listContainer {
@@ -1454,4 +1464,14 @@ cursor: pointer;
     line-height: 15px;
     font-weight: 600;
     border: 1px solid rgba(0, 0, 0, 0.4);
+}
+
+
+.notifCard {
+    position: relative;
+    font-family: 'K2D', sans-serif;
+    background-color: var(--sectionBg-color);
+    padding: 10px 15px;
+    border-radius: 3px;
+    margin: 2px auto;
 }

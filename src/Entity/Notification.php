@@ -24,8 +24,12 @@ class Notification
     #[ORM\JoinColumn(nullable: false)]
     private ?User $user = null;
 
-    #[ORM\Column]
+    #[ORM\Column(options:["default" => false], nullable:true)]
     private ?bool $seen = null;
+
+    public function __construct() {
+        $this->seen = false;
+    }
 
     public function getId(): ?int
     {
