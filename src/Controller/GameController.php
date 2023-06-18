@@ -43,9 +43,21 @@ class GameController extends AbstractController
         $gamesRepo = $entityManager->getRepository(Game::class);
         $genreRepo = $entityManager->getRepository(Genre::class);
         $notifRepo = $entityManager->getRepository(Notification::class);
+        $mediaRepo = $entityManager->getRepository(Media::class);
+        $topicRepo = $entityManager->getRepository(Topic::class);
 
         // Onglet notifs Bulle nbr "non-vues" (int si connécté, null sinon)
         $userNotifCount = $this->getUser() ? count($notifRepo->findByUserNotSeen($this->getUser())) : null;
+        // Si userModo: Bulles nbr éléments en attente de validation (int si modo, null sinon)
+        if(in_array('ROLE_MODO', $this->getUser()->getRoles())) {
+            // On compte les Topic et Médias status "waiting"
+            $mediasWaitings = count($mediaRepo->findBy(["validated" => "waiting"]));
+            $topicsWaitings = count($topicRepo->findBy(["validated" => "waiting"]));
+            $modoNotifCount = $mediasWaitings + $topicsWaitings;
+        }
+        else {
+            $modoNotifCount = null;
+        }
 
         // Quand système de notation: trier par note 
         // Jeux par catégories
@@ -62,6 +74,7 @@ class GameController extends AbstractController
         $brGamesCount = count($brGames);
 
         return $this->render('game/gameList.html.twig', [
+            'modoNotifCount' => $modoNotifCount,
             'userNotifCount' => $userNotifCount,
             'fpsGames' => $fpsGames,
             'fpsGamesCount' => $fpsGamesCount,
@@ -86,6 +99,16 @@ class GameController extends AbstractController
 
         // Onglet notifs Bulle nbr "non-vues" (int si connécté, null sinon)
         $userNotifCount = $this->getUser() ? count($notifRepo->findByUserNotSeen($this->getUser())) : null;
+        // Si userModo: Bulles nbr éléments en attente de validation (int si modo, null sinon)
+        if(in_array('ROLE_MODO', $this->getUser()->getRoles())) {
+            // On compte les Topic et Médias status "waiting"
+            $mediasWaitings = count($mediaRepo->findBy(["validated" => "waiting"]));
+            $topicsWaitings = count($topicRepo->findBy(["validated" => "waiting"]));
+            $modoNotifCount = $mediasWaitings + $topicsWaitings;
+        }
+        else {
+            $modoNotifCount = null;
+        }
 
         $game = $gamesRepo->find($id);
         $gameGenre = $game->getGenre()->getName();
@@ -306,6 +329,7 @@ class GameController extends AbstractController
         
 
         return $this->render('game/gameDetails.html.twig', [
+            'modoNotifCount' => $modoNotifCount,
             'userNotifCount' => $userNotifCount,
             'formAddTopic' => $form->createView(),
             'formAddMedia' => $form2->createView(),
@@ -340,9 +364,21 @@ class GameController extends AbstractController
     {
         $gamesRepo = $entityManager->getRepository(Game::class);
         $notifRepo = $entityManager->getRepository(Notification::class);
+        $mediaRepo = $entityManager->getRepository(Media::class);
+        $topicRepo = $entityManager->getRepository(Topic::class);
 
         // Onglet notifs Bulle nbr "non-vues" (int si connécté, null sinon)
         $userNotifCount = $this->getUser() ? count($notifRepo->findByUserNotSeen($this->getUser())) : null;
+        // Si userModo: Bulles nbr éléments en attente de validation (int si modo, null sinon)
+        if(in_array('ROLE_MODO', $this->getUser()->getRoles())) {
+            // On compte les Topic et Médias status "waiting"
+            $mediasWaitings = count($mediaRepo->findBy(["validated" => "waiting"]));
+            $topicsWaitings = count($topicRepo->findBy(["validated" => "waiting"]));
+            $modoNotifCount = $mediasWaitings + $topicsWaitings;
+        }
+        else {
+            $modoNotifCount = null;
+        }
 
         $genreGames = $gamesRepo->findBy(['genre' => $id]);
 
@@ -350,6 +386,7 @@ class GameController extends AbstractController
         $genreName = $genreRepo->find($id)->getName();
 
         return $this->render('game/genreGameList.html.twig', [
+            'modoNotifCount' => $modoNotifCount,
             'userNotifCount' => $userNotifCount,
             'genreGames' => $genreGames,
             'genreName' => $genreName,

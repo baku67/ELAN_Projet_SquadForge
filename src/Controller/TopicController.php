@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Notification;
 use App\Entity\Censure;
 use App\Entity\Topic;
+use App\Entity\Media;
 use App\Entity\TopicPost;
 use App\Entity\PostLike;
 use App\Form\TopicPostType;
@@ -27,10 +28,22 @@ class TopicController extends AbstractController
         $gameRepo = $entityManager->getRepository(Game::class);
         $gameFrom = $gameRepo->find($gameIdFrom);
         $topicRepo = $entityManager->getRepository(Topic::class);
+        $mediaRepo = $entityManager->getRepository(Media::class);
+
 
         $notifRepo = $entityManager->getRepository(Notification::class);
         // Onglet notifs Bulle nbr "non-vues" (int si connécté, null sinon)
         $userNotifCount = $this->getUser() ? count($notifRepo->findByUserNotSeen($this->getUser())) : null;
+        // Si userModo: Bulles nbr éléments en attente de validation (int si modo, null sinon)
+        if(in_array('ROLE_MODO', $this->getUser()->getRoles())) {
+            // On compte les Topic et Médias status "waiting"
+            $mediasWaitings = count($mediaRepo->findBy(["validated" => "waiting"]));
+            $topicsWaitings = count($topicRepo->findBy(["validated" => "waiting"]));
+            $modoNotifCount = $mediasWaitings + $topicsWaitings;
+        }
+        else {
+            $modoNotifCount = null;
+        }
 
         // Liste de tous les Topics du jeu (le jeu d'où vient la requete) max 50
         $gameTopicsDesc = $topicRepo->findGameLastTopics($gameFrom);
@@ -53,6 +66,7 @@ class TopicController extends AbstractController
         }
 
         return $this->render('topic/index.html.twig', [
+            'modoNotifCount' => $modoNotifCount,
             'userNotifCount' => $userNotifCount,
             'allTopicsDesc' => $allTopicsDesc,
             'allTopicsCount' => $allTopicsCount,
@@ -70,17 +84,30 @@ class TopicController extends AbstractController
     public function getAllTopicsGlobal(EntityManagerInterface $entityManager): Response
     {
         $gameRepo = $entityManager->getRepository(Game::class);
+        $mediaRepo = $entityManager->getRepository(Media::class);
         $topicRepo = $entityManager->getRepository(Topic::class);
+
 
         $notifRepo = $entityManager->getRepository(Notification::class);
         // Onglet notifs Bulle nbr "non-vues" (int si connécté, null sinon)
         $userNotifCount = $this->getUser() ? count($notifRepo->findByUserNotSeen($this->getUser())) : null;
+        // Si userModo: Bulles nbr éléments en attente de validation (int si modo, null sinon)
+        if(in_array('ROLE_MODO', $this->getUser()->getRoles())) {
+            // On compte les Topic et Médias status "waiting"
+            $mediasWaitings = count($mediaRepo->findBy(["validated" => "waiting"]));
+            $topicsWaitings = count($topicRepo->findBy(["validated" => "waiting"]));
+            $modoNotifCount = $mediasWaitings + $topicsWaitings;
+        }
+        else {
+            $modoNotifCount = null;
+        }
 
         // Liste de tous les Topics 
         $allTopicsDesc = $topicRepo->findBy([], ['publish_date' => 'DESC'], 50);
         $allTopicsCount = $topicRepo->countAllTopics();
 
         return $this->render('topic/allTopicsGlobal.html.twig', [
+            'modoNotifCount' => $modoNotifCount,
             'userNotifCount' => $userNotifCount,
             'allTopicsDesc' => $allTopicsDesc,
             'allTopicsCount' => $allTopicsCount,
@@ -94,9 +121,20 @@ class TopicController extends AbstractController
     public function getAllTopicsUser(EntityManagerInterface $entityManager): Response
     {
         $topicRepo = $entityManager->getRepository(Topic::class);
+        $mediaRepo = $entityManager->getRepository(Media::class);
         $notifRepo = $entityManager->getRepository(Notification::class);
         // Onglet notifs Bulle nbr "non-vues" (int si connécté, null sinon)
         $userNotifCount = $this->getUser() ? count($notifRepo->findByUserNotSeen($this->getUser())) : null;
+        // Si userModo: Bulles nbr éléments en attente de validation (int si modo, null sinon)
+        if(in_array('ROLE_MODO', $this->getUser()->getRoles())) {
+            // On compte les Topic et Médias status "waiting"
+            $mediasWaitings = count($mediaRepo->findBy(["validated" => "waiting"]));
+            $topicsWaitings = count($topicRepo->findBy(["validated" => "waiting"]));
+            $modoNotifCount = $mediasWaitings + $topicsWaitings;
+        }
+        else {
+            $modoNotifCount = null;
+        }
 
         // Sur le profil: On affiche les status "validated" "en attente" des Topics et Médias
         $userTopicsDesc = $topicRepo->findBy(['user' => $this->getUser()], ['publish_date' => 'DESC']);
@@ -104,6 +142,7 @@ class TopicController extends AbstractController
         $userTopicsCount = count($userTopicsDesc);
 
         return $this->render('user/allTopicsUser.html.twig', [
+            'modoNotifCount' => $modoNotifCount,
             'userNotifCount' => $userNotifCount,
             'userTopics' => $userTopicsDesc,
             'userTopicsCount' => $userTopicsCount,
@@ -119,9 +158,20 @@ class TopicController extends AbstractController
         $censureRepo = $entityManager->getRepository(Censure::class);
         $topicRepo = $entityManager->getRepository(Topic::class);
         $topicPostRepo = $entityManager->getRepository(TopicPost::class);
+        $mediaRepo = $entityManager->getRepository(Media::class);
         $notifRepo = $entityManager->getRepository(Notification::class);
         // Onglet notifs Bulle nbr "non-vues" (int si connécté, null sinon)
         $userNotifCount = $this->getUser() ? count($notifRepo->findByUserNotSeen($this->getUser())) : null;
+        // Si userModo: Bulles nbr éléments en attente de validation (int si modo, null sinon)
+        if(in_array('ROLE_MODO', $this->getUser()->getRoles())) {
+            // On compte les Topic et Médias status "waiting"
+            $mediasWaitings = count($mediaRepo->findBy(["validated" => "waiting"]));
+            $topicsWaitings = count($topicRepo->findBy(["validated" => "waiting"]));
+            $modoNotifCount = $mediasWaitings + $topicsWaitings;
+        }
+        else {
+            $modoNotifCount = null;
+        }
 
         $topic = $topicRepo->find($id);
 
@@ -199,6 +249,7 @@ class TopicController extends AbstractController
             }
 
             return $this->render('topic/topicDetail.html.twig', [
+                'modoNotifCount' => $modoNotifCount,
                 'userNotifCount' => $userNotifCount,
                 'formAddTopicPost' => $form->createView(),
                 'topic' => $topic,

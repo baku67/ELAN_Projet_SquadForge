@@ -39,6 +39,21 @@ class NotificationController extends AbstractController
     {
         $user = $this->getUser();
 
+        //***** */ Si userModo: Bulles nbr éléments en attente de validation (int si modo, null sinon) 
+        // WTF CES REPO-LA ILS MARCHENT !? (Marche pas avec Notification)
+        $mediaRepo = $this->entityManager->getRepository(Media::class);
+        $topicRepo = $this->entityManager->getRepository(Topic::class);
+        if(in_array('ROLE_MODO', $this->getUser()->getRoles())) {
+            // On compte les Topic et Médias status "waiting"
+            $mediasWaitings = count($mediaRepo->findBy(["validated" => "waiting"]));
+            $topicsWaitings = count($topicRepo->findBy(["validated" => "waiting"]));
+            $modoNotifCount = $mediasWaitings + $topicsWaitings;
+        }
+        else {
+            $modoNotifCount = null;
+        }
+        //*********************************************************************************** */
+
         // (OrderBy HS: Le notifRepo marche pas ni avec entityManager )
         // $notifRepo = $this->entityManager->getRepository(Notification::class);
         // $notifs = $this->notifRepo->findAll();
@@ -52,6 +67,7 @@ class NotificationController extends AbstractController
         $this->entityManager->flush();
 
         return $this->render('user/notifsList.html.twig', [
+            'modoNotifCount' => $modoNotifCount,
             'user' => $user,
             'notifs' => $notifs,
         ]);

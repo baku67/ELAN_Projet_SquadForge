@@ -21,7 +21,14 @@
                 </a>
             {% endif %}
             {% if app.user and "ROLE_MODO" in app.user.roles %}
-                <a href="{{ path('app_moderationDashboard') }}" style="color:{{ game.fontColor }};">Modération</a>
+                <a href="{{ path('app_moderationDashboard') }}" style="color:{{ game.fontColor }};">
+                    <div style="position:relative; margin-right:10px;">
+                        <span>Modération</span>
+                        {% if modoNotifCount > 0 %}
+                            <span class="newNotifBubbleCount">{{ modoNotifCount }}</span>
+                        {% endif %}
+                    </div>
+                </a>
             {% endif %}
         </nav>
         <a href="{{ path('app_game', {'id': game.id }) }}"><h2 class="headerGameTitle"  style="border-right:15px solid {{ game.color }};">{{ game.title }}</h2></a>

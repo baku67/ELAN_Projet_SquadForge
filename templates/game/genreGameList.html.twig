@@ -21,7 +21,14 @@
                 </a>            
             {% endif %}
             {% if app.user and "ROLE_MODO" in app.user.roles %}
-                <a href="{{ path('app_moderationDashboard') }}">Modération</a>
+                <a href="{{ path('app_moderationDashboard') }}">
+                    <div style="position:relative; margin-right:10px;">
+                        <span>Modération</span>
+                        {% if modoNotifCount > 0 %}
+                            <span class="newNotifBubbleCount">{{ modoNotifCount }}</span>
+                        {% endif %}
+                    </div>
+                </a>
             {% endif %}
         </nav>
     </header>

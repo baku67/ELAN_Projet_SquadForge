@@ -74,6 +74,16 @@ class SecurityController extends AbstractController
         else {
             $modoNotifCount = null;
         }
+        // Si userModo: Bulles nbr éléments en attente de validation (int si modo, null sinon)
+        if(in_array('ROLE_MODO', $this->getUser()->getRoles())) {
+            // On compte les Topic et Médias status "waiting"
+            $mediasWaitings = count($mediaRepo->findBy(["validated" => "waiting"]));
+            $topicsWaitings = count($topicRepo->findBy(["validated" => "waiting"]));
+            $modoNotifCount = $mediasWaitings + $topicsWaitings;
+        }
+        else {
+            $modoNotifCount = null;
+        }
 
         // Si connecté: raccourcis Games favoris
         if($this->getUser()) {

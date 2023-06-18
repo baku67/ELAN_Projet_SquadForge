@@ -32,20 +32,30 @@ class ModerationController extends AbstractController
     {
         if ( $this->getUser() && in_array('ROLE_MODO', $this->getUser()->getRoles()) ) {
 
+            $topicRepo = $entityManager->getRepository(Topic::class);
+            $mediaRepo = $entityManager->getRepository(Media::class);
+            $notifRepo = $entityManager->getRepository(Notification::class);
+
+            // Onglet notifs Bulle nbr "non-vues" (int si connécté, null sinon)
+            $userNotifCount = $this->getUser() ? count($notifRepo->findByUserNotSeen($this->getUser())) : null;
+            // Si userModo: Bulles nbr éléments en attente de validation (int si modo, null sinon)
+            if(in_array('ROLE_MODO', $this->getUser()->getRoles())) {
+                // On compte les Topic et Médias status "waiting"
+                $mediasWaitings = count($mediaRepo->findBy(["validated" => "waiting"]));
+                $topicsWaitings = count($topicRepo->findBy(["validated" => "waiting"]));
+                $modoNotifCount = $mediasWaitings + $topicsWaitings;
+            }
+            else {
+                $modoNotifCount = null;
+            }
+
             $censureRepo = $entityManager->getRepository(Censure::class);
             $censureWords = $censureRepo->findBy([], ["creation_date" => "DESC"]);
 
             // Récup mini liste des topics/médias en attente (tout l'historique dans le détail "voir tout", avec filtre "en attente" only)
-            $topicRepo = $entityManager->getRepository(Topic::class);
-            $mediaRepo = $entityManager->getRepository(Media::class);
-            
             $lastWaitingTopics = $topicRepo->findLastWaitingTopics();
             $lastWaitingMedias = $mediaRepo->findLastWaitingMedias();
 
-            $notifRepo = $entityManager->getRepository(Notification::class);
-            // Onglet notifs Bulle nbr "non-vues" (int si connécté, null sinon)
-            $userNotifCount = $this->getUser() ? count($notifRepo->findByUserNotSeen($this->getUser())) : null;
-    
             $mediaRepo = $entityManager->getRepository(Media::class);
     
             // Ajouter le formType d'ajout
@@ -85,6 +95,7 @@ class ModerationController extends AbstractController
                 }
             }
             return $this->render('moderation/index.html.twig', [
+                'modoNotifCount' => $modoNotifCount,
                 'userNotifCount' => $userNotifCount,
                 'formAddCensoredWord' => $form->createView(),
                 'censureWords' => $censureWords,

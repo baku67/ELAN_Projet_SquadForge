@@ -8,6 +8,8 @@ use App\Entity\Group;
 use App\Entity\GroupQuestion;
 use App\Entity\GroupAnswer;
 use App\Entity\Game;
+use App\Entity\Topic;
+use App\Entity\Media;
 use App\Entity\User;
 use App\Form\GroupType;
 use App\Form\CandidatureType;
@@ -40,9 +42,21 @@ class GroupController extends AbstractController
     {    
         $gameRepo = $entityManager->getRepository(Game::class);
         $notifRepo = $entityManager->getRepository(Notification::class);
+        $mediaRepo = $entityManager->getRepository(Media::class);
+        $topicRepo = $entityManager->getRepository(Topic::class);
 
         // Onglet notifs Bulle nbr "non-vues" (int si connécté, null sinon)
         $userNotifCount = $this->getUser() ? count($notifRepo->findByUserNotSeen($this->getUser())) : null;
+        // Si userModo: Bulles nbr éléments en attente de validation (int si modo, null sinon)
+        if(in_array('ROLE_MODO', $this->getUser()->getRoles())) {
+            // On compte les Topic et Médias status "waiting"
+            $mediasWaitings = count($mediaRepo->findBy(["validated" => "waiting"]));
+            $topicsWaitings = count($topicRepo->findBy(["validated" => "waiting"]));
+            $modoNotifCount = $mediasWaitings + $topicsWaitings;
+        }
+        else {
+            $modoNotifCount = null;
+        }
 
         $gameFrom = $gameRepo->find($gameIdFrom);
 
@@ -129,6 +143,7 @@ class GroupController extends AbstractController
             }
         }
         return $this->render('group/createGroup.html.twig', [
+            'modoNotifCount' => $modoNotifCount,
             'userNotifCount' => $userNotifCount,
             'formAddGroup' => $form->createView(),
             'gameFrom' => $gameFrom,
@@ -142,9 +157,21 @@ class GroupController extends AbstractController
     {
         $gameRepo = $entityManager->getRepository(Game::class);
         $notifRepo = $entityManager->getRepository(Notification::class);
+        $mediaRepo = $entityManager->getRepository(Media::class);
+        $topicRepo = $entityManager->getRepository(Topic::class);
 
         // Onglet notifs Bulle nbr "non-vues" (int si connécté, null sinon)
         $userNotifCount = $this->getUser() ? count($notifRepo->findByUserNotSeen($this->getUser())) : null;
+        // Si userModo: Bulles nbr éléments en attente de validation (int si modo, null sinon)
+        if(in_array('ROLE_MODO', $this->getUser()->getRoles())) {
+            // On compte les Topic et Médias status "waiting"
+            $mediasWaitings = count($mediaRepo->findBy(["validated" => "waiting"]));
+            $topicsWaitings = count($topicRepo->findBy(["validated" => "waiting"]));
+            $modoNotifCount = $mediasWaitings + $topicsWaitings;
+        }
+        else {
+            $modoNotifCount = null;
+        }
 
         $gameFrom = $gameRepo->find($gameIdFrom);
 
@@ -153,6 +180,7 @@ class GroupController extends AbstractController
         $groups = $groupRepo->findAllByGame($gameFrom); // where "public" ok
 
         return $this->render('group/groupList.html.twig', [
+            'modoNotifCount' => $modoNotifCount,
             'userNotifCount' => $userNotifCount,
             'gameFrom' => $gameFrom,
             'groups' => $groups,
@@ -167,9 +195,21 @@ class GroupController extends AbstractController
     {
         $groupRepo = $entityManager->getRepository(Group::class);
         $notifRepo = $entityManager->getRepository(Notification::class);
+        $mediaRepo = $entityManager->getRepository(Media::class);
+        $topicRepo = $entityManager->getRepository(Topic::class);
                 
         // Onglet notifs Bulle nbr "non-vues" (int si connécté, null sinon)
         $userNotifCount = $this->getUser() ? count($notifRepo->findByUserNotSeen($this->getUser())) : null;
+        // Si userModo: Bulles nbr éléments en attente de validation (int si modo, null sinon)
+        if(in_array('ROLE_MODO', $this->getUser()->getRoles())) {
+            // On compte les Topic et Médias status "waiting"
+            $mediasWaitings = count($mediaRepo->findBy(["validated" => "waiting"]));
+            $topicsWaitings = count($topicRepo->findBy(["validated" => "waiting"]));
+            $modoNotifCount = $mediasWaitings + $topicsWaitings;
+        }
+        else {
+            $modoNotifCount = null;
+        }
 
         $group = $groupRepo->find($groupId);
         
@@ -192,6 +232,7 @@ class GroupController extends AbstractController
             }
 
             return $this->render('group/groupDetails.html.twig', [
+                'modoNotifCount' => $modoNotifCount,
                 'userNotifCount' => $userNotifCount,
                 'group' => $group,
                 'gameFrom' => $game,
@@ -216,9 +257,21 @@ class GroupController extends AbstractController
     {
         $groupRepo = $entityManager->getRepository(Group::class);
         $notifRepo = $entityManager->getRepository(Notification::class);
+        $mediaRepo = $entityManager->getRepository(Media::class);
+        $topicRepo = $entityManager->getRepository(Topic::class);
 
         // Onglet notifs Bulle nbr "non-vues" (int si connécté, null sinon)
         $userNotifCount = $this->getUser() ? count($notifRepo->findByUserNotSeen($this->getUser())) : null;
+        // Si userModo: Bulles nbr éléments en attente de validation (int si modo, null sinon)
+        if(in_array('ROLE_MODO', $this->getUser()->getRoles())) {
+            // On compte les Topic et Médias status "waiting"
+            $mediasWaitings = count($mediaRepo->findBy(["validated" => "waiting"]));
+            $topicsWaitings = count($topicRepo->findBy(["validated" => "waiting"]));
+            $modoNotifCount = $mediasWaitings + $topicsWaitings;
+        }
+        else {
+            $modoNotifCount = null;
+        }
 
         $group = $groupRepo->find($groupId);
         $game = $group->getGame();
@@ -227,6 +280,7 @@ class GroupController extends AbstractController
         if ($group->getLeader() == $this->getUser()) {
             
             return $this->render('group/blacklist.html.twig', [
+                'modoNotifCount' => $modoNotifCount,
                 'userNotifCount' => $userNotifCount,
                 'group' => $group,
                 'gameFrom' => $game,
@@ -273,15 +327,28 @@ class GroupController extends AbstractController
         // Groupes user incluant les privés
         $groupRepo = $entityManager->getRepository(Group::class);
         $notifRepo = $entityManager->getRepository(Notification::class);
+        $mediaRepo = $entityManager->getRepository(Media::class);
+        $topicRepo = $entityManager->getRepository(Topic::class);
 
         // Onglet notifs Bulle nbr "non-vues" (int si connécté, null sinon)
         $userNotifCount = $this->getUser() ? count($notifRepo->findByUserNotSeen($this->getUser())) : null;
+        // Si userModo: Bulles nbr éléments en attente de validation (int si modo, null sinon)
+        if(in_array('ROLE_MODO', $this->getUser()->getRoles())) {
+            // On compte les Topic et Médias status "waiting"
+            $mediasWaitings = count($mediaRepo->findBy(["validated" => "waiting"]));
+            $topicsWaitings = count($topicRepo->findBy(["validated" => "waiting"]));
+            $modoNotifCount = $mediasWaitings + $topicsWaitings;
+        }
+        else {
+            $modoNotifCount = null;
+        }
 
         $groups = $this->getUser()->getGroupes();
         // $groups = $groupRepo->findUserGroups($this->getUser());
 
 
         return $this->render('group/userGroups.html.twig', [
+            'modoNotifCount' => $modoNotifCount,
             'userNotifCount' => $userNotifCount,
             'groups' => $groups,
         ]);

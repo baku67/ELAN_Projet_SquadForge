@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Notification;
 use App\Entity\Media;
+use App\Entity\Topic;
 use App\Entity\Censure;
 use App\Entity\MediaPost;
 use App\Entity\MediaPostLike;
@@ -35,9 +36,21 @@ class MediaController extends AbstractController
     {
         $gameRepo = $entityManager->getRepository(Game::class);
         $notifRepo = $entityManager->getRepository(Notification::class);
+        $mediaRepo = $entityManager->getRepository(Media::class);
+        $topicRepo = $entityManager->getRepository(Topic::class);
 
         // Onglet notifs Bulle nbr "non-vues" (int si connécté, null sinon)
         $userNotifCount = $this->getUser() ? count($notifRepo->findByUserNotSeen($this->getUser())) : null;
+        // Si userModo: Bulles nbr éléments en attente de validation (int si modo, null sinon)
+        if(in_array('ROLE_MODO', $this->getUser()->getRoles())) {
+            // On compte les Topic et Médias status "waiting"
+            $mediasWaitings = count($mediaRepo->findBy(["validated" => "waiting"]));
+            $topicsWaitings = count($topicRepo->findBy(["validated" => "waiting"]));
+            $modoNotifCount = $mediasWaitings + $topicsWaitings;
+        }
+        else {
+            $modoNotifCount = null;
+        }
 
         $gameFrom = $gameRepo->find($gameIdFrom);
 
@@ -157,6 +170,7 @@ class MediaController extends AbstractController
         }
 
         return $this->render('media/gameMedias.html.twig', [
+            'modoNotifCount' => $modoNotifCount,
             'userNotifCount' => $userNotifCount,
             'formAddMedia' => $form2->createView(),
             'gameMediasDesc' => $gameMediasDesc,
@@ -192,9 +206,21 @@ class MediaController extends AbstractController
     {
         $mediaRepo = $entityManager->getRepository(Media::class);
         $notifRepo = $entityManager->getRepository(Notification::class);
+        $mediaRepo = $entityManager->getRepository(Media::class);
+        $topicRepo = $entityManager->getRepository(Topic::class);
 
         // Onglet notifs Bulle nbr "non-vues" (int si connécté, null sinon)
         $userNotifCount = $this->getUser() ? count($notifRepo->findByUserNotSeen($this->getUser())) : null;
+        // Si userModo: Bulles nbr éléments en attente de validation (int si modo, null sinon)
+        if(in_array('ROLE_MODO', $this->getUser()->getRoles())) {
+            // On compte les Topic et Médias status "waiting"
+            $mediasWaitings = count($mediaRepo->findBy(["validated" => "waiting"]));
+            $topicsWaitings = count($topicRepo->findBy(["validated" => "waiting"]));
+            $modoNotifCount = $mediasWaitings + $topicsWaitings;
+        }
+        else {
+            $modoNotifCount = null;
+        }
 
         $media = $mediaRepo->find($id);
 
@@ -275,6 +301,7 @@ class MediaController extends AbstractController
                 }
             }
             return $this->render('media/mediaDetail.html.twig', [
+                'modoNotifCount' => $modoNotifCount,
                 'userNotifCount' => $userNotifCount,
                 'formAddMediaPost' => $form->createView(),
                 'media' => $media,
@@ -301,15 +328,28 @@ class MediaController extends AbstractController
     {
         $mediaRepo = $entityManager->getRepository(Media::class);
         $notifRepo = $entityManager->getRepository(Notification::class);
+        $mediaRepo = $entityManager->getRepository(Media::class);
+        $topicRepo = $entityManager->getRepository(Topic::class);
 
         // Onglet notifs Bulle nbr "non-vues" (int si connécté, null sinon)
         $userNotifCount = $this->getUser() ? count($notifRepo->findByUserNotSeen($this->getUser())) : null;
+        // Si userModo: Bulles nbr éléments en attente de validation (int si modo, null sinon)
+        if(in_array('ROLE_MODO', $this->getUser()->getRoles())) {
+            // On compte les Topic et Médias status "waiting"
+            $mediasWaitings = count($mediaRepo->findBy(["validated" => "waiting"]));
+            $topicsWaitings = count($topicRepo->findBy(["validated" => "waiting"]));
+            $modoNotifCount = $mediasWaitings + $topicsWaitings;
+        }
+        else {
+            $modoNotifCount = null;
+        }
 
         // Tous les médias (max 50 Repo) + count DQL total
         $allMediasDesc = $mediaRepo->findGlobalLastMedias();
         $allMediasCount = $mediaRepo->countGlobalMedias();
 
         return $this->render('media/allMediasGlobal.html.twig', [
+            'modoNotifCount' => $modoNotifCount,
             'userNotifCount' => $userNotifCount,
             'allMediasDesc' => $allMediasDesc,
             'allMediasCount' => $allMediasCount,
@@ -527,14 +567,27 @@ class MediaController extends AbstractController
     {
         $mediaRepo = $entityManager->getRepository(Media::class);
         $notifRepo = $entityManager->getRepository(Notification::class);
+        $mediaRepo = $entityManager->getRepository(Media::class);
+        $topicRepo = $entityManager->getRepository(Topic::class);
 
         // Onglet notifs Bulle nbr "non-vues" (int si connécté, null sinon)
         $userNotifCount = $this->getUser() ? count($notifRepo->findByUserNotSeen($this->getUser())) : null;
+        // Si userModo: Bulles nbr éléments en attente de validation (int si modo, null sinon)
+        if(in_array('ROLE_MODO', $this->getUser()->getRoles())) {
+            // On compte les Topic et Médias status "waiting"
+            $mediasWaitings = count($mediaRepo->findBy(["validated" => "waiting"]));
+            $topicsWaitings = count($topicRepo->findBy(["validated" => "waiting"]));
+            $modoNotifCount = $mediasWaitings + $topicsWaitings;
+        }
+        else {
+            $modoNotifCount = null;
+        }
 
         $userMediasDesc = $mediaRepo->findBy(['user' => $this->getUser()], ['publish_date' => 'DESC']);
         $userMediasCount = count($userMediasDesc);
 
         return $this->render('user/allMediasUser.html.twig', [
+            'modoNotifCount' => $modoNotifCount,
             'userNotifCount' => $userNotifCount,
             'userMedias' => $userMediasDesc,
             'userMediasCount' => $userMediasCount,
