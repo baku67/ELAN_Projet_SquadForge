@@ -59,9 +59,21 @@ class SecurityController extends AbstractController
     public function homepage(EntityManagerInterface $entityManager)
     {
         $notifRepo = $entityManager->getRepository(Notification::class);
+        $mediaRepo = $entityManager->getRepository(Media::class);
+        $topicRepo = $entityManager->getRepository(Topic::class);
 
         // Onglet notifs Bulle nbr "non-vues" (int si connécté, null sinon)
         $userNotifCount = $this->getUser() ? count($notifRepo->findByUserNotSeen($this->getUser())) : null;
+        // Si userModo: Bulles nbr éléments en attente de validation (int si modo, null sinon)
+        if(in_array('ROLE_MODO', $this->getUser()->getRoles())) {
+            // On compte les Topic et Médias status "waiting"
+            $mediasWaitings = count($mediaRepo->findBy(["validated" => "waiting"]));
+            $topicsWaitings = count($topicRepo->findBy(["validated" => "waiting"]));
+            $modoNotifCount = $mediasWaitings + $topicsWaitings;
+        }
+        else {
+            $modoNotifCount = null;
+        }
 
         // Si connecté: raccourcis Games favoris
         if($this->getUser()) {
@@ -80,6 +92,7 @@ class SecurityController extends AbstractController
         $lastMedias = $MediaManager->findLastMedias();
                 
         return $this->render('security/home.html.twig', [
+            'modoNotifCount' => $modoNotifCount,
             'userNotifCount' => $userNotifCount,
             'userFav' => $userFav,
             'lastTopics' => $lastTopics,
