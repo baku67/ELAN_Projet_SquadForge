@@ -1276,9 +1276,29 @@ cursor: pointer;
     background-color: #b43a3a;
     border-radius: 3px;
     display: block;
-    width: 200px;
+    width: 230px;
     text-align: center;
     margin: 30px auto;
+
+    -moz-box-shadow: 0 0 0px #b43a3a;
+    -webkit-box-shadow: 0 0 0px #b43a3a;
+    box-shadow: 0 0 0px #b43a3a;
+    transition: all 0.4s ease-out;
+}
+#leaveGroupBtn:hover {
+    -moz-box-shadow: 0 0 9px #b43a3a;
+    -webkit-box-shadow: 0 0 9px #b43a3a;
+    box-shadow: 0 0 9px #b43a3a;
+}
+
+#leaveGroupBtn:hover .leaveGroupBtnIcon {
+    transform: translateX(10px);
+    opacity: 0;
+}
+.leaveGroupBtnIcon {
+    margin-left: 20px;
+    font-size: 1.3em;
+    transition: all 0.6s ease-out;
 }
 
 

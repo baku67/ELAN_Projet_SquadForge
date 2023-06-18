@@ -80,9 +80,9 @@ class NotificationController extends AbstractController
     {
         $user = $this->getUser();
 
-        // $notifRepo = $this->getDoctrine()->getRepository(Notification::class);
+        $notifRepo = $this->entityManager->getRepository(Notification::class);
+        $notifs = $notifRepo->findAll();
         // $notifs = $user->getNotifications();
-        $notifs = $this->notifRepo->findAll();
 
         // Delete all notifs user
         // foreach ($notifs as $notif) {

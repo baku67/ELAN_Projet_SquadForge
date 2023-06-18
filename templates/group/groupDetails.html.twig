@@ -378,7 +378,12 @@
 
                 <br>
                 {# Bouton liste blacklistedUsers #}
-                <a class="blacklistBtn" href="{{ path('app_groupBlacklist',{'groupId': group.id}) }}">Blacklist</a>
+                <a class="blacklistBtn" href="{{ path('app_groupBlacklist',{'groupId': group.id}) }}">
+                    <div>
+                        <span>Blacklist</span>
+                        <i class="fa-solid fa-ban"></i>
+                    </div>
+                </a>
                 
 
             {% else %}
@@ -387,7 +392,12 @@
 
             {% endif %}
 
-            <a id="leaveGroupBtn" href="{{ path('app_leaveGroup', {'groupId': group.id} )}}">Quitter le groupe</a>
+            <a id="leaveGroupBtn" href="{{ path('app_leaveGroup', {'groupId': group.id} )}}">
+                <div style="display:inline-flex; justify-content:space-between;">
+                    <span>Quitter le groupe</span>
+                    <i class="fa-solid fa-person-walking leaveGroupBtnIcon"></i>
+                </div>
+            </a>
             
         {% else %}
 
