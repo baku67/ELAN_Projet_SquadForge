@@ -11,11 +11,15 @@
             <a href="{{ path('app_games') }}" style="color:{{ gameFrom.fontColor }};">Jeux</a>
             {% if app.user %}
                 <a href="{{ path('app_userGroups') }}" style="color:{{ gameFrom.fontColor }};">TEAMS</a>
-                <div style="position:relative; margin-right:10px;">
-                    <a href=""><i class="fa-solid fa-bell notifBell"></i></a>
-                    {# Bulle newNotifCount si > 0#}
-                    <span class="newNotifBubbleCount">{{ userNotifCount }}</span>
-                </div>
+                <a href="{{ path('app_showNotifsList') }}">
+                    <div style="position:relative; margin-right:10px;">
+                        <i class="fa-solid fa-bell notifBell"></i>
+                        {# Bulle newNotifCount si > 0#}
+                        {% if userNotifCount > 0 %}
+                            <span class="newNotifBubbleCount">{{ userNotifCount }}</span>
+                        {% endif %}
+                    </div>
+                </a>
             {% endif %}
             {% if app.user and "ROLE_MODO" in app.user.roles %}
                 <a href="{{ path('app_moderationDashboard') }}" style="color:{{ gameFrom.fontColor }};">Modération</a>

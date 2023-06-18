@@ -73,8 +73,24 @@ class UserController extends AbstractController
         $entityManager->flush();
 
         return new JsonResponse(['success' => true]); 
-
     }
 
+
+
+
+    
+    #[Route('/showNotifsList', name: 'app_showNotifsList')]
+    public function showNotifsList(EntityManagerInterface $entityManager, Request $request): Response
+    {
+
+        $user = $this->getUser();
+        $notifs = $user->getNotifications();
+
+        return $this->render('user/notifsList.html.twig', [
+            'user' => $user,
+            'notifs' => $notifs,
+        ]);
+
+    }
 
 }
