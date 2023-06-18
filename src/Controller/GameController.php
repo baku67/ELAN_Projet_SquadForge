@@ -13,6 +13,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use App\Form\SearchType;
 use App\Form\TopicType;
 use App\Form\MediaType;
+use App\Entity\Notification;
 use App\Entity\Game;
 use App\Entity\Censure;
 use App\Entity\Genre;
@@ -41,6 +42,10 @@ class GameController extends AbstractController
     {
         $gamesRepo = $entityManager->getRepository(Game::class);
         $genreRepo = $entityManager->getRepository(Genre::class);
+        $notifRepo = $entityManager->getRepository(Notification::class);
+
+        // Onglet notifs Bulle nbr "non-vues" (int si connécté, null sinon)
+        $userNotifCount = $this->getUser() ? count($notifRepo->findByUserNotSeen($this->getUser())) : null;
 
         // Quand système de notation: trier par note 
         // Jeux par catégories
@@ -57,15 +62,13 @@ class GameController extends AbstractController
         $brGamesCount = count($brGames);
 
         return $this->render('game/gameList.html.twig', [
-            // 'games' => $allGames,
-            // 'genres' => $allGenres,
+            'userNotifCount' => $userNotifCount,
             'fpsGames' => $fpsGames,
             'fpsGamesCount' => $fpsGamesCount,
             'indieGames' => $indieGames,
             'indieGamesCount' => $indieGamesCount,
             'battleRoyalGames' => $brGames,
             'brGamesCount' => $brGamesCount,
-            // 'formSearch' => $form->createView(),
         ]);
     }
 
@@ -79,6 +82,11 @@ class GameController extends AbstractController
         $mediaRepo = $entityManager->getRepository(Media::class);
         $censureRepo = $entityManager->getRepository(Censure::class);
         $groupRepo = $entityManager->getRepository(Group::class);
+        $notifRepo = $entityManager->getRepository(Notification::class);
+
+        // Onglet notifs Bulle nbr "non-vues" (int si connécté, null sinon)
+        $userNotifCount = $this->getUser() ? count($notifRepo->findByUserNotSeen($this->getUser())) : null;
+
         $game = $gamesRepo->find($id);
         $gameGenre = $game->getGenre()->getName();
         $user = $this->getUser();
@@ -298,6 +306,7 @@ class GameController extends AbstractController
         
 
         return $this->render('game/gameDetails.html.twig', [
+            'userNotifCount' => $userNotifCount,
             'formAddTopic' => $form->createView(),
             'formAddMedia' => $form2->createView(),
             'game' => $game,
@@ -330,12 +339,18 @@ class GameController extends AbstractController
     public function getGenreGames(EntityManagerInterface $entityManager, int $id): Response
     {
         $gamesRepo = $entityManager->getRepository(Game::class);
+        $notifRepo = $entityManager->getRepository(Notification::class);
+
+        // Onglet notifs Bulle nbr "non-vues" (int si connécté, null sinon)
+        $userNotifCount = $this->getUser() ? count($notifRepo->findByUserNotSeen($this->getUser())) : null;
+
         $genreGames = $gamesRepo->findBy(['genre' => $id]);
 
         $genreRepo = $entityManager->getRepository(Genre::class);
         $genreName = $genreRepo->find($id)->getName();
 
         return $this->render('game/genreGameList.html.twig', [
+            'userNotifCount' => $userNotifCount,
             'genreGames' => $genreGames,
             'genreName' => $genreName,
         ]);

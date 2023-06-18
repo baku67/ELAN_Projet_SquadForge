@@ -2,16 +2,13 @@
 
 namespace App\Controller;
 
+use App\Entity\Notification;
 use App\Entity\Censure;
 use App\Entity\Topic;
 use App\Entity\Media;
 use App\Form\CensureType;
-// use App\Entity\MediaPost;
-// use App\Entity\TopicPost;
-// use App\Entity\Game;
 
 use Doctrine\ORM\EntityManagerInterface;
-
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
@@ -41,10 +38,14 @@ class ModerationController extends AbstractController
             // Récup mini liste des topics/médias en attente (tout l'historique dans le détail "voir tout", avec filtre "en attente" only)
             $topicRepo = $entityManager->getRepository(Topic::class);
             $mediaRepo = $entityManager->getRepository(Media::class);
+            
             $lastWaitingTopics = $topicRepo->findLastWaitingTopics();
             $lastWaitingMedias = $mediaRepo->findLastWaitingMedias();
 
-
+            $notifRepo = $entityManager->getRepository(Notification::class);
+            // Onglet notifs Bulle nbr "non-vues" (int si connécté, null sinon)
+            $userNotifCount = $this->getUser() ? count($notifRepo->findByUserNotSeen($this->getUser())) : null;
+    
             $mediaRepo = $entityManager->getRepository(Media::class);
     
             // Ajouter le formType d'ajout
@@ -84,6 +85,7 @@ class ModerationController extends AbstractController
                 }
             }
             return $this->render('moderation/index.html.twig', [
+                'userNotifCount' => $userNotifCount,
                 'formAddCensoredWord' => $form->createView(),
                 'censureWords' => $censureWords,
                 'lastWaitingTopics' => $lastWaitingTopics,

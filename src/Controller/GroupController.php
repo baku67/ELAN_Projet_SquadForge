@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\Notification;
 use App\Entity\Candidature;
 use App\Entity\Group;
 use App\Entity\GroupQuestion;
@@ -38,6 +39,11 @@ class GroupController extends AbstractController
     public function createGroup(EntityManagerInterface $entityManager, int $gameIdFrom, Request $request): Response
     {    
         $gameRepo = $entityManager->getRepository(Game::class);
+        $notifRepo = $entityManager->getRepository(Notification::class);
+
+        // Onglet notifs Bulle nbr "non-vues" (int si connécté, null sinon)
+        $userNotifCount = $this->getUser() ? count($notifRepo->findByUserNotSeen($this->getUser())) : null;
+
         $gameFrom = $gameRepo->find($gameIdFrom);
 
         $group = new Group();
@@ -123,6 +129,7 @@ class GroupController extends AbstractController
             }
         }
         return $this->render('group/createGroup.html.twig', [
+            'userNotifCount' => $userNotifCount,
             'formAddGroup' => $form->createView(),
             'gameFrom' => $gameFrom,
         ]);
@@ -134,6 +141,11 @@ class GroupController extends AbstractController
     public function groupList(EntityManagerInterface $entityManager, int $gameIdFrom, Request $request): Response
     {
         $gameRepo = $entityManager->getRepository(Game::class);
+        $notifRepo = $entityManager->getRepository(Notification::class);
+
+        // Onglet notifs Bulle nbr "non-vues" (int si connécté, null sinon)
+        $userNotifCount = $this->getUser() ? count($notifRepo->findByUserNotSeen($this->getUser())) : null;
+
         $gameFrom = $gameRepo->find($gameIdFrom);
 
         // Toutes les teams du jeu (publiques et orderBy)
@@ -141,6 +153,7 @@ class GroupController extends AbstractController
         $groups = $groupRepo->findAllByGame($gameFrom); // where "public" ok
 
         return $this->render('group/groupList.html.twig', [
+            'userNotifCount' => $userNotifCount,
             'gameFrom' => $gameFrom,
             'groups' => $groups,
         ]);
@@ -153,6 +166,11 @@ class GroupController extends AbstractController
     public function groupDetails(EntityManagerInterface $entityManager, int $groupId, Request $request): Response
     {
         $groupRepo = $entityManager->getRepository(Group::class);
+        $notifRepo = $entityManager->getRepository(Notification::class);
+                
+        // Onglet notifs Bulle nbr "non-vues" (int si connécté, null sinon)
+        $userNotifCount = $this->getUser() ? count($notifRepo->findByUserNotSeen($this->getUser())) : null;
+
         $group = $groupRepo->find($groupId);
         
         // Vérif si groupe public (todo)
@@ -174,6 +192,7 @@ class GroupController extends AbstractController
             }
 
             return $this->render('group/groupDetails.html.twig', [
+                'userNotifCount' => $userNotifCount,
                 'group' => $group,
                 'gameFrom' => $game,
                 'members' => $members,
@@ -196,6 +215,11 @@ class GroupController extends AbstractController
     public function groupBlacklist(EntityManagerInterface $entityManager, int $groupId, Request $request): Response
     {
         $groupRepo = $entityManager->getRepository(Group::class);
+        $notifRepo = $entityManager->getRepository(Notification::class);
+
+        // Onglet notifs Bulle nbr "non-vues" (int si connécté, null sinon)
+        $userNotifCount = $this->getUser() ? count($notifRepo->findByUserNotSeen($this->getUser())) : null;
+
         $group = $groupRepo->find($groupId);
         $game = $group->getGame();
         
@@ -203,6 +227,7 @@ class GroupController extends AbstractController
         if ($group->getLeader() == $this->getUser()) {
             
             return $this->render('group/blacklist.html.twig', [
+                'userNotifCount' => $userNotifCount,
                 'group' => $group,
                 'gameFrom' => $game,
             ]);
@@ -247,11 +272,17 @@ class GroupController extends AbstractController
     {
         // Groupes user incluant les privés
         $groupRepo = $entityManager->getRepository(Group::class);
+        $notifRepo = $entityManager->getRepository(Notification::class);
+
+        // Onglet notifs Bulle nbr "non-vues" (int si connécté, null sinon)
+        $userNotifCount = $this->getUser() ? count($notifRepo->findByUserNotSeen($this->getUser())) : null;
+
         $groups = $this->getUser()->getGroupes();
         // $groups = $groupRepo->findUserGroups($this->getUser());
 
 
         return $this->render('group/userGroups.html.twig', [
+            'userNotifCount' => $userNotifCount,
             'groups' => $groups,
         ]);
     }

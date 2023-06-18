@@ -2,16 +2,16 @@
 
 namespace App\Controller;
 
-use Symfony\Component\HttpFoundation\JsonResponse;
-
+use App\Entity\Notification;
 use App\Entity\Censure;
 use App\Entity\Topic;
 use App\Entity\TopicPost;
 use App\Entity\PostLike;
 use App\Form\TopicPostType;
 use App\Entity\Game;
-use Doctrine\ORM\EntityManagerInterface;
 
+use Symfony\Component\HttpFoundation\JsonResponse;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -24,10 +24,13 @@ class TopicController extends AbstractController
     #[Route('/allTopics/{gameIdFrom}', name: 'app_allTopics')]
     public function getAllTopics(EntityManagerInterface $entityManager, int $gameIdFrom): Response
     {
-
         $gameRepo = $entityManager->getRepository(Game::class);
         $gameFrom = $gameRepo->find($gameIdFrom);
         $topicRepo = $entityManager->getRepository(Topic::class);
+
+        $notifRepo = $entityManager->getRepository(Notification::class);
+        // Onglet notifs Bulle nbr "non-vues" (int si connécté, null sinon)
+        $userNotifCount = $this->getUser() ? count($notifRepo->findByUserNotSeen($this->getUser())) : null;
 
         // Liste de tous les Topics du jeu (le jeu d'où vient la requete) max 50
         $gameTopicsDesc = $topicRepo->findGameLastTopics($gameFrom);
@@ -50,6 +53,7 @@ class TopicController extends AbstractController
         }
 
         return $this->render('topic/index.html.twig', [
+            'userNotifCount' => $userNotifCount,
             'allTopicsDesc' => $allTopicsDesc,
             'allTopicsCount' => $allTopicsCount,
             'gameTopicsDesc' => $gameTopicsDesc,
@@ -65,15 +69,19 @@ class TopicController extends AbstractController
     #[Route('/allTopicsGlobal', name: 'app_allTopicsGlobal')]
     public function getAllTopicsGlobal(EntityManagerInterface $entityManager): Response
     {
-
         $gameRepo = $entityManager->getRepository(Game::class);
         $topicRepo = $entityManager->getRepository(Topic::class);
+
+        $notifRepo = $entityManager->getRepository(Notification::class);
+        // Onglet notifs Bulle nbr "non-vues" (int si connécté, null sinon)
+        $userNotifCount = $this->getUser() ? count($notifRepo->findByUserNotSeen($this->getUser())) : null;
 
         // Liste de tous les Topics 
         $allTopicsDesc = $topicRepo->findBy([], ['publish_date' => 'DESC'], 50);
         $allTopicsCount = $topicRepo->countAllTopics();
 
         return $this->render('topic/allTopicsGlobal.html.twig', [
+            'userNotifCount' => $userNotifCount,
             'allTopicsDesc' => $allTopicsDesc,
             'allTopicsCount' => $allTopicsCount,
         ]);
@@ -86,6 +94,9 @@ class TopicController extends AbstractController
     public function getAllTopicsUser(EntityManagerInterface $entityManager): Response
     {
         $topicRepo = $entityManager->getRepository(Topic::class);
+        $notifRepo = $entityManager->getRepository(Notification::class);
+        // Onglet notifs Bulle nbr "non-vues" (int si connécté, null sinon)
+        $userNotifCount = $this->getUser() ? count($notifRepo->findByUserNotSeen($this->getUser())) : null;
 
         // Sur le profil: On affiche les status "validated" "en attente" des Topics et Médias
         $userTopicsDesc = $topicRepo->findBy(['user' => $this->getUser()], ['publish_date' => 'DESC']);
@@ -93,6 +104,7 @@ class TopicController extends AbstractController
         $userTopicsCount = count($userTopicsDesc);
 
         return $this->render('user/allTopicsUser.html.twig', [
+            'userNotifCount' => $userNotifCount,
             'userTopics' => $userTopicsDesc,
             'userTopicsCount' => $userTopicsCount,
         ]);
@@ -107,6 +119,9 @@ class TopicController extends AbstractController
         $censureRepo = $entityManager->getRepository(Censure::class);
         $topicRepo = $entityManager->getRepository(Topic::class);
         $topicPostRepo = $entityManager->getRepository(TopicPost::class);
+        $notifRepo = $entityManager->getRepository(Notification::class);
+        // Onglet notifs Bulle nbr "non-vues" (int si connécté, null sinon)
+        $userNotifCount = $this->getUser() ? count($notifRepo->findByUserNotSeen($this->getUser())) : null;
 
         $topic = $topicRepo->find($id);
 
@@ -120,8 +135,6 @@ class TopicController extends AbstractController
             // + On cherche uniquement les posts qui ne répondent pas à un post (parent = null (nullable))
             // (les réponses au post s'afficheront avec ajax au click sur le post)
             $topicPosts = $topicPostRepo->findBy(['topic' => $topic], ['publish_date' => 'DESC']);
-
-
 
             // Form de publication de post sur un topic
             $topicPost = new TopicPost();
@@ -157,32 +170,27 @@ class TopicController extends AbstractController
                             // // Vérification du compte de mots
                             // if ($wordCount >= 5) {
         
-                                // Modifs Base de données
-                                $entityManager->persist($topicPost);
-                                $entityManager->flush();
-        
-                                $this->addFlash('success', 'Le post a bien été publié');
-                                return $this->redirectToRoute('app_topicDetail', ['id' => $topic->getId()]);
+                            // Modifs Base de données
+                            $entityManager->persist($topicPost);
+                            $entityManager->flush();
+    
+                            $this->addFlash('success', 'Le post a bien été publié');
+                            return $this->redirectToRoute('app_topicDetail', ['id' => $topic->getId()]);
                             // } else {
                                 
                             //     $this->addFlash('error', 'Le titre doit faire au minimum 5 mots !');
                             //     return $this->redirectToRoute('app_game', ['id' => $game->getId()]);
                             // }
-        
                         } 
                         else {
                             $this->addFlash('error', 'Pas de vulgarités pour un titre');
                             return $this->redirectToRoute('app_topicDetail', ['id' => $topic->getId()]);
                         }   
-
                     }
                     else {
                         $this->addFlash('error', 'Le topic a été fermé, vous ne pouvez plus le commenter.');
                         return $this->redirectToRoute('app_topicDetail', ['id' => $topic->getId()]);
                     }
-
-
-                    
                 }
                 else {
                     $this->addFlash('error', 'Vous devez être connecté pour publier un post');
@@ -191,6 +199,7 @@ class TopicController extends AbstractController
             }
 
             return $this->render('topic/topicDetail.html.twig', [
+                'userNotifCount' => $userNotifCount,
                 'formAddTopicPost' => $form->createView(),
                 'topic' => $topic,
                 'game' => $topicGame,

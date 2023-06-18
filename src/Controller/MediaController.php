@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\Notification;
 use App\Entity\Media;
 use App\Entity\Censure;
 use App\Entity\MediaPost;
@@ -33,6 +34,11 @@ class MediaController extends AbstractController
     public function getGameMedias(EntityManagerInterface $entityManager, int $gameIdFrom, Request $request): Response
     {
         $gameRepo = $entityManager->getRepository(Game::class);
+        $notifRepo = $entityManager->getRepository(Notification::class);
+
+        // Onglet notifs Bulle nbr "non-vues" (int si connécté, null sinon)
+        $userNotifCount = $this->getUser() ? count($notifRepo->findByUserNotSeen($this->getUser())) : null;
+
         $gameFrom = $gameRepo->find($gameIdFrom);
 
         // Dernier Médias du jeu (max 20 Repo) (+ count DQL total)
@@ -151,6 +157,7 @@ class MediaController extends AbstractController
         }
 
         return $this->render('media/gameMedias.html.twig', [
+            'userNotifCount' => $userNotifCount,
             'formAddMedia' => $form2->createView(),
             'gameMediasDesc' => $gameMediasDesc,
             'gameMediasCount' => $gameMediasCount,
@@ -184,6 +191,11 @@ class MediaController extends AbstractController
     public function getMediaDetail(EntityManagerInterface $entityManager, int $id, Request $request): Response
     {
         $mediaRepo = $entityManager->getRepository(Media::class);
+        $notifRepo = $entityManager->getRepository(Notification::class);
+
+        // Onglet notifs Bulle nbr "non-vues" (int si connécté, null sinon)
+        $userNotifCount = $this->getUser() ? count($notifRepo->findByUserNotSeen($this->getUser())) : null;
+
         $media = $mediaRepo->find($id);
 
         if ($media->getValidated() == "validated") {
@@ -263,6 +275,7 @@ class MediaController extends AbstractController
                 }
             }
             return $this->render('media/mediaDetail.html.twig', [
+                'userNotifCount' => $userNotifCount,
                 'formAddMediaPost' => $form->createView(),
                 'media' => $media,
                 'game' => $mediaGame,
@@ -287,12 +300,17 @@ class MediaController extends AbstractController
     public function getAllMediasGlobal(EntityManagerInterface $entityManager): Response
     {
         $mediaRepo = $entityManager->getRepository(Media::class);
+        $notifRepo = $entityManager->getRepository(Notification::class);
+
+        // Onglet notifs Bulle nbr "non-vues" (int si connécté, null sinon)
+        $userNotifCount = $this->getUser() ? count($notifRepo->findByUserNotSeen($this->getUser())) : null;
 
         // Tous les médias (max 50 Repo) + count DQL total
         $allMediasDesc = $mediaRepo->findGlobalLastMedias();
         $allMediasCount = $mediaRepo->countGlobalMedias();
 
         return $this->render('media/allMediasGlobal.html.twig', [
+            'userNotifCount' => $userNotifCount,
             'allMediasDesc' => $allMediasDesc,
             'allMediasCount' => $allMediasCount,
         ]);
@@ -508,11 +526,16 @@ class MediaController extends AbstractController
     public function getAllMediasUser(EntityManagerInterface $entityManager): Response
     {
         $mediaRepo = $entityManager->getRepository(Media::class);
+        $notifRepo = $entityManager->getRepository(Notification::class);
+
+        // Onglet notifs Bulle nbr "non-vues" (int si connécté, null sinon)
+        $userNotifCount = $this->getUser() ? count($notifRepo->findByUserNotSeen($this->getUser())) : null;
 
         $userMediasDesc = $mediaRepo->findBy(['user' => $this->getUser()], ['publish_date' => 'DESC']);
         $userMediasCount = count($userMediasDesc);
 
         return $this->render('user/allMediasUser.html.twig', [
+            'userNotifCount' => $userNotifCount,
             'userMedias' => $userMediasDesc,
             'userMediasCount' => $userMediasCount,
         ]);

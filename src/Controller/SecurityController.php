@@ -2,14 +2,15 @@
 
 namespace App\Controller;
 
-use Doctrine\ORM\EntityManagerInterface;
+use App\Entity\Notification;
 use App\Entity\Game;
 use App\Entity\Genre;
 use App\Entity\User;
 use App\Entity\Topic;
 use App\Entity\Media;
-use Doctrine\ORM\PersistentCollection;
 
+use Doctrine\ORM\EntityManagerInterface;
+use Doctrine\ORM\PersistentCollection;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -57,6 +58,11 @@ class SecurityController extends AbstractController
     #[Route(path: '/home', name: 'app_home')]
     public function homepage(EntityManagerInterface $entityManager)
     {
+        $notifRepo = $entityManager->getRepository(Notification::class);
+
+        // Onglet notifs Bulle nbr "non-vues" (int si connécté, null sinon)
+        $userNotifCount = $this->getUser() ? count($notifRepo->findByUserNotSeen($this->getUser())) : null;
+
         // Si connecté: raccourcis Games favoris
         if($this->getUser()) {
             $userFav = $this->getUser()->getFavoris();
@@ -74,6 +80,7 @@ class SecurityController extends AbstractController
         $lastMedias = $MediaManager->findLastMedias();
                 
         return $this->render('security/home.html.twig', [
+            'userNotifCount' => $userNotifCount,
             'userFav' => $userFav,
             'lastTopics' => $lastTopics,
             'lastMedias' => $lastMedias,

@@ -2,13 +2,14 @@
 
 namespace App\Controller;
 
-use Doctrine\ORM\EntityManagerInterface;
+use App\Entity\Notification;
 use App\Entity\User;
 use App\Entity\Game;
 use App\Entity\Topic;
 use App\Entity\Media;
-use Doctrine\ORM\PersistentCollection;
 
+use Doctrine\ORM\EntityManagerInterface;
+use Doctrine\ORM\PersistentCollection;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -19,6 +20,9 @@ class UserController extends AbstractController
     #[Route('/user', name: 'app_user')]
     public function profil(EntityManagerInterface $entityManager): Response
     {
+        $notifRepo = $entityManager->getRepository(Notification::class);
+        // Onglet notifs Bulle nbr "non-vues" (int si connécté, null sinon)
+        $userNotifCount = $this->getUser() ? count($notifRepo->findByUserNotSeen($this->getUser())) : null;
 
         if ($this->getUser()) {
 
@@ -39,6 +43,7 @@ class UserController extends AbstractController
             $userMediasCount = $mediaRepo->countUserMedias($user);
 
             return $this->render('user/profil.html.twig', [
+                'userNotifCount' => $userNotifCount,
                 'user' => $user,
                 'userRole' => $userRole,
                 'userFav' => $userFav,

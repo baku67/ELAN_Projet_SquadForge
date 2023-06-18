@@ -37,6 +37,11 @@ class CandidatureController extends AbstractController
     public function candidatureList(EntityManagerInterface $entityManager, int $groupId, Request $request): Response
     {
         $groupRepo = $entityManager->getRepository(Group::class);
+        $notifRepo = $entityManager->getRepository(Notification::class);
+
+        // Onglet notifs Bulle nbr "non-vues" (int si connécté, null sinon)
+        $userNotifCount = $this->getUser() ? count($notifRepo->findByUserNotSeen($this->getUser())) : null;
+
         $group = $groupRepo->find($groupId);
         $gameFrom = $group->getGame();
         $candidatures = $group->getCandidatures();
@@ -45,6 +50,7 @@ class CandidatureController extends AbstractController
         if ($this->getUser() == $group->getLeader() ) {
 
             return $this->render('candidature/candidatureList.html.twig', [
+                'userNotifCount' => $userNotifCount,
                 'candidatures' => $candidatures,
                 'group' => $group,
                 'gameFrom' => $gameFrom,
@@ -209,6 +215,11 @@ class CandidatureController extends AbstractController
     public function showCandidatureForm(EntityManagerInterface $entityManager, int $groupId, Request $request): Response
     {
         $groupRepo = $entityManager->getRepository(Group::class);
+        $notifRepo = $entityManager->getRepository(Notification::class);
+
+        // Onglet notifs Bulle nbr "non-vues" (int si connécté, null sinon)
+        $userNotifCount = $this->getUser() ? count($notifRepo->findByUserNotSeen($this->getUser())) : null;
+
         $group = $groupRepo->find($groupId);
         $gameFrom = $group->getGame();
         $groupQuestions = $group->getGroupQuestions();
@@ -303,6 +314,7 @@ class CandidatureController extends AbstractController
                 }
 
                 return $this->render('group/groupCandidatureForm.html.twig', [
+                    'userNotifCount' => $userNotifCount,
                     'formCandidature' => $form->createView(),
                     'group' => $group,
                     'gameFrom' => $gameFrom,
