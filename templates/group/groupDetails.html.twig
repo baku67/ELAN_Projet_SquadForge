@@ -47,7 +47,7 @@
              - {{ group.title }}
         </p>
 
-        <h2>TEAMS</h2>
+        <h2> <i class="fa-solid fa-users-rays"></i> TEAMS</h2>
 
         <br>
         <h3 style="text-align:center; width:100%;">{{ group.title }}</h3>
@@ -62,7 +62,7 @@
         {# Liste des membres du groupe #}
         <div>
             <div class="gameInfosSubTitleBg" style="background-color: {{ gameFrom.color }}"></div>
-            <h3 class="gameSubTitle noMarginBottom">Membres ( {{ group.members|length }} / {{ group.nbrPlaces }} )</h3>
+            <h3 class="gameSubTitle noMarginBottom"><i class="fa-solid fa-user-group"></i> Membres ( {{ group.members|length }} / {{ group.nbrPlaces }} )</h3>
         </div>
 
         <ul id="membersList" class="membersList">
@@ -157,7 +157,7 @@
 
                 <div>
                     <div class="gameInfosSubTitleBg" style="background-color: {{ gameFrom.color }}"></div>
-                    <h3 class="gameSubTitle noMarginBottom">Paramètres</h3>
+                    <h3 class="gameSubTitle noMarginBottom"><i class="fa-solid fa-users-gear"></i> Paramètres</h3>
                 </div>
                 {# Leader: Passer le lead #}
                 <div style="display:inline-flex; width:100%;">
@@ -337,7 +337,7 @@
                 {# Customisation des candidature #}
                 <div>
                     <div class="gameInfosSubTitleBg" style="background-color: {{ gameFrom.color }}"></div>
-                    <h3 class="gameSubTitle noMarginBottom">Candidature</h3>
+                    <h3 class="gameSubTitle noMarginBottom"><i class="fa-solid fa-clipboard-user"></i> Candidature</h3>
                 </div>
 
                 {% if candidatureCount == 0 %}
@@ -381,7 +381,7 @@
                 <a class="blacklistBtn" href="{{ path('app_groupBlacklist',{'groupId': group.id}) }}">
                     <div>
                         <span>Blacklist</span>
-                        <i class="fa-solid fa-ban"></i>
+                        <i class="fa-solid fa-users-slash"></i>
                     </div>
                 </a>
                 

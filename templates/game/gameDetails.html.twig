@@ -456,6 +456,8 @@
 
                             {% if app.user and not app.user.autoPlayGifs %}
                             <a href="{{ path('app_mediaDetail', {'id': media.id}) }}">
+                            {% elseif app.user is null %}
+                            <a href="{{ path('app_mediaDetail', {'id': media.id}) }}">
                             {% endif %}
                             <div class="mediaCardHeader" style="border-bottom: 5px solid {{ game.color }}">
                                 <img class="tinyLogo" src="{{ asset('img/games/tinyLogo/' ~ media.game.tinyLogo) }}" />

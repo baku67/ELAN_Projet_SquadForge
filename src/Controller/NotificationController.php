@@ -43,7 +43,7 @@ class NotificationController extends AbstractController
         // WTF CES REPO-LA ILS MARCHENT !? (Marche pas avec Notification)
         $mediaRepo = $this->entityManager->getRepository(Media::class);
         $topicRepo = $this->entityManager->getRepository(Topic::class);
-        if(in_array('ROLE_MODO', $this->getUser()->getRoles())) {
+        if($this->getUser() && in_array('ROLE_MODO', $this->getUser()->getRoles())) {
             // On compte les Topic et Médias status "waiting"
             $mediasWaitings = count($mediaRepo->findBy(["validated" => "waiting"]));
             $topicsWaitings = count($topicRepo->findBy(["validated" => "waiting"]));
