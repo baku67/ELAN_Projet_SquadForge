@@ -41,7 +41,12 @@
             {% for notif in notifs %}
                 <a href="{{ notif.link }}">
                     <div class="notifCard">
-                        <p style="margin-bottom:0;">{{ notif.text }}</p>
+                        <div style="display:inline-flex;width:100%; justify-content:space-between;">
+                            <p style="margin-bottom:0;">{{ notif.text }}</p>
+                            <a href="{{ path('app_deleteNotif',{'notifId': notif.id}) }}">
+                                <i class="fa-solid fa-xmark"></i>
+                            </a>
+                        </div>
                         <span class="notifCardPublishDate ">{{ time_diff(notif.dateCreation) }}</span>
                     </div>
                 </a>

@@ -33,14 +33,13 @@ class NotificationController extends AbstractController
     }
 
 
-    // Page de listing notifications User connecté (OrderBy HS: Le notifRepo marche pas ni avec entityManager )
+    // Page de listing notifications User connecté 
     #[Route('/showNotifsList', name: 'app_showNotifsList')]
     public function showNotifsList(Request $request): Response
     {
         $user = $this->getUser();
 
         //***** */ Si userModo: Bulles nbr éléments en attente de validation (int si modo, null sinon) 
-        // WTF CES REPO-LA ILS MARCHENT !? (Marche pas avec Notification)
         $mediaRepo = $this->entityManager->getRepository(Media::class);
         $topicRepo = $this->entityManager->getRepository(Topic::class);
         if($this->getUser() && in_array('ROLE_MODO', $this->getUser()->getRoles())) {
@@ -54,10 +53,8 @@ class NotificationController extends AbstractController
         }
         //*********************************************************************************** */
 
-        // (OrderBy HS: Le notifRepo marche pas ni avec entityManager )
         $notifRepo = $this->entityManager->getRepository(Notification::class);
         $notifs = $notifRepo->findBy(["user" => $this->getUser()], ["date_creation" => "DESC"]);
-        // $notifs = $user->getNotifications();
 
         // Toutes les notifs passent en "seen" (pas de /notifDetails)
         foreach ($notifs as $notif) {
@@ -74,7 +71,28 @@ class NotificationController extends AbstractController
     }
 
 
-    // Clean des notifs user (HS notifRepo !!!! j'ai tout tenté)
+
+    
+    // Clean des notifs user (TODO ajax + gérer le bouton clean si 0)
+    #[Route('/deleteNotif/{notifId}', name: 'app_deleteNotif')]
+    public function deleteNotif(Request $request, int $notifId): Response
+    {
+        // Vérif si "possède" bien la notif
+        $user = $this->getUser();
+        $notifs = $user->getNotifications();
+
+        $notifRepo = $this->entityManager->getRepository(Notification::class);
+        $targetedNotif = $notifRepo->find($notifId);
+
+        $notifRepo->remove($targetedNotif, true);
+
+        return $this->redirectToRoute('app_showNotifsList');
+    }
+
+
+
+
+    // Clean des notifs user (TODO ajax + gérer le bouton clean si 0)
     #[Route('/cleanNotifsUser', name: 'app_cleanNotifsUser')]
     public function cleanNotifsUser(Request $request): Response
     {

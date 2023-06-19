@@ -343,13 +343,13 @@ nav {
 }
 .notifCardPublishDate {
     position: absolute;
-    right: 7px;
-    bottom: 3px;
-    font-size: 0.7em;
+    left: 15px;
+    bottom: 5px;
+    font-size: 0.6em;
 }
 
 .notifsContainer {
-    margin-top: 30px;
+    margin-top: 50px;
 }
 
 .listContainer {
@@ -1478,8 +1478,11 @@ cursor: pointer;
 
     position: absolute;
     right: -12px;
-    background-color: var(--primary-color);
-    color: black;
+    /* background-color: var(--primary-color); */
+    background-color: #f10506;
+    /* color: black; */
+    color: #ffe3e3;
+
     padding: 0px 4px;
     padding-top: 2px;
     border-radius: 100px;
@@ -1494,9 +1497,10 @@ cursor: pointer;
     position: relative;
     font-family: 'K2D', sans-serif;
     background-color: var(--sectionBg-color);
-    padding: 10px 15px;
+    padding: 20px 15px;
     border-radius: 3px;
-    margin: 2px auto;
+    margin: 4px auto;
+    width: 75%;
 }
 
 
@@ -1510,5 +1514,5 @@ cursor: pointer;
     display: block;
     text-align: center;
     width: fit-content;
-    margin: 25px auto;
+    margin: 50px auto;
 }

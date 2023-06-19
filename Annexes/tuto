@@ -1,7 +1,8 @@
 En cours: notifs modération signalements, notifs likes (par packs)
 En cours: -> Front différence notifCard vu/ non vu (Quand pop sur listNotifs et qu'il y'a du nouveau)
 
-! Ajouter une bubulle à coté de "Modération" qui count les nouveaux éléments en atttente de validation ( MAIS : le "seen" s'adapte en fontion du modo héhéhéhéhéhéhéhéhéhéhéhéhé)
+https://symfony.com/doc/current/notifier.html: notifs et chat :0
+https://smaine-milianni.medium.com/create-a-notifier-transport-in-symfony-968f34adcc09
 
 ChatGPT NOTIFS DE LIKES GROUPÉES  !!!!!!! (spoiler c'est chaud):
 https://chat.openai.com/share/2025dcea-0ed8-4acf-b95e-eba72112a23c
