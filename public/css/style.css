@@ -1516,3 +1516,8 @@ cursor: pointer;
     width: fit-content;
     margin: 50px auto;
 }
+
+
+.unclickedNotifSpot {
+    color: var(--primary-color);
+}

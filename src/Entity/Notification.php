@@ -30,6 +30,9 @@ class Notification
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $link = null;
 
+    #[ORM\Column(options:["default" => false], nullable:true)]
+    private ?bool $clicked = null;
+
     public function __construct() {
         $this->seen = false;
     }
@@ -95,6 +98,18 @@ class Notification
     public function setLink(?string $link): self
     {
         $this->link = $link;
+
+        return $this;
+    }
+
+    public function isClicked(): ?bool
+    {
+        return $this->clicked;
+    }
+
+    public function setClicked(bool $clicked): self
+    {
+        $this->clicked = $clicked;
 
         return $this;
     }

@@ -190,13 +190,22 @@ class GroupController extends AbstractController
 
 
     // Detail du groupe: Id Group
-    #[Route('/groupDetails/{groupId}', name: 'app_groupDetails')]
-    public function groupDetails(EntityManagerInterface $entityManager, int $groupId, Request $request): Response
+    #[Route('/groupDetails/{groupId}/{notifId}', name: 'app_groupDetails')]
+    public function groupDetails(EntityManagerInterface $entityManager, int $groupId, Request $request, int $notifId = null): Response
     {
         $groupRepo = $entityManager->getRepository(Group::class);
         $notifRepo = $entityManager->getRepository(Notification::class);
         $mediaRepo = $entityManager->getRepository(Media::class);
         $topicRepo = $entityManager->getRepository(Topic::class);
+
+        // Si page vient de notifId, passe la notif en "clicked"
+        if (!is_null($notifId)) {
+            $notifFrom = $notifRepo->find($notifId);
+            $notifFrom->setClicked(true);
+            $entityManager->persist($notifFrom);
+            $entityManager->flush();
+        }
+        
                 
         // Onglet notifs Bulle nbr "non-vues" (int si connécté, null sinon)
         $userNotifCount = $this->getUser() ? count($notifRepo->findByUserNotSeen($this->getUser())) : null;

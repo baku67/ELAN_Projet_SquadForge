@@ -201,13 +201,21 @@ class MediaController extends AbstractController
 
 
     // Médias Details (id: idMedia)
-    #[Route('/mediaDetail/{id}', name: 'app_mediaDetail')]
-    public function getMediaDetail(EntityManagerInterface $entityManager, int $id, Request $request): Response
+    #[Route('/mediaDetail/{id}/{notifId}', name: 'app_mediaDetail')]
+    public function getMediaDetail(EntityManagerInterface $entityManager, Request $request, int $id, int $notifId = null): Response
     {
         $mediaRepo = $entityManager->getRepository(Media::class);
         $notifRepo = $entityManager->getRepository(Notification::class);
         $mediaRepo = $entityManager->getRepository(Media::class);
         $topicRepo = $entityManager->getRepository(Topic::class);
+
+        // Si page vient de notifId, passe la notif en "clicked"
+        if (!is_null($notifId)) {
+            $notifFrom = $notifRepo->find($notifId);
+            $notifFrom->setClicked(true);
+            $entityManager->persist($notifFrom);
+            $entityManager->flush();
+        }
 
         // Onglet notifs Bulle nbr "non-vues" (int si connécté, null sinon)
         $userNotifCount = $this->getUser() ? count($notifRepo->findByUserNotSeen($this->getUser())) : null;

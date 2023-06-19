@@ -83,8 +83,8 @@ class CandidatureController extends AbstractController
 
     
     // Page Candidature détaillée (leader)
-    #[Route('/candidatureDetails/{candidatureId}', name: 'app_candidatureDetails')]
-    public function candidatureDetails(EntityManagerInterface $entityManager, int $candidatureId, Request $request): Response
+    #[Route('/candidatureDetails/{candidatureId}/{notifId}', name: 'app_candidatureDetails')]
+    public function candidatureDetails(EntityManagerInterface $entityManager, int $candidatureId, Request $request, int $notifId = null): Response
     {
 
         $groupRepo = $entityManager->getRepository(Group::class);
@@ -95,6 +95,13 @@ class CandidatureController extends AbstractController
         $mediaRepo = $entityManager->getRepository(Media::class);
         $topicRepo = $entityManager->getRepository(Topic::class);
 
+        // Si page vient de notifId, passe la notif en "clicked"
+        if (!is_null($notifId)) {
+            $notifFrom = $notifRepo->find($notifId);
+            $notifFrom->setClicked(true);
+            $entityManager->persist($notifFrom);
+            $entityManager->flush();
+        }
 
         // Verif user connecté et leader du groupe 
         if ($this->getUser()) {

@@ -152,14 +152,23 @@ class TopicController extends AbstractController
 
 
     // Topic Details (id: idTopic)
-    #[Route('/topicDetail/{id}', name: 'app_topicDetail')]
-    public function getTopicDetail(EntityManagerInterface $entityManager, int $id, Request $request): Response
+    #[Route('/topicDetail/{id}/{notifId}', name: 'app_topicDetail')]
+    public function getTopicDetail(EntityManagerInterface $entityManager, Request $request, int $id, int $notifId = null): Response
     {
         $censureRepo = $entityManager->getRepository(Censure::class);
         $topicRepo = $entityManager->getRepository(Topic::class);
         $topicPostRepo = $entityManager->getRepository(TopicPost::class);
         $mediaRepo = $entityManager->getRepository(Media::class);
         $notifRepo = $entityManager->getRepository(Notification::class);
+
+        // Si page vient de notifId, passe la notif en "clicked"
+        if (!is_null($notifId)) {
+            $notifFrom = $notifRepo->find($notifId);
+            $notifFrom->setClicked(true);
+            $entityManager->persist($notifFrom);
+            $entityManager->flush();
+        }
+
         // Onglet notifs Bulle nbr "non-vues" (int si connécté, null sinon)
         $userNotifCount = $this->getUser() ? count($notifRepo->findByUserNotSeen($this->getUser())) : null;
         // Si userModo: Bulles nbr éléments en attente de validation (int si modo, null sinon)

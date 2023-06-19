@@ -129,12 +129,16 @@ class NotificationController extends AbstractController
             $notification->setText("Votre candidature pour rejoindre la team \"" . $group->getTitle() . "\" a été rejetée.");
         }
 
-        // Lien notif (format localhost pour test mais marche en prod normalement):
-        $link = $this->urlGenerator->generate('app_groupDetails', ['groupId' => $group->getId()], UrlGeneratorInterface::ABSOLUTE_URL);
-        $notification->setLink($link);
-            
         $notification->setDateCreation(new \DateTime());
         $notification->setUser($user);
+        $notification->setClicked(false);
+
+        $this->entityManager->persist($notification);
+        $this->entityManager->flush();
+
+        // Lien notif post-add pour récup l'id notif et l'injecter dans la route pour state "clicked":
+        $link = $this->urlGenerator->generate('app_groupDetails', ['groupId' => $group->getId(), 'notifId' => $notification->getId()], UrlGeneratorInterface::ABSOLUTE_URL);
+        $notification->setLink($link);
 
         $this->entityManager->persist($notification);
         $this->entityManager->flush();
@@ -147,25 +151,28 @@ class NotificationController extends AbstractController
     {
         $members = $group->getMembers();
 
-        // Sauf le leader (pas besoin de notif alors que c'est lui qui a validé)
+        // Sauf le leader (pas besoin de notif alors que c'est lui qui a validé) et membre accepté (autre notif)
         foreach ($members as $member) {
 
-            if ($member != $group->getLeader()) {
+            if ($member != $group->getLeader() || $member != $newMember) {
                 $notification = new Notification();
 
                 $notification->setText('"' . $newMember->getPseudo() . '" a intégré la team "' . $group->getTitle());
     
-                $link = $this->urlGenerator->generate('app_groupDetails', ['groupId' => $group->getId()], UrlGeneratorInterface::ABSOLUTE_URL);
-                $notification->setLink($link);
-                    
                 $notification->setDateCreation(new \DateTime());
                 $notification->setUser($member);
+                $notification->setClicked(false);
         
-                $this->entityManager->persist($notification);   
+                $this->entityManager->persist($notification);  
+                $this->entityManager->flush();
+                
+                // Lien notif post-add pour récup l'id notif et l'injecter dans la route pour state "clicked":
+                $link = $this->urlGenerator->generate('app_groupDetails', ['groupId' => $group->getId(), 'notifId' => $notification->getId()], UrlGeneratorInterface::ABSOLUTE_URL);
+                $notification->setLink($link);
+                $this->entityManager->persist($notification);  
+                $this->entityManager->flush();
             }
         }
-        $this->entityManager->flush();
-
         return true;
     }
 
@@ -177,16 +184,17 @@ class NotificationController extends AbstractController
         // Message de la notif au nouveau leader
         $notification->setText("Vous êtes désormais leader de la team \"" . $group->getTitle() . "\"");
 
-        // Lien notif (format localhost pour test mais marche en prod normalement):
-        $link = $this->urlGenerator->generate('app_groupDetails', ['groupId' => $group->getId()], UrlGeneratorInterface::ABSOLUTE_URL);
-        $notification->setLink($link);
-        
         $notification->setDateCreation(new \DateTime());
         $notification->setUser($newLeader);
+        $notification->setClicked(false);
 
         $this->entityManager->persist($notification);
         $this->entityManager->flush();
 
+        // Lien notif post-add pour récup l'id notif et l'injecter dans la route pour state "clicked":
+        $link = $this->urlGenerator->generate('app_groupDetails', ['groupId' => $group->getId(), 'notifId' => $notification->getId()], UrlGeneratorInterface::ABSOLUTE_URL);
+        $notification->setLink($link);
+            
         // Notifs aux autres membres (nouveau leader exclus)
         $members = $group->getMembers();
 
@@ -197,17 +205,22 @@ class NotificationController extends AbstractController
                 // Message de la notif
                 $notification2->setText("\"" . $newLeader->getPseudo() . "\" est désormai leader de la team \"" . $group->getTitle() . "\"");
                 
-                // Lien notif (format localhost pour test mais marche en prod normalement):
-                $link = $this->urlGenerator->generate('app_groupDetails', ['groupId' => $group->getId()], UrlGeneratorInterface::ABSOLUTE_URL);
-                $notification2->setLink($link);
-
                 $notification2->setDateCreation(new \DateTime());
                 $notification2->setUser($member);
+                $notification2->setClicked(false);
     
                 $this->entityManager->persist($notification2);
                 $this->entityManager->flush();
+
+                // Lien notif post-add pour récup l'id notif et l'injecter dans la route pour state "clicked":
+                $link = $this->urlGenerator->generate('app_groupDetails', ['groupId' => $group->getId(), 'notifId' => $notification->getId()], UrlGeneratorInterface::ABSOLUTE_URL);
+                $notification2->setLink($link);
+                $this->entityManager->persist($notification2);
+                $this->entityManager->flush();                    
             }
         }
+
+
         return true;
     }
 
@@ -224,15 +237,19 @@ class NotificationController extends AbstractController
             // Message de la notif
             $notification->setText("\"" . $leavingUser->getPseudo() . "\" a quitté la team \"" . $group->getTitle() . "\"");
             
-            // Lien notif (format localhost pour test mais marche en prod normalement):
-            $link = $this->urlGenerator->generate('app_groupDetails', ['groupId' => $group->getId()], UrlGeneratorInterface::ABSOLUTE_URL);
-            $notification->setLink($link);
-
             $notification->setDateCreation(new \DateTime());
             $notification->setUser($member);
+            $notification->setClicked(false);
 
             $this->entityManager->persist($notification);
             $this->entityManager->flush();
+
+            // Lien notif post-add pour récup l'id notif et l'injecter dans la route pour state "clicked":
+            $link = $this->urlGenerator->generate('app_groupDetails', ['groupId' => $group->getId(), 'notifId' => $notification->getId()], UrlGeneratorInterface::ABSOLUTE_URL);
+            $notification->setLink($link);
+            $this->entityManager->persist($notification);
+            $this->entityManager->flush();
+
         }
         return true;
     }
@@ -246,17 +263,19 @@ class NotificationController extends AbstractController
         // Message de la notif 
         $notification->setText("Vous avez été expulsé de la team \"" . $group->getTitle() . "\"");
 
-        // Lien notif (format localhost pour test mais marche en prod normalement):
-        $link = $this->urlGenerator->generate('app_groupDetails', ['groupId' => $group->getId()], UrlGeneratorInterface::ABSOLUTE_URL);
-        $notification->setLink($link);
-            
-
         $notification->setDateCreation(new \DateTime());
         $notification->setUser($userKicked);
+        $notification->setClicked(false);
 
         $this->entityManager->persist($notification);
         $this->entityManager->flush();
 
+        // Lien notif post-add pour récup l'id notif et l'injecter dans la route pour state "clicked":
+        $link = $this->urlGenerator->generate('app_groupDetails', ['groupId' => $group->getId(), 'notifId' => $notification->getId()], UrlGeneratorInterface::ABSOLUTE_URL);
+        $notification->setLink($link);
+        $this->entityManager->persist($notification);
+        $this->entityManager->flush();
+            
         // Notifs aux autres membres
         $this->notifMemberLeave($group, $userKicked);
 
@@ -273,16 +292,19 @@ class NotificationController extends AbstractController
         // Message de la notif 
         $notification->setText("Nouvelle candidature de \"" . $candidature->getUser()->getPseudo() . "\" pour votre team \"" . $candidature->getGroupe()->getTitle() . "\"");
 
-        // Lien notif (format localhost pour test mais marche en prod normalement):
-        $link = $this->urlGenerator->generate('app_candidatureDetails', ['candidatureId' => $candidature->getId()], UrlGeneratorInterface::ABSOLUTE_URL);
-        $notification->setLink($link);
-
         $notification->setDateCreation(new \DateTime());
         $notification->setUser($leader);
+        $notification->setClicked(false);
 
         $this->entityManager->persist($notification);
         $this->entityManager->flush();
 
+        // Lien notif post-add pour récup l'id notif et l'injecter dans la route pour state "clicked":
+        $link = $this->urlGenerator->generate('app_candidatureDetails', ['candidatureId' => $candidature->getId(), 'notifId' => $notification->getId()], UrlGeneratorInterface::ABSOLUTE_URL);
+        $notification->setLink($link);
+        $this->entityManager->persist($notification);
+        $this->entityManager->flush();
+            
         return true;
     }
 
@@ -295,15 +317,19 @@ class NotificationController extends AbstractController
 
         $notification->setText("Votre média \"" . $media->getTitle() . "\" a été approuvé par la modération");
 
-        // Lien notif (format localhost pour test mais marche en prod normalement):
-        $link = $this->urlGenerator->generate('app_mediaDetail', ['id' => $media->getId()], UrlGeneratorInterface::ABSOLUTE_URL);
-        $notification->setLink($link); 
-
         $notification->setDateCreation(new \DateTime());
         $notification->setUser($author);
+        $notification->setClicked(false);
 
         $this->entityManager->persist($notification);
         $this->entityManager->flush();
+
+        // Lien notif post-add pour récup l'id notif et l'injecter dans la route pour state "clicked":
+        $link = $this->urlGenerator->generate('app_mediaDetail', ['id' => $media->getId(), 'notifId' => $notification->getId()], UrlGeneratorInterface::ABSOLUTE_URL);
+        $notification->setLink($link); 
+        $this->entityManager->persist($notification);
+        $this->entityManager->flush();
+            
 
         return true;
     }
@@ -314,13 +340,16 @@ class NotificationController extends AbstractController
 
         $notification->setText("Votre média \"" . $media->getTitle() . "\" a été refusé par la modération");
 
-        // Lien notif (format localhost pour test mais marche en prod normalement):
-        $link = $this->urlGenerator->generate('app_user', [], UrlGeneratorInterface::ABSOLUTE_URL);
-        $notification->setLink($link);    
-
         $notification->setDateCreation(new \DateTime());
         $notification->setUser($author);
+        $notification->setClicked(false);
 
+        $this->entityManager->persist($notification);
+        $this->entityManager->flush();
+        
+        // Lien notif (format localhost pour test mais marche en prod normalement):
+        $link = $this->urlGenerator->generate('app_user', ['notifId' => $notification->getId()], UrlGeneratorInterface::ABSOLUTE_URL);
+        $notification->setLink($link);    
         $this->entityManager->persist($notification);
         $this->entityManager->flush();
 
@@ -333,13 +362,16 @@ class NotificationController extends AbstractController
 
         $notification->setText("Votre topic \"" . $topic->getTitle() . "\" a été approuvé par la modération");
 
-        // Lien notif (format localhost pour test mais marche en prod normalement):
-        $link = $this->urlGenerator->generate('app_topicDetail', ['id' => $topic->getId()], UrlGeneratorInterface::ABSOLUTE_URL);
-        $notification->setLink($link); 
-    
         $notification->setDateCreation(new \DateTime());
         $notification->setUser($author);
+        $notification->setClicked(false);
 
+        $this->entityManager->persist($notification);
+        $this->entityManager->flush();
+
+        // Lien notif (format localhost pour test mais marche en prod normalement):
+        $link = $this->urlGenerator->generate('app_topicDetail', ['id' => $topic->getId(), 'notifId' => $notification->getId()], UrlGeneratorInterface::ABSOLUTE_URL);
+        $notification->setLink($link); 
         $this->entityManager->persist($notification);
         $this->entityManager->flush();
 
@@ -352,13 +384,16 @@ class NotificationController extends AbstractController
 
         $notification->setText("Votre topic \"" . $topic->getTitle() . "\" a été refusé par la modération");
 
-        // Lien notif (format localhost pour test mais marche en prod normalement):
-        $link = $this->urlGenerator->generate('app_user', [], UrlGeneratorInterface::ABSOLUTE_URL);
-        $notification->setLink($link); 
-
         $notification->setDateCreation(new \DateTime());
         $notification->setUser($author);
+        $notification->setClicked(false);
 
+        $this->entityManager->persist($notification);
+        $this->entityManager->flush();
+
+        // Lien notif (format localhost pour test mais marche en prod normalement):
+        $link = $this->urlGenerator->generate('app_user', ['notifId' => $notification->getId()], UrlGeneratorInterface::ABSOLUTE_URL);
+        $notification->setLink($link); 
         $this->entityManager->persist($notification);
         $this->entityManager->flush();
 

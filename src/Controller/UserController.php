@@ -19,12 +19,21 @@ class UserController extends AbstractController
 {
 
     
-    #[Route('/user', name: 'app_user')]
-    public function profil(EntityManagerInterface $entityManager): Response
+    #[Route('/user/{notifId}', name: 'app_user')]
+    public function profil(EntityManagerInterface $entityManager, int $notifId = null): Response
     {
         $mediaRepo = $entityManager->getRepository(Media::class);
         $topicRepo = $entityManager->getRepository(Topic::class);
         $notifRepo = $entityManager->getRepository(Notification::class);
+
+        // Si page vient de notifId, passe la notif en "clicked"
+        if (!is_null($notifId)) {
+            $notifFrom = $notifRepo->find($notifId);
+            $notifFrom->setClicked(true);
+            $entityManager->persist($notifFrom);
+            $entityManager->flush();
+        }
+
         // Onglet notifs Bulle nbr "non-vues" (int si connécté, null sinon)
         $userNotifCount = $this->getUser() ? count($notifRepo->findByUserNotSeen($this->getUser())) : null;
         // Si userModo: Bulles nbr éléments en attente de validation (int si modo, null sinon)
