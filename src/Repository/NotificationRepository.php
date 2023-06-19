@@ -21,8 +21,9 @@ class NotificationRepository extends ServiceEntityRepository
 {
 
     private $entityManager;
-    public function __construct(EntityManagerInterface $entityManager)
+    public function __construct(ManagerRegistry $registry, EntityManagerInterface $entityManager)
     {
+        parent::__construct($registry, Notification::class);
         $this->entityManager = $entityManager;
     }
 

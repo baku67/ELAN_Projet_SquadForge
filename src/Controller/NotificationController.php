@@ -55,9 +55,9 @@ class NotificationController extends AbstractController
         //*********************************************************************************** */
 
         // (OrderBy HS: Le notifRepo marche pas ni avec entityManager )
-        // $notifRepo = $this->entityManager->getRepository(Notification::class);
-        // $notifs = $this->notifRepo->findAll();
-        $notifs = $user->getNotifications();
+        $notifRepo = $this->entityManager->getRepository(Notification::class);
+        $notifs = $notifRepo->findBy(["user" => $this->getUser()], ["date_creation" => "DESC"]);
+        // $notifs = $user->getNotifications();
 
         // Toutes les notifs passent en "seen" (pas de /notifDetails)
         foreach ($notifs as $notif) {
@@ -81,18 +81,14 @@ class NotificationController extends AbstractController
         $user = $this->getUser();
 
         $notifRepo = $this->entityManager->getRepository(Notification::class);
-        $notifs = $notifRepo->findAll();
-        // $notifs = $user->getNotifications();
+        $notifs = $user->getNotifications();
 
         // Delete all notifs user
-        // foreach ($notifs as $notif) {
-        //     $notifRepo->remove($notif, true);
-        // }
+        foreach ($notifs as $notif) {
+            $notifRepo->remove($notif, true);
+        }
 
-        return $this->render('user/notifsList.html.twig', [
-            'user' => $user,
-            'notifs' => $notifs,
-        ]);
+        return $this->redirectToRoute('app_showNotifsList');
     }
 
 

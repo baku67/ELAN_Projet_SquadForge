@@ -50,7 +50,10 @@
         </div>
 
 
-        <a href="{{ path('app_cleanNotifsUser') }}"><i class="fa-solid fa-xmark cleanNotifsBtn"></i></a>
+        {% if notifs|length > 0 %}
+            <a href="{{ path('app_cleanNotifsUser') }}"><i class="fa-solid fa-xmark cleanNotifsBtn"></i></a>
+        {% endif %}
+        
 
 
 
