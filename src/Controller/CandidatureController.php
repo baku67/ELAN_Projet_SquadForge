@@ -86,41 +86,65 @@ class CandidatureController extends AbstractController
     #[Route('/candidatureDetails/{candidatureId}', name: 'app_candidatureDetails')]
     public function candidatureDetails(EntityManagerInterface $entityManager, int $candidatureId, Request $request): Response
     {
+
         $groupRepo = $entityManager->getRepository(Group::class);
         $candidatureRepo = $entityManager->getRepository(Candidature::class);
         $groupQuestionRepo = $entityManager->getRepository(GroupQuestion::class);
         $groupAnswerRepo = $entityManager->getRepository(GroupAnswer::class);
         $notifRepo = $entityManager->getRepository(Notification::class);
+        $mediaRepo = $entityManager->getRepository(Media::class);
+        $topicRepo = $entityManager->getRepository(Topic::class);
 
-        // Nombre de notifs "non-vues"
-        $userNotifCount = count($notifRepo->findByUserNotSeen($this->getUser()));
 
-        $candidature = $candidatureRepo->find($candidatureId);
-        $group = $candidature->getGroupe();
-        $gameFrom = $group->getGame();
+        // Verif user connecté et leader du groupe 
+        if ($this->getUser()) {
 
-        // Tableau assoc Question/Réponse (juste text)
-        $groupAnswers = $candidature->getGroupAnswers();
-        $questionData = [];
-        foreach ($groupAnswers as $answer) {
-            $associatedQuestion = $answer->getGroupQuestion()->getText();
-            $newTab = [$associatedQuestion, $answer->getText()];
-            $questionData[] = $newTab;
-        }
+            $candidature = $candidatureRepo->find($candidatureId);
+            $group = $candidature->getGroupe();
+            $gameFrom = $group->getGame();
 
-        // if is leader
-        if ($this->getUser() == $group->getLeader()) {
+            // if is leader
+            if ($this->getUser() == $group->getLeader()) {
 
-            return $this->render('candidature/candidatureDetails.html.twig', [
-                'userNotifCount' => $userNotifCount,
-                'candidature' => $candidature,
-                'group' => $group,
-                'gameFrom' => $gameFrom,
-                'questionData' => $questionData,
-            ]);
-        }
-        else {
-            $this->addFlash('error', 'Vous devez être le leader pour accéder à cette page');
+                // Nombre de notifs "non-vues"
+                $userNotifCount = count($notifRepo->findByUserNotSeen($this->getUser()));
+                // Si userModo: Bulles nbr éléments en attente de validation (int si modo, null sinon)
+                if($this->getUser() && in_array('ROLE_MODO', $this->getUser()->getRoles())) {
+                    // On compte les Topic et Médias status "waiting"
+                    $mediasWaitings = count($mediaRepo->findBy(["validated" => "waiting"]));
+                    $topicsWaitings = count($topicRepo->findBy(["validated" => "waiting"]));
+                    $modoNotifCount = $mediasWaitings + $topicsWaitings;
+                }
+                else {
+                    $modoNotifCount = null;
+                }
+
+
+
+                // Tableau assoc Question/Réponse (juste text)
+                $groupAnswers = $candidature->getGroupAnswers();
+                $questionData = [];
+                foreach ($groupAnswers as $answer) {
+                    $associatedQuestion = $answer->getGroupQuestion()->getText();
+                    $newTab = [$associatedQuestion, $answer->getText()];
+                    $questionData[] = $newTab;
+                }
+
+                return $this->render('candidature/candidatureDetails.html.twig', [
+                    'modoNotifCount' => $modoNotifCount,
+                    'userNotifCount' => $userNotifCount,
+                    'candidature' => $candidature,
+                    'group' => $group,
+                    'gameFrom' => $gameFrom,
+                    'questionData' => $questionData,
+                ]);
+            }
+            else {
+                $this->addFlash('error', 'Vous devez être le leader pour accéder à cette page');
+                return $this->redirectToRoute('app_groupDetails', ['groupId' => $group->getId()]);
+            }
+        } else {
+            $this->addFlash('error', 'Vous devez être connecté pour accéder à cette page');
             return $this->redirectToRoute('app_groupDetails', ['groupId' => $group->getId()]);
         }
 
@@ -178,7 +202,10 @@ class CandidatureController extends AbstractController
 
                 // Notification au User
                 $this->notifController->notifUpdateCandidature("accept", $candidature->getUser(), $group);
-    
+                // Notifs aux membres
+                $this->notifController->notifNewMember($candidature->getUser(), $group);
+
+
                 $this->addFlash('success', $candidature->getUser()->getPseudo() . ' a rejoint la team');
                 return $this->redirectToRoute('app_groupDetails', ['groupId' => $group->getId()]);
             }

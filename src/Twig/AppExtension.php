@@ -39,7 +39,13 @@ class AppExtension extends AbstractExtension
                 return "> 1an";
             }
             else {
-                return "{$days}j";
+                if($days > 30) {
+                    $nbrMonth = intval($days / 30);
+                    return "{$nbrMonth}mois";
+                }
+                else {
+                    return "{$days}j";
+                }
             }
         }
         else if (($hours > 0) && (empty($days))) {

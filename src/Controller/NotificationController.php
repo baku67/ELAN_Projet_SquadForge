@@ -125,6 +125,33 @@ class NotificationController extends AbstractController
     }
 
 
+    public function notifNewMember(User $newMember, Group $group) 
+    {
+        $members = $group->getMembers();
+
+        // Sauf le leader (pas besoin de notif alors que c'est lui qui a validé)
+        foreach ($members as $member) {
+
+            if ($member != $group->getLeader()) {
+                $notification = new Notification();
+
+                $notification->setText('"' . $newMember->getPseudo() . '" a intégré la team "' . $group->getTitle());
+    
+                $link = $this->urlGenerator->generate('app_groupDetails', ['groupId' => $group->getId()], UrlGeneratorInterface::ABSOLUTE_URL);
+                $notification->setLink($link);
+                    
+                $notification->setDateCreation(new \DateTime());
+                $notification->setUser($member);
+        
+                $this->entityManager->persist($notification);   
+            }
+        }
+        $this->entityManager->flush();
+
+        return true;
+    }
+
+
     public function notifNewLeader(User $newLeader, Group $group): bool
     {
         $notification = new Notification();
@@ -319,4 +346,10 @@ class NotificationController extends AbstractController
 
         return true;
     }
+
+
+
+
+    // *************** Notifs de likes simples (non groupés, TODO) ****************
+    
 }
