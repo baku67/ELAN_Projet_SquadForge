@@ -9,7 +9,9 @@ $(document).ready(function() {
             type: 'GET',
             success: function(response) {
 
-                document.getElementById('newNotifBubbleCount').classList.add("fadeOut");
+                if(document.getElementById('newNotifBubbleCount') != null) {
+                    document.getElementById('newNotifBubbleCount').classList.add("fadeOut");
+                }
 
                 if(document.getElementById('allSeenLink') != null) {
                     document.getElementById('allSeenLink').classList.add('fadeOut');

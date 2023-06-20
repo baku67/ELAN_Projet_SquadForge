@@ -1272,6 +1272,7 @@ cursor: pointer;
 
 
 #leaveGroupBtn {
+    cursor: pointer;
     padding: 10px 15px;
     background-color: #b43a3a;
     border-radius: 3px;

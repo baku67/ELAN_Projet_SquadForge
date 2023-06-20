@@ -47,7 +47,7 @@
              - {{ group.title }}
         </p>
 
-        <h2> <i class="fa-solid fa-users-rays"></i> TEAMS</h2>
+        <h2> <i class="fa-solid fa-users-rays"></i> TEAM</h2>
 
         <br>
         <h3 style="text-align:center; width:100%;">{{ group.title }}</h3>
@@ -79,8 +79,9 @@
         </li>
         
 
+        {% set indexMember = 0 %}
         {% for member in members %}
-
+      
             {% if member != group.leader %}
             
                 {# Leader Card #}
@@ -92,7 +93,16 @@
                 
                 <li class="memberCard" style="background-color: {{ gameFrom.color }}">{{ memberPseudo }}
                 {% if app.user == group.leader and app.user != member %}    
-                    <a href="{{ path('app_kickGroupMember',{'memberId': member.id, 'groupId': group.id}) }}">Expulser</a>        
+                    <span onclick="kickMemberModal{{indexMember}}.showModal()">
+                        Expulser
+                    </span> 
+
+                    <dialog id="kickMemberModal{{indexMember}}">
+                        <p>Êtes-vous sûr de vouloir éjecter {{ member.pseudo }} de la team ?</p>
+                        <a href="{{ path('app_kickGroupMember',{'memberId': member.id, 'groupId': group.id}) }}">Oui</a>
+                        <span onclick="kickMemberModal{{indexMember}}.close()">Annuler</span>
+                    </dialog>
+
                 {% endif %}
                 </li>
             
@@ -375,7 +385,6 @@
                     <input type="submit" class="btn btn-primary" value="Ajouter"></input>
                 </form>
 
-
                 <br>
                 {# Bouton liste blacklistedUsers #}
                 <a class="blacklistBtn" href="{{ path('app_groupBlacklist',{'groupId': group.id}) }}">
@@ -385,19 +394,25 @@
                     </div>
                 </a>
                 
-
             {% else %}
 
                 <p>Membre Standard</p>
 
             {% endif %}
 
-            <a id="leaveGroupBtn" href="{{ path('app_leaveGroup', {'groupId': group.id} )}}">
+            {# Quitter le groupe + modal #}
+            <span id="leaveGroupBtn" onclick="leaveGroupModal.showModal()">
                 <div style="display:inline-flex; justify-content:space-between;">
                     <span>Quitter le groupe</span>
                     <i class="fa-solid fa-person-walking leaveGroupBtnIcon"></i>
                 </div>
-            </a>
+            </span>
+
+            <dialog id="leaveGroupModal">
+                <p>Êtes-vous sûr de vouloir quitter la team ?</p>
+                <a href="{{ path('app_leaveGroup', {'groupId': group.id} )}}">Oui</a>
+                <span onclick="leaveGroupModal.close()">Annuler</span>
+            </dialog>
             
         {% else %}
 
