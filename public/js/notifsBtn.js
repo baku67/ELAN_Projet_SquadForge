@@ -9,7 +9,7 @@ $(document).ready(function() {
             type: 'GET',
             success: function(response) {
 
-                document.querySelector('.deleteAllLink')[0].classList.add("fadeOut");
+                document.getElementById('newNotifBubbleCount').classList.add("fadeOut");
 
                 document.getElementById('allSeenLink').classList.add('fadeOut');
                 document.getElementById('deleteAllLink').classList.add('fadeOut');
@@ -61,6 +61,18 @@ $(document).ready(function() {
             url: '/notifsAllSeen',
             type: 'GET',
             success: function(response) {
+
+                if(document.getElementById('newNotifBubbleCount') != null) {
+                    document.getElementById('newNotifBubbleCount').classList.add("fadeOut");
+                }
+
+                if(document.getElementById('allSeenLink') != null) {
+                    document.getElementById('allSeenLink').classList.add('fadeOut');
+                    setTimeout(function() {
+                        document.getElementById('allSeenLink').remove();
+                    }, 550)
+                }
+
                 var elements = document.querySelectorAll('.unclickedNotifSpot');
                 elements.forEach(function(element) {
                     element.classList.add("fadeOutNotifPeriod");

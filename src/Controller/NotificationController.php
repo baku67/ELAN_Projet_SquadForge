@@ -59,14 +59,20 @@ class NotificationController extends AbstractController
         $notifRepo = $this->entityManager->getRepository(Notification::class);
         $notifs = $notifRepo->findBy(["user" => $this->getUser()], ["date_creation" => "DESC"]);
 
+        $theresNotSeen = false;
         // Toutes les notifs passent en "seen" (pas de /notifDetails)
         foreach ($notifs as $notif) {
+            // Compter si il y a des elem non cliké (pour ne pas affiché le bouton "see all" si 0 new)
+            if ($notif->isClicked() == false) {
+                $theresNotSeen = true;
+            }
             $notif->setSeen(true);
             $this->entityManager->persist($notif);
         }
         $this->entityManager->flush();
 
         return $this->render('user/notifsList.html.twig', [
+            'theresNotSeen' => $theresNotSeen,
             'userNotifCount' => $userNotifCount,
             'modoNotifCount' => $modoNotifCount,
             'user' => $user,
