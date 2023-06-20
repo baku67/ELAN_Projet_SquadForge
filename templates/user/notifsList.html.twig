@@ -13,7 +13,10 @@
                 <a href="{{ path('app_showNotifsList') }}">
                     <div style="position:relative; margin-right:10px;">
                         <i class="fa-solid fa-bell notifBell"></i>
-                        {# Pas de bubbleNbr car all-seen ici#}
+                        {# Bulle newNotifCount si > 0#}
+                        {% if userNotifCount > 0 %}
+                            <span class="newNotifBubbleCount">{{ userNotifCount }}</span>
+                        {% endif %}                    
                     </div>
                 </a>
             {% endif %}
@@ -36,6 +39,35 @@
 
         <h2 class="pageTitle">Notifications</h2>
 
+        {# Ajax Boutons clean/"vues" ajax #}
+        <script type="text/javascript" src="{{ asset('js/notifsBtn.js') }}"></script>
+
+        {% if notifs|length > 0 %}
+
+            <div class="notifListButtons" id="notifListButtons">
+
+                {# // Ajax bouton: passer toutes les notifs en "vue" #}
+                <a id="allSeenLink" href="{{ path('app_notifsAllSeen') }}">
+                    <i class="fa-solid fa-eye"></i>
+                </a>
+
+                {# // Ajax bouton: suppr toutes les notifs #}
+                <a id="deleteAllLink" href="{{ path('app_cleanNotifsUser') }}">
+                    <i class="fa-solid fa-xmark cleanNotifsBtn"></i>
+                </a>
+
+            </div>
+
+
+        {% else %}
+            
+            <p class="emptyListMsg" style="margin: 50px auto;">Aucune notifications</p>
+        
+        {% endif %}
+
+        
+        
+        {# Liste des notifs #}
         <div class="notifsContainer">
 
             {# Le link delete dans le link notif mess-up le link global #}
@@ -44,7 +76,7 @@
                 <a href="{{ notif.link }}">
                     <div class="notifCard">
                         <div style="display:inline-flex;width:100%; justify-content:space-between;">
-                            <p style="margin-bottom:0;">
+                            <p style="margin-bottom:0;margin-right:12px;">
                                 {# State clicked de la notif #}
                                 {% if not notif.clicked %}
                                     <i class='fa-solid fa-circle unclickedNotifSpot' style="margin-right:7px;"></i>
@@ -62,12 +94,6 @@
             {% endfor %}
 
         </div>
-
-
-        {% if notifs|length > 0 %}
-            <a href="{{ path('app_cleanNotifsUser') }}"><i class="fa-solid fa-xmark cleanNotifsBtn"></i></a>
-        {% endif %}
-        
 
 
 

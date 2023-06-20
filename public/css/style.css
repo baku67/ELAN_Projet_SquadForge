@@ -349,7 +349,7 @@ nav {
 }
 
 .notifsContainer {
-    margin-top: 50px;
+    /* margin-top: 50px; */
 }
 
 .listContainer {
@@ -1504,20 +1504,112 @@ cursor: pointer;
 }
 
 
+
+
+.notifListButtons {
+    display: inline-flex;
+    justify-content: center;
+    width: 100%;
+}
+
+
 .cleanNotifsBtn {
     color: #fe6565;
     padding: 15px 18px;
     font-size: 1.5em;
     border-radius: 100px;
-    border: 1px solid grey;
-    background-color: var(--sectionBg-color);
+    border: 1px solid #585858;
+    background-color: #272727;
     display: block;
     text-align: center;
     width: fit-content;
     margin: 50px auto;
+    transition: all 0.4s;
+
+    margin-left: 10px;
+}
+#allSeenLink {
+    color: #d3d3d3;
+    padding: 14px 17px;
+    font-size: 1.1em;
+    border-radius: 100px;
+    border: 1px solid #585858;
+    background-color: #272727;
+    display: block;
+    text-align: center;
+    width: fit-content;
+    /* margin: 50px auto; */
+    margin-top: 50px;
+    margin-bottom: 51px;
+    transition: all 0.4s;
+
+    margin-right: 10px;
+}
+
+.cleanNotifsBtn:hover, #allSeenLink:hover {
+    border: 1px solid #b5b5b5;
+    background-color: #323232;
+}
+
+
+.fadeOutNotifPeriod {
+    animation: fadeOutNotifPeriod 0.5s 0s 1 forwards ease;
+}
+@keyframes fadeOutNotifPeriod {
+    from {
+        opacity: 1;
+        margin-right: 7px;
+    }
+    to {
+        margin-right: -15px;
+        opacity: 0;
+    }
+}
+
+.fadeOutNotifCard {
+    animation: fadeOutNotifCard 0.5s 0s 1 forwards ease;
+}
+@keyframes fadeOutNotifCard {
+    from {
+        opacity: 1;
+    }
+    to {
+        opacity: 0;
+    }
 }
 
 
 .unclickedNotifSpot {
     color: var(--primary-color);
+}
+
+
+
+
+
+
+
+
+
+.fadeOut {
+    animation: fadeOut 0.5s 0s 1 forwards ease;
+}
+@keyframes fadeOut {
+    from {
+        opacity: 1;
+    }
+    to {
+        opacity: 0;
+    }
+}
+.fadeIn {
+    animation: fadeIn 0.5s 0s 1 forwards ease;
+}
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
 }

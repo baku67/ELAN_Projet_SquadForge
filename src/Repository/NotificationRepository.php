@@ -47,6 +47,7 @@ class NotificationRepository extends ServiceEntityRepository
     }
 
 
+    // seen old, clicked
     public function findByUserNotSeen(User $user): array
     {
         $queryBuilder = $this->entityManager->createQueryBuilder();
@@ -55,9 +56,9 @@ class NotificationRepository extends ServiceEntityRepository
             ->select('n')
             ->from('App\Entity\Notification', 'n')
             ->where('n.user = :user')
-            ->andWhere('n.seen = :seen')
+            ->andWhere('n.clicked = :clicked')
             ->setParameter('user', $user)
-            ->setParameter('seen', 0);
+            ->setParameter('clicked', 0);
 
         $result = $queryBuilder->getQuery()->getResult();
 

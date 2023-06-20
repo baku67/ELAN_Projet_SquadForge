@@ -38,7 +38,10 @@ class NotificationController extends AbstractController
     public function showNotifsList(Request $request): Response
     {
         $user = $this->getUser();
+        $notifRepo = $this->entityManager->getRepository(Notification::class);
 
+        // Onglet notifs Bulle nbr "non-vues" (int si connécté, null sinon)
+        $userNotifCount = $this->getUser() ? count($notifRepo->findByUserNotSeen($this->getUser())) : null;
         //***** */ Si userModo: Bulles nbr éléments en attente de validation (int si modo, null sinon) 
         $mediaRepo = $this->entityManager->getRepository(Media::class);
         $topicRepo = $this->entityManager->getRepository(Topic::class);
@@ -64,6 +67,7 @@ class NotificationController extends AbstractController
         $this->entityManager->flush();
 
         return $this->render('user/notifsList.html.twig', [
+            'userNotifCount' => $userNotifCount,
             'modoNotifCount' => $modoNotifCount,
             'user' => $user,
             'notifs' => $notifs,
@@ -73,7 +77,7 @@ class NotificationController extends AbstractController
 
 
     
-    // Clean des notifs user (TODO ajax + gérer le bouton clean si 0)
+    // Suppression d'une notif (TODO ajax + gérer le bouton clean si 0)
     #[Route('/deleteNotif/{notifId}', name: 'app_deleteNotif')]
     public function deleteNotif(Request $request, int $notifId): Response
     {
@@ -92,7 +96,7 @@ class NotificationController extends AbstractController
 
 
 
-    // Clean des notifs user (TODO ajax + gérer le bouton clean si 0)
+    // Suppression des notifs user (TODO ajax + gérer le bouton clean si 0)
     #[Route('/cleanNotifsUser', name: 'app_cleanNotifsUser')]
     public function cleanNotifsUser(Request $request): Response
     {
@@ -106,14 +110,38 @@ class NotificationController extends AbstractController
             $notifRepo->remove($notif, true);
         }
 
-        return $this->redirectToRoute('app_showNotifsList');
+        // return $this->redirectToRoute('app_showNotifsList');
+        return new Response('Notifications deleted.', Response::HTTP_OK);
+    }
+
+
+
+    
+    // Passe toutes les notifs User en "vue"
+    #[Route('/notifsAllSeen', name: 'app_notifsAllSeen')]
+    public function notifsAllSeen(Request $request): Response
+    {
+        $user = $this->getUser();
+
+        $notifRepo = $this->entityManager->getRepository(Notification::class);
+        $notifs = $user->getNotifications();
+
+        // Delete all notifs user
+        foreach ($notifs as $notif) {
+            $notif->setClicked(true);
+            $this->entityManager->persist($notif);
+        }
+        $this->entityManager->flush();
+
+        // return $this->redirectToRoute('app_showNotifsList');
+        return new Response('Notifications marked as seen.', Response::HTTP_OK);
     }
 
 
 
 
     // **************************************************************************************************************************
-    // Fonctions "d'envoi" de notifications
+    // Fonctions de création de notifications
     // **************************************************************************************************************************
 
 
