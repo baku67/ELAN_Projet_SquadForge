@@ -11,10 +11,14 @@ $(document).ready(function() {
 
                 document.getElementById('newNotifBubbleCount').classList.add("fadeOut");
 
-                document.getElementById('allSeenLink').classList.add('fadeOut');
+                if(document.getElementById('allSeenLink') != null) {
+                    document.getElementById('allSeenLink').classList.add('fadeOut');
+                }
                 document.getElementById('deleteAllLink').classList.add('fadeOut');
                 setTimeout(() => {
-                    document.getElementById('allSeenLink').remove();
+                    if(document.getElementById('allSeenLink') != null) {
+                        document.getElementById('allSeenLink').remove();
+                    }
                     document.getElementById('deleteAllLink').remove();
 
                     $msg = document.createElement('p');

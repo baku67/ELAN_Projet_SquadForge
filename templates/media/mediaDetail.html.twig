@@ -156,32 +156,34 @@
                     {% endfor %}
                     console.log(censuresArray);
 
-                    // A chaque input, check si il y a vulgarité et censorise
-                    document.getElementById('media_post_text').addEventListener('input', function() {
-                    
-                        // Découpe de l'input en array de mot (dans l'ordre)
-                        let inputArray = document.getElementById('media_post_text').value.split(" ");
+                    {% if media.status == "open" %}
+                        // A chaque input, check si il y a vulgarité et censorise
+                        document.getElementById('media_post_text').addEventListener('input', function() {
+                        
+                            // Découpe de l'input en array de mot (dans l'ordre)
+                            let inputArray = document.getElementById('media_post_text').value.split(" ");
 
-                        // Génération de la censure selon la longueur du mot
-                        // const replacementValue = "ù^$*@";
-                        function censorWordGen(wordLength) {
+                            // Génération de la censure selon la longueur du mot
+                            // const replacementValue = "ù^$*@";
+                            function censorWordGen(wordLength) {
 
-                            // const characters = ['ù', '^', '-', '$', '&', '@', '*', 'µ', '!', '#']
-                            let censure = "";
-                            for (var i = 0; i < wordLength; i++) {
-                                censure = censure + "*";
+                                // const characters = ['ù', '^', '-', '$', '&', '@', '*', 'µ', '!', '#']
+                                let censure = "";
+                                for (var i = 0; i < wordLength; i++) {
+                                    censure = censure + "*";
+                                }
+
+                                return censure;
                             }
 
-                            return censure;
-                        }
-
-                        // Replace de la vulgarité par "*****" selon length
-                        const replacedArray = inputArray.map(element =>
-                        censuresArray.includes(element.toLowerCase()) ? censorWordGen(element.length) : element
-                        );
-                        document.getElementById('media_post_text').value = replacedArray.join(' ');
-                        console.log(replacedArray);
-                    })
+                            // Replace de la vulgarité par "*****" selon length
+                            const replacedArray = inputArray.map(element =>
+                            censuresArray.includes(element.toLowerCase()) ? censorWordGen(element.length) : element
+                            );
+                            document.getElementById('media_post_text').value = replacedArray.join(' ');
+                            console.log(replacedArray);
+                        })
+                    {% endif %}
                 </script>
 
 

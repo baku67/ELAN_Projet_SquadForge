@@ -110,10 +110,10 @@ window.addEventListener('load', function() {
             .then(response => response.json())
             .then(data => {
                 if (data.success) {
-                    document.querySelector('#ajaxFlash').textContent = "Votre note a bien été pris en compte";
+                    document.querySelector('#ajaxFlash').textContent = "Votre avez upvoté un média";
                     document.querySelector('#ajaxFlash').classList.add("ajaxFlashAnim", "successAjaxFlash");
                 } else {
-                    document.querySelector('#ajaxFlash').textContent = "Vous devez être connecté pour liker un média";
+                    document.querySelector('#ajaxFlash').textContent = "Vous devez être connecté pour upvoter un média";
                     document.querySelector('#ajaxFlash').classList.add("ajaxFlashAnim", "errorAjaxFlash");
                 }
 

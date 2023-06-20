@@ -1,6 +1,9 @@
 En cours: notifs modération signalements, notifs likes (par packs)
 En cours: -> Front différence notifCard vu/ non vu (Quand pop sur listNotifs et qu'il y'a du nouveau)
 
+Manque bouton open/close Media 
+Async fetch periodique du newNotif unclicked
+
 https://symfony.com/doc/current/notifier.html: notifs et chat :0
 https://smaine-milianni.medium.com/create-a-notifier-transport-in-symfony-968f34adcc09
 

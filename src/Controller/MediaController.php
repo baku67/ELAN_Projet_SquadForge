@@ -380,8 +380,10 @@ class MediaController extends AbstractController
             $user = $this->getUser();
             $media = $mediaRepo->find($id);
 
-            // Vérification si déjà like = remove
+            // Vérification si déjà like = remove (et -1 anotifNbr)
             if ($media->getUserUpvote()->contains($user)) {
+
+                $this->notifController->notifDecrementNbrUpvoteMedia($media->getUser(), $media);
 
                 $media->removeUserUpvote($user);
 
@@ -393,6 +395,9 @@ class MediaController extends AbstractController
                 return new JsonResponse(['success' => true, 'newState' => "unliked", 'newCountLikes' => $likeCount]);
             }
             else {
+                // Notifs auteur: création notif si premier upvote, sinon incrémentation de la notif (HS car pas d'upvote(ligne de dessous))
+                $this->notifController->notifUpvoteMedia($media->getUser(), $media);
+
                 $media->addUserUpvote($user);
 
                 $entityManager->flush();

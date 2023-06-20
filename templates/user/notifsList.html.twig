@@ -83,7 +83,7 @@
                                 {% if not notif.clicked %}
                                     <i class='fa-solid fa-circle unclickedNotifSpot' style="margin-right:7px;"></i>
                                 {% endif %}
-                                {{ notif.text }}
+                                <span id="notifText">{{ notif.text|raw }}</span>
                             </p>
                             {# Le link delete dans le link notif mess-up le link global #}
                             <a href="{{ path('app_deleteNotif',{'notifId': notif.id}) }}">
@@ -93,6 +93,8 @@
                         <span class="notifCardPublishDate ">{{ time_diff(notif.dateCreation) }}</span>
                     </div>
                 </a>
+
+
             {% endfor %}
 
         </div>
