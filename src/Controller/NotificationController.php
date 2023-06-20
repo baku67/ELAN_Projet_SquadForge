@@ -497,15 +497,32 @@ class NotificationController extends AbstractController
         $notifRepo = $this->entityManager->getRepository(Notification::class);
         $notifChecked = $notifRepo->findOneBy(["type" => "media", "typeId" => $media->getId()]);
 
-        $notifChecked->setText("Votre média \"" . $media->getTitle() . "\" a été upvoté par <strong style='font-size:1.1em;'>" . ($notifChecked->getTypeNbr()-1) . "</strong> personnes");
+        // Si notif supprimée entre temps
+        if(!is_null($notifChecked)) {
 
-        // Pas de proc notif ni de top-list
+            // Si tout le monde a retiré son upvote: suppr notif
+            if (($notifChecked->getTypeNbr()-1) <= 0) {
 
-        $notifChecked->setTypeNbr($notifChecked->getTypeNbr()-1);
+                $notifRepo->remove($notifChecked);
+                $this->entityManager->flush();
 
-        $this->entityManager->persist($notifChecked);
-        $this->entityManager->flush();
+                return true;
+            }
+            else {
 
-        return true;
+                $notifChecked->setText("Votre média \"" . $media->getTitle() . "\" a été upvoté par <strong style='font-size:1.1em;'>" . ($notifChecked->getTypeNbr()-1) . "</strong> personnes");
+
+                // Pas de proc notif ni de top-list
+    
+                $notifChecked->setTypeNbr($notifChecked->getTypeNbr()-1);
+        
+                $this->entityManager->persist($notifChecked);
+                $this->entityManager->flush();
+        
+                return true;
+            }
+        }
+
+        return false;
     }
 }

@@ -383,7 +383,9 @@ class MediaController extends AbstractController
             // Vérification si déjà like = remove (et -1 anotifNbr)
             if ($media->getUserUpvote()->contains($user)) {
 
-                $this->notifController->notifDecrementNbrUpvoteMedia($media->getUser(), $media);
+                if($media->getUser() != $this->getUser()) {
+                    $this->notifController->notifDecrementNbrUpvoteMedia($media->getUser(), $media);
+                }
 
                 $media->removeUserUpvote($user);
 
@@ -396,7 +398,9 @@ class MediaController extends AbstractController
             }
             else {
                 // Notifs auteur: création notif si premier upvote, sinon incrémentation de la notif (HS car pas d'upvote(ligne de dessous))
-                $this->notifController->notifUpvoteMedia($media->getUser(), $media);
+                if($media->getUser() != $this->getUser()) {
+                    $this->notifController->notifUpvoteMedia($media->getUser(), $media);
+                }
 
                 $media->addUserUpvote($user);
 

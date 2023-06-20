@@ -198,11 +198,20 @@
             </div>
 
             {% if userGameGroups is not null %}
+            <h4 style="text-align:center;margin-top:20px">Vos Teams</h4>
             <div class="groupListGrid">
                 {% for userGameGroup in userGameGroups %}
-                    <a class="groupCard" href="{{ path('app_groupDetails', {'groupId': userGameGroup.id } ) }}" style="background-color: {{ game.color }}">
+                    {% if userGameGroup.leader == app.user %}
+                        {% set borderStatus = "1px solid gold" %}
+                    {% else %}
+                        {% set borderStatus = "0px solid" %}
+                    {% endif %}
+                    
+                    <a class="groupCard" href="{{ path('app_groupDetails', {'groupId': userGameGroup.id } ) }}" style="background-color: {{ game.color }}; border: {{ borderStatus }};">
                         <div>
                             <h5>{{ userGameGroup.title }}</h5>
+                            <span>{{ userGameGroup.members|length }} / {{ userGameGroup.nbrPlaces }}</span>
+                            {# Indicateur visuel icon FA user full / vide (recheck max nbrPlaces) #}
                         </div>
                     </a>
                 {% endfor %}
