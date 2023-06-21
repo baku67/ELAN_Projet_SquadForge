@@ -31,6 +31,8 @@ window.addEventListener('load', function() {
 
 
 
+    // TODO: Asynch fetch périodique newNotifs non clicked (user/modo)
+    // setInterval() ajax app_checkNewNotifs 
 
 
     

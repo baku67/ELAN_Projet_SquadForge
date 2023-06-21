@@ -188,7 +188,7 @@ class NotificationController extends AbstractController
         // Sauf le leader (pas besoin de notif alors que c'est lui qui a validé) et membre accepté (autre notif)
         foreach ($members as $member) {
 
-            if ($member != $group->getLeader() || $member != $newMember) {
+            if (($member != $group->getLeader()) && ($member != $newMember)) {
                 $notification = new Notification();
 
                 $notification->setText('"' . $newMember->getPseudo() . '" a intégré la team "' . $group->getTitle());

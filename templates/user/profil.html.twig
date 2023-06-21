@@ -164,6 +164,7 @@
 
                 <div style="height:fit-content;">
 
+                     {# TODO: ici check si type = Img ou Gif pour savoir si Gifffer ou pas #}
                     {% if app.user.autoPlayGifs %}
                     <a href="{{ path('app_mediaDetail', {'id': media.id}) }}">
                     {% endif %}

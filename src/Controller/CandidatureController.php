@@ -95,64 +95,71 @@ class CandidatureController extends AbstractController
         $mediaRepo = $entityManager->getRepository(Media::class);
         $topicRepo = $entityManager->getRepository(Topic::class);
 
-        // Si page vient de notifId, passe la notif en "clicked"
-        if (!is_null($notifId)) {
-            $notifFrom = $notifRepo->find($notifId);
-            $notifFrom->setClicked(true);
-            $entityManager->persist($notifFrom);
-            $entityManager->flush();
-        }
+        // Si la candidature-cible de la notif n'existe plus (accpté/refusée/annulée)
+        $candidature = $candidatureRepo->find($candidatureId);
+        if(!is_null($candidature)) {
 
-        // Verif user connecté et leader du groupe 
-        if ($this->getUser()) {
+            // Si page vient de notifId, passe la notif en "clicked"
+            if (!is_null($notifId)) {
+                $notifFrom = $notifRepo->find($notifId);
+                $notifFrom->setClicked(true);
+                $entityManager->persist($notifFrom);
+                $entityManager->flush();
+            }
 
-            $candidature = $candidatureRepo->find($candidatureId);
-            $group = $candidature->getGroupe();
-            $gameFrom = $group->getGame();
+            // Verif user connecté et leader du groupe 
+            if ($this->getUser()) {
 
-            // if is leader
-            if ($this->getUser() == $group->getLeader()) {
+                
+                $group = $candidature->getGroupe();
+                $gameFrom = $group->getGame();
 
-                // Nombre de notifs "non-vues"
-                $userNotifCount = count($notifRepo->findByUserNotSeen($this->getUser()));
-                // Si userModo: Bulles nbr éléments en attente de validation (int si modo, null sinon)
-                if($this->getUser() && in_array('ROLE_MODO', $this->getUser()->getRoles())) {
-                    // On compte les Topic et Médias status "waiting"
-                    $mediasWaitings = count($mediaRepo->findBy(["validated" => "waiting"]));
-                    $topicsWaitings = count($topicRepo->findBy(["validated" => "waiting"]));
-                    $modoNotifCount = $mediasWaitings + $topicsWaitings;
+                // if is leader
+                if ($this->getUser() == $group->getLeader()) {
+
+                    // Nombre de notifs "non-vues"
+                    $userNotifCount = count($notifRepo->findByUserNotSeen($this->getUser()));
+                    // Si userModo: Bulles nbr éléments en attente de validation (int si modo, null sinon)
+                    if($this->getUser() && in_array('ROLE_MODO', $this->getUser()->getRoles())) {
+                        // On compte les Topic et Médias status "waiting"
+                        $mediasWaitings = count($mediaRepo->findBy(["validated" => "waiting"]));
+                        $topicsWaitings = count($topicRepo->findBy(["validated" => "waiting"]));
+                        $modoNotifCount = $mediasWaitings + $topicsWaitings;
+                    }
+                    else {
+                        $modoNotifCount = null;
+                    }
+
+                    // Tableau assoc Question/Réponse (juste text)
+                    $groupAnswers = $candidature->getGroupAnswers();
+                    $questionData = [];
+                    foreach ($groupAnswers as $answer) {
+                        $associatedQuestion = $answer->getGroupQuestion()->getText();
+                        $newTab = [$associatedQuestion, $answer->getText()];
+                        $questionData[] = $newTab;
+                    }
+
+                    return $this->render('candidature/candidatureDetails.html.twig', [
+                        'modoNotifCount' => $modoNotifCount,
+                        'userNotifCount' => $userNotifCount,
+                        'candidature' => $candidature,
+                        'group' => $group,
+                        'gameFrom' => $gameFrom,
+                        'questionData' => $questionData,
+                    ]);
                 }
                 else {
-                    $modoNotifCount = null;
+                    $this->addFlash('error', 'Vous devez être le leader pour accéder à cette page');
+                    return $this->redirectToRoute('app_groupDetails', ['groupId' => $group->getId()]);
                 }
-
-
-
-                // Tableau assoc Question/Réponse (juste text)
-                $groupAnswers = $candidature->getGroupAnswers();
-                $questionData = [];
-                foreach ($groupAnswers as $answer) {
-                    $associatedQuestion = $answer->getGroupQuestion()->getText();
-                    $newTab = [$associatedQuestion, $answer->getText()];
-                    $questionData[] = $newTab;
-                }
-
-                return $this->render('candidature/candidatureDetails.html.twig', [
-                    'modoNotifCount' => $modoNotifCount,
-                    'userNotifCount' => $userNotifCount,
-                    'candidature' => $candidature,
-                    'group' => $group,
-                    'gameFrom' => $gameFrom,
-                    'questionData' => $questionData,
-                ]);
-            }
-            else {
-                $this->addFlash('error', 'Vous devez être le leader pour accéder à cette page');
+            } else {
+                $this->addFlash('error', 'Vous devez être connecté pour accéder à cette page');
                 return $this->redirectToRoute('app_groupDetails', ['groupId' => $group->getId()]);
             }
-        } else {
-            $this->addFlash('error', 'Vous devez être connecté pour accéder à cette page');
-            return $this->redirectToRoute('app_groupDetails', ['groupId' => $group->getId()]);
+        } 
+        else {
+            $this->addFlash('error', 'La candidature n\'existe plus');
+            return $this->redirectToRoute('app_showNotifsList');
         }
 
         

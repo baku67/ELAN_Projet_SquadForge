@@ -42,6 +42,8 @@ class GroupRepository extends ServiceEntityRepository
     }
 
 
+    
+    // TODO: c'est des findBy ?
     public function findAllByGame(Game $game): array
     {
         // where status = public, game, orderBy
