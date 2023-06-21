@@ -197,8 +197,9 @@
                 {% endif %}
             </div>
 
-            {% if userGameGroups is not null %}
             <h4 style="text-align:center;margin-top:20px">Vos Teams</h4>
+
+            {% if userGameGroups|length > 0 %}
             <div class="groupListGrid">
                 {% for userGameGroup in userGameGroups %}
                     {% if userGameGroup.leader == app.user %}
@@ -216,6 +217,8 @@
                     </a>
                 {% endfor %}
             </div>
+            {% else %}
+            <p class="emptyListMsg">Vous n'appartenez à aucune team</p>
             {% endif %}
             
             

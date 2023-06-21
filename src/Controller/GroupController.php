@@ -198,63 +198,71 @@ class GroupController extends AbstractController
         $mediaRepo = $entityManager->getRepository(Media::class);
         $topicRepo = $entityManager->getRepository(Topic::class);
 
-        // Si page vient de notifId, passe la notif en "clicked"
-        if (!is_null($notifId)) {
-            $notifFrom = $notifRepo->find($notifId);
-            $notifFrom->setClicked(true);
-            $entityManager->persist($notifFrom);
-            $entityManager->flush();
-        }
-        
-                
-        // Onglet notifs Bulle nbr "non-vues" (int si connécté, null sinon)
-        $userNotifCount = $this->getUser() ? count($notifRepo->findByUserNotSeen($this->getUser())) : null;
-        // Si userModo: Bulles nbr éléments en attente de validation (int si modo, null sinon)
-        if($this->getUser() && in_array('ROLE_MODO', $this->getUser()->getRoles())) {
-            // On compte les Topic et Médias status "waiting"
-            $mediasWaitings = count($mediaRepo->findBy(["validated" => "waiting"]));
-            $topicsWaitings = count($topicRepo->findBy(["validated" => "waiting"]));
-            $modoNotifCount = $mediasWaitings + $topicsWaitings;
-        }
-        else {
-            $modoNotifCount = null;
-        }
-
+        // Si le group-cible de la notif n'existe plus
         $group = $groupRepo->find($groupId);
-        
-        // Vérif si groupe public (todo)
-        if ($group->getStatus() == "public") {
-            $game = $group->getGame();
-            $members = $group->getMembers();
-            $questions = $group->getGroupQuestions();
-            $candidatureCount = count($group->getCandidatures());
+        if(!is_null($group)) {
 
-            $candidatureRepo = $entityManager->getRepository(Candidature::class);
-            $waitingCandidatures = count($candidatureRepo->findBy(["user" => $this->getUser(), "groupe" => $group, "status" => "pending"]));
-            $candidature = $candidatureRepo->findOneBy(["user" => $this->getUser(), "groupe" => $group]);
-
-            if ($waitingCandidatures > 0) {
-                $waitingCandidature = true;
+            // Si page vient de notifId, passe la notif en "clicked"
+            if (!is_null($notifId)) {
+                $notifFrom = $notifRepo->find($notifId);
+                $notifFrom->setClicked(true);
+                $entityManager->persist($notifFrom);
+                $entityManager->flush();
+            }
+            
+                    
+            // Onglet notifs Bulle nbr "non-vues" (int si connécté, null sinon)
+            $userNotifCount = $this->getUser() ? count($notifRepo->findByUserNotSeen($this->getUser())) : null;
+            // Si userModo: Bulles nbr éléments en attente de validation (int si modo, null sinon)
+            if($this->getUser() && in_array('ROLE_MODO', $this->getUser()->getRoles())) {
+                // On compte les Topic et Médias status "waiting"
+                $mediasWaitings = count($mediaRepo->findBy(["validated" => "waiting"]));
+                $topicsWaitings = count($topicRepo->findBy(["validated" => "waiting"]));
+                $modoNotifCount = $mediasWaitings + $topicsWaitings;
             }
             else {
-                $waitingCandidature = false;
+                $modoNotifCount = null;
             }
 
-            return $this->render('group/groupDetails.html.twig', [
-                'modoNotifCount' => $modoNotifCount,
-                'userNotifCount' => $userNotifCount,
-                'group' => $group,
-                'gameFrom' => $game,
-                'members' => $members,
-                'questions' => $questions,
-                'waitingCandidature' => $waitingCandidature,
-                'candidatureCount' => $candidatureCount,
-                'candidature' => $candidature,
-            ]);
+            
+            // Vérif si groupe public (todo)
+            if ($group->getStatus() == "public") {
+                $game = $group->getGame();
+                $members = $group->getMembers();
+                $questions = $group->getGroupQuestions();
+                $candidatureCount = count($group->getCandidatures());
+
+                $candidatureRepo = $entityManager->getRepository(Candidature::class);
+                $waitingCandidatures = count($candidatureRepo->findBy(["user" => $this->getUser(), "groupe" => $group, "status" => "pending"]));
+                $candidature = $candidatureRepo->findOneBy(["user" => $this->getUser(), "groupe" => $group]);
+
+                if ($waitingCandidatures > 0) {
+                    $waitingCandidature = true;
+                }
+                else {
+                    $waitingCandidature = false;
+                }
+
+                return $this->render('group/groupDetails.html.twig', [
+                    'modoNotifCount' => $modoNotifCount,
+                    'userNotifCount' => $userNotifCount,
+                    'group' => $group,
+                    'gameFrom' => $game,
+                    'members' => $members,
+                    'questions' => $questions,
+                    'waitingCandidature' => $waitingCandidature,
+                    'candidatureCount' => $candidatureCount,
+                    'candidature' => $candidature,
+                ]);
+            }
+            else {
+                $this->addFlash('error', 'La team n\'est pas publique');
+                return $this->redirectToRoute('app_groupList', ['gameIdFrom' => $game->getId()]);
+            }
         }
         else {
-            $this->addFlash('error', 'La team n\'est pas publique');
-            return $this->redirectToRoute('app_groupList', ['gameIdFrom' => $game->getId()]);
+            $this->addFlash('error', 'La team n\'existe plus');
+            return $this->redirectToRoute('app_showNotifsList');
         }
     }
 

@@ -46,8 +46,8 @@ class GroupRepository extends ServiceEntityRepository
     // TODO: c'est des findBy ?
     public function findAllByGame(Game $game): array
     {
-        // where status = public, game, orderBy
         return $this->createQueryBuilder('g')
+        // ->innerJoin('g.members', 'u')
         ->where('g.game = :game')
         ->andwhere('g.status = :status')
         ->setParameter('status', "public")

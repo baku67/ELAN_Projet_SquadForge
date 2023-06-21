@@ -63,7 +63,7 @@
             {{ form_widget(formCandidature.text) }} 
 
             {# Pour chaque question: afficher un fomulaire GroupRéponseType (comment link l'entité Réponse à groupQuestion) #}
-            {% if groupQuestions is not null %}
+            {% if (groupQuestions is not null) and (groupQuestions|length > 0) %}
 
                 <h5>Questions</h5>
 
@@ -96,6 +96,8 @@
 
                     {% endfor %}
                 </div>
+            {% elseif (groupQuestions|length == 0) %}
+                <p class="emptyListMsg" style="margin: 30px auto 50px auto;">Il n'y a aucune question</p>
             {% endif %}
 
             <div class="gameTeamBtn candidatureSubmitBtn" style="margin:0 auto !important;">

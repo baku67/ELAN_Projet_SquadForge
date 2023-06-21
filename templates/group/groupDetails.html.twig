@@ -106,7 +106,8 @@
                 </li>
             
             {% endif %}
-            
+
+            {% set indexMember = indexMember + 1 %}
                 
         {% endfor %}
         </ul>
@@ -422,11 +423,15 @@
                 <a href="{{ path('app_cancelCandidature',{'candidatureId':candidature.id}) }}">Annuler</a>
             {% else %}
                 {% if app.user in group.blacklistedUsers %}
-                    <span style="color: grey;">Candidater</span>
-                    <br>
-                    <span class="emptyListMsg">(Vous ne pouvez plus candidater)</span>
+                        <span style="color: grey;">Candidater</span>
+                        <br>
+                        <span class="emptyListMsg">(Vous ne pouvez plus candidater)</span>
                 {% else %}   
-                    <a href="{{ path('app_showCandidatureForm',{'groupId': group.id}) }}">Candidater</p>
+                    {% if group.members|length == group.NbrPlaces %}
+                        <p class="emptyListMsg">Le groupe est plein, vous ne pouvez pas candidater pour l'instant</p>
+                    {% else %}
+                        <a href="{{ path('app_showCandidatureForm',{'groupId': group.id}) }}">Candidater</p>
+                    {% endif %}
                 {% endif %}
             {% endif %}
 
