@@ -8,6 +8,8 @@ use App\Entity\Media;
 use App\Entity\Group;
 use App\Entity\Topic;
 use App\Entity\User;
+use App\Entity\MediaPost;
+use App\Entity\TopicPost;
 use App\Repository\NotificationRepository;
 
 use Doctrine\ORM\PersistentCollection;
@@ -438,6 +440,9 @@ class NotificationController extends AbstractController
 
 
     // *************** Notifs de likes simples (non groupés, TODO) ****************
+
+
+
     public function notifUpvoteMedia(User $author, Media $media): bool
     {
         // Check si deja notif pour ce media (et +1 et update text)
@@ -461,7 +466,7 @@ class NotificationController extends AbstractController
 
             return true;
         }
-        // Si aucune notif pour ce media: la créé (HS ici, marche jusqu'a setLink)
+        // Si aucune notif pour ce media: la créé 
         else {
             $notification = new Notification();
 
@@ -525,4 +530,159 @@ class NotificationController extends AbstractController
 
         return false;
     }
+
+
+
+
+
+
+
+    // Notifs likes de posts ****************************************************
+
+
+    public function notifUpvoteMediaPost(User $author, MediaPost $mediaPost): bool
+    {
+        // Check si deja notif pour ce mediaPost (et +1 et update text)
+        $notifRepo = $this->entityManager->getRepository(Notification::class);
+        $notifChecked = $notifRepo->findOneBy(["type" => "mediaPost", "typeId" => $mediaPost->getId()]);
+        if(!is_null($notifChecked)) {
+
+            $notification = $notifChecked;
+
+            $notification->setText("Votre post \"" . substr($mediaPost->getText(), 0, 50) . "\" a été upvoté par <strong style='font-size:1.1em;'>" . ($notification->getTypeNbr()+1) . "</strong> personnes");
+
+            // La notif repasse en "non-lue"
+            $notification->setClicked(false);
+            // La date est maj pour top-list
+            $notification->setDateCreation(new \DateTime());
+            // Incrémentation du compteur
+            $notification->setTypeNbr($notification->getTypeNbr()+1);
+
+            $this->entityManager->persist($notification);
+            $this->entityManager->flush();
+
+            return true;
+        }
+        // Si aucune notif pour ce mediaPost: la créé
+        else {
+            $notification = new Notification();
+
+            $notification->setText("Votre post \"" . substr($mediaPost->getText(), 0, 50) . "\" a été upvoté");
+
+            $notification->setDateCreation(new \DateTime());
+            $notification->setUser($author);
+            $notification->setClicked(false);
+            $notification->setType("mediaPost");
+            $notification->setTypeId($mediaPost->getId());
+            $notification->setTypeNbr(1);
+
+            $this->entityManager->persist($notification);
+            $this->entityManager->flush();
+
+            $media = $mediaPost->getMedia();
+
+            // Lien notif 
+            $link = $this->urlGenerator->generate('app_mediaDetail', ['id' => $media->getId(),'notifId' => $notification->getId()], UrlGeneratorInterface::ABSOLUTE_URL);
+            $notification->setLink($link); 
+            $this->entityManager->persist($notification);
+            $this->entityManager->flush();
+    
+            return true;
+        }
+    }
+
+
+
+    // Un utilisateur retire son upvote du MediaPost: nbr Upvote de la notif -1
+    public function decrAndUpdateNotifMediaPostLike(User $author, MediaPost $mediaPost): bool 
+    {
+        // Check si deja notif pour ce mediaPost (et +1 et update text)
+        $notifRepo = $this->entityManager->getRepository(Notification::class);
+        $notifChecked = $notifRepo->findOneBy(["type" => "mediaPost", "typeId" => $mediaPost->getId()]);
+
+        // Si notif supprimée entre temps
+        if(!is_null($notifChecked)) {
+
+            // Si tout le monde a retiré son upvote: suppr notif
+            if (($notifChecked->getTypeNbr()-1) <= 0) {
+
+                $notifRepo->remove($notifChecked);
+                $this->entityManager->flush();
+
+                return true;
+            }
+            else {
+
+                $notifChecked->setText("Votre mediaPost \"" . substr($mediaPost->getText(), 0,50) . "\" a été upvoté par <strong style='font-size:1.1em;'>" . ($notifChecked->getTypeNbr()-1) . "</strong> personnes");
+
+                // Pas de proc notif ni de top-list
+    
+                $notifChecked->setTypeNbr($notifChecked->getTypeNbr()-1);
+        
+                $this->entityManager->persist($notifChecked);
+                $this->entityManager->flush();
+        
+                return true;
+            }
+        }
+        return false;
+    }
+    
+
+
+ 
+    //******* ******************/    Désactivé: Pas de notifs quand downvotes Posts (à voir)
+
+    // public function notifDownvoteMediaPost(User $author, MediaPost $mediaPost): bool
+    // {
+    //     // Check si deja notif pour ce mediaPost (et -1 et update text)
+    //     $notifRepo = $this->entityManager->getRepository(Notification::class);
+    //     $notifChecked = $notifRepo->findOneBy(["type" => "mediaPost", "typeId" => $mediaPost->getId()]);
+    //     if(!is_null($notifChecked)) {
+
+    //         $notification = $notifChecked;
+
+    //         $notification->setText("Votre post \"" . substr($mediaPost->getText(), 0, 50) . "\" a été downvoté par <strong style='font-size:1.1em;'>" . ($notification->getTypeNbr()-1) . "</strong> personnes");
+
+    //         // La notif repasse en "non-lue"
+    //         $notification->setClicked(false);
+    //         // La date est maj pour top-list
+    //         $notification->setDateCreation(new \DateTime());
+    //         // Décrémentation du compteur
+    //         $notification->setTypeNbr($notification->getTypeNbr()+1);
+
+    //         $this->entityManager->persist($notification);
+    //         $this->entityManager->flush();
+
+    //         return true;
+    //     }
+    //     // Si aucune notif pour ce mediaPost: la créé 
+    //     else {
+    //         $notification = new Notification();
+
+    //         $notification->setText("Votre post \"" . substr($mediaPost->getText(), 0, 50) . "\" a été downvoté");
+
+    //         $notification->setDateCreation(new \DateTime());
+    //         $notification->setUser($author);
+    //         $notification->setClicked(false);
+    //         $notification->setType("mediaPost");
+    //         $notification->setTypeId($mediaPost->getId());
+    //         $notification->setTypeNbr(-1);
+
+    //         $this->entityManager->persist($notification);
+    //         $this->entityManager->flush();
+
+    //         $media = $mediaPost->getMedia();
+
+    //         // Lien notif 
+    //         $link = $this->urlGenerator->generate('app_mediaDetail', ['id' => $media->getId(),'notifId' => $notification->getId()], UrlGeneratorInterface::ABSOLUTE_URL);
+    //         $notification->setLink($link); 
+    //         $this->entityManager->persist($notification);
+    //         $this->entityManager->flush();
+    
+    //         return true;
+    //     }
+    // }
+
+
 }

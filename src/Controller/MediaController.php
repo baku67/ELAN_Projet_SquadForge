@@ -451,40 +451,51 @@ class MediaController extends AbstractController
                     $mediaPostLike->setUser($this->getUser());
                     $mediaPostLike->setMediaPost($mediaPost);
 
+                    // Notifs auteur: création notif si premier upvote, sinon incrémentation de la notif
+                    $this->notifController->notifUpvoteMediaPost($mediaPost->getUser(), $mediaPost);
+
                     $entityManager->persist($mediaPostLike);
                     $entityManager->flush();
 
-                    // recalcul DownVote/Upvote
+                    // recalcul score DownVote/Upvote
                     $newScore = $postLikeRepo->calcMediaPostScore($mediaPost);
 
                     // JS FLASH: Votre upvote a été pris en compte
                     return new JsonResponse(['success' => true, 'newState' => 'upvoted', 'gameColor' => $media->getGame()->getColor(), 'newScore' => $newScore]);   
                 
                 } 
+                // Si précédent vote était upvote/downvote:
                 else {
-
+                    // Retirer l'upvote
                     if($postLikeRepo->findOneBy(['user' => $this->getUser(), 'mediaPost' => $mediaPost])->getState() == "upvote" ) {
 
                         $mediaPostLike = $postLikeRepo->findOneBy(['user' => $this->getUser(), 'mediaPost' => $mediaPost]);
 
                         $postLikeRepo->remove($mediaPostLike, true);
 
-                        // recalcul DownVote/Upvote
+                        // Annulation downvote: Décrémente TypeNbr de la notif 
+                        $this->notifController->decrAndUpdateNotifMediaPostLike($mediaPost->getUser(), $mediaPost);
+
+                        // recalcul score DownVote/Upvote
                         $newScore = $postLikeRepo->calcMediaPostScore($mediaPost);
 
                         return new JsonResponse(['success' => true, 'newState' => 'notUpvoted', 'newScore' => $newScore]);   
                     
                     }
+                    // Transformer l'upvote en downvote (carrément)
                     else if($postLikeRepo->findOneBy(['user' => $this->getUser(), 'mediaPost' => $mediaPost])->getState() == "downvote" ) {
 
                         $mediaPostLike = $postLikeRepo->findOneBy(['user' => $this->getUser(), 'mediaPost' => $mediaPost]);
 
                         $mediaPostLike->setState("upvote");
 
+                        // 
+                        $this->notifController->notifUpvoteMediaPost($mediaPost->getUser(), $mediaPost);
+
                         $entityManager->persist($mediaPostLike);
                         $entityManager->flush();
 
-                        // recalcul DownVote/Upvote
+                        // recalcul score DownVote/Upvote
                         $newScore = $postLikeRepo->calcMediaPostScore($mediaPost);
 
                         return new JsonResponse(['success' => true, 'newState' => 'upvoted', 'gameColor' => $media->getGame()->getColor(), 'newScore' => $newScore]);   
@@ -501,8 +512,8 @@ class MediaController extends AbstractController
     }
 
 
-
     // Asynch Downvote/unDownvote de mediaPost par user (id: idMediaPost)
+    // (Pas de notif pour downvotes)
     #[Route('/downvoteMediaPost/{id}', name: 'app_downvoteMediaPost')]
     public function downvoteMediaPost(EntityManagerInterface $entityManager, int $id, Request $request): Response
     {
@@ -517,7 +528,7 @@ class MediaController extends AbstractController
             // Downvote possible que si pas auteur
                 if ($this->getUser() != $mediaPost->getUser()) {
 
-                // Si l'utilisateur n'a pas déjà upvoté 
+                // Si l'utilisateur n'a pas déjà downvoté 
                 if(count($postLikeRepo->findBy(['user' => $this->getUser(), 'mediaPost' => $mediaPost])) == 0) {
 
                     $mediaPostLike = new MediaPostLike();
@@ -526,30 +537,35 @@ class MediaController extends AbstractController
                     $mediaPostLike->setUser($this->getUser());
                     $mediaPostLike->setMediaPost($mediaPost);
 
+                    // Notifs auteur: création notif si premier upvote, sinon incrémentation de la notif
+                    $this->notifController->notifDownvoteMediaPost($mediaPost->getUser(), $mediaPost);
+
                     $entityManager->persist($mediaPostLike);
                     $entityManager->flush();
 
-                    // recalcul DownVote/Upvote
+                    // recalcul score DownVote/Upvote
                     $newScore = $postLikeRepo->calcMediaPostScore($mediaPost);
 
                     // JS FLASH: Votre upvote a été pris en compte
                     return new JsonResponse(['success' => true, 'newState' => 'downvoted', 'gameColor' => $media->getGame()->getColor(), 'newScore' => $newScore]);   
 
                 } 
+                // Si précédent vote était upvote/downvote:
                 else {
-
+                    // Retirer le downvote
                     if($postLikeRepo->findOneBy(['user' => $this->getUser(), 'mediaPost' => $mediaPost])->getState() == "downvote" ) 
                     {
                         $mediaPostLike = $postLikeRepo->findOneBy(['user' => $this->getUser(), 'mediaPost' => $mediaPost]);
 
                         $postLikeRepo->remove($mediaPostLike, true);
 
-                        // recalcul DownVote/Upvote
+                        // recalcul score DownVote/Upvote
                         $newScore = $postLikeRepo->calcMediaPostScore($mediaPost);
 
                         return new JsonResponse(['success' => true, 'newState' => 'notDownvoted', 'newScore' => $newScore]);   
                     
                     }
+                    // Transformer le downvote en upvote (carrément)
                     else if($postLikeRepo->findOneBy(['user' => $this->getUser(), 'mediaPost' => $mediaPost])->getState() == "upvote" ) 
                     {
                         $mediaPostLike = $postLikeRepo->findOneBy(['user' => $this->getUser(), 'mediaPost' => $mediaPost]);
@@ -559,7 +575,7 @@ class MediaController extends AbstractController
                         $entityManager->persist($mediaPostLike);
                         $entityManager->flush();
 
-                        // recalcul DownVote/Upvote
+                        // recalcul score DownVote/Upvote
                         $newScore = $postLikeRepo->calcMediaPostScore($mediaPost);
 
                         return new JsonResponse(['success' => true, 'newState' => 'downvoted', 'gameColor' => $media->getGame()->getColor(), 'newScore' => $newScore]);   
