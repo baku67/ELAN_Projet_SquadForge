@@ -280,128 +280,136 @@ class CandidatureController extends AbstractController
         // Check si groupe plein
         if(count($group->getMembers()) < $group->getNbrPlaces()) {
 
-            // Onglet notifs Bulle nbr "non-vues" (int si connécté, null sinon)
-            $userNotifCount = $this->getUser() ? count($notifRepo->findByUserNotSeen($this->getUser())) : null;
-            // Si userModo: Bulles nbr éléments en attente de validation (int si modo, null sinon)
-            if($this->getUser() && in_array('ROLE_MODO', $this->getUser()->getRoles())) {
-                // On compte les Topic et Médias status "waiting"
-                $mediasWaitings = count($mediaRepo->findBy(["validated" => "waiting"]));
-                $topicsWaitings = count($topicRepo->findBy(["validated" => "waiting"]));
-                $modoNotifCount = $mediasWaitings + $topicsWaitings;
-            }
-            else {
-                $modoNotifCount = null;
-            }
+            // Check si team publique
+            if($group->getStatus() == "public") {
 
-            $gameFrom = $group->getGame();
-            $groupQuestions = $group->getGroupQuestions();
-
-            if(is_null($this->getUser())) {
-                $this->addFlash('error', 'Vous devez être connecté pour candidater');
-                return $this->redirectToRoute('app_login'); 
-            }
-
-            // check si pas deja membre
-            if( !$group->getMembers()->contains($this->getUser()) ) {
-
-                // check si pas blacklisted
-                $userToCheck = $this->getUser();
-                $groupId = $group->getId();
-                
-                $connection = $entityManager->getConnection();
-                $statement = $connection->prepare('
-                    SELECT COUNT(*) AS count
-                    FROM group_user
-                    WHERE group_id = :groupId
-                    AND user_id = :userId
-                ');
-                $statement->bindValue('groupId', $groupId);
-                $statement->bindValue('userId', $userToCheck->getId());
-                $result = $statement->executeQuery()->fetchAssociative();
-                
-                $isBlacklisted = $result['count'] > 0;
-                if ($isBlacklisted) {
-                    $this->addFlash('error', 'Vous ne pouvez plus candidater pour cette team');
-                    return $this->redirectToRoute('app_groupDetails', ['groupId' => $groupId]); 
-                }
-
-                // check si candidature existe deja 
-                $candidatureRepo = $entityManager->getRepository(Candidature::class);
-                $countExist = count($candidatureRepo->findBy(["user" => $this->getUser(), "groupe" => $group]));
-                if ($countExist == 0) {
-
-                    $candidature = new Candidature;
-                    $form = $this->createForm(CandidatureType::class, $candidature);
-                    $form -> handleRequest($request);
-
-                    // Vérifs/Filtres
-                    if($form->isSubmitted()) {
-                        if($form->isValid()) {
-
-                            $candidature = $form->getData();
-
-                            // Vérif si Texte de candidature répondu (obligatoire) (testé)
-                            if($candidature->getText() == "") {
-                                $this->addFlash('error', 'Vous n\'avez pas rempli votre introduction');
-                                return $this->redirectToRoute('app_showCandidatureForm', ['groupId' => $groupId]); 
-                            }
-
-                            // Associez chaque GroupAnswer à chaque GroupQuestion (candidature form)
-                            $index = 0;
-                            foreach ($groupQuestions as $groupQuestion) {
-
-                                $index++;
-                                $idQuestion = $groupQuestion->getId();
-
-                                // Vérif si questions obligatoires répondues (testé)
-                                if ($groupQuestion->isRequired() && $request->request->get('answer' . $index) == "" ) {
-                                    $this->addFlash('error', 'Vous n\'avez pas répondu à toutes les questions obligatoires');
-                                    return $this->redirectToRoute('app_showCandidatureForm', ['groupId' => $groupId]); 
-                                }
-                                
-                                $answer = new GroupAnswer;
-                                $answer->setCandidature($candidature);
-                                $answer->setText($request->request->get('answer' . $index));
-                                $answer->setGroupQuestion($groupQuestion);
-                                $candidature->addGroupAnswer($answer);
-
-                                $entityManager->persist($answer);
-                            }
-                            // Ou alors créer un groupReponse pour chaque input à l'ancienne + verif si exite '
-
-                            $candidature->setUser($this->getUser());
-                            $candidature->setGroupe($group);
-                            $candidature->setCreationDate(new \Datetime());
-                            $candidature->setStatus("pending");
-
-                            $entityManager->persist($candidature);
-                            $entityManager->flush();
-
-                            // Notif newCandidature au leader de la team 
-                            $this->notifController->notifNewCandidature($group->getLeader(), $candidature);
-
-                            $this->addFlash('success', 'Votre candidature a bien été envoyée');
-                            return $this->redirectToRoute('app_groupDetails', ['groupId' => $groupId]); 
-                        }
-                    }
-
-                    return $this->render('group/groupCandidatureForm.html.twig', [
-                        'modoNotifCount' => $modoNotifCount,
-                        'userNotifCount' => $userNotifCount,
-                        'formCandidature' => $form->createView(),
-                        'group' => $group,
-                        'gameFrom' => $gameFrom,
-                        'groupQuestions' => $groupQuestions,
-                    ]);
-
+                // Onglet notifs Bulle nbr "non-vues" (int si connécté, null sinon)
+                $userNotifCount = $this->getUser() ? count($notifRepo->findByUserNotSeen($this->getUser())) : null;
+                // Si userModo: Bulles nbr éléments en attente de validation (int si modo, null sinon)
+                if($this->getUser() && in_array('ROLE_MODO', $this->getUser()->getRoles())) {
+                    // On compte les Topic et Médias status "waiting"
+                    $mediasWaitings = count($mediaRepo->findBy(["validated" => "waiting"]));
+                    $topicsWaitings = count($topicRepo->findBy(["validated" => "waiting"]));
+                    $modoNotifCount = $mediasWaitings + $topicsWaitings;
                 }
                 else {
-                    $this->addFlash('error', 'Vous avez déjà candidaté à cette team');
+                    $modoNotifCount = null;
+                }
+
+                $gameFrom = $group->getGame();
+                $groupQuestions = $group->getGroupQuestions();
+
+                if(is_null($this->getUser())) {
+                    $this->addFlash('error', 'Vous devez être connecté pour candidater');
+                    return $this->redirectToRoute('app_login'); 
+                }
+
+                // check si pas deja membre
+                if( !$group->getMembers()->contains($this->getUser()) ) {
+
+                    // check si pas blacklisted
+                    $userToCheck = $this->getUser();
+                    $groupId = $group->getId();
+                    
+                    $connection = $entityManager->getConnection();
+                    $statement = $connection->prepare('
+                        SELECT COUNT(*) AS count
+                        FROM group_user
+                        WHERE group_id = :groupId
+                        AND user_id = :userId
+                    ');
+                    $statement->bindValue('groupId', $groupId);
+                    $statement->bindValue('userId', $userToCheck->getId());
+                    $result = $statement->executeQuery()->fetchAssociative();
+                    
+                    $isBlacklisted = $result['count'] > 0;
+                    if ($isBlacklisted) {
+                        $this->addFlash('error', 'Vous ne pouvez plus candidater pour cette team');
+                        return $this->redirectToRoute('app_groupDetails', ['groupId' => $groupId]); 
+                    }
+
+                    // check si candidature existe deja 
+                    $candidatureRepo = $entityManager->getRepository(Candidature::class);
+                    $countExist = count($candidatureRepo->findBy(["user" => $this->getUser(), "groupe" => $group]));
+                    if ($countExist == 0) {
+
+                        $candidature = new Candidature;
+                        $form = $this->createForm(CandidatureType::class, $candidature);
+                        $form -> handleRequest($request);
+
+                        // Vérifs/Filtres
+                        if($form->isSubmitted()) {
+                            if($form->isValid()) {
+
+                                $candidature = $form->getData();
+
+                                // Vérif si Texte de candidature répondu (obligatoire) (testé)
+                                if($candidature->getText() == "") {
+                                    $this->addFlash('error', 'Vous n\'avez pas rempli votre introduction');
+                                    return $this->redirectToRoute('app_showCandidatureForm', ['groupId' => $groupId]); 
+                                }
+
+                                // Associez chaque GroupAnswer à chaque GroupQuestion (candidature form)
+                                $index = 0;
+                                foreach ($groupQuestions as $groupQuestion) {
+
+                                    $index++;
+                                    $idQuestion = $groupQuestion->getId();
+
+                                    // Vérif si questions obligatoires répondues (testé)
+                                    if ($groupQuestion->isRequired() && $request->request->get('answer' . $index) == "" ) {
+                                        $this->addFlash('error', 'Vous n\'avez pas répondu à toutes les questions obligatoires');
+                                        return $this->redirectToRoute('app_showCandidatureForm', ['groupId' => $groupId]); 
+                                    }
+                                    
+                                    $answer = new GroupAnswer;
+                                    $answer->setCandidature($candidature);
+                                    $answer->setText($request->request->get('answer' . $index));
+                                    $answer->setGroupQuestion($groupQuestion);
+                                    $candidature->addGroupAnswer($answer);
+
+                                    $entityManager->persist($answer);
+                                }
+                                // Ou alors créer un groupReponse pour chaque input à l'ancienne + verif si exite '
+
+                                $candidature->setUser($this->getUser());
+                                $candidature->setGroupe($group);
+                                $candidature->setCreationDate(new \Datetime());
+                                $candidature->setStatus("pending");
+
+                                $entityManager->persist($candidature);
+                                $entityManager->flush();
+
+                                // Notif newCandidature au leader de la team 
+                                $this->notifController->notifNewCandidature($group->getLeader(), $candidature);
+
+                                $this->addFlash('success', 'Votre candidature a bien été envoyée');
+                                return $this->redirectToRoute('app_groupDetails', ['groupId' => $groupId]); 
+                            }
+                        }
+
+                        return $this->render('group/groupCandidatureForm.html.twig', [
+                            'modoNotifCount' => $modoNotifCount,
+                            'userNotifCount' => $userNotifCount,
+                            'formCandidature' => $form->createView(),
+                            'group' => $group,
+                            'gameFrom' => $gameFrom,
+                            'groupQuestions' => $groupQuestions,
+                        ]);
+
+                    }
+                    else {
+                        $this->addFlash('error', 'Vous avez déjà candidaté à cette team');
+                        return $this->redirectToRoute('app_groupDetails', ['groupId' => $groupId]);
+                    }
+                }
+                else {
+                    $this->addFlash('error', 'Vous êtes déjà membre de cette team ou n\'êtes pas connecté');
                     return $this->redirectToRoute('app_groupDetails', ['groupId' => $groupId]);
                 }
             }
             else {
-                $this->addFlash('error', 'Vous êtes déjà membre de cette team ou n\'êtes pas connecté');
+                $this->addFlash('error', 'La team n\'est pas publique');
                 return $this->redirectToRoute('app_groupDetails', ['groupId' => $groupId]);
             }
         }

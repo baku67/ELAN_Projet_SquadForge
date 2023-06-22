@@ -32,19 +32,23 @@ $(document).ready(function() {
                 }, 600);
 
                 var elements = document.querySelectorAll('.notifCard');
+                var reversedArray = Array.from(elements).reverse(); // Convertit NodeList en array et inverse l'ordre
+                
                 function removeElementsWithDelay(index) {
-                    if (index >= elements.length) {
-                        return; // Stop quand plus d'elem
-                    }
+                  if (index >= reversedArray.length) {
+                    return; // Arrête la fonction quand tous les éléments ont été traités
+                  }
+                
+                  setTimeout(function() {
+                    reversedArray[index].classList.add("fadeOutNotifCard");
                     setTimeout(function() {
-                        elements[index].classList.add("fadeOutNotifCard");
-                        setTimeout(function() {
-                            elements[index].remove();
-                        }, 550);
-                        // elements[index].remove();
-                        removeElementsWithDelay(index + 1); 
-                    }, 250); 
+                      reversedArray[index].remove();
+                    }, 550);
+                
+                    removeElementsWithDelay(index + 1); 
+                  }, 250);
                 }
+                
                 removeElementsWithDelay(0);
             
                 document.querySelector('#ajaxFlash').textContent = "Les notifications ont été nettoyées";
