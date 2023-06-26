@@ -61,7 +61,7 @@
         {# Liste des membres du groupe #}
         <div>
             <div class="gameInfosSubTitleBg" style="background-color: {{ gameFrom.color }}"></div>
-            <h3 class="gameSubTitle noMarginBottom"><i class="fa-solid fa-user-group"></i> Membres ( {{ group.members|length }} / {{ group.nbrPlaces }} )</h3>
+            <h3 class="gameSubTitle noMarginBottom"><i class="fa-solid fa-user-group"></i> Membres ( {{ group.members|length }}/{{ group.nbrPlaces }} )</h3>
         </div>
 
         <ul id="membersList" class="membersList">
@@ -166,12 +166,12 @@
                 {% endif %}
 
                 <div>
-                    <div class="gameInfosSubTitleBg" style="background-color: {{ gameFrom.color }}"></div>
+                    <div class="gameInfosSubTitleBgParam" style="background-color: {{ gameFrom.color }}"></div>
                     <h3 class="gameSubTitle noMarginBottom"><i class="fa-solid fa-users-gear"></i> Paramètres</h3>
                 </div>
                 {# Leader: Passer le lead #}
-                <div style="display:inline-flex; width:100%;">
-                    <p style="width:auto;">Passer le lead</p>
+                <p style="margin-top:15px; width:auto;">Passer le lead</p>
+                <div class="passLeadLine" style="display:inline-flex; width:100%;">
                     <form id="switchTeamLeader" action="{{ path('app_switchTeamLeader',{ 'groupId':group.id }) }}" method="post" style="display:inline-flex;">
                         <select id="memberLeadSelect" class="form-select" name="memberId" style="font-family: 'K2D', sans serif;">
                             <option id="voidSelect" value="">-- Choisir</option>
@@ -199,17 +199,19 @@
 
                 <br>
 
-                <div style="display:flex; flex-direction:column;">
+                <p style="margin-top:15px; width:auto;">Options</p>
+                <div class="togglesContainer">
 
                     {# Asynch toggleGroupVisibility #}
                     <div style="display:inline-flex;">
-                        <p>Visibilité: </p>
+                        <p style="margin-right: 15px;">Privé</p>
                         <form id="toggleGroupVisibilityForm" action="{{ path('app_toggleGroupVisibility',{ 'groupId':group.id }) }}" method="post">
                             <label class="toggleAutoPlay">
                                 <input type="checkbox" {{ visibilityState }} name="autoPlay" id="toggleVisi">
                                 <span class="slider"></span>
                             </label>
                         </form>
+                        <p style="margin-left: 15px;">Public</p>
                     </div>
 
                     <script>
@@ -239,7 +241,7 @@
 
                     {# Asynch toggleRestriction18 #}
                     <div style="display:inline-flex;">
-                        <p>Majorité obligatoire: </p>
+                        <p style="margin-right:15px;">Majorité obligatoire</p>
                         <form id="toggleGroupRestriction18Form" action="{{ path('app_toggleGroupRestriction18',{ 'groupId':group.id }) }}" method="post">
                             <label class="toggleAutoPlay">
                                 <input type="checkbox" {{ restriction18State }} name="autoPlay" id="toggleVisi">
@@ -274,7 +276,7 @@
 
                     {# Asynch toggleRestrictionMic #}
                     <div style="display:inline-flex;">
-                        <p>Micro obligatoire: </p>
+                        <p style="margin-right:15px;">Micro obligatoire</p>
                         <form id="toggleGroupRestrictionMicForm" action="{{ path('app_toggleGroupRestrictionMic',{ 'groupId':group.id }) }}" method="post">
                             <label class="toggleAutoPlay">
                                 <input type="checkbox" {{ restrictionMicState }} name="autoPlay" id="toggleVisi">
@@ -309,7 +311,7 @@
 
                     {# Asynch toggleRestrictionImgProof (Autoriser l'upload d'une image pour prouver un Lvl par exemple, à accompagner d'une description du screen attendu) #}
                     <div style="display:inline-flex;">
-                        <p>Autoriser pièce jointe: </p>
+                        <p style="margin-right:15px;">Autoriser pièce jointe</p>
                         <form id="toggleRestrictionImgProof" action="{{ path('app_toggleRestrictionImgProof',{ 'groupId':group.id }) }}" method="post">
                             <label class="toggleAutoPlay">
                                 <input type="checkbox" {{ restrictionImgProofState }} name="autoPlay" id="toggleVisi">
@@ -387,10 +389,10 @@
 
                 <br>
                 {# Bouton liste blacklistedUsers #}
-                <a class="blacklistBtn" href="{{ path('app_groupBlacklist',{'groupId': group.id}) }}">
-                    <div>
-                        <span>Blacklist</span>
+                <a href="{{ path('app_groupBlacklist',{'groupId': group.id}) }}">
+                    <div class="blacklistBtn">
                         <i class="fa-solid fa-users-slash"></i>
+                        <span>Blacklist ({{ blacklistedNbr }})</span>
                     </div>
                 </a>
                 

@@ -209,7 +209,9 @@ class GroupController extends AbstractController
                 $entityManager->persist($notifFrom);
                 $entityManager->flush();
             }
-            
+
+            // Nombre d'user blacklistés
+            $blacklistedNbr = count($group->getBlacklistedUsers());
                     
             // Onglet notifs Bulle nbr "non-vues" (int si connécté, null sinon)
             $userNotifCount = $this->getUser() ? count($notifRepo->findByUserNotSeen($this->getUser())) : null;
@@ -253,6 +255,7 @@ class GroupController extends AbstractController
                     'waitingCandidature' => $waitingCandidature,
                     'candidatureCount' => $candidatureCount,
                     'candidature' => $candidature,
+                    'blacklistedNbr' => $blacklistedNbr,
                 ]);
             }
             else {

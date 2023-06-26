@@ -367,7 +367,7 @@ nav {
 
 .gameSubTitle {
     position: relative;
-    color: black;
+    color: #161515;
     padding: 3px 29px;
     width: fit-content;
     z-index: 10;
@@ -399,7 +399,37 @@ nav {
         width: 5px;
     }
     to {
-        width:150px; 
+        width:310px; 
+    }
+}
+
+
+.gameInfosSubTitleBgParam {
+    position:absolute; 
+    clip-path: polygon(0 0, 100% 0, 91% 100%, 0 100%);
+    /* height:35px; 
+    width:130px;  */
+    height: 0px;
+    width: 5px;
+    transform: translateY(-5px);
+    z-index:0;
+
+    animation: gameInfosSubTitleBgParam1 0.3s 0.1s ease-in-out forwards, gameInfosSubTitleBgParam2 0.4s 0.45s ease-in-out forwards;
+}
+@keyframes gameInfosSubTitleBgParam1 {
+    from {
+        height: 0px;
+    }
+    to {
+        height:45px; 
+    }
+}
+@keyframes gameInfosSubTitleBgParam2 {
+    from {
+        width: 5px;
+    }
+    to {
+        width:255px; 
     }
 }
 
@@ -1425,10 +1455,19 @@ cursor: pointer;
 }
 
 
+.togglesContainer {
+    font-family: 'K2D', sans-serif;
+    display:flex; 
+    flex-direction:column;
+    margin: 20px auto 40px auto;
+}
+
+
 .blacklistBtn {
     padding: 5px 10px;
     border-radius: 3px;
     border: 1px solid red;
+    width: fit-content;
 
     transition: all 0.4s;
 }
