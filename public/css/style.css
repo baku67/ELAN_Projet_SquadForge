@@ -1540,7 +1540,15 @@ cursor: pointer;
     padding: 20px 15px;
     border-radius: 3px;
     margin: 4px auto;
-    width: 75%;
+    /* width: 75%; */
+}
+
+
+.deleteSingleNotif {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    right: -35px;
 }
 
 

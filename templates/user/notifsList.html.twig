@@ -75,24 +75,29 @@
             {# Le link delete dans le link notif mess-up le link global #}
             {% for notif in notifs %}
 
-                <a href="{{ notif.link }}">
-                    <div class="notifCard">
-                        <div style="display:inline-flex;width:100%; justify-content:space-between;">
-                            <p style="margin-bottom:0;margin-right:12px;">
-                                {# State clicked de la notif #}
-                                {% if not notif.clicked %}
-                                    <i class='fa-solid fa-circle unclickedNotifSpot' style="margin-right:7px;"></i>
-                                {% endif %}
-                                <span id="notifText">{{ notif.text|raw }}</span>
-                            </p>
-                            {# Le link delete dans le link notif mess-up le link global #}
-                            <a href="{{ path('app_deleteNotif',{'notifId': notif.id}) }}">
-                                <i class="fa-solid fa-xmark"></i>
-                            </a>
+                <div style="position:relative; display:flex; width:75%; margin: 0px auto;">
+
+                    <a class="notifCard" href="{{ notif.link }}">
+                        <div>
+                            <div style="display:inline-flex;width:100%; justify-content:space-between;">
+                                <p style="margin-bottom:0;margin-right:12px;">
+                                    {# State clicked de la notif #}
+                                    {% if not notif.clicked %}
+                                        <i class='fa-solid fa-circle unclickedNotifSpot' style="margin-right:7px;"></i>
+                                    {% endif %}
+                                    <span id="notifText">{{ notif.text|raw }}</span>
+                                </p>
+
+                            </div>
+                            <span class="notifCardPublishDate ">{{ time_diff(notif.dateCreation) }}</span>
                         </div>
-                        <span class="notifCardPublishDate ">{{ time_diff(notif.dateCreation) }}</span>
-                    </div>
-                </a>
+                    </a>
+
+                    <a class="deleteSingleNotif" href="{{ path('app_deleteNotif',{'notifId': notif.id}) }}">
+                        <i class="fa-solid fa-xmark"></i>
+                    </a>
+
+                </div>
 
 
             {% endfor %}
