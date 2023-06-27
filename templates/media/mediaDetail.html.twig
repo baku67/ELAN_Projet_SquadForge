@@ -206,67 +206,63 @@
                         
 
 
-                        <div class="mediaPost {{ postAuthorClass }}">
+                        <div class="mediaPost2 {{ postAuthorClass }}">
                             
                             {# Post text et auteur #}
                             <div class="postContent">
-                                <p>{{ post.text }}</p>
-
-                                {% if post.user == app.user %}
-                                    <span>par vous</span>
-                                {% else %}
-                                    <span>par {{ post.user.pseudo }}</span>
-                                {% endif %}
+                                <span>{{ post.text }}</span>
                             </div>
 
-                            {# Post upvote/downvote #}
-                            <div style="display:inline-flex; flex-direction:column;">
+                            <div style="display:inline-flex; justify-content:right; align-items: baseline; position:relative; left: 5px;">
 
-                                {% set isUpvoted = false %}
-                                {% set isDownvoted = false %}
-                                {% for like in post.mediaPostLikes %}
-                                    {% if like.user == app.user and like.mediaPost.id == post.id %}
-                                        {% if like.state == "upvote" %}
-                                            {% set isUpvoted = true %}
-                                        {% elseif like.state == "downvote" %}
-                                            {% set isDownvoted = true %}
+                                {% if post.user == app.user %}
+                                    <span style="font-size:0.8em;">par vous</span>
+                                {% else %}
+                                    <span style="font-size:0.8em;">par {{ post.user.pseudo }}</span>
+                                {% endif %}
+
+
+                                {# Post upvote/downvote #}
+                                <div class="likeDislikeLine" style="display:inline-flex; flex-direction:row;">
+
+                                    {% set isUpvoted = false %}
+                                    {% set isDownvoted = false %}
+                                    {% for like in post.mediaPostLikes %}
+                                        {% if like.user == app.user and like.mediaPost.id == post.id %}
+                                            {% if like.state == "upvote" %}
+                                                {% set isUpvoted = true %}
+                                            {% elseif like.state == "downvote" %}
+                                                {% set isDownvoted = true %}
+                                            {% endif %}
+                                        {% endif %}
+                                    {% endfor %}
+
+                                    {# Upvote/Downvote que si pas auteur #}
+                                    {# Upvote Asynch #}
+                                    {% if app.user != post.user %}
+                                        {% if isUpvoted %}
+                                            <span class="upMediaPostBtn" mediaPostId="{{ post.id }}" id="mup{{ post.id }}"><i class="fa-solid fa-thumbs-up" style="color:{{ media.game.color }}"></i></span>
+                                        {% else %}
+                                            <span class="upMediaPostBtn" mediaPostId="{{ post.id }}" id="mup{{ post.id }}"><i class="fa-regular fa-thumbs-up"></i></span>
                                         {% endif %}
                                     {% endif %}
-                                {% endfor %}
 
-                                {# Upvote/Downvote que si pas auteur #}
-                                {# Upvote Asynch #}
-                                {% if app.user != post.user %}
-                                    {% if isUpvoted %}
-                                        <span class="upMediaPostBtn" mediaPostId="{{ post.id }}" id="mup{{ post.id }}"><i class="fa-solid fa-caret-up" style="color:{{ media.game.color }}"></i></span>
-                                    {% else %}
-                                        <span class="upMediaPostBtn" mediaPostId="{{ post.id }}" id="mup{{ post.id }}"><i class="fa-solid fa-caret-up"></i></span>
-                                    {% endif %}
-                                {% endif %}
 
-                                {# Score calc #}
-                                {% if app.user != post.user %}
-                                    {% if post.score < 0 %}
-                                        <span id="mediaPostScore{{ post.id }}" style="text-align:center; color:red; font-weight:900;">{{ post.score }}</span>
-                                    {% else %}
-                                        <span id="mediaPostScore{{ post.id }}" style="text-align:center; font-weight:900;">{{ post.score }}</span>
+                                    {# Nbr upvotes #}
+                                    {# Anciennement: Score ratio #}
+                                    
+                                    {# Down #}
+                                    {% if app.user != post.user %}
+                                        {% if isDownvoted %}
+                                            <span class="downMediaPostBtn" mediaPostId="{{ post.id }}" id="mdown{{ post.id }}"><i class="fa-solid fa-thumbs-down" style="color:{{ media.game.color }}"></i></span>
+                                        {% else %}
+                                            <span class="downMediaPostBtn" mediaPostId="{{ post.id }}" id="mdown{{ post.id }}"><i class="fa-regular fa-thumbs-down"></i></span>
+                                        {% endif %}
                                     {% endif %}
-                                {% else %}
-                                    {% if post.score < 0 %}
-                                        <span class="verticalCenter" id="mediaPostScore{{ post.id }}" style="text-align:center; color:red; font-weight:900;">{{ post.score }}</span>
-                                    {% else %}
-                                        <span class="verticalCenter" id="mediaPostScore{{ post.id }}" style="text-align:center; font-weight:900;">{{ post.score }}</span>
-                                    {% endif %}
-                                {% endif %}
-                                
-                                {# Down #}
-                                {% if app.user != post.user %}
-                                    {% if isDownvoted %}
-                                        <span class="downMediaPostBtn" mediaPostId="{{ post.id }}" id="mdown{{ post.id }}"><i class="fa-solid fa-caret-down" style="color:{{ media.game.color }}"></i></span>
-                                    {% else %}
-                                        <span class="downMediaPostBtn" mediaPostId="{{ post.id }}" id="mdown{{ post.id }}"><i class="fa-solid fa-caret-down"></i></span>
-                                    {% endif %}
-                                {% endif %}
+
+                                    {# Nbr downvotes #}
+
+                                </div>
 
                             </div>
 

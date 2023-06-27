@@ -538,7 +538,7 @@ class MediaController extends AbstractController
                     $mediaPostLike->setMediaPost($mediaPost);
 
                     // Notifs auteur: création notif si premier upvote, sinon incrémentation de la notif
-                    $this->notifController->notifDownvoteMediaPost($mediaPost->getUser(), $mediaPost);
+                    // $this->notifController->notifDownvoteMediaPost($mediaPost->getUser(), $mediaPost);
 
                     $entityManager->persist($mediaPostLike);
                     $entityManager->flush();

@@ -775,11 +775,38 @@ nav {
     width: 100%;
     justify-content: space-between;
 }
+.mediaPost2 {
+    background-color: rgb(68 68 68);
+    color: white;
+    font-family: 'K2D', sans-serif;
+    padding: 5px 10px;
+    margin: 2px auto;
+    border-radius: 3px;
+    display: inline-flex;
+    flex-direction: column;
+    width: 100%;
+    justify-content: space-between;
+}
 
 .postContent {
     display: inline-flex;
     flex-direction: column;
     justify-content: space-between;
+}
+.postContent2 {
+    display: inline-flex;
+    flex-direction: column;
+    justify-content: space-between;
+    margin-block-start: 0em;
+    margin-block-end: 0em;
+}
+
+.likeDislikeLine {
+    margin: 0 10px;
+}
+
+.likeDislikeLine span {
+    margin: 0 5px;
 }
 
 
@@ -1436,6 +1463,7 @@ cursor: pointer;
     top: 50%;
     transform: translateY(-50%);
 }
+
 
 
 .candidaturesListBtn {

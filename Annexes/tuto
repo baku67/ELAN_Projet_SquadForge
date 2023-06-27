@@ -1,8 +1,12 @@
-En cours: notifs likes (par packs)
+En cours: notifs postslikes (par packs)
 Reste notifs TopicPOstsLikes et MediaPostLikes
 Faire signalements après parce que meme mécanique de grouping de notifs modos
 
-Manque bouton open/close Media 
+Fix la width des notifCard quand sur 1 ligne
+
+/!\ Affichage nr dislikes et nbr likes mais : Garder le ratio like/dislike des posts (pour futur référencement, et pour detecter si négatif=signalement auto;)
+
+
 Async fetch periodique du newNotif unclicked (user puis modo*)
 Modal confirmations (leaveGroupe, passLead, exclure, etc)
 Mansonry js pour gallerie medias
