@@ -442,7 +442,7 @@ class MediaController extends AbstractController
             // Upvote possible que si pas auteur
             if ($this->getUser() != $mediaPost->getUser()) {
 
-                // Si l'utilisateur n'a pas déjà upvoté 
+                // Si l'utilisateur n'a pas déjà upvoté/downvoté 
                 if(count($postLikeRepo->findBy(['user' => $this->getUser(), 'mediaPost' => $mediaPost])) == 0) {
 
                     $mediaPostLike = new MediaPostLike();
@@ -528,7 +528,7 @@ class MediaController extends AbstractController
             // Downvote possible que si pas auteur
                 if ($this->getUser() != $mediaPost->getUser()) {
 
-                // Si l'utilisateur n'a pas déjà downvoté 
+                // Si l'utilisateur n'a pas déjà downvoté/upvoté
                 if(count($postLikeRepo->findBy(['user' => $this->getUser(), 'mediaPost' => $mediaPost])) == 0) {
 
                     $mediaPostLike = new MediaPostLike();
@@ -538,7 +538,7 @@ class MediaController extends AbstractController
                     $mediaPostLike->setMediaPost($mediaPost);
 
                     // Notifs auteur: création notif si premier upvote, sinon incrémentation de la notif
-                    $this->notifController->notifDownvoteMediaPost($mediaPost->getUser(), $mediaPost);
+                    // $this->notifController->notifDownvoteMediaPost($mediaPost->getUser(), $mediaPost);
 
                     $entityManager->persist($mediaPostLike);
                     $entityManager->flush();

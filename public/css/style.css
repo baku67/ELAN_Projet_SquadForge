@@ -1541,14 +1541,18 @@ cursor: pointer;
     border-radius: 3px;
     margin: 4px auto;
     /* width: 75%; */
+    width: 100%;
 }
 
 
 .deleteSingleNotif {
     position: absolute;
+    color: #ffc4c4;
+    padding: 10px 15px;
+    font-size: 1.5em;
     top: 50%;
     transform: translateY(-50%);
-    right: -35px;
+    right: -60px;
 }
 
 
