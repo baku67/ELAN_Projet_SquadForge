@@ -466,14 +466,14 @@ class MediaController extends AbstractController
                 } 
                 // Si précédent vote était upvote/downvote:
                 else {
-                    // Retirer l'upvote
+                    // Si upvote: Retirer l'upvote
                     if($postLikeRepo->findOneBy(['user' => $this->getUser(), 'mediaPost' => $mediaPost])->getState() == "upvote" ) {
 
                         $mediaPostLike = $postLikeRepo->findOneBy(['user' => $this->getUser(), 'mediaPost' => $mediaPost]);
 
                         $postLikeRepo->remove($mediaPostLike, true);
 
-                        // Annulation downvote: Décrémente TypeNbr de la notif 
+                        // Annulation upvote: Décrémente TypeNbr de la notif 
                         $this->notifController->decrAndUpdateNotifMediaPostLike($mediaPost->getUser(), $mediaPost);
 
                         // recalcul score DownVote/Upvote
@@ -482,7 +482,7 @@ class MediaController extends AbstractController
                         return new JsonResponse(['success' => true, 'newState' => 'notUpvoted', 'newScore' => $newScore]);   
                     
                     }
-                    // Transformer l'upvote en downvote (carrément)
+                    // Si downvote: Transformer le downvote en upvote 
                     else if($postLikeRepo->findOneBy(['user' => $this->getUser(), 'mediaPost' => $mediaPost])->getState() == "downvote" ) {
 
                         $mediaPostLike = $postLikeRepo->findOneBy(['user' => $this->getUser(), 'mediaPost' => $mediaPost]);

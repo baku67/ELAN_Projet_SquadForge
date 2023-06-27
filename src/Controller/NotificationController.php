@@ -613,7 +613,7 @@ class NotificationController extends AbstractController
             }
             else {
 
-                $notifChecked->setText("Votre mediaPost \"" . substr($mediaPost->getText(), 0,50) . "\" a été upvoté par <strong style='font-size:1.1em;'>" . ($notifChecked->getTypeNbr()-1) . "</strong> personnes");
+                $notifChecked->setText("Votre commentaire \"" . substr($mediaPost->getText(), 0,50) . "\" a été upvoté par <strong style='font-size:1.1em;'>" . ($notifChecked->getTypeNbr()-1) . "</strong> personnes");
 
                 // Pas de proc notif ni de top-list
     
@@ -683,6 +683,101 @@ class NotificationController extends AbstractController
     //         return true;
     //     }
     // }
+
+
+
+
+
+
+    // topicPost
+
+    public function notifUpvoteTopicPost(User $author, TopicPost $topicPost): bool
+    {
+        // Check si deja notif pour ce topicPost (et +1 et update text)
+        $notifRepo = $this->entityManager->getRepository(Notification::class);
+        $notifChecked = $notifRepo->findOneBy(["type" => "topicPost", "typeId" => $topicPost->getId()]);
+        if(!is_null($notifChecked)) {
+
+            $notification = $notifChecked;
+
+            $notification->setText("Votre post \"" . substr($topicPost->getText(), 0, 50) . "\" a été upvoté par <strong style='font-size:1.1em;'>" . ($notification->getTypeNbr()+1) . "</strong> personnes");
+
+            // La notif repasse en "non-lue"
+            $notification->setClicked(false);
+            // La date est maj pour top-list
+            $notification->setDateCreation(new \DateTime());
+            // Incrémentation du compteur
+            $notification->setTypeNbr($notification->getTypeNbr()+1);
+
+            $this->entityManager->persist($notification);
+            $this->entityManager->flush();
+
+            return true;
+        }
+        // Si aucune notif pour ce topicPost: la créé
+        else {
+            $notification = new Notification();
+
+            $notification->setText("Votre post \"" . substr($topicPost->getText(), 0, 50) . "\" a été upvoté");
+
+            $notification->setDateCreation(new \DateTime());
+            $notification->setUser($author);
+            $notification->setClicked(false);
+            $notification->setType("topicPost");
+            $notification->setTypeId($topicPost->getId());
+            $notification->setTypeNbr(1);
+
+            $this->entityManager->persist($notification);
+            $this->entityManager->flush();
+
+            $topic = $topicPost->getTopic();
+
+            // Lien notif 
+            $link = $this->urlGenerator->generate('app_topicDetail', ['id' => $topic->getId(),'notifId' => $notification->getId()], UrlGeneratorInterface::ABSOLUTE_URL);
+            $notification->setLink($link); 
+            $this->entityManager->persist($notification);
+            $this->entityManager->flush();
+    
+            return true;
+        }
+    }
+
+
+    // Un utilisateur retire son upvote du TopicPost: nbr Upvote de la notif -1
+    public function decrAndUpdateNotifTopicPostLike(User $author, TopicPost $topicPost): bool 
+    {
+        // Check si deja notif pour ce topicPost (et +1 et update text)
+        $notifRepo = $this->entityManager->getRepository(Notification::class);
+        $notifChecked = $notifRepo->findOneBy(["type" => "topicPost", "typeId" => $topicPost->getId()]);
+
+        // Si notif supprimée entre temps
+        if(!is_null($notifChecked)) {
+
+            // Si tout le monde a retiré son upvote: suppr notif
+            if (($notifChecked->getTypeNbr()-1) <= 0) {
+
+                $notifRepo->remove($notifChecked);
+                $this->entityManager->flush();
+
+                return true;
+            }
+            else {
+
+                $notifChecked->setText("Votre commentaire \"" . substr($topicPost->getText(), 0,50) . "\" a été upvoté par <strong style='font-size:1.1em;'>" . ($notifChecked->getTypeNbr()-1) . "</strong> personnes");
+
+                // Pas de proc notif ni de top-list
+    
+                $notifChecked->setTypeNbr($notifChecked->getTypeNbr()-1);
+        
+                $this->entityManager->persist($notifChecked);
+                $this->entityManager->flush();
+        
+                return true;
+            }
+        }
+        return false;
+    }
+    
 
 
 }

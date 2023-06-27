@@ -21,6 +21,14 @@ use Symfony\Component\HttpFoundation\Request;
 class TopicController extends AbstractController
 {
 
+    private $notifController;
+
+    public function __construct(NotificationController $notifController) {
+
+        $this->notifController = $notifController;
+    }
+
+
     // Tout les Topics du jeu et tout les Topics globaux (pour pouvoir switch le filtre sur la vue)
     #[Route('/allTopics/{gameIdFrom}', name: 'app_allTopics')]
     public function getAllTopics(EntityManagerInterface $entityManager, int $gameIdFrom): Response
@@ -359,6 +367,9 @@ class TopicController extends AbstractController
                     $topicPostLike->setUser($this->getUser());
                     $topicPostLike->setTopicPost($topicPost);
                     $topicPostLike->setState("upvote");
+
+                    // Notifs auteur: création notif si premier upvote, sinon incrémentation de la notif
+                    $this->notifController->notifUpvoteTopicPost($topicPost->getUser(), $topicPost);
         
                     $entityManager->persist($topicPostLike);
                     $entityManager->flush();
@@ -379,6 +390,9 @@ class TopicController extends AbstractController
 
                         $postLikeRepo->remove($topicPostLike, true);
 
+                        // Annulation upvote: Décrémente TypeNbr de la notif 
+                        $this->notifController->decrAndUpdateNotifTopicPostLike($topicPost->getUser(), $topicPost);
+
                         // recalcul DownVote/Upvote
                         $newScore = $postLikeRepo->calcTopicPostScore($topicPost);
 
@@ -391,6 +405,9 @@ class TopicController extends AbstractController
                         $topicPostLike = $postLikeRepo->findOneBy(['user'=>$this->getUser(), 'topicPost' =>$topicPost]);
 
                         $topicPostLike->setState("upvote");
+
+                        // 
+                        $this->notifController->notifUpvoteTopicPost($topicPost->getUser(), $topicPost);
 
                         $entityManager->persist($topicPostLike);
                         $entityManager->flush();
