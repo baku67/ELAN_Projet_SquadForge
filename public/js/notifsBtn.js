@@ -31,7 +31,7 @@ $(document).ready(function() {
                     document.getElementById('notifListButtons').append($msg);
                 }, 600);
 
-                var elements = document.querySelectorAll('.notifCard');
+                var elements = document.querySelectorAll('.notifCardLine');
                 var reversedArray = Array.from(elements).reverse(); // Convertit NodeList en array et inverse l'ordre
                 
                 function removeElementsWithDelay(index) {

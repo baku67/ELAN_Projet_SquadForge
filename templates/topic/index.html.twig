@@ -53,7 +53,7 @@
         <div id="allTopicsDiv" class="listContainer topicList marginTop" style="display:none;">
             {% for topic in allTopicsDesc %}
                 <a href="{{ path('app_topicDetail', {'id': topic.id}) }}">
-                    <div class="topicCard" style="border-bottom: 4px solid {{ topic.game.color }}">
+                    <div class="topicCardGlobal" style="border-bottom: 4px solid {{ topic.game.color }}">
                         <img class="tinyLogo" src="{{ asset('img/games/tinyLogo/' ~ topic.game.tinyLogo) }}" />
                         <span class="topicTitle">{{ topic.title|capitalize }}</span>
                         <span>{{ topic.status }}</span>
@@ -73,7 +73,7 @@
         <div id="listContainer" class="listContainer topicList marginTop">
             {% for topic in gameTopicsDesc %}
                 <a href="{{ path('app_topicDetail', {'id': topic.id}) }}">
-                    <div class="topicCard" style="border-bottom: 4px solid {{ topic.game.color }}">
+                    <div class="topicCardGlobal" style="border-bottom: 4px solid {{ topic.game.color }}">
                         <img class="tinyLogo" src="{{ asset('img/games/tinyLogo/' ~ topic.game.tinyLogo) }}" />
                         <span class="topicTitle">{{ topic.title|capitalize }}</span>
                         <span>{{ topic.status }}</span>

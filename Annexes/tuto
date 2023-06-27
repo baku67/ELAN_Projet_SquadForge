@@ -8,6 +8,7 @@ Modal confirmations (leaveGroupe, passLead, exclure, etc)
 Mansonry js pour gallerie medias
 
 
+ajax app_deleteNotif ("X"): need ajout dynamique idNotif pour onSuccess JS
 
 
 https://symfony.com/doc/current/notifier.html: notifs et chat :0

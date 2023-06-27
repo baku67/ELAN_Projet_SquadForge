@@ -12,6 +12,7 @@ window.addEventListener('load', function() {
 
     // Anim fadeIn 5 Topics Game
     var topicCards = document.querySelectorAll('.topicCard');
+    var topicCardsGlobal = document.querySelectorAll('.topicCardGlobal');
 
     // Fonction pour ajouter une classe supplémentaire à chaque élément après un délai
     function addClassWithDelay(element, className, delay) {
@@ -20,12 +21,20 @@ window.addEventListener('load', function() {
         }, delay);
     }
 
-    // Parcours de chaque élément et ajout de la classe avec un délai croissant
+    // FadeIn des topicCards
     var delay = 0;
     for (var i = 0; i < topicCards.length; i++) {
         var card = topicCards[i];
         addClassWithDelay(card, 'topicCardFadeInAnim', delay);
-        delay += 250; // Délai en millisecondes (ajuste le délai si nécessaire)
+        delay += 200; // Délai en millisecondes (ajuste le délai si nécessaire)
+    }
+
+    // FadeIn des topicCards (liste globale)
+    var delay2 = 0;
+    for (var i = 0; i < topicCardsGlobal.length; i++) {
+        var card2 = topicCardsGlobal[i];
+        addClassWithDelay(card2, 'topicCardFadeInAnim', delay2);
+        delay2 += 50; // Délai en millisecondes (ajuste le délai si nécessaire)
     }
 
 

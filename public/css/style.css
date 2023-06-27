@@ -305,7 +305,7 @@ nav {
     border-radius: 5px;
 }
 
-.topicCard {
+.topicCard, .topicCardGlobal {
     position: relative;
     display:inline-flex; 
     width:100%; 
