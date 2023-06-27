@@ -64,7 +64,7 @@ window.addEventListener('load', function() {
                 if (data.success) {
     
                     if (data.newState == "favorited") {
-                        document.getElementById('favGameBtn').lastChild.className="fa-solid fa-heart";
+                        document.getElementById('favGameBtn').lastChild.className="fa-solid fa-heart favIcon";
                         document.getElementById('favGameBtn').style.borderTop = "1px solid " + document.getElementById('gameColor').textContent;
                         document.getElementById('favGameBtn').style.borderBottom = "1px solid " + document.getElementById('gameColor').textContent;
     
@@ -74,7 +74,7 @@ window.addEventListener('load', function() {
     
                     }
                     else if (data.newState == "notFavorited") {
-                        document.getElementById('favGameBtn').lastChild.className="fa-regular fa-heart";
+                        document.getElementById('favGameBtn').lastChild.className="fa-regular fa-heart favIcon";
                         document.getElementById('favGameBtn').style.borderTop = "1px solid rgb(255 255 255 / 20%)";
                         document.getElementById('favGameBtn').style.borderBottom = "1px solid rgb(255 255 255 / 20%)";
     

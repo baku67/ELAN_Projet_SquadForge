@@ -39,7 +39,8 @@
 
     <div class="main">
 
-        <p><a class="underlineLink" href="{{ path('app_games') }}">Jeux</a> - <a class="underlineLink" href="{{ path('app_game', {'id': gameFrom.id }) }}">{{ gameFrom.title }}</a> - Créer une team</p>
+        {# Fil d'Ariane #}
+        <p class="breadcrumbs"><a class="underlineLink" href="{{ path('app_games') }}">Jeux</a> - <a class="underlineLink" href="{{ path('app_game', {'id': gameFrom.id }) }}">{{ gameFrom.title }}</a> - Créer une team</p>
 
         <h2>TEAMS</h2>
 

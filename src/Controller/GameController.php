@@ -410,17 +410,32 @@ class GameController extends AbstractController
             $notationRepo = $entityManager->getRepository(Notation::class);
             $notation = $notationRepo->findOneBy(['user' => $user, 'game' => $game]);
 
+            // S'il n'y a pas de notation pour ce user et ce jeu, la créer
             if (!$notation) {
-                // S'il n'y a pas de notation pour ce user et ce jeu, la créer
                 $notation = new Notation();
                 $notation->setUser($user);
                 $notation->setGame($game);
+                $notation->setNote($rating);
+            }
+            else {
+                // HS: Si la notation existante est la même (=reclick pour annulation)
+                if ($notation->getNote() == $rating) {
+                    $entityManager->remove($notation);
+                    $entityManager->flush();
+
+                    // Calc moyenne des notes (arrondi .5)
+                    $averageRating = ceil($notationRepo->getGameAverageNotation($game) * 2) / 2;
+                    // Nombre de Notations user pour le jeu
+                    $nbrOfNotations = $notationRepo->countGameNotations($game);
+                    
+                    return new JsonResponse(['success' => true, 'eraseNote' => true, 'newAverageNote' => $averageRating, 'newVoteCount' => $nbrOfNotations]);  
+                }
+                // Si changement de note:
+                else {
+                    $notation->setNote($rating);
+                }
             }
 
-            // Sinon mettre à jour la notation
-            $notation->setNote($rating);
-
-            // Sauvegarder ne base de données
             $entityManager->persist($notation);
             $entityManager->flush();
 
@@ -429,7 +444,6 @@ class GameController extends AbstractController
             // Nombre de Notations user pour le jeu
             $nbrOfNotations = $notationRepo->countGameNotations($game);
             
-            // $this->addFlash('success', 'Votre note a été prise en compte');
             return new JsonResponse(['success' => true, 'newAverageNote' => $averageRating, 'newVoteCount' => $nbrOfNotations]);  
 
         }

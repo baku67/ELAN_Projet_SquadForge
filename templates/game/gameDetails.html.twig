@@ -60,12 +60,12 @@
                 {# Bouton Favoris state (Btn toggle Async) #}
                 {% if app.user %}
                     {% if isFavorited %}
-                        <span id="favGameBtn" class="favButton" style="border-top: 1px solid {{ game.color }}; border-bottom: 1px solid {{ game.color }};">Favoris <i  style="color:{{ game.color }};" class="fa-solid fa-heart"></i></span>
+                        <span id="favGameBtn" class="favButton" style="border-top: 1px solid {{ game.color }}; border-bottom: 1px solid {{ game.color }};"><i style="color:{{ game.color }};" class="fa-solid fa-heart favIcon"></i></span>
                     {% else %}
-                        <span id="favGameBtn" class="favButton">Favoris <i class="fa-regular fa-heart"></i></span>
+                        <span id="favGameBtn" class="favButton"><i class="fa-regular fa-heart favIcon"></i></span>
                     {% endif %}
                 {% else %}
-                        <span id="favGameBtn" class="favButton">Favoris <i class="fa-regular fa-heart"></i></span>
+                        <span id="favGameBtn" class="favButton"><i class="fa-regular fa-heart favIcon"></i></span>
                 {% endif %}
 
             </div>
@@ -84,15 +84,15 @@
             <div class="gameNotationDiv">
                 <div class="rate">
                     <input type="radio" id="star5" name="rate" value="5"/>
-                    <label for="star5" title="text">5 stars</label>
+                    <label class="starLabel" for="star5" title="text">5 stars</label>
                     <input type="radio" id="star4" name="rate" value="4" />
-                    <label for="star4" title="text">4 stars</label>
+                    <label class="starLabel" for="star4" title="text">4 stars</label>
                     <input type="radio" id="star3" name="rate" value="3" />
-                    <label for="star3" title="text">3 stars</label>
+                    <label class="starLabel" for="star3" title="text">3 stars</label>
                     <input type="radio" id="star2" name="rate" value="2" />
-                    <label for="star2" title="text">2 stars</label>
+                    <label class="starLabel" for="star2" title="text">2 stars</label>
                     <input type="radio" id="star1" name="rate" value="1" />
-                    <label for="star1" title="text">1 star</label>
+                    <label class="starLabel" for="star1" title="text">1 star</label>
                 </div>
                 {% if nbrOfNotations > 1 %}
                     <p class="gameNotationLine">Moy: <span id="gameRatingMoyValue">{{ averageRating }}</span>/5  (<span id="gameRatingNbrValue">{{ nbrOfNotations }}</span> votes)</p>
@@ -117,7 +117,9 @@
             const rate = document.querySelectorAll('.rate input');
 
             rate.forEach((radio) => {
-            radio.addEventListener('change', (event) => {
+            radio.addEventListener('click', (event) => {
+
+                console.log("test");
 
                 {% if app.user %}
 
@@ -132,7 +134,16 @@
                     .then(response => response.json())
                     .then(data => {
                     if (data.success) {
-                        document.querySelector('#ajaxFlash').textContent = "Votre note a bien été pris en compte";
+                        if (data.eraseNote) {
+                            document.querySelector('#ajaxFlash').textContent = "Votre note a bien été effacé";
+                            document.querySelectorAll('.starLabel').forEach((label) => {
+                                label.style.color = "#ccc";
+                            })
+
+                        }
+                        else {
+                            document.querySelector('#ajaxFlash').textContent = "Votre note a bien été pris en compte";
+                        }
                         document.getElementById('gameRatingMoyValue').innerHTML = data.newAverageNote;
                         document.getElementById('gameRatingNbrValue').innerHTML = data.newVoteCount;
                         document.querySelector('#ajaxFlash').classList.add("ajaxFlashAnim", "successAjaxFlash");

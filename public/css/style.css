@@ -68,6 +68,9 @@ a {
 .underlineLink {
     text-decoration: underline;
 }
+.breadcrumbs {
+    font-family: 'K2D', sans-serif;
+}
 
 header {
     position: relative;
@@ -212,12 +215,22 @@ nav {
 .favButton {
     float: right; /* temporaire */
 
-    padding: 5px 30px;
+    padding: 5px 20px 5px 40px;
     background-color: rgb(255 255 255 / 5%);
     border-top: 1px solid rgb(255 255 255 / 20%);
     border-bottom: 1px solid rgb(255 255 255 / 20%);
-    clip-path: polygon(14% 0, 100% 0, 86% 100%, 0% 100%);
+    /* clip-path: polygon(14% 0, 100% 0, 86% 100%, 0% 100%); */
+    clip-path: polygon(30% 0, 100% 0, 100% 100%, 0% 100%);
+
 }
+.favIcon {
+    font-size: 1.2em;
+    position: relative;
+    right: 2px;
+    top: 3px;
+}
+
+
 .createButton {
     padding: 5px 30px;
     background-color: rgb(255 255 255 / 5%);
