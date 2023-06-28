@@ -137,11 +137,16 @@
                     if (data.success) {
                         if (data.eraseNote) {
                             document.querySelector('#ajaxFlash').textContent = "Votre note a bien été effacé";
-                            document.querySelectorAll('.starLabel').forEach((label) => {
-                                label.style.color = "#ccc";
+                            // Problème si re-set une note apres annulation (pas doré): .style prioritaire
+                            document.querySelectorAll('.rate > input:checked ~ label').forEach((label) => {
+                                // label.style.color = "#ccc";
+                                label.classList.add('greyed');
                             })
                         }
                         else {
+                            // for (let i = 0; i < rating; i++) {
+                            //     document.getElementById('star'+i).style.color = "#ffc700"; 
+                            // }
                             document.querySelector('#ajaxFlash').textContent = "Votre note a bien été pris en compte";
                         }
                         document.getElementById('gameRatingMoyValue').innerHTML = data.newAverageNote;

@@ -704,14 +704,18 @@ nav {
 }
 .rate:not(:checked) > label:hover,
 .rate:not(:checked) > label:hover ~ label {
-    color: #deb217;  
+    color: #deb217 !important;  
 }
 .rate > input:checked + label:hover,
 .rate > input:checked + label:hover ~ label,
 .rate > input:checked ~ label:hover,
 .rate > input:checked ~ label:hover ~ label,
 .rate > label:hover ~ input:checked ~ label {
-    color: #c59b08;
+    color: #c59b08 !important;
+}
+
+.greyed {
+    color: #d3d3d3 !important;
 }
 
 /* Modified from: https://github.com/mukulkant/Star-rating-using-pure-css */
@@ -1744,7 +1748,7 @@ cursor: pointer;
   
   .grid-item {
     display: inline-block;
-    margin-bottom: 10px;
+    margin-bottom: 16px;
 
     width: fit-content;
     max-width: 350px;

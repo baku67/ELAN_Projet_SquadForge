@@ -7,6 +7,7 @@ Async fetch periodique du newNotif unclicked (user puis modo*)
 Modal confirmations (leaveGroupe, passLead, exclure, etc)
 Mansonry js pour gallerie medias
 
+Les Flash spam fonctionnent (à peu pres) sur gameDetails avec /notationUpdate, chercher "document.querySelector('#ajaxFlash').className = "";"
 
 ajax app_deleteNotif ("X"): need ajout dynamique idNotif pour onSuccess JS
 
