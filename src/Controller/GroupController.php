@@ -312,7 +312,7 @@ class GroupController extends AbstractController
         }
     }
 
-    
+    // Suppr User de la BlackList
     #[Route('/removeFromBlacklist/{groupId}/{userId}', name: 'app_removeFromBlacklist')]
     public function removeFromBlacklist(EntityManagerInterface $entityManager, int $groupId, int $userId, Request $request): Response
     {
@@ -337,6 +337,31 @@ class GroupController extends AbstractController
         }
     }
 
+
+    
+    #[Route('/emptyBlacklist/{groupId}', name: 'app_emptyBlacklist')]
+    public function emptyBlacklist(EntityManagerInterface $entityManager, int $groupId, Request $request): Response
+    {
+        $groupRepo = $entityManager->getRepository(Group::class);
+        $group = $groupRepo->find($groupId);
+        
+        // Vérif si leader
+        if ($group->getLeader() == $this->getUser()) {
+
+            $blacklistedUsers = $group->getBlacklistedUsers();
+            foreach($blacklistedUsers as $blacklistedUser) {
+                $group->removeBlacklistedUser($blacklistedUser);
+            };
+            $entityManager->flush();
+
+            $this->addFlash('success', 'Vous avez nettoyé la blacklist');
+            return $this->redirectToRoute('app_groupBlacklist', ['groupId' => $group->getId()]);
+        }
+        else {
+            $this->addFlash('error', 'Vous devez être le leader pour faire ceci');
+            return $this->redirectToRoute('app_groupList', ['gameIdFrom' => $game->getId()]);
+        }
+    }
 
 
 

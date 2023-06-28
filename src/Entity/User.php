@@ -82,6 +82,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private Collection $candidatures;
 
     #[ORM\ManyToMany(targetEntity: Group::class, mappedBy: 'blacklistedUsers')]
+    #[ORM\JoinTable(name: 'group_blacklist')]
     private Collection $groupsWhereBlackisted;
 
     #[ORM\OneToMany(mappedBy: 'user', targetEntity: Notification::class, orphanRemoval: true)]

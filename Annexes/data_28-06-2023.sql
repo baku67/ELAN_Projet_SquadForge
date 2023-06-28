@@ -14,6 +14,9 @@
 /*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
+-- Listage des données de la table squadforge.candidature : ~0 rows (environ)
+DELETE FROM `candidature`;
+
 -- Listage des données de la table squadforge.censure : ~16 rows (environ)
 DELETE FROM `censure`;
 INSERT INTO `censure` (`id`, `user_id`, `creation_date`, `word`) VALUES
@@ -41,14 +44,16 @@ INSERT INTO `doctrine_migration_versions` (`version`, `executed_at`, `execution_
 	('DoctrineMigrations\\Version20230430154643', '2023-05-01 19:46:44', 8),
 	('DoctrineMigrations\\Version20230527014530', '2023-05-27 03:46:00', 94);
 
--- Listage des données de la table squadforge.favoris : ~3 rows (environ)
+-- Listage des données de la table squadforge.favoris : ~5 rows (environ)
 DELETE FROM `favoris`;
 INSERT INTO `favoris` (`user_id`, `game_id`) VALUES
-	(3, 1),
 	(3, 2),
 	(3, 3),
 	(3, 4),
-	(3, 5);
+	(3, 5),
+	(7, 1),
+	(7, 2),
+	(7, 4);
 
 -- Listage des données de la table squadforge.game : ~5 rows (environ)
 DELETE FROM `game`;
@@ -66,21 +71,30 @@ INSERT INTO `genre` (`id`, `name`) VALUES
 	(2, 'indie'),
 	(3, 'Battle Royal');
 
--- Listage des données de la table squadforge.group : ~7 rows (environ)
+-- Listage des données de la table squadforge.group : ~1 rows (environ)
 DELETE FROM `group`;
-INSERT INTO `group` (`id`, `leader_id`, `game_id`, `title`, `description`, `nbr_places`, `creation_date`, `restriction_18`, `restriction_lang`, `status`, `img_url`, `restriction_mic`) VALUES
-	(11, 3, 4, 'fezfze', 'ezfzef', 5, '2023-06-06 21:59:18', 1, 'dza', 'public', NULL, 0),
-	(13, 3, 4, 'FULL run ops FUN et amusement', 'Zjje6', 6, '2023-06-07 01:36:58', 0, 'Fr', 'hidden', NULL, 1),
-	(15, 3, 2, 'team COD basile', 'zefzfezfeze', 6, '2023-06-08 12:10:51', 0, 'fr', 'public', NULL, 0),
-	(27, 3, 1, 'Test team overwatch all checked', 'Kdkdkdk', 2, '2023-06-09 00:28:31', 1, 'fr', 'public', NULL, 1),
-	(28, 7, 2, 'Test team COD none checked', 'Ndkdk', 8, '2023-06-09 00:29:36', 1, 'en', 'public', NULL, 1),
-	(30, 3, 5, 'Test 2 none checked', 'Jsjw', 3, '2023-06-09 00:32:51', 0, NULL, 'hidden', NULL, 1),
-	(31, 3, 5, 'Test all checked', 'Ndnd', 3, '2023-06-09 00:34:14', 1, NULL, 'public', NULL, 1),
-	(32, 3, 4, 'none checked', 'fzefzfzef', 2, '2023-06-12 21:04:17', 0, 'fr', 'hidden', NULL, 0),
-	(33, 3, 4, 'all checked', 'zeffzefze', 2, '2023-06-12 21:04:39', 1, 'fr', 'public', NULL, 1);
+INSERT INTO `group` (`id`, `leader_id`, `game_id`, `title`, `description`, `nbr_places`, `creation_date`, `restriction_18`, `restriction_lang`, `status`, `img_url`, `restriction_mic`, `candidature_description`, `restriction_img_proof`) VALUES
+	(35, 3, 4, 'Team Number One', 'voila on est la team number One on est trop fort rejoins nous', 5, '2023-06-15 23:53:20', 1, 'fr', 'public', NULL, 1, NULL, 0),
+	(36, 3, 1, 'La team overwatch', 'fzefzef', 2, '2023-06-21 21:39:31', 1, 'fr', 'public', NULL, 1, NULL, 1),
+	(37, 3, 2, 'La team du samedi', 'On joue tout les samedi de 20h à minuit, lapin=kick', 4, '2023-06-26 21:45:23', 1, 'fr', 'public', NULL, 1, NULL, 1);
 
--- Listage des données de la table squadforge.group_question : ~0 rows (environ)
+-- Listage des données de la table squadforge.group_answer : ~0 rows (environ)
+DELETE FROM `group_answer`;
+
+-- Listage des données de la table squadforge.group_blacklist : ~0 rows (environ)
+DELETE FROM `group_blacklist`;
+
+-- Listage des données de la table squadforge.group_question : ~7 rows (environ)
 DELETE FROM `group_question`;
+INSERT INTO `group_question` (`id`, `groupe_id`, `text`, `required`) VALUES
+	(19, 35, 'Quel perso joues-tu le plus ?', 1),
+	(20, 35, 'Est-tu un rageu un peu ?', 0),
+	(21, 35, 'Entre le mot caché dans la description pour prouver que tu as lu', 1),
+	(22, 35, 'Question 4 non requise ', 0),
+	(24, 35, 'Question 5 requise ', 1),
+	(25, 37, 'Qu\'est-ce que tu joues ?', 1),
+	(26, 37, 'Quel jour joue-t-on ?', 1),
+	(27, 37, 'TryHarder ou fun/casual ? (Pas de piège)', 0);
 
 -- Listage des données de la table squadforge.media : ~25 rows (environ)
 DELETE FROM `media`;
@@ -101,19 +115,19 @@ INSERT INTO `media` (`id`, `title`, `publish_date`, `url`, `status`, `validated`
 	(25, 'Upload 5gif pubg gif os', '2023-05-11 02:57:03', '645c3d5f0e346_1683766623.gif', 'open', 'validated', 3, 5),
 	(26, 'Test upoad N2 pibg uolo', '2023-05-11 02:58:00', '645c3d98a16c5_1683766680.gif', 'open', 'validated', 3, 5),
 	(27, 'PUBG uoplad IMG media N1', '2023-05-11 02:58:50', '645c3dca01159_1683766730.gif', 'open', 'validated', 3, 5),
-	(28, 'PUBG uoplad media original n0', '2023-05-11 03:00:18', '645c3e227000b_1683766818.gif', 'closed', 'validated', 3, 5),
+	(28, 'PUBG uoplad media original n0', '2023-05-11 03:00:18', '645c3e227000b_1683766818.gif', 'open', 'validated', 3, 5),
 	(29, 'Test upload media overwatcj dndnd d', '2023-05-14 23:10:03', '64614e2b395a0_1684098603.gif', 'open', 'validated', 3, 1),
 	(30, 'Isaac gif media upload kdkd', '2023-05-14 23:13:01', '64614edd486d2_1684098781.gif', 'open', 'validated', 3, 3),
-	(31, 'Test upload Valolo gif fig', '2023-05-15 23:15:17', '6462a0e5a1fb4_1684185317.gif', 'closed', 'validated', 3, 4),
+	(31, 'Test upload Valolo gif fig', '2023-05-15 23:15:17', '6462a0e5a1fb4_1684185317.gif', 'open', 'validated', 3, 4),
 	(37, 'Test ajout média validation etc', '2023-05-18 04:02:08', '646587209781d_1684375328.jpg', 'open', 'validated', 3, 4),
 	(38, 'non validé par modo snirf', '2023-05-18 04:51:43', '646592bf97980_1684378303.jpg', 'open', 'refused', 3, 4),
 	(39, 'test upload media sa as a', '2023-05-18 05:02:26', '646595425dd82_1684378946.png', 'open', 'validated', 3, 3),
 	(40, 'Test upload media en attente', '2023-05-18 05:35:57', '64659d1d9551c_1684380957.png', 'open', 'refused', 3, 2),
 	(41, 'Test upload media gif 2Mo', '2023-05-26 01:24:50', '64659f26349ad_1684381478.gif', 'open', 'validated', 3, 2),
-	(42, 'test topic test topic  test topic', '2023-05-18 20:52:29', '646673edac499_1684435949.jpg', 'ouvert', 'waiting', 3, 4),
-	(43, 'Retest gif upload overwatch gif', '2023-05-26 01:05:36', '646fe9944d7af_1685055892.gif', 'open', 'validated', 3, 1);
+	(42, 'test topic test topic  test topic', '2023-06-15 21:03:27', '646673edac499_1684435949.jpg', 'open', 'validated', 3, 4),
+	(43, 'Retest gif upload overwatch gif', '2023-05-26 01:05:36', '646fe9944d7af_1685055892.gif', 'closed', 'validated', 3, 1);
 
--- Listage des données de la table squadforge.media_post : ~14 rows (environ)
+-- Listage des données de la table squadforge.media_post : ~21 rows (environ)
 DELETE FROM `media_post`;
 INSERT INTO `media_post` (`id`, `user_id`, `media_id`, `text`, `publish_date`) VALUES
 	(1, 3, 17, 'Test publiccation de media Post', '2023-05-10 09:17:16'),
@@ -132,88 +146,91 @@ INSERT INTO `media_post` (`id`, `user_id`, `media_id`, `text`, `publish_date`) V
 	(14, 3, 30, 'Jdjd', '2023-06-07 01:50:52'),
 	(15, 3, 30, '*****', '2023-06-07 01:51:06'),
 	(16, 3, 30, 'Test', '2023-06-12 23:57:07'),
-	(17, 3, 30, 'Hhhh', '2023-06-12 23:57:15');
+	(17, 3, 30, 'Hhhh', '2023-06-12 23:57:15'),
+	(18, 3, 41, 'wvdsvqsdv', '2023-06-15 21:27:00'),
+	(19, 3, 42, 'vsvdsdv', '2023-06-22 21:09:42'),
+	(20, 7, 42, 'test post message upvote notif', '2023-06-22 21:24:31'),
+	(21, 3, 42, 'MOIII', '2023-06-22 22:55:12');
 
--- Listage des données de la table squadforge.media_post_like : ~8 rows (environ)
+-- Listage des données de la table squadforge.media_post_like : ~2 rows (environ)
 DELETE FROM `media_post_like`;
 INSERT INTO `media_post_like` (`id`, `user_id`, `media_post_id`, `state`) VALUES
-	(9, 3, 1, 'downvote'),
-	(12, 3, 8, 'upvote'),
-	(13, 3, 2, 'downvote'),
-	(14, 3, NULL, 'upvote'),
-	(18, 3, 4, 'downvote'),
-	(19, 3, 6, 'upvote'),
-	(20, 3, 10, 'downvote'),
-	(21, 3, 11, 'upvote'),
-	(22, 3, 9, 'upvote'),
-	(23, 3, 15, 'upvote');
+	(52, 7, 18, 'upvote'),
+	(60, 3, 20, 'downvote');
 
--- Listage des données de la table squadforge.media_upvotes : ~3 rows (environ)
+-- Listage des données de la table squadforge.media_upvotes : ~11 rows (environ)
 DELETE FROM `media_upvotes`;
 INSERT INTO `media_upvotes` (`media_id`, `user_id`) VALUES
 	(3, 3),
+	(14, 3),
+	(15, 3),
 	(30, 3),
-	(39, 3);
+	(30, 8),
+	(31, 3),
+	(31, 8),
+	(39, 3),
+	(41, 3),
+	(41, 7),
+	(41, 8),
+	(43, 3);
 
--- Listage des données de la table squadforge.membre_group : ~9 rows (environ)
+-- Listage des données de la table squadforge.membre_group : ~5 rows (environ)
 DELETE FROM `membre_group`;
 INSERT INTO `membre_group` (`group_id`, `user_id`) VALUES
-	(11, 3),
-	(11, 4),
-	(11, 6),
-	(11, 7),
-	(13, 3),
-	(13, 7),
-	(13, 8),
-	(15, 3),
-	(15, 7),
-	(27, 3),
-	(27, 7),
-	(28, 3),
-	(28, 7),
-	(30, 3),
-	(30, 7),
-	(31, 3),
-	(31, 7),
-	(32, 3),
-	(32, 7),
-	(33, 3),
-	(33, 7);
+	(35, 3),
+	(35, 8),
+	(36, 3),
+	(37, 3);
 
 -- Listage des données de la table squadforge.messenger_messages : ~0 rows (environ)
 DELETE FROM `messenger_messages`;
 
--- Listage des données de la table squadforge.notation : ~5 rows (environ)
+-- Listage des données de la table squadforge.notation : ~7 rows (environ)
 DELETE FROM `notation`;
 INSERT INTO `notation` (`id`, `user_id`, `game_id`, `note`) VALUES
-	(3, 3, 2, 2),
-	(4, 3, 1, 4),
-	(5, 3, 4, 1),
+	(3, 3, 2, 4),
+	(4, 3, 1, 3),
 	(6, 3, 5, 3),
-	(7, 3, 3, 5);
+	(9, 8, 4, 3),
+	(25, 3, 4, 5);
 
--- Listage des données de la table squadforge.post_like : ~9 rows (environ)
+-- Listage des données de la table squadforge.notification : ~10 rows (environ)
+DELETE FROM `notification`;
+INSERT INTO `notification` (`id`, `user_id`, `text`, `date_creation`, `seen`, `link`, `clicked`, `type`, `type_id`, `type_nbr`) VALUES
+	(172, 8, '"basile2" a quitté la team "Team Number One"', '2023-06-21 21:17:54', 1, 'http://127.0.0.1:8001/groupDetails/35/172', 1, NULL, NULL, NULL),
+	(205, 7, 'Votre candidature pour rejoindre la team "La team du samedi" a été rejetée.', '2023-06-26 21:50:37', 1, 'http://192.168.0.24:8000/groupDetails/37/205', 1, NULL, NULL, NULL),
+	(207, 7, 'Votre candidature pour rejoindre la team "Team Number One" a été acceptée.', '2023-06-26 21:59:54', 1, 'http://127.0.0.1:8000/groupDetails/35/207', 1, NULL, NULL, NULL),
+	(208, 8, '"basile2" a intégré la team "Team Number One', '2023-06-26 21:59:54', 0, 'http://127.0.0.1:8000/groupDetails/35/208', 0, NULL, NULL, NULL),
+	(210, 8, '"basile2" a quitté la team "Team Number One"', '2023-06-26 22:00:05', 0, 'http://127.0.0.1:8000/groupDetails/35/210', 0, NULL, NULL, NULL),
+	(212, 7, 'Votre candidature pour rejoindre la team "Team Number One" a été rejetée.', '2023-06-26 22:00:21', 1, 'http://127.0.0.1:8000/groupDetails/35/212', 1, NULL, NULL, NULL),
+	(218, 7, 'Votre post "test post message upvote notif" a été upvoté par <strong style=\'font-size:1.1em;\'>4</strong> personnes', '2023-06-27 21:47:10', 1, 'http://127.0.0.1:8000/mediaDetail/42/218', 1, 'mediaPost', 20, 4),
+	(225, 3, 'Votre post "Bien dit !" a été upvoté', '2023-06-27 23:44:23', 1, 'http://127.0.0.1:8000/topicDetail/11/225', 1, 'topicPost', 19, 1),
+	(227, 3, 'Votre topic "Test New topic test t\'es" a été approuvé par la modération', '2023-06-28 01:37:57', 1, 'http://192.168.0.24:8000/topicDetail/33/227', 1, NULL, NULL, NULL),
+	(228, 3, 'Nouvelle candidature de "basile2" pour votre team "Team Number One"', '2023-06-28 18:16:32', 0, 'http://127.0.0.1:8000/candidatureDetails/73/228', 0, NULL, NULL, NULL),
+	(229, 7, 'Votre candidature pour rejoindre la team "Team Number One" a été rejetée.', '2023-06-28 18:16:42', 0, 'http://127.0.0.1:8000/groupDetails/35/229', 0, NULL, NULL, NULL),
+	(230, 3, 'Nouvelle candidature de "basile2" pour votre team "Team Number One"', '2023-06-28 18:24:30', 0, 'http://127.0.0.1:8000/candidatureDetails/74/230', 0, NULL, NULL, NULL),
+	(231, 7, 'Votre candidature pour rejoindre la team "Team Number One" a été rejetée.', '2023-06-28 18:24:38', 0, 'http://127.0.0.1:8000/groupDetails/35/231', 0, NULL, NULL, NULL);
+
+-- Listage des données de la table squadforge.post_like : ~8 rows (environ)
 DELETE FROM `post_like`;
 INSERT INTO `post_like` (`id`, `user_id`, `topic_post_id`, `state`) VALUES
 	(6, 3, 18, 'upvote'),
 	(7, 3, 19, 'upvote'),
 	(8, 3, 3, 'upvote'),
-	(12, 3, 6, 'downvote'),
-	(13, 3, 5, 'downvote'),
 	(14, 3, 14, 'upvote'),
-	(36, 3, 7, 'upvote'),
-	(38, 3, 17, 'upvote'),
-	(40, 3, 16, 'downvote'),
 	(41, 3, 21, 'downvote'),
-	(42, 3, 22, 'downvote');
+	(42, 3, 22, 'downvote'),
+	(47, 7, 20, 'upvote'),
+	(48, 7, 7, 'upvote'),
+	(56, 7, 19, 'upvote'),
+	(57, 7, 18, 'upvote');
 
--- Listage des données de la table squadforge.topic : ~25 rows (environ)
+-- Listage des données de la table squadforge.topic : ~27 rows (environ)
 DELETE FROM `topic`;
 INSERT INTO `topic` (`id`, `title`, `publish_date`, `status`, `validated`, `game_id`, `user_id`, `first_msg`) VALUES
 	(1, 'Je sais pa vou mé', '2023-04-03 23:45:48', 'open', 'validated', 2, 3, 'da zadaz zadad az azd azd a azdad az a azd az az azd zd  zadzdaz azdad zd a zd  zd za zaadazd azda ad az zd azdaza za '),
 	(2, 'Bla bla bla blbla', '2023-05-03 18:57:03', 'closed', 'validated', 2, 3, 'da zadaz zadad az azd azd a azdad az a azd az az azd zd  zadzdaz azdad zd a zd  zd za zaadazd azda ad az zd azdaza za '),
 	(3, 'test date', '2023-05-04 02:09:02', 'open', 'validated', 2, 3, 'da zadaz zadad az azd azd a azdad az a azd az az azd zd  zadzdaz azdad zd a zd  zd za zaadazd azda ad az zd azdaza za '),
-	(4, 'Overwatch topic', '2023-05-04 09:30:52', 'open', 'validated', 1, 4, 'da zadaz zadad az azd azd a azdad az a azd az az azd zd  zadzdaz azdad zd a zd  zd za zaadazd azda ad az zd azdaza za '),
 	(5, 'aa aa aa aa aa aa aa aa aa aa aa aa aa aa aa aa aa aa aa aa aa aa aa aa', '2023-05-04 22:08:47', 'open', 'validated', 1, 3, 'da zadaz zadad az azd azd a azdad az a azd az az azd zd  zadzdaz azdad zd a zd  zd za zaadazd azda ad az zd azdaza za '),
 	(6, 'Test topic formType aa aa aa', '2023-05-04 22:11:34', 'open', 'validated', 1, 3, 'da zadaz zadad az azd azd a azdad az a azd az az azd zd  zadzdaz azdad zd a zd  zd za zaadazd azda ad az zd azdaza za '),
 	(7, 'Test topic formType aa aa', '2023-05-04 22:16:00', 'open', 'validated', 1, 3, 'da zadaz zadad az azd azd a azdad az a azd az az azd zd  zadzdaz azdad zd a zd  zd za zaadazd azda ad az zd azdaza za '),
@@ -236,13 +253,16 @@ INSERT INTO `topic` (`id`, `title`, `publish_date`, `status`, `validated`, `game
 	(24, 'test ajout topic validated 0 default', '2023-05-18 02:13:31', 'open', 'validated', 1, 3, 'dezdezdze'),
 	(26, 'Test ajout topic PUBG (y\'en a que 1?)', '2023-05-18 03:57:48', 'open', 'refused', 5, 3, 'Bizarre'),
 	(27, 'Test upload topic validation modo', '2023-05-18 05:33:34', 'open', 'validated', 3, 3, 'Vhj'),
-	(28, 'Test topic New, modo modo', '2023-06-07 01:54:08', 'open', 'validated', 3, 3, 'Jdkdkd');
+	(28, 'Test topic New, modo modo', '2023-06-07 01:54:08', 'open', 'validated', 3, 3, 'Jdkdkd'),
+	(29, 'Je créé un Topic (basile08) l\'original', '2023-06-18 06:05:38', 'open', 'refused', 4, 3, 'Voila c\'est mon message voila'),
+	(31, 'Test test test test test', '2023-06-18 22:18:14', 'open', 'validated', 4, 7, 'Test'),
+	(32, 'e f ef z zef zef', '2023-06-19 00:05:22', 'open', 'validated', 4, 3, 'fzefze'),
+	(33, 'Test New topic test t\'es', '2023-06-28 01:37:57', 'open', 'validated', 4, 3, 'Test');
 
 -- Listage des données de la table squadforge.topic_post : ~22 rows (environ)
 DELETE FROM `topic_post`;
 INSERT INTO `topic_post` (`id`, `user_id`, `topic_id`, `text`, `publish_date`, `parent_id`, `topic_post_id`) VALUES
 	(1, 3, 14, 'test message', '2023-05-05 17:36:59', NULL, NULL),
-	(2, 4, 14, 'test Réponse (pluvieu)', '2023-05-05 17:59:15', NULL, NULL),
 	(3, 3, 14, 'test réponse 2', '2023-05-05 18:24:25', NULL, NULL),
 	(4, 3, 14, 'Test réponse 3', '2023-05-05 18:25:10', NULL, NULL),
 	(5, 3, 15, 'topic post cod', '2023-05-05 22:28:01', NULL, NULL),
@@ -256,7 +276,6 @@ INSERT INTO `topic_post` (`id`, `user_id`, `topic_id`, `text`, `publish_date`, `
 	(13, 3, 1, '5eme comment', '2023-05-06 01:39:34', NULL, NULL),
 	(14, 3, 14, 'Hhjh', '2023-05-06 03:28:58', NULL, NULL),
 	(15, 3, 13, 'Ole', '2023-05-06 03:40:11', NULL, NULL),
-	(16, 4, 15, 'test autre user', '2023-05-06 03:52:37', NULL, NULL),
 	(17, 3, 15, 'test apres verif si closed topics', '2023-05-06 05:17:41', NULL, NULL),
 	(18, 3, 11, 'Test post', '2023-05-08 23:26:20', NULL, NULL),
 	(19, 3, 11, 'Bien dit !', '2023-05-10 01:03:04', NULL, NULL),
@@ -264,12 +283,10 @@ INSERT INTO `topic_post` (`id`, `user_id`, `topic_id`, `text`, `publish_date`, `
 	(21, 3, 14, '****** de ***** fils de ****', '2023-05-18 01:18:46', NULL, NULL),
 	(22, 3, 26, 'Test ajout message alors que topic pas.validated', '2023-05-18 03:58:49', NULL, NULL);
 
--- Listage des données de la table squadforge.user : ~2 rows (environ)
+-- Listage des données de la table squadforge.user : ~3 rows (environ)
 DELETE FROM `user`;
 INSERT INTO `user` (`id`, `email`, `roles`, `password`, `is_verified`, `pseudo`, `auto_play_gifs`) VALUES
 	(3, 'basile08@hotmail.fr', '["ROLE_MODO"]', '$2y$13$PFkqOIh3ZRbIx6totl7OE.aHyfWw9YQcb7ZqN.XeBtsr1YR/lZDiK', 0, 'basile', 0),
-	(4, 'stgr', '[]', 'dfhydhy', 0, 'bot324', 1),
-	(6, 'test@test.fr', '[]', '$2y$13$oYdh6pfTAR/UP8dnsivXuuAM.fJ9k35cT9Nh3bdxQDrSpboEzDLZq', 0, 'test', 1),
 	(7, 'basile09@hotmail.fr', '[]', '$2y$13$VQhOrGgKRQ1rdIoNWVld9eANrYSBAYbuGOCQQ5rHYbMfzBfpv4Sxa', 0, 'basile2', NULL),
 	(8, 'basile10@hotmail.fr', '[]', '$2y$13$aQvLMfshYRre.ij4LrLkiO9prlAoISs8gqAItt.aC976djlHg5FdK', 0, 'basile3', 1);
 

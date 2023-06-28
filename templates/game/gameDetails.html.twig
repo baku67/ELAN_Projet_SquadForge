@@ -75,10 +75,11 @@
             <span id="gameColor" style="display:none;">{{ game.color }}</span>
 
             {# Infos #}
-            <p>Éditeur: {{ game.editor }}</p>
-            <p>{{ game.publishDate|date('Y') }}</p>
-            <p>Genre: <a class="underlineLink" href="{{ path('app_genreGames', {'id': game.genre.id }) }}">{{ gameGenre }}</a></p>
-            
+            <div style="font-family:'K2D', sans-serif;">
+                <p>Éditeur: {{ game.editor }}</p>
+                <p>{{ game.publishDate|date('Y') }}</p>
+                <p>Genre: <a class="underlineLink" href="{{ path('app_genreGames', {'id': game.genre.id }) }}">{{ gameGenre }}</a></p>
+            </div>
 
             {# Form Notation (Ajax) #}
             <div class="gameNotationDiv">
@@ -139,7 +140,6 @@
                             document.querySelectorAll('.starLabel').forEach((label) => {
                                 label.style.color = "#ccc";
                             })
-
                         }
                         else {
                             document.querySelector('#ajaxFlash').textContent = "Votre note a bien été pris en compte";
@@ -167,7 +167,6 @@
                 {% endif %}
             });
             });
-
 
         </script>
 

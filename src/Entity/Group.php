@@ -69,6 +69,7 @@ class Group
     private Collection $candidatures;
 
     #[ORM\ManyToMany(targetEntity: User::class, inversedBy: 'groupsWhereBlackisted')]
+    #[ORM\JoinTable(name: 'group_blacklist')]
     private Collection $blacklistedUsers;
 
     public function __construct()

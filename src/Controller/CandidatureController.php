@@ -314,7 +314,7 @@ class CandidatureController extends AbstractController
                     $connection = $entityManager->getConnection();
                     $statement = $connection->prepare('
                         SELECT COUNT(*) AS count
-                        FROM group_user
+                        FROM group_blacklist
                         WHERE group_id = :groupId
                         AND user_id = :userId
                     ');
