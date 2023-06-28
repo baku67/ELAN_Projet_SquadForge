@@ -18,6 +18,9 @@
     }
 /* ************************* */
 
+html {
+    overflow-y: scroll;
+}
 
 body {
     margin: 0;
@@ -26,22 +29,9 @@ body {
     font-family: 'Julius Sans One', sans-serif;
 
     /* margin-right: -10px; */
-    overflow-y: scroll; /* Allow vertical scrolling */
     position: relative; /* Set the container element to relative position */
 }
-body::-webkit-scrollbar {
-    z-index: -10;
-    width: 15px; /* Set the width of the scrollbar */
-    position: absolute; /* Set the scrollbar to absolute position */
-    bottom: 0; /* Stretch the scrollbar to fill the height of the container element */
-    background-color: #333333; /* Set the background color of the scrollbar */
-}
 
-body::-webkit-scrollbar-thumb {
-    position: absolute; /* Set the scrollbar to absolute position */
-    background-color: #cccccc; /* Set the color of the scrollbar thumb */
-    border-radius: 0px; /* Set the border radius of the scrollbar thumb */
-}
 
 
 
@@ -1088,7 +1078,7 @@ h1, h2, h3, h4 {
 
 .mediaCardStatsDiv {
     opacity: 0.8;
-    background-color: #404040;
+    background-color: #292929;
     display: inline-flex;
     width: 100%;
     justify-content: space-evenly;
@@ -1738,3 +1728,28 @@ cursor: pointer;
         opacity: 1;
     }
 }
+
+
+
+
+
+/* WIP Masonry grid Medias */
+/* TODO: Responsive */
+.masonry-grid {
+    column-gap: 10px;
+    column-count: 3; /* Adjust the number of columns as needed */
+    width: 90%;
+    margin: 30px auto;
+  }
+  
+  .grid-item {
+    display: inline-block;
+    margin-bottom: 10px;
+
+    width: fit-content;
+    max-width: 350px;
+  }
+  
+  .grid-item img {
+    height: auto;
+  }

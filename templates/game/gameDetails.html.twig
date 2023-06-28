@@ -464,11 +464,11 @@
 
 
 
-        <div class="listContainer marginTop mediaListGrid">
+        <div class="masonry-grid">
 
             {% for media in gameMedias %}
 
-                <div style="height:fit-content;">
+                <div class="grid-item" style="height:fit-content;">
 
                     {% if app.user and app.user.autoPlayGifs %}
                     <a href="{{ path('app_mediaDetail', {'id': media.id}) }}">
@@ -510,8 +510,6 @@
                     {% endif %}
 
 
-
-
                     {# Upvote/downvote média + score + nbrPosts #}
                     <div class="mediaCardStatsDiv">
 
@@ -528,8 +526,7 @@
 
                         <div class="inline">
                             <i mediaId={{ media.id }} class="likeMedia fa-regular fa-circle-up {{ liked }}"></i>
-                            {# <i class="fa-regular fa-circle-down"></i> #}
-                            <p id="countLikesMedia{{ media.id }}" value="{{ media.upvoteCount }}"> {{ media.upvoteCount }} </p>
+                            <span id="countLikesMedia{{ media.id }}" value="{{ media.upvoteCount }}"> {{ media.upvoteCount }} </span>
                         </div>
                     
                         {% if media.mediaPostsCount == 0 %}
@@ -550,18 +547,32 @@
 
                     </div>
 
-                    <br>
-                    {# <div style="width:30%; margin: 0 auto; height:1px; background-color: {{ game.color }}; opacity:0.5;"></div> #}
-                    <br>
-
                 </div>
 
             {% endfor %}
 
         </div>
+
+
         <span class="seeAllRedirect">
             <a href="{{ path('app_allMedias', {'gameIdFrom': game.id}) }}">Tout voir  <i class="fa-solid fa-chevron-right"></i></a>
         </span>
+
+
+        {# Masonry JS Medias (permet de rendre responsive entre autre) #}
+        <script src="https://unpkg.com/masonry-layout@4/dist/masonry.pkgd.min.js"></script>
+        <script>
+            $(document).ready(function() {
+                setTimeout(function() {
+                    $('.masonry-grid').masonry({
+                        itemSelector: '.grid-item',
+                        columnWidth: '.grid-item',
+                        gutter: 15, // Adjust the gutter size as needed
+                    });
+                }, 500);
+            });
+        </script>
+        
 
 
 
