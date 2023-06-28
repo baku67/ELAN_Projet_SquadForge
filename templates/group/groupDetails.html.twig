@@ -56,7 +56,7 @@
             <span style="font-family:'K2D', sans-serif;">{{ group.description|capitalize }}</span>
             <i class="fa-solid fa-quote-right"></i>
         </p>
-        <p class="groupLeader">Leader: <span>{{ group.leader.pseudo }}</span></p>
+        {# <p class="groupLeader">Leader: <span>{{ group.leader.pseudo }}</span></p> #}
 
         {# Liste des membres du groupe #}
         <div>
@@ -75,6 +75,7 @@
 
         <li class="memberCard leaderCard" style="background-color: {{ gameFrom.color }}">
             {{ leaderPseudo }}
+            <span style="text-align:center; color:#ffe039;"><i class="fa-solid fa-crown"></i></span>
         </li>
         
 
@@ -92,8 +93,8 @@
                 
                 <li class="memberCard" style="background-color: {{ gameFrom.color }}">{{ memberPseudo }}
                 {% if app.user == group.leader and app.user != member %}    
-                    <span onclick="kickMemberModal{{indexMember}}.showModal()">
-                        Expulser
+                    <span class="kickMemberBtn" onclick="kickMemberModal{{indexMember}}.showModal()">
+                        <i class="fa-solid fa-user-xmark"></i>
                     </span> 
 
                     <dialog id="kickMemberModal{{indexMember}}">
@@ -123,8 +124,10 @@
                 for (let index = 0; index < (nbrPlaces - membresCount); index++) {
                     var voidMember = document.createElement("li");
                     voidMember.className = "voidMember";
-                    voidMember.innerHTML = "+";
-                    voidMember.style.backgroundColor = document.getElementById("groupColor").innerText;
+                    voidMember.innerHTML = "<i class='fa-solid fa-plus'></i>";
+                    // voidMember.style.backgroundColor = document.getElementById("groupColor").innerText;
+                    voidMember.style.backgroundColor = "#3f3f3f";
+                    voidMember.style.color = document.getElementById("groupColor").innerText;
 
                     document.getElementById("membersList").append(voidMember);
                 }
@@ -137,7 +140,7 @@
 
             {% if group.leader == app.user %}
 
-                <p>Leader</p>
+                <p style="font-family:'K2D', sans-serif;">Section visible seulement pour le leader :</p>
 
                 <span id="groupId" hidden>{{ group.id }}</span>
                 {# Toggle Visibilité du group #}
@@ -353,9 +356,9 @@
                 </div>
 
                 {% if candidatureCount == 0 %}
-                    <span class="candidaturesListBtn" style="border-color: grey; opacity:0.7; border-width:1px; cursor:default;">En attente ({{ candidatureCount }})</span>
+                    <span class="candidaturesListBtn" style="border-color: grey; opacity:0.7; border-width:1px; cursor:default;"><i class="fa-regular fa-clock"></i> En attente ({{ candidatureCount }})</span>
                 {% else %}
-                    <a href="{{ path('app_candidatureList',{'groupId':group.id}) }}" class="candidaturesListBtn" style="border-color: {{ gameFrom.color }}", onmouseover="this.style.backgroundColor = '{{ gameFrom.color }}';" onmouseout="this.style.backgroundColor = 'rgba(0,0,0,0)';">En attente ({{ candidatureCount }})</a>
+                    <a href="{{ path('app_candidatureList',{'groupId':group.id}) }}" class="candidaturesListBtn" style="border-color: {{ gameFrom.color }}", onmouseover="this.style.backgroundColor = '{{ gameFrom.color }}';" onmouseout="this.style.backgroundColor = 'rgb(56 56 56)';"><i class="fa-regular fa-clock"></i> En attente <span class="bulleWaitingCandidature" style="background-color:{{gameFrom.color}}">{{ candidatureCount }}</span></a>
                 {% endif %}
                 
                 <h5>Message de l'offre</h5>
@@ -377,24 +380,42 @@
                 {% endfor %}
                 </div>
 
-                {# Ajouter une question #}                
-                <form id="questionsContainer" action="{{ path('app_addGroupQuestion',{'groupId': group.id}) }}" method="post">
-                    <div class="inputQuestionLine">
-                        <input type="text" id="questionText" name="questionText" placeholder="Entrez une question de candidature..." class="form-control"></input>
-                        <label for="required">requis:</label>
-                        <input type="checkbox" name="required" value="checked" class="questionRequired form-check-input"></input>
-                    </div>
-                    <input type="submit" class="btn btn-primary" value="Ajouter"></input>
-                </form>
+                {# Ajouter une question #}    
+                {% if questions|length >= 5 %}
+                    <p class="emptyListMsg">Vous avez atteint la limite de question (5/5)</p>
+                {% else %}
+                    <form id="questionsContainer" action="{{ path('app_addGroupQuestion',{'groupId': group.id}) }}" method="post">
+                        <div class="inputQuestionLine">
+                            <i class="fa-solid fa-plus addQuestionIcon" style="color:{{gameFrom.color}}"></i>
+                            <input type="text" id="questionText" name="questionText" placeholder="Entrez une question de candidature..." class="form-control"></input>
+                            <div class="requiredQuestionDiv">
+                                <label for="required"><span class="requiredStar"><i class="fa-solid fa-star-of-life"></i></span></label>
+                                <input checked type="checkbox" name="required" value="checked" class="questionRequired form-check-input"></input>
+                            </div>
+                        </div>
+                        <input type="submit" class="btn btn-primary" value="Ajouter"></input>
+                    </form>
+                {% endif %}
+                            
+                
 
                 <br>
                 {# Bouton liste blacklistedUsers #}
-                <a href="{{ path('app_groupBlacklist',{'groupId': group.id}) }}">
-                    <div class="blacklistBtn">
+                {% if group.blacklistedUsers|length > 0 %}
+                    <a href="{{ path('app_groupBlacklist',{'groupId': group.id}) }}">
+                        <div class="blacklistBtn">
+                            <i class="fa-solid fa-users-slash"></i>
+                            <span>Blacklist ({{ blacklistedNbr }})</span>
+                        </div>
+                    </a>
+                {% else %}
+                    <div class="blacklistBtn" style="border-color: grey; opacity:0.7; border-width:1px; cursor:default;">
                         <i class="fa-solid fa-users-slash"></i>
                         <span>Blacklist ({{ blacklistedNbr }})</span>
                     </div>
-                </a>
+                {% endif %}
+                
+                
                 
             {% else %}
 
@@ -406,7 +427,7 @@
             <span id="leaveGroupBtn" onclick="leaveGroupModal.showModal()">
                 <div style="display:inline-flex; justify-content:space-between;">
                     <span>Quitter le groupe</span>
-                    <i class="fa-solid fa-person-walking leaveGroupBtnIcon"></i>
+                    <i class="fa-solid fa-person-walking-arrow-right leaveGroupBtnIcon"></i>
                 </div>
             </span>
 
