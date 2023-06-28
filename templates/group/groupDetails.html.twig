@@ -97,10 +97,10 @@
                         <i class="fa-solid fa-user-xmark"></i>
                     </span> 
 
-                    <dialog id="kickMemberModal{{indexMember}}">
+                    <dialog class="modalDialog" id="kickMemberModal{{indexMember}}">
                         <p>Êtes-vous sûr de vouloir éjecter {{ member.pseudo }} de la team ?</p>
-                        <a href="{{ path('app_kickGroupMember',{'memberId': member.id, 'groupId': group.id}) }}">Oui</a>
-                        <span onclick="kickMemberModal{{indexMember}}.close()">Annuler</span>
+                        <a class="confirmModal" href="{{ path('app_kickGroupMember',{'memberId': member.id, 'groupId': group.id}) }}">Oui</a>
+                        <span class="cancelModal" onclick="kickMemberModal{{indexMember}}.close()">Annuler</span>
                     </dialog>
 
                 {% endif %}

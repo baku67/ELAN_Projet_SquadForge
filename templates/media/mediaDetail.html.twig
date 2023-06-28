@@ -109,11 +109,27 @@
             {% endif %}
 
             <div class="mediaUpvoteLine inline">
+
                 <div>
                     <i mediaId={{ media.id }} class="likeMedia likeMediaDetail fa-solid fa-arrow-up {{ liked }}"></i>
                     <span id="countLikesMedia{{ media.id }}" value="{{ media.upvoteCount }}" class="nbrMediaUpvotes"> {{ media.upvoteCount }} </span>
                 </div>
-                <a href="" class="reportBtn">Signaler</a>
+
+                {# Report + Modal raison report #}
+                {% if app.user %}
+            
+                    <span onclick="reportModal.showModal()" class="reportBtn">Signaler</span>
+
+                    <dialog class="modalDialog" id="reportModal">
+                        <p>Pour quelles raisons ce post ne vous convient-il pas ?</p>
+                        <a class="confirmModal" href="{{ path('app_reportObject',{'objectType':"media", 'objectId':media.id, 'reporterId':app.user.id})}}">Envoyer</a>
+                        <span class="cancelModal" onclick="reportModal.close()">Annuler</span>
+                    </dialog>
+
+                {% else %}
+                    <a href="{{ path('app_login') }}" class="reportBtn">Signaler</a>
+                {% endif %}
+
             </div>
 
 

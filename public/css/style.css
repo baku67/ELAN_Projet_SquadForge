@@ -972,6 +972,7 @@ h1, h2, h3, h4 {
 }
 
 .reportBtn {
+    cursor: pointer;
     font-family: "K2D";
     color: rgba(180, 58, 58, 1);
     font-size: 0.6em;
@@ -1733,6 +1734,48 @@ cursor: pointer;
     }
 }
 
+
+
+
+
+
+
+
+
+
+.modalDialog {
+    font-family: 'K2D', sans-serif;
+    border-radius: 7px;
+    background-color: #e6e6e6;
+    font-size: 0.8em;
+
+}
+
+.confirmModal, .cancelModal {
+    
+    font-family: 'Julius Sans One', sans-serif;
+    font-size: 0.8em;
+    padding: 8px 20px;
+    margin: 0 5px;
+    border-radius: 3px;
+
+    cursor: pointer;
+    transition: all 0.4s;
+}
+
+.confirmModal {
+    background-color: var(--primary-color);
+}
+.cancelModal {
+    background-color: indianred;
+}
+
+.confirmModal:hover {
+    
+}
+.cancelModal:hover {
+
+}
 
 
 
