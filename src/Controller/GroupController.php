@@ -712,8 +712,8 @@ class GroupController extends AbstractController
 
     
     // Leader: Kick un membre du groupe
-    #[Route('/kickGroupMember/{memberId}/{groupId}', name: 'app_kickGroupMember')]
-    public function kickGroupMember(EntityManagerInterface $entityManager, int $memberId, int $groupId, Request $request): Response
+    #[Route('/kickGroupMember/{memberId}/{groupId}/{type}', name: 'app_kickGroupMember')]
+    public function kickGroupMember(EntityManagerInterface $entityManager, int $memberId, int $groupId, string $type, Request $request): Response
     {
         $groupRepo = $entityManager->getRepository(Group::class);
         $group = $groupRepo->find($groupId);
@@ -731,6 +731,10 @@ class GroupController extends AbstractController
             }
 
             $group->removeMember($userKicked);
+
+            if ($type == "blacklisted") {
+                $group->addBlacklistedUser($userKicked);
+            }
 
             $entityManager->persist($group);
             $entityManager->flush();

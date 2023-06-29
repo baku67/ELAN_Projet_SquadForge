@@ -89,7 +89,7 @@ class GroupType extends AbstractType
                     'English' => 'en',
                     'German' => 'ge',
                 ],
-                'placeholder' => '--Choisir', // Optional: Add a placeholder option
+                'placeholder' => '-- Pas de restriction', // Optional: Add a placeholder option
                 'attr' => [
                     // "value" => "",
                     "class" => "form-control",

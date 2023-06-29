@@ -1777,7 +1777,9 @@ cursor: pointer;
 
 
 
-
+#group_restriction_lang {
+    width: fit-content;
+}
 
 
 .modalDialog {

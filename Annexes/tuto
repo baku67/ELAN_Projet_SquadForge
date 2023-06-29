@@ -2,6 +2,11 @@ En cours: notifs likes (par packs)
 Reste notifs TopicPOstsLikes et MediaPostLikes
 Faire signalements après parce que meme mécanique de grouping de notifs modos
 
+/!\ La route (depuis une notif) "candidatureDetails", ou "groupDetails" ne marche pas sur mobile (fatal ERR_CONNECTION_REFUSED), 
+sur PC fonctionne très bien,
+Point-commun: function avec notifId pour passer la notif en mode "lue"
+inspecter le browser mobile par USB avec https://developer.chrome.com/docs/devtools/remote-debugging/
+
 Manque bouton open/close Media 
 Async fetch periodique du newNotif unclicked (user puis modo*)
 Modal confirmations (leaveGroupe, passLead, exclure, etc)

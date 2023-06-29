@@ -110,7 +110,6 @@ class CandidatureController extends AbstractController
             // Verif user connecté et leader du groupe 
             if ($this->getUser()) {
 
-                
                 $group = $candidature->getGroupe();
                 $gameFrom = $group->getGame();
 
