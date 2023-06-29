@@ -46,73 +46,87 @@
              - {{ group.title }}
         </p>
 
-        <h2> <i class="fa-solid fa-users-rays"></i> TEAM</h2>
+        <div class="groupHeader" style="background-color: {{ gameFrom.color }}30">
+            <h2> <i class="fa-solid fa-users-rays"></i> TEAM</h2>
 
-        <br>
-        <h3 style="text-align:center; width:100%;">{{ group.title }}</h3>
+            <br>
+            <h3 style="text-align:center; width:100%;">{{ group.title }}</h3>
 
-        <p class="groupDescription">
-            <i class="fa-solid fa-quote-left"></i>
-            <span style="font-family:'K2D', sans-serif;">{{ group.description|capitalize }}</span>
-            <i class="fa-solid fa-quote-right"></i>
-        </p>
-        {# <p class="groupLeader">Leader: <span>{{ group.leader.pseudo }}</span></p> #}
+            <p class="groupDescription">
+                <i class="fa-solid fa-quote-left"></i>
+                <span style="font-family:'K2D', sans-serif;">{{ group.description|capitalize }}</span>
+                <i class="fa-solid fa-quote-right"></i>
+            </p>
 
-        {# Liste des membres du groupe #}
-        <div>
-            <div class="gameInfosSubTitleBg" style="background-color: {{ gameFrom.color }}"></div>
-            <h3 class="gameSubTitle noMarginBottom"><i class="fa-solid fa-user-group"></i> Membres ( {{ group.members|length }}/{{ group.nbrPlaces }} )</h3>
+            <br>
+
+            <p style="font-family:'K2D', sans-serif;">Ancienneté: <span>{{ time_diff(group.creationDate) }}</span></p>
         </div>
 
-        <ul id="membersList" class="membersList">
 
-        {# Card Leader (position 1) #}
-        {% if group.leader == app.user %}
-            {% set leaderPseudo = "Vous" %}
-        {% else %}
-            {% set leaderPseudo = group.leader.pseudo %}
-        {% endif %}
+        {# Liste des membres du groupe #}
+        <div class="sectionContainer" style="border: 1px solid {{ gameFrom.color }}50; border-top:2px solid {{ gameFrom.color }}; border-left:1px solid {{ gameFrom.color }};">
 
-        <li class="memberCard leaderCard" style="background-color: {{ gameFrom.color }}">
-            {{ leaderPseudo }}
-            <span style="text-align:center; color:#ffe039;"><i class="fa-solid fa-crown"></i></span>
-        </li>
-        
+            <div>
+                <div class="gameInfosSubTitleBg" style="background-color: {{ gameFrom.color }}"></div>
+                <h3 class="gameSubTitle noMarginBottom"><i class="fa-solid fa-user-group"></i> Membres ( {{ group.members|length }}/{{ group.nbrPlaces }} )</h3>
+            </div>
 
-        {% set indexMember = 0 %}
-        {% for member in members %}
-      
-            {% if member != group.leader %}
-            
-                {# Leader Card #}
-                {% if member == app.user %}
-                    {% set memberPseudo = "Vous" %}
-                {% else %}
-                    {% set memberPseudo = member.pseudo %}
-                {% endif %}
-                
-                <li class="memberCard" style="background-color: {{ gameFrom.color }}">{{ memberPseudo }}
-                {% if app.user == group.leader and app.user != member %}    
-                    <span class="kickMemberBtn" onclick="kickMemberModal{{indexMember}}.showModal()">
-                        <i class="fa-solid fa-user-xmark"></i>
-                    </span> 
+            <ul id="membersList" class="membersList">
 
-                    <dialog class="modalDialog" id="kickMemberModal{{indexMember}}">
-                        <p>Êtes-vous sûr de vouloir éjecter {{ member.pseudo }} de la team ?</p>
-                        <a class="confirmModal" href="{{ path('app_kickGroupMember',{'memberId': member.id, 'groupId': group.id, 'type':"normal"}) }}">Oui</a>
-                        <a class="confirmModal" href="{{ path('app_kickGroupMember',{'memberId': member.id, 'groupId': group.id, 'type':"blacklisted"}) }}">Oui et blacklister</a>
-                        <span class="cancelModal" onclick="kickMemberModal{{indexMember}}.close()">Annuler</span>
-                    </dialog>
-
-                {% endif %}
-                </li>
-            
+            {# Card Leader (position 1) #}
+            {% if group.leader == app.user %}
+                {% set leaderPseudo = "Vous" %}
+            {% else %}
+                {% set leaderPseudo = group.leader.pseudo %}
             {% endif %}
 
-            {% set indexMember = indexMember + 1 %}
+            <li class="memberCard leaderCard" style="background-color: {{ gameFrom.color }}">
+                {{ leaderPseudo }}
+                <span style="text-align:center; color:#ffe039;"><i class="fa-solid fa-crown"></i></span>
+            </li>
+            
+
+            {% set indexMember = 0 %}
+            {% for member in members %}
+        
+                {% if member != group.leader %}
                 
-        {% endfor %}
-        </ul>
+                    {# Leader Card #}
+                    {% if member == app.user %}
+                        {% set memberPseudo = "Vous" %}
+                    {% else %}
+                        {% set memberPseudo = member.pseudo %}
+                    {% endif %}
+                    
+                    <li class="memberCard" style="background-color: {{ gameFrom.color }}">{{ memberPseudo }}
+                    {% if app.user == group.leader and app.user != member %}    
+                        <span class="kickMemberBtn" onclick="kickMemberModal{{indexMember}}.showModal()">
+                            <i class="fa-solid fa-user-xmark"></i>
+                        </span> 
+
+                        <dialog class="modalDialog" id="kickMemberModal{{indexMember}}">
+                            <p>Êtes-vous sûr de vouloir éjecter {{ member.pseudo }} de la team ?</p>
+                            <a class="confirmModal" href="{{ path('app_kickGroupMember',{'memberId': member.id, 'groupId': group.id, 'type':"normal"}) }}">Oui</a>
+                            <a class="confirmModal" href="{{ path('app_kickGroupMember',{'memberId': member.id, 'groupId': group.id, 'type':"blacklisted"}) }}">Oui et blacklister</a>
+                            <span class="cancelModal" onclick="kickMemberModal{{indexMember}}.close()">Annuler</span>
+                        </dialog>
+
+                    {% endif %}
+                    </li>
+                
+                {% endif %}
+
+                {% set indexMember = indexMember + 1 %}
+                    
+            {% endfor %}
+            </ul>
+
+        </div>
+
+
+
+
 
         {# Emplacements de membre vides #}
         <span id="nbrPlacesGroup" hidden>{{ group.nbrPlaces }}</span>
@@ -146,7 +160,7 @@
             }
         </script>
 
-        <br><br>
+
 
         {% if app.user in group.members %}
 
@@ -181,275 +195,295 @@
                 {% endif %}
 
 
+                <div class="sectionContainer" style="border: 1px solid {{ gameFrom.color }}50; border-top:2px solid {{ gameFrom.color }}; border-left:1px solid {{ gameFrom.color }};">
 
-                <div>
-                    <div class="gameInfosSubTitleBgParam" style="background-color: {{ gameFrom.color }}"></div>
-                    <h3 class="gameSubTitle noMarginBottom"><i class="fa-solid fa-users-gear"></i> Paramètres</h3>
-                </div>
+                    <div>
+                        <div class="gameInfosSubTitleBgParam" style="background-color: {{ gameFrom.color }}"></div>
+                        <h3 class="gameSubTitle noMarginBottom"><i class="fa-solid fa-users-gear"></i> Paramètres</h3>
+                    </div>
 
-                {# Leader: Passer le lead #}
-                {% if members|length > 1 %}
-                <p style="margin-top:15px; width:auto;">Passer le lead</p>
-                <div class="passLeadLine" style="display:inline-flex; width:100%;">
-                    <form id="switchTeamLeader" action="{{ path('app_switchTeamLeader',{ 'groupId':group.id }) }}" method="post" style="display:inline-flex;">
-                        <select id="memberLeadSelect" class="form-select" name="memberId" style="font-family: 'K2D', sans serif;">
-                            <option id="voidSelect" value="">-- Choisir</option>
-                            {% for member in group.members %}
-                                {% if member != app.user %}
-                                    <option value="{{member.id}}">{{member.pseudo}}</option>
+                    <div class="sectionContent sectionTeamParam">
+
+                        <div style="margin-right:35px; border-right:1px solid {{ gameFrom.color }}70">
+                            {# Leader: Passer le lead #}
+                            {% if members|length > 1 %}
+                                <p style="margin-top:15px; width:auto;">Passer le lead</p>
+                                <div class="passLeadLine" style="display:inline-flex; width:100%;">
+                                    <form id="switchTeamLeader" action="{{ path('app_switchTeamLeader',{ 'groupId':group.id }) }}" method="post" style="display:inline-flex;">
+                                        <select id="memberLeadSelect" class="form-select" name="memberId" style="font-family: 'K2D', sans serif;">
+                                            <option id="voidSelect" value="">-- Choisir</option>
+                                            {% for member in group.members %}
+                                                {% if member != app.user %}
+                                                    <option value="{{member.id}}">{{member.pseudo}}</option>
+                                                {% endif %}
+                                            {% endfor %}
+                                        </select>
+                                        <input id="memberLeadSubmit" type="submit" value="Valider" class="btn btn-primary" style="background-color:{{ gameFrom.color }}" disabled> 
+                                    </form>
+                                </div>
+                                {% else %}
+                                <p style="margin-top:15px; width:auto;">Passer le lead</p>
+                                <div class="passLeadLine" style="display:inline-flex; width:100%; opacity:0.5;">
+                                    <form id="switchTeamLeader" style="display:inline-flex;">
+                                        <select disabled id="memberLeadSelect" class="form-select" name="memberId" style="font-style:italic; color:grey; font-family: 'K2D', sans serif;">
+                                            <option id="voidSelect" style="" value="">Aucun membre</option>
+                                        </select>
+                                        <input id="memberLeadSubmit" type="submit" value="Valider" class="btn btn-primary" style="background-color:grey" disabled> 
+                                    </form>
+                                </div>
                                 {% endif %}
-                            {% endfor %}
-                        </select>
-                        <input id="memberLeadSubmit" type="submit" value="Valider" class="btn btn-primary" style="background-color:{{ gameFrom.color }}" disabled> 
-                    </form>
+                                
+                                
+                                <script>    
+                                    document.getElementById("memberLeadSelect").addEventListener("change", function() {
+                                        if (document.getElementById("voidSelect").selected) {
+                                            document.getElementById("memberLeadSubmit").disabled = true;
+                                        }
+                                        else {
+                                            document.getElementById("memberLeadSubmit").disabled = false;
+                                        }
+                                    })
+                                </script>
+
+                                {# Bouton liste blacklistedUsers #}
+                                {% if group.blacklistedUsers|length > 0 %}
+                                    <a href="{{ path('app_groupBlacklist',{'groupId': group.id}) }}">
+                                        <div class="blacklistBtn">
+                                            <i class="fa-solid fa-users-slash"></i>
+                                            <span>Blacklist ({{ blacklistedNbr }})</span>
+                                        </div>
+                                    </a>
+                                {% else %}
+                                    <div class="blacklistBtn" style="border-color: grey; opacity:0.7; border-width:1px; cursor:default;">
+                                        <i class="fa-solid fa-users-slash"></i>
+                                        <span>Blacklist ({{ blacklistedNbr }})</span>
+                                    </div>
+                                {% endif %}
+
+                            </div>
+
+
+                            <div>
+                                <p style="margin-top:15px; width:auto;">Options</p>
+                                <div class="togglesContainer">
+
+                                    {# Asynch toggleGroupVisibility #}
+                                    <div style="display:inline-flex;">
+                                        <p style="margin-right: 15px;">Privé</p>
+                                        <form id="toggleGroupVisibilityForm" action="{{ path('app_toggleGroupVisibility',{ 'groupId':group.id }) }}" method="post">
+                                            <label class="toggleAutoPlay">
+                                                <input type="checkbox" {{ visibilityState }} name="autoPlay" id="toggleVisi">
+                                                <span class="slider"></span>
+                                            </label>
+                                        </form>
+                                        <p style="margin-left: 15px;">Public</p>
+                                    </div>
+
+                                    <script>
+                                        document.getElementById('toggleGroupVisibilityForm').addEventListener('change', function(event) {
+                                            
+                                            event.preventDefault(); // Empêche la soumission normale du formulaire
+
+                                            const groupId = parseInt(document.getElementById("groupId").textContent);
+                                            fetch('/toggleGroupVisibility/' + groupId, {
+                                            method: 'POST',
+                                            headers: {
+                                                'Content-Type': 'application/json'
+                                            }})
+                                            .then(response => response.json())
+                                            .then(data => {
+                                                if (data.success) {
+                                                    document.querySelector('#ajaxFlash').textContent = data.newState;
+                                                    document.querySelector('#ajaxFlash').classList.add("ajaxFlashAnim", "successAjaxFlash");
+                                                    
+                                                } else {
+                                                    document.querySelector('#ajaxFlash').textContent = "Vous devez être le leader du groupe pour changer sa visibilité";
+                                                    document.querySelector('#ajaxFlash').classList.add("ajaxFlashAnim", "errorAjaxFlash");
+                                                }
+                                            });
+                                        });
+                                    </script>
+
+                                    {# Asynch toggleRestriction18 #}
+                                    <div style="display:inline-flex;">
+                                        <p style="margin-right:15px;">Majorité obligatoire</p>
+                                        <form id="toggleGroupRestriction18Form" action="{{ path('app_toggleGroupRestriction18',{ 'groupId':group.id }) }}" method="post">
+                                            <label class="toggleAutoPlay">
+                                                <input type="checkbox" {{ restriction18State }} name="autoPlay" id="toggleVisi">
+                                                <span class="slider"></span>
+                                            </label>
+                                        </form>
+                                    </div>
+
+                                    <script>
+                                        document.getElementById('toggleGroupRestriction18Form').addEventListener('change', function(event) {
+                                            
+                                            event.preventDefault(); // Empêche la soumission normale du formulaire
+
+                                            const groupId = parseInt(document.getElementById("groupId").textContent);
+                                            fetch('/toggleGroupRestriction18/' + groupId, {
+                                            method: 'POST',
+                                            headers: {
+                                                'Content-Type': 'application/json'
+                                            }})
+                                            .then(response => response.json())
+                                            .then(data => {
+                                                if (data.success) {
+                                                    document.querySelector('#ajaxFlash').textContent = data.newState;
+                                                    document.querySelector('#ajaxFlash').classList.add("ajaxFlashAnim", "successAjaxFlash");
+                                                } else {
+                                                    document.querySelector('#ajaxFlash').textContent = "Vous devez être le leader du groupe pour changer ce critère";
+                                                    document.querySelector('#ajaxFlash').classList.add("ajaxFlashAnim", "errorAjaxFlash");
+                                                }
+                                            });
+                                        });
+                                    </script>
+
+                                    {# Asynch toggleRestrictionMic #}
+                                    <div style="display:inline-flex;">
+                                        <p style="margin-right:15px;">Micro obligatoire</p>
+                                        <form id="toggleGroupRestrictionMicForm" action="{{ path('app_toggleGroupRestrictionMic',{ 'groupId':group.id }) }}" method="post">
+                                            <label class="toggleAutoPlay">
+                                                <input type="checkbox" {{ restrictionMicState }} name="autoPlay" id="toggleVisi">
+                                                <span class="slider"></span>
+                                            </label>
+                                        </form>
+                                    </div>
+
+                                    <script>
+                                        document.getElementById('toggleGroupRestrictionMicForm').addEventListener('change', function(event) {
+                                            
+                                            event.preventDefault(); // Empêche la soumission normale du formulaire
+
+                                            const groupId = parseInt(document.getElementById("groupId").textContent);
+                                            fetch('/toggleGroupRestrictionMic/' + groupId, {
+                                            method: 'POST',
+                                            headers: {
+                                                'Content-Type': 'application/json'
+                                            }})
+                                            .then(response => response.json())
+                                            .then(data => {
+                                                if (data.success) {
+                                                    document.querySelector('#ajaxFlash').textContent = data.newState;
+                                                    document.querySelector('#ajaxFlash').classList.add("ajaxFlashAnim", "successAjaxFlash");
+                                                } else {
+                                                    document.querySelector('#ajaxFlash').textContent = "Vous devez être le leader du groupe pour changer ce critère";
+                                                    document.querySelector('#ajaxFlash').classList.add("ajaxFlashAnim", "errorAjaxFlash");
+                                                }
+                                            });
+                                        });
+                                    </script>
+
+                                    {# Asynch toggleRestrictionImgProof (Autoriser l'upload d'une image pour prouver un Lvl par exemple, à accompagner d'une description du screen attendu) #}
+                                    <div style="display:inline-flex;">
+                                        <p style="margin-right:15px;">Autoriser pièce jointe</p>
+                                        <form id="toggleRestrictionImgProof" action="{{ path('app_toggleRestrictionImgProof',{ 'groupId':group.id }) }}" method="post">
+                                            <label class="toggleAutoPlay">
+                                                <input type="checkbox" {{ restrictionImgProofState }} name="autoPlay" id="toggleVisi">
+                                                <span class="slider"></span>
+                                            </label>
+                                        </form>
+                                    </div>
+
+                                    <script>
+                                        document.getElementById('toggleRestrictionImgProof').addEventListener('change', function(event) {
+                                            
+                                            event.preventDefault(); // Empêche la soumission normale du formulaire
+
+                                            const groupId = parseInt(document.getElementById("groupId").textContent);
+                                            fetch('/toggleRestrictionImgProof/' + groupId, {
+                                            method: 'POST',
+                                            headers: {
+                                                'Content-Type': 'application/json'
+                                            }})
+                                            .then(response => response.json())
+                                            .then(data => {
+                                                if (data.success) {
+                                                    document.querySelector('#ajaxFlash').textContent = data.newState;
+                                                    document.querySelector('#ajaxFlash').classList.add("ajaxFlashAnim", "successAjaxFlash");
+                                                } else {
+                                                    document.querySelector('#ajaxFlash').textContent = "Vous devez être le leader du groupe pour changer ce critère";
+                                                    document.querySelector('#ajaxFlash').classList.add("ajaxFlashAnim", "errorAjaxFlash");
+                                                }
+                                            });
+                                        });
+                                    </script>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
                 </div>
-                {% else %}
-                <p style="margin-top:15px; width:auto;">Passer le lead</p>
-                <div class="passLeadLine" style="display:inline-flex; width:100%; opacity:0.5;">
-                    <form id="switchTeamLeader" style="display:inline-flex;">
-                        <select disabled id="memberLeadSelect" class="form-select" name="memberId" style="font-style:italic; color:grey; font-family: 'K2D', sans serif;">
-                            <option id="voidSelect" style="" value="">Aucun membre</option>
-                        </select>
-                        <input id="memberLeadSubmit" type="submit" value="Valider" class="btn btn-primary" style="background-color:grey" disabled> 
-                    </form>
-                </div>
-                {% endif %}
-                
-                
-                <script>    
-                    document.getElementById("memberLeadSelect").addEventListener("change", function() {
-                        if (document.getElementById("voidSelect").selected) {
-                            document.getElementById("memberLeadSubmit").disabled = true;
-                        }
-                        else {
-                            document.getElementById("memberLeadSubmit").disabled = false;
-                        }
-                    })
 
-                </script>
 
-                <br>
-
-                <p style="margin-top:15px; width:auto;">Options</p>
-                <div class="togglesContainer">
-
-                    {# Asynch toggleGroupVisibility #}
-                    <div style="display:inline-flex;">
-                        <p style="margin-right: 15px;">Privé</p>
-                        <form id="toggleGroupVisibilityForm" action="{{ path('app_toggleGroupVisibility',{ 'groupId':group.id }) }}" method="post">
-                            <label class="toggleAutoPlay">
-                                <input type="checkbox" {{ visibilityState }} name="autoPlay" id="toggleVisi">
-                                <span class="slider"></span>
-                            </label>
-                        </form>
-                        <p style="margin-left: 15px;">Public</p>
-                    </div>
-
-                    <script>
-                        document.getElementById('toggleGroupVisibilityForm').addEventListener('change', function(event) {
-                            
-                            event.preventDefault(); // Empêche la soumission normale du formulaire
-
-                            const groupId = parseInt(document.getElementById("groupId").textContent);
-                            fetch('/toggleGroupVisibility/' + groupId, {
-                            method: 'POST',
-                            headers: {
-                                'Content-Type': 'application/json'
-                            }})
-                            .then(response => response.json())
-                            .then(data => {
-                                if (data.success) {
-                                    document.querySelector('#ajaxFlash').textContent = data.newState;
-                                    document.querySelector('#ajaxFlash').classList.add("ajaxFlashAnim", "successAjaxFlash");
-                                    
-                                } else {
-                                    document.querySelector('#ajaxFlash').textContent = "Vous devez être le leader du groupe pour changer sa visibilité";
-                                    document.querySelector('#ajaxFlash').classList.add("ajaxFlashAnim", "errorAjaxFlash");
-                                }
-                            });
-                        });
-                    </script>
-
-                    {# Asynch toggleRestriction18 #}
-                    <div style="display:inline-flex;">
-                        <p style="margin-right:15px;">Majorité obligatoire</p>
-                        <form id="toggleGroupRestriction18Form" action="{{ path('app_toggleGroupRestriction18',{ 'groupId':group.id }) }}" method="post">
-                            <label class="toggleAutoPlay">
-                                <input type="checkbox" {{ restriction18State }} name="autoPlay" id="toggleVisi">
-                                <span class="slider"></span>
-                            </label>
-                        </form>
-                    </div>
-
-                    <script>
-                        document.getElementById('toggleGroupRestriction18Form').addEventListener('change', function(event) {
-                            
-                            event.preventDefault(); // Empêche la soumission normale du formulaire
-
-                            const groupId = parseInt(document.getElementById("groupId").textContent);
-                            fetch('/toggleGroupRestriction18/' + groupId, {
-                            method: 'POST',
-                            headers: {
-                                'Content-Type': 'application/json'
-                            }})
-                            .then(response => response.json())
-                            .then(data => {
-                                if (data.success) {
-                                    document.querySelector('#ajaxFlash').textContent = data.newState;
-                                    document.querySelector('#ajaxFlash').classList.add("ajaxFlashAnim", "successAjaxFlash");
-                                } else {
-                                    document.querySelector('#ajaxFlash').textContent = "Vous devez être le leader du groupe pour changer ce critère";
-                                    document.querySelector('#ajaxFlash').classList.add("ajaxFlashAnim", "errorAjaxFlash");
-                                }
-                            });
-                        });
-                    </script>
-
-                    {# Asynch toggleRestrictionMic #}
-                    <div style="display:inline-flex;">
-                        <p style="margin-right:15px;">Micro obligatoire</p>
-                        <form id="toggleGroupRestrictionMicForm" action="{{ path('app_toggleGroupRestrictionMic',{ 'groupId':group.id }) }}" method="post">
-                            <label class="toggleAutoPlay">
-                                <input type="checkbox" {{ restrictionMicState }} name="autoPlay" id="toggleVisi">
-                                <span class="slider"></span>
-                            </label>
-                        </form>
-                    </div>
-
-                    <script>
-                        document.getElementById('toggleGroupRestrictionMicForm').addEventListener('change', function(event) {
-                            
-                            event.preventDefault(); // Empêche la soumission normale du formulaire
-
-                            const groupId = parseInt(document.getElementById("groupId").textContent);
-                            fetch('/toggleGroupRestrictionMic/' + groupId, {
-                            method: 'POST',
-                            headers: {
-                                'Content-Type': 'application/json'
-                            }})
-                            .then(response => response.json())
-                            .then(data => {
-                                if (data.success) {
-                                    document.querySelector('#ajaxFlash').textContent = data.newState;
-                                    document.querySelector('#ajaxFlash').classList.add("ajaxFlashAnim", "successAjaxFlash");
-                                } else {
-                                    document.querySelector('#ajaxFlash').textContent = "Vous devez être le leader du groupe pour changer ce critère";
-                                    document.querySelector('#ajaxFlash').classList.add("ajaxFlashAnim", "errorAjaxFlash");
-                                }
-                            });
-                        });
-                    </script>
-
-                    {# Asynch toggleRestrictionImgProof (Autoriser l'upload d'une image pour prouver un Lvl par exemple, à accompagner d'une description du screen attendu) #}
-                    <div style="display:inline-flex;">
-                        <p style="margin-right:15px;">Autoriser pièce jointe</p>
-                        <form id="toggleRestrictionImgProof" action="{{ path('app_toggleRestrictionImgProof',{ 'groupId':group.id }) }}" method="post">
-                            <label class="toggleAutoPlay">
-                                <input type="checkbox" {{ restrictionImgProofState }} name="autoPlay" id="toggleVisi">
-                                <span class="slider"></span>
-                            </label>
-                        </form>
-                    </div>
-
-                    <script>
-                        document.getElementById('toggleRestrictionImgProof').addEventListener('change', function(event) {
-                            
-                            event.preventDefault(); // Empêche la soumission normale du formulaire
-
-                            const groupId = parseInt(document.getElementById("groupId").textContent);
-                            fetch('/toggleRestrictionImgProof/' + groupId, {
-                            method: 'POST',
-                            headers: {
-                                'Content-Type': 'application/json'
-                            }})
-                            .then(response => response.json())
-                            .then(data => {
-                                if (data.success) {
-                                    document.querySelector('#ajaxFlash').textContent = data.newState;
-                                    document.querySelector('#ajaxFlash').classList.add("ajaxFlashAnim", "successAjaxFlash");
-                                } else {
-                                    document.querySelector('#ajaxFlash').textContent = "Vous devez être le leader du groupe pour changer ce critère";
-                                    document.querySelector('#ajaxFlash').classList.add("ajaxFlashAnim", "errorAjaxFlash");
-                                }
-                            });
-                        });
-                    </script>
-
-                </div>
 
                 {# Customisation des candidature #}
-                <div>
-                    <div class="gameInfosSubTitleBg" style="background-color: {{ gameFrom.color }}"></div>
-                    <h3 class="gameSubTitle noMarginBottom"><i class="fa-solid fa-clipboard-user"></i> Candidature</h3>
-                </div>
+                <div class="sectionContainer" style="border: 1px solid {{ gameFrom.color }}50; border-top:2px solid {{ gameFrom.color }}; border-left:1px solid {{ gameFrom.color }};">
+                    
+                    <div>
+                        <div class="gameInfosSubTitleBg" style="background-color: {{ gameFrom.color }}"></div>
+                        <h3 class="gameSubTitle noMarginBottom"><i class="fa-solid fa-clipboard-user"></i> Candidature</h3>
+                    </div>
 
-                {% if candidatureCount == 0 %}
-                    <span class="candidaturesListBtn" style="border-color: grey; opacity:0.7; border-width:1px; cursor:default;"><i class="fa-regular fa-clock"></i> En attente ({{ candidatureCount }})</span>
-                {% else %}
-                    <a href="{{ path('app_candidatureList',{'groupId':group.id}) }}" class="candidaturesListBtn" style="border-color: {{ gameFrom.color }}", onmouseover="this.style.backgroundColor = '{{ gameFrom.color }}';" onmouseout="this.style.backgroundColor = 'rgb(56 56 56)';"><i class="fa-regular fa-clock"></i> En attente <span class="bulleWaitingCandidature" style="background-color:{{gameFrom.color}}">{{ candidatureCount }}</span></a>
-                {% endif %}
-                
-                <h5>Message de l'offre</h5>
-                <p style="font-family:'K2D';">{{ group.candidatureDescription|capitalize }}</p>
+                    <div class="sectionContent">
 
-                <h5>Questions posés</h5> 
-                {# Liste des questions #}
-                <div class="questionsContainer">
-                {% for question in questions %}
-                    <div class="questionLineList">
-                        <div style="display:inline-flex; line-height:0;">
-                            <p>{{ question.text }}</p>
-                            {% if question.required %}
-                                <span class="requiredStar"><i class="fa-solid fa-star-of-life"></i></span>
+                        {% if candidatureCount == 0 %}
+                            <span class="candidaturesListBtn" style="border-color: grey; opacity:0.7; border-width:1px; cursor:default;"><i class="fa-regular fa-clock"></i> En attente ({{ candidatureCount }})</span>
+                        {% else %}
+                            <a href="{{ path('app_candidatureList',{'groupId':group.id}) }}" class="candidaturesListBtn" style="border-color: {{ gameFrom.color }}", onmouseover="this.style.backgroundColor = '{{ gameFrom.color }}';" onmouseout="this.style.backgroundColor = 'rgb(56 56 56)';"><i class="fa-regular fa-clock"></i> En attente <span class="bulleWaitingCandidature" style="background-color:{{gameFrom.color}}">{{ candidatureCount }}</span></a>
+                        {% endif %}
+
+
+                        <div style="padding-top:20px; border-top:1px solid {{ gameFrom.color }}50;">
+                            <h5>Message de l'offre</h5>
+                            <p style="font-family:'K2D';">{{ group.candidatureDescription|capitalize }}</p>
+
+                            <h5>Questions posés</h5> 
+                            {# Liste des questions #}
+                            <div class="questionsContainer">
+                            {% for question in questions %}
+                                <div class="questionLineList">
+                                    <div style="display:inline-flex; line-height:0;">
+                                        <p>{{ question.text }}</p>
+                                        {% if question.required %}
+                                            <span class="requiredStar"><i class="fa-solid fa-star-of-life"></i></span>
+                                        {% endif %}
+                                    </div>
+                                    <a class="deleteQuestion" href="{{ path('app_deleteGroupQuestion',{'groupId': group.id, 'questionId': question.id}) }}" class="deleteQuestionBtn"><i class="fa-solid fa-trash"></i></a>
+                                </div>
+                            {% endfor %}
+                            </div>
+
+                            {# Ajouter une question #}    
+                            {% if questions|length >= 5 %}
+                                <p class="emptyListMsg">Vous avez atteint la limite de question (5/5)</p>
+                            {% else %}
+                                <form id="questionsContainer" action="{{ path('app_addGroupQuestion',{'groupId': group.id}) }}" method="post">
+                                    <div class="inputQuestionLine">
+                                        <i class="fa-solid fa-plus addQuestionIcon" style="color:{{gameFrom.color}}"></i>
+                                        <input type="text" id="questionText" name="questionText" placeholder="Entrez une question de candidature..." class="form-control" required></input>
+                                        <div class="requiredQuestionDiv">
+                                            <label for="required"><span class="requiredStar"><i class="fa-solid fa-star-of-life"></i></span></label>
+                                            <input checked type="checkbox" name="required" value="checked" class="questionRequired form-check-input"></input>
+                                        </div>
+                                    </div>
+                                    <input type="submit" class="btn btn-primary" value="Ajouter"></input>
+                                </form>
                             {% endif %}
                         </div>
-                        <a class="deleteQuestion" href="{{ path('app_deleteGroupQuestion',{'groupId': group.id, 'questionId': question.id}) }}" class="deleteQuestionBtn"><i class="fa-solid fa-trash"></i></a>
-                    </div>
-                {% endfor %}
+                        
+                    {% else %}
+
+                        <p>Membre Standard</p>
+
+                    {% endif %}
+
                 </div>
 
-                {# Ajouter une question #}    
-                {% if questions|length >= 5 %}
-                    <p class="emptyListMsg">Vous avez atteint la limite de question (5/5)</p>
-                {% else %}
-                    <form id="questionsContainer" action="{{ path('app_addGroupQuestion',{'groupId': group.id}) }}" method="post">
-                        <div class="inputQuestionLine">
-                            <i class="fa-solid fa-plus addQuestionIcon" style="color:{{gameFrom.color}}"></i>
-                            <input type="text" id="questionText" name="questionText" placeholder="Entrez une question de candidature..." class="form-control" required></input>
-                            <div class="requiredQuestionDiv">
-                                <label for="required"><span class="requiredStar"><i class="fa-solid fa-star-of-life"></i></span></label>
-                                <input checked type="checkbox" name="required" value="checked" class="questionRequired form-check-input"></input>
-                            </div>
-                        </div>
-                        <input type="submit" class="btn btn-primary" value="Ajouter"></input>
-                    </form>
-                {% endif %}
-                            
-                
+            </div>
 
-                <br>
-                {# Bouton liste blacklistedUsers #}
-                {% if group.blacklistedUsers|length > 0 %}
-                    <a href="{{ path('app_groupBlacklist',{'groupId': group.id}) }}">
-                        <div class="blacklistBtn">
-                            <i class="fa-solid fa-users-slash"></i>
-                            <span>Blacklist ({{ blacklistedNbr }})</span>
-                        </div>
-                    </a>
-                {% else %}
-                    <div class="blacklistBtn" style="border-color: grey; opacity:0.7; border-width:1px; cursor:default;">
-                        <i class="fa-solid fa-users-slash"></i>
-                        <span>Blacklist ({{ blacklistedNbr }})</span>
-                    </div>
-                {% endif %}
-                
-                
-                
-            {% else %}
-
-                <p>Membre Standard</p>
-
-            {% endif %}
 
             {# Quitter le groupe + modal #}
             <span id="leaveGroupBtn" onclick="leaveGroupModal.showModal()">

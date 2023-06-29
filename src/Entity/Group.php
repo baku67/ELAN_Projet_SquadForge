@@ -60,7 +60,7 @@ class Group
     private Collection $groupQuestions;
 
     #[ORM\Column(type: Types::TEXT, nullable: true)]
-    private ?bool $candidature_description = null;
+    private ?string $candidature_description = null;
 
     #[ORM\Column]
     private ?bool $restriction_imgProof = null;
