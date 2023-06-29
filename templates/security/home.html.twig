@@ -200,16 +200,23 @@
 
         {# Masonry JS Medias (permet de rendre responsive entre autre) #}
         <script src="https://unpkg.com/masonry-layout@4/dist/masonry.pkgd.min.js"></script>
+        {# imagesLoaded JS #}
+        <script src="https://unpkg.com/imagesloaded@5/imagesloaded.pkgd.min.js"></script>
+        
         <script>
             $(document).ready(function() {
-                setTimeout(function() {
-                    $('.masonry-grid').masonry({
-                        itemSelector: '.grid-item',
-                        columnWidth: '.grid-item',
-                        gutter: 15, // Adjust the gutter size as needed
-                        percentPosition: true,
-                    });
-                }, 500);
+                var $gridItems = $('.grid-item');
+                
+                $gridItems.imagesLoaded(function() {
+                    setTimeout(function() {
+                        console.log('imagesLoaded');
+                        $('.masonry-grid').masonry({
+                            itemSelector: '.grid-item',
+                            columnWidth: '.grid-item',
+                            gutter: 15, // Adjust the gutter size as needed
+                        });
+                    }, 200) 
+                });
             });
         </script>
 
