@@ -1372,7 +1372,7 @@ cursor: pointer;
     margin: 20px auto;
     justify-content: flex-start;
 }
-.membersList li {
+.membersList a, .membersList li {
     margin: 0 15px;
 }
 
@@ -1389,8 +1389,8 @@ cursor: pointer;
     cursor: pointer;
     color: black;
     font-family: 'K2D', sans-serif;
-    padding: 3px 20px;
-    height: 56px;
+    padding: 5px 20px;
+    height: 58px;
     border-radius: 2px;
     font-size: 1.3em;
 
@@ -1406,6 +1406,29 @@ cursor: pointer;
     /* bottom: 3px; */
     transform: scale(1.5);
     filter: drop-shadow(2px 4px 6px black);
+}
+
+.voidMemberNoClick {
+    /* cursor: pointer; */
+    color: black;
+    font-family: 'K2D', sans-serif;
+    padding: 5px 20px;
+    height: 58px;
+    border-radius: 2px;
+    font-size: 1.4em;
+
+    display: flex;
+    align-items: center;
+}
+.voidMemberNoClick i {
+    position: relative;
+    bottom: 0px;
+    transition: all 0.2s;
+}
+.voidMemberNoClick:hover i {
+    /* bottom: 3px; */
+    /* transform: scale(1.5);
+    filter: drop-shadow(2px 4px 6px black); */
 }
 
 .formAddGroup {

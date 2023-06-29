@@ -122,9 +122,20 @@
                 var membresCount = document.getElementById("membersList").childElementCount;
 
                 for (let index = 0; index < (nbrPlaces - membresCount); index++) {
-                    var voidMember = document.createElement("li");
-                    voidMember.className = "voidMember";
-                    voidMember.innerHTML = "<i class='fa-solid fa-plus'></i>";
+                    {% if app.user in members %}
+                        console.log("test1");
+                        var voidMember = document.createElement("li");
+                        voidMember.className = "voidMemberNoClick";
+                        voidMember.innerHTML = "<i class='fa-regular fa-circle-user'></i>";
+                    {% else %}
+                        console.log("test2");
+                        var voidMember = document.createElement("a");
+                        voidMember.href = "{{ path('app_showCandidatureForm', {'groupId':group.id}) }}";
+                        voidMember.className = "voidMember";
+                        voidMember.innerHTML = "<i class='fa-solid fa-plus'></i>";
+                    {% endif %}
+                    
+                    
                     // voidMember.style.backgroundColor = document.getElementById("groupColor").innerText;
                     voidMember.style.backgroundColor = "#3f3f3f";
                     voidMember.style.color = document.getElementById("groupColor").innerText;
@@ -168,11 +179,15 @@
                     {% set restrictionImgProofState = "" %}
                 {% endif %}
 
+
+
                 <div>
                     <div class="gameInfosSubTitleBgParam" style="background-color: {{ gameFrom.color }}"></div>
                     <h3 class="gameSubTitle noMarginBottom"><i class="fa-solid fa-users-gear"></i> Paramètres</h3>
                 </div>
+
                 {# Leader: Passer le lead #}
+                {% if members|length > 1 %}
                 <p style="margin-top:15px; width:auto;">Passer le lead</p>
                 <div class="passLeadLine" style="display:inline-flex; width:100%;">
                     <form id="switchTeamLeader" action="{{ path('app_switchTeamLeader',{ 'groupId':group.id }) }}" method="post" style="display:inline-flex;">
@@ -187,7 +202,19 @@
                         <input id="memberLeadSubmit" type="submit" value="Valider" class="btn btn-primary" style="background-color:{{ gameFrom.color }}" disabled> 
                     </form>
                 </div>
-
+                {% else %}
+                <p style="margin-top:15px; width:auto;">Passer le lead</p>
+                <div class="passLeadLine" style="display:inline-flex; width:100%; opacity:0.5;">
+                    <form id="switchTeamLeader" style="display:inline-flex;">
+                        <select disabled id="memberLeadSelect" class="form-select" name="memberId" style="font-family: 'K2D', sans serif;">
+                            <option id="voidSelect" value="">-- Choisir</option>
+                        </select>
+                        <input id="memberLeadSubmit" type="submit" value="Valider" class="btn btn-primary" style="background-color:grey" disabled> 
+                    </form>
+                </div>
+                {% endif %}
+                
+                
                 <script>    
                     document.getElementById("memberLeadSelect").addEventListener("change", function() {
                         if (document.getElementById("voidSelect").selected) {
