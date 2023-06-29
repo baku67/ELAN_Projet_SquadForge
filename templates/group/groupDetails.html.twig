@@ -206,8 +206,8 @@
                 <p style="margin-top:15px; width:auto;">Passer le lead</p>
                 <div class="passLeadLine" style="display:inline-flex; width:100%; opacity:0.5;">
                     <form id="switchTeamLeader" style="display:inline-flex;">
-                        <select disabled id="memberLeadSelect" class="form-select" name="memberId" style="font-family: 'K2D', sans serif;">
-                            <option id="voidSelect" value="">-- Choisir</option>
+                        <select disabled id="memberLeadSelect" class="form-select" name="memberId" style="font-style:italic; color:grey; font-family: 'K2D', sans serif;">
+                            <option id="voidSelect" style="" value="">Aucun membre</option>
                         </select>
                         <input id="memberLeadSubmit" type="submit" value="Valider" class="btn btn-primary" style="background-color:grey" disabled> 
                     </form>
@@ -414,7 +414,7 @@
                     <form id="questionsContainer" action="{{ path('app_addGroupQuestion',{'groupId': group.id}) }}" method="post">
                         <div class="inputQuestionLine">
                             <i class="fa-solid fa-plus addQuestionIcon" style="color:{{gameFrom.color}}"></i>
-                            <input type="text" id="questionText" name="questionText" placeholder="Entrez une question de candidature..." class="form-control"></input>
+                            <input type="text" id="questionText" name="questionText" placeholder="Entrez une question de candidature..." class="form-control" required></input>
                             <div class="requiredQuestionDiv">
                                 <label for="required"><span class="requiredStar"><i class="fa-solid fa-star-of-life"></i></span></label>
                                 <input checked type="checkbox" name="required" value="checked" class="questionRequired form-check-input"></input>
@@ -458,10 +458,14 @@
                 </div>
             </span>
 
-            <dialog id="leaveGroupModal">
+            <dialog class="modalDialog" id="leaveGroupModal">
+                {# Si lastMember: warning team delete #}
                 <p>Êtes-vous sûr de vouloir quitter la team ?</p>
-                <a href="{{ path('app_leaveGroup', {'groupId': group.id} )}}">Oui</a>
-                <span onclick="leaveGroupModal.close()">Annuler</span>
+                {% if members|length == 1 %}
+                <p><i class="fa-solid fa-circle-exclamation"></i> &nbsp; La team sera supprimée</p>
+                {% endif %}
+                <a class="confirmModal" href="{{ path('app_leaveGroup', {'groupId': group.id} )}}">Oui</a>
+                <span class="cancelModal" onclick="leaveGroupModal.close()">Annuler</span>
             </dialog>
             
         {% else %}
@@ -473,9 +477,7 @@
                 <a href="{{ path('app_cancelCandidature',{'candidatureId':candidature.id}) }}">Annuler</a>
             {% else %}
                 {% if app.user in group.blacklistedUsers %}
-                        <span style="color: grey;">Candidater</span>
-                        <br>
-                        <span class="emptyListMsg">(Vous ne pouvez plus candidater)</span>
+                        <span class="emptyListMsg">Vous ne pouvez plus candidater</span>
                 {% else %}   
                     {% if group.members|length == group.NbrPlaces %}
                         <p class="emptyListMsg">Le groupe est plein, vous ne pouvez pas candidater pour l'instant</p>

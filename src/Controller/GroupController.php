@@ -226,11 +226,12 @@ class GroupController extends AbstractController
                 $modoNotifCount = null;
             }
 
-            
-            // Vérif si groupe public (todo)
-            if ($group->getStatus() == "public") {
+            $members = $group->getMembers();
+
+            // Vérif si groupe public OU privé mais user=membre
+            if (($group->getStatus() == "public") || ($group->getStatus() == "hidden" && $members->contains($this->getUser()) )) {
                 $game = $group->getGame();
-                $members = $group->getMembers();
+                
                 $questions = $group->getGroupQuestions();
                 $candidatureCount = count($group->getCandidatures());
 
@@ -258,9 +259,10 @@ class GroupController extends AbstractController
                     'blacklistedNbr' => $blacklistedNbr,
                 ]);
             }
+            // Si privé mais que user=memebre
             else {
                 $this->addFlash('error', 'La team n\'est pas publique');
-                return $this->redirectToRoute('app_groupList', ['gameIdFrom' => $game->getId()]);
+                return $this->redirectToRoute('app_groupList', ['gameIdFrom' => $group->getGame()->getId()]);
             }
         }
         else {
@@ -633,34 +635,42 @@ class GroupController extends AbstractController
 
             $groupQuestion = new GroupQuestion;
 
-            // check si user = leader 
-            if ($group->getLeader() == $this->getUser() ) {
-    
-                if( !is_null($request->request->get('questionText')) ) {
-                    $groupQuestion->setText($request->request->get('questionText'));
-                    $groupQuestion->setGroupe($group);
-    
-                    if($request->request->get('required') == "checked") {
-                        $groupQuestion->setRequired(true);
+            // Si Question vide (ou < nbrChar ?)
+            if(strlen($request->request->get('questionText')) > 1) {
+
+                // check si user = leader 
+                if ($group->getLeader() == $this->getUser() ) {
+        
+                    if( !is_null($request->request->get('questionText')) ) {
+                        $groupQuestion->setText($request->request->get('questionText'));
+                        $groupQuestion->setGroupe($group);
+        
+                        if($request->request->get('required') == "checked") {
+                            $groupQuestion->setRequired(true);
+                        }
+                        else {
+                            $groupQuestion->setRequired(false);
+                        }
+        
+                        $entityManager->persist($groupQuestion);
+                        $entityManager->flush();
+        
+                        $this->addFlash('success', 'La question a été ajouté');
+                        return $this->redirectToRoute('app_groupDetails', ['groupId' => $groupId]);
                     }
                     else {
-                        $groupQuestion->setRequired(false);
+                        $this->addFlash('error', 'Vous devez entrer une question');
+                        return $this->redirectToRoute('app_groupDetails', ['groupId' => $groupId]); 
                     }
-    
-                    $entityManager->persist($groupQuestion);
-                    $entityManager->flush();
-    
-                    $this->addFlash('success', 'La question a été ajouté');
-                    return $this->redirectToRoute('app_groupDetails', ['groupId' => $groupId]);
+                    
                 }
                 else {
-                    $this->addFlash('error', 'Vous devez entrer une question');
+                    $this->addFlash('error', 'Vous devez être leader du groupe pour ajouter une question');
                     return $this->redirectToRoute('app_groupDetails', ['groupId' => $groupId]); 
                 }
-                
             }
             else {
-                $this->addFlash('error', 'Vous devez être leader du groupe pour ajouter une question');
+                $this->addFlash('error', 'La question ne peut être vide');
                 return $this->redirectToRoute('app_groupDetails', ['groupId' => $groupId]); 
             }
     

@@ -756,6 +756,7 @@ nav {
     display: flex;
     font-size: 1.3em;
     padding: 0 10px;
+    opacity: 0.9;
 }
 
 .requiredQuestionDiv {
@@ -1460,7 +1461,20 @@ cursor: pointer;
 
 .deleteQuestion {
     position: absolute;
-    right: 15px;
+    right: 1px;
+    bottom: 1px;
+    padding: 10px 20px;
+    border-radius: 3px;
+    transition: all 0.4s;
+}
+.deleteQuestion  i {
+    transition: all 0.4s;
+}
+.deleteQuestion:hover {
+    background-color: grey;
+}
+.deleteQuestion:hover i {
+    color: rgb(255, 255, 255);
 }
 
 .questionsContainer {
