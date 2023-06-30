@@ -47,13 +47,18 @@
     <div class="main">
 
         {# Test Image Background BRUT #}
-        <div class="gameHeaderInfos gameSubImgBg" style="background-image: radial-gradient(circle, rgba(255,255,255,0) 0%, rgba(35,35,35,0.995) 69%), url('{{asset("img/games/headerBackground/" ~ game.subBanner)}}'); padding:20px;">
+        <div class="gameHeaderInfos gameSubImgBg" style="background-image: radial-gradient(circle, rgba(255,255,255,0) 0%, rgba(35,35,35,0.995) 69%), url('{{asset("img/games/headerBackground/" ~ game.subBanner)}}'); border-top: 2px solid {{ game.color }};">
+
+            <div class="gameTitle" style="position:absolute; color:white;">
+                <h2 style="text-shadow: -1px -1px 0 {{ game.color }}, 1px -1px 0 {{ game.color }}, -1px 1px 0 {{ game.color }}, 1px 1px 0 {{ game.color }};">{{ game.title }}</h2>
+            </div>
+
 
             {# Infos du jeu et Btn Favoris #}
-            <div class="marginTop marginBottom" style="display:inline-flex; width:100%; justify-content:space-between;">
+            <div class="marginBottom" style="display:inline-flex; width:100%; justify-content:space-between;">
 
                 <div>
-                    <div class="gameInfosSubTitleBg" style="background-color:{{ game.color }};"></div>
+                    <div class="gameInfosHeaderTitle" style="background-color:{{ game.color }};"></div>
                     <h3 class="gameSubTitle noMarginBottom">Infos</h3>
                 </div>
 
@@ -70,36 +75,40 @@
 
             </div>
 
-            {# GameId et GameColor pour fav asynch (plutot que dans controller ?) #}
-            <span id="gameId" style="display:none;">{{ game.id }}</span>
-            <span id="gameColor" style="display:none;">{{ game.color }}</span>
+            <div style="padding:25px;">
 
-            {# Infos #}
-            <div style="font-family:'K2D', sans-serif;">
-                <p>Éditeur: {{ game.editor }}</p>
-                <p>{{ game.publishDate|date('Y') }}</p>
-                <p>Genre: <a class="underlineLink" href="{{ path('app_genreGames', {'id': game.genre.id }) }}">{{ gameGenre }}</a></p>
-            </div>
+                {# GameId et GameColor pour fav asynch (plutot que dans controller ?) #}
+                <span id="gameId" style="display:none;">{{ game.id }}</span>
+                <span id="gameColor" style="display:none;">{{ game.color }}</span>
 
-            {# Form Notation (Ajax) #}
-            <div class="gameNotationDiv">
-                <div class="rate">
-                    <input type="radio" id="star5" name="rate" value="5"/>
-                    <label class="starLabel" for="star5" title="text">5 stars</label>
-                    <input type="radio" id="star4" name="rate" value="4" />
-                    <label class="starLabel" for="star4" title="text">4 stars</label>
-                    <input type="radio" id="star3" name="rate" value="3" />
-                    <label class="starLabel" for="star3" title="text">3 stars</label>
-                    <input type="radio" id="star2" name="rate" value="2" />
-                    <label class="starLabel" for="star2" title="text">2 stars</label>
-                    <input type="radio" id="star1" name="rate" value="1" />
-                    <label class="starLabel" for="star1" title="text">1 star</label>
+                {# Infos #}
+                <div style="font-family:'K2D', sans-serif;">
+                    <p>Éditeur: {{ game.editor }}</p>
+                    <p>{{ game.publishDate|date('Y') }}</p>
+                    <p>Genre: <a class="underlineLink" href="{{ path('app_genreGames', {'id': game.genre.id }) }}">{{ gameGenre }}</a></p>
                 </div>
-                {% if nbrOfNotations > 1 %}
-                    <p class="gameNotationLine">Moy: <span id="gameRatingMoyValue">{{ averageRating }}</span>/5  (<span id="gameRatingNbrValue">{{ nbrOfNotations }}</span> votes)</p>
-                {% else %}
-                    <p class="gameNotationLine">Moy: <span id="gameRatingMoyValue">{{ averageRating }}</span>/5  (<span id="gameRatingNbrValue">{{ nbrOfNotations }}</span> vote)</p>
-                {% endif %}
+
+                {# Form Notation (Ajax) #}
+                <div class="gameNotationDiv">
+                    <div class="rate">
+                        <input type="radio" id="star5" name="rate" value="5"/>
+                        <label class="starLabel" for="star5" title="text">5 stars</label>
+                        <input type="radio" id="star4" name="rate" value="4" />
+                        <label class="starLabel" for="star4" title="text">4 stars</label>
+                        <input type="radio" id="star3" name="rate" value="3" />
+                        <label class="starLabel" for="star3" title="text">3 stars</label>
+                        <input type="radio" id="star2" name="rate" value="2" />
+                        <label class="starLabel" for="star2" title="text">2 stars</label>
+                        <input type="radio" id="star1" name="rate" value="1" />
+                        <label class="starLabel" for="star1" title="text">1 star</label>
+                    </div>
+                    {% if nbrOfNotations > 1 %}
+                        <p class="gameNotationLine">Moy: <span id="gameRatingMoyValue">{{ averageRating }}</span>/5  (<span id="gameRatingNbrValue">{{ nbrOfNotations }}</span> votes)</p>
+                    {% else %}
+                        <p class="gameNotationLine">Moy: <span id="gameRatingMoyValue">{{ averageRating }}</span>/5  (<span id="gameRatingNbrValue">{{ nbrOfNotations }}</span> vote)</p>
+                    {% endif %}
+                </div>
+
             </div>
 
         </div>

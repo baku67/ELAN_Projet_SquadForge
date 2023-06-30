@@ -210,22 +210,24 @@ nav {
 }
 
 
+
+
 .favButton {
     float: right; /* temporaire */
 
-    padding: 5px 20px 5px 40px;
+    padding: 10px 20px 10px 24px;
     background-color: rgb(255 255 255 / 5%);
     border-top: 1px solid rgb(255 255 255 / 20%);
     border-bottom: 1px solid rgb(255 255 255 / 20%);
     /* clip-path: polygon(14% 0, 100% 0, 86% 100%, 0% 100%); */
-    clip-path: polygon(30% 0, 100% 0, 100% 100%, 0% 100%);
+    clip-path: polygon(0% 0, 100% 0, 100% 100%, 20% 100%);
 
 }
 .favIcon {
-    font-size: 1.2em;
+    font-size: 2em;
     position: relative;
-    right: 2px;
-    top: 3px;
+    right: -6px;
+    top: 0px;
 }
 
 
@@ -418,6 +420,20 @@ nav {
     }
 }
 
+.gameInfosHeaderTitle {
+    position:absolute; 
+    clip-path: polygon(0 0, 100% 0, 91% 100%, 0 100%);
+    border-top-left-radius: 6px;
+    /* height:35px; 
+    width:130px;  */
+    height: 0px;
+    width: 5px;
+    transform: translateY(-1px);
+    z-index:0;
+
+    animation: gameInfosSubTitleBg1 0.3s 0.1s ease-in-out forwards, gameInfosSubTitleBg2 0.4s 0.45s ease-in-out forwards;
+}
+
 
 .gameInfosSubTitleBgParam {
     position:absolute; 
@@ -427,7 +443,7 @@ nav {
     width:130px;  */
     height: 0px;
     width: 5px;
-    transform: translate(1px, -5px);
+    transform: translate(0px, -5px);
     z-index:0;
 
     animation: gameInfosSubTitleBgParam1 0.3s 0.1s ease-in-out forwards, gameInfosSubTitleBgParam2 0.4s 0.45s ease-in-out forwards;
@@ -457,7 +473,7 @@ nav {
     width:130px;  */
     height: 0px;
     width: 5px;
-    transform: translate(1px, -5px);
+    transform: translate(0px, -5px);
     z-index:0;
 
     animation: gameTopicsSubTitleBg1 0.3s 0.1s ease-in-out forwards, gameTopicsSubTitleBg2 0.4s 0.45s ease-in-out forwards;
@@ -983,8 +999,31 @@ h1, h2, h3, h4 {
 
 
 .gameHeaderInfos {
-    
+    position: relative;
+    border-radius: 6px;
 }
+
+.gameTitle {
+    position: absolute;
+    color: white;
+    text-align: center;
+    padding: 10px 40px;
+    background-color: #00000017;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    filter: drop-shadow(2px 4px 6px black);
+
+    overflow: hidden;
+    max-height: 250px;
+    max-width: 530px;
+}
+.gameTitle h2 {
+    font-size: 4.5em;
+    font-weight: 900;
+    /* text-shadow: -2px -2px 0 #000, 2px -2px 0 #000, -2px 2px 0 #000, 2px 2px 0 #000; */
+}
+
 
 .reportBtn {
     cursor: pointer;
@@ -1303,6 +1342,7 @@ h1, h2, h3, h4 {
 
 #favGameBtn {
     cursor: pointer;
+    border-bottom-left-radius: 100px;
 }
 
 .upTopicPostBtn, .downTopicPostBtn, .upMediaPostBtn, .downMediaPostBtn {
