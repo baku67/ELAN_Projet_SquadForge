@@ -180,62 +180,74 @@
 
 
         {# Section Groupe #}
-        <div class="marginTop">
+        <div class="sectionContainer" style="border: 1px solid {{ game.color }}50; border-top:2px solid {{ game.color }}; border-left:1px solid {{ game.color }};">
             <div>
                 <div class="gameTopicsSubTitleBg" style="background-color:{{ game.color }};"></div>
                 <h3 class="gameSubTitle noMarginBottom">Teams</h3>
             </div>
 
-            <br>
+            <div class="sectionContent">
 
-            <div style="display:inline-flex; width:100%; justify-content:center;">
-                <a href="{{ path('app_groupList', {'gameIdFrom': game.id}) }}">
-                    <div class="gameTeamBtn gameTeamBtn1" onmouseover="this.style.backgroundColor = '{{ game.color }}';" onmouseout="this.style.backgroundColor = 'rgb(69 69 69)';">
-                        <div class="teamBtnBg" style="background-color: {{ game.color }}"></div>
-                        <span style="position:relative; z-index:10;">Rejoindre une Team ({{ nbrOfTeams }})</span>
-                    </div>
-                </a>
-                {% if app.user %}
-                <a href="{{ path('app_createGroup', {'gameIdFrom': game.id}) }}">
-                    <div class="gameTeamBtn gameTeamBtn2" onmouseover="this.style.backgroundColor = '{{ game.color }}';" onmouseout="this.style.backgroundColor = 'rgb(69 69 69)';">
-                        <div class="teamBtnBg" style="background-color: {{ game.color }}"></div>
-                        <span style="position:relative; z-index:10;">Créer une Team</span>
-                    </div>
-                </a>
-                {% else %}
-                <a href="{{ path('app_login') }}">
-                    <div class="gameTeamBtn gameTeamBtn2" onmouseover="this.style.backgroundColor = '{{ game.color }}';" onmouseout="this.style.backgroundColor = 'rgb(69 69 69)';">
-                        <div class="teamBtnBg" style="background-color: {{ game.color }}"></div>
-                        <span style="position:relative; z-index:10;">Créer une Team</span>
-                    </div>
-                </a>
-                {% endif %}
-            </div>
-
-            <h4 style="text-align:center;margin-top:20px">Vos Teams</h4>
-
-            {% if userGameGroups|length > 0 %}
-            <div class="groupListGrid">
-                {% for userGameGroup in userGameGroups %}
-                    {% if userGameGroup.leader == app.user %}
-                        {% set borderStatus = "1px solid gold" %}
-                    {% else %}
-                        {% set borderStatus = "0px solid" %}
-                    {% endif %}
-                    
-                    <a class="groupCard" href="{{ path('app_groupDetails', {'groupId': userGameGroup.id } ) }}" style="background-color: {{ game.color }}; border: {{ borderStatus }};">
-                        <div>
-                            <h5>{{ userGameGroup.title }}</h5>
-                            <span>{{ userGameGroup.members|length }} / {{ userGameGroup.nbrPlaces }}</span>
-                            {# Indicateur visuel icon FA user full / vide (recheck max nbrPlaces) #}
+                <div style="display:inline-flex; width:100%; justify-content:center;">
+                    <a href="{{ path('app_groupList', {'gameIdFrom': game.id}) }}">
+                        <div class="gameTeamBtn gameTeamBtn1" onmouseover="this.style.backgroundColor = '{{ game.color }}';" onmouseout="this.style.backgroundColor = 'rgb(69 69 69)';">
+                            <div class="teamBtnBg" style="background-color: {{ game.color }}"></div>
+                            <span style="position:relative; z-index:10;">Rejoindre une Team ({{ nbrOfTeams }})</span>
                         </div>
                     </a>
-                {% endfor %}
-            </div>
-            {% else %}
-            <p class="emptyListMsg">Vous n'appartenez à aucune team</p>
-            {% endif %}
+                    {% if app.user %}
+                    <a href="{{ path('app_createGroup', {'gameIdFrom': game.id}) }}">
+                        <div class="gameTeamBtn gameTeamBtn2" onmouseover="this.style.backgroundColor = '{{ game.color }}';" onmouseout="this.style.backgroundColor = 'rgb(69 69 69)';">
+                            <div class="teamBtnBg" style="background-color: {{ game.color }}"></div>
+                            <span style="position:relative; z-index:10;">Créer une Team</span>
+                        </div>
+                    </a>
+                    {% else %}
+                    <a href="{{ path('app_login') }}">
+                        <div class="gameTeamBtn gameTeamBtn2" onmouseover="this.style.backgroundColor = '{{ game.color }}';" onmouseout="this.style.backgroundColor = 'rgb(69 69 69)';">
+                            <div class="teamBtnBg" style="background-color: {{ game.color }}"></div>
+                            <span style="position:relative; z-index:10;">Créer une Team</span>
+                        </div>
+                    </a>
+                    {% endif %}
+                </div>
+
+
+                {% if app.user %}
+                
+                    <h4 style="text-align:center;margin-top:20px">Vos Teams</h4>
+
+                    {% if userGameGroups|length > 0 %}
+                    <div class="groupListGrid">
+                        {% for userGameGroup in userGameGroups %}
+                            {% if userGameGroup.leader == app.user %}
+                                {% set borderStatus = "1px solid gold" %}
+                            {% else %}
+                                {% set borderStatus = "0px solid" %}
+                            {% endif %}
+                            
+                            <a class="groupCard" href="{{ path('app_groupDetails', {'groupId': userGameGroup.id } ) }}" style="background-color: {{ game.color }}; border: {{ borderStatus }};">
+                                <div>
+                                    <h5>{{ userGameGroup.title }}</h5>
+                                    <span>{{ userGameGroup.members|length }} / {{ userGameGroup.nbrPlaces }}</span>
+                                    {# Indicateur visuel icon FA user full / vide (recheck max nbrPlaces) #}
+                                </div>
+                            </a>
+                        {% endfor %}
+                    </div>
+                    {% else %}
+                    <p class="emptyListMsg">Vous n'appartenez à aucune team</p>
+                    {% endif %}
+
+                {% else %}
+
+                    <p class="emptyListMsg" style="margin-top:35px;">
+                        <a style="text-decoration:underline;" href="{{ path('app_login') }}">Connectez-vous</a> pour accéder à vos teams
+                    </p>
+
+                {% endif %}
             
+            </div>
             
         </div> 
 
@@ -243,350 +255,366 @@
 
 
         {# Ligne "Topics" + Bouton "+Créer" #}
-        <div class="marginTop" style="display:inline-flex; width:100%; justify-content:space-between;">
-            <a href="{{ path('app_allTopics', {'gameIdFrom': game.id}) }}">
-                 <div>
-                    <div class="gameTopicsSubTitleBg" style="background-color:{{ game.color }};"></div>
-                    <h3 class="gameSubTitle noMarginBottom">
-                        Topics
-                        <span class="gameListCount">&nbsp;({{ gameTopicsCount }})</span>
-                    </h3>
-                </div>
-            </a>  
-            {# <a id="createTopicBtn" href="{{ path('app_addGameTopic', {'id': game.id }) }}" class="createButton" style="border-top: 1px solid {{ game.color }}; border-bottom: 1px solid {{ game.color }};"><i class="fa-solid fa-plus" style="color:{{ game.color }}"></i>&nbsp;Créer</a> #}
-            
-            {% if app.user %}
-                <span id="createTopicBtn" class="createButton" style="border-top: 1px solid {{ game.color }}; border-bottom: 1px solid {{ game.color }};"><i class="fa-solid fa-plus" style="color:{{ game.color }}"></i>&nbsp;Créer</span>
-            {% else %}
-                <a href="{{ path('app_login') }}"><span class="createButton" style="border-top: 1px solid {{ game.color }}; border-bottom: 1px solid {{ game.color }};"><i class="fa-solid fa-plus" style="color:{{ game.color }}"></i>&nbsp;Créer</span></a>
-            {% endif %}
-            
-        </div>
-
-
-
-        {# Form d'ajout caché Topic, proc JS bouton #}
-        <div id="createTopicForm" class="notDisplayed"> 
-
-            {{ form_start(formAddTopic) }}
-
-                <div class="my-custom-class-for-errors">
-                    {{ form_errors(formAddTopic) }}
-                </div>
-
-                <div style="position:relative; margin: 5px auto;">
-                    <div class="labelSpan" style="width:100%; display:inline-flex; align-items: center;">
-                        {{ form_label(formAddTopic.title, 'Titre')}}
-                        <p id="charCountMsg" style="color:red;"> (au moins 5 mots)</p>
-                        <span id="vulgarityTopicWarning" style="color:red; font-size:0.72em; display:none; font-family:'K2D',sans-serif;">
-                            <i class="fa-solid fa-triangle-exclamation"></i>
-                            &nbsp;Vulgarité
-                        </span>
+        <div class="sectionContainer" style="border: 1px solid {{ game.color }}50; border-top:2px solid {{ game.color }}; border-left:1px solid {{ game.color }};">
+        
+            <div style="display:inline-flex; width:100%; justify-content:space-between;">
+                <a href="{{ path('app_allTopics', {'gameIdFrom': game.id}) }}">
+                    <div>
+                        <div class="gameTopicsSubTitleBg" style="background-color:{{ game.color }};"></div>
+                        <h3 class="gameSubTitle noMarginBottom">
+                            Topics
+                            <span class="gameListCount">&nbsp;({{ gameTopicsCount }})</span>
+                        </h3>
                     </div>
-                    {{ form_widget(formAddTopic.title) }} 
+                </a>  
+                {# <a id="createTopicBtn" href="{{ path('app_addGameTopic', {'id': game.id }) }}" class="createButton" style="border-top: 1px solid {{ game.color }}; border-bottom: 1px solid {{ game.color }};"><i class="fa-solid fa-plus" style="color:{{ game.color }}"></i>&nbsp;Créer</a> #}
+                
+                {% if app.user %}
+                    <span id="createTopicBtn" class="createButton" style="border-top: 1px solid {{ game.color }}; border-bottom: 1px solid {{ game.color }};"><i class="fa-solid fa-plus" style="color:{{ game.color }}"></i>&nbsp;Créer</span>
+                {% else %}
+                    <a href="{{ path('app_login') }}"><span class="createButton" style="border-top: 1px solid {{ game.color }}; border-bottom: 1px solid {{ game.color }};"><i class="fa-solid fa-plus" style="color:{{ game.color }}"></i>&nbsp;Créer</span></a>
+                {% endif %}
+                
+            </div>
+
+
+            <div class="sectionContent">
+                {# Form d'ajout caché Topic, proc JS bouton #}
+                <div id="createTopicForm" class="notDisplayed"> 
+
+                    {{ form_start(formAddTopic) }}
+
+                        <div class="my-custom-class-for-errors">
+                            {{ form_errors(formAddTopic) }}
+                        </div>
+
+                        <div style="position:relative; margin: 5px auto;">
+                            <div class="labelSpan" style="width:100%; display:inline-flex; align-items: center;">
+                                {{ form_label(formAddTopic.title, 'Titre')}}
+                                <p id="charCountMsg" style="color:red;"> (au moins 5 mots)</p>
+                                <span id="vulgarityTopicWarning" style="color:red; font-size:0.72em; display:none; font-family:'K2D',sans-serif;">
+                                    <i class="fa-solid fa-triangle-exclamation"></i>
+                                    &nbsp;Vulgarité
+                                </span>
+                            </div>
+                            {{ form_widget(formAddTopic.title) }} 
+                        </div>
+
+                        <div style="position:relative; margin: 5px auto;">
+                            <span class="labelSpan" style="width:100%;">{{ form_label(formAddTopic.firstMsg, 'Introduction')}}</span>
+                            {{ form_widget(formAddTopic.firstMsg) }} 
+                        </div>
+
+                        <span class="submitButton" style="margin: 15px auto;">{{ form_widget(formAddTopic.submit, { 'label': 'Publier' }) }}</span>
+
+                        {# A voir: CSRF protection #}
+                        {{ form_widget(formAddTopic._token) }}
+                    {{ form_end(formAddTopic) }}
+                    
                 </div>
 
-                <div style="position:relative; margin: 5px auto;">
-                    <span class="labelSpan" style="width:100%;">{{ form_label(formAddTopic.firstMsg, 'Introduction')}}</span>
-                    {{ form_widget(formAddTopic.firstMsg) }} 
-                </div>
-
-                <span class="submitButton" style="margin: 15px auto;">{{ form_widget(formAddTopic.submit, { 'label': 'Publier' }) }}</span>
-
-                {# A voir: CSRF protection #}
-                {{ form_widget(formAddTopic._token) }}
-            {{ form_end(formAddTopic) }}
-            
-        </div>
 
 
-
-
-
-        {# Script vérif Topic Front 5 mots minimum #}
-        <script>
-            document.getElementById('topic_submit').disabled = true;
-
-            let charContMsg = document.querySelector("#charCountMsg");
-            let textInput = document.querySelector('#topic_title');
-
-            textInput.addEventListener("input", function() {
-
-                console.log("inputText" + textInput.value);
-
-                let text = textInput.value;
-                const words = text.split(" ");
-                const wordCount = words.length;
-
-                if(wordCount <= 5) {
-                    charContMsg.style.color = "red";
+                {# Script vérif Topic Front 5 mots minimum #}
+                <script>
                     document.getElementById('topic_submit').disabled = true;
 
-                }
-                else {
-                    charContMsg.style.color = "#00be00";
-                    document.getElementById('topic_submit').disabled = false;
+                    let charContMsg = document.querySelector("#charCountMsg");
+                    let textInput = document.querySelector('#topic_title');
 
-                }
+                    textInput.addEventListener("input", function() {
 
-            })
-        </script>
+                        console.log("inputText" + textInput.value);
 
-        {# Liste des Topics #}
-        <div class="listContainer topicList marginTop">
+                        let text = textInput.value;
+                        const words = text.split(" ");
+                        const wordCount = words.length;
 
-            {% for topic in gameTopics %}
-                <a href="{{ path('app_topicDetail', {'id': topic.id}) }}">
-                    {# Faire une div BG absolute pour chaque card avec clipPath anim onmouseover #}
-                    <div class="topicCard" style="border-bottom: 4px solid {{ game.color }}" onmouseover="" onmouseout="">
-                        <img class="tinyLogo" src="{{ asset('img/games/tinyLogo/' ~ topic.game.tinyLogo) }}" />
-                        <span class="topicTitle">{{ topic.title|capitalize }}</span>
-                        <div class="">
-                            <span>{{ topic.status }}</span>
-                            <span>{{ topic.user.pseudo }}</span>
-                            <span class="topicCardPublishDate">{{ time_diff(topic.publishDate) }}</span>
-                            {% if topic.topicPostsCount == 0 %}
-                                <span style="opacity:0.5;">{{ topic.topicPostsCount }} <i class="fa-solid fa-message" style="color:grey;"></i></span>
-                            {% else %}
-                                <span>{{ topic.topicPostsCount }} <i class="fa-solid fa-message" style="color:{{ topic.game.color }}"></i></span>
-                            {% endif %}
-                        </div>
-                    </div>
-                </a>
-            {% endfor %}
+                        if(wordCount <= 5) {
+                            charContMsg.style.color = "red";
+                            document.getElementById('topic_submit').disabled = true;
 
-            <span class="seeAllRedirect">
-                <a href="{{ path('app_allTopics', {'gameIdFrom': game.id}) }}">Tout voir  <i class="fa-solid fa-chevron-right"></i></a>
-            </span>
+                        }
+                        else {
+                            charContMsg.style.color = "#00be00";
+                            document.getElementById('topic_submit').disabled = false;
+
+                        }
+
+                    })
+                </script>
+
+                {# Liste des Topics #}
+                <div class="listContainer topicList marginTop">
+
+                    {% for topic in gameTopics %}
+                        <a href="{{ path('app_topicDetail', {'id': topic.id}) }}">
+                            {# Faire une div BG absolute pour chaque card avec clipPath anim onmouseover #}
+                            <div class="topicCard" style="border-bottom: 4px solid {{ game.color }}" onmouseover="" onmouseout="">
+                                <img class="tinyLogo" src="{{ asset('img/games/tinyLogo/' ~ topic.game.tinyLogo) }}" />
+                                <span class="topicTitle">{{ topic.title|capitalize }}</span>
+                                <div class="">
+                                    <span>{{ topic.status }}</span>
+                                    <span>{{ topic.user.pseudo }}</span>
+                                    <span class="topicCardPublishDate">{{ time_diff(topic.publishDate) }}</span>
+                                    {% if topic.topicPostsCount == 0 %}
+                                        <span style="opacity:0.5;">{{ topic.topicPostsCount }} <i class="fa-solid fa-message" style="color:grey;"></i></span>
+                                    {% else %}
+                                        <span>{{ topic.topicPostsCount }} <i class="fa-solid fa-message" style="color:{{ topic.game.color }}"></i></span>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </a>
+                    {% endfor %}
+
+                    <span class="seeAllRedirect">
+                        <a href="{{ path('app_allTopics', {'gameIdFrom': game.id}) }}">Tout voir  <i class="fa-solid fa-chevron-right"></i></a>
+                    </span>
+
+                </div>
+
+            </div>
 
         </div>
 
 
         <br><br>
-        {# Aperçu Section Média #}
-        <div class="marginTop" style="display:inline-flex; width:100%; justify-content:space-between;">
-            
-            <a href=" {{ path('app_allMedias', {'gameIdFrom': game.id}) }}">
-                <div>
-                    <div class="gameTopicsSubTitleBg" style="background-color:{{ game.color }};"></div>
-                    <h3 class="gameSubTitle noMarginBottom">
-                        Medias
-                        <span class="gameListCount">&nbsp;({{ gameMediasCount }})</span>
-                    </h3>
-                </div>
-            </a>
+
+
+
+        {# Section Média #}
+        <div class="sectionContainer" style="border: 1px solid {{ game.color }}50; border-top:2px solid {{ game.color }}; border-left:1px solid {{ game.color }};">
+        
+            <div style="display:inline-flex; width:100%; justify-content:space-between;">
                 
-            {# <a id="createTopicBtn" href="{{ path('app_addGameTopic', {'id': game.id }) }}" class="createButton" style="border-top: 1px solid {{ game.color }}; border-bottom: 1px solid {{ game.color }};"><i class="fa-solid fa-plus" style="color:{{ game.color }}"></i>&nbsp;Créer</a> #}
-            
-            {% if app.user %}
-                <span id="createMediaBtn" class="createButton" style="border-top: 1px solid {{ game.color }}; border-bottom: 1px solid {{ game.color }};"><i class="fa-solid fa-plus" style="color:{{ game.color }}"></i>&nbsp;Créer</span>
-            {% else %}
-                <a href="{{ path('app_login') }}"><span class="createButton" style="border-top: 1px solid {{ game.color }}; border-bottom: 1px solid {{ game.color }};"><i class="fa-solid fa-plus" style="color:{{ game.color }}"></i>&nbsp;Créer</span></a>
-            {% endif %}
-        </div>
-
-        {# Form d'ajout caché Media, proc JS bouton #}
-        <div id="createMediaForm" class="notDisplayed"> 
-
-            {{ form_start(formAddMedia) }}
-
-                <div class="my-custom-class-for-errors">
-                    {{ form_errors(formAddMedia) }}
-                </div>
-
-                <div style="position:relative; margin: 5px auto;">
-                    <div class="labelSpan" style="width:100%; display:inline-flex; align-items: center;">
-                        {{ form_label(formAddMedia.title, 'Titre')}}
-                        <p id="charCountMsgMedia" style="color:red;"> (au moins 5 mots)</p>
-                        <span id="vulgarityMediaWarning" style="color:red; font-size:0.72em; display:none; font-family:'K2D',sans-serif;">
-                            <i class="fa-solid fa-triangle-exclamation"></i>
-                            &nbsp;Vulgarité
-                        </span>
+                <a href=" {{ path('app_allMedias', {'gameIdFrom': game.id}) }}">
+                    <div>
+                        <div class="gameTopicsSubTitleBg" style="background-color:{{ game.color }};"></div>
+                        <h3 class="gameSubTitle noMarginBottom">
+                            Medias
+                            <span class="gameListCount">&nbsp;({{ gameMediasCount }})</span>
+                        </h3>
                     </div>
-                    {{ form_widget(formAddMedia.title) }} 
-                </div>
-
-                <div style="position:relative; margin: 5px auto;">
-                    <span class="labelSpan" style="width:100%;">{{ form_label(formAddMedia.url, 'Choisissez un fichier')}}<span class="fileUploadCriteria"><span id="extensionCriteria">(.png .jpg .gif .jpeg)</span> <span id="fileCriteria">(10MB)</span></span></span>
-                    {{ form_widget(formAddMedia.url) }} 
-                </div>
-
-                <span class="submitButton" style="margin: 15px auto;">{{ form_widget(formAddMedia.submit, { 'label': 'Publier' }) }}</span>
-
-                {{ form_widget(formAddMedia._token) }}
-            {{ form_end(formAddMedia) }}
-
-
-            <div class="mediaCardPreview">
-                <div id="preview-container">
-                            <div id="mediaCardHeader">
-                                <span class="mediaTitle"></span>
-                
-                            </div>
-
-                </div>
-            </div>
-            
-
-
-
-        </div>
-
-
-        {# Script aperçu media upload #}
-        <script>
-            // Sélectionnez votre élément d'entrée de type fichier (input file)
-            const input = document.getElementById('media_url');
-
-            // Ajoutez un écouteur d'événements "change" sur l'élément d'entrée
-            input.addEventListener('change', (e) => {
-                // Obtenez le fichier sélectionné
-                const file = e.target.files[0];
-
-                if (file) {
-                    // Créez un objet FileReader
-                    const reader = new FileReader();
-
-                    // Définissez l'événement onload du FileReader
-                    reader.onload = (e) => {
-                        // Créez une balise d'image pour afficher la prévisualisation
-                        const img = document.createElement('img');
-                        img.src = e.target.result;
-
-                        // Ajoutez l'image prévisualisée à un élément de votre choix dans le DOM
-                        const previewContainer = document.getElementById('mediaCardHeader');
-                        previewContainer.innerHTML = '';
-                        previewContainer.prepend(img);
-                    };
-
-                    // Lisez le contenu du fichier en tant que données URL
-                    reader.readAsDataURL(file);
-                }
-            });
-
-        </script>
-
-
-
-
-        <div class="masonry-grid">
-
-            {% for media in gameMedias %}
-
-                <div class="grid-item" style="height:fit-content;">
-
-                    {% if app.user and app.user.autoPlayGifs %}
-                    <a href="{{ path('app_mediaDetail', {'id': media.id}) }}">
-                    {% endif %}
-                        
-                        <div class="mediaCard">
-
-                            {% if app.user and not app.user.autoPlayGifs %}
-                            <a href="{{ path('app_mediaDetail', {'id': media.id}) }}">
-                            {% elseif app.user is null %}
-                            <a href="{{ path('app_mediaDetail', {'id': media.id}) }}">
-                            {% endif %}
-                            <div class="mediaCardHeader" style="border-bottom: 5px solid {{ game.color }}">
-                                <img class="tinyLogo" src="{{ asset('img/games/tinyLogo/' ~ media.game.tinyLogo) }}" />
-                                <span class="mediaTitle">{{ media.title|capitalize }}</span>
-                                {# <span>{{ media.status }}</span>
-                                <span>{{ media.user.pseudo }}</span> #}
-                                <span class="topicCardPublishDate">{{ time_diff(media.publishDate) }}</span>
-                            </div>
-                            {% if app.user and not app.user.autoPlayGifs %}
-                            </a>
-                            {% endif %}
-
-                            {# Gif autoplay=false si paramètre user #}
-                            {% if app.user %}
-                                {% if not app.user.autoPlayGifs %}
-                                    <img data-gifffer="{{ asset("img/uploads/" ~ media.url) }}" data-gifffer-alt="media" class="mediaImg" />
-                                {% else %}
-                                    <img src="{{ asset("img/uploads/" ~ media.url) }}" alt="media" class="mediaImg" />
-                                {% endif %}
-                            {% else %}
-                                <img src="{{ asset("img/uploads/" ~ media.url) }}" alt="media" class="mediaImg" />
-                            {% endif %}
-                            
-                        </div>
-
-                    {% if app.user and app.user.autoPlayGifs %}
-                    </a>
-                    {% endif %}
-
-
-                    {# Upvote/downvote média + score + nbrPosts #}
-                    <div class="mediaCardStatsDiv">
-
-                        {# Pas opti: bloucle sur tous les likes du post pour savoir si liké (boucle dans boucle) #}
-                        {% set liked = "" %}
-                        {% if app.user %}
-                            {% for upvote in media.UserUpvote %}
-                                {% if upvote == app.user %}
-                                    {% set liked = "upBtnLiked" %}
-                                {% endif %}
-                            {% endfor %}
-                        {% endif %}
-
-
-                        <div class="inline">
-                            <i mediaId={{ media.id }} class="likeMedia fa-regular fa-circle-up {{ liked }}"></i>
-                            <span id="countLikesMedia{{ media.id }}" value="{{ media.upvoteCount }}"> {{ media.upvoteCount }} </span>
-                        </div>
+                </a>
                     
-                        {% if media.mediaPostsCount == 0 %}
-                            <a href="{{ path('app_mediaDetail', {'id':media.id}) }}">
-                                <span style="opacity:0.5;">
-                                    {{ media.mediaPostsCount }} 
-                                    <i class="fa-solid fa-message" style="color:grey;"></i>
-                                </span>
-                            </a>
-                        {% else %}
-                            <a href="{{ path('app_mediaDetail', {'id':media.id}) }}">
-                                <span>
-                                    {{ media.mediaPostsCount }} 
-                                    <i class="fa-solid fa-message" style="color:var(--primary-color)"></i>
-                                </span>
-                            </a>
-                        {% endif %}
+                {# <a id="createTopicBtn" href="{{ path('app_addGameTopic', {'id': game.id }) }}" class="createButton" style="border-top: 1px solid {{ game.color }}; border-bottom: 1px solid {{ game.color }};"><i class="fa-solid fa-plus" style="color:{{ game.color }}"></i>&nbsp;Créer</a> #}
+                
+                {% if app.user %}
+                    <span id="createMediaBtn" class="createButton" style="border-top: 1px solid {{ game.color }}; border-bottom: 1px solid {{ game.color }};"><i class="fa-solid fa-plus" style="color:{{ game.color }}"></i>&nbsp;Créer</span>
+                {% else %}
+                    <a href="{{ path('app_login') }}"><span class="createButton" style="border-top: 1px solid {{ game.color }}; border-bottom: 1px solid {{ game.color }};"><i class="fa-solid fa-plus" style="color:{{ game.color }}"></i>&nbsp;Créer</span></a>
+                {% endif %}
+            </div>
 
+
+            <div class="sectionContent">
+
+                {# Form d'ajout caché Media, proc JS bouton #}
+                <div id="createMediaForm" class="notDisplayed"> 
+
+                    {{ form_start(formAddMedia) }}
+
+                        <div class="my-custom-class-for-errors">
+                            {{ form_errors(formAddMedia) }}
+                        </div>
+
+                        <div style="position:relative; margin: 5px auto;">
+                            <div class="labelSpan" style="width:100%; display:inline-flex; align-items: center;">
+                                {{ form_label(formAddMedia.title, 'Titre')}}
+                                <p id="charCountMsgMedia" style="color:red;"> (au moins 5 mots)</p>
+                                <span id="vulgarityMediaWarning" style="color:red; font-size:0.72em; display:none; font-family:'K2D',sans-serif;">
+                                    <i class="fa-solid fa-triangle-exclamation"></i>
+                                    &nbsp;Vulgarité
+                                </span>
+                            </div>
+                            {{ form_widget(formAddMedia.title) }} 
+                        </div>
+
+                        <div style="position:relative; margin: 5px auto;">
+                            <span class="labelSpan" style="width:100%;">{{ form_label(formAddMedia.url, 'Choisissez un fichier')}}<span class="fileUploadCriteria"><span id="extensionCriteria">(.png .jpg .gif .jpeg)</span> <span id="fileCriteria">(10MB)</span></span></span>
+                            {{ form_widget(formAddMedia.url) }} 
+                        </div>
+
+                        <span class="submitButton" style="margin: 15px auto;">{{ form_widget(formAddMedia.submit, { 'label': 'Publier' }) }}</span>
+
+                        {{ form_widget(formAddMedia._token) }}
+                    {{ form_end(formAddMedia) }}
+
+
+                    <div class="mediaCardPreview">
+                        <div id="preview-container">
+                                    <div id="mediaCardHeader">
+                                        <span class="mediaTitle"></span>
+                        
+                                    </div>
+
+                        </div>
                     </div>
+                    
+
+
 
                 </div>
 
-            {% endfor %}
+
+                {# Script aperçu media upload #}
+                <script>
+                    // Sélectionnez votre élément d'entrée de type fichier (input file)
+                    const input = document.getElementById('media_url');
+
+                    // Ajoutez un écouteur d'événements "change" sur l'élément d'entrée
+                    input.addEventListener('change', (e) => {
+                        // Obtenez le fichier sélectionné
+                        const file = e.target.files[0];
+
+                        if (file) {
+                            // Créez un objet FileReader
+                            const reader = new FileReader();
+
+                            // Définissez l'événement onload du FileReader
+                            reader.onload = (e) => {
+                                // Créez une balise d'image pour afficher la prévisualisation
+                                const img = document.createElement('img');
+                                img.src = e.target.result;
+
+                                // Ajoutez l'image prévisualisée à un élément de votre choix dans le DOM
+                                const previewContainer = document.getElementById('mediaCardHeader');
+                                previewContainer.innerHTML = '';
+                                previewContainer.prepend(img);
+                            };
+
+                            // Lisez le contenu du fichier en tant que données URL
+                            reader.readAsDataURL(file);
+                        }
+                    });
+
+                </script>
+
+
+
+
+                <div class="masonry-grid">
+
+                    {% for media in gameMedias %}
+
+                        <div class="grid-item" style="height:fit-content;">
+
+                            {% if app.user and app.user.autoPlayGifs %}
+                            <a href="{{ path('app_mediaDetail', {'id': media.id}) }}">
+                            {% endif %}
+                                
+                                <div class="mediaCard">
+
+                                    {% if app.user and not app.user.autoPlayGifs %}
+                                    <a href="{{ path('app_mediaDetail', {'id': media.id}) }}">
+                                    {% elseif app.user is null %}
+                                    <a href="{{ path('app_mediaDetail', {'id': media.id}) }}">
+                                    {% endif %}
+                                    <div class="mediaCardHeader" style="border-bottom: 5px solid {{ game.color }}">
+                                        <img class="tinyLogo" src="{{ asset('img/games/tinyLogo/' ~ media.game.tinyLogo) }}" />
+                                        <span class="mediaTitle">{{ media.title|capitalize }}</span>
+                                        {# <span>{{ media.status }}</span>
+                                        <span>{{ media.user.pseudo }}</span> #}
+                                        <span class="topicCardPublishDate">{{ time_diff(media.publishDate) }}</span>
+                                    </div>
+                                    {% if app.user and not app.user.autoPlayGifs %}
+                                    </a>
+                                    {% endif %}
+
+                                    {# Gif autoplay=false si paramètre user #}
+                                    {% if app.user %}
+                                        {% if not app.user.autoPlayGifs %}
+                                            <img data-gifffer="{{ asset("img/uploads/" ~ media.url) }}" data-gifffer-alt="media" class="mediaImg" />
+                                        {% else %}
+                                            <img src="{{ asset("img/uploads/" ~ media.url) }}" alt="media" class="mediaImg" />
+                                        {% endif %}
+                                    {% else %}
+                                        <img src="{{ asset("img/uploads/" ~ media.url) }}" alt="media" class="mediaImg" />
+                                    {% endif %}
+                                    
+                                </div>
+
+                            {% if app.user and app.user.autoPlayGifs %}
+                            </a>
+                            {% endif %}
+
+
+                            {# Upvote/downvote média + score + nbrPosts #}
+                            <div class="mediaCardStatsDiv">
+
+                                {# Pas opti: bloucle sur tous les likes du post pour savoir si liké (boucle dans boucle) #}
+                                {% set liked = "" %}
+                                {% if app.user %}
+                                    {% for upvote in media.UserUpvote %}
+                                        {% if upvote == app.user %}
+                                            {% set liked = "upBtnLiked" %}
+                                        {% endif %}
+                                    {% endfor %}
+                                {% endif %}
+
+
+                                <div class="inline">
+                                    <i mediaId={{ media.id }} class="likeMedia fa-regular fa-circle-up {{ liked }}"></i>
+                                    <span id="countLikesMedia{{ media.id }}" value="{{ media.upvoteCount }}"> {{ media.upvoteCount }} </span>
+                                </div>
+                            
+                                {% if media.mediaPostsCount == 0 %}
+                                    <a href="{{ path('app_mediaDetail', {'id':media.id}) }}">
+                                        <span style="opacity:0.5;">
+                                            {{ media.mediaPostsCount }} 
+                                            <i class="fa-solid fa-message" style="color:grey;"></i>
+                                        </span>
+                                    </a>
+                                {% else %}
+                                    <a href="{{ path('app_mediaDetail', {'id':media.id}) }}">
+                                        <span>
+                                            {{ media.mediaPostsCount }} 
+                                            <i class="fa-solid fa-message" style="color:var(--primary-color)"></i>
+                                        </span>
+                                    </a>
+                                {% endif %}
+
+                            </div>
+
+                        </div>
+
+                    {% endfor %}
+
+                </div>
+
+
+                <span class="seeAllRedirect">
+                    <a href="{{ path('app_allMedias', {'gameIdFrom': game.id}) }}">Tout voir  <i class="fa-solid fa-chevron-right"></i></a>
+                </span>
+
+
+                {# Masonry JS Medias (permet de rendre responsive entre autre) #}
+                <script src="https://unpkg.com/masonry-layout@4/dist/masonry.pkgd.min.js"></script>
+                {# imagesLoaded JS #}
+                <script src="https://unpkg.com/imagesloaded@5/imagesloaded.pkgd.min.js"></script>
+
+                <script>
+
+                    $(document).ready(function() {
+                        var $gridItems = $('.grid-item');
+                        
+                        $gridItems.imagesLoaded(function() {
+                            setTimeout(function() {
+                                console.log('imagesLoaded');
+                                $('.masonry-grid').masonry({
+                                    itemSelector: '.grid-item',
+                                    columnWidth: '.grid-item',
+                                    gutter: 15, // Adjust the gutter size as needed
+                                });
+                            }, 500) 
+                        });
+                    });
+                    
+                </script>
+
+            </div>
 
         </div>
-
-
-        <span class="seeAllRedirect">
-            <a href="{{ path('app_allMedias', {'gameIdFrom': game.id}) }}">Tout voir  <i class="fa-solid fa-chevron-right"></i></a>
-        </span>
-
-
-        {# Masonry JS Medias (permet de rendre responsive entre autre) #}
-        <script src="https://unpkg.com/masonry-layout@4/dist/masonry.pkgd.min.js"></script>
-        {# imagesLoaded JS #}
-        <script src="https://unpkg.com/imagesloaded@5/imagesloaded.pkgd.min.js"></script>
-
-        <script>
-
-            $(document).ready(function() {
-                var $gridItems = $('.grid-item');
-                
-                $gridItems.imagesLoaded(function() {
-                    setTimeout(function() {
-                        console.log('imagesLoaded');
-                        $('.masonry-grid').masonry({
-                            itemSelector: '.grid-item',
-                            columnWidth: '.grid-item',
-                            gutter: 15, // Adjust the gutter size as needed
-                        });
-                    }, 500) 
-                });
-            });
-            
-        </script>
         
 
 

@@ -7,6 +7,8 @@ sur PC fonctionne très bien,
 Point-commun: function avec notifId pour passer la notif en mode "lue"
 inspecter le browser mobile par USB avec https://developer.chrome.com/docs/devtools/remote-debugging/
 
+AUTRE BUG MOBILE: Sur mobile: si je suis déco la masonry fonctionne bien, si je me co c'est deg (c'est pas lié au timeOut)
+
 Manque bouton open/close Media 
 Async fetch periodique du newNotif unclicked (user puis modo*)
 Modal confirmations (leaveGroupe, passLead, exclure, etc)

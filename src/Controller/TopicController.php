@@ -159,7 +159,8 @@ class TopicController extends AbstractController
     }
 
 
-    // Topic Details (id: idTopic)
+
+    // Topic Details (id: idTopic) + Form TopicPost
     #[Route('/topicDetail/{id}/{notifId}', name: 'app_topicDetail')]
     public function getTopicDetail(EntityManagerInterface $entityManager, Request $request, int $id, int $notifId = null): Response
     {
@@ -216,43 +217,51 @@ class TopicController extends AbstractController
 
                     // Vérification si le topic est ouvert
                     if ($topic->getStatus() == "open") {
-                        
-                        if($form->isValid()) {
 
-                            // Hydrataion du "TopicPost" a partir des données du form
-                            $topicPost = $form->getData();
-        
-                            // Init de la publish_date du comment
-                            $topicPost->setPublishDate(new \DateTime());
-                            $topicPost->setUser($this->getUser());
-                            $topicPost->setTopic($topic);
-                            
-                            // Désactivation vérification nbr de mots etc...
-                            // // Récupération du titre
-                            // $textInputValue = $form->get('text')->getData();
-                            // // Liste des mots du commentaires
-                            // $words = str_word_count($textInputValue, 1);
-                            // // Décompte du nombre de mots dans la liste
-                            // $wordCount = count($words);
-                            // // Vérification du compte de mots
-                            // if ($wordCount >= 5) {
-        
-                            // Modifs Base de données
-                            $entityManager->persist($topicPost);
-                            $entityManager->flush();
-    
-                            $this->addFlash('success', 'Le post a bien été publié');
-                            return $this->redirectToRoute('app_topicDetail', ['id' => $topic->getId()]);
-                            // } else {
+                        // Vérif si post vide
+                        if(strlen($topicPost->getText()) > 0) {
+                        
+                            if($form->isValid()) {
+
+                                // Hydrataion du "TopicPost" a partir des données du form
+                                $topicPost = $form->getData();
+            
+                                // Init de la publish_date du comment
+                                $topicPost->setPublishDate(new \DateTime());
+                                $topicPost->setUser($this->getUser());
+                                $topicPost->setTopic($topic);
                                 
-                            //     $this->addFlash('error', 'Le titre doit faire au minimum 5 mots !');
-                            //     return $this->redirectToRoute('app_game', ['id' => $game->getId()]);
-                            // }
-                        } 
+                                // Désactivation vérification nbr de mots etc...
+                                // // Récupération du titre
+                                // $textInputValue = $form->get('text')->getData();
+                                // // Liste des mots du commentaires
+                                // $words = str_word_count($textInputValue, 1);
+                                // // Décompte du nombre de mots dans la liste
+                                // $wordCount = count($words);
+                                // // Vérification du compte de mots
+                                // if ($wordCount >= 5) {
+            
+                                // Modifs Base de données
+                                $entityManager->persist($topicPost);
+                                $entityManager->flush();
+        
+                                $this->addFlash('success', 'Le post a bien été publié');
+                                return $this->redirectToRoute('app_topicDetail', ['id' => $topic->getId()]);
+                                // } else {
+                                    
+                                //     $this->addFlash('error', 'Le titre doit faire au minimum 5 mots !');
+                                //     return $this->redirectToRoute('app_game', ['id' => $game->getId()]);
+                                // }
+                            } 
+                            else {
+                                $this->addFlash('error', 'Pas de vulgarités pour un titre');
+                                return $this->redirectToRoute('app_topicDetail', ['id' => $topic->getId()]);
+                            }   
+                        }
                         else {
-                            $this->addFlash('error', 'Pas de vulgarités pour un titre');
+                            $this->addFlash('error', 'Le commentaire ne peut pas être vide');
                             return $this->redirectToRoute('app_topicDetail', ['id' => $topic->getId()]);
-                        }   
+                        }
                     }
                     else {
                         $this->addFlash('error', 'Le topic a été fermé, vous ne pouvez plus le commenter.');
@@ -283,62 +292,6 @@ class TopicController extends AbstractController
         }
 
     }
-
-
-
-
-    // PLUS BESOIN ? (Async)
-
-    // // Like de topicPost par user (id: idTopicPost)
-    // #[Route('/likeTopicPost/{id}', name: 'app_likeTopicPost')]
-    // public function likeTopicPost(EntityManagerInterface $entityManager, int $id, Request $request): Response
-    // {
-
-    //     if ($this->getUser()) {
-
-    //         $topicPostRepo = $entityManager->getRepository(TopicPost::class);
-    //         $topicPost = $topicPostRepo->find($id);
-    //         $topic = $topicPost->getTopic();
-
-    //         $topicPost->addPostLike($this->getUser());
-    //         $entityManager->persist($this->getUser());
-    //         $entityManager->flush();
-
-
-    //         $this->addFlash('success', 'Le post a bien été liké');
-    //         return $this->redirectToRoute('app_topicDetail', ['id' => $topic->getId()]);    
-    //     }
-    //     else {
-    //         $this->addFlash('error', 'Vous devez être connecté pour liker un post');
-    //         return $this->redirectToRoute('app_login');
-    //     }
-    
-    // }
-
-
-    // // Unlike de topicPost par user (id: idTopicPost)
-    // #[Route('/unlikeTopicPost/{id}', name: 'app_unlikeTopicPost')]
-    // public function unlikeTopicPost(EntityManagerInterface $entityManager, int $id, Request $request): Response
-    // {
-
-    //     if ($this->getUser()) {
-
-    //         $topicPostRepo = $entityManager->getRepository(TopicPost::class);
-    //         $topicPost = $topicPostRepo->find($id);
-    //         $topic = $topicPost->getTopic();
-
-    //         $topicPost->removePostLike($this->getUser());
-    //         $entityManager->flush();
-
-    //         $this->addFlash('success', 'Le post a bien été unliké');
-    //         return $this->redirectToRoute('app_topicDetail', ['id' => $topic->getId()]);    
-    //     }
-    //     else {
-    //         $this->addFlash('error', 'Vous devez être connecté pour unliker un post');
-    //         return $this->redirectToRoute('app_login');
-    //     }
-    
-    // }
 
 
 
@@ -520,22 +473,6 @@ class TopicController extends AbstractController
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     // Fermeture de topic par author (id: idTopic)  (voir pour asynch ajax ?)
     #[Route('/closeTopic/{id}', name: 'app_closeTopic')]
     public function closeTopicPost(EntityManagerInterface $entityManager, int $id, Request $request): Response
@@ -558,6 +495,8 @@ class TopicController extends AbstractController
             return $this->redirectToRoute('app_topicDetail', ['id' => $id]); 
         }
     }
+
+
 
     // Réouverture du topic par author (id: idTopic)  (voir pour asynch ajax ?)
     #[Route('/openTopic/{id}', name: 'app_openTopic')]
