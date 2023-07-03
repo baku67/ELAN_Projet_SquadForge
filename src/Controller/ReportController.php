@@ -26,6 +26,7 @@ class ReportController extends AbstractController
     {
 
         $mediaRepo = $entityManager->getRepository(Media::class);
+        $topicRepo = $entityManager->getRepository(Topic::class);
         $reportRepo = $entityManager->getRepository(Report::class);
         $reportMotifRepo = $entityManager->getRepository(ReportMotif::class);
 
@@ -33,6 +34,9 @@ class ReportController extends AbstractController
         switch ($objectType) {
             case 'media':
                 $object = $mediaRepo->find($objectId);
+                break;
+            case 'topic':
+                $object = $topicRepo->find($objectId);
                 break;
             
             default:
@@ -72,23 +76,25 @@ class ReportController extends AbstractController
                     // redirect dynamique plutot
                     switch ($objectType) {
                         case 'media':
-                            
                             $this->addFlash('success', 'Votre signalement a été envoyé à la modération');
                             return $this->redirectToRoute('app_mediaDetail', ['id' => $object->getId()]);
-
                             break;
-        
+                        case 'topic':
+                            $this->addFlash('success', 'Votre signalement a été envoyé à la modération');
+                            return $this->redirectToRoute('app_topicDetail', ['id' => $object->getId()]);
+                            break;
                     }
                 }
                 else {
                     switch ($objectType) {
                         case 'media':
-                            
-                            $this->addFlash('error', 'Vous avez déjà signaler ce contenu');
+                            $this->addFlash('error', 'Vous avez déjà signalé ce contenu');
                             return $this->redirectToRoute('app_mediaDetail', ['id' => $object->getId()]);
-
                             break;
-        
+                        case 'topic':
+                            $this->addFlash('error', 'Vous avez déjà signalé ce contenu');
+                            return $this->redirectToRoute('app_topicDetail', ['id' => $object->getId()]);
+                            break;
                     }
                 }
             }
@@ -96,12 +102,13 @@ class ReportController extends AbstractController
         else {
             switch ($objectType) {
                 case 'media':
-                    
                     $this->addFlash('error', 'Vous devez vous connecter pour signaler un contenu');
                     return $this->redirectToRoute('app_mediaDetail', ['id' => $object->getId()]);
-
                     break;
-
+                case 'topic':
+                    $this->addFlash('error', 'Vous devez vous connecter pour signaler un contenu');
+                    return $this->redirectToRoute('app_topicDetail', ['id' => $object->getId()]);
+                    break;
             }
         }
 

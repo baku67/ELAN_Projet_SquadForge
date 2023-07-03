@@ -10,6 +10,7 @@ use App\Entity\TopicPost;
 use App\Entity\PostLike;
 use App\Form\TopicPostType;
 use App\Entity\Game;
+use App\Entity\ReportMotif;
 
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Doctrine\ORM\EntityManagerInterface;
@@ -169,6 +170,7 @@ class TopicController extends AbstractController
         $topicPostRepo = $entityManager->getRepository(TopicPost::class);
         $mediaRepo = $entityManager->getRepository(Media::class);
         $notifRepo = $entityManager->getRepository(Notification::class);
+        $reportMotifRepo = $entityManager->getRepository(ReportMotif::class);
 
         // Si page vient de notifId, passe la notif en "clicked"
         if (!is_null($notifId)) {
@@ -177,6 +179,9 @@ class TopicController extends AbstractController
             $entityManager->persist($notifFrom);
             $entityManager->flush();
         }
+
+
+        $reportMotifs = $reportMotifRepo->findAll();
 
         // Onglet notifs Bulle nbr "non-vues" (int si connécté, null sinon)
         $userNotifCount = $this->getUser() ? count($notifRepo->findByUserNotSeen($this->getUser())) : null;
@@ -275,6 +280,7 @@ class TopicController extends AbstractController
             }
 
             return $this->render('topic/topicDetail.html.twig', [
+                'reportMotifs' => $reportMotifs,
                 'modoNotifCount' => $modoNotifCount,
                 'userNotifCount' => $userNotifCount,
                 'formAddTopicPost' => $form->createView(),

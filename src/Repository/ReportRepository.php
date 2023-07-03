@@ -41,13 +41,6 @@ class ReportRepository extends ServiceEntityRepository
     }
 
 
-    public function getByObjectAndUser(string $objectType, int $objectId, User $user) {
-
-
-        $result = $this->findBy(["objectType" => $objectType, "objectId" => $objectId, "user_reporter" => $user]);
-
-        return $result;
-    }
 
 //    /**
 //     * @return Report[] Returns an array of Report objects

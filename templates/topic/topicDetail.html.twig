@@ -84,7 +84,45 @@
             {% endif %}
             
         {% endif %}
+
+
+        {# Report + Modal raison report #}
+        {% if app.user %}
+    
+            <span onclick="reportModal.showModal()" class="reportBtn" style="font-size:1.3em;"><i class="fa-regular fa-flag"></i> Signaler</span>
+
+            <dialog class="modalDialog" id="reportModal">
+                <p>Pour quelles raisons ce post ne vous convient-il pas ?</p>
+                <select id="motifSelect" class="form-select" style="font-family: 'K2D', sans serif;">
+                    <option value="0">-- Sélectionnez un motif...</option>
+                    {% for motif in reportMotifs %}
+                        <option value="{{ motif.id }}">
+                            {{ motif.text }}
+                        </option>
+                    {% endfor %}
+                </select>
+                <a id="confirmReportModal" class="confirmModal" href="{{ path('app_reportObject',{'objectType':"media", 'objectId':topic.id, 'reporterId':app.user.id, 'reportMotifId':0})}}">Envoyer</a>
+                <span class="cancelModal" onclick="reportModal.close()">Annuler</span>
+            </dialog>
+
+        {% else %}
+            <a href="{{ path('app_login') }}" class="reportBtn">Signaler</a>
+        {% endif %}
+
+        {# JS changement du param route reportMotif.id en fonction du select #}
+        <script>
+            const motifSelect = document.getElementById('motifSelect');
+            const envoyerLink = document.getElementById('confirmReportModal');
+
+            motifSelect.addEventListener('change', function() {
+                const selectedMotifId = motifSelect.value;
+                const href = "/app_reportObject/topic/" + {{topic.id}} + "/" + {{app.user.id}} + "/" +  selectedMotifId;
+                envoyerLink.setAttribute('href', href);
+            });
+        </script>
         
+
+
 
         <h4 style="font-weight:bold; color:{{game.color}}; margin-top: 40px;">Commentaires ({{ topic.topicPostsCount }})</h4>
 
