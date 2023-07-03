@@ -50,7 +50,7 @@
             <h2> <i class="fa-solid fa-users-rays"></i> TEAM</h2>
 
             <br>
-            <h3 style="text-align:center; width:100%;">{{ group.title }}</h3>
+            <h3 class="groupTitle">{{ group.title }}</h3>
 
             <p class="groupDescription">
                 <i class="fa-solid fa-quote-left"></i>
@@ -218,20 +218,24 @@
                                                 {% endif %}
                                             {% endfor %}
                                         </select>
-                                        <input id="memberLeadSubmit" type="submit" value="Valider" class="btn btn-primary" style="background-color:{{ gameFrom.color }}" disabled> 
+                                        <button id="memberLeadSubmit" type="submit" value="" class="btn btn-primary" style="background-color:{{ gameFrom.color }}" disabled> 
+                                            <i class='fa-solid fa-crown'></i><i class='fa-solid fa-arrow-right'></i><i class='fa-solid fa-user'></i>
+                                        </button>
                                     </form>
                                 </div>
-                                {% else %}
+                            {% else %}
                                 <p style="margin-top:15px; width:auto;">Passer le lead</p>
                                 <div class="passLeadLine" style="display:inline-flex; width:100%; opacity:0.5;">
                                     <form id="switchTeamLeader" style="display:inline-flex;">
                                         <select disabled id="memberLeadSelect" class="form-select" name="memberId" style="font-style:italic; color:grey; font-family: 'K2D', sans serif;">
                                             <option id="voidSelect" style="" value="">Aucun membre</option>
                                         </select>
-                                        <input id="memberLeadSubmit" type="submit" value="Valider" class="btn btn-primary" style="background-color:grey" disabled> 
+                                        <button id="memberLeadSubmit" type="submit" value="" class="btn btn-primary" style="background-color:{{ gameFrom.color }}" disabled> 
+                                            <i class='fa-solid fa-crown'></i><i class='fa-solid fa-arrow-right'></i><i class='fa-solid fa-user'></i>
+                                        </button>
                                     </form>
                                 </div>
-                                {% endif %}
+                            {% endif %}
                                 
                                 
                                 <script>    

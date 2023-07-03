@@ -232,11 +232,52 @@ nav {
 
 
 .createButton {
-    padding: 5px 30px;
+    /* padding: 5px 30px;
     background-color: rgb(255 255 255 / 5%);
     border-top: 1px solid rgb(255 255 255 / 20%);
     border-bottom: 1px solid rgb(255 255 255 / 20%);
-    clip-path: polygon(14% 0, 100% 0, 86% 100%, 0% 100%);
+    clip-path: polygon(14% 0, 100% 0, 86% 100%, 0% 100%); */
+    padding: 11px 30px;
+    position: relative;
+    left: 11px;
+    border-top-right-radius: 4px;
+    top: 3px;
+    background-color: rgb(255 255 255 / 5%);
+    border-top: 1px solid rgb(255 255 255 / 20%);
+    border-bottom: 2px solid rgb(255 255 255 / 20%);
+    clip-path: polygon(0 0, 100% 0, 100% 100%, 14% 100%);
+    border-bottom-left-radius: 100px;
+
+    transition: all 0.4s;
+}
+.createButton:hover {
+    letter-spacing: 2px;
+    color: black;
+    /* font-weight: bold; */
+}
+.createButton i {
+    transition: all 0.4s;
+}
+.createButton:hover i {
+    color: black !important;
+}
+
+
+#memberLeadSubmit {
+    display: inline-flex;
+    margin: 0 !important;
+    padding: 10px;
+}
+#memberLeadSubmit i {
+    margin: 0 4px;
+}
+
+.groupTitle {
+    text-align: center;
+    padding: 15px 35px;
+    background-color: #0000001f;
+    width: fit-content;
+    margin: 0 auto;
 }
 
 .noMarginBottom {
@@ -1836,6 +1877,8 @@ cursor: pointer;
     margin: 50px auto;
     padding: 4px 10px 15px 0px;
     border-radius: 6px;
+
+    
     
 }
 
