@@ -7,6 +7,7 @@ use App\Entity\Censure;
 use App\Entity\Topic;
 use App\Entity\Media;
 use App\Form\CensureType;
+use App\Entity\Report;
 
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -35,6 +36,7 @@ class ModerationController extends AbstractController
             $topicRepo = $entityManager->getRepository(Topic::class);
             $mediaRepo = $entityManager->getRepository(Media::class);
             $notifRepo = $entityManager->getRepository(Notification::class);
+            $reportRepo = $entityManager->getRepository(Report::class);
 
             // Onglet notifs Bulle nbr "non-vues" (int si connécté, null sinon)
             $userNotifCount = $this->getUser() ? count($notifRepo->findByUserNotSeen($this->getUser())) : null;
@@ -48,6 +50,8 @@ class ModerationController extends AbstractController
             else {
                 $modoNotifCount = null;
             }
+
+            $reports = $reportRepo->findBy([], ['creation_date' => 'DESC']);
 
             $censureRepo = $entityManager->getRepository(Censure::class);
             $censureWords = $censureRepo->findBy([], ["creation_date" => "DESC"]);
@@ -95,6 +99,7 @@ class ModerationController extends AbstractController
                 }
             }
             return $this->render('moderation/index.html.twig', [
+                'reports' => $reports,
                 'modoNotifCount' => $modoNotifCount,
                 'userNotifCount' => $userNotifCount,
                 'formAddCensoredWord' => $form->createView(),

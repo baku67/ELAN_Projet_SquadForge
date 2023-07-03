@@ -20,7 +20,7 @@ class CensureType extends AbstractType
                 'required' => true,
                 'attr' => [
                     "class" => "form-control",
-                    'placeholder' => 'Entrez le mot à censurer'
+                    'placeholder' => 'Entrez un mot à censurer'
                     // 'rows' => 1
                 ]
             ])

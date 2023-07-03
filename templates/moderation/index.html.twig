@@ -35,46 +35,26 @@
     </header>
     <div class="headerUnderline"></div>
 
+
+
     <div class="main">
+
 
         <h2>Espace Modération</h2>
 
-        <h3>Mots censurés</h3>
-        
-        <div style="display:inline-flex; flex-direction:column; width:80%;">
-            {% for censureWord in censureWords %}
-                <div style="display:inline-flex; justify-content:space-evenly;">
-                    <p>"{{ censureWord.word }}"</p>
-                    <p>{{ time_diff(censureWord.creationDate) }}</p>
-                    <p>par {{ censureWord.user.pseudo }}</p>
-                    <a href="{{ path('app_deleteCensure', {'id': censureWord.id }) }}">
-                        <i class="fa-solid fa-xmark"></i>
-                    </a>
-                </div>
-            {% endfor %}
 
-            {{ form_start(formAddCensoredWord) }}
-                <div class="inline" style="position:relative; margin: 5px auto;">
-                    {{ form_widget(formAddCensoredWord.word) }} 
-                    {{ form_widget(formAddCensoredWord.submit) }}
-                </div>
-            {{ form_end(formAddCensoredWord) }}
-        </div>
+        <div class="sectionContainer modoSection" >
 
+            <h3>Topics en attente</h3>
 
-        {# Dans l'idée: OnClick: Affiche titre en entier et pour Topic affiche le 1st msg aussi (anim clip-path css ?) #}
+            {% if lastWaitingTopics|length == 0 %}
 
-        <h3>Topics en attente de validation</h3>
+                <p class="emptyListMsg">Aucun topic en attente de validation</p>
+                
+            {% else %}
+                        
+                {% for topic in lastWaitingTopics %}
 
-        {% if lastWaitingTopics|length == 0 %}
-
-            <p class="emptyListMsg">Aucun topic en attente de validation</p>
-            
-        {% else %}
-                    
-            {% for topic in lastWaitingTopics %}
-
-                {# <a href="{{ path('app_topicDetail', {'id': topic.id}) }}"> #}
                     <div id="topicCard{{ topic.id }}" class="topicCard" style="border-bottom: 4px solid {{ topic.game.color }}; cursor:pointer;">
                         <img class="tinyLogo" src="{{ asset('img/games/tinyLogo/' ~ topic.game.tinyLogo) }}" />
                         <span id="topicTitle{{ topic.id }}" class="topicTitle">{{ topic.title|capitalize }}</span>
@@ -99,31 +79,31 @@
                         </div>
 
                     </div>
-                {# </a> #}
 
-                {# OnClick TopicCard: détails et boutons validation/refus #}
-                <script>
-                    document.getElementById('topicCard{{ topic.id }}').addEventListener('click', function() {
-                        document.getElementById('topicSubCard{{ topic.id }}').classList.toggle('notDisplayed');
-                    });
-                </script>
-
-            {% endfor %}
-
-        {% endif %} 
+                    {# OnClick TopicCard: détails et boutons validation/refus #}
+                    <script>
+                        document.getElementById('topicCard{{ topic.id }}').addEventListener('click', function() {
+                            document.getElementById('topicSubCard{{ topic.id }}').classList.toggle('notDisplayed');
+                        });
+                    </script>
+                {% endfor %}
+            {% endif %} 
+        </div>
 
 
 
-        <h3>Médias en attente de validation</h3>
 
+        <div class="sectionContainer modoSection" >
 
-        {% if lastWaitingMedias|length == 0 %}
+            <h3>Médias en attente</h3>
 
-            <p class="emptyListMsg">Aucun média en attente de validation</p>
+            {% if lastWaitingMedias|length == 0 %}
 
-        {% else %}
+                <p class="emptyListMsg">Aucun média en attente de validation</p>
 
-            <div class="listContainer marginTop mediaList">
+            {% else %}
+
+                <div class="listContainer marginTop mediaList">
 
                     {% for media in lastWaitingMedias %}
 
@@ -158,11 +138,59 @@
                         </script>
 
                     {% endfor %}
+                </div>
+            {% endif %}
+        </div>
+
+
+
+
+
+
+        <div class="sectionContainer modoSection" >
+            <h3>Signalements</h3>
+
+            <div style="display:inline-flex; flex-direction:column; width:80%;">
+                {% for report in reports %}
+                    <span>{{ report.reportMotif.text }}, type: {{ report.objectType }}, ancienneté: {{ time_diff(report.creationDate) }} </span>
+                {% endfor %}
+            </div>
+
+        </div>
+
+
+
+
+
+
+
+
+        <div class="sectionContainer modoSection" >
+
+            <h3>Mots censurés</h3>
+            
+            <div class="censuredWordsList">
+                {% for censureWord in censureWords %}
+                    <div style="display:inline-flex; justify-content:space-around; padding: 5px 0; border-bottom:1px solid rgba(255,255,255,0.2);">
+                        <span style="width:100px;">"{{ censureWord.word }}"</span>
+                        <span style="width:100px;">{{ time_diff(censureWord.creationDate) }}</span>
+                        <pspan style="width:100px;">par {{ censureWord.user.pseudo }}</span>
+                        <a href="{{ path('app_deleteCensure', {'id': censureWord.id }) }}">
+                            <i class="fa-solid fa-xmark"></i>
+                        </a>
+                    </div>
+                {% endfor %}
 
             </div>
 
-        {% endif %}
+            {{ form_start(formAddCensoredWord) }}
+                <div class="inline" style="position:relative; margin: 5px auto;">
+                    {{ form_widget(formAddCensoredWord.word) }} 
+                    {{ form_widget(formAddCensoredWord.submit) }}
+                </div>
+            {{ form_end(formAddCensoredWord) }}
 
+        </div>
 
 
 
