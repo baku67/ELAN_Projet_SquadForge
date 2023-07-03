@@ -26,6 +26,10 @@ class Report
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
     private ?\DateTimeInterface $creation_date = null;
 
+    #[ORM\ManyToOne(inversedBy: 'reports')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?ReportMotif $reportMotif = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -75,6 +79,18 @@ class Report
     public function setCreationDate(\DateTimeInterface $creation_date): self
     {
         $this->creation_date = $creation_date;
+
+        return $this;
+    }
+
+    public function getReportMotif(): ?ReportMotif
+    {
+        return $this->reportMotif;
+    }
+
+    public function setReportMotif(?ReportMotif $reportMotif): self
+    {
+        $this->reportMotif = $reportMotif;
 
         return $this;
     }

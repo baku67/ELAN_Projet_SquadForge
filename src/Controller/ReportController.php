@@ -27,22 +27,47 @@ class ReportController extends AbstractController
     }
 
     
-    #[Route('/app_reportObject/{objectType}/{objectId}/{reporterId}', name: 'app_reportObject')]
-    public function reportObject(EntityManagerInterface $entityManager, string $objectType, int $objectId, int $reporterId, Request $request): Response
+    #[Route('/app_reportObject/{objectType}/{objectId}/{reporterId}/{reportMotifId}', name: 'app_reportObject')]
+    public function reportObject(EntityManagerInterface $entityManager, string $objectType, int $objectId, int $reporterId, string $reportMotifId, Request $request): Response
     {
+
+        $mediaRepo = $entityManager->getRepository(Media::class);
+
+
+        switch ($objectType) {
+            case 'media':
+                $object = $mediaRepo->find($objectId);
+                break;
+            
+            default:
+                // Ne correspond à aucun object -> error
+                break;
+        }
+
 
         if($this->getUser()) {
 
+            if(!is_null($object)) { 
+
+
 
             // Si pas deja de report pour ce user et cet objet (Type+Id) {user->getReports contains ce new report selon les 2 id?}
+            
+            // Si motifId not null et != 0 (value par defaut)
+
+            // Si media existe
+            
+            
             // New Report
 
 
 
+                // redirect plutot
+                return $this->render('report/index.html.twig', [
+                    'controller_name' => 'ReportController',
+                ]);
 
-            return $this->render('report/index.html.twig', [
-                'controller_name' => 'ReportController',
-            ]);
+            }
 
         }
         else {

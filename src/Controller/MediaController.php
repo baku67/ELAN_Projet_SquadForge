@@ -9,6 +9,7 @@ use App\Entity\Censure;
 use App\Entity\MediaPost;
 use App\Entity\MediaPostLike;
 use App\Entity\Game;
+use App\Entity\ReportMotif;
 use App\Form\MediaType;
 use App\Form\MediaPostType;
 use Doctrine\ORM\EntityManagerInterface;
@@ -208,6 +209,7 @@ class MediaController extends AbstractController
         $notifRepo = $entityManager->getRepository(Notification::class);
         $mediaRepo = $entityManager->getRepository(Media::class);
         $topicRepo = $entityManager->getRepository(Topic::class);
+        $reportMotifRepo = $entityManager->getRepository(ReportMotif::class);
 
         // Si page vient de notifId, passe la notif en "clicked"
         if (!is_null($notifId)) {
@@ -216,6 +218,9 @@ class MediaController extends AbstractController
             $entityManager->persist($notifFrom);
             $entityManager->flush();
         }
+
+        // Liste select Options de signalements:
+        $reportMotifs = $reportMotifRepo->findAll();
 
         // Onglet notifs Bulle nbr "non-vues" (int si connécté, null sinon)
         $userNotifCount = $this->getUser() ? count($notifRepo->findByUserNotSeen($this->getUser())) : null;
@@ -317,6 +322,7 @@ class MediaController extends AbstractController
                 }
             }
             return $this->render('media/mediaDetail.html.twig', [
+                'reportMotifs' => $reportMotifs,
                 'modoNotifCount' => $modoNotifCount,
                 'userNotifCount' => $userNotifCount,
                 'formAddMediaPost' => $form->createView(),
