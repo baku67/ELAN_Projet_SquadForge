@@ -240,8 +240,8 @@ nav {
     padding: 11px 30px;
     position: relative;
     left: 11px;
-    border-top-right-radius: 4px;
-    top: 3px;
+    border-top-right-radius: 10px;
+    top: -6px;
     background-color: rgb(255 255 255 / 5%);
     border-top: 1px solid rgb(255 255 255 / 20%);
     border-bottom: 2px solid rgb(255 255 255 / 20%);
@@ -261,6 +261,8 @@ nav {
 .createButton:hover i {
     color: black !important;
 }
+
+
 
 
 #memberLeadSubmit {

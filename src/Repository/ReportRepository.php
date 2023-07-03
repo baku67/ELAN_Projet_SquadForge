@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\Report;
+use App\Entity\User;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -37,6 +38,15 @@ class ReportRepository extends ServiceEntityRepository
         if ($flush) {
             $this->getEntityManager()->flush();
         }
+    }
+
+
+    public function getByObjectAndUser(string $objectType, int $objectId, User $user) {
+
+
+        $result = $this->findBy(["objectType" => $objectType, "objectId" => $objectId, "user_reporter" => $user]);
+
+        return $result;
     }
 
 //    /**

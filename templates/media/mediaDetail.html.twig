@@ -146,7 +146,7 @@
                     motifSelect.addEventListener('change', function() {
                         const selectedMotifId = motifSelect.value;
                         const href = "/app_reportObject/media/" + {{media.id}} + "/" + {{app.user.id}} + "/" +  selectedMotifId;
-                        envoyerLink.setAttribute('href', updatedHref);
+                        envoyerLink.setAttribute('href', href);
                     });
                 </script>
 
