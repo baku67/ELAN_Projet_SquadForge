@@ -83,7 +83,7 @@ class CandidatureController extends AbstractController
 
     
     // Page Candidature détaillée (leader)
-    #[Route('/candidatureDetails/{candidatureId}/{notifId}', name: 'app_candidatureDetails')]
+    #[Route('/candidatureDetails/{candidatureId}/{notifId}', name: 'app_candidatureDetails', defaults: ['notifId' => null])]
     public function candidatureDetails(EntityManagerInterface $entityManager, int $candidatureId, Request $request, int $notifId = null): Response
     {
 

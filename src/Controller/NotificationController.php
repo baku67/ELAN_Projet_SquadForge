@@ -249,7 +249,7 @@ class NotificationController extends AbstractController
                 $this->entityManager->flush();
 
                 // Lien notif post-add pour récup l'id notif et l'injecter dans la route pour state "clicked":
-                $link = $this->urlGenerator->generate('app_groupDetails', ['groupId' => $group->getId(), 'notifId' => $notification->getId()], UrlGeneratorInterface::ABSOLUTE_URL);
+                $link = $this->urlGenerator->generate('app_groupDetails', ['groupId' => $group->getId(), 'notifId' => $notification2->getId()], UrlGeneratorInterface::ABSOLUTE_URL);
                 $notification2->setLink($link);
                 $this->entityManager->persist($notification2);
                 $this->entityManager->flush();                    

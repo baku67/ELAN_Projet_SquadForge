@@ -19,7 +19,7 @@ class UserController extends AbstractController
 {
 
     
-    #[Route('/user/{notifId}', name: 'app_user')]
+    #[Route('/user/{notifId}', name: 'app_user', defaults: ['notifId' => null])]
     public function profil(EntityManagerInterface $entityManager, int $notifId = null): Response
     {
         $mediaRepo = $entityManager->getRepository(Media::class);

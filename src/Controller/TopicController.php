@@ -162,7 +162,7 @@ class TopicController extends AbstractController
 
 
     // Topic Details (id: idTopic) + Form TopicPost
-    #[Route('/topicDetail/{id}/{notifId}', name: 'app_topicDetail')]
+    #[Route('/topicDetail/{id}/{notifId}', name: 'app_topicDetail', defaults: ['notifId' => null])]
     public function getTopicDetail(EntityManagerInterface $entityManager, Request $request, int $id, int $notifId = null): Response
     {
         $censureRepo = $entityManager->getRepository(Censure::class);

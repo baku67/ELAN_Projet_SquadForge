@@ -202,7 +202,7 @@ class MediaController extends AbstractController
 
 
     // Médias Details (id: idMedia) + Form PostMedia
-    #[Route('/mediaDetail/{id}/{notifId}', name: 'app_mediaDetail')]
+    #[Route('/mediaDetail/{id}/{notifId}', name: 'app_mediaDetail', defaults: ['notifId' => null])]
     public function getMediaDetail(EntityManagerInterface $entityManager, Request $request, int $id, int $notifId = null): Response
     {
         $mediaRepo = $entityManager->getRepository(Media::class);

@@ -190,8 +190,8 @@ class GroupController extends AbstractController
 
 
     // Detail du groupe: Id Group
-    #[Route('/groupDetails/{groupId}/{notifId}', name: 'app_groupDetails')]
-    public function groupDetails(EntityManagerInterface $entityManager, int $groupId, Request $request, int $notifId = null): Response
+    #[Route('/groupDetails/{groupId}/{notifId}', name: 'app_groupDetails', defaults: ['notifId' => null])]
+    public function groupDetails(EntityManagerInterface $entityManager, int $groupId, int $notifId = null, Request $request): Response
     {
         $groupRepo = $entityManager->getRepository(Group::class);
         $notifRepo = $entityManager->getRepository(Notification::class);
