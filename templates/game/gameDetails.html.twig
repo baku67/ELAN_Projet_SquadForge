@@ -362,9 +362,9 @@
                             <div class="topicCard" style="border-bottom: 4px solid {{ game.color }}" onmouseover="" onmouseout="">
                                 <img class="tinyLogo" src="{{ asset('img/games/tinyLogo/' ~ topic.game.tinyLogo) }}" />
                                 <span class="topicTitle">{{ topic.title|capitalize }}</span>
-                                <div class="">
+                                <div class="topicCardSubInfos">
                                     <span>{{ topic.status }}</span>
-                                    <span>{{ topic.user.pseudo }}</span>
+                                    <span class="topicCardAuthor">{{ topic.user.pseudo }}</span>
                                     <span class="topicCardPublishDate">{{ time_diff(topic.publishDate) }}</span>
                                     {% if topic.topicPostsCount == 0 %}
                                         <span style="opacity:0.5;">{{ topic.topicPostsCount }} <i class="fa-solid fa-message" style="color:grey;"></i></span>

@@ -39,20 +39,22 @@
         
         {% if app.user %}
             {# Raccourcis Jeux favoris si logged in #}
-            <h3 class="gameSubTitle noMarginBottom" style="background-color: var(--primary-color);">Jeux Favoris</h3>
-            <div class="genreGameList">
-                {% for gameFav in userFav %}
-                    <a  class="gameCardLink" href="{{ path('app_game', {'id': gameFav.id} )}}" onmouseover="this.style.filter='drop-shadow(0px 0px 6px {{ gameFav.color }})'" onmouseout="this.style.filter='drop-shadow(0px 0px 5px black)'">
-                        <div class="gameCard">
-                            <img src="{{ asset("img/games/logo/" ~ gameFav.logo) }}" class="gameLogo" alt="logo {{ gameFav.title }}"/>
-                            <div class="gameCardUnderline" style="background-color:{{ gameFav.color }}"></div>
-                        </div>
-                    </a>
-                {% endfor %}
+            <div class="sectionHomeContainer">
+                <h3 class="homeSubTitle noMarginBottom" style="background-color: var(--primary-color);"><i style="" class="fa-solid fa-heart"></i> Jeux Favoris</h3>
+                <div class="sectionContent genreGameList">
+                    {% for gameFav in userFav %}
+                        <a  class="gameCardLink" href="{{ path('app_game', {'id': gameFav.id} )}}" onmouseover="this.style.filter='drop-shadow(0px 0px 6px {{ gameFav.color }})'" onmouseout="this.style.filter='drop-shadow(0px 0px 5px black)'">
+                            <div class="gameCard">
+                                <img src="{{ asset("img/games/logo/" ~ gameFav.logo) }}" class="gameLogo" alt="logo {{ gameFav.title }}"/>
+                                <div class="gameCardUnderline" style="background-color:{{ gameFav.color }}"></div>
+                            </div>
+                        </a>
+                    {% endfor %}
+                </div>
             </div>
 
             {# Raccourcis Teams si logged in #}
-            <h3 class="gameSubTitle noMarginBottom" style="background-color: var(--primary-color);">Teams</h3>
+            <h3 class="homeSubTitle noMarginBottom" style="background-color: var(--primary-color);">Teams</h3>
             <div class="genreGameList" style="text-align:center;">
                 {% for userTeam in userTeams %}
                     <a class="groupCard" href="{{ path('app_groupDetails', {'groupId': userTeam.id } ) }}" style="position:relative;">
@@ -79,8 +81,8 @@
 
 
         {# Les 5 derniers Topics (tout jeux confondus) #}
-        <a href="{{ path('app_allTopicsGlobal') }}">
-            <h3 class="gameSubTitle noMarginBottom" style="background-color: var(--primary-color);">
+        <a href="{{ path('app_allTopicsGlobal') }}" style="height:fit-content; width:fit-content; display:block;">
+            <h3 class="homeSubTitle noMarginBottom" style="background-color: var(--primary-color);">
                 Derniers Topics
             </h3>
         </a>
@@ -92,14 +94,16 @@
                     <div class="topicCard" style="border-bottom: 4px solid {{ topic.game.color }}">
                         <img class="tinyLogo" src="{{ asset('img/games/tinyLogo/' ~ topic.game.tinyLogo) }}" />
                         <span class="topicTitle">{{ topic.title|capitalize }}</span>
-                        <span>{{ topic.status }}</span>
-                        <span>{{ topic.user.pseudo }}</span>
-                        <span class="topicCardPublishDate">{{ time_diff(topic.publishDate) }}</span>
-                        {% if topic.topicPostsCount == 0 %}
-                            <span style="opacity:0.5;">{{ topic.topicPostsCount }} <i class="fa-solid fa-message" style="color:grey;"></i></span>
-                        {% else %}
-                            <span>{{ topic.topicPostsCount }} <i class="fa-solid fa-message" style="color:var(--primary-color)"></i></span>
-                        {% endif %}
+                        <div class="topicCardSubInfos">
+                            <span>{{ topic.status }}</span>
+                            <span class="topicCardAuthor">{{ topic.user.pseudo }}</span>
+                            <span class="topicCardPublishDate">{{ time_diff(topic.publishDate) }}</span>
+                            {% if topic.topicPostsCount == 0 %}
+                                <span style="opacity:0.5;">{{ topic.topicPostsCount }} <i class="fa-solid fa-message" style="color:grey;"></i></span>
+                            {% else %}
+                                <span>{{ topic.topicPostsCount }} <i class="fa-solid fa-message" style="color:var(--primary-color)"></i></span>
+                            {% endif %}
+                        </div>
                     </div>
                 </a>
             {% endfor %}
@@ -117,7 +121,7 @@
         {# Derniers médias (tout jeux confondus) #}
         <div style="display:inline-flex;">
             <a href=" {{ path('app_allMediasGlobal') }}">
-                <h3 class="gameSubTitle noMarginBottom" style="background-color: var(--primary-color);">
+                <h3 class="homeSubTitle noMarginBottom" style="background-color: var(--primary-color);">
                     Médias
                 </h3>
             </a>

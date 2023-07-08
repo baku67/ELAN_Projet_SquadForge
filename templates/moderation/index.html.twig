@@ -59,7 +59,7 @@
                         <img class="tinyLogo" src="{{ asset('img/games/tinyLogo/' ~ topic.game.tinyLogo) }}" />
                         <span id="topicTitle{{ topic.id }}" class="topicTitle">{{ topic.title|capitalize }}</span>
                         <span>{{ topic.validated }}</span>
-                        <span>{{ topic.user.pseudo }}</span>
+                        <span class="topicCardAuthor">{{ topic.user.pseudo }}</span>
                         <span class="topicCardPublishDate">{{ time_diff(topic.publishDate) }}</span>
                         {% if topic.topicPostsCount == 0 %}
                             <span style="opacity:0.5;">{{ topic.topicPostsCount }} <i class="fa-solid fa-message" style="color:grey;"></i></span>
@@ -150,7 +150,7 @@
         <div class="sectionContainer modoSection" >
             <h3>Signalements</h3>
 
-            <div style="display:inline-flex; flex-direction:column; width:80%;">
+            <div class="reportsDiv">
                 {% for report in reports %}
                     <span>{{ report.reportMotif.text }}, type: {{ report.objectType }}, ancienneté: {{ time_diff(report.creationDate) }} </span>
                 {% endfor %}

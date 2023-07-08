@@ -75,20 +75,21 @@ class SecurityController extends AbstractController
             $modoNotifCount = null;
         }
 
-        // Si connecté: raccourcis Games favoris
+        // Si connecté: raccourcis Games favoris, et listTeams
         if($this->getUser()) {
             $userFav = $this->getUser()->getFavoris();
+            $userTeams = $this->getUser()->getGroupes();
         }
         else {
             $userFav = null;
+            $userTeams = null;
         }
 
         // Homepage: 5 derniers Topics
         $topicManager = $entityManager->getRepository(Topic::class);
         $lastTopics = $topicManager->findLastTopics();
 
-        // Teams dont user = membre
-        $userTeams = $this->getUser()->getGroupes();
+        
 
         // Homepage: 5 derniers Médias
         $MediaManager = $entityManager->getRepository(Media::class);
