@@ -44,6 +44,7 @@ class GroupController extends AbstractController
         $notifRepo = $entityManager->getRepository(Notification::class);
         $mediaRepo = $entityManager->getRepository(Media::class);
         $topicRepo = $entityManager->getRepository(Topic::class);
+        $groupRepo = $entityManager->getRepository(Group::class);
 
         // Onglet notifs Bulle nbr "non-vues" (int si connécté, null sinon)
         $userNotifCount = $this->getUser() ? count($notifRepo->findByUserNotSeen($this->getUser())) : null;
@@ -69,73 +70,89 @@ class GroupController extends AbstractController
 
             // Vérif connecté pour créer un Group
             if($this->getUser()) {
+
+                // Vérif 2 groupes leadés max par jeu 
+                if (count($groupRepo->findBy(["leader" => $this->getUser(), "game" => $gameFrom])) < 2) {
+
+                    // Vérif Nom Team unique
+                    if(is_null($groupRepo->findOneBy(["title" => $group->getTitle()]))) {
                     
-                    if($form->isValid()) {
+                        if($form->isValid()) {
 
-                        // Hydrataion du "Group" a partir des données du form
-                        $group = $form->getData();
+                            // Hydrataion du "Group" a partir des données du form
+                            $group = $form->getData();
 
-                        // Vérif au moins 2 places
-                        if($group->getNbrPlaces() < 2) {
-                            $this->addFlash('error', 'Le groupe doit avoir au moins 2 places');
-                            return $this->redirectToRoute('app_createGroup', ['gameIdFrom' => $gameFrom->getId()]);
+                            // Vérif au moins 2 places
+                            if($group->getNbrPlaces() < 2) {
+                                $this->addFlash('error', 'Le groupe doit avoir au moins 2 places');
+                                return $this->redirectToRoute('app_createGroup', ['gameIdFrom' => $gameFrom->getId()]);
+                            }
+        
+                            // Init de la publish_date du comment
+                            $group->setCreationDate(new \DateTime());
+                            $group->setLeader($this->getUser());
+                            $group->setGame($gameFrom);
+                            $group->addMember($this->getUser());
+
+                            // Paramètres du Group
+                            $isPublicChecked = $group->getStatus();
+                            if($isPublicChecked) {
+                                $group->setStatus("public"); 
+                            } else {
+                                $group->setStatus("hidden"); 
+                            }
+
+                            $isMicChecked = $group->isRestrictionMic();
+                            if($isMicChecked) {
+                                $group->setRestrictionMic(true); 
+                            } else {
+                                $group->setRestrictionMic(false); 
+                            }
+
+                            $is18Checked = $group->isRestriction18();
+                            if($is18Checked) {
+                                $group->setRestriction18(true); 
+                            } else {
+                                $group->setRestriction18(false); 
+                            }
+
+                            $isImgProofChecked = $group->isRestrictionImgProof();
+                            if($isImgProofChecked) {
+                                $group->setRestrictionImgProof(true); 
+                            } else {
+                                $group->setRestrictionImgProof(false); 
+                            }
+                            
+                            // Désactivation vérification nbr de mots etc...
+                            // // Récupération du titre
+                            // $textInputValue = $form->get('text')->getData();
+                            // // Liste des mots du commentaires
+                            // $words = str_word_count($textInputValue, 1);
+                            // // Décompte du nombre de mots dans la liste
+                            // $wordCount = count($words);
+                            // // Vérification du compte de mots
+                            // if ($wordCount >= 5) {
+        
+                            $entityManager->persist($group);
+                            $entityManager->flush();
+
+                            $this->addFlash('success', 'Le groupe a bien été créé');
+                            return $this->redirectToRoute('app_groupDetails', ['groupId' => $group->getId()]);
                         }
-    
-                        // Init de la publish_date du comment
-                        $group->setCreationDate(new \DateTime());
-                        $group->setLeader($this->getUser());
-                        $group->setGame($gameFrom);
-                        $group->addMember($this->getUser());
-
-                        // Paramètres du Group
-                        $isPublicChecked = $group->getStatus();
-                        if($isPublicChecked) {
-                            $group->setStatus("public"); 
-                        } else {
-                            $group->setStatus("hidden"); 
-                        }
-
-                        $isMicChecked = $group->isRestrictionMic();
-                        if($isMicChecked) {
-                            $group->setRestrictionMic(true); 
-                        } else {
-                            $group->setRestrictionMic(false); 
-                        }
-
-                        $is18Checked = $group->isRestriction18();
-                        if($is18Checked) {
-                            $group->setRestriction18(true); 
-                        } else {
-                            $group->setRestriction18(false); 
-                        }
-
-                        $isImgProofChecked = $group->isRestrictionImgProof();
-                        if($isImgProofChecked) {
-                            $group->setRestrictionImgProof(true); 
-                        } else {
-                            $group->setRestrictionImgProof(false); 
-                        }
-                        
-                        // Désactivation vérification nbr de mots etc...
-                        // // Récupération du titre
-                        // $textInputValue = $form->get('text')->getData();
-                        // // Liste des mots du commentaires
-                        // $words = str_word_count($textInputValue, 1);
-                        // // Décompte du nombre de mots dans la liste
-                        // $wordCount = count($words);
-                        // // Vérification du compte de mots
-                        // if ($wordCount >= 5) {
-    
-                        $entityManager->persist($group);
-                        $entityManager->flush();
-
-                        $this->addFlash('success', 'Le groupe a bien été créé');
-                        return $this->redirectToRoute('app_groupDetails', ['groupId' => $group->getId()]);
-                    } 
+                        else {
+                            $this->addFlash('error', 'Pas de vulgarités pour un titre');
+                            return $this->redirectToRoute('app_groupDetails', ['groupId' => $group->getId()]);
+                        } 
+                    }
                     else {
-                        $this->addFlash('error', 'Pas de vulgarités pour un titre');
-                        return $this->redirectToRoute('app_groupDetails', ['groupId' => $group->getId()]);
-                    }  
+                        $this->addFlash('error', 'Le nom est déjà utilisé');
+                        return $this->redirectToRoute('app_createGroup', ['gameIdFrom' => $gameIdFrom]);
+                    } 
+                }
+                else {
+                    $this->addFlash('error', 'Vous êtes déjà leader de 2 teams (max)');
+                    return $this->redirectToRoute('app_createGroup', ['gameIdFrom' => $gameIdFrom]);
+                }
             }
             else {
                 $this->addFlash('error', 'Vous devez être connecté pour créer un groupe');

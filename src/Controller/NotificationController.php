@@ -256,7 +256,6 @@ class NotificationController extends AbstractController
             }
         }
 
-
         return true;
     }
 

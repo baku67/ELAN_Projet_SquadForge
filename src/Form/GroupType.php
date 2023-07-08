@@ -54,10 +54,14 @@ class GroupType extends AbstractType
             ])
             ->add('nbrPlaces', IntegerType::class, [
                 'label' => "Places",
-                "required" => true,
+                "required" => false,
                 'attr' => [
                     "class" => "form-control nbrPlaceInput",
-                    'placeholder' => '0',
+                    'placeholder' => '2',
+                    'value' => '2',
+                    'min' => '2',
+                    // A adapter si modes de jeu:
+                    'max' => '6',
                 ],
             ])
             ->add('restriction_18', CheckboxType::class, [
