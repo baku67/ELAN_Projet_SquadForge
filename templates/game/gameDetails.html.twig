@@ -282,7 +282,7 @@
                 {% if app.user %}
                     <span id="createTopicBtn" class="createButton" style="border-top: 1px solid {{ game.color }}; border-bottom: 2px solid {{ game.color }};" onmouseover="this.style.backgroundColor = '{{ game.color }}';" onmouseout="this.style.backgroundColor = 'rgb(69 69 69)';"><i class="fa-solid fa-plus" style="color:{{ game.color }}"></i>&nbsp;Créer</span>
                 {% else %}
-                    <a href="{{ path('app_login') }}"><span class="createButton" style="border-top: 1px solid {{ game.color }}; border-bottom: 2px solid {{ game.color }};" onmouseover="this.style.backgroundColor = '{{ game.color }}';" onmouseout="this.style.backgroundColor = 'rgb(69 69 69)';"><i class="fa-solid fa-plus" style="color:{{ game.color }}"></i>&nbsp;Créer</span></a>
+                    <a href="{{ path('app_login') }}" class="linkFixPosition"><span class="createButton" style="border-top: 1px solid {{ game.color }}; border-bottom: 2px solid {{ game.color }};" onmouseover="this.style.backgroundColor = '{{ game.color }}';" onmouseout="this.style.backgroundColor = 'rgb(69 69 69)';"><i class="fa-solid fa-plus" style="color:{{ game.color }}"></i>&nbsp;Créer</span></a>
                 {% endif %}
                 
             </div>
@@ -412,7 +412,7 @@
                 {% if app.user %}
                     <span id="createMediaBtn" class="createButton" style="border-top: 1px solid {{ game.color }}; border-bottom: 2px solid {{ game.color }};" onmouseover="this.style.backgroundColor = '{{ game.color }}';" onmouseout="this.style.backgroundColor = 'rgb(69 69 69)';"><i class="fa-solid fa-plus" style="color:{{ game.color }}"></i>&nbsp;Créer</span>
                 {% else %}
-                    <a href="{{ path('app_login') }}"><span class="createButton" style="border-top: 1px solid {{ game.color }}; border-bottom: 2px solid {{ game.color }};" onmouseover="this.style.backgroundColor = '{{ game.color }}';" onmouseout="this.style.backgroundColor = 'rgb(69 69 69)';"><i class="fa-solid fa-plus" style="color:{{ game.color }}"></i>&nbsp;Créer</span></a>
+                    <a href="{{ path('app_login') }}" class="linkFixPosition"><span class="createButton" style="border-top: 1px solid {{ game.color }}; border-bottom: 2px solid {{ game.color }};" onmouseover="this.style.backgroundColor = '{{ game.color }}';" onmouseout="this.style.backgroundColor = 'rgb(69 69 69)';"><i class="fa-solid fa-plus" style="color:{{ game.color }}"></i>&nbsp;Créer</span></a>
                 {% endif %}
             </div>
 

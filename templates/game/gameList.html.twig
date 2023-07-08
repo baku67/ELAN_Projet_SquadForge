@@ -118,8 +118,10 @@
 
 
 
-        {# Liste jeux catégorie "FPS" #}
+        
         <div id="gamesLists">
+
+            {# Liste jeux catégorie "FPS" #}
             <h3 class="genreTitle">FPS <span class="gameListCount">({{ fpsGamesCount }})</span></h3>
             <div class="genreGameList">
                 {% for game in fpsGames %}
@@ -144,6 +146,34 @@
                     </a>
                 {% endfor %}
             </div>
+
+
+            {# Liste jeux catégorie "MOBA" #}
+            <h3 class="genreTitle">MOBA <span class="gameListCount">({{ mobaGamesCount }})</span></h3>
+            <div class="genreGameList">
+                {% for game in mobaGames %}
+                    <a class="gameCardLink" href="{{ path('app_game', {'id': game.id} )}}" onmouseover="this.style.filter='drop-shadow(0px 0px 6px {{ game.color }})'" onmouseout="this.style.filter='drop-shadow(0px 0px 5px black)'">
+                        <div class="gameCard">
+
+                            <div style="position:relative;">
+                                <img src="{{ asset("img/games/logo/" ~ game.logo) }}" class="gameLogo" alt="logo {{ game.title }}"/>
+                                {# Si jeu favorisé par l'utilisateur #}
+                                {% if app.user is not null and game.favUsers is not empty and app.user in game.favUsers %}
+                                    <i class="fa-solid fa-heart gameCardFav"></i>
+                                {% endif %}
+                            </div>
+                            
+                            <div class="gameCardUnderline" style="background-color:{{ game.color }}"></div>
+
+                            <div class="gameCardInfos">
+                                <p><span>New</span> Topics <span>0</span></p>
+                                <p><span>New</span> Medias <span>0</span></p>
+                            </div>
+                        </div>
+                    </a>
+                {% endfor %}
+            </div>
+
 
             {# Liste jeux catégorie "Battle royal"" #}
             <h3 class="genreTitle">Battle Royal <span class="gameListCount">({{ brGamesCount }})</span></h3>

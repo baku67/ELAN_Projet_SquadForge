@@ -147,14 +147,20 @@ nav {
     align-items: baseline;
     background-color: var(--primary-color);
     clip-path: polygon(0 0, 100% 0, 100% 100%, 15% 100%);
-    padding-left: 20px;
+    padding-left: 42px;
     margin-right: -10px;
     z-index: 10;
     top:0px; 
-    right:0px;
-    /* padding-top: 5px;
-    padding-bottom: 5px; */
+    right:10px;
+    padding-top: 4px;
+    padding-bottom: 4px;
     padding-right: 9px;
+}
+
+.linkFixPosition {
+    position: relative;
+    top: 10px;
+    right: 1px;
 }
 
 .headerUnderline {
@@ -199,7 +205,7 @@ nav {
     color: black;
     bottom: 30px;
     right: 0;
-    padding-left: 40px;
+    padding-left: 50px;
     padding-right: 10px;
     padding-top: 2px;
     padding-bottom: 2px;
@@ -1928,7 +1934,20 @@ cursor: pointer;
 
 .sectionContent {
     padding: 40px 35px 20px 35px;
+    opacity: 0;
+
+    animation: fadeInSection 0.5s 0.8s forwards ease;
 }
+@keyframes fadeInSection {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+
 .sectionTeamParam {
     display: grid;
     grid-template-columns: repeat(2, 1fr);

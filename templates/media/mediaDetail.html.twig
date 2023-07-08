@@ -139,16 +139,18 @@
                 {% endif %}
 
                 {# JS changement du param route reportMotif.id en fonction du select #}
-                <script>
-                    const motifSelect = document.getElementById('motifSelect');
-                    const envoyerLink = document.getElementById('confirmReportModal');
+                {% if app.user %}
+                    <script>
+                        const motifSelect = document.getElementById('motifSelect');
+                        const envoyerLink = document.getElementById('confirmReportModal');
 
-                    motifSelect.addEventListener('change', function() {
-                        const selectedMotifId = motifSelect.value;
-                        const href = "/app_reportObject/media/" + {{media.id}} + "/" + {{app.user.id}} + "/" +  selectedMotifId;
-                        envoyerLink.setAttribute('href', href);
-                    });
-                </script>
+                        motifSelect.addEventListener('change', function() {
+                            const selectedMotifId = motifSelect.value;
+                            const href = "/app_reportObject/media/" + {{media.id}} + "/" + {{app.user.id}} + "/" +  selectedMotifId;
+                            envoyerLink.setAttribute('href', href);
+                        });
+                    </script>
+                {% endif %}
 
             </div>
 

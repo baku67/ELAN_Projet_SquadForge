@@ -72,55 +72,59 @@
                 <h3 class="gameSubTitle noMarginBottom"><i class="fa-solid fa-user-group"></i> Membres ( {{ group.members|length }}/{{ group.nbrPlaces }} )</h3>
             </div>
 
-            <ul id="membersList" class="membersList">
+            <div class="sectionContent">
 
-            {# Card Leader (position 1) #}
-            {% if group.leader == app.user %}
-                {% set leaderPseudo = "Vous" %}
-            {% else %}
-                {% set leaderPseudo = group.leader.pseudo %}
-            {% endif %}
+                <ul id="membersList" class="membersList">
 
-            <li class="memberCard leaderCard" style="background-color: {{ gameFrom.color }}">
-                {{ leaderPseudo }}
-                <span style="text-align:center; color:#ffe039;"><i class="fa-solid fa-crown"></i></span>
-            </li>
-            
-
-            {% set indexMember = 0 %}
-            {% for member in members %}
-        
-                {% if member != group.leader %}
-                
-                    {# Leader Card #}
-                    {% if member == app.user %}
-                        {% set memberPseudo = "Vous" %}
-                    {% else %}
-                        {% set memberPseudo = member.pseudo %}
-                    {% endif %}
-                    
-                    <li class="memberCard" style="background-color: {{ gameFrom.color }}">{{ memberPseudo }}
-                    {% if app.user == group.leader and app.user != member %}    
-                        <span class="kickMemberBtn" onclick="kickMemberModal{{indexMember}}.showModal()">
-                            <i class="fa-solid fa-user-xmark"></i>
-                        </span> 
-
-                        <dialog class="modalDialog" id="kickMemberModal{{indexMember}}">
-                            <p>Êtes-vous sûr de vouloir éjecter {{ member.pseudo }} de la team ?</p>
-                            <a class="confirmModal" href="{{ path('app_kickGroupMember',{'memberId': member.id, 'groupId': group.id, 'type':"normal"}) }}">Oui</a>
-                            <a class="confirmModal" href="{{ path('app_kickGroupMember',{'memberId': member.id, 'groupId': group.id, 'type':"blacklisted"}) }}">Oui et blacklister</a>
-                            <span class="cancelModal" onclick="kickMemberModal{{indexMember}}.close()">Annuler</span>
-                        </dialog>
-
-                    {% endif %}
-                    </li>
-                
+                {# Card Leader (position 1) #}
+                {% if group.leader == app.user %}
+                    {% set leaderPseudo = "Vous" %}
+                {% else %}
+                    {% set leaderPseudo = group.leader.pseudo %}
                 {% endif %}
 
-                {% set indexMember = indexMember + 1 %}
+                <li class="memberCard leaderCard" style="background-color: {{ gameFrom.color }}">
+                    {{ leaderPseudo }}
+                    <span style="text-align:center; color:#ffe039;"><i class="fa-solid fa-crown"></i></span>
+                </li>
+                
+
+                {% set indexMember = 0 %}
+                {% for member in members %}
+            
+                    {% if member != group.leader %}
                     
-            {% endfor %}
-            </ul>
+                        {# Leader Card #}
+                        {% if member == app.user %}
+                            {% set memberPseudo = "Vous" %}
+                        {% else %}
+                            {% set memberPseudo = member.pseudo %}
+                        {% endif %}
+                        
+                        <li class="memberCard" style="background-color: {{ gameFrom.color }}">{{ memberPseudo }}
+                        {% if app.user == group.leader and app.user != member %}    
+                            <span class="kickMemberBtn" onclick="kickMemberModal{{indexMember}}.showModal()">
+                                <i class="fa-solid fa-user-xmark"></i>
+                            </span> 
+
+                            <dialog class="modalDialog" id="kickMemberModal{{indexMember}}">
+                                <p>Êtes-vous sûr de vouloir éjecter {{ member.pseudo }} de la team ?</p>
+                                <a class="confirmModal" href="{{ path('app_kickGroupMember',{'memberId': member.id, 'groupId': group.id, 'type':"normal"}) }}">Oui</a>
+                                <a class="confirmModal" href="{{ path('app_kickGroupMember',{'memberId': member.id, 'groupId': group.id, 'type':"blacklisted"}) }}">Oui et blacklister</a>
+                                <span class="cancelModal" onclick="kickMemberModal{{indexMember}}.close()">Annuler</span>
+                            </dialog>
+
+                        {% endif %}
+                        </li>
+                    
+                    {% endif %}
+
+                    {% set indexMember = indexMember + 1 %}
+                        
+                {% endfor %}
+                </ul>
+
+            </div>
 
         </div>
 

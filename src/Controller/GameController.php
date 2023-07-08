@@ -65,6 +65,10 @@ class GameController extends AbstractController
         $fpsGames = $gamesRepo->findBy(['genre' => $fpsGenre], ['publish_date' => 'DESC']);
         $fpsGamesCount = count($fpsGames);
 
+        $mobaGenre = $genreRepo->findBy(['name' => 'MOBA']);
+        $mobaGames = $gamesRepo->findBy(['genre' => $mobaGenre], ['publish_date' => 'DESC']);
+        $mobaGamesCount = count($mobaGames);
+
         $indieGenre = $genreRepo->findBy(['name' => 'indie']);
         $indieGames = $gamesRepo->findBy(['genre' => $indieGenre], ['publish_date' => 'DESC']);
         $indieGamesCount = count($indieGames);
@@ -76,6 +80,8 @@ class GameController extends AbstractController
         return $this->render('game/gameList.html.twig', [
             'modoNotifCount' => $modoNotifCount,
             'userNotifCount' => $userNotifCount,
+            'mobaGames' => $mobaGames,
+            'mobaGamesCount' => $mobaGamesCount,
             'fpsGames' => $fpsGames,
             'fpsGamesCount' => $fpsGamesCount,
             'indieGames' => $indieGames,
