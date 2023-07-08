@@ -230,18 +230,19 @@
                     <div class="groupListGrid">
                         {% for userGameGroup in userGameGroups %}
                             {% if userGameGroup.leader == app.user %}
-                                {% set borderStatus = "1px solid gold" %}
-                            {% else %}
-                                {% set borderStatus = "0px solid" %}
-                            {% endif %}
                             
-                            <a class="groupCard" href="{{ path('app_groupDetails', {'groupId': userGameGroup.id } ) }}" style="background-color: {{ game.color }}; border: {{ borderStatus }};">
-                                <div>
-                                    <h5>{{ userGameGroup.title }}</h5>
-                                    <span>{{ userGameGroup.members|length }} / {{ userGameGroup.nbrPlaces }}</span>
-                                    {# Indicateur visuel icon FA user full / vide (recheck max nbrPlaces) #}
-                                </div>
-                            </a>
+                                <a class="groupCard" href="{{ path('app_groupDetails', {'groupId': userGameGroup.id } ) }}" style="border: 1px solid {{ game.color }}">
+                                    <div>
+                                        <h5 style="background-color: {{ game.color }}; padding: 3px 10px 7px 10px;">
+                                            {{ userGameGroup.title }} 
+                                            {% if userGameGroup.leader == app.user %}<i class="fa-solid fa-crown" style="color:#ffe039;"></i>{% endif %}
+                                        </h5>
+                                        {# Icon Leader #}
+                                        <span>{{ userGameGroup.members|length }} / {{ userGameGroup.nbrPlaces }}</span>
+                                    </div>
+                                </a>
+
+                            {% endif %}
                         {% endfor %}
                     </div>
                     {% else %}

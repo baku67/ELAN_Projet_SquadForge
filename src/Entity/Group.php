@@ -56,7 +56,7 @@ class Group
     #[ORM\ManyToMany(targetEntity: User::class, inversedBy: 'groupes')]
     private Collection $members;
 
-    #[ORM\OneToMany(mappedBy: 'groupe', targetEntity: GroupQuestion::class)]
+    #[ORM\OneToMany(mappedBy: 'groupe', targetEntity: GroupQuestion::class, cascade: ['remove'])]
     private Collection $groupQuestions;
 
     #[ORM\Column(type: Types::TEXT, nullable: true)]

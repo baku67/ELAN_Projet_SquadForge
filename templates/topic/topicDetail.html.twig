@@ -212,13 +212,15 @@
                         
                         {# Post text et auteur #}
                         <div class="postContent">
-                            <p>{{ post.text }}</p>
+
+                            <p class="postText">{{ post.text }}</p>
 
                             {% if post.user == app.user %}
-                                <span>par vous</span>
+                                <span class="postAuthorUser postSelf">Vous</span>
                             {% else %}
-                                <span>par {{ post.user.pseudo }}</span>
+                                <span class="postAuthorUser">{{ post.user.pseudo }}</span>
                             {% endif %}
+
                         </div>
 
                         {# Post upvote/downvote #}

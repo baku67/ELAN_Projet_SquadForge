@@ -138,20 +138,22 @@ nav {
 
 .main {
     width: 85%;
-    margin: 0 auto;
-    margin-bottom: 50px;
+    margin: 50px auto;
 }
 
 .authenticationDiv {
     position:absolute; 
     display:inline-flex; 
+    align-items: baseline;
     background-color: var(--primary-color);
     clip-path: polygon(0 0, 100% 0, 100% 100%, 15% 100%);
     padding-left: 20px;
+    margin-right: -10px;
     z-index: 10;
     top:0px; 
     right:0px;
-    padding-top: 2px;
+    /* padding-top: 5px;
+    padding-bottom: 5px; */
     padding-right: 9px;
 }
 
@@ -176,7 +178,11 @@ nav {
 
 .profil {
     color: black;
-    padding: 0px 10px;
+    padding: 7px 14px;
+}
+.decoBtn {
+    padding: 7px 14px;
+    border-left: 1px solid rgb(0 0 0 / 30%);
 }
 
 .genreGameList {
@@ -476,7 +482,23 @@ nav {
     transform: translateY(-1px);
     z-index:0;
 
-    animation: gameInfosSubTitleBg1 0.3s 0.1s ease-in-out forwards, gameInfosSubTitleBg2 0.4s 0.45s ease-in-out forwards;
+    animation: gameInfosHeaderTitle1 0.3s 0.1s ease-in-out forwards, gameInfosHeaderTitle2 0.4s 0.45s ease-in-out forwards;
+}
+@keyframes gameInfosHeaderTitle1 {
+    from {
+        height: 0px;
+    }
+    to {
+        height:45px; 
+    }
+}
+@keyframes gameInfosHeaderTitle2 {
+    from {
+        width: 5px;
+    }
+    to {
+        width:160px; 
+    }
 }
 
 
@@ -876,8 +898,8 @@ nav {
     background-color: rgb(68 68 68);
     color: white;
     font-family: 'K2D', sans-serif;
-    padding: 5px 20px;
-    margin: 2px auto;
+    padding: 5px 13px;
+    margin: 1px auto;
     border-radius: 3px;
     display: inline-flex;
     width: 100%;
@@ -889,6 +911,24 @@ nav {
     flex-direction: column;
     justify-content: space-between;
 }
+
+
+
+
+.postAuthorUser {
+    opacity: 0.8;
+    font-size: 0.9em;
+    font-style: italic;
+}
+.postSelf {
+    color: var(--primary-color);
+}
+
+.postText {
+    margin-block-start: 0.1em;
+    margin-block-end: 0.3em;
+}
+
 
 
 .topicFirstMsg {
@@ -943,7 +983,8 @@ nav {
 
 .mediaImg {
     width: 100%;
-    max-width: 100%;
+    /* max-width: 100%; */
+    max-width: 1200px;
     max-height: 1200px;
     margin: 0 auto;
     display: flex;
@@ -1023,7 +1064,8 @@ nav {
 }
 
 .mediaList {
-    width: 55%;
+    width: 60%;
+
     margin: 30px auto;
 }
 
