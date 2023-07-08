@@ -87,6 +87,9 @@ class SecurityController extends AbstractController
         $topicManager = $entityManager->getRepository(Topic::class);
         $lastTopics = $topicManager->findLastTopics();
 
+        // Teams dont user = membre
+        $userTeams = $this->getUser()->getGroupes();
+
         // Homepage: 5 derniers Médias
         $MediaManager = $entityManager->getRepository(Media::class);
         $lastMedias = $MediaManager->findLastMedias();
@@ -95,6 +98,7 @@ class SecurityController extends AbstractController
             'modoNotifCount' => $modoNotifCount,
             'userNotifCount' => $userNotifCount,
             'userFav' => $userFav,
+            'userTeams' => $userTeams,
             'lastTopics' => $lastTopics,
             'lastMedias' => $lastMedias,
         ]);

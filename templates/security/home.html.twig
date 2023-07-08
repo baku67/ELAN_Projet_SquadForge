@@ -36,15 +36,39 @@
 
     <div class="main">
 
-        {# Raccourcis Jeux favoris si logged in #}
+        
         {% if app.user %}
-            <h3 class="gameSubTitle noMarginBottom"  style="background-color: var(--primary-color);">Jeux Favoris</h3>
+            {# Raccourcis Jeux favoris si logged in #}
+            <h3 class="gameSubTitle noMarginBottom" style="background-color: var(--primary-color);">Jeux Favoris</h3>
             <div class="genreGameList">
                 {% for gameFav in userFav %}
                     <a  class="gameCardLink" href="{{ path('app_game', {'id': gameFav.id} )}}" onmouseover="this.style.filter='drop-shadow(0px 0px 6px {{ gameFav.color }})'" onmouseout="this.style.filter='drop-shadow(0px 0px 5px black)'">
                         <div class="gameCard">
                             <img src="{{ asset("img/games/logo/" ~ gameFav.logo) }}" class="gameLogo" alt="logo {{ gameFav.title }}"/>
                             <div class="gameCardUnderline" style="background-color:{{ gameFav.color }}"></div>
+                        </div>
+                    </a>
+                {% endfor %}
+            </div>
+
+            {# Raccourcis Teams si logged in #}
+            <h3 class="gameSubTitle noMarginBottom" style="background-color: var(--primary-color);">Teams</h3>
+            <div class="genreGameList" style="text-align:center;">
+                {% for userTeam in userTeams %}
+                    <a class="groupCard" href="{{ path('app_groupDetails', {'groupId': userTeam.id } ) }}" style="position:relative;">
+                        <div>
+                            <div>
+                                <img src="{{ asset('img/games/tinyLogo/' ~ userTeam.game.tinyLogo) }}" class="tinyLogoTeam">
+                                <h5 class="teamCardTitle" style="background-color: {{ userTeam.game.color }}; color:{{ userTeam.game.fontColor }};">
+                                    {{ userTeam.title }} 
+                                </h5>
+                            </div>
+
+                            <div class="teamCardSubInfos" style="border-color: {{ userTeam.game.color }};">
+                                <span>{{ userTeam.members|length }} / {{ userTeam.nbrPlaces }}</span>
+                                {# Icon Leader #}
+                                {% if userTeam.leader == app.user %}<i class="fa-solid fa-crown" style="color:#ffe039;"></i>{% endif %}
+                            </div>
                         </div>
                     </a>
                 {% endfor %}

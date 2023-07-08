@@ -107,26 +107,6 @@
         </script>
         
 
-        
-        <h3>Jeux Favoris</h3>
-        <div class="genreGameList">
-            {% for gameFav in userFav %}
-                <a  class="gameCardLink" href="{{ path('app_game', {'id': gameFav.id} )}}">
-                    <div class="gameCard">
-                        <img src="{{ asset("img/games/logo/" ~ gameFav.logo) }}" class="gameLogo" alt="logo {{ gameFav.title }}"/>
-                        <div class="gameCardUnderline" style="background-color:{{ gameFav.color }}"></div>
-
-                            <div class="gameCardInfos">
-                                <p class="gameCardTitle">{{ gameFav.title }}</p>
-                                <p><span>New</span> Topics <span>0</span></p>
-                                <p><span>New</span> Medias <span>0</span></p>
-                            </div>
-                    </div>
-                </a>
-            {% endfor %}
-        </div>
-
-
 
         <h3>Topics publiés <span class="gameListCount">({{ userTopicsCount }})</span></h3>
         <div class="listContainer topicList marginTop">

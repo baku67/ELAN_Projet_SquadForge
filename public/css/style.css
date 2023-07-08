@@ -132,7 +132,7 @@ nav {
     bottom: 0px;
     right: 0px;
     padding-right: 10px;
-    color: black; 
+    color: white; 
 
 }
 
@@ -147,7 +147,7 @@ nav {
     align-items: baseline;
     background-color: var(--primary-color);
     clip-path: polygon(0 0, 100% 0, 100% 100%, 15% 100%);
-    padding-left: 42px;
+    padding-left: 35px;
     margin-right: -10px;
     z-index: 10;
     top:0px; 
@@ -184,10 +184,10 @@ nav {
 
 .profil {
     color: black;
-    padding: 7px 14px;
+    padding: 2px 14px;
 }
 .decoBtn {
-    padding: 7px 14px;
+    padding: 2px 14px;
     border-left: 1px solid rgb(0 0 0 / 30%);
 }
 
@@ -345,8 +345,8 @@ nav {
     filter: drop-shadow(2px 1px 4px black);
 } */
 .gameLogo {
-    width: 150px;
-    height: 80px;
+    width: 200px;
+    height: 115px;
 
     border-top-left-radius: 4px;
     border-top-right-radius: 4px;
@@ -606,8 +606,41 @@ nav {
 
 .tinyLogo {
     width: 25px;
+    height: 25px;
     position: absolute;
     left: 14px;
+}
+.tinyLogoTeam {
+    width: 25px;
+    height: 25px;
+    position: absolute;
+
+    left: 1px;
+    top: 1px;
+    z-index: 10;
+}
+
+.teamCardTitle {
+    padding: 3px 10px 7px 10px; 
+    clip-path: polygon(28% 0, 100% 0, 100% 100%, 0 100%, 0 100%);
+    width:100%; 
+    height:60px;
+    padding-left: 50px;
+
+    margin-bottom: 0;
+}
+
+.teamCardSubInfos {
+    padding: 5px 0px;
+    position: relative;
+    bottom: 1px;
+    border-left: 91px solid;
+    border-bottom: 2px solid;
+    border-right: 2px solid;
+    border-top-left-radius: 3px;
+    border-bottom-left-radius: 3px;
+    border-bottom-right-radius: 3px;
+
 }
 
 #createMediaForm {
@@ -1475,6 +1508,7 @@ cursor: pointer;
     font-family: 'K2D', sans-serif;
     width: 180px;
     height: 100px;
+    margin: 10px;
     /* background-color: #d3d3d3; */
     border-radius: 2px;
     /* clip-path: polygon(16% 0, 100% 0, 84% 100%, 0% 100%); */
