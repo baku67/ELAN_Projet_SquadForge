@@ -330,6 +330,72 @@ nav {
     background-color: #00F38D;
 }
 
+
+.blinkingSectionTitle {
+    filter: brightness(0);
+
+    animation: blinkingSectionTitle 1s 0.1s forwards linear;
+}
+@keyframes blinkingSectionTitle {
+    0% {
+        filter: brightness(0);
+    }
+    8% {
+        filter: brightness(1);
+    }
+    20% {
+        filter: brightness(0);
+    }
+    28% {
+        filter: brightness(1);
+    }
+    32% {
+        filter: brightness(0);
+    }
+    36% {
+        filter: brightness(1);
+    }
+    40% {
+        filter: brightness(0);
+    }
+    44% {
+        filter: brightness(1);
+    }
+    52% {
+        filter: brightness(0);
+    }
+    56% {
+        filter: brightness(1);
+    }
+    60% {
+        filter: brightness(0);
+    }
+    72% {
+        filter: brightness(1);
+    }
+    76% {
+        filter: brightness(0);
+    }
+    80% {
+        filter: brightness(1);
+    }
+    88% {
+        filter: brightness(0);
+    }
+    92% {
+        filter: brightness(1);
+    }
+    96% {
+        filter: brightness(0);
+    }
+
+    100% {
+        filter: brightness(1);
+    }
+}
+
+
+
 .gameCard {
     position: relative;
     width: fit-content;
@@ -343,52 +409,52 @@ nav {
     0% {
         filter: brightness(0);
     }
-    1% {
-        filter: brightness(1);
-    }
-    2% {
-        filter: brightness(0);
-    }
-    3% {
-        filter: brightness(1);
-    }
     4% {
-        filter: brightness(0);
-    }
-    5% {
-        filter: brightness(1);
-    }
-    6% {
-        filter: brightness(0);
-    }
-    7% {
-        filter: brightness(1);
-    }
-    8% {
-        filter: brightness(0);
-    }
-    9% {
         filter: brightness(1);
     }
     10% {
         filter: brightness(0);
     }
-    11% {
-        filter: brightness(1);
-    }
-    12% {
-        filter: brightness(0);
-    }
-    13% {
-        filter: brightness(1);
-    }
     14% {
-        filter: brightness(0);
-    }
-    15% {
         filter: brightness(1);
     }
     16% {
+        filter: brightness(0);
+    }
+    18% {
+        filter: brightness(1);
+    }
+    20% {
+        filter: brightness(0);
+    }
+    22% {
+        filter: brightness(1);
+    }
+    26% {
+        filter: brightness(0);
+    }
+    28% {
+        filter: brightness(1);
+    }
+    30% {
+        filter: brightness(0);
+    }
+    36% {
+        filter: brightness(1);
+    }
+    38% {
+        filter: brightness(0);
+    }
+    40% {
+        filter: brightness(1);
+    }
+    44% {
+        filter: brightness(0);
+    }
+    46% {
+        filter: brightness(1);
+    }
+    48% {
         filter: brightness(0);
     }
 
@@ -511,7 +577,7 @@ nav {
     position: relative;
     color: #161515;
     font-weight: bold;
-    padding: 3px 29px;
+    padding: 7px 29px;
     width: fit-content;
     z-index: 10;
     letter-spacing: 1px;
@@ -580,6 +646,128 @@ nav {
     }
 }
 
+.homeFavGamesTitle {
+    position:absolute; 
+    clip-path: polygon(0 0, 100% 0, 91% 100%, 0 100%);
+    border-top-left-radius: 6px;
+    /* height:35px; 
+    width:130px;  */
+    height: 0px;
+    width: 5px;
+    transform: translateY(-1px);
+    z-index:0;
+
+    animation: homeFavGamesTitle1 0.3s 0.1s ease-in-out forwards, homeFavGamesTitle2 0.4s 0.45s ease-in-out forwards;
+}
+@keyframes homeFavGamesTitle1 {
+    0% {
+        height: 0px;
+    }
+    100% {
+        height:45px; 
+    }
+}
+@keyframes homeFavGamesTitle2 {
+    0% {
+        width: 5px;
+    }
+    100% {
+        width:270px; 
+    }
+}
+
+.homeUserTeamsTitle {
+    position:absolute; 
+    clip-path: polygon(0 0, 100% 0, 91% 100%, 0 100%);
+    border-top-left-radius: 6px;
+    /* height:35px; 
+    width:130px;  */
+    height: 0px;
+    width: 5px;
+    transform: translateY(-1px);
+    z-index:0;
+
+    animation: homeUserTeamsTitle1 0.3s 0.1s ease-in-out forwards, homeUserTeamsTitle2 0.4s 0.45s ease-in-out forwards;
+}
+@keyframes homeUserTeamsTitle1 {
+    from {
+        height: 0px;
+    }
+    to {
+        height:45px; 
+    }
+}
+@keyframes homeUserTeamsTitle2 {
+    from {
+        width: 5px;
+    }
+    to {
+        width:190px; 
+    }
+}
+
+
+.homeTopicsTitle {
+    position:absolute; 
+    clip-path: polygon(0 0, 100% 0, 91% 100%, 0 100%);
+    border-top-left-radius: 6px;
+    /* height:35px; 
+    width:130px;  */
+    height: 0px;
+    width: 5px;
+    transform: translateY(-1px);
+    z-index:0;
+
+    animation: homeTopicsTitle1 0.3s 0.1s ease-in-out forwards, homeTopicsTitle2 0.4s 0.45s ease-in-out forwards;
+}
+@keyframes homeTopicsTitle1 {
+    from {
+        height: 0px;
+    }
+    to {
+        height:45px; 
+    }
+}
+@keyframes homeTopicsTitle2 {
+    from {
+        width: 5px;
+    }
+    to {
+        width:290px; 
+    }
+}
+
+
+.homeMediasTitle {
+    position:absolute; 
+    clip-path: polygon(0 0, 100% 0, 91% 100%, 0 100%);
+    border-top-left-radius: 6px;
+    /* height:35px; 
+    width:130px;  */
+    height: 0px;
+    width: 5px;
+    transform: translateY(-1px);
+    z-index:0;
+
+    animation: homeMediasTitle1 0.3s 0.1s ease-in-out forwards, homeMediasTitle2 0.4s 0.45s ease-in-out forwards;
+}
+@keyframes homeMediasTitle1 {
+    from {
+        height: 0px;
+    }
+    to {
+        height:45px; 
+    }
+}
+@keyframes homeMediasTitle2 {
+    from {
+        width: 5px;
+    }
+    to {
+        width:160px; 
+    }
+}
+
 
 .gameInfosSubTitleBgParam {
     position:absolute; 
@@ -640,6 +828,8 @@ nav {
         width:190px; 
     }
 }
+
+
 
 .seeAllRedirect {
     font-size: 80%;

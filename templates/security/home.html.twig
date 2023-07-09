@@ -47,7 +47,12 @@
         {% if app.user %}
             {# Raccourcis Jeux favoris si logged in #}
             <div class="sectionHomeContainer">
-                <h3 class="homeSubTitle noMarginBottom" style="background-color: var(--primary-color);"><i style="" class="fa-solid fa-heart"></i> Jeux Favoris</h3>
+
+                <div class="blinkingSectionTitle">
+                    <div class="homeFavGamesTitle" style="background-color:var(--primary-color);"></div>
+                    <h3 class="homeSubTitle noMarginBottom"><i style="" class="fa-solid fa-heart"></i> Jeux Favoris</h3>
+                </div>
+
                 <div class="sectionHomeContent genreGameList">
                     {% for gameFav in userFav %}
                         <a  class="gameCardLink" href="{{ path('app_game', {'id': gameFav.id} )}}" onmouseover="this.style.filter='drop-shadow(0px 0px 6px {{ gameFav.color }})'" onmouseout="this.style.filter='drop-shadow(0px 0px 5px black)'">
@@ -58,11 +63,17 @@
                         </a>
                     {% endfor %}
                 </div>
+
             </div>
 
             {# Raccourcis Teams si logged in #}
             <div class="sectionHomeContainer">
-                <h3 class="homeSubTitle noMarginBottom" style="background-color: var(--primary-color);"><i class="fa-solid fa-users-rays"></i> Teams</h3>
+
+                <div>
+                    <div class="homeUserTeamsTitle" style="background-color:var(--primary-color);"></div>
+                    <h3 class="homeSubTitle noMarginBottom"><i class="fa-solid fa-users-rays"></i> Teams</h3>
+                </div>
+
                 <div class="sectionHomeContent genreGameList" style="text-align:center;">
                     {% for userTeam in userTeams %}
                         <a class="groupCard" href="{{ path('app_groupDetails', {'groupId': userTeam.id } ) }}" style="position:relative; box-shadow: 0 0 2px 1px {{ userTeam.game.color }};">
@@ -92,11 +103,14 @@
         {# Les 5 derniers Topics (tout jeux confondus) #}
         <div class="sectionHomeContainer">
 
-            <a href="{{ path('app_allTopicsGlobal') }}" style="height:fit-content; width:fit-content; display:block;">
-                <h3 class="homeSubTitle noMarginBottom" style="background-color: var(--primary-color);">
-                    Derniers Topics
-                </h3>
-            </a>
+            <div>
+                <div class="homeTopicsTitle" style="background-color:var(--primary-color);"></div>
+                <a href="{{ path('app_allTopicsGlobal') }}" style="height:fit-content; width:fit-content; display:block;">
+                    <h3 class="homeSubTitle noMarginBottom">
+                        Derniers Topics
+                    </h3>
+                </a>
+            </div>
 
             <div class="sectionHomeContent topicList marginTop">
 
@@ -132,8 +146,9 @@
         <div class="sectionHomeContainer">
 
             <div style="display:inline-flex;">
+                <div class="homeMediasTitle" style="background-color:var(--primary-color);"></div>
                 <a href=" {{ path('app_allMediasGlobal') }}">
-                    <h3 class="homeSubTitle noMarginBottom" style="background-color: var(--primary-color);">
+                    <h3 class="homeSubTitle noMarginBottom">
                         Médias
                     </h3>
                 </a>
