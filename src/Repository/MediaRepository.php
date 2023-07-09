@@ -7,6 +7,7 @@ use App\Entity\Media;
 use App\Entity\User;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
+use Doctrine\ORM\PersistentCollection;
 
 /**
  * @extends ServiceEntityRepository<Media>
@@ -73,6 +74,24 @@ class MediaRepository extends ServiceEntityRepository
         return $this->createQueryBuilder('m')
             ->where('m.validated = :state')
             ->setParameter('state', "validated")
+            ->orderBy('m.publish_date', 'DESC')
+            ->setMaxResults($maxResults)
+            ->getQuery()
+            ->getResult();
+    }
+
+    // Derniers Médias des jeux Fav du User (/home)
+    public function findLastMediasFav(PersistentCollection $favGames, int $maxResults = 8) 
+    {
+        $gameIds = $favGames->map(function ($game) {
+            return $game->getId();
+        })->toArray();
+
+        return $this->createQueryBuilder('m')
+            ->where('m.validated = :state')
+            ->andWhere('m.game IN (:gameIds)')
+            ->setParameter('state', "validated")
+            ->setParameter('gameIds', $gameIds)
             ->orderBy('m.publish_date', 'DESC')
             ->setMaxResults($maxResults)
             ->getQuery()

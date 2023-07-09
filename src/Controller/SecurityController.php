@@ -85,15 +85,19 @@ class SecurityController extends AbstractController
             $userTeams = null;
         }
 
-        // Homepage: 5 derniers Topics
+        // Homepage: derniers Topics/Médias (Que à propos des jeux fav si connected)
         $topicManager = $entityManager->getRepository(Topic::class);
-        $lastTopics = $topicManager->findLastTopics();
-
-        
-
-        // Homepage: 5 derniers Médias
         $MediaManager = $entityManager->getRepository(Media::class);
-        $lastMedias = $MediaManager->findLastMedias();
+
+        if($this->getUser()) {
+            $lastTopics = $topicManager->findLastTopicsFav($userFav);
+            $lastMedias = $MediaManager->findLastMediasFav($userFav);
+        }
+        else {
+            $lastTopics = $topicManager->findLastTopics();
+            $lastMedias = $MediaManager->findLastMedias();
+        }
+        
                 
         return $this->render('security/home.html.twig', [
             'modoNotifCount' => $modoNotifCount,

@@ -7,6 +7,7 @@ use App\Entity\User;
 use App\Entity\Topic;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
+use Doctrine\ORM\PersistentCollection;
 
 /**
  * @extends ServiceEntityRepository<Topic>
@@ -41,20 +42,6 @@ class TopicRepository extends ServiceEntityRepository
         }
     }
 
-//    /**
-//     * @return Topic[] Returns an array of Topic objects
-//     */
-//    public function findByExampleField($value): array
-//    {
-//        return $this->createQueryBuilder('t')
-//            ->andWhere('t.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->orderBy('t.id', 'ASC')
-//            ->setMaxResults(10)
-//            ->getQuery()
-//            ->getResult()
-//        ;
-//    }
 
 //    public function findOneBySomeField($value): ?Topic
 //    {
@@ -67,12 +54,30 @@ class TopicRepository extends ServiceEntityRepository
 //    }
 
 
-
-    public function findLastTopics(int $maxResults = 5) 
+    // Derniers Topics global !isConnected (/home)
+    public function findLastTopics(int $maxResults = 7) 
     {
         return $this->createQueryBuilder('t')
             ->where('t.validated = :state')
             ->setParameter('state', "validated")
+            ->orderBy('t.publish_date', 'DESC')
+            ->setMaxResults($maxResults)
+            ->getQuery()
+            ->getResult();
+    }
+
+    // Derniers Topics des jeux Fav du User (/home)
+    public function findLastTopicsFav(PersistentCollection $favGames, int $maxResults = 7) 
+    {
+        $gameIds = $favGames->map(function ($game) {
+            return $game->getId();
+        })->toArray();
+
+        return $this->createQueryBuilder('t')
+            ->where('t.validated = :state')
+            ->andWhere('t.game IN (:gameIds)')
+            ->setParameter('state', "validated")
+            ->setParameter('gameIds', $gameIds)
             ->orderBy('t.publish_date', 'DESC')
             ->setMaxResults($maxResults)
             ->getQuery()
@@ -171,5 +176,31 @@ class TopicRepository extends ServiceEntityRepository
             ->getResult();
 
     }
+
+
+    //    /**
+    //     * @return Topic[] Returns an array of Topic objects
+    //     */
+    //    public function findByExampleField($value): array
+    //    {
+    //        return $this->createQueryBuilder('t')
+    //            ->andWhere('t.exampleField = :val')
+    //            ->setParameter('val', $value)
+    //            ->orderBy('t.id', 'ASC')
+    //            ->setMaxResults(10)
+    //            ->getQuery()
+    //            ->getResult()
+    //        ;
+    //    }
+
+    //    public function findOneBySomeField($value): ?Topic
+    //    {
+    //        return $this->createQueryBuilder('t')
+    //            ->andWhere('t.exampleField = :val')
+    //            ->setParameter('val', $value)
+    //            ->getQuery()
+    //            ->getOneOrNullResult()
+    //        ;
+    //    }
 
 }

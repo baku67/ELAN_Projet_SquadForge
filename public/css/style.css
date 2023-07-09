@@ -695,7 +695,8 @@ nav {
 
 .teamCardTitle {
     padding: 3px 10px 7px 10px; 
-    clip-path: polygon(28% 0, 100% 0, 100% 100%, 0 100%, 0 100%);
+    /* clip-path: polygon(28% 0, 100% 0, 100% 100%, 0 100%, 0 100%); */
+    clip-path: polygon(17% 43%, 23% 0, 100% 0, 100% 100%, 0 100%, 0 67%);
     width:100%; 
     height:60px;
     padding-left: 50px;
@@ -977,7 +978,7 @@ nav {
 }
 
 .topicCardSubInfos {
-    width: 30%;
+    width: 40%;
     justify-content: space-between;
     display: inline-flex;
 }
