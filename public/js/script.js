@@ -70,7 +70,7 @@ window.addEventListener('load', function() {
     
                         document.getElementById('favGameBtn').lastChild.style.color = document.getElementById('gameColor').textContent;
     
-                        document.querySelector('#ajaxFlash').textContent = "Favorisé";
+                        window.FlashMessage.success('Ajouté aux favoris');
     
                     }
                     else if (data.newState == "notFavorited") {
@@ -80,14 +80,11 @@ window.addEventListener('load', function() {
     
                         document.getElementById('favGameBtn').lastChild.style.color = "white";
     
-                        document.querySelector('#ajaxFlash').textContent = "Défavorisé";
+                        window.FlashMessage.success('Retiré des favoris');
                     }
-    
-                    document.querySelector('#ajaxFlash').classList.add("ajaxFlashAnim", "successAjaxFlash");
-    
+        
                 } else {
-                    document.querySelector('#ajaxFlash').textContent = "Vous devez être connecté pour ajouter un jeu à vos favoris";
-                    document.querySelector('#ajaxFlash').classList.add("ajaxFlashAnim", "errorAjaxFlash");
+                    window.FlashMessage.error('Vous devez être connecté pour ajouter un jeu à vos favoris');
                 }
     
             })
@@ -121,11 +118,14 @@ window.addEventListener('load', function() {
             .then(response => response.json())
             .then(data => {
                 if (data.success) {
-                    document.querySelector('#ajaxFlash').textContent = "Votre avez upvoté un média";
-                    document.querySelector('#ajaxFlash').classList.add("ajaxFlashAnim", "successAjaxFlash");
+                    if (data.newState == "liked") {
+                        window.FlashMessage.success('Upvoté');
+                    }
+                    else {
+                        window.FlashMessage.success('Upvote retiré');
+                    }
                 } else {
-                    document.querySelector('#ajaxFlash').textContent = "Vous devez être connecté pour upvoter un média";
-                    document.querySelector('#ajaxFlash').classList.add("ajaxFlashAnim", "errorAjaxFlash");
+                    window.FlashMessage.error('Vous devez être connecté pour upvoter un média');
                 }
 
                 if (data.newState == "liked") {
@@ -164,15 +164,14 @@ window.addEventListener('load', function() {
                 .then(data => {
                     if (data.success) {
 
-                        document.querySelector('#ajaxFlash').textContent = "Upvoté";
-                        document.querySelector('#ajaxFlash').classList.add("ajaxFlashAnim", "successAjaxFlash");
-
                         if (data.newState == "upvoted") {
+                            window.FlashMessage.success('Commentaire liké');
                             btn.firstChild.style.color = data.gameColor;
                             document.getElementById("topicPostScore" + idTopicPost).innerHTML = data.newScore;
                             document.getElementById("down" + idTopicPost).firstChild.style.color = "grey";
                         }
                         else if (data.newState == "notUpvoted") {
+                            window.FlashMessage.success('Like retiré');
                             btn.firstChild.style.color = "rgb(165, 165, 165)";
                             document.getElementById("topicPostScore" + idTopicPost).innerHTML = data.newScore;
                         }
@@ -185,8 +184,7 @@ window.addEventListener('load', function() {
                         }
 
                     } else {
-                        document.querySelector('#ajaxFlash').textContent = "Vous devez être connecté pour upvoter un post";
-                        document.querySelector('#ajaxFlash').classList.add("ajaxFlashAnim", "errorAjaxFlash");
+                        window.FlashMessage.error('Vous devez être connecté pour liker un commentaire');
                     }
 
                 })
@@ -214,15 +212,14 @@ window.addEventListener('load', function() {
                 .then(data => {
                     if (data.success) {
 
-                        document.querySelector('#ajaxFlash').textContent = "Downvoté";
-                        document.querySelector('#ajaxFlash').classList.add("ajaxFlashAnim", "successAjaxFlash");
-
                         if (data.newState == "downvoted") {
+                            window.FlashMessage.success('Commentaire disliké');
                             btn.firstChild.style.color = data.gameColor;
                             document.getElementById("topicPostScore" + idTopicPost).innerHTML = data.newScore;
                             document.getElementById("up" + idTopicPost).firstChild.style.color = "grey";
                         }
                         else if (data.newState == "notDownvoted") {
+                            window.FlashMessage.success('Dislike retiré');
                             btn.firstChild.style.color = "rgb(165, 165, 165)";
                             document.getElementById("topicPostScore" + idTopicPost).innerHTML = data.newScore;
                         }
@@ -235,8 +232,7 @@ window.addEventListener('load', function() {
                         }
 
                     } else {
-                        document.querySelector('#ajaxFlash').textContent = "Vous devez être connecté pour downvoté un post";
-                        document.querySelector('#ajaxFlash').classList.add("ajaxFlashAnim", "errorAjaxFlash");
+                        window.FlashMessage.error('Vous devez être connecté pour disliker un commentaire');
                     }
 
                 })
@@ -265,15 +261,14 @@ window.addEventListener('load', function() {
                 .then(data => {
                     if (data.success) {
 
-                        document.querySelector('#ajaxFlash').textContent = "Upvoté";
-                        document.querySelector('#ajaxFlash').classList.add("ajaxFlashAnim", "successAjaxFlash");
-
                         if (data.newState == "upvoted") {
+                            window.FlashMessage.success('Commentaire liké');
                             btn.firstChild.style.color = data.gameColor;
                             document.getElementById("mediaPostScore" + idMediaPost).innerHTML = data.newScore;
                             document.getElementById("mdown" + idMediaPost).firstChild.style.color = "grey";
                         }
                         else if (data.newState == "notUpvoted") {
+                            window.FlashMessage.success('Like retiré');
                             btn.firstChild.style.color = "rgb(165, 165, 165)";
                             document.getElementById("mediaPostScore" + idMediaPost).innerHTML = data.newScore;
                         }
@@ -286,8 +281,7 @@ window.addEventListener('load', function() {
                         }
 
                     } else {
-                        document.querySelector('#ajaxFlash').textContent = "Vous devez être connecté pour upvoter un post";
-                        document.querySelector('#ajaxFlash').classList.add("ajaxFlashAnim", "errorAjaxFlash");
+                        window.FlashMessage.error('Vous devez être connecté pour liker un commentaire');
                     }
 
                 })
@@ -315,15 +309,14 @@ window.addEventListener('load', function() {
                 .then(data => {
                     if (data.success) {
 
-                        document.querySelector('#ajaxFlash').textContent = "Downvoté";
-                        document.querySelector('#ajaxFlash').classList.add("ajaxFlashAnim", "successAjaxFlash");
-
                         if (data.newState == "downvoted") {
+                            window.FlashMessage.success('Commentaire disliké');
                             btn.firstChild.style.color = data.gameColor;
                             document.getElementById("mediaPostScore" + idMediaPost).innerHTML = data.newScore;
                             document.getElementById("mup" + idMediaPost).firstChild.style.color = "grey";
                         }
                         else if (data.newState == "notDownvoted") {
+                            window.FlashMessage.success('Dislike retiré');
                             btn.firstChild.style.color = "rgb(165, 165, 165)";
                             document.getElementById("mediaPostScore" + idMediaPost).innerHTML = data.newScore;
                         }
@@ -336,8 +329,7 @@ window.addEventListener('load', function() {
                         }
 
                     } else {
-                        document.querySelector('#ajaxFlash').textContent = "Vous devez être connecté pour upvoter un post";
-                        document.querySelector('#ajaxFlash').classList.add("ajaxFlashAnim", "errorAjaxFlash");
+                        window.FlashMessage.error('Vous devez être connecté pour disliker un commentaire');
                     }
 
                 })
@@ -346,8 +338,6 @@ window.addEventListener('load', function() {
 
             
                     
-
-
 
 });
 

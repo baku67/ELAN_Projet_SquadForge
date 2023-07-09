@@ -301,12 +301,9 @@
                                             .then(response => response.json())
                                             .then(data => {
                                                 if (data.success) {
-                                                    document.querySelector('#ajaxFlash').textContent = data.newState;
-                                                    document.querySelector('#ajaxFlash').classList.add("ajaxFlashAnim", "successAjaxFlash");
-                                                    
+                                                    window.FlashMessage.success(data.newState);                                                    
                                                 } else {
-                                                    document.querySelector('#ajaxFlash').textContent = "Vous devez être le leader du groupe pour changer sa visibilité";
-                                                    document.querySelector('#ajaxFlash').classList.add("ajaxFlashAnim", "errorAjaxFlash");
+                                                    window.FlashMessage.error('Vous devez être le leader du groupe pour changer sa visibilité');
                                                 }
                                             });
                                         });
@@ -337,11 +334,9 @@
                                             .then(response => response.json())
                                             .then(data => {
                                                 if (data.success) {
-                                                    document.querySelector('#ajaxFlash').textContent = data.newState;
-                                                    document.querySelector('#ajaxFlash').classList.add("ajaxFlashAnim", "successAjaxFlash");
+                                                    window.FlashMessage.success(data.newState);   
                                                 } else {
-                                                    document.querySelector('#ajaxFlash').textContent = "Vous devez être le leader du groupe pour changer ce critère";
-                                                    document.querySelector('#ajaxFlash').classList.add("ajaxFlashAnim", "errorAjaxFlash");
+                                                    window.FlashMessage.error('Vous devez être le leader du groupe pour changer ce critère');
                                                 }
                                             });
                                         });
@@ -372,11 +367,9 @@
                                             .then(response => response.json())
                                             .then(data => {
                                                 if (data.success) {
-                                                    document.querySelector('#ajaxFlash').textContent = data.newState;
-                                                    document.querySelector('#ajaxFlash').classList.add("ajaxFlashAnim", "successAjaxFlash");
+                                                    window.FlashMessage.success(data.newState); 
                                                 } else {
-                                                    document.querySelector('#ajaxFlash').textContent = "Vous devez être le leader du groupe pour changer ce critère";
-                                                    document.querySelector('#ajaxFlash').classList.add("ajaxFlashAnim", "errorAjaxFlash");
+                                                    window.FlashMessage.error('Vous devez être le leader du groupe pour changer ce critère');
                                                 }
                                             });
                                         });
@@ -407,11 +400,9 @@
                                             .then(response => response.json())
                                             .then(data => {
                                                 if (data.success) {
-                                                    document.querySelector('#ajaxFlash').textContent = data.newState;
-                                                    document.querySelector('#ajaxFlash').classList.add("ajaxFlashAnim", "successAjaxFlash");
+                                                    window.FlashMessage.success(data.newState); 
                                                 } else {
-                                                    document.querySelector('#ajaxFlash').textContent = "Vous devez être le leader du groupe pour changer ce critère";
-                                                    document.querySelector('#ajaxFlash').classList.add("ajaxFlashAnim", "errorAjaxFlash");
+                                                    window.FlashMessage.error('Vous devez être le leader du groupe pour changer ce critère');
                                                 }
                                             });
                                         });

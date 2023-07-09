@@ -145,7 +145,7 @@
                     .then(data => {
                     if (data.success) {
                         if (data.eraseNote) {
-                            document.querySelector('#ajaxFlash').textContent = "Votre note a bien été effacé";
+                            window.FlashMessage.success('Votre note a bien été effacée');
                             // Problème si re-set une note apres annulation (pas doré): .style prioritaire
                             document.querySelectorAll('.rate > input:checked ~ label').forEach((label) => {
                                 // label.style.color = "#ccc";
@@ -153,31 +153,21 @@
                             })
                         }
                         else {
-                            // for (let i = 0; i < rating; i++) {
-                            //     document.getElementById('star'+i).style.color = "#ffc700"; 
-                            // }
-                            document.querySelector('#ajaxFlash').textContent = "Votre note a bien été pris en compte";
+                            window.FlashMessage.success('Votre note a bien été prise en compte');
                         }
                         document.getElementById('gameRatingMoyValue').innerHTML = data.newAverageNote;
                         document.getElementById('gameRatingNbrValue').innerHTML = data.newVoteCount;
-                        document.querySelector('#ajaxFlash').classList.add("ajaxFlashAnim", "successAjaxFlash");
                     } else {
-                        document.querySelector('#ajaxFlash').textContent = "Il y a eu un problème lors de l'envoi de votre note";
-                        document.querySelector('#ajaxFlash').classList.add("ajaxFlashAnim", "errorAjaxFlash");
+                        window.FlashMessage.error('Il y a eu un problème lors de l\'envoi de votre note');
                     }
                     
-                    setTimeout(() => {
-                        document.querySelector('#ajaxFlash').className = ""; 
-                    }, 3500);
                     })
                     .catch(error => {
                     alert('Erreur lors de la communication avec le serveur : ' + error.message);
                     });
 
                 {% else %} 
-                    document.querySelector('#ajaxFlash').textContent = "Vous devez être connecté pour pouvoir noter un jeu";
-                    document.querySelector('#ajaxFlash').classList = "";
-                    document.querySelector('#ajaxFlash').classList.add("ajaxFlashAnim", "errorAjaxFlash");
+                    window.FlashMessage.error('Vous devez être connecté pour pouvoir noter un jeu');
                 {% endif %}
             });
             });

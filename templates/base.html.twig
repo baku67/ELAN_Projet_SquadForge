@@ -22,10 +22,13 @@
         <script type="text/javascript" src="{{ asset('js/gifffer.min.js') }}"></script>
         {# ScrollReveal JS #}
         <script src="https://unpkg.com/scrollreveal"></script>
+        {# Flash.js (popUp msg) #}
+        <script src="{{ asset('flash.js/flash.min.js') }}"></script>
 
         {# CSS #}
         {% block stylesheets %}
             <link rel="stylesheet" href="{{ asset('css/style.css') }}">
+            <link rel="stylesheet" href="{{ asset('flash.js/flash.min.css') }}">
             <link rel="stylesheet" href="{{ asset('css/phone.css') }}">
         {% endblock %}
 
@@ -61,9 +64,6 @@
                 </div>
             {% endfor %}
         {% endfor %}
-        {# Messages "flash" JS ajax #}
-        <p id="ajaxFlash"></p>
-
 
     </body>
 </html>

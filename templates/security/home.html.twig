@@ -65,7 +65,7 @@
                 <h3 class="homeSubTitle noMarginBottom" style="background-color: var(--primary-color);"><i class="fa-solid fa-users-rays"></i> Teams</h3>
                 <div class="sectionHomeContent genreGameList" style="text-align:center;">
                     {% for userTeam in userTeams %}
-                        <a class="groupCard" href="{{ path('app_groupDetails', {'groupId': userTeam.id } ) }}" style="position:relative;">
+                        <a class="groupCard" href="{{ path('app_groupDetails', {'groupId': userTeam.id } ) }}" style="position:relative; box-shadow: 0 0 2px 1px {{ userTeam.game.color }};">
                             <div>
                                 <div>
                                     <img src="{{ asset('img/games/tinyLogo/' ~ userTeam.game.tinyLogo) }}" class="tinyLogoTeam">

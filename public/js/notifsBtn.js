@@ -1,6 +1,6 @@
 $(document).ready(function() {
 
-    // Ajax bouton: suppr toutes les notifs en "vue"
+    // Ajax bouton: suppr toutes les notifs
     $('#deleteAllLink').click(function(event) {
     event.preventDefault(); 
     
@@ -50,13 +50,12 @@ $(document).ready(function() {
                 }
                 
                 removeElementsWithDelay(0);
-            
-                document.querySelector('#ajaxFlash').textContent = "Les notifications ont été nettoyées";
-                document.querySelector('#ajaxFlash').classList.add("ajaxFlashAnim", "successAjaxFlash");
+
+                window.FlashMessage.success('Les notifications ont été nettoyées');
             },
             error: function(xhr, status, error) {
-                document.querySelector('#ajaxFlash').textContent = "Echec";
-                document.querySelector('#ajaxFlash').classList.add("ajaxFlashAnim", "errorAjaxFlash");
+
+                window.FlashMessage.error('Une erreur est survenue');
             }
         });
     });
@@ -87,12 +86,10 @@ $(document).ready(function() {
                 elements.forEach(function(element) {
                     element.classList.add("fadeOutNotifPeriod");
                 });
-                document.querySelector('#ajaxFlash').textContent = "Notifications marquées en \"vues\"";
-                document.querySelector('#ajaxFlash').classList.add("ajaxFlashAnim", "successAjaxFlash");
+                window.FlashMessage.success('Notifications marquées en \"vues\"');
             },
             error: function(xhr, status, error) {
-                document.querySelector('#ajaxFlash').textContent = "Echec";
-                document.querySelector('#ajaxFlash').classList.add("ajaxFlashAnim", "errorAjaxFlash");
+                window.FlashMessage.error('Une erreur est survenue');
             }
         });
     });
