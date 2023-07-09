@@ -199,7 +199,7 @@ class GameController extends AbstractController
                         $entityManager->persist($topic);
                         $entityManager->flush();
 
-                        $this->addFlash('success', 'Le topic a bien été publié');
+                        $this->addFlash('success', 'Le topic a été envoyé pour validation');
                         return $this->redirectToRoute('app_game', ['id' => $game->getId()]);
 
                     } else {

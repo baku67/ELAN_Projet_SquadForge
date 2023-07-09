@@ -60,7 +60,17 @@
         {% for type, messages in app.flashes() %}
             {% for message in messages %}
                 <div class="alertFlash {{type}}Flash">
-                    {{ message }}
+                
+                    {% if type == "success" %}
+                        <script>
+                            window.FlashMessage.success("{{ message }}");
+                        </script>
+                    {% elseif type == "error" %}
+                        <script>
+                            window.FlashMessage.error("{{ message }}");
+                        </script>
+                    {% endif %}
+                    
                 </div>
             {% endfor %}
         {% endfor %}
