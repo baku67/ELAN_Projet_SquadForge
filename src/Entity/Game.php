@@ -70,6 +70,9 @@ class Game
     #[ORM\Column(type: Types::SMALLINT)]
     private ?int $nbrMaxPlaces = null;
 
+    #[ORM\Column(length: 255, options: ['default' => "logoSquadForge_White_Rogned.png"])]
+    private ?string $siteLogo = null;
+
     public function __construct()
     {
         $this->favUsers = new ArrayCollection();
@@ -389,6 +392,18 @@ class Game
     public function setNbrPlaces(int $nbrPlaces): self
     {
         $this->nbrPlaces = $nbrPlaces;
+
+        return $this;
+    }
+
+    public function getSiteLogo(): ?string
+    {
+        return $this->siteLogo;
+    }
+
+    public function setSiteLogo(string $siteLogo): self
+    {
+        $this->siteLogo = $siteLogo;
 
         return $this;
     }
