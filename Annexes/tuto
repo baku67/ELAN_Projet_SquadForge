@@ -1,5 +1,7 @@
 Librairie Flash: https://betaweb.github.io/flashjs/#Installation
 
+/home "Derniers Topics/Médias" : que ceux des jeux favorisé par l'user (donne + de sens au systeme de favoris) (DUCOUP que pour isConnected, sinon tous les topics/Medias)
+
 GameRoles optionnels: exemple
 lol: "Top-lane", "Jungler", "mid", "support", etc..
 Overwatch: "Heal", Tank", "DPS"

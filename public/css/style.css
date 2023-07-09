@@ -335,6 +335,66 @@ nav {
     width: fit-content;
     background-color: #363636;
     border-radius: 5px;
+
+    filter: brightness(0);
+    animation: blinkingCard 0.7s 1.5s linear forwards;
+}
+@keyframes blinkingCard {
+    0% {
+        filter: brightness(0);
+    }
+    1% {
+        filter: brightness(1);
+    }
+    2% {
+        filter: brightness(0);
+    }
+    3% {
+        filter: brightness(1);
+    }
+    4% {
+        filter: brightness(0);
+    }
+    5% {
+        filter: brightness(1);
+    }
+    6% {
+        filter: brightness(0);
+    }
+    7% {
+        filter: brightness(1);
+    }
+    8% {
+        filter: brightness(0);
+    }
+    9% {
+        filter: brightness(1);
+    }
+    10% {
+        filter: brightness(0);
+    }
+    11% {
+        filter: brightness(1);
+    }
+    12% {
+        filter: brightness(0);
+    }
+    13% {
+        filter: brightness(1);
+    }
+    14% {
+        filter: brightness(0);
+    }
+    15% {
+        filter: brightness(1);
+    }
+    16% {
+        filter: brightness(0);
+    }
+
+    100% {
+        filter: brightness(1);
+    }
 }
 .gameCardLink {
     filter: drop-shadow(0px 0px 6px black); 
@@ -1989,7 +2049,14 @@ cursor: pointer;
     }
 }
 
-
+.greetingMsg {
+    color: var(--primary-color);
+    font-weight: bold;
+    font-size: 2.7em;
+    text-align: center;
+    width: 100%;
+    margin: 60px auto;
+}
 
 .sectionContainer {
     margin: 50px auto;
@@ -1998,17 +2065,123 @@ cursor: pointer;
 }
 
 .sectionHomeContainer {
+    /* box-shadow: 0 0 70px -5px var(--primary-color); */
+    box-shadow: 0 0 0px 0px var(--primary-color);
     margin: 50px auto;
     padding: 0px 10px 15px 0px;
     border-radius: 6px;
     border-top: 2px solid var(--primary-color);
+
+    animation: blinkBoxShadow 0.9s 0.7s forwards linear 1;
+}
+/* Effet allumage Néon (à paufiner)*/
+@keyframes blinkBoxShadow {
+    0% {
+        box-shadow: 0 0 0px 0px var(--primary-color);
+    }
+    1% {
+        box-shadow: 0 0 70px -5px var(--primary-color);
+    }
+    2% {
+        box-shadow: 0 0 0px 0px var(--primary-color);
+    }
+    3% {
+        box-shadow: 0 0 70px -5px var(--primary-color);
+    }
+    4% {
+        box-shadow: 0 0 0px 0px var(--primary-color);
+    }
+    5% {
+        box-shadow: 0 0 70px -5px var(--primary-color);
+    }
+    6% {
+        box-shadow: 0 0 0px 0px var(--primary-color);
+    }
+    7% {
+        box-shadow: 0 0 70px -5px var(--primary-color);
+    }
+    8% {
+        box-shadow: 0 0 0px 0px var(--primary-color);
+    }
+    9% {
+        box-shadow: 0 0 70px -5px var(--primary-color);
+    }
+    10% {
+        box-shadow: 0 0 0px 0px var(--primary-color);
+    }
+    11% {
+        box-shadow: 0 0 70px -5px var(--primary-color);
+    }
+    12% {
+        box-shadow: 0 0 0px 0px var(--primary-color);
+    }
+    13% {
+        box-shadow: 0 0 70px -5px var(--primary-color);
+    }
+    14% {
+        box-shadow: 0 0 0px 0px var(--primary-color);
+    }
+    15% {
+        box-shadow: 0 0 70px -5px var(--primary-color);
+    }
+    16% {
+        box-shadow: 0 0 0px 0px var(--primary-color);
+    }
+
+    26% {
+        box-shadow: 0 0 0px 0px var(--primary-color);
+    }
+    27% {
+        box-shadow: 0 0 70px -5px var(--primary-color);
+    }
+    28% {
+        box-shadow: 0 0 0px 0px var(--primary-color);
+    }
+    29% {
+        box-shadow: 0 0 70px -5px var(--primary-color);
+    }
+    30% {
+        box-shadow: 0 0 0px 0px var(--primary-color);
+    }
+
+    60% {
+        box-shadow: 0 0 0px 0px var(--primary-color);
+    }
+    62% {
+        box-shadow: 0 0 70px -5px var(--primary-color);
+    }
+    63% {
+        box-shadow: 0 0 0px 0px var(--primary-color);
+    }
+    65% {
+        box-shadow: 0 0 70px -5px var(--primary-color);
+    }
+    66% {
+        box-shadow: 0 0 0px 0px var(--primary-color);
+    }
+
+    95% {
+        box-shadow: 0 0 0px 0px var(--primary-color);
+    }
+    100% {
+        box-shadow: 0 0 70px -5px var(--primary-color);
+    }
 }
 
+
 .sectionContent {
+    justify-content: center;
     padding: 40px 35px 20px 35px;
     opacity: 0;
 
-    animation: fadeInSection 0.5s 0.8s forwards ease;
+    animation: fadeInSection 0.4s 0.3s forwards ease;
+}
+.sectionHomeContent {
+    justify-content: center;
+    padding: 40px 35px 20px 35px;
+    opacity: 0;
+
+    animation: fadeInSection 0.4s 1.5s forwards ease;
 }
 @keyframes fadeInSection {
     from {

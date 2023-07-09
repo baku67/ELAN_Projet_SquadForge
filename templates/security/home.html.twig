@@ -36,12 +36,19 @@
 
     <div class="main">
 
+        {% if app.user %}
+        
+            <p class="greetingMsg">Welcome back, <span style="color:white;">{{ app.user.pseudo }}</span> !</p>
+
+        {% else %}
+            <p>Créer un compte</p>
+        {% endif %}
         
         {% if app.user %}
             {# Raccourcis Jeux favoris si logged in #}
             <div class="sectionHomeContainer">
                 <h3 class="homeSubTitle noMarginBottom" style="background-color: var(--primary-color);"><i style="" class="fa-solid fa-heart"></i> Jeux Favoris</h3>
-                <div class="sectionContent genreGameList">
+                <div class="sectionHomeContent genreGameList">
                     {% for gameFav in userFav %}
                         <a  class="gameCardLink" href="{{ path('app_game', {'id': gameFav.id} )}}" onmouseover="this.style.filter='drop-shadow(0px 0px 6px {{ gameFav.color }})'" onmouseout="this.style.filter='drop-shadow(0px 0px 5px black)'">
                             <div class="gameCard">
@@ -54,26 +61,28 @@
             </div>
 
             {# Raccourcis Teams si logged in #}
-            <h3 class="homeSubTitle noMarginBottom" style="background-color: var(--primary-color);">Teams</h3>
-            <div class="genreGameList" style="text-align:center;">
-                {% for userTeam in userTeams %}
-                    <a class="groupCard" href="{{ path('app_groupDetails', {'groupId': userTeam.id } ) }}" style="position:relative;">
-                        <div>
+            <div class="sectionHomeContainer">
+                <h3 class="homeSubTitle noMarginBottom" style="background-color: var(--primary-color);"><i class="fa-solid fa-users-rays"></i> Teams</h3>
+                <div class="sectionHomeContent genreGameList" style="text-align:center;">
+                    {% for userTeam in userTeams %}
+                        <a class="groupCard" href="{{ path('app_groupDetails', {'groupId': userTeam.id } ) }}" style="position:relative;">
                             <div>
-                                <img src="{{ asset('img/games/tinyLogo/' ~ userTeam.game.tinyLogo) }}" class="tinyLogoTeam">
-                                <h5 class="teamCardTitle" style="background-color: {{ userTeam.game.color }}; color:{{ userTeam.game.fontColor }};">
-                                    {{ userTeam.title }} 
-                                </h5>
-                            </div>
+                                <div>
+                                    <img src="{{ asset('img/games/tinyLogo/' ~ userTeam.game.tinyLogo) }}" class="tinyLogoTeam">
+                                    <h5 class="teamCardTitle" style="background-color: {{ userTeam.game.color }}; color:{{ userTeam.game.fontColor }};">
+                                        {{ userTeam.title }} 
+                                    </h5>
+                                </div>
 
-                            <div class="teamCardSubInfos" style="border-color: {{ userTeam.game.color }};">
-                                <span>{{ userTeam.members|length }} / {{ userTeam.nbrPlaces }}</span>
-                                {# Icon Leader #}
-                                {% if userTeam.leader == app.user %}<i class="fa-solid fa-crown" style="color:#ffe039;"></i>{% endif %}
+                                <div class="teamCardSubInfos" style="border-color: {{ userTeam.game.color }};">
+                                    <span>{{ userTeam.members|length }} / {{ userTeam.nbrPlaces }}</span>
+                                    {# Icon Leader #}
+                                    {% if userTeam.leader == app.user %}<i class="fa-solid fa-crown" style="color:#ffe039;"></i>{% endif %}
+                                </div>
                             </div>
-                        </div>
-                    </a>
-                {% endfor %}
+                        </a>
+                    {% endfor %}
+                </div>
             </div>
         {% endif %}
         
@@ -81,172 +90,177 @@
 
 
         {# Les 5 derniers Topics (tout jeux confondus) #}
-        <a href="{{ path('app_allTopicsGlobal') }}" style="height:fit-content; width:fit-content; display:block;">
-            <h3 class="homeSubTitle noMarginBottom" style="background-color: var(--primary-color);">
-                Derniers Topics
-            </h3>
-        </a>
+        <div class="sectionHomeContainer">
 
-        <div class="listContainer topicList marginTop">
+            <a href="{{ path('app_allTopicsGlobal') }}" style="height:fit-content; width:fit-content; display:block;">
+                <h3 class="homeSubTitle noMarginBottom" style="background-color: var(--primary-color);">
+                    Derniers Topics
+                </h3>
+            </a>
 
-            {% for topic in lastTopics %}
-                <a href="{{ path('app_topicDetail', {'id': topic.id}) }}">
-                    <div class="topicCard" style="border-bottom: 4px solid {{ topic.game.color }}">
-                        <img class="tinyLogo" src="{{ asset('img/games/tinyLogo/' ~ topic.game.tinyLogo) }}" />
-                        <span class="topicTitle">{{ topic.title|capitalize }}</span>
-                        <div class="topicCardSubInfos">
-                            <span>{{ topic.status }}</span>
-                            <span class="topicCardAuthor">{{ topic.user.pseudo }}</span>
-                            <span class="topicCardPublishDate">{{ time_diff(topic.publishDate) }}</span>
-                            {% if topic.topicPostsCount == 0 %}
-                                <span style="opacity:0.5;">{{ topic.topicPostsCount }} <i class="fa-solid fa-message" style="color:grey;"></i></span>
-                            {% else %}
-                                <span>{{ topic.topicPostsCount }} <i class="fa-solid fa-message" style="color:var(--primary-color)"></i></span>
-                            {% endif %}
+            <div class="sectionHomeContent topicList marginTop">
+
+                {% for topic in lastTopics %}
+                    <a href="{{ path('app_topicDetail', {'id': topic.id}) }}">
+                        <div class="topicCard" style="border-bottom: 4px solid {{ topic.game.color }}">
+                            <img class="tinyLogo" src="{{ asset('img/games/tinyLogo/' ~ topic.game.tinyLogo) }}" />
+                            <span class="topicTitle">{{ topic.title|capitalize }}</span>
+                            <div class="topicCardSubInfos">
+                                <span>{{ topic.status }}</span>
+                                <span class="topicCardAuthor">{{ topic.user.pseudo }}</span>
+                                <span class="topicCardPublishDate">{{ time_diff(topic.publishDate) }}</span>
+                                {% if topic.topicPostsCount == 0 %}
+                                    <span style="opacity:0.5;">{{ topic.topicPostsCount }} <i class="fa-solid fa-message" style="color:grey;"></i></span>
+                                {% else %}
+                                    <span>{{ topic.topicPostsCount }} <i class="fa-solid fa-message" style="color:var(--primary-color)"></i></span>
+                                {% endif %}
+                            </div>
                         </div>
-                    </div>
-                </a>
-            {% endfor %}
+                    </a>
+                {% endfor %}
 
-            <span class="seeAllRedirect">
-                <a href="{{ path('app_allTopicsGlobal') }}">Tout voir  <i class="fa-solid fa-chevron-right"></i></a>
-            </span>
+                <span class="seeAllRedirect">
+                    <a href="{{ path('app_allTopicsGlobal') }}">Tout voir  <i class="fa-solid fa-chevron-right"></i></a>
+                </span>
+
+            </div>
 
         </div>
-
-
-        <br><br>
 
 
         {# Derniers médias (tout jeux confondus) #}
-        <div style="display:inline-flex;">
-            <a href=" {{ path('app_allMediasGlobal') }}">
-                <h3 class="homeSubTitle noMarginBottom" style="background-color: var(--primary-color);">
-                    Médias
-                </h3>
-            </a>
-        </div>
+        <div class="sectionHomeContainer">
 
-        <div class="masonry-grid">
+            <div style="display:inline-flex;">
+                <a href=" {{ path('app_allMediasGlobal') }}">
+                    <h3 class="homeSubTitle noMarginBottom" style="background-color: var(--primary-color);">
+                        Médias
+                    </h3>
+                </a>
+            </div>
 
-            {% for media in lastMedias %}
+            <div class="sectionHomeContent masonry-grid">
 
-                <div class="grid-item" style="height:fit-content;">
+                {% for media in lastMedias %}
 
-                    {% if app.user and app.user.autoPlayGifs or not app.user %}
-                    <a href="{{ path('app_mediaDetail', {'id': media.id}) }}">
-                    {% endif %}
-                        
+                    <div class="grid-item" style="height:fit-content;">
 
-                        <div class="mediaCard">
+                        {% if app.user and app.user.autoPlayGifs or not app.user %}
+                        <a href="{{ path('app_mediaDetail', {'id': media.id}) }}">
+                        {% endif %}
+                            
 
-                            {% if app.user and not app.user.autoPlayGifs %}
-                            <a href="{{ path('app_mediaDetail', {'id': media.id}) }}">
-                            {% endif %}
-                            <div class="mediaCardHeader" style="border-bottom: 5px solid {{ media.game.color }}">
-                                <img class="tinyLogo" src="{{ asset('img/games/tinyLogo/' ~ media.game.tinyLogo) }}" />
-                                <span class="mediaTitle">{{ media.title|capitalize }}</span>
-                                {# <span>{{ media.status }}</span>
-                                <span>{{ media.user.pseudo }}</span> #}
-                                <span class="topicCardPublishDate">{{ time_diff(media.publishDate) }}</span>
-                            </div>
-                            {% if app.user and not app.user.autoPlayGifs %}
-                            </a>
-                            {% endif %}
+                            <div class="mediaCard">
 
-                            {# Gif autoplay=false si paramètre user #}
-                            {% if app.user %}
-                                {% if not app.user.autoPlayGifs %}
-                                    <img data-gifffer="{{ asset("img/uploads/" ~ media.url) }}" data-gifffer-alt="media" class="mediaImg" />
+                                {% if app.user and not app.user.autoPlayGifs %}
+                                <a href="{{ path('app_mediaDetail', {'id': media.id}) }}">
+                                {% endif %}
+                                <div class="mediaCardHeader" style="border-bottom: 5px solid {{ media.game.color }}">
+                                    <img class="tinyLogo" src="{{ asset('img/games/tinyLogo/' ~ media.game.tinyLogo) }}" />
+                                    <span class="mediaTitle">{{ media.title|capitalize }}</span>
+                                    {# <span>{{ media.status }}</span>
+                                    <span>{{ media.user.pseudo }}</span> #}
+                                    <span class="topicCardPublishDate">{{ time_diff(media.publishDate) }}</span>
+                                </div>
+                                {% if app.user and not app.user.autoPlayGifs %}
+                                </a>
+                                {% endif %}
+
+                                {# Gif autoplay=false si paramètre user #}
+                                {% if app.user %}
+                                    {% if not app.user.autoPlayGifs %}
+                                        <img data-gifffer="{{ asset("img/uploads/" ~ media.url) }}" data-gifffer-alt="media" class="mediaImg" />
+                                    {% else %}
+                                        <img src="{{ asset("img/uploads/" ~ media.url) }}" alt="media" class="mediaImg" />
+                                    {% endif %}
                                 {% else %}
                                     <img src="{{ asset("img/uploads/" ~ media.url) }}" alt="media" class="mediaImg" />
                                 {% endif %}
-                            {% else %}
-                                <img src="{{ asset("img/uploads/" ~ media.url) }}" alt="media" class="mediaImg" />
+                                
+                            </div>
+
+                        {% if app.user and app.user.autoPlayGifs or not app.user %}
+                        </a>
+                        {% endif %}
+
+
+                        {# Upvote/downvote média + score + nbrPosts #}
+                        <div class="mediaCardStatsDiv">
+
+                            {# Pas opti: bloucle sur tous les likes du post pour savoir si liké (boucle dans boucle) #}
+                            {% set liked = "" %}
+
+                            {% if app.user %}
+
+                                {% for upvote in media.UserUpvote %}
+
+                                    {% if upvote == app.user %}
+                                        {% set liked = "upBtnLiked" %}
+                                    {% endif %}
+
+                                {% endfor %}
+                                
                             {% endif %}
+
                             
-                        </div>
-
-                    {% if app.user and app.user.autoPlayGifs or not app.user %}
-                    </a>
-                    {% endif %}
-
-
-                    {# Upvote/downvote média + score + nbrPosts #}
-                    <div class="mediaCardStatsDiv">
-
-                        {# Pas opti: bloucle sur tous les likes du post pour savoir si liké (boucle dans boucle) #}
-                        {% set liked = "" %}
-
-                        {% if app.user %}
-
-                            {% for upvote in media.UserUpvote %}
-
-                                {% if upvote == app.user %}
-                                    {% set liked = "upBtnLiked" %}
-                                {% endif %}
-
-                            {% endfor %}
-                            
-                        {% endif %}
-
+                            <div class="inline">
+                                <i mediaId={{ media.id }} class="likeMedia fa-regular fa-circle-up {{ liked }}"></i>
+                                {# <i class="fa-regular fa-circle-down"></i> #}
+                                <span id="countLikesMedia{{ media.id }}" value="{{ media.upvoteCount }}"> {{ media.upvoteCount }} </span>
+                            </div>
                         
-                        <div class="inline">
-                            <i mediaId={{ media.id }} class="likeMedia fa-regular fa-circle-up {{ liked }}"></i>
-                            {# <i class="fa-regular fa-circle-down"></i> #}
-                            <span id="countLikesMedia{{ media.id }}" value="{{ media.upvoteCount }}"> {{ media.upvoteCount }} </span>
+                            {% if media.mediaPostsCount == 0 %}
+                                <a href="{{ path('app_mediaDetail', {'id':media.id}) }}">
+                                    <span style="opacity:0.5;">{{ media.mediaPostsCount }} 
+                                        <i class="fa-solid fa-message" style="color:grey;"></i>
+                                    </span>
+                                </a>
+                            {% else %}
+                                <a href="{{ path('app_mediaDetail', {'id':media.id}) }}">
+                                    <span>{{ media.mediaPostsCount }} 
+                                        <i class="fa-solid fa-message" style="color:var(--primary-color)"></i>
+                                    </span>
+                                </a>
+                            {% endif %}
+
                         </div>
-                    
-                        {% if media.mediaPostsCount == 0 %}
-                            <a href="{{ path('app_mediaDetail', {'id':media.id}) }}">
-                                <span style="opacity:0.5;">{{ media.mediaPostsCount }} 
-                                    <i class="fa-solid fa-message" style="color:grey;"></i>
-                                </span>
-                            </a>
-                        {% else %}
-                            <a href="{{ path('app_mediaDetail', {'id':media.id}) }}">
-                                <span>{{ media.mediaPostsCount }} 
-                                    <i class="fa-solid fa-message" style="color:var(--primary-color)"></i>
-                                </span>
-                            </a>
-                        {% endif %}
 
                     </div>
 
-                </div>
+                {% endfor %}
 
-            {% endfor %}
+            </div>
+
+
+
+            <span class="seeAllRedirect">
+                <a href="{{ path('app_allMediasGlobal') }}">Tout voir  <i class="fa-solid fa-chevron-right"></i></a>
+            </span>
+
+
+            {# Masonry JS Medias (permet de rendre responsive entre autre) #}
+            <script src="https://unpkg.com/masonry-layout@4/dist/masonry.pkgd.min.js"></script>
+            {# imagesLoaded JS #}
+            <script src="https://unpkg.com/imagesloaded@5/imagesloaded.pkgd.min.js"></script>
+            
+            <script>
+                $(document).ready(function() {
+                    var $gridItems = $('.grid-item');
+                    
+                    $gridItems.imagesLoaded(function() {
+                        setTimeout(function() {
+                            console.log('imagesLoaded');
+                            $('.masonry-grid').masonry({
+                                itemSelector: '.grid-item',
+                                columnWidth: '.grid-item',
+                                gutter: 15, // Adjust the gutter size as needed
+                            });
+                        }, 500) 
+                    });
+                });
+            </script>
 
         </div>
-
-
-
-        <span class="seeAllRedirect">
-            <a href="{{ path('app_allMediasGlobal') }}">Tout voir  <i class="fa-solid fa-chevron-right"></i></a>
-        </span>
-
-
-        {# Masonry JS Medias (permet de rendre responsive entre autre) #}
-        <script src="https://unpkg.com/masonry-layout@4/dist/masonry.pkgd.min.js"></script>
-        {# imagesLoaded JS #}
-        <script src="https://unpkg.com/imagesloaded@5/imagesloaded.pkgd.min.js"></script>
-        
-        <script>
-            $(document).ready(function() {
-                var $gridItems = $('.grid-item');
-                
-                $gridItems.imagesLoaded(function() {
-                    setTimeout(function() {
-                        console.log('imagesLoaded');
-                        $('.masonry-grid').masonry({
-                            itemSelector: '.grid-item',
-                            columnWidth: '.grid-item',
-                            gutter: 15, // Adjust the gutter size as needed
-                        });
-                    }, 500) 
-                });
-            });
-        </script>
 
 
 
