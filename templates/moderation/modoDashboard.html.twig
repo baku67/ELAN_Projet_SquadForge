@@ -159,12 +159,32 @@
                         <span id="reportPreviewId{{ index }}" value="{{ report.objectId }}">(Réf: #{{ report.objectId }})</span>
                         <br>
                         <span>Signalements: {{ report.nbrReports }}</span>
+                        <br>
+                        <div id="preview{{ index }}" style="display:none;">
+                            <span>test</span>
+                        </div>
                     </div>
                     {% set index = index + 1 %}
                 {% endfor %}
             </div>
 
         </div>
+
+        {# Ajax Preview cible reportCard + btn décisions #}
+        <script>
+            window.onload = function() {
+                var index = 1;
+                var reports = document.querySelectorAll('.reportPreviewBtn');
+
+                reports.forEach(element => {
+                    element.addEventListener("click", function() {
+                        console.log('preview' + index);
+                        document.getElementById('preview' + index).style.display = "block";
+                    })
+                });
+            }
+        </script>
+
 
 
 

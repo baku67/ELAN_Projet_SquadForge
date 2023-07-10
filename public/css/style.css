@@ -331,11 +331,7 @@ nav {
 }
 
 
-.reportPreviewBtn {
-    border: 1px solid #b2ffdf;
-    padding: 5px 10px;
-    border-radius: 4px;
-}
+
 
 
 .blinkingSectionTitle {
@@ -2374,14 +2370,21 @@ cursor: pointer;
 }
 
 
+
 .reportsDiv {
     font-family: 'K2D', sans-serif;
     display:inline-flex; 
     flex-direction:column; 
-    width:80%;
+    width:100%;
     margin: 20px auto;
 }
-
+.reportPreviewBtn {
+    border: 1px solid #b2ffdf;
+    padding: 5px 10px;
+    border-radius: 4px;
+    width: 80%;
+    margin: 7px auto;
+}
 
 .censuredWordsList {
     display:inline-flex; 
