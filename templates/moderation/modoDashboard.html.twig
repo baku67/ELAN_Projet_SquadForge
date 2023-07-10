@@ -146,13 +146,21 @@
 
 
 
-
+        {# Section Signalements/Reports #}
+        {# Ajax apercu on clic #}
         <div class="sectionContainer modoSection" >
             <h3>Signalements</h3>
 
             <div class="reportsDiv">
+                {% set index = 1 %}
                 {% for report in reports %}
-                    <span>{{ report.reportMotif.text }}, type: {{ report.objectType }}, ancienneté: {{ time_diff(report.creationDate) }} </span>
+                    <div id="reportPreviewBtn{{ index }}" class="reportPreviewBtn">
+                        <span id="reportPreviewType{{ index }}">{{ report.objectType|capitalize }}</span>
+                        <span id="reportPreviewId{{ index }}" value="{{ report.objectId }}">(Réf: #{{ report.objectId }})</span>
+                        <br>
+                        <span>Signalements: {{ report.nbrReports }}</span>
+                    </div>
+                    {% set index = index + 1 %}
                 {% endfor %}
             </div>
 

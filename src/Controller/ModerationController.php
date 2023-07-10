@@ -51,7 +51,9 @@ class ModerationController extends AbstractController
                 $modoNotifCount = null;
             }
 
-            $reports = $reportRepo->findBy([], ['creation_date' => 'DESC']);
+            // Récup des reports grouped By object
+            // $reports = $reportRepo->findBy([], ['creation_date' => 'DESC']);
+            $reports = $reportRepo->getAllReportsGroupedByOjectIdAndType();
 
             $censureRepo = $entityManager->getRepository(Censure::class);
             $censureWords = $censureRepo->findBy([], ["creation_date" => "DESC"]);
@@ -98,7 +100,7 @@ class ModerationController extends AbstractController
                     }
                 }
             }
-            return $this->render('moderation/index.html.twig', [
+            return $this->render('moderation/modoDashboard.html.twig', [
                 'reports' => $reports,
                 'modoNotifCount' => $modoNotifCount,
                 'userNotifCount' => $userNotifCount,

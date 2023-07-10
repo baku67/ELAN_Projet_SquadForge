@@ -331,6 +331,13 @@ nav {
 }
 
 
+.reportPreviewBtn {
+    border: 1px solid #b2ffdf;
+    padding: 5px 10px;
+    border-radius: 4px;
+}
+
+
 .blinkingSectionTitle {
     filter: brightness(0);
 
