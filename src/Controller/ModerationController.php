@@ -159,7 +159,7 @@ class ModerationController extends AbstractController
     }
 
 
-    
+    // ReportCard: "Innocenter" Suppression des reports d'un objet
     #[Route('/removeReports/{objectType}/{objectId}', name: 'app_removeReports')]
     public function removeReports(EntityManagerInterface $entityManager, string $objectType, int $objectId, Request $request): Response
     {
@@ -182,6 +182,67 @@ class ModerationController extends AbstractController
             return $this->redirectToRoute('app_login');
         }
     }
+
+
+   
+
+    // ReportCard: Censure d'un objet depuis Signalements (+ Ban/Mute auteur) (+ Notifs Author et Reporters)
+    #[Route('/censureObject/{objectType}/{objectId}', name: 'app_censureObject')]
+    public function censureObject(EntityManagerInterface $entityManager, string $objectType, int $objectId, Request $request): Response
+    {
+
+        if( $this->getUser() && in_array('ROLE_MODO', $this->getUser()->getRoles()) ) {
+
+            // Récupération des reports en relation avec l'objet (pour envoyer notif "merci")
+            $reportRepo = $entityManager->getRepository(Report::class);
+            $objectReports = $reportRepo->findBy(["objectType" => $objectType, "objectId" => $objectId]);
+
+            // Censure de l'objet (Si Topic/Media: suppression + Children, Si postTopic/postMedia: setText('le comm a été suppr'))
+            switch ($objectType) {
+
+                case 'media':
+                    
+                    $mediaRepo = $entityManager->getRepository(Media::class);
+                    $mediaReported = $mediaRepo->find($objectId);
+    
+                    $mediaRepo->remove($mediaReported, true);
+                
+                    break;
+    
+    
+                case 'topic':
+    
+                    $topicRepo = $entityManager->getRepository(Topic::class);
+                    $topicReported = $topicRepo->find($objectId);
+    
+                    $topicRepo->remove($topicReported, true);
+
+                    break;
+    
+    
+                // Case juste post ?
+                // Remplacement par text "le comm a été suppr
+                
+                default:
+                    break;
+            }
+    
+
+
+
+            $this->addFlash('success', 'L\'élément a été censuré');
+            return $this->redirectToRoute('app_moderationDashboard');
+        }
+        else {
+            $this->addFlash('error', 'Vous devez être modérateur pour censurer un élément');
+            return $this->redirectToRoute('app_login');
+        }
+    }
+
+
+
+
+
 
 
 

@@ -171,8 +171,22 @@
                             </div>
 
                             <div>
-                                <a href="{{ path('app_removeReports',{'objectType':report.objectType, 'objectId':report.objectId }) }}">Innocenter(supprimer)</a>
-                                <button>Censurer</button>
+                                <a href="{{ path('app_removeReports',{'objectType':report.objectType, 'objectId':report.objectId }) }}" class="innocenterBtn">Innocenter</a>
+                                <div>
+                                    {# Toggle mute/ban modes #}
+                                    {# selon toggle, url du form différent avec input dateFin et input mode #}
+                                    <form action="{{ path('app_censureObject',{'objectType':report.objectType, 'objectId':report.objectId }) }}" method="post">
+
+                                        <div style="display:inline-flex; justify-content:center; width:100%;">
+                                            <span id="toggleMute{{ index }}">Mute</span>
+                                            <span id="toggleBan{{ index }}">Ban</span>
+                                        </div>
+
+                                        <input type="hidden" name="mode" value="" />
+
+                                        <input type="submit" value="Censurer" class="censureBtn"></input>
+                                    </form>
+                                </div>
                             </div>
                         </div>
                     </div>

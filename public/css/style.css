@@ -2397,6 +2397,17 @@ cursor: pointer;
     width: -webkit-fill-available;
 }
 
+.innocenterBtn {
+    padding: 5px 10px;
+    border-radius: 2px;
+    background-color: rgb(86, 150, 57);
+}
+.censureBtn {
+    padding: 5px 10px;
+    border-radius: 2px;
+    background-color: rgb(150, 57, 57);
+}
+
 .censuredWordsList {
     display:inline-flex; 
     flex-direction:column; 
