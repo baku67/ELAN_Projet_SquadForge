@@ -118,6 +118,50 @@ class ModerationController extends AbstractController
     }
 
 
+
+
+    // Ajax: affichage du détails du report (aperçu message et/ou image signalé)
+    #[Route('/reportDetails/{objectType}/{objectId}', name: 'app_reportDetails')]
+    public function reportDetails(EntityManagerInterface $entityManager, string $objectType, int $objectId, Request $request): Response
+    {
+
+        switch ($objectType) {
+
+            case 'media':
+                
+                $mediaRepo = $entityManager->getRepository(Media::class);
+                $mediaReported = $mediaRepo->find($objectId);
+
+                $objectDetails = [$mediaReported->getTitle(), $mediaReported->getPublishDate(), $mediaReported->getUrl()];
+            
+                break;
+
+
+            case 'topic':
+
+                $topicRepo = $entityManager->getRepository(Topic::class);
+                $topicReported = $topicRepo->find($objectId);
+
+                $objectDetails = [$topicReported->getTitle(), $topicReported->getPublishDate()];
+
+                break;
+
+
+            //  juste post ?
+
+            
+            default:
+                break;
+        }
+
+        
+        return new JsonResponse(['success' => true, 'objectType' => $objectType, 'object' => $objectDetails]); 
+
+    }
+
+
+
+
     // id: idCensure
     #[Route('/deleteCensure/{id}', name: 'app_deleteCensure')]
     public function deleteCensure(EntityManagerInterface $entityManager, int $id, Request $request): Response

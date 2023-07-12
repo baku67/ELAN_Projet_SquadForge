@@ -152,18 +152,19 @@
             <h3>Signalements</h3>
 
             <div class="reportsDiv">
-                {% set index = 1 %}
+                {% set index = 0 %}
                 {% for report in reports %}
                     <div id="reportPreviewBtn{{ index }}" class="reportPreviewBtn">
-                        <span id="reportPreviewType{{ index }}">{{ report.objectType|capitalize }}</span>
+                        <span id="reportPreviewType{{ index }}" value="{{ report.objectType}}">{{ report.objectType|capitalize }}</span>
                         <span id="reportPreviewId{{ index }}" value="{{ report.objectId }}">(Réf: #{{ report.objectId }})</span>
                         <br>
                         <span>Signalements: {{ report.nbrReports }}</span>
                         <br>
-                        <div id="preview{{ index }}" style="display:none;">
-                            <span>test</span>
+                        <div id="preview{{ index }}" class="notDisplayed">
+                            <span id="detailText{{ index }}"></span>
                         </div>
                     </div>
+
                     {% set index = index + 1 %}
                 {% endfor %}
             </div>
@@ -172,17 +173,56 @@
 
         {# Ajax Preview cible reportCard + btn décisions #}
         <script>
-            window.onload = function() {
-                var index = 1;
-                var reports = document.querySelectorAll('.reportPreviewBtn');
 
-                reports.forEach(element => {
-                    element.addEventListener("click", function() {
-                        console.log('preview' + index);
-                        document.getElementById('preview' + index).style.display = "block";
-                    })
-                });
-            }
+                {% set index = 0 %}
+                {% for report in reports %}
+                    document.getElementById('reportPreviewBtn{{ index }}').addEventListener('click', function() {
+
+                        // Affichage du détail du report (pas d'id de report car ils sont groupés)
+                        document.getElementById('preview{{ index }}').classList.toggle('notDisplayed');
+
+                        if(!document.getElementById('preview{{ index }}').classList.contains('notDisplayed')) {
+
+                            // Récup des id et type de l'objet
+                            var objectType = document.getElementById('reportPreviewType{{ index }}').getAttribute('value');
+                            var objectId = document.getElementById('reportPreviewId{{ index }}').getAttribute('value');
+
+                            // Ajax:
+                            $.ajax({
+                                url: '/reportDetails/' + objectType + '/' + objectId,
+                                type: 'GET',
+                                success: function(response) {
+
+                                    console.log(response.object);
+
+                                    switch (response.objectType) {
+                                        case "media":
+                                            document.getElementById('detailText{{ index }}').innerText = response.object[0];
+                                            break;
+
+                                        case "topic":
+                                            document.getElementById('detailText{{ index }}').innerText = response.object[0];
+                                            break;
+                                    
+                                        default:
+                                            break;
+                                    }
+                                    
+
+                                    window.FlashMessage.success('Test details report');
+                                },
+                                error: function(xhr, status, error) {
+                                    window.FlashMessage.error('Test details report');
+                                }
+                            });
+
+                        }
+
+
+                    });
+                    {% set index = index + 1 %}
+                {% endfor %}
+
         </script>
 
 
