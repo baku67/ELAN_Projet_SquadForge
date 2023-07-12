@@ -2379,11 +2379,22 @@ cursor: pointer;
     margin: 20px auto;
 }
 .reportPreviewBtn {
+    cursor: pointer;
     border: 1px solid #b2ffdf;
     padding: 5px 10px;
     border-radius: 4px;
     width: 80%;
     margin: 7px auto;
+
+    transition: all 0.4s;
+}
+.reportPreviewBtn:hover {
+    background-color: #353535;
+}
+
+
+.reportDetailImg {
+    width: -webkit-fill-available;
 }
 
 .censuredWordsList {

@@ -161,7 +161,19 @@
                         <span>Signalements: {{ report.nbrReports }}</span>
                         <br>
                         <div id="preview{{ index }}" class="notDisplayed">
-                            <span id="detailText{{ index }}"></span>
+                            <div>
+                                <span id="detailText{{ index }}"></span>
+                                <img id="detailImg{{ index }}" src="" class="reportDetailImg" >
+                                <div style="display:inline-flex; justify-content:space-between; width:100%;">
+                                    <span id="detailPublishDate{{ index }}"></span>
+                                    <span id="detailObjectAuthor{{ index }}"></span>
+                                </div>
+                            </div>
+
+                            <div>
+                                <a href="{{ path('app_removeReports',{'objectType':report.objectType, 'objectId':report.objectId }) }}">Innocenter(supprimer)</a>
+                                <button>Censurer</button>
+                            </div>
                         </div>
                     </div>
 
@@ -170,6 +182,8 @@
             </div>
 
         </div>
+
+
 
         {# Ajax Preview cible reportCard + btn décisions #}
         <script>
@@ -198,10 +212,18 @@
                                     switch (response.objectType) {
                                         case "media":
                                             document.getElementById('detailText{{ index }}').innerText = response.object[0];
+                                            document.getElementById('detailPublishDate{{ index }}').innerText = publishDateDelay(response.object[1]["date"]);
+                                            // document.getElementById('detailGame{{ index }}').innerText = response.object[2];
+                                            document.getElementById('detailObjectAuthor{{ index }}').innerText = response.object[3];
+
+                                            document.getElementById('detailImg{{ index }}').src = "/img/uploads/" + response.object[4];
+
                                             break;
 
                                         case "topic":
                                             document.getElementById('detailText{{ index }}').innerText = response.object[0];
+                                            document.getElementById('detailPublishDate{{ index }}').innerText = publishDateDelay(response.object[1]["date"]);
+                                            document.getElementById('detailObjectAuthor{{ index }}').innerText = response.object[3];
                                             break;
                                     
                                         default:
@@ -209,10 +231,10 @@
                                     }
                                     
 
-                                    window.FlashMessage.success('Test details report');
+                                    // window.FlashMessage.success('Test details report');
                                 },
                                 error: function(xhr, status, error) {
-                                    window.FlashMessage.error('Test details report');
+                                    window.FlashMessage.error('Erreur lors du chargement du signalement');
                                 }
                             });
 
@@ -222,6 +244,28 @@
                     });
                     {% set index = index + 1 %}
                 {% endfor %}
+
+
+                // Transfo simmple dates -> il y a ...
+                function publishDateDelay(dateSqlToCompare) {
+
+                    var dateActuelle = new Date();
+                    var dateComparaison = new Date(dateSqlToCompare);
+                    var difference = dateActuelle - dateComparaison;
+                    // milisecondes -> jour
+                    var differenceEnJours = Math.floor(difference / (1000 * 60 * 60 * 24));
+
+                    var phrase;
+                    if (differenceEnJours === 0) {
+                        phrase = "publié aujourd'hui";
+                    } else if (differenceEnJours === 1) {
+                        phrase = "publié hier";
+                    } else {
+                        phrase = "publié il y a " + differenceEnJours + " jours";
+                    }
+
+                    return phrase;
+                }
 
         </script>
 
@@ -240,7 +284,7 @@
             <div class="censuredWordsList">
                 {% for censureWord in censureWords %}
                     <div style="display:inline-flex; justify-content:space-around; padding: 5px 0; border-bottom:1px solid rgba(255,255,255,0.2);">
-                        <span style="width:100px;">"{{ censureWord.word }}"</span>
+                        <span style="width:100px; font-family:'K2D', sans-serif;">"{{ censureWord.word }}"</span>
                         <span style="width:100px;">{{ time_diff(censureWord.creationDate) }}</span>
                         <pspan style="width:100px;">par {{ censureWord.user.pseudo }}</span>
                         <a href="{{ path('app_deleteCensure', {'id': censureWord.id }) }}">

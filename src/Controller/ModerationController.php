@@ -132,7 +132,7 @@ class ModerationController extends AbstractController
                 $mediaRepo = $entityManager->getRepository(Media::class);
                 $mediaReported = $mediaRepo->find($objectId);
 
-                $objectDetails = [$mediaReported->getTitle(), $mediaReported->getPublishDate(), $mediaReported->getUrl()];
+                $objectDetails = [$mediaReported->getTitle(), $mediaReported->getPublishDate(), $mediaReported->getGame()->getTitle(), $mediaReported->getUser()->getPseudo(), $mediaReported->getUrl()];
             
                 break;
 
@@ -142,12 +142,12 @@ class ModerationController extends AbstractController
                 $topicRepo = $entityManager->getRepository(Topic::class);
                 $topicReported = $topicRepo->find($objectId);
 
-                $objectDetails = [$topicReported->getTitle(), $topicReported->getPublishDate()];
+                $objectDetails = [$topicReported->getTitle(), $topicReported->getPublishDate(), $topicReported->getGame()->getTitle(), $topicReported->getUser()->getPseudo()];
 
                 break;
 
 
-            //  juste post ?
+            //  case juste post ?
 
             
             default:
@@ -156,9 +156,32 @@ class ModerationController extends AbstractController
 
         
         return new JsonResponse(['success' => true, 'objectType' => $objectType, 'object' => $objectDetails]); 
-
     }
 
+
+    
+    #[Route('/removeReports/{objectType}/{objectId}', name: 'app_removeReports')]
+    public function removeReports(EntityManagerInterface $entityManager, string $objectType, int $objectId, Request $request): Response
+    {
+
+        if( $this->getUser() && in_array('ROLE_MODO', $this->getUser()->getRoles()) ) {
+
+            $reportRepo = $entityManager->getRepository(Report::class);
+            $objectReports = $reportRepo->findBy(["objectType" => $objectType, "objectId" => $objectId]);
+
+            foreach ($objectReports as $report) {
+                $reportRepo->remove($report, true);
+            }
+
+            $this->addFlash('success', 'Innocenté');
+            return $this->redirectToRoute('app_moderationDashboard');
+
+        }
+        else {
+            $this->addFlash('error', 'Vous devez être modérateur pour innocenter un report');
+            return $this->redirectToRoute('app_login');
+        }
+    }
 
 
 
