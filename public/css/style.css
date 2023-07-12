@@ -2379,7 +2379,6 @@ cursor: pointer;
     margin: 20px auto;
 }
 .reportPreviewBtn {
-    cursor: pointer;
     border: 1px solid #b2ffdf;
     padding: 5px 10px;
     border-radius: 4px;
@@ -2392,9 +2391,13 @@ cursor: pointer;
     background-color: #353535;
 }
 
+.reportPreviewBtn:not(.clickableContainer) {
+    cursor: pointer;
+}
+
 
 .reportDetailImg {
-    width: -webkit-fill-available;
+    width: 100%;
 }
 
 .innocenterBtn {
@@ -2403,9 +2406,17 @@ cursor: pointer;
     background-color: rgb(86, 150, 57);
 }
 .censureBtn {
+    color: white;
+    border: 1px solid rgb(167, 0, 0);
     padding: 5px 10px;
     border-radius: 2px;
     background-color: rgb(150, 57, 57);
+
+    transition: all 0.3s;
+}
+.censureBtn:hover {
+    border: 1px solid rgb(255, 255, 255);
+    background-color: rgb(167, 0, 0);
 }
 
 .censuredWordsList {

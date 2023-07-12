@@ -170,22 +170,32 @@
                                 </div>
                             </div>
 
-                            <div>
+                            <div id="clickableContainer{{ index }}" class="clickableContainer">
                                 <a href="{{ path('app_removeReports',{'objectType':report.objectType, 'objectId':report.objectId }) }}" class="innocenterBtn">Innocenter</a>
                                 <div>
                                     {# Toggle mute/ban modes #}
-                                    {# selon toggle, url du form différent avec input dateFin et input mode #}
+                                    <div style="display:inline-flex; justify-content:center; width:100%;">
+                                        <span id="toggleMute{{ index }}">Mute</span>
+                                        <span id="toggleBan{{ index }}">Ban</span>
+                                    </div>
+
+                                    {# censure form #}
                                     <form action="{{ path('app_censureObject',{'objectType':report.objectType, 'objectId':report.objectId }) }}" method="post">
 
-                                        <div style="display:inline-flex; justify-content:center; width:100%;">
-                                            <span id="toggleMute{{ index }}">Mute</span>
-                                            <span id="toggleBan{{ index }}">Ban</span>
-                                        </div>
+                                        {# Mode ban/mute JS #}
+                                        <input id="sentenceType{{ index }}" type="hidden" name="mode" value="" />
 
-                                        <input type="hidden" name="mode" value="" />
+                                        {# Date fin de ban/mute #}
+                                        <input id="inputPunishEndDate{{ index }}" type="date" min="" value="">
 
-                                        <input type="submit" value="Censurer" class="censureBtn"></input>
+                                        <input type="submit" value="Censurer le {{ report.objectType }}" class="censureBtn"></input>
                                     </form>
+
+                                    {# Toggle mute/ban modes #}
+                                    <script>
+
+                                    </script>
+
                                 </div>
                             </div>
                         </div>
@@ -204,12 +214,32 @@
 
                 {% set index = 0 %}
                 {% for report in reports %}
+
+                    // DateFinSentence minimum et defaut = aujourd'hui (backend:TODO)
+                    var today = new Date().toISOString().split('T')[0];
+                    document.getElementById('inputPunishEndDate{{ index }}').value = today;
+                    document.getElementById('inputPunishEndDate{{ index }}').setAttribute("min", today);
+
+                    // Toggle Affichage du détail de l'objet signalé (+ boutons décisions)
                     document.getElementById('reportPreviewBtn{{ index }}').addEventListener('click', function() {
 
-                        // Affichage du détail du report (pas d'id de report car ils sont groupés)
                         document.getElementById('preview{{ index }}').classList.toggle('notDisplayed');
 
                         if(!document.getElementById('preview{{ index }}').classList.contains('notDisplayed')) {
+
+                            // (Z-index inputDainputPunishEndDate marche pas) Fix:
+                            document.getElementById('clickableContainer{{ index }}').addEventListener('click', function(event) {
+                                event.stopPropagation();
+                            });
+
+                            // Toggle du mode Ban/Mute
+                            document.getElementById('toggleMute{{ index }}').addEventListener('click', function() {
+                                document.getElementById('sentenceType{{ index }}').value = "mute";
+                            })
+                            document.getElementById('toggleBan{{ index }}').addEventListener('click', function() {
+                                document.getElementById('sentenceType{{ index }}').value = "ban";
+                            })
+
 
                             // Récup des id et type de l'objet
                             var objectType = document.getElementById('reportPreviewType{{ index }}').getAttribute('value');
@@ -228,7 +258,7 @@
                                             document.getElementById('detailText{{ index }}').innerText = response.object[0];
                                             document.getElementById('detailPublishDate{{ index }}').innerText = publishDateDelay(response.object[1]["date"]);
                                             // document.getElementById('detailGame{{ index }}').innerText = response.object[2];
-                                            document.getElementById('detailObjectAuthor{{ index }}').innerText = response.object[3];
+                                            document.getElementById('detailObjectAuthor{{ index }}').innerText = "par " + response.object[3];
 
                                             document.getElementById('detailImg{{ index }}').src = "/img/uploads/" + response.object[4];
 
@@ -237,7 +267,7 @@
                                         case "topic":
                                             document.getElementById('detailText{{ index }}').innerText = response.object[0];
                                             document.getElementById('detailPublishDate{{ index }}').innerText = publishDateDelay(response.object[1]["date"]);
-                                            document.getElementById('detailObjectAuthor{{ index }}').innerText = response.object[3];
+                                            document.getElementById('detailObjectAuthor{{ index }}').innerText = "par " + response.object[3];
                                             break;
                                     
                                         default:
