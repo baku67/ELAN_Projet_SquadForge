@@ -225,7 +225,7 @@ class ModerationController extends AbstractController
     
                     $topicRepo = $entityManager->getRepository(Topic::class);
                     $topicReported = $topicRepo->find($objectId);
-                    $notifPreview = $topicReported->getTile();
+                    // $notifPreview = $topicReported->getTile();
                     $author = $topicReported->getUser();
     
                     $topicRepo->remove($topicReported, true);
@@ -252,7 +252,7 @@ class ModerationController extends AbstractController
 
             if ($request->request->get('mode') == 'void') {
                 // Pas de changement de status Author, mais notif censure publication
-                $this->notifController->notifCensureAuthor($author, $objectType, $notifPreview);
+                $this->notifController->notifCensureAuthor($author, $objectType, $objectId);
             }
             else if ($request->request->get('mode') == 'mute') {
                 // Maj Status et endDateStatus Author
@@ -262,6 +262,7 @@ class ModerationController extends AbstractController
                 $author->setEndDateStatus($date);
 
                 // Envoi notif à l'Author (censure + Ban/Mute) et notifs "merci" aux reporters
+                $this->notifController->notifCensureAuthor($author, $objectType, $objectId);
                 $this->notifController->notifBanMuteAuthor("mute", $author, $date);
                 foreach ($$objectReports as $report) {
                     $this->notifController->notifThxReporter($report->getUserReporter());
@@ -277,6 +278,7 @@ class ModerationController extends AbstractController
                 $author->setEndDateStatus($date);
 
                 // Envoi notif à l'Author (censure + Ban/Mute) et notifs "merci" aux reporters
+                $this->notifController->notifCensureAuthor($author, $objectType, $objectId);
                 $this->notifController->notifBanMuteAuthor("ban", $author, $date);
                 foreach ($$objectReports as $report) {
                     $this->notifController->notifThxReporter($report->getUserReporter());

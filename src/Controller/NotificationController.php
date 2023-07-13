@@ -155,11 +155,28 @@ class NotificationController extends AbstractController
     // **************************************************************************************************************************
 
 
-    public function notifCensureAuthor(User $user, string $type, string $notifPreview): bool
+    public function notifCensureAuthor(User $user, string $type, int $objectId): bool
     {
         $notification = new Notification();
 
-        $notification->setText("");
+        switch ($type) {
+            case 'media':
+                $mediaRepo = $entityManager->getRepository(Media::class);
+                $mediaCensured = $mediaRepo->find($objectId);
+                $notification->setText("Votre média \"" . $mediaCensured->getTitle() . "\" a été censuré par la modération.");
+                break;
+
+            case 'topic':
+                $topicRepo = $entityManager->getRepository(Topic::class);
+                $topicCensured = $topicRepo->find($objectId);
+                $notification->setText("Votre topic \"" . $topicCensured->getTitle() . "\" a été censuré par la modération.");
+
+                break;
+
+            default:
+                # code...
+                break;
+        }
 
         $notification->setDateCreation(new \DateTime());
         $notification->setUser($user);
