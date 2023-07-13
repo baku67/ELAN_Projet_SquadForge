@@ -19,6 +19,8 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
+use DateTime;
+use DateTimeInterface;
 
 class NotificationController extends AbstractController
 {
@@ -151,6 +153,68 @@ class NotificationController extends AbstractController
     // **************************************************************************************************************************
     // Fonctions de création de notifications
     // **************************************************************************************************************************
+
+
+    public function notifCensureAuthor(User $user, string $type, string $notifPreview): bool
+    {
+        $notification = new Notification();
+
+        $notification->setText("");
+
+        $notification->setDateCreation(new \DateTime());
+        $notification->setUser($user);
+        $notification->setClicked(false);
+
+        $this->entityManager->persist($notification);
+        $this->entityManager->flush();
+
+        return true;
+    }
+
+
+
+    public function notifBanMuteAuthor(string $case, User $user, DateTime $endDate): bool
+    {
+        $notification = new Notification();
+
+        $today = new DateTime();
+        $diff = $today->diff($endDate);
+
+        // Message de la notif selon $case
+        if ($case == "mute") {
+            $notification->setText("Vous avez été réduit au silence par la modération. Vous pourrez à nouveau communiquer publiquement dans " . $diff->days . " jours.");
+        }
+        elseif ($case == "ban") {
+            $notification->setText("Vous avez été banni par la modération. Vous pourrez à nouveau accéder à tout le contenu dans " . $diff->days . " jours.");
+        }
+
+        $notification->setDateCreation(new \DateTime());
+        $notification->setUser($user);
+        $notification->setClicked(false);
+
+        $this->entityManager->persist($notification);
+        $this->entityManager->flush();
+
+        return true;
+    }
+
+
+    
+    public function notifThxReporter(User $user): bool
+    {
+        $notification = new Notification();
+
+        $notification->setText("Votre signalement a été aprouvé par la modération. Merci pour votre participation !");
+
+        $notification->setDateCreation(new \DateTime());
+        $notification->setUser($user);
+        $notification->setClicked(false);
+
+        $this->entityManager->persist($notification);
+        $this->entityManager->flush();
+
+        return true;
+    }
 
 
     public function notifUpdateCandidature(string $case, User $user, Group $group): bool

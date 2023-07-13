@@ -15,6 +15,8 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
+use DateTime;
+use DateTimeInterface;
 
 
 class ModerationController extends AbstractController
@@ -204,6 +206,8 @@ class ModerationController extends AbstractController
                     
                     $mediaRepo = $entityManager->getRepository(Media::class);
                     $mediaReported = $mediaRepo->find($objectId);
+                    $notifPreview = $mediaReported->getTile();
+                    $author = $mediaReported->getUser();
     
                     $mediaRepo->remove($mediaReported, true);
 
@@ -221,6 +225,8 @@ class ModerationController extends AbstractController
     
                     $topicRepo = $entityManager->getRepository(Topic::class);
                     $topicReported = $topicRepo->find($objectId);
+                    $notifPreview = $topicReported->getTile();
+                    $author = $topicReported->getUser();
     
                     $topicRepo->remove($topicReported, true);
 
@@ -241,18 +247,45 @@ class ModerationController extends AbstractController
                 default:
                     break;
             }
-    
+
+            
 
             if ($request->request->get('mode') == 'void') {
-                // nothing ? Mais notif warning pour dire que censuré
+                // Pas de changement de status Author, mais notif censure publication
+                $this->notifController->notifCensureAuthor($author, $objectType, $notifPreview);
             }
             else if ($request->request->get('mode') == 'mute') {
-                // ajouter à User date fin de mute (ou alors champs type + date)
+                // Maj Status et endDateStatus Author
+                $author->setStatus("muted");
+                $dateString = $request->request->get('endDate');
+                $date = DateTime::createFromFormat('Y-m-d', $dateString);
+                $author->setEndDateStatus($date);
+
+                // Envoi notif à l'Author (censure + Ban/Mute) et notifs "merci" aux reporters
+                $this->notifController->notifBanMuteAuthor("mute", $author, $date);
+                foreach ($$objectReports as $report) {
+                    $this->notifController->notifThxReporter($report->getUserReporter());
+                }
+
+                $entityManager->persist($author);
             }
             else if ($request->request->get('mode') == 'ban') {
-                // ajouter à User date fin de ban (ou alors champs type + date)
+                // Maj Status et endDateStatus Author
+                $author->setStatus("banned");
+                $dateString = $request->request->get('endDate');
+                $date = DateTime::createFromFormat('Y-m-d', $dateString);
+                $author->setEndDateStatus($date);
+
+                // Envoi notif à l'Author (censure + Ban/Mute) et notifs "merci" aux reporters
+                $this->notifController->notifBanMuteAuthor("ban", $author, $date);
+                foreach ($$objectReports as $report) {
+                    $this->notifController->notifThxReporter($report->getUserReporter());
+                }
+
+                $entityManager->persist($author);
             }
 
+            $entityManager->flush();
 
             $this->addFlash('success', 'L\'élément a été censuré');
             return $this->redirectToRoute('app_moderationDashboard');

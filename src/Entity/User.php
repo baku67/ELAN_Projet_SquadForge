@@ -5,10 +5,12 @@ namespace App\Entity;
 use App\Repository\UserRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
+use DateTime;
 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
 #[ORM\Table(name: '`user`')]
@@ -91,8 +93,20 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToMany(mappedBy: 'user_reporter', targetEntity: Report::class)]
     private Collection $reports;
 
+    #[ORM\Column(length: 50, nullable: true)]
+    private ?string $status = null;
+
+    #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
+    private ?\DateTimeInterface $end_date_status = null;
+
+    private $date;
+
+    private bool $banned;
+
     public function __construct()
     {
+        $this->date = new DateTime();
+
         $this->favoris = new ArrayCollection();
         $this->topics = new ArrayCollection();
         $this->notations = new ArrayCollection();
@@ -114,6 +128,39 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function getId(): ?int
     {
         return $this->id;
+    }
+
+    // Check si User banned ou Muted
+    public function isBanned(): bool
+    {
+        if($this->status == "banned") {
+            if($this->date < $this->end_date_status) {
+                $this->banned = true;
+                return $this;
+            }
+            $this->banned = false;
+            return $this;
+        }
+        else {
+            $this->banned = false;
+            return $this;
+        }
+    }
+
+    public function isMuted(): bool
+    {
+        if($this->status == "muted") {
+            if($this->date < $this->end_date_status) {
+                $this->banned = true;
+                return $this;
+            }
+            $this->banned = false;
+            return $this;
+        }
+        else {
+            $this->banned = false;
+            return $this;
+        }
     }
 
     public function getEmail(): ?string
@@ -678,6 +725,30 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
                 $report->setUserReporter(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getStatus(): ?string
+    {
+        return $this->status;
+    }
+
+    public function setStatus(?string $status): self
+    {
+        $this->status = $status;
+
+        return $this;
+    }
+
+    public function getEndDateStatus(): ?\DateTimeInterface
+    {
+        return $this->end_date_status;
+    }
+
+    public function setEndDateStatus(?\DateTimeInterface $end_date_status): self
+    {
+        $this->end_date_status = $end_date_status;
 
         return $this;
     }
