@@ -134,7 +134,14 @@ class ModerationController extends AbstractController
                 $mediaRepo = $entityManager->getRepository(Media::class);
                 $mediaReported = $mediaRepo->find($objectId);
 
-                $objectDetails = [$mediaReported->getTitle(), $mediaReported->getPublishDate(), $mediaReported->getGame()->getTitle(), $mediaReported->getUser()->getPseudo(), $mediaReported->getUrl()];
+                $objectDetails = [
+                    "title" => $mediaReported->getTitle(), 
+                    "date" => $mediaReported->getPublishDate(), 
+                    "game" => $mediaReported->getGame()->getTitle(), 
+                    "author" => $mediaReported->getUser()->getPseudo(), 
+                    "img" => $mediaReported->getUrl(),
+                    "authorNbrCensures" => $mediaReported->getUser()->getNbrCensures(),
+                ];
             
                 break;
 
@@ -144,7 +151,13 @@ class ModerationController extends AbstractController
                 $topicRepo = $entityManager->getRepository(Topic::class);
                 $topicReported = $topicRepo->find($objectId);
 
-                $objectDetails = [$topicReported->getTitle(), $topicReported->getPublishDate(), $topicReported->getGame()->getTitle(), $topicReported->getUser()->getPseudo()];
+                $objectDetails = [
+                    "title" => $topicReported->getTitle(), 
+                    "date" => $topicReported->getPublishDate(), 
+                    "game" => $topicReported->getGame()->getTitle(), 
+                    "author" => $topicReported->getUser()->getPseudo(),
+                    "authorNbrCensures" => $topicReported->getUser()->getNbrCensures(),
+                ];
 
                 break;
 
@@ -217,9 +230,8 @@ class ModerationController extends AbstractController
                     foreach ($reports as $report) {
                         $reportRepo->remove($report, true);
                     }
-                
+            
                     break;
-    
     
                 case 'topic':
     
@@ -237,9 +249,7 @@ class ModerationController extends AbstractController
                         $reportRepo->remove($report, true);
                     }
 
-
                     break;
-    
     
                 // Case juste post ?
                 // Remplacement par text "le comm a été suppr
@@ -249,7 +259,6 @@ class ModerationController extends AbstractController
             }
 
             
-
             if ($request->request->get('mode') == 'void') {
                 // Pas de changement de status Author, mais notif censure publication
                 $this->notifController->notifCensureAuthor($author, $objectType, $objectText);
@@ -267,8 +276,6 @@ class ModerationController extends AbstractController
                 foreach ($objectReports as $report) {
                     $this->notifController->notifThxReporters($report->getUserReporter());
                 }
-
-                $entityManager->persist($author);
             }
             else if ($request->request->get('mode') == 'ban') {
                 // Maj Status et endDateStatus Author
@@ -283,10 +290,11 @@ class ModerationController extends AbstractController
                 foreach ($objectReports as $report) {
                     $this->notifController->notifThxReporters($report->getUserReporter());
                 }
-
-                $entityManager->persist($author);
             }
 
+            $author->setNbrCensures($author->getNbrCensures() + 1);
+
+            $entityManager->persist($author);
             $entityManager->flush();
 
             $this->addFlash('success', 'L\'élément a été censuré');

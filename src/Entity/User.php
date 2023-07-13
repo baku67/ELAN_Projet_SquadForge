@@ -103,6 +103,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     private bool $banned;
 
+    #[ORM\Column(options: ['default' => 0])]
+    private ?int $nbrCensures = null;
+
     public function __construct()
     {
         $this->date = new DateTime();
@@ -749,6 +752,18 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setEndDateStatus(?\DateTimeInterface $end_date_status): self
     {
         $this->end_date_status = $end_date_status;
+
+        return $this;
+    }
+
+    public function getNbrCensures(): ?int
+    {
+        return $this->nbrCensures;
+    }
+
+    public function setNbrCensures(int $nbrCensures): static
+    {
+        $this->nbrCensures = $nbrCensures;
 
         return $this;
     }
