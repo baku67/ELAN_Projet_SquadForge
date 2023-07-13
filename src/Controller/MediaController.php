@@ -237,7 +237,7 @@ class MediaController extends AbstractController
 
         $media = $mediaRepo->find($id);
 
-        if ($media->getValidated() == "validated") {
+        if (!is_null($media) && $media->getValidated() == "validated") {
 
             $mediaPostRepo = $entityManager->getRepository(MediaPost::class);
             $censureRepo = $entityManager->getRepository(Censure::class);
@@ -333,7 +333,7 @@ class MediaController extends AbstractController
             ]);
         }
         else {
-            $this->addFlash('error', 'Le média est en attente ou refusé par la modération');
+            $this->addFlash('error', 'Le média est en attente ou refusé par la modération, ou bien n\'existe plus');
             return $this->redirectToRoute('app_user');
         }
     }

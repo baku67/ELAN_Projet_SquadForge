@@ -155,22 +155,17 @@ class NotificationController extends AbstractController
     // **************************************************************************************************************************
 
 
-    public function notifCensureAuthor(User $user, string $type, int $objectId): bool
+    public function notifCensureAuthor(User $user, string $type, string $objectText): bool
     {
         $notification = new Notification();
 
         switch ($type) {
             case 'media':
-                $mediaRepo = $entityManager->getRepository(Media::class);
-                $mediaCensured = $mediaRepo->find($objectId);
-                $notification->setText("Votre média \"" . $mediaCensured->getTitle() . "\" a été censuré par la modération.");
+                $notification->setText("Votre média \"" . $objectText . "\" a été censuré par la modération.");
                 break;
 
             case 'topic':
-                $topicRepo = $entityManager->getRepository(Topic::class);
-                $topicCensured = $topicRepo->find($objectId);
-                $notification->setText("Votre topic \"" . $topicCensured->getTitle() . "\" a été censuré par la modération.");
-
+                $notification->setText("Votre topic \"" . $objectText . "\" a été censuré par la modération.");
                 break;
 
             default:
@@ -217,7 +212,7 @@ class NotificationController extends AbstractController
 
 
     
-    public function notifThxReporter(User $user): bool
+    public function notifThxReporters(User $user): bool
     {
         $notification = new Notification();
 

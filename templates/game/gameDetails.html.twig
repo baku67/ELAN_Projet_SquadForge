@@ -475,6 +475,7 @@
                                 // Créez une balise d'image pour afficher la prévisualisation
                                 const img = document.createElement('img');
                                 img.src = e.target.result;
+                                img.style.width = "100%";
 
                                 // Ajoutez l'image prévisualisée à un élément de votre choix dans le DOM
                                 const previewContainer = document.getElementById('mediaCardHeader');

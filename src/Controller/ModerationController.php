@@ -206,7 +206,7 @@ class ModerationController extends AbstractController
                     
                     $mediaRepo = $entityManager->getRepository(Media::class);
                     $mediaReported = $mediaRepo->find($objectId);
-                    $notifPreview = $mediaReported->getTile();
+                    $objectText = $mediaReported->getTitle();
                     $author = $mediaReported->getUser();
     
                     $mediaRepo->remove($mediaReported, true);
@@ -225,7 +225,7 @@ class ModerationController extends AbstractController
     
                     $topicRepo = $entityManager->getRepository(Topic::class);
                     $topicReported = $topicRepo->find($objectId);
-                    // $notifPreview = $topicReported->getTile();
+                    $objectText = $topicReported->getTitle();
                     $author = $topicReported->getUser();
     
                     $topicRepo->remove($topicReported, true);
@@ -252,7 +252,7 @@ class ModerationController extends AbstractController
 
             if ($request->request->get('mode') == 'void') {
                 // Pas de changement de status Author, mais notif censure publication
-                $this->notifController->notifCensureAuthor($author, $objectType, $objectId);
+                $this->notifController->notifCensureAuthor($author, $objectType, $objectText);
             }
             else if ($request->request->get('mode') == 'mute') {
                 // Maj Status et endDateStatus Author
@@ -262,10 +262,10 @@ class ModerationController extends AbstractController
                 $author->setEndDateStatus($date);
 
                 // Envoi notif à l'Author (censure + Ban/Mute) et notifs "merci" aux reporters
-                $this->notifController->notifCensureAuthor($author, $objectType, $objectId);
+                $this->notifController->notifCensureAuthor($author, $objectType, $objectText);
                 $this->notifController->notifBanMuteAuthor("mute", $author, $date);
-                foreach ($$objectReports as $report) {
-                    $this->notifController->notifThxReporter($report->getUserReporter());
+                foreach ($objectReports as $report) {
+                    $this->notifController->notifThxReporters($report->getUserReporter());
                 }
 
                 $entityManager->persist($author);
@@ -278,10 +278,10 @@ class ModerationController extends AbstractController
                 $author->setEndDateStatus($date);
 
                 // Envoi notif à l'Author (censure + Ban/Mute) et notifs "merci" aux reporters
-                $this->notifController->notifCensureAuthor($author, $objectType, $objectId);
+                $this->notifController->notifCensureAuthor($author, $objectType, $objectText);
                 $this->notifController->notifBanMuteAuthor("ban", $author, $date);
-                foreach ($$objectReports as $report) {
-                    $this->notifController->notifThxReporter($report->getUserReporter());
+                foreach ($objectReports as $report) {
+                    $this->notifController->notifThxReporters($report->getUserReporter());
                 }
 
                 $entityManager->persist($author);

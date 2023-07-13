@@ -198,7 +198,7 @@ class TopicController extends AbstractController
 
         $topic = $topicRepo->find($id);
 
-        if ($topic->getValidated() == "validated") {
+        if (!is_null($topic) && $topic->getValidated() == "validated") {
 
             $censures = $censureRepo->findAll();
 
@@ -293,7 +293,7 @@ class TopicController extends AbstractController
         }
         else {
 
-            $this->addFlash('error', 'Le topic est en attente ou refusé par la modération');
+            $this->addFlash('error', 'Le topic est en attente ou refusé par la modération, ou bien n\'esxiste plus');
             return $this->redirectToRoute('app_user');
         }
 
