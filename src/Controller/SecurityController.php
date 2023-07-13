@@ -30,8 +30,8 @@ class SecurityController extends AbstractController
                 // throw new CustomUserMessageAuthenticationException('Your account is not verified.');
             }
             else {
-                // return $this->redirectToRoute('app_home');
-                return $this->render('security/home.html.twig');
+                return $this->redirectToRoute('app_home');
+                // return $this->render('security/home.html.twig');
             }
         }
         // get the login error if there is one

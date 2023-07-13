@@ -2396,6 +2396,13 @@ cursor: pointer;
 }
 
 
+.toggleSentence {
+    padding: 5px 10px;
+    margin: 15px 5px;
+    
+
+}
+
 .reportDetailImg {
     width: 100%;
 }

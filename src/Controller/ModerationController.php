@@ -206,6 +206,13 @@ class ModerationController extends AbstractController
                     $mediaReported = $mediaRepo->find($objectId);
     
                     $mediaRepo->remove($mediaReported, true);
+
+                    // Suppr des reports associés
+                    $reportRepo = $entityManager->getRepository(report::class);
+                    $reports = $reportRepo->findBy(["objectType" => $objectType, "objectId" => $objectId]);
+                    foreach ($reports as $report) {
+                        $reportRepo->remove($report, true);
+                    }
                 
                     break;
     
@@ -216,6 +223,14 @@ class ModerationController extends AbstractController
                     $topicReported = $topicRepo->find($objectId);
     
                     $topicRepo->remove($topicReported, true);
+
+                    // Suppr des reports associés
+                    $reportRepo = $entityManager->getRepository(report::class);
+                    $reports = $reportRepo->findBy(["objectType" => $objectType, "objectId" => $objectId]);
+                    foreach ($reports as $report) {
+                        $reportRepo->remove($report, true);
+                    }
+
 
                     break;
     
@@ -228,6 +243,15 @@ class ModerationController extends AbstractController
             }
     
 
+            if ($request->request->get('mode') == 'void') {
+                // nothing ? Mais notif warning pour dire que censuré
+            }
+            else if ($request->request->get('mode') == 'mute') {
+                // ajouter à User date fin de mute (ou alors champs type + date)
+            }
+            else if ($request->request->get('mode') == 'ban') {
+                // ajouter à User date fin de ban (ou alors champs type + date)
+            }
 
 
             $this->addFlash('success', 'L\'élément a été censuré');
