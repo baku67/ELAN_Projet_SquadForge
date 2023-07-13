@@ -59,7 +59,6 @@
         {# Messages Falsh Symfony Controller #}
         {% for type, messages in app.flashes() %}
             {% for message in messages %}
-                <div class="alertFlash {{type}}Flash">
                 
                     {% if type == "success" %}
                         <script>
@@ -71,7 +70,6 @@
                         </script>
                     {% endif %}
                     
-                </div>
             {% endfor %}
         {% endfor %}
 

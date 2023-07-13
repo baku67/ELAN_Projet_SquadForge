@@ -37,7 +37,7 @@ class Topic
     #[ORM\Column(type: Types::TEXT, nullable: true)]
     private ?string $firstMsg = null;
 
-    #[ORM\OneToMany(mappedBy: 'topic', targetEntity: TopicPost::class)]
+    #[ORM\OneToMany(mappedBy: 'topic', targetEntity: TopicPost::class, cascade: ["remove"])]
     private Collection $topicPosts;
 
     // Non mappé

@@ -37,7 +37,7 @@ class Media
     #[ORM\ManyToOne(inversedBy: 'media')]
     private ?Game $game = null;
 
-    #[ORM\OneToMany(mappedBy: 'media', targetEntity: MediaPost::class)]
+    #[ORM\OneToMany(mappedBy: 'media', targetEntity: MediaPost::class, cascade: ["remove"])]
     private Collection $mediaPosts;
 
     #[ORM\JoinTable(name: 'media_upvotes')]
