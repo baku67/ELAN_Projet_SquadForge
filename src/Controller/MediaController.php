@@ -266,48 +266,56 @@ class MediaController extends AbstractController
                     // Vérification si le media est ouvert
                     if ($media->getStatus() == "open") {
 
-                        // Vérif si post vide
-                        if(strlen($mediaPost->getText()) > 0) {
-                        
-                            if($form->isValid()) {
-        
-                                // Hydrataion du "MediaPost" a partir des données du form
-                                $mediaPost = $form->getData();
+                        // Vérif si User pas muted
+                        if (!$this->getUser()->isMuted()) {
+
+                            // Vérif si post vide
+                            if(strlen($mediaPost->getText()) > 0) {
+                            
+                                if($form->isValid()) {
             
-                                // Init de la publish_date du comment
-                                $mediaPost->setPublishDate(new \DateTime());
-                                $mediaPost->setUser($this->getUser());
-                                $mediaPost->setMedia($media);
-                                
-                                // Désactivation vérification nbr de mots etc...
-                                // // Récupération du titre
-                                // $textInputValue = $form->get('text')->getData();
-                                // // Liste des mots du commentaires
-                                // $words = str_word_count($textInputValue, 1);
-                                // // Décompte du nombre de mots dans la liste
-                                // $wordCount = count($words);
-                                // // Vérification du compte de mots
-                                // if ($wordCount >= 5) {
-            
-                                    // Modifs Base de données
-                                    $entityManager->persist($mediaPost);
-                                    $entityManager->flush();
-            
-                                    $this->addFlash('success', 'Le post a bien été publié');
-                                    return $this->redirectToRoute('app_mediaDetail', ['id' => $media->getId()]);
-                                // } else {
+                                    // Hydrataion du "MediaPost" a partir des données du form
+                                    $mediaPost = $form->getData();
+                
+                                    // Init de la publish_date du comment
+                                    $mediaPost->setPublishDate(new \DateTime());
+                                    $mediaPost->setUser($this->getUser());
+                                    $mediaPost->setMedia($media);
                                     
-                                //     $this->addFlash('error', 'Le titre doit faire au minimum 5 mots !');
-                                //     return $this->redirectToRoute('app_game', ['id' => $game->getId()]);
-                                // }
-                            } 
+                                    // Désactivation vérification nbr de mots etc...
+                                    // // Récupération du titre
+                                    // $textInputValue = $form->get('text')->getData();
+                                    // // Liste des mots du commentaires
+                                    // $words = str_word_count($textInputValue, 1);
+                                    // // Décompte du nombre de mots dans la liste
+                                    // $wordCount = count($words);
+                                    // // Vérification du compte de mots
+                                    // if ($wordCount >= 5) {
+                
+                                        // Modifs Base de données
+                                        $entityManager->persist($mediaPost);
+                                        $entityManager->flush();
+                
+                                        $this->addFlash('success', 'Le post a bien été publié');
+                                        return $this->redirectToRoute('app_mediaDetail', ['id' => $media->getId()]);
+                                    // } else {
+                                        
+                                    //     $this->addFlash('error', 'Le titre doit faire au minimum 5 mots !');
+                                    //     return $this->redirectToRoute('app_game', ['id' => $game->getId()]);
+                                    // }
+                                } 
+                                else {
+                                    $this->addFlash('error', 'Les données envoyées ne sont pas valides');
+                                    return $this->redirectToRoute('app_mediaDetail', ['id' => $media->getId()]);
+                                }   
+                            }
                             else {
-                                $this->addFlash('error', 'Les données envoyées ne sont pas valides');
+                                $this->addFlash('error', 'Le commentaire ne peut pas être vide');
                                 return $this->redirectToRoute('app_mediaDetail', ['id' => $media->getId()]);
-                            }   
+                            }
                         }
                         else {
-                            $this->addFlash('error', 'Le commentaire ne peut pas être vide');
+                            $this->addFlash('error', 'Vous avez été réduit au silence et ne pouvez donc rien publier');
                             return $this->redirectToRoute('app_mediaDetail', ['id' => $media->getId()]);
                         }
                     }

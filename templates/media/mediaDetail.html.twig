@@ -175,17 +175,33 @@
 
                 {# form de publication de post sur le topic #}
                 {% if media.status == "open" %}
-                
-                    {{ form_start(formAddMediaPost) }}
-                        <div style="position:relative; margin: 5px auto;">
-                            {{ form_widget(formAddMediaPost.text) }} 
-                            {{ form_widget(formAddMediaPost.submit) }}
-                        </div>
-                        
-                    {{ form_end(formAddMediaPost) }}
-                    <script>
-                        document.querySelector('#media_post_submit').style.color = "{{ media.game.color }}";
-                    </script>
+
+                    {% if app.user %}
+                    
+                        {% if app.user.muted %}
+
+                            <p class="emptyListMsg"><i class="fa-solid fa-triangle-exclamation warning"></i>Vous avez été réduit au silence par la modération</p>
+
+                        {% else %}
+                    
+                            {{ form_start(formAddMediaPost) }}
+                                <div style="position:relative; margin: 5px auto;">
+                                    {{ form_widget(formAddMediaPost.text) }} 
+                                    {{ form_widget(formAddMediaPost.submit) }}
+                                </div>
+                                
+                            {{ form_end(formAddMediaPost) }}
+                            <script>
+                                document.querySelector('#media_post_submit').style.color = "{{ media.game.color }}";
+                            </script>
+
+                        {% endif %}
+
+                    {% else %}
+
+                        <p class="emptyListMsg"><i class="fa-solid fa-triangle-exclamation warning"></i>Vous devez être <a href="{{ path('app_login') }}" style="text-decoration:underline;">connecté</a> pour commenter</p>
+
+                    {% endif %}
 
                 {% elseif media.status == "closed" %}
                     

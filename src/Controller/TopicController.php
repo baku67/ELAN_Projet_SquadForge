@@ -223,49 +223,57 @@ class TopicController extends AbstractController
                     // Vérification si le topic est ouvert
                     if ($topic->getStatus() == "open") {
 
-                        // Vérif si post vide
-                        if(strlen($topicPost->getText()) > 0) {
-                        
-                            if($form->isValid()) {
+                        // Vérif si User pas muted
+                        if (!$this->getUser()->isMuted()) {
 
-                                // Hydrataion du "TopicPost" a partir des données du form
-                                $topicPost = $form->getData();
-            
-                                // Init de la publish_date du comment
-                                $topicPost->setPublishDate(new \DateTime());
-                                $topicPost->setUser($this->getUser());
-                                $topicPost->setTopic($topic);
-                                
-                                // Désactivation vérification nbr de mots etc...
-                                // // Récupération du titre
-                                // $textInputValue = $form->get('text')->getData();
-                                // // Liste des mots du commentaires
-                                // $words = str_word_count($textInputValue, 1);
-                                // // Décompte du nombre de mots dans la liste
-                                // $wordCount = count($words);
-                                // // Vérification du compte de mots
-                                // if ($wordCount >= 5) {
-            
-                                // Modifs Base de données
-                                $entityManager->persist($topicPost);
-                                $entityManager->flush();
-        
-                                $this->addFlash('success', 'Le post a bien été publié');
-                                return $this->redirectToRoute('app_topicDetail', ['id' => $topic->getId()]);
-                                // } else {
+                            // Vérif si post vide
+                            if(strlen($topicPost->getText()) > 0) {
+                            
+                                if($form->isValid()) {
+
+                                    // Hydrataion du "TopicPost" a partir des données du form
+                                    $topicPost = $form->getData();
+                
+                                    // Init de la publish_date du comment
+                                    $topicPost->setPublishDate(new \DateTime());
+                                    $topicPost->setUser($this->getUser());
+                                    $topicPost->setTopic($topic);
                                     
-                                //     $this->addFlash('error', 'Le titre doit faire au minimum 5 mots !');
-                                //     return $this->redirectToRoute('app_game', ['id' => $game->getId()]);
-                                // }
-                            } 
+                                    // Désactivation vérification nbr de mots etc...
+                                    // // Récupération du titre
+                                    // $textInputValue = $form->get('text')->getData();
+                                    // // Liste des mots du commentaires
+                                    // $words = str_word_count($textInputValue, 1);
+                                    // // Décompte du nombre de mots dans la liste
+                                    // $wordCount = count($words);
+                                    // // Vérification du compte de mots
+                                    // if ($wordCount >= 5) {
+                
+                                    // Modifs Base de données
+                                    $entityManager->persist($topicPost);
+                                    $entityManager->flush();
+            
+                                    $this->addFlash('success', 'Le post a bien été publié');
+                                    return $this->redirectToRoute('app_topicDetail', ['id' => $topic->getId()]);
+                                    // } else {
+                                        
+                                    //     $this->addFlash('error', 'Le titre doit faire au minimum 5 mots !');
+                                    //     return $this->redirectToRoute('app_game', ['id' => $game->getId()]);
+                                    // }
+                                } 
+                                else {
+                                    $this->addFlash('error', 'Pas de vulgarités pour un titre');
+                                    return $this->redirectToRoute('app_topicDetail', ['id' => $topic->getId()]);
+                                }   
+                            }
                             else {
-                                $this->addFlash('error', 'Pas de vulgarités pour un titre');
+                                $this->addFlash('error', 'Le commentaire ne peut pas être vide');
                                 return $this->redirectToRoute('app_topicDetail', ['id' => $topic->getId()]);
-                            }   
+                            }
                         }
                         else {
-                            $this->addFlash('error', 'Le commentaire ne peut pas être vide');
-                            return $this->redirectToRoute('app_topicDetail', ['id' => $topic->getId()]);
+                            $this->addFlash('error', 'Vous avez été réduit au silence et ne pouvez donc rien publier');
+                            return $this->redirectToRoute('app_mediaDetail', ['id' => $media->getId()]);
                         }
                     }
                     else {

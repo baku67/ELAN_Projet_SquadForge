@@ -143,17 +143,32 @@
 
             {# form de publication de post sur le topic #}
             {% if topic.status == "open" %}
-            
-                {{ form_start(formAddTopicPost) }}
-                    <div class="inline" style="position:relative; margin: 5px auto;">
-                        {{ form_widget(formAddTopicPost.text) }} 
-                        {{ form_widget(formAddTopicPost.submit) }}
-                    </div>
-                    
-                {{ form_end(formAddTopicPost) }}
-                <script>
-                    document.querySelector('#topic_post_submit').style.color = "{{ topic.game.color }}";
-                </script>
+
+                {% if app.user %}
+
+                    {% if app.user.muted %}
+
+                        <p class="emptyListMsg"><i class="fa-solid fa-triangle-exclamation warning"></i>Vous avez été réduit au silence par la modération</p>
+                
+                    {% else %}
+
+                        {{ form_start(formAddTopicPost) }}
+                            <div class="inline" style="position:relative; margin: 5px auto;">
+                                {{ form_widget(formAddTopicPost.text) }} 
+                                {{ form_widget(formAddTopicPost.submit) }}
+                            </div>
+                            
+                        {{ form_end(formAddTopicPost) }}
+                        <script>
+                            document.querySelector('#topic_post_submit').style.color = "{{ topic.game.color }}";
+                        </script>
+
+                    {% else %}
+
+                        <p class="emptyListMsg"><i class="fa-solid fa-triangle-exclamation warning"></i>Vous devez être <a href="{{ path('app_login') }}" style="text-decoration:underline;">connecté</a> pour commenter</p>
+
+                    {% endif %}
+
 
             {% elseif topic.status == "closed" %}
                 
