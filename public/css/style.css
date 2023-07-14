@@ -169,9 +169,33 @@ nav {
     background-color: var(--primary-color); 
     position: relative; 
     top: 2px;
-
+}
+.marginBottomHeaderLine {
     margin-bottom: 40px;
 }
+
+
+.mutedBanner {
+    text-align: center;
+    width: 100%;
+    font-family: 'K2D';
+    padding: 7px 0 5px 0;
+    border-bottom: 1px solid #80808054;
+    background-color: #d600003b;
+}
+
+.muteEndDate {
+    color: rgb(230, 8, 8);
+}
+
+.mutedBannerIcon {
+    color: rgb(221, 12, 12);
+    margin-right: 7px;
+    font-size: 1.2em;
+    position: relative;
+    top: 1px;
+}
+
 
 .logoPng {
     position: relative;

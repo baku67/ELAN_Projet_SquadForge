@@ -74,7 +74,7 @@ class TopicController extends AbstractController
             $from = "home";
         }
 
-        return $this->render('topic/index.html.twig', [
+        return $this->render('topic/gameTopics.html.twig', [
             'modoNotifCount' => $modoNotifCount,
             'userNotifCount' => $userNotifCount,
             'allTopicsDesc' => $allTopicsDesc,

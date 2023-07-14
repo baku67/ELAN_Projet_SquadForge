@@ -288,6 +288,7 @@ class ModerationController extends AbstractController
                     $objectText = $topicPostReported->getText();
                     $author = $topicPostReported->getUser();
     
+                    // Attention: text brut utilisé dans TWIG pour savoir si pas de upvotes par exemple 
                     $topicPostReported->setText("Le commentaire a été supprimé");
 
                     $entityManager->persist($topicPostReported);
@@ -309,6 +310,7 @@ class ModerationController extends AbstractController
                     $objectText = $mediaPostReported->getText();
                     $author = $mediaPostReported->getUser();
     
+                    // Attention: text brut utilisé dans TWIG pour savoir si pas de upvotes par exemple 
                     $mediaPostReported->setText("Le commentaire a été supprimé");
 
                     $entityManager->persist($mediaPostReported);

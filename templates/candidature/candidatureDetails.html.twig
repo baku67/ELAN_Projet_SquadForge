@@ -36,6 +36,17 @@
     </header>
     <div class="headerUnderline" style="background-color: {{ gameFrom.color }}"></div>
 
+    {# HeaderSouligne + Bandeau avertissement muted #}
+    {% if app.user and app.user.muted %}
+        <div class="headerUnderline" style="background-color: {{ gameFrom.color }}"></div>
+        <div class="mutedBanner">  
+            <span><i class="fa-solid fa-circle-exclamation mutedBannerIcon"></i>Vous êtes actuellement réduit au silence <span class="muteEndDate">(fin dans {{ time_diff(app.user.endDateStatus) }})</span></span>
+        </div>
+    {% else %}
+        <div class="headerUnderline marginBottomHeaderLine" style="background-color: {{ gameFrom.color }}"></div>
+    {% endif %}
+
+
 
     <div class="main">
 

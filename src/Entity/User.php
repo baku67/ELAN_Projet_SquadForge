@@ -102,6 +102,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private $date;
 
     private bool $banned;
+    private bool $muted;
 
     #[ORM\Column(options: ['default' => 0])]
     private ?int $nbrCensures = null;
@@ -139,14 +140,14 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         if($this->status == "banned") {
             if($this->date < $this->end_date_status) {
                 $this->banned = true;
-                return $this;
+                return $this->banned;
             }
             $this->banned = false;
-            return $this;
+            return $this->banned;
         }
         else {
             $this->banned = false;
-            return $this;
+            return $this->banned;
         }
     }
 
@@ -154,15 +155,15 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     {
         if($this->status == "muted") {
             if($this->date < $this->end_date_status) {
-                $this->banned = true;
-                return $this;
+                $this->muted = true;
+                return $this->muted;
             }
-            $this->banned = false;
-            return $this;
+            $this->muted = false;
+            return $this->muted;
         }
         else {
-            $this->banned = false;
-            return $this;
+            $this->muted = false;
+            return $this->muted;
         }
     }
 

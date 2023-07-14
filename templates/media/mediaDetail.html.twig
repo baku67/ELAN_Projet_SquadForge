@@ -33,7 +33,17 @@
         </nav>
         <a href="{{ path('app_game', {'id': game.id }) }}"><h2 class="headerGameTitle"  style="border-right:15px solid {{ game.color }};">{{ game.title }}</h2></a>
     </header>
-    <div class="headerUnderline" style="background-color: {{ game.color }}"></div>
+    
+
+    {# HeaderSouligne + Bandeau avertissement muted #}
+    {% if app.user and app.user.muted %}
+        <div class="headerUnderline" style="background-color: {{ game.color }}"></div>
+        <div class="mutedBanner">  
+            <span><i class="fa-solid fa-circle-exclamation mutedBannerIcon"></i>Vous êtes actuellement réduit au silence <span class="muteEndDate">(fin dans {{ time_diff(app.user.endDateStatus) }})</span></span>
+        </div>
+    {% else %}
+        <div class="headerUnderline marginBottomHeaderLine" style="background-color: {{ game.color }}"></div>
+    {% endif %}
 
 
     {# Fil d'ariane "breadcrumb" #}
@@ -324,7 +334,7 @@
 
                                 {# Upvote/Downvote que si pas auteur #}
                                 {# Upvote Asynch #}
-                                {% if app.user != post.user %}
+                                {% if app.user != post.user and post.text != "Le commentaire a été supprimé" %}
                                     {% if isUpvoted %}
                                         <span class="upMediaPostBtn" mediaPostId="{{ post.id }}" id="mup{{ post.id }}"><i class="fa-solid fa-caret-up" style="color:{{ media.game.color }}"></i></span>
                                     {% else %}
@@ -348,7 +358,7 @@
                                 {% endif %}
                                 
                                 {# Down #}
-                                {% if app.user != post.user %}
+                                {% if app.user != post.user and post.text != "Le commentaire a été supprimé" %}
                                     {% if isDownvoted %}
                                         <span class="downMediaPostBtn" mediaPostId="{{ post.id }}" id="mdown{{ post.id }}"><i class="fa-solid fa-caret-down" style="color:{{ media.game.color }}"></i></span>
                                     {% else %}
