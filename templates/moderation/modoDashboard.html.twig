@@ -305,6 +305,13 @@
                                             // document.getElementById('detailGame{{ index }}').innerText = response.object["game"];
                                             document.getElementById('detailObjectAuthor{{ index }}').innerText = "par " + response.object["author"] + " (Censures: " + response.object["authorNbrCensures"] + ")";
                                             break;
+
+                                        case "mediaPost":
+                                            document.getElementById('detailText{{ index }}').innerText = response.object["title"];
+                                            document.getElementById('detailPublishDate{{ index }}').innerText = publishDateDelay(response.object["date"]["date"]);
+                                            // document.getElementById('detailGame{{ index }}').innerText = response.object["game"];
+                                            document.getElementById('detailObjectAuthor{{ index }}').innerText = "par " + response.object["author"] + " (Censures: " + response.object["authorNbrCensures"] + ")";
+                                            break;
                                     
                                         default:
                                             break;

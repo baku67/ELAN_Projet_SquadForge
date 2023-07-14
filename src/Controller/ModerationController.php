@@ -179,8 +179,20 @@ class ModerationController extends AbstractController
 
                 break;
 
+            case 'mediaPost':
 
-            //  case juste post ?
+                $mediaPostRepo = $entityManager->getRepository(MediaPost::class);
+                $mediaPostReported = $mediaPostRepo->find($objectId);
+
+                $objectDetails = [
+                    "title" => $mediaPostReported->getText(), 
+                    "date" => $mediaPostReported->getPublishDate(), 
+                    "game" => $mediaPostReported->getMedia()->getGame()->getTitle(), 
+                    "author" => $mediaPostReported->getUser()->getPseudo(),
+                    "authorNbrCensures" => $mediaPostReported->getUser()->getNbrCensures(),
+                ];
+
+                break;
 
             
             default:
@@ -276,7 +288,6 @@ class ModerationController extends AbstractController
                     $objectText = $topicPostReported->getText();
                     $author = $topicPostReported->getUser();
     
-                    // $topicPostRepo->remove($topicPostReported, true);
                     $topicPostReported->setText("Le commentaire a été supprimé");
 
                     $entityManager->persist($topicPostReported);
@@ -290,9 +301,27 @@ class ModerationController extends AbstractController
                     }
 
                     break;
+
+                case 'mediaPost':
+
+                    $mediaPostRepo = $entityManager->getRepository(MediaPost::class);
+                    $mediaPostReported = $mediaPostRepo->find($objectId);
+                    $objectText = $mediaPostReported->getText();
+                    $author = $mediaPostReported->getUser();
     
-                // Case juste post ?
-                // Remplacement par text "le comm a été suppr
+                    $mediaPostReported->setText("Le commentaire a été supprimé");
+
+                    $entityManager->persist($mediaPostReported);
+                    $entityManager->flush();
+
+                    // Suppr des reports associés
+                    $reportRepo = $entityManager->getRepository(report::class);
+                    $reports = $reportRepo->findBy(["objectType" => $objectType, "objectId" => $objectId]);
+                    foreach ($reports as $report) {
+                        $reportRepo->remove($report, true);
+                    }
+
+                    break;
                 
                 default:
                     break;

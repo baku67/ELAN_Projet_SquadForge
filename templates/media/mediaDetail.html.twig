@@ -234,6 +234,8 @@
                 {% if mediaPosts is empty %}
                     <p class="emptyListMsg">Aucun commentaire. Soyez le premier à commenter !</p>
                 {% else %}
+
+                    {% set index = 0 %}
                     {% for post in mediaPosts %}
 
                         {% if app.user == post.user %}
@@ -248,7 +250,12 @@
                             
                             {# Post text et auteur + reportBtn #}
                             <div class="postContent">
-                                <p class="postText">{{ post.text }}</p>
+                                    
+                                {% if post.text == "Le commentaire a été supprimé" %}
+                                    <p class="postText emptyListMsg">{{ post.text }}</p>
+                                {% else %}
+                                    <p class="postText">{{ post.text }}</p>
+                                {% endif %}
 
                                 <div>
                                     {% if post.user == app.user %}
@@ -256,7 +263,46 @@
                                     {% else %}
                                         <span class="postAuthorUser">{{ post.user.pseudo }}</span>
                                         <span class="postPublishDate">il y a {{ time_diff(post.publishDate) }}</span>
-                                        <span class="reportPostBtn">Signaler</span>
+
+                                        {% if post.text != "Le commentaire a été supprimé" %}
+                                            {% if app.user %}
+                                            
+                                                <span onclick="reportModalPost{{ index }}.showModal()" class="reportPostBtn">Signaler</span>
+
+                                                <dialog class="modalDialog" id="reportModalPost{{ index }}">
+                                                    <p>Pour quelles raisons ce post ne vous convient-il pas ?</p>
+                                                    <select id="motifSelect{{ index }}" class="form-select" style="font-family: 'K2D', sans serif;">
+                                                        <option value="0">-- Sélectionnez un motif...</option>
+                                                        {% for motif in reportMotifs %}
+                                                            <option value="{{ motif.id }}">
+                                                                {{ motif.text }}
+                                                            </option>
+                                                        {% endfor %}
+                                                    </select>
+                                                    <a id="confirmReportModal{{ index }}" class="confirmModal" href="{{ path('app_reportObject',{'objectType':"mediaPost", 'objectId':post.id, 'reporterId':app.user.id, 'reportMotifId':0})}}">Envoyer</a>
+                                                    <span class="cancelModal" onclick="reportModalPost{{ index }}.close()">Annuler</span>
+                                                </dialog>
+
+                                                {# JS changement du param route reportMotif.id en fonction du select |||| index du post #} 
+                                                {% if app.user %}
+                                                    <script>
+                                                        let motifSelectPost{{index}} = document.getElementById('motifSelect{{ index }}');
+                                                        let envoyerLinkPost{{index}} = document.getElementById('confirmReportModal' + {{ index }});
+
+                                                        motifSelectPost{{index}}.addEventListener('change', function() {
+                                                            let selectedMotifId = document.getElementById('motifSelect' + {{ index }}).value;
+                                                            let href = "/app_reportObject/mediaPost/" + {{post.id}} + "/" + {{app.user.id}} + "/" +  selectedMotifId;
+                                                            envoyerLinkPost{{index}}.setAttribute('href', href);
+                                                        });
+                                                    </script>
+                                                {% endif %}
+
+                                            {% else %}
+                                                
+                                                <a href="{{ path('app_login') }}" class="reportPostBtn">Signaler</a>
+
+                                            {% endif %}
+                                        {% endif %}
                                     {% endif %}
                                 </div>
                             </div>
@@ -313,6 +359,8 @@
                             </div>
 
                         </div>
+
+                        {% set index = index + 1 %}
 
                     {% endfor %}
 

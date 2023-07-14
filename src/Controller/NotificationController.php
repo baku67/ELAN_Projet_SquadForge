@@ -172,6 +172,10 @@ class NotificationController extends AbstractController
                 $notification->setText("Votre commentaire \"" . $objectText . "\" a été censuré par la modération.");
                 break;
 
+            case 'mediaPost':
+                $notification->setText("Votre commentaire \"" . $objectText . "\" a été censuré par la modération.");
+                break;
+
             default:
                 # code...
                 break;

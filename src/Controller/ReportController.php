@@ -43,6 +43,9 @@ class ReportController extends AbstractController
             case 'topicPost':
                 $object = $topicPostRepo->find($objectId);
                 break;
+            case 'mediaPost':
+                $object = $mediaPostRepo->find($objectId);
+                break;
             default:
                 // Ne correspond à aucun object -> error
                 break;
@@ -91,6 +94,10 @@ class ReportController extends AbstractController
                             $this->addFlash('success', 'Votre signalement a été envoyé à la modération');
                             return $this->redirectToRoute('app_topicDetail', ['id' => $object->getTopic()->getId()]);
                             break;
+                        case 'mediaPost':
+                            $this->addFlash('success', 'Votre signalement a été envoyé à la modération');
+                            return $this->redirectToRoute('app_mediaDetail', ['id' => $object->getMedia()->getId()]);
+                            break;
                     }
                 }
                 else {
@@ -106,6 +113,10 @@ class ReportController extends AbstractController
                         case 'topicPost':
                             $this->addFlash('error', 'Vous avez déjà signalé ce commentaire');
                             return $this->redirectToRoute('app_topicDetail', ['id' => $object->getTopic()->getId()]);
+                            break;
+                        case 'mediaPost':
+                            $this->addFlash('error', 'Vous avez déjà signalé ce commentaire');
+                            return $this->redirectToRoute('app_mediaDetail', ['id' => $object->getMedia()->getId()]);
                             break;
                     }
                 }
@@ -124,6 +135,10 @@ class ReportController extends AbstractController
                 case 'topicPost':
                     $this->addFlash('error', 'Vous devez vous connecter pour signaler un commentaire');
                     return $this->redirectToRoute('app_topicDetail', ['id' => $object->getTopic()->getId()]);
+                    break;
+                case 'mediaPost':
+                    $this->addFlash('error', 'Vous devez vous connecter pour signaler un commentaire');
+                    return $this->redirectToRoute('app_mediaDetail', ['id' => $object->getMedia()->getId()]);
                     break;
             }
         }
