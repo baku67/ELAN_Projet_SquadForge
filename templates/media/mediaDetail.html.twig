@@ -246,15 +246,19 @@
 
                         <div class="mediaPost {{ postAuthorClass }}">
                             
-                            {# Post text et auteur #}
+                            {# Post text et auteur + reportBtn #}
                             <div class="postContent">
                                 <p class="postText">{{ post.text }}</p>
 
-                                {% if post.user == app.user %}
-                                    <span class="postAuthorUser postSelf">Vous</span>
-                                {% else %}
-                                    <span class="postAuthorUser">{{ post.user.pseudo }}</span>
-                                {% endif %}
+                                <div>
+                                    {% if post.user == app.user %}
+                                        <span class="postAuthorUser postSelf">Vous</span>
+                                    {% else %}
+                                        <span class="postAuthorUser">{{ post.user.pseudo }}</span>
+                                        <span class="postPublishDate">il y a {{ time_diff(post.publishDate) }}</span>
+                                        <span class="reportPostBtn">Signaler</span>
+                                    {% endif %}
+                                </div>
                             </div>
 
                             {# Post upvote/downvote #}

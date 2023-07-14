@@ -168,6 +168,10 @@ class NotificationController extends AbstractController
                 $notification->setText("Votre topic \"" . $objectText . "\" a été censuré par la modération.");
                 break;
 
+            case 'topicPost':
+                $notification->setText("Votre commentaire \"" . $objectText . "\" a été censuré par la modération.");
+                break;
+
             default:
                 # code...
                 break;

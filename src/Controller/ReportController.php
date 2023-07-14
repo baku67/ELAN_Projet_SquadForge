@@ -26,7 +26,9 @@ class ReportController extends AbstractController
     {
 
         $mediaRepo = $entityManager->getRepository(Media::class);
+        $mediaPostRepo = $entityManager->getRepository(MediaPost::class);
         $topicRepo = $entityManager->getRepository(Topic::class);
+        $topicPostRepo = $entityManager->getRepository(TopicPost::class);
         $reportRepo = $entityManager->getRepository(Report::class);
         $reportMotifRepo = $entityManager->getRepository(ReportMotif::class);
 
@@ -38,7 +40,9 @@ class ReportController extends AbstractController
             case 'topic':
                 $object = $topicRepo->find($objectId);
                 break;
-            
+            case 'topicPost':
+                $object = $topicPostRepo->find($objectId);
+                break;
             default:
                 // Ne correspond à aucun object -> error
                 break;
@@ -83,6 +87,10 @@ class ReportController extends AbstractController
                             $this->addFlash('success', 'Votre signalement a été envoyé à la modération');
                             return $this->redirectToRoute('app_topicDetail', ['id' => $object->getId()]);
                             break;
+                        case 'topicPost':
+                            $this->addFlash('success', 'Votre signalement a été envoyé à la modération');
+                            return $this->redirectToRoute('app_topicDetail', ['id' => $object->getTopic()->getId()]);
+                            break;
                     }
                 }
                 else {
@@ -94,6 +102,10 @@ class ReportController extends AbstractController
                         case 'topic':
                             $this->addFlash('error', 'Vous avez déjà signalé ce contenu');
                             return $this->redirectToRoute('app_topicDetail', ['id' => $object->getId()]);
+                            break;
+                        case 'topicPost':
+                            $this->addFlash('error', 'Vous avez déjà signalé ce commentaire');
+                            return $this->redirectToRoute('app_topicDetail', ['id' => $object->getTopic()->getId()]);
                             break;
                     }
                 }
@@ -108,6 +120,10 @@ class ReportController extends AbstractController
                 case 'topic':
                     $this->addFlash('error', 'Vous devez vous connecter pour signaler un contenu');
                     return $this->redirectToRoute('app_topicDetail', ['id' => $object->getId()]);
+                    break;
+                case 'topicPost':
+                    $this->addFlash('error', 'Vous devez vous connecter pour signaler un commentaire');
+                    return $this->redirectToRoute('app_topicDetail', ['id' => $object->getTopic()->getId()]);
                     break;
             }
         }

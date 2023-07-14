@@ -287,16 +287,22 @@
                                         case "media":
                                             document.getElementById('detailText{{ index }}').innerText = response.object["title"];
                                             document.getElementById('detailPublishDate{{ index }}').innerText = publishDateDelay(response.object["date"]["date"]);
-                                            // document.getElementById('detailGame{{ index }}').innerText = response.object[2];
+                                            // document.getElementById('detailGame{{ index }}').innerText = response.object["game"];
                                             document.getElementById('detailObjectAuthor{{ index }}').innerText = "par " + response.object["author"] + " (Censures:" + response.object["authorNbrCensures"] + ")";
-
                                             document.getElementById('detailImg{{ index }}').src = "/img/uploads/" + response.object["img"];
-
                                             break;
 
                                         case "topic":
                                             document.getElementById('detailText{{ index }}').innerText = response.object["title"];
                                             document.getElementById('detailPublishDate{{ index }}').innerText = publishDateDelay(response.object["date"]["date"]);
+                                            // document.getElementById('detailGame{{ index }}').innerText = response.object["game"];
+                                            document.getElementById('detailObjectAuthor{{ index }}').innerText = "par " + response.object["author"] + " (Censures: " + response.object["authorNbrCensures"] + ")";
+                                            break;
+
+                                        case "topicPost":
+                                            document.getElementById('detailText{{ index }}').innerText = response.object["title"];
+                                            document.getElementById('detailPublishDate{{ index }}').innerText = publishDateDelay(response.object["date"]["date"]);
+                                            // document.getElementById('detailGame{{ index }}').innerText = response.object["game"];
                                             document.getElementById('detailObjectAuthor{{ index }}').innerText = "par " + response.object["author"] + " (Censures: " + response.object["authorNbrCensures"] + ")";
                                             break;
                                     

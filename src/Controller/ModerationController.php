@@ -5,7 +5,9 @@ namespace App\Controller;
 use App\Entity\Notification;
 use App\Entity\Censure;
 use App\Entity\Topic;
+use App\Entity\TopicPost;
 use App\Entity\Media;
+use App\Entity\MediaPost;
 use App\Form\CensureType;
 use App\Entity\Report;
 
@@ -161,6 +163,22 @@ class ModerationController extends AbstractController
 
                 break;
 
+            
+            case 'topicPost':
+
+                $topicPostRepo = $entityManager->getRepository(TopicPost::class);
+                $topicPostReported = $topicPostRepo->find($objectId);
+
+                $objectDetails = [
+                    "title" => $topicPostReported->getText(), 
+                    "date" => $topicPostReported->getPublishDate(), 
+                    "game" => $topicPostReported->getTopic()->getGame()->getTitle(), 
+                    "author" => $topicPostReported->getUser()->getPseudo(),
+                    "authorNbrCensures" => $topicPostReported->getUser()->getNbrCensures(),
+                ];
+
+                break;
+
 
             //  case juste post ?
 
@@ -241,6 +259,28 @@ class ModerationController extends AbstractController
                     $author = $topicReported->getUser();
     
                     $topicRepo->remove($topicReported, true);
+
+                    // Suppr des reports associés
+                    $reportRepo = $entityManager->getRepository(report::class);
+                    $reports = $reportRepo->findBy(["objectType" => $objectType, "objectId" => $objectId]);
+                    foreach ($reports as $report) {
+                        $reportRepo->remove($report, true);
+                    }
+
+                    break;
+
+                case 'topicPost':
+
+                    $topicPostRepo = $entityManager->getRepository(TopicPost::class);
+                    $topicPostReported = $topicPostRepo->find($objectId);
+                    $objectText = $topicPostReported->getText();
+                    $author = $topicPostReported->getUser();
+    
+                    // $topicPostRepo->remove($topicPostReported, true);
+                    $topicPostReported->setText("Le commentaire a été supprimé");
+
+                    $entityManager->persist($topicPostReported);
+                    $entityManager->flush();
 
                     // Suppr des reports associés
                     $reportRepo = $entityManager->getRepository(report::class);
