@@ -185,6 +185,7 @@ nav {
 }
 
 .muteEndDate {
+    margin-left: 7px;
     color: rgb(230, 8, 8);
 }
 
@@ -2415,16 +2416,54 @@ cursor: pointer;
     background-color: #353535;
 }
 
+
+.strongNbr {
+    color: rgb(255, 105, 105);
+    font-weight: bold;
+}
+
+
+.clickableContainer {
+    display: inline-flex;
+    width: 100%;
+    justify-content: space-evenly;
+    align-items: center;
+
+    border-top: 1px solid rgba(128, 128, 128, 0.507);
+    margin: 7px auto;
+}
+
+
 .reportPreviewBtn:not(.clickableContainer) {
     cursor: pointer;
+}
+
+.reportDateAndAuthorDiv {
+    display:inline-flex; 
+    justify-content:space-between; 
+    width:100%;
+    font-style: italic;
+}
+
+.reportCardText {
+    margin: 8px auto 5px auto;
+    color: #ffc9c9;
 }
 
 
 .toggleSentence {
     padding: 5px 10px;
-    margin: 15px 5px;
+    margin: 15px 3px;
     
+    border: 1px solid rgba(128, 128, 128, 0.445);
+    transition: 0.4s;
+}
+.toggleSentence:hover {
+    background-color: rgba(170, 47, 47, 0.438);
+}
 
+.sentenceActif {
+    background-color: rgba(170, 47, 47, 0.438);
 }
 
 .reportDetailImg {
@@ -2448,9 +2487,14 @@ cursor: pointer;
 }
 
 .innocenterBtn {
+    height: fit-content;
     padding: 5px 10px;
     border-radius: 2px;
     background-color: rgb(86, 150, 57);
+
+    /* align-center du parent suffi pas: */
+    position: relative;
+    top: 10px;
 }
 .censureBtn {
     color: white;

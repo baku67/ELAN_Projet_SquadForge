@@ -38,7 +38,7 @@
     {% if app.user and app.user.muted %}
         <div class="headerUnderline"></div>
         <div class="mutedBanner">  
-            <span><i class="fa-solid fa-circle-exclamation mutedBannerIcon"></i>Vous êtes actuellement réduit au silence <span class="muteEndDate">(fin dans {{ time_diff(app.user.endDateStatus) }})</span></span>
+            <span><i class="fa-solid fa-circle-exclamation mutedBannerIcon"></i>Vous êtes actuellement réduit au silence <span class="muteEndDate">( fin dans <span class="strongNbr">{{ time_diff(app.user.endDateStatus) }}</span> )</span></span>
         </div>
     {% else %}
         <div class="headerUnderline marginBottomHeaderLine"></div>
@@ -172,14 +172,14 @@
                             <span id="reportPreviewType{{ index }}" value="{{ report.objectType}}">{{ report.objectType|capitalize }}</span>
                             <span id="reportPreviewId{{ index }}" value="{{ report.objectId }}">(Réf: #{{ report.objectId }})</span>
                             <br>
-                            <span>Signalements: {{ report.nbrReports }}</span>
+                            <span>Signalements: <span class="strongNbr">{{ report.nbrReports }}</span></span>
                         </div>
 
                         <div id="preview{{ index }}" class="notDisplayed">
                             <div >
-                                <span id="detailText{{ index }}"></span>
+                                <p id="detailText{{ index }}" class="reportCardText"></p>
                                 <img id="detailImg{{ index }}" src="" class="reportDetailImg" >
-                                <div style="display:inline-flex; justify-content:space-between; width:100%;">
+                                <div class="reportDateAndAuthorDiv">
                                     <span id="detailPublishDate{{ index }}"></span>
                                     <span id="detailObjectAuthor{{ index }}"></span>
                                 </div>
@@ -198,7 +198,7 @@
                                             <i class="fa-solid fa-ban"></i>
                                             <span> Ban</span>
                                         </span>
-                                        <span id="toggleNoPunish{{ index }}" class="toggleSentence">
+                                        <span id="toggleNoPunish{{ index }}" class="toggleSentence sentenceActif">
                                             <i class="fa-solid fa-empty-set"></i>
                                             <span> Aucun</span>
                                         </span>
@@ -267,16 +267,28 @@
                                 document.getElementById('sentenceType{{ index }}').value = "mute";
                                 document.getElementById('inputPunishEndDateLabel{{ index }}').innerText = "Fin du mute: ";
                                 document.getElementById('sentenceEndDateDiv{{ index }}').style.display = 'block';
+
+                                document.getElementById('toggleNoPunish{{ index }}').classList.remove('sentenceActif');
+                                document.getElementById('toggleBan{{ index }}').classList.remove('sentenceActif');
+                                document.getElementById('toggleMute{{ index }}').classList.add('sentenceActif');
                             });
                             document.getElementById('toggleBan{{ index }}').addEventListener('click', function() {
                                 document.getElementById('sentenceType{{ index }}').value = "ban";
                                 document.getElementById('inputPunishEndDateLabel{{ index }}').innerText = "Fin du ban: ";
                                 document.getElementById('sentenceEndDateDiv{{ index }}').style.display = 'block';
+
+                                document.getElementById('toggleNoPunish{{ index }}').classList.remove('sentenceActif');
+                                document.getElementById('toggleBan{{ index }}').classList.add('sentenceActif');
+                                document.getElementById('toggleMute{{ index }}').classList.remove('sentenceActif');
                             });
                             document.getElementById('toggleNoPunish{{ index }}').addEventListener('click', function() {
                                 document.getElementById('sentenceType{{ index }}').value = "void";
                                 document.getElementById('inputPunishEndDateLabel{{ index }}').innerText = "";
                                 document.getElementById('sentenceEndDateDiv{{ index }}').style.display = 'none';
+
+                                document.getElementById('toggleNoPunish{{ index }}').classList.add('sentenceActif');
+                                document.getElementById('toggleBan{{ index }}').classList.remove('sentenceActif');
+                                document.getElementById('toggleMute{{ index }}').classList.remove('sentenceActif');
                             });
 
 
@@ -297,7 +309,7 @@
                                             document.getElementById('detailText{{ index }}').innerText = response.object["title"];
                                             document.getElementById('detailPublishDate{{ index }}').innerText = publishDateDelay(response.object["date"]["date"]);
                                             // document.getElementById('detailGame{{ index }}').innerText = response.object["game"];
-                                            document.getElementById('detailObjectAuthor{{ index }}').innerText = "par " + response.object["author"] + " (Censures:" + response.object["authorNbrCensures"] + ")";
+                                            document.getElementById('detailObjectAuthor{{ index }}').innerHTML = "par " + response.object["author"] + " (Censures: " + "<span class='strongNbr'>" + response.object["authorNbrCensures"] + "</span>)";
                                             document.getElementById('detailImg{{ index }}').src = "/img/uploads/" + response.object["img"];
                                             break;
 
@@ -305,21 +317,21 @@
                                             document.getElementById('detailText{{ index }}').innerText = response.object["title"];
                                             document.getElementById('detailPublishDate{{ index }}').innerText = publishDateDelay(response.object["date"]["date"]);
                                             // document.getElementById('detailGame{{ index }}').innerText = response.object["game"];
-                                            document.getElementById('detailObjectAuthor{{ index }}').innerText = "par " + response.object["author"] + " (Censures: " + response.object["authorNbrCensures"] + ")";
+                                            document.getElementById('detailObjectAuthor{{ index }}').innerText = "par " + response.object["author"] + " (Censures: " + "<span class='strongNbr'>" + response.object["authorNbrCensures"] + "</span>)";
                                             break;
 
                                         case "topicPost":
                                             document.getElementById('detailText{{ index }}').innerText = response.object["title"];
                                             document.getElementById('detailPublishDate{{ index }}').innerText = publishDateDelay(response.object["date"]["date"]);
                                             // document.getElementById('detailGame{{ index }}').innerText = response.object["game"];
-                                            document.getElementById('detailObjectAuthor{{ index }}').innerText = "par " + response.object["author"] + " (Censures: " + response.object["authorNbrCensures"] + ")";
+                                            document.getElementById('detailObjectAuthor{{ index }}').innerText = "par " + response.object["author"] + " (Censures: " + "<span class='strongNbr'>" + response.object["authorNbrCensures"] + "</span>)";
                                             break;
 
                                         case "mediaPost":
                                             document.getElementById('detailText{{ index }}').innerText = response.object["title"];
                                             document.getElementById('detailPublishDate{{ index }}').innerText = publishDateDelay(response.object["date"]["date"]);
                                             // document.getElementById('detailGame{{ index }}').innerText = response.object["game"];
-                                            document.getElementById('detailObjectAuthor{{ index }}').innerText = "par " + response.object["author"] + " (Censures: " + response.object["authorNbrCensures"] + ")";
+                                            document.getElementById('detailObjectAuthor{{ index }}').innerText = "par " + response.object["author"] + " (Censures: " + "<span class='strongNbr'>" + response.object["authorNbrCensures"] + "</span>)";
                                             break;
                                     
                                         default:

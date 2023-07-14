@@ -46,7 +46,7 @@ class TopicPost
     private Collection $children;
 
     // Nouveau sytème avec entité cette fois
-    #[ORM\OneToMany(mappedBy: 'topicPost', targetEntity: PostLike::class)]
+    #[ORM\OneToMany(mappedBy: 'topicPost', targetEntity: PostLike::class, cascade: ["remove"])]
     private Collection $postLikes;
 
 

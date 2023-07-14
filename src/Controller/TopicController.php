@@ -302,7 +302,7 @@ class TopicController extends AbstractController
         else {
 
             $this->addFlash('error', 'Le topic est en attente ou refusé par la modération, ou bien n\'esxiste plus');
-            return $this->redirectToRoute('app_user');
+            return $this->redirectToRoute('app_home');
         }
 
     }

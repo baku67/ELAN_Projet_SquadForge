@@ -38,7 +38,7 @@
     {% if app.user and app.user.muted %}
         <div class="headerUnderline"></div>
         <div class="mutedBanner">  
-            <span><i class="fa-solid fa-circle-exclamation mutedBannerIcon"></i>Vous êtes actuellement réduit au silence <span class="muteEndDate">(fin dans {{ time_diff(app.user.endDateStatus) }})</span></span>
+            <span><i class="fa-solid fa-circle-exclamation mutedBannerIcon"></i>Vous êtes actuellement réduit au silence <span class="muteEndDate">( fin dans <span class="strongNbr">{{ time_diff(app.user.endDateStatus) }}</span> )</span></span>
         </div>
     {% else %}
         <div class="headerUnderline marginBottomHeaderLine"></div>

@@ -30,7 +30,7 @@ class MediaPost
     #[ORM\ManyToOne(inversedBy: 'mediaPosts')]
     private ?Media $media = null;
 
-    #[ORM\OneToMany(mappedBy: 'mediaPost', targetEntity: MediaPostLike::class)]
+    #[ORM\OneToMany(mappedBy: 'mediaPost', targetEntity: MediaPostLike::class, cascade: ["remove"])]
     private Collection $mediaPostLikes;
 
     public function __construct()

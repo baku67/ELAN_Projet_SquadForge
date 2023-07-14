@@ -38,7 +38,7 @@
     {% if app.user and app.user.muted %}
         <div class="headerUnderline" style="background-color: {{ game.color }}"></div>
         <div class="mutedBanner">  
-            <span><i class="fa-solid fa-circle-exclamation mutedBannerIcon"></i>Vous êtes actuellement réduit au silence <span class="muteEndDate">(fin dans {{ time_diff(app.user.endDateStatus) }})</span></span>
+            <span><i class="fa-solid fa-circle-exclamation mutedBannerIcon"></i>Vous êtes actuellement réduit au silence <span class="muteEndDate">( fin dans <span class="strongNbr">{{ time_diff(app.user.endDateStatus) }}</span> )</span></span>
         </div>
     {% else %}
         <div class="headerUnderline marginBottomHeaderLine" style="background-color: {{ game.color }}"></div>
@@ -163,12 +163,13 @@
                             document.querySelector('#topic_post_submit').style.color = "{{ topic.game.color }}";
                         </script>
 
-                    {% else %}
-
-                        <p class="emptyListMsg"><i class="fa-solid fa-triangle-exclamation warning"></i>Vous devez être <a href="{{ path('app_login') }}" style="text-decoration:underline;">connecté</a> pour commenter</p>
-
                     {% endif %}
 
+                {% else %}
+
+                    <p class="emptyListMsg"><i class="fa-solid fa-triangle-exclamation warning"></i>Vous devez être <a href="{{ path('app_login') }}" style="text-decoration:underline;">connecté</a> pour commenter</p>
+
+                {% endif %}
 
             {% elseif topic.status == "closed" %}
                 
