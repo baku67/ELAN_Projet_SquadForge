@@ -11,6 +11,7 @@ class AppExtension extends AbstractExtension
     {
         return [
             new TwigFunction('time_diff', [$this, 'calculateTimeDiff']),
+            new TwigFunction('time_diff_future', [$this, 'calculateTimeDiffFuture']),
         ];
     }
 
@@ -58,6 +59,58 @@ class AppExtension extends AbstractExtension
             return "à l'instant";
         }
     }
+
+
+    public function calculateTimeDiffFuture($date): string
+    {
+        $now = new \DateTime();
+        $diff = $now->diff($date);
+
+        if ($diff->invert == 1) {
+            // Date has already passed (1 = diff négative, 0 sinon)
+            return false;
+        }
+
+        $days = $diff->format('%a');
+        $hours = $diff->format('%h');
+        $minutes = $diff->format('%i');
+
+        if ($days == 0) {
+            $days = "";
+        }
+        if ($hours == 0) {
+            $hours = "";
+        }
+        if ($minutes == 0) {
+            $minutes = "";
+        }
+
+
+        if ($days > 0) {
+            if ($days > 365) {
+                return "> 1an";
+            }
+            else {
+                if($days > 30) {
+                    $nbrMonth = intval($days / 30);
+                    return "{$nbrMonth}mois";
+                }
+                else {
+                    return "{$days}j";
+                }
+            }
+        }
+        else if (($hours > 0) && (empty($days))) {
+            return "{$hours}h";
+        }
+        else if (($minutes >= 0) && (empty($hours)) && (empty($days))) {
+            return "{$minutes}m";
+        }
+        else if ((empty($days)) && (empty($hours)) && (empty($minutes))) {
+            return "à l'instant";
+        }
+    }
+
 
     public function getName(): string
     {
