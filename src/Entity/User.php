@@ -99,8 +99,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
     private ?\DateTimeInterface $end_date_status = null;
 
-    private $date;
-
     private bool $banned;
     private bool $muted;
 
@@ -109,8 +107,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     public function __construct()
     {
-        $this->date = new DateTime();
-
         $this->favoris = new ArrayCollection();
         $this->topics = new ArrayCollection();
         $this->notations = new ArrayCollection();
@@ -138,12 +134,14 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function isBanned(): bool
     {
         if($this->status == "banned") {
-            if($this->date < $this->end_date_status) {
+            if(new DateTime < $this->end_date_status) {
                 $this->banned = true;
                 return $this->banned;
             }
-            $this->banned = false;
-            return $this->banned;
+            else {
+                $this->banned = false;
+                return $this->banned;
+            }
         }
         else {
             $this->banned = false;
@@ -154,12 +152,14 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function isMuted(): bool
     {
         if($this->status == "muted") {
-            if($this->date < $this->end_date_status) {
+            if(new DateTime < $this->end_date_status) {
                 $this->muted = true;
                 return $this->muted;
             }
-            $this->muted = false;
-            return $this->muted;
+            else {
+                $this->muted = false;
+                return $this->muted;
+            }
         }
         else {
             $this->muted = false;
