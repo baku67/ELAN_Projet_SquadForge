@@ -78,7 +78,10 @@ class ReportRepository extends ServiceEntityRepository
             ->getSingleScalarResult()
             ;
 
-            $nbrReportsPerMotif[$motif->getText()] = $nbr;
+            if ($nbr > 0) {
+                $nbrReportsPerMotif[$motif->getText()] = $nbr;
+            }
+
         }
 
         return $nbrReportsPerMotif;

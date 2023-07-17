@@ -169,11 +169,12 @@
                     <div id="reportPreviewBtn{{ index }}" class="reportPreviewBtn">
 
                         <div class="reportDivHeader">
-                            <div>
+                            <div id="reportPreviewHeader{{ index }}">
                                 <span id="reportPreviewType{{ index }}" value="{{ report.objectType}}">{{ report.objectType|capitalize }}</span>
                                 <span id="reportPreviewId{{ index }}" value="{{ report.objectId }}">(Réf: #{{ report.objectId }})</span>
                                 <br>
-                                <span>Signalements: <span class="strongNbr">{{ report.nbrReports }}</span></span>
+                                <span style="margin-right:7px;">Signalements: <span class="strongNbr">{{ report.nbrReports }}</span></span>
+                                
                             </div>
                             <div id="reportPreviewFactice{{ index }}" class="reportPreviewFactice">
                                 <span>VOIR</span>
@@ -267,6 +268,11 @@
                         document.getElementById('preview{{ index }}').classList.toggle('notDisplayed');
                         document.getElementById('reportPreviewFactice{{ index }}').classList.toggle('notDisplayed');
 
+                        // Marche mais pb à cause du "innerHTML +=" dans responseAjax
+                        // document.querySelectorAll('.nbrReportsDetail{{ index}}').forEach(element => {
+                        //     element.classList.toggle('notDisplayed');
+                        // });
+
                         if(!document.getElementById('preview{{ index }}').classList.contains('notDisplayed')) {
 
                             // (Z-index inputDainputPunishEndDate marche pas) Fix:
@@ -315,13 +321,13 @@
                                 success: function(response) {
 
                                     // Détails des reports (par motif)
-                                    // document.getElementById('nbrReportPerMotifDiv{{ index }}').innerHTML = response.nbrReportsPerMotifArray;
-                                    document.getElementById('nbrReportPerMotifDiv{{ index }}').innerHTML = response.nbrReportsPerMotifArray;
-                                    
-                                    console.log(response.nbrReportsPerMotifArray);
+                                    document.getElementById('reportPreviewHeader{{ index }}').innerHTML += "(";
+
                                     Object.entries(response.nbrReportsPerMotifArray).forEach(([key, value]) => {
-                                        console.log(`${key}: ${value}`);
+                                        document.getElementById('reportPreviewHeader{{ index }}').innerHTML += "<span class='nbrReportsDetail{{ index }}' style='margin: 0 5px;'>" + `${key}:` + "<span class='strongNbr'> " + `${value}` + "</span></span>";
                                     });
+
+                                    document.getElementById('reportPreviewHeader{{ index }}').innerHTML += ")";
 
 
                                     switch (response.objectType) {
