@@ -220,11 +220,11 @@ class TopicController extends AbstractController
                 // Vérif connecté pour poster un TopicPost
                 if($this->getUser()) {
 
-                    // Vérification si le topic est ouvert
-                    if ($topic->getStatus() == "open") {
+                    // Vérif si User Mute ou Ban 
+                    if( !($this->getUser()->isBanned()) && !($this->getUser()->isMuted())) {
 
-                        // Vérif si User pas muted
-                        if (!$this->getUser()->isMuted()) {
+                        // Vérification si le topic est ouvert
+                        if ($topic->getStatus() == "open") {
 
                             // Vérif si post vide
                             if(strlen($topicPost->getText()) > 0) {
@@ -272,13 +272,13 @@ class TopicController extends AbstractController
                             }
                         }
                         else {
-                            $this->addFlash('error', 'Vous avez été réduit au silence et ne pouvez donc rien publier');
-                            return $this->redirectToRoute('app_mediaDetail', ['id' => $media->getId()]);
+                            $this->addFlash('error', 'Le topic a été fermé, vous ne pouvez plus le commenter.');
+                            return $this->redirectToRoute('app_topicDetail', ['id' => $topic->getId()]);
                         }
                     }
                     else {
-                        $this->addFlash('error', 'Le topic a été fermé, vous ne pouvez plus le commenter.');
-                        return $this->redirectToRoute('app_topicDetail', ['id' => $topic->getId()]);
+                        $this->addFlash('error', 'Vous êtes actuellement réduit au silence (ou bannis), et ne pouvez rien publier');
+                        return $this->redirectToRoute('app_mediaDetail', ['id' => $media->getId()]);
                     }
                 }
                 else {

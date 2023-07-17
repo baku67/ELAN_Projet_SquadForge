@@ -170,49 +170,56 @@ class GameController extends AbstractController
 
             if($this->getUser()) {
 
-                if($form->isValid()) {
+                if( !($this->getUser()->isBanned()) && !($this->getUser()->IsMuted()) ) {
 
-                    // Hydrataion du "Topic" a partir des données du form
-                    $topic = $form->getData();
+                    if($form->isValid()) {
 
-                    // Init de la publish_date du comment
-                    $topic->setPublishDate(new \DateTime());
-                    $topic->setGame($game);
-                    $topic->setUser($user);
-                    $topic->setStatus("open");
-                    // En attendant le système de validation avant publication par un modo:
-                    $topic->setValidated("waiting");
-                    
-                    // Récupération du titre
-                    $titleInputValue = $form->get('title')->getData();
+                        // Hydrataion du "Topic" a partir des données du form
+                        $topic = $form->getData();
 
-                    // Liste des mots du commentaires
-                    $words = str_word_count($titleInputValue, 1);
-
-                    // Décompte du nombre de mots dans la liste
-                    $wordCount = count($words);
-
-                    // Vérification du compte de mots
-                    if ($wordCount >= 5) {
-
-                        // Modifs Base de données
-                        $entityManager->persist($topic);
-                        $entityManager->flush();
-
-                        $this->addFlash('success', 'Le topic a été envoyé pour validation');
-                        return $this->redirectToRoute('app_game', ['id' => $game->getId()]);
-
-                    } else {
+                        // Init de la publish_date du comment
+                        $topic->setPublishDate(new \DateTime());
+                        $topic->setGame($game);
+                        $topic->setUser($user);
+                        $topic->setStatus("open");
+                        // En attendant le système de validation avant publication par un modo:
+                        $topic->setValidated("waiting");
                         
-                        $this->addFlash('error', 'Le titre doit faire au minimum 5 mots !');
-                        return $this->redirectToRoute('app_game', ['id' => $game->getId()]);
-                    }
+                        // Récupération du titre
+                        $titleInputValue = $form->get('title')->getData();
 
-                } 
+                        // Liste des mots du commentaires
+                        $words = str_word_count($titleInputValue, 1);
+
+                        // Décompte du nombre de mots dans la liste
+                        $wordCount = count($words);
+
+                        // Vérification du compte de mots
+                        if ($wordCount >= 5) {
+
+                            // Modifs Base de données
+                            $entityManager->persist($topic);
+                            $entityManager->flush();
+
+                            $this->addFlash('success', 'Le topic a été envoyé pour validation');
+                            return $this->redirectToRoute('app_game', ['id' => $game->getId()]);
+
+                        } else {
+                            
+                            $this->addFlash('error', 'Le titre doit faire au minimum 5 mots !');
+                            return $this->redirectToRoute('app_game', ['id' => $game->getId()]);
+                        }
+
+                    } 
+                    else {
+                        $this->addFlash('error', 'Les données envoyées ne sont pas valides');
+                        return $this->redirectToRoute('app_game', ['id' => $game->getId()]);
+                    }   
+                }
                 else {
-                    $this->addFlash('error', 'Les données envoyées ne sont pas valides');
+                    $this->addFlash('error', 'Vous êtes actuellement réduit au silence (ou bannis), et ne pouvez rien publier');
                     return $this->redirectToRoute('app_game', ['id' => $game->getId()]);
-                }   
+                }
             }
             else {
                 $this->addFlash('error', 'Vous devez être connecté pour publier un topic');
@@ -237,95 +244,102 @@ class GameController extends AbstractController
 
             if($this->getUser()) {
 
-                if($form2->isValid()) {
+                if( !$this->getUser()->isBanned() && !$this->getUser()->isMuted() ) {
 
-                    // Hydrataion du "Media" a partir des données du form
-                    $media = $form2->getData();
+                    if($form2->isValid()) {
 
-                    // Init de la publish_date du comment
-                    $media->setPublishDate(new \DateTime());
-                    $media->setGame($game);
-                    $media->setUser($user);
-                    $media->setStatus("open");
-                    // En attendant le système de validation avant publication par un modo:
-                    $media->setValidated("waiting");
-                    
-                    // Récupération du titre
-                    $titleInputValue = $form2->get('title')->getData();
+                        // Hydrataion du "Media" a partir des données du form
+                        $media = $form2->getData();
 
-                    // Récupération de l'image du média
-                    $mediaImg = $form2->get('url')->getData();
-
-                    // Vérification de l'extension (.png, .jpg, .jpeg, .gif)
-                    $fileExt = $mediaImg->getClientOriginalExtension();
-                    if ($fileExt != "png" && $fileExt != "jpg" && $fileExt != "jpeg" && $fileExt != "gif") {
-                        $this->addFlash('error', 'Le format "' . $fileExt . '" n\'est pas supporté');
-                        return $this->redirectToRoute('app_game', ['id' => $game->getId()]);
-                    }
-
-                    // Vérification de la taille du fichier + Vérif que c'est bien un fichier qui est uploadé (pour pouvoir utiliser getSize())
-                    // Attention: vérifications Front en amont "maxFileSize" dans "gameDetails.html.twig"
-                    $maxFileSize = 10 * 1024 * 1024; /* (10MB) */
-                    if ($mediaImg instanceof UploadedFile && $mediaImg->getSize() > $maxFileSize) {
-                        $this->addFlash('error', 'Le fichier est trop volumineux');
-                        return $this->redirectToRoute('app_game', ['id' => $game->getId()]);
-                    }
-
-                    // Compression et Resize (GIF/PNG ou JPG) avec library "Imagine"
-                    // $imagine = new Imagine();
-
-                    // if (in_array($fileExt, ['gif', 'png'], true)) {
-                    //     $image = $imagine->open($mediaImg->getPathname());
-                    //     // $image->resize(new Box(800, 600));
-                    //     $image->save($pathToSave, ['png_compression_level' => 9]);
-                    // }
-                    // else {
-                    //     $image = $imagine->open($mediaImg->getPathname());
-                    //     // $image->resize(new Box(800, 600));
-                    //     $image->save($pathToSave, ['jpeg_quality' => 80]);
-                    // }
-
-
-                    $genImgName = $this->generateCustomFileName() . "." . $fileExt;
-
-                    try {
-                        $mediaImg->move(
-                        // $image->move(
-                            $this->getParameter('upload_directory'),
-                            $genImgName
-                        );
-                    } catch (FileException $e) {
-                        $this->addFlash('error', 'Il y a eu un problème lors de l\'upload du fichier');
-                        return $this->redirectToRoute('app_game', ['id' => $game->getId()]);
-                    }
-                    $media->setUrl($genImgName);
-
-
-                    // Liste des mots du commentaires
-                    $words = str_word_count($titleInputValue, 1);
-                    // Décompte du nombre de mots dans la liste
-                    $wordCount = count($words);
-                    // Vérification du compte de mots
-                    if ($wordCount >= 5) {
-
-                        // Modifs Base de données
-                        $entityManager->persist($media);
-                        $entityManager->flush();
-
-                        $this->addFlash('success', 'Le média a bien été envoyé pour validation');
-                        return $this->redirectToRoute('app_game', ['id' => $game->getId()]);
-
-                    } else {
+                        // Init de la publish_date du comment
+                        $media->setPublishDate(new \DateTime());
+                        $media->setGame($game);
+                        $media->setUser($user);
+                        $media->setStatus("open");
+                        // En attendant le système de validation avant publication par un modo:
+                        $media->setValidated("waiting");
                         
-                        $this->addFlash('error', 'Le titre doit faire au minimum 5 mots !');
-                        return $this->redirectToRoute('app_game', ['id' => $game->getId()]);
-                    }
+                        // Récupération du titre
+                        $titleInputValue = $form2->get('title')->getData();
 
+                        // Récupération de l'image du média
+                        $mediaImg = $form2->get('url')->getData();
+
+                        // Vérification de l'extension (.png, .jpg, .jpeg, .gif)
+                        $fileExt = $mediaImg->getClientOriginalExtension();
+                        if ($fileExt != "png" && $fileExt != "jpg" && $fileExt != "jpeg" && $fileExt != "gif") {
+                            $this->addFlash('error', 'Le format "' . $fileExt . '" n\'est pas supporté');
+                            return $this->redirectToRoute('app_game', ['id' => $game->getId()]);
+                        }
+
+                        // Vérification de la taille du fichier + Vérif que c'est bien un fichier qui est uploadé (pour pouvoir utiliser getSize())
+                        // Attention: vérifications Front en amont "maxFileSize" dans "gameDetails.html.twig"
+                        $maxFileSize = 10 * 1024 * 1024; /* (10MB) */
+                        if ($mediaImg instanceof UploadedFile && $mediaImg->getSize() > $maxFileSize) {
+                            $this->addFlash('error', 'Le fichier est trop volumineux');
+                            return $this->redirectToRoute('app_game', ['id' => $game->getId()]);
+                        }
+
+                        // Compression et Resize (GIF/PNG ou JPG) avec library "Imagine"
+                        // $imagine = new Imagine();
+
+                        // if (in_array($fileExt, ['gif', 'png'], true)) {
+                        //     $image = $imagine->open($mediaImg->getPathname());
+                        //     // $image->resize(new Box(800, 600));
+                        //     $image->save($pathToSave, ['png_compression_level' => 9]);
+                        // }
+                        // else {
+                        //     $image = $imagine->open($mediaImg->getPathname());
+                        //     // $image->resize(new Box(800, 600));
+                        //     $image->save($pathToSave, ['jpeg_quality' => 80]);
+                        // }
+
+
+                        $genImgName = $this->generateCustomFileName() . "." . $fileExt;
+
+                        try {
+                            $mediaImg->move(
+                            // $image->move(
+                                $this->getParameter('upload_directory'),
+                                $genImgName
+                            );
+                        } catch (FileException $e) {
+                            $this->addFlash('error', 'Il y a eu un problème lors de l\'upload du fichier');
+                            return $this->redirectToRoute('app_game', ['id' => $game->getId()]);
+                        }
+                        $media->setUrl($genImgName);
+
+
+                        // Liste des mots du commentaires
+                        $words = str_word_count($titleInputValue, 1);
+                        // Décompte du nombre de mots dans la liste
+                        $wordCount = count($words);
+                        // Vérification du compte de mots
+                        if ($wordCount >= 5) {
+
+                            // Modifs Base de données
+                            $entityManager->persist($media);
+                            $entityManager->flush();
+
+                            $this->addFlash('success', 'Le média a bien été envoyé pour validation');
+                            return $this->redirectToRoute('app_game', ['id' => $game->getId()]);
+
+                        } else {
+                            
+                            $this->addFlash('error', 'Le titre doit faire au minimum 5 mots !');
+                            return $this->redirectToRoute('app_game', ['id' => $game->getId()]);
+                        }
+
+                    } 
+                    else {
+                        $this->addFlash('error', 'Les données envoyées ne sont pas valides');
+                        return $this->redirectToRoute('app_game', ['id' => $game->getId()]);
+                    }   
                 } 
                 else {
-                    $this->addFlash('error', 'Les données envoyées ne sont pas valides');
+                    $this->addFlash('error', 'Vous êtes actuellement réduit au silence (ou bannis), et ne pouvez rien publier');
                     return $this->redirectToRoute('app_game', ['id' => $game->getId()]);
-                }   
+                }
             }
             else {
                 $this->addFlash('error', 'Vous devez être connecté pour publier un média');

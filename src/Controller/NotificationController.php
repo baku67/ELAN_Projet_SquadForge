@@ -224,7 +224,7 @@ class NotificationController extends AbstractController
     {
         $notification = new Notification();
 
-        $notification->setText("Votre signalement a été aprouvé par la modération. Merci pour votre participation !");
+        $notification->setText("Votre signalement a été approuvé par la modération. Merci pour votre participation !");
 
         $notification->setDateCreation(new \DateTime());
         $notification->setUser($user);

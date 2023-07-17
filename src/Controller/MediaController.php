@@ -262,12 +262,12 @@ class MediaController extends AbstractController
     
                 // Vérif connecté pour poster un MediaPost
                 if($this->getUser()) {
-    
-                    // Vérification si le media est ouvert
-                    if ($media->getStatus() == "open") {
 
-                        // Vérif si User pas muted
-                        if (!$this->getUser()->isMuted()) {
+                    // Vérif si User Mute ou Ban 
+                    if( !($this->getUser()->isBanned()) && !($this->getUser()->isMuted())) {
+
+                        // Vérification si le media est ouvert
+                        if ($media->getStatus() == "open") {
 
                             // Vérif si post vide
                             if(strlen($mediaPost->getText()) > 0) {
@@ -315,12 +315,12 @@ class MediaController extends AbstractController
                             }
                         }
                         else {
-                            $this->addFlash('error', 'Vous avez été réduit au silence et ne pouvez donc rien publier');
+                            $this->addFlash('error', 'Le media a été fermé, vous ne pouvez plus le commenter.');
                             return $this->redirectToRoute('app_mediaDetail', ['id' => $media->getId()]);
                         }
                     }
                     else {
-                        $this->addFlash('error', 'Le media a été fermé, vous ne pouvez plus le commenter.');
+                        $this->addFlash('error', 'Vous êtes actuellement réduit au silence (ou bannis), et ne pouvez rien publier');
                         return $this->redirectToRoute('app_mediaDetail', ['id' => $media->getId()]);
                     }
                 }
