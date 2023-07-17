@@ -168,11 +168,16 @@
                 
                     <div id="reportPreviewBtn{{ index }}" class="reportPreviewBtn">
 
-                        <div>
-                            <span id="reportPreviewType{{ index }}" value="{{ report.objectType}}">{{ report.objectType|capitalize }}</span>
-                            <span id="reportPreviewId{{ index }}" value="{{ report.objectId }}">(Réf: #{{ report.objectId }})</span>
-                            <br>
-                            <span>Signalements: <span class="strongNbr">{{ report.nbrReports }}</span></span>
+                        <div class="reportDivHeader">
+                            <div>
+                                <span id="reportPreviewType{{ index }}" value="{{ report.objectType}}">{{ report.objectType|capitalize }}</span>
+                                <span id="reportPreviewId{{ index }}" value="{{ report.objectId }}">(Réf: #{{ report.objectId }})</span>
+                                <br>
+                                <span>Signalements: <span class="strongNbr">{{ report.nbrReports }}</span></span>
+                            </div>
+                            <div id="reportPreviewFactice{{ index }}" class="reportPreviewFactice">
+                                <span>VOIR</span>
+                            </div>
                         </div>
 
                         <div id="preview{{ index }}" class="notDisplayed">
@@ -183,6 +188,12 @@
                                     <span id="detailPublishDate{{ index }}"></span>
                                     <span id="detailObjectAuthor{{ index }}"></span>
                                 </div>
+                                
+                                {# Test affichage nbrReport par motif #}
+                                <div id="nbrReportPerMotifDiv{{ index }}">
+                                    {# {{ dump(nbrReportsPerMotifArray) }} #}
+                                </div>
+                                
                             </div>
 
                             <div id="clickableContainer{{ index }}" class="clickableContainer">
@@ -254,6 +265,7 @@
                     document.getElementById('reportPreviewBtn{{ index }}').addEventListener('click', function() {
 
                         document.getElementById('preview{{ index }}').classList.toggle('notDisplayed');
+                        document.getElementById('reportPreviewFactice{{ index }}').classList.toggle('notDisplayed');
 
                         if(!document.getElementById('preview{{ index }}').classList.contains('notDisplayed')) {
 
@@ -302,7 +314,15 @@
                                 type: 'GET',
                                 success: function(response) {
 
-                                    console.log(response.object);
+                                    // Détails des reports (par motif)
+                                    // document.getElementById('nbrReportPerMotifDiv{{ index }}').innerHTML = response.nbrReportsPerMotifArray;
+                                    document.getElementById('nbrReportPerMotifDiv{{ index }}').innerHTML = response.nbrReportsPerMotifArray;
+                                    
+                                    console.log(response.nbrReportsPerMotifArray);
+                                    Object.entries(response.nbrReportsPerMotifArray).forEach(([key, value]) => {
+                                        console.log(`${key}: ${value}`);
+                                    });
+
 
                                     switch (response.objectType) {
                                         case "media":
@@ -317,21 +337,21 @@
                                             document.getElementById('detailText{{ index }}').innerText = response.object["title"];
                                             document.getElementById('detailPublishDate{{ index }}').innerText = publishDateDelay(response.object["date"]["date"]);
                                             // document.getElementById('detailGame{{ index }}').innerText = response.object["game"];
-                                            document.getElementById('detailObjectAuthor{{ index }}').innerText = "par " + response.object["author"] + " (Censures: " + "<span class='strongNbr'>" + response.object["authorNbrCensures"] + "</span>)";
+                                            document.getElementById('detailObjectAuthor{{ index }}').innerHTML = "par " + response.object["author"] + " (Censures: " + "<span class='strongNbr'>" + response.object["authorNbrCensures"] + "</span>)";
                                             break;
 
                                         case "topicPost":
                                             document.getElementById('detailText{{ index }}').innerText = response.object["title"];
                                             document.getElementById('detailPublishDate{{ index }}').innerText = publishDateDelay(response.object["date"]["date"]);
                                             // document.getElementById('detailGame{{ index }}').innerText = response.object["game"];
-                                            document.getElementById('detailObjectAuthor{{ index }}').innerText = "par " + response.object["author"] + " (Censures: " + "<span class='strongNbr'>" + response.object["authorNbrCensures"] + "</span>)";
+                                            document.getElementById('detailObjectAuthor{{ index }}').innerHTML = "par " + response.object["author"] + " (Censures: " + "<span class='strongNbr'>" + response.object["authorNbrCensures"] + "</span>)";
                                             break;
 
                                         case "mediaPost":
                                             document.getElementById('detailText{{ index }}').innerText = response.object["title"];
                                             document.getElementById('detailPublishDate{{ index }}').innerText = publishDateDelay(response.object["date"]["date"]);
                                             // document.getElementById('detailGame{{ index }}').innerText = response.object["game"];
-                                            document.getElementById('detailObjectAuthor{{ index }}').innerText = "par " + response.object["author"] + " (Censures: " + "<span class='strongNbr'>" + response.object["authorNbrCensures"] + "</span>)";
+                                            document.getElementById('detailObjectAuthor{{ index }}').innerHTML = "par " + response.object["author"] + " (Censures: " + "<span class='strongNbr'>" + response.object["authorNbrCensures"] + "</span>)";
                                             break;
                                     
                                         default:

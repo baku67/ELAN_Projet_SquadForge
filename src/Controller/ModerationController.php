@@ -129,6 +129,8 @@ class ModerationController extends AbstractController
     public function reportDetails(EntityManagerInterface $entityManager, string $objectType, int $objectId, Request $request): Response
     {
 
+        $reportRepo = $entityManager->getRepository(Report::class);
+
         switch ($objectType) {
 
             case 'media':
@@ -144,7 +146,9 @@ class ModerationController extends AbstractController
                     "img" => $mediaReported->getUrl(),
                     "authorNbrCensures" => $mediaReported->getUser()->getNbrCensures(),
                 ];
-            
+                // Nbr de reports par motif de signalement:
+                $nbrReportsPerMotif = $reportRepo->getNbrReportsPerMotif($objectType, $objectId);
+                    
                 break;
 
 
@@ -160,7 +164,9 @@ class ModerationController extends AbstractController
                     "author" => $topicReported->getUser()->getPseudo(),
                     "authorNbrCensures" => $topicReported->getUser()->getNbrCensures(),
                 ];
-
+                // Nbr de reports par motif de signalement:
+                $nbrReportsPerMotif = $reportRepo->getNbrReportsPerMotif($objectType, $objectId);
+                    
                 break;
 
             
@@ -176,6 +182,8 @@ class ModerationController extends AbstractController
                     "author" => $topicPostReported->getUser()->getPseudo(),
                     "authorNbrCensures" => $topicPostReported->getUser()->getNbrCensures(),
                 ];
+                // Nbr de reports par motif de signalement:
+                $nbrReportsPerMotif = $reportRepo->getNbrReportsPerMotif($objectType, $objectId);
 
                 break;
 
@@ -191,6 +199,8 @@ class ModerationController extends AbstractController
                     "author" => $mediaPostReported->getUser()->getPseudo(),
                     "authorNbrCensures" => $mediaPostReported->getUser()->getNbrCensures(),
                 ];
+                // Nbr de reports par motif de signalement:
+                $nbrReportsPerMotif = $reportRepo->getNbrReportsPerMotif($objectType, $objectId);
 
                 break;
 
@@ -200,7 +210,7 @@ class ModerationController extends AbstractController
         }
 
         
-        return new JsonResponse(['success' => true, 'objectType' => $objectType, 'object' => $objectDetails]); 
+        return new JsonResponse(['success' => true, 'objectType' => $objectType, 'object' => $objectDetails, 'nbrReportsPerMotifArray' => $nbrReportsPerMotif]); 
     }
 
 

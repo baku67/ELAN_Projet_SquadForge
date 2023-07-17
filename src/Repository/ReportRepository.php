@@ -4,6 +4,7 @@ namespace App\Repository;
 
 use App\Entity\Report;
 use App\Entity\User;
+use App\Repository\ReportMotifRepository;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -17,7 +18,7 @@ use Doctrine\Persistence\ManagerRegistry;
  */
 class ReportRepository extends ServiceEntityRepository
 {
-    public function __construct(ManagerRegistry $registry)
+    public function __construct(ManagerRegistry $registry, private ReportMotifRepository $reportMotifRepo)
     {
         parent::__construct($registry, Report::class);
     }
@@ -41,7 +42,8 @@ class ReportRepository extends ServiceEntityRepository
     }
 
 
-    public function getAllReportsGroupedByOjectIdAndType() {
+    // Tout les Reports regroupées par objet
+    public function getAllReportsGroupedByOjectIdAndType(): array {
         return $this->createQueryBuilder('r')
         ->select('r.objectId, r.objectType, COUNT(r) as nbrReports') // Inclure toutes les colonnes non agrégées
         ->orderBy('nbrReports', 'DESC')
@@ -51,6 +53,36 @@ class ReportRepository extends ServiceEntityRepository
         ;
     }
 
+
+    // Pour chaque motif de report existant, compter le nombre de reports pour ce motif et selon objet passé en paramètres
+    public function getNbrReportsPerMotif(string $objectType, int $objectId): array {
+        
+        $motifs = $this->reportMotifRepo->findAll();
+
+        $nbrReportsPerMotif = [];
+
+        foreach ($motifs as $motif) {
+
+            $nbr = $this->createQueryBuilder('r')
+            ->select('COUNT(r) as nbrReports') // Inclure toutes les colonnes non agrégées
+            ->where('r.reportMotif = :motif')
+            ->setParameter('motif', $motif)
+
+            // ->groupBy('r.objectId', 'r.objectType') 
+            ->andWhere('r.objectType = :objectType')
+            ->setParameter('objectType', $objectType)
+            ->andWhere('r.objectId = :objectId')
+            ->setParameter('objectId', $objectId)
+
+            ->getQuery()
+            ->getSingleScalarResult()
+            ;
+
+            $nbrReportsPerMotif[$motif->getText()] = $nbr;
+        }
+
+        return $nbrReportsPerMotif;
+    }
 
 
 //    /**
