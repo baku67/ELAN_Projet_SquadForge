@@ -137,6 +137,7 @@ class ModerationController extends AbstractController
                 
                 $mediaRepo = $entityManager->getRepository(Media::class);
                 $mediaReported = $mediaRepo->find($objectId);
+                $author = $mediaReported->getUser();
 
                 $objectDetails = [
                     "title" => $mediaReported->getTitle(), 
@@ -156,6 +157,7 @@ class ModerationController extends AbstractController
 
                 $topicRepo = $entityManager->getRepository(Topic::class);
                 $topicReported = $topicRepo->find($objectId);
+                $author = $topicReported->getUser();
 
                 $objectDetails = [
                     "title" => $topicReported->getTitle(), 
@@ -174,6 +176,7 @@ class ModerationController extends AbstractController
 
                 $topicPostRepo = $entityManager->getRepository(TopicPost::class);
                 $topicPostReported = $topicPostRepo->find($objectId);
+                $author = $topicPostReported->getUser();
 
                 $objectDetails = [
                     "title" => $topicPostReported->getText(), 
@@ -191,6 +194,7 @@ class ModerationController extends AbstractController
 
                 $mediaPostRepo = $entityManager->getRepository(MediaPost::class);
                 $mediaPostReported = $mediaPostRepo->find($objectId);
+                $author = $mediaPostReported->getUser();
 
                 $objectDetails = [
                     "title" => $mediaPostReported->getText(), 
@@ -209,8 +213,21 @@ class ModerationController extends AbstractController
                 break;
         }
 
+
+        // Statut actuel de l'auteur (et date de fin si pénalisé)
+        $authorStatus = null;
+        $authorDateEnd = null;
+
+        if ($author->isMuted()) {
+            $authorStatus = "muted";
+            $authorDateEnd = $author->getEndDateStatus();
+        } else if ($author->isBanned()) {
+            $authorStatus = "banned";
+            $authorDateEnd = $author->getEndDateStatus();
+        }
+
         
-        return new JsonResponse(['success' => true, 'objectType' => $objectType, 'object' => $objectDetails, 'nbrReportsPerMotifArray' => $nbrReportsPerMotif]); 
+        return new JsonResponse(['success' => true, 'objectType' => $objectType, 'object' => $objectDetails, 'nbrReportsPerMotifArray' => $nbrReportsPerMotif, 'authorStatus' => $authorStatus, 'authorDateEndStatus' => $authorDateEnd]); 
     }
 
 
@@ -345,17 +362,26 @@ class ModerationController extends AbstractController
                 $this->notifController->notifCensureAuthor($author, $objectType, $objectText);
             }
             else if ($request->request->get('mode') == 'mute') {
-                // Maj Status et endDateStatus Author
-                $author->setStatus("muted");
-                $dateString = $request->request->get('endDate');
-                $date = DateTime::createFromFormat('Y-m-d', $dateString);
-                $author->setEndDateStatus($date);
 
-                // Envoi notif à l'Author (censure + Ban/Mute) et notifs "merci" aux reporters
-                $this->notifController->notifCensureAuthor($author, $objectType, $objectText);
-                $this->notifController->notifBanMuteAuthor("mute", $author, $date);
-                foreach ($objectReports as $report) {
-                    $this->notifController->notifThxReporters($report->getUserReporter());
+                // Erreur si déjà ban mute et si date inférieur (modo peut que augmenter la date) (Pb de logique)
+                if(($author->getStatus() == 'muted') && (DateTime::createFromFormat('Y-m-d', $request->request->get('endDate')) > $author->getEndDateStatus())) {
+
+                    // Maj Status et endDateStatus Author
+                    $author->setStatus("muted");
+                    $dateString = $request->request->get('endDate');
+                    $date = DateTime::createFromFormat('Y-m-d', $dateString);
+                    $author->setEndDateStatus($date);
+
+                    // Envoi notif à l'Author (censure + Ban/Mute) et notifs "merci" aux reporters
+                    $this->notifController->notifCensureAuthor($author, $objectType, $objectText);
+                    $this->notifController->notifBanMuteAuthor("mute", $author, $date);
+                    foreach ($objectReports as $report) {
+                        $this->notifController->notifThxReporters($report->getUserReporter());
+                    }
+                }
+                else {
+                    $this->addFlash('error', 'La pénalité est inférieur à celle déjà en place pour cet utilisateur, vous ne pouvez que l\'augmenter');
+                    return $this->redirectToRoute('app_moderationDashboard');
                 }
             }
             else if ($request->request->get('mode') == 'ban') {

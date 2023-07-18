@@ -2427,12 +2427,28 @@ cursor: pointer;
     width: 80%;
     margin: 7px auto;
 
+    color: white;
+
     transition: all 0.4s;
 }
 .reportPreviewBtn:hover {
     background-color: #353535;
 }
 
+.reportPreviewFacticeTxt {
+    transition: all 0.4s;
+}
+
+
+.reportCardCensureForm {
+    display:flex; 
+    flex-direction:column; 
+    justify-content:center;
+}
+
+input:disabled { 
+    color:rgb(196, 196, 196) !important;
+}
 
 .strongNbr {
     color: rgb(255, 105, 105);

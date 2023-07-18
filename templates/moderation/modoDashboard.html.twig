@@ -166,21 +166,22 @@
 
                 {% for report in reports %}
                 
-                    <div id="reportPreviewBtn{{ index }}" class="reportPreviewBtn">
+                    <div id="reportPreviewBtn{{ index }}" class="reportPreviewBtn" onmouseover="document.getElementById('reportPreviewFacticeTxt{{ index }}').style.color = '#ff5656';" onmouseout="document.getElementById('reportPreviewFacticeTxt{{ index }}').style.color = 'white';">
 
                         <div class="reportDivHeader">
                             <div id="reportPreviewHeader{{ index }}">
                                 <span id="reportPreviewType{{ index }}" value="{{ report.objectType}}">{{ report.objectType|capitalize }}</span>
-                                <span id="reportPreviewId{{ index }}" value="{{ report.objectId }}">(Réf: #{{ report.objectId }})</span>
+                                <span id="reportPreviewId{{ index }}" value="{{ report.objectId }}">#{{ report.objectId }}</span>
                                 <br>
                                 <span style="margin-right:7px;">Signalements: <span class="strongNbr">{{ report.nbrReports }}</span></span>
                                 
                             </div>
                             <div id="reportPreviewFactice{{ index }}" class="reportPreviewFactice">
-                                <span>VOIR</span>
+                                <span id="reportPreviewFacticeTxt{{ index }}" class="reportPreviewFacticeTxt">VOIR</span>
                             </div>
                         </div>
 
+                        {# Partie cachée de la reportCard #}
                         <div id="preview{{ index }}" class="notDisplayed">
                             <div >
                                 <p id="detailText{{ index }}" class="reportCardText"></p>
@@ -189,13 +190,9 @@
                                     <span id="detailPublishDate{{ index }}"></span>
                                     <span id="detailObjectAuthor{{ index }}"></span>
                                 </div>
-                                
-                                {# Test affichage nbrReport par motif #}
-                                <div id="nbrReportPerMotifDiv{{ index }}">
-                                    {# {{ dump(nbrReportsPerMotifArray) }} #}
-                                </div>
-                                
                             </div>
+
+                            <div id="authorStatus{{ index }}">Status: /</div>
 
                             <div id="clickableContainer{{ index }}" class="clickableContainer">
                                 <a href="{{ path('app_removeReports',{'objectType':report.objectType, 'objectId':report.objectId }) }}" class="innocenterBtn">Innocenter</a>
@@ -217,16 +214,20 @@
                                     </div>
 
                                     {# censure form #}
-                                    <form style="display:flex;justify-content: center;" action="{{ path('app_censureObject',{'objectType':report.objectType, 'objectId':report.objectId }) }}" method="post">
+                                    <form class="reportCardCensureForm" action="{{ path('app_censureObject',{'objectType':report.objectType, 'objectId':report.objectId }) }}" method="post">
 
                                         {# Mode ban/mute JS #}
                                         <input id="sentenceType{{ index }}" type="hidden" name="mode" value="void" />
 
+                                        <br> 
+
                                         {# Date fin de ban/mute si mode != aucun #}
-                                        <div id="sentenceEndDateDiv{{ index }}" style="display:none; width:100%; text-align:center;">
-                                            <label id="inputPunishEndDateLabel{{ index }}" for="endDate"></label>
-                                            <input id="inputPunishEndDate{{ index }}" name="endDate" type="date" min="" value="">
+                                        <div id="sentenceEndDateDiv{{ index }}" style="width:100%; text-align:center;">
+                                            <label id="inputPunishEndDateLabel{{ index }}" for="endDate">Aucune pénalité</label>
+                                            <input id="inputPunishEndDate{{ index }}" name="endDate" type="date" min="" value="" disabled>
                                         </div>
+
+                                        <br>
 
                                         <input type="submit" value="Censurer le {{ report.objectType }}" class="censureBtn"></input>
                                     </form>
@@ -259,8 +260,11 @@
                     var now = new Date();
                     var timezoneOffset = now.getTimezoneOffset() * 60000; 
                     var today = new Date(now - timezoneOffset).toISOString().split('T')[0];
-                    document.getElementById('inputPunishEndDate{{ index }}').value = today;
-                    document.getElementById('inputPunishEndDate{{ index }}').setAttribute("min", today);
+                    var tomorrow = new Date(now.getTime() + 86400000);
+                    var tomorrowFormatted = tomorrow.toISOString().split('T')[0];
+
+                    document.getElementById('inputPunishEndDate{{ index }}').value = tomorrowFormatted;
+                    document.getElementById('inputPunishEndDate{{ index }}').setAttribute("min", tomorrowFormatted);
 
                     // Toggle Affichage du détail de l'objet signalé (+ boutons décisions)
                     document.getElementById('reportPreviewBtn{{ index }}').addEventListener('click', function() {
@@ -285,6 +289,7 @@
                                 document.getElementById('sentenceType{{ index }}').value = "mute";
                                 document.getElementById('inputPunishEndDateLabel{{ index }}').innerText = "Fin du mute: ";
                                 document.getElementById('sentenceEndDateDiv{{ index }}').style.display = 'block';
+                                document.getElementById('inputPunishEndDate{{ index }}').disabled = false;
 
                                 document.getElementById('toggleNoPunish{{ index }}').classList.remove('sentenceActif');
                                 document.getElementById('toggleBan{{ index }}').classList.remove('sentenceActif');
@@ -294,6 +299,7 @@
                                 document.getElementById('sentenceType{{ index }}').value = "ban";
                                 document.getElementById('inputPunishEndDateLabel{{ index }}').innerText = "Fin du ban: ";
                                 document.getElementById('sentenceEndDateDiv{{ index }}').style.display = 'block';
+                                document.getElementById('inputPunishEndDate{{ index }}').disabled = false;
 
                                 document.getElementById('toggleNoPunish{{ index }}').classList.remove('sentenceActif');
                                 document.getElementById('toggleBan{{ index }}').classList.add('sentenceActif');
@@ -301,8 +307,11 @@
                             });
                             document.getElementById('toggleNoPunish{{ index }}').addEventListener('click', function() {
                                 document.getElementById('sentenceType{{ index }}').value = "void";
-                                document.getElementById('inputPunishEndDateLabel{{ index }}').innerText = "";
-                                document.getElementById('sentenceEndDateDiv{{ index }}').style.display = 'none';
+                                document.getElementById('inputPunishEndDateLabel{{ index }}').innerText = "Aucune pénalité";
+                                // document.getElementById('sentenceEndDateDiv{{ index }}').style.opacity = '0.7';
+                                // document.getElementById('sentenceEndDateDiv{{ index }}').style.color = 'grey';
+                                document.getElementById('inputPunishEndDate{{ index }}').disabled = true;
+
 
                                 document.getElementById('toggleNoPunish{{ index }}').classList.add('sentenceActif');
                                 document.getElementById('toggleBan{{ index }}').classList.remove('sentenceActif');
@@ -363,9 +372,15 @@
                                         default:
                                             break;
                                     }
-                                    
 
-                                    // window.FlashMessage.success('Test details report');
+                                    // Récupération du status Author si actif (today < endDateStatus)
+                                    if(response.authorStatus == "muted" && response.authorDateEndStatus > today) {
+                                        document.getElementById("authorStatus{{ index }}").innerHTML = "<span>ACTUELLEMENT MUTED</span>";
+                                    }
+                                    else if(response.authorStatus == "banned" && response.authorDateEndStatus > today)  {
+                                        document.getElementById("authorStatus{{ index }}").innerHTML = "<span>ACTUELLEMENT BANNED</span>";
+                                    }
+                                
                                 },
                                 error: function(xhr, status, error) {
                                     window.FlashMessage.error('Erreur lors du chargement du signalement');
