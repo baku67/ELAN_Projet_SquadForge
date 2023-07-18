@@ -1461,6 +1461,7 @@ h1, h2, h3, h4 {
     opacity: 0.8;
     font-weight: bold;
     font-size: 1.2em;
+    margin-right: 6px;
 }
 
 .mediaUpvoteLine {
@@ -2496,7 +2497,7 @@ input:disabled {
 }
 
 .sentenceActif {
-    background-color: rgba(170, 47, 47, 0.438);
+    background-color: rgba(226, 0, 0, 0.438);
 }
 
 .reportDetailImg {

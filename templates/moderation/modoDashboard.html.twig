@@ -162,88 +162,112 @@
 
             <div class="reportsDiv">
 
-                {% set index = 0 %}
-
-                {% for report in reports %}
+                {% if reports|length > 0 %}
                 
-                    <div id="reportPreviewBtn{{ index }}" class="reportPreviewBtn" onmouseover="document.getElementById('reportPreviewFacticeTxt{{ index }}').style.color = '#ff5656';" onmouseout="document.getElementById('reportPreviewFacticeTxt{{ index }}').style.color = 'white';">
+                    {% set index = 0 %}
 
-                        <div class="reportDivHeader">
-                            <div id="reportPreviewHeader{{ index }}">
-                                <span id="reportPreviewType{{ index }}" value="{{ report.objectType}}">{{ report.objectType|capitalize }}</span>
-                                <span id="reportPreviewId{{ index }}" value="{{ report.objectId }}">#{{ report.objectId }}</span>
-                                <br>
-                                <span style="margin-right:7px;">Signalements: <span class="strongNbr">{{ report.nbrReports }}</span></span>
-                                
-                            </div>
-                            <div id="reportPreviewFactice{{ index }}" class="reportPreviewFactice">
-                                <span id="reportPreviewFacticeTxt{{ index }}" class="reportPreviewFacticeTxt">VOIR</span>
-                            </div>
-                        </div>
+                    {% for report in reports %}
+                    
+                        <div id="reportPreviewBtn{{ index }}" class="reportPreviewBtn" onmouseover="document.getElementById('reportPreviewFacticeTxt{{ index }}').style.color = '#ff5656';" onmouseout="document.getElementById('reportPreviewFacticeTxt{{ index }}').style.color = 'white';">
 
-                        {# Partie cachée de la reportCard #}
-                        <div id="preview{{ index }}" class="notDisplayed">
-                            <div >
-                                <p id="detailText{{ index }}" class="reportCardText"></p>
-                                <img id="detailImg{{ index }}" src="" class="reportDetailImg" >
-                                <div class="reportDateAndAuthorDiv">
-                                    <span id="detailPublishDate{{ index }}"></span>
-                                    <span id="detailObjectAuthor{{ index }}"></span>
+                            <div class="reportDivHeader">
+                                <div id="reportPreviewHeader{{ index }}">
+
+                                    {% if report.objectType == "topicPost" or report.objectType == "mediaPost" %}
+                                        {% set objectType = "post" %}
+                                    {% else %}
+                                        {% set objectType = report.objectType %}
+                                    {% endif %}
+                                    <span id="reportPreviewType{{ index }}" value="{{ report.objectType}}">{{ objectType|capitalize }}</span>
+
+                                    <span id="reportPreviewId{{ index }}" value="{{ report.objectId }}">#{{ report.objectId }}</span>
+                                    <br>
+                                    <span style="margin-right:7px;">Signalements: <span class="strongNbr">{{ report.nbrReports }}</span></span>
+                                    
+                                </div>
+                                <div id="reportPreviewFactice{{ index }}" class="reportPreviewFactice">
+                                    <span id="reportPreviewFacticeTxt{{ index }}" class="reportPreviewFacticeTxt">VOIR</span>
                                 </div>
                             </div>
 
-                            <div id="authorStatus{{ index }}">Status: /</div>
-
-                            <div id="clickableContainer{{ index }}" class="clickableContainer">
-                                <a href="{{ path('app_removeReports',{'objectType':report.objectType, 'objectId':report.objectId }) }}" class="innocenterBtn">Innocenter</a>
-                                <div>
-                                    {# Toggle mute/ban modes #}
-                                    <div style="display:inline-flex; justify-content:center; width:100%;">
-                                        <span id="toggleMute{{ index }}" class="toggleSentence">
-                                            <i class="fa-solid fa-volume-xmark"></i>
-                                            <span> Mute</span>
-                                        </span>
-                                        <span id="toggleBan{{ index }}" class="toggleSentence">
-                                            <i class="fa-solid fa-ban"></i>
-                                            <span> Ban</span>
-                                        </span>
-                                        <span id="toggleNoPunish{{ index }}" class="toggleSentence sentenceActif">
-                                            <i class="fa-solid fa-empty-set"></i>
-                                            <span> Aucun</span>
-                                        </span>
+                            {# Partie cachée de la reportCard (Ajax) #}
+                            <div id="preview{{ index }}" class="notDisplayed">
+                                <div >
+                                    <p id="detailText{{ index }}" class="reportCardText"></p>
+                                    <img id="detailImg{{ index }}" src="" class="reportDetailImg" >
+                                    <div class="reportDateAndAuthorDiv">
+                                        <span id="detailPublishDate{{ index }}"></span>
+                                        <span id="detailObjectAuthor{{ index }}"></span>
                                     </div>
+                                </div>
 
-                                    {# censure form #}
-                                    <form class="reportCardCensureForm" action="{{ path('app_censureObject',{'objectType':report.objectType, 'objectId':report.objectId }) }}" method="post">
+                                <div id="clickableContainer{{ index }}" class="clickableContainer">
 
-                                        {# Mode ban/mute JS #}
-                                        <input id="sentenceType{{ index }}" type="hidden" name="mode" value="void" />
+                                    <a href="{{ path('app_removeReports',{'objectType':report.objectType, 'objectId':report.objectId }) }}" class="innocenterBtn">Innocenter</a>
 
-                                        <br> 
+                                    <div>
+                                        {# Status author si actuellement muted/banned #}
+                                        <div id="authorStatus{{ index }}" style="text-align:center;"></div>
 
-                                        {# Date fin de ban/mute si mode != aucun #}
-                                        <div id="sentenceEndDateDiv{{ index }}" style="width:100%; text-align:center;">
-                                            <label id="inputPunishEndDateLabel{{ index }}" for="endDate">Aucune pénalité</label>
-                                            <input id="inputPunishEndDate{{ index }}" name="endDate" type="date" min="" value="" disabled>
+                                        {# Toggle mute/ban modes #}
+                                        <div style="display:inline-flex; justify-content:center; width:100%;">
+                                            <span id="toggleMute{{ index }}" class="toggleSentence">
+                                                <i class="fa-solid fa-volume-xmark"></i>
+                                                <span> Mute</span>
+                                            </span>
+                                            <span id="toggleBan{{ index }}" class="toggleSentence">
+                                                <i class="fa-solid fa-ban"></i>
+                                                <span> Ban</span>
+                                            </span>
+                                            <span id="toggleNoPunish{{ index }}" class="toggleSentence sentenceActif">
+                                                <i class="fa-solid fa-empty-set"></i>
+                                                <span> Aucun</span>
+                                            </span>
                                         </div>
 
-                                        <br>
+                                        {# censure form #}
+                                        <form class="reportCardCensureForm" action="{{ path('app_censureObject',{'objectType':report.objectType, 'objectId':report.objectId }) }}" method="post">
 
-                                        <input type="submit" value="Censurer le {{ report.objectType }}" class="censureBtn"></input>
-                                    </form>
+                                            {# Mode ban/mute JS #}
+                                            <input id="sentenceType{{ index }}" type="hidden" name="mode" value="void" />
 
-                                    {# Toggle mute/ban modes #}
-                                    <script>
+                                            <br> 
 
-                                    </script>
+                                            {# Date fin de ban/mute si mode != aucun #}
+                                            <div id="sentenceEndDateDiv{{ index }}" style="width:100%; text-align:center;">
+                                                <label id="inputPunishEndDateLabel{{ index }}" for="endDate">Aucune pénalité</label>
+                                                <input id="inputPunishEndDate{{ index }}" name="endDate" type="date" min="" value="" disabled>
+                                            </div>
 
+                                            <br>
+
+                                            {% if report.objectType == "topicPost" or report.objectType == "mediaPost" %}
+                                                {% set objectType = "post" %}
+                                            {% else %}
+                                                {% set objectType = report.objectType %}
+                                            {% endif %}
+
+                                            <input type="submit" value="Censurer le {{ objectType }}" class="censureBtn"></input>
+                                        </form>
+
+                                        {# Toggle mute/ban modes #}
+                                        <script>
+
+                                        </script>
+
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
 
-                    {% set index = index + 1 %}
-                {% endfor %}
+                        {% set index = index + 1 %}
+                    {% endfor %}
+
+                {% else %}
+
+                    <p class="emptyListMsg">Aucun signalement en attente</p>
+                    
+                {% endif %}
             </div>
 
         </div>
@@ -308,10 +332,7 @@
                             document.getElementById('toggleNoPunish{{ index }}').addEventListener('click', function() {
                                 document.getElementById('sentenceType{{ index }}').value = "void";
                                 document.getElementById('inputPunishEndDateLabel{{ index }}').innerText = "Aucune pénalité";
-                                // document.getElementById('sentenceEndDateDiv{{ index }}').style.opacity = '0.7';
-                                // document.getElementById('sentenceEndDateDiv{{ index }}').style.color = 'grey';
                                 document.getElementById('inputPunishEndDate{{ index }}').disabled = true;
-
 
                                 document.getElementById('toggleNoPunish{{ index }}').classList.add('sentenceActif');
                                 document.getElementById('toggleBan{{ index }}').classList.remove('sentenceActif');
@@ -375,10 +396,10 @@
 
                                     // Récupération du status Author si actif (today < endDateStatus)
                                     if(response.authorStatus == "muted" && response.authorDateEndStatus > today) {
-                                        document.getElementById("authorStatus{{ index }}").innerHTML = "<span>ACTUELLEMENT MUTED</span>";
+                                        document.getElementById("authorStatus{{ index }}").innerHTML = "<span style='position:relative; top:5px;'>Status: <span class='strongNbr'>muted</span> (" + futureEndDateStatus(response.authorDateEndStatus.date) + ")</span>";
                                     }
                                     else if(response.authorStatus == "banned" && response.authorDateEndStatus > today)  {
-                                        document.getElementById("authorStatus{{ index }}").innerHTML = "<span>ACTUELLEMENT BANNED</span>";
+                                        document.getElementById("authorStatus{{ index }}").innerHTML = "<span style='position:relative; top:5px;'>Status: <span class='strongNbr'>banned</span> (" + futureEndDateStatus(response.authorDateEndStatus.date) + ")</span>";
                                     }
                                 
                                 },
@@ -411,6 +432,28 @@
                         phrase = "publié hier";
                     } else {
                         phrase = "publié il y a " + differenceEnJours + " jours";
+                    }
+
+                    return phrase;
+                }
+
+
+                // Transfo simmple dates -> nbr de jours restants
+                function futureEndDateStatus(dateSqlToCompare) {
+
+                    var dateActuelle = new Date();
+                    var dateComparaison = new Date(dateSqlToCompare);
+                    var difference =  dateComparaison - dateActuelle;
+                    // milisecondes -> jour
+                    var differenceEnJours = Math.floor(difference / (1000 * 60 * 60 * 24));
+
+                    var phrase;
+                    if (differenceEnJours === 0) {
+                        phrase = "Fin aujourd'hui";
+                    } else if (differenceEnJours === 1) {
+                        phrase = "Fin demain";
+                    } else {
+                        phrase = "Fin dans " + differenceEnJours + " jours";
                     }
 
                     return phrase;

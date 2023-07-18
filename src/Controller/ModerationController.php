@@ -363,7 +363,7 @@ class ModerationController extends AbstractController
             }
             else if ($request->request->get('mode') == 'mute') {
 
-                // Erreur si déjà ban mute et si date inférieur (modo peut que augmenter la date) (Pb de logique)
+                // Erreur si déjà mute et si date inférieur (modo peut que augmenter la date) (Pb de logique)
                 if(($author->getStatus() == 'muted') && (DateTime::createFromFormat('Y-m-d', $request->request->get('endDate')) > $author->getEndDateStatus())) {
 
                     // Maj Status et endDateStatus Author
@@ -385,17 +385,26 @@ class ModerationController extends AbstractController
                 }
             }
             else if ($request->request->get('mode') == 'ban') {
-                // Maj Status et endDateStatus Author
-                $author->setStatus("banned");
-                $dateString = $request->request->get('endDate');
-                $date = DateTime::createFromFormat('Y-m-d', $dateString);
-                $author->setEndDateStatus($date);
 
-                // Envoi notif à l'Author (censure + Ban/Mute) et notifs "merci" aux reporters
-                $this->notifController->notifCensureAuthor($author, $objectType, $objectText);
-                $this->notifController->notifBanMuteAuthor("ban", $author, $date);
-                foreach ($objectReports as $report) {
-                    $this->notifController->notifThxReporters($report->getUserReporter());
+                // Erreur si déjà ban mute et si date inférieur (modo peut que augmenter la date) (Pb de logique)
+                if((($author->getStatus() == 'muted') || ($author->getStatus() == 'banned')) && (DateTime::createFromFormat('Y-m-d', $request->request->get('endDate')) > $author->getEndDateStatus())) {
+
+                    // Maj Status et endDateStatus Author
+                    $author->setStatus("banned");
+                    $dateString = $request->request->get('endDate');
+                    $date = DateTime::createFromFormat('Y-m-d', $dateString);
+                    $author->setEndDateStatus($date);
+
+                    // Envoi notif à l'Author (censure + Ban/Mute) et notifs "merci" aux reporters
+                    $this->notifController->notifCensureAuthor($author, $objectType, $objectText);
+                    $this->notifController->notifBanMuteAuthor("ban", $author, $date);
+                    foreach ($objectReports as $report) {
+                        $this->notifController->notifThxReporters($report->getUserReporter());
+                    }
+                }
+                else {
+                    $this->addFlash('error', 'La pénalité est inférieur à celle déjà en place pour cet utilisateur, vous ne pouvez que l\'augmenter');
+                    return $this->redirectToRoute('app_moderationDashboard');
                 }
             }
 
