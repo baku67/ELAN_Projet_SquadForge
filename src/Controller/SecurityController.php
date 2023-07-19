@@ -8,6 +8,7 @@ use App\Entity\Genre;
 use App\Entity\User;
 use App\Entity\Topic;
 use App\Entity\Media;
+use App\Entity\Group;
 
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\PersistentCollection;
@@ -53,60 +54,79 @@ class SecurityController extends AbstractController
 
 
 
-    // Homepage 
+    // Homepage (différentes selon User connected ou non)
     #[Route(path: '/', name: 'app_landingPage')]
     #[Route(path: '/home', name: 'app_home')]
     public function homepage(EntityManagerInterface $entityManager)
     {
-        $notifRepo = $entityManager->getRepository(Notification::class);
-        $mediaRepo = $entityManager->getRepository(Media::class);
-        $topicRepo = $entityManager->getRepository(Topic::class);
-
-        // Onglet notifs Bulle nbr "non-vues" (int si connécté, null sinon)
-        $userNotifCount = $this->getUser() ? count($notifRepo->findByUserNotSeen($this->getUser())) : null;
-        // Si userModo: Bulles nbr éléments en attente de validation (int si modo, null sinon)
-        if($this->getUser() && in_array('ROLE_MODO', $this->getUser()->getRoles())) {
-            // On compte les Topic et Médias status "waiting"
-            $mediasWaitings = count($mediaRepo->findBy(["validated" => "waiting"]));
-            $topicsWaitings = count($topicRepo->findBy(["validated" => "waiting"]));
-            $modoNotifCount = $mediasWaitings + $topicsWaitings;
-        }
-        else {
-            $modoNotifCount = null;
-        }
-
-        // Si connecté: raccourcis Games favoris, et listTeams
-        if($this->getUser()) {
-            $userFav = $this->getUser()->getFavoris();
-            $userTeams = $this->getUser()->getGroupes();
-        }
-        else {
-            $userFav = null;
-            $userTeams = null;
-        }
-
-        // Homepage: derniers Topics/Médias (Que à propos des jeux fav si connected)
-        $topicManager = $entityManager->getRepository(Topic::class);
-        $MediaManager = $entityManager->getRepository(Media::class);
 
         if($this->getUser()) {
-            $lastTopics = $topicManager->findLastTopicsFav($userFav);
-            $lastMedias = $MediaManager->findLastMediasFav($userFav);
-        }
-        else {
-            $lastTopics = $topicManager->findLastTopics();
-            $lastMedias = $MediaManager->findLastMedias();
-        }
+
+            $notifRepo = $entityManager->getRepository(Notification::class);
+            $mediaRepo = $entityManager->getRepository(Media::class);
+            $topicRepo = $entityManager->getRepository(Topic::class);
+
+            // Onglet notifs Bulle nbr "non-vues" (int si connécté, null sinon)
+            $userNotifCount = $this->getUser() ? count($notifRepo->findByUserNotSeen($this->getUser())) : null;
+            // Si userModo: Bulles nbr éléments en attente de validation (int si modo, null sinon)
+            if($this->getUser() && in_array('ROLE_MODO', $this->getUser()->getRoles())) {
+                // On compte les Topic et Médias status "waiting"
+                $mediasWaitings = count($mediaRepo->findBy(["validated" => "waiting"]));
+                $topicsWaitings = count($topicRepo->findBy(["validated" => "waiting"]));
+                $modoNotifCount = $mediasWaitings + $topicsWaitings;
+            }
+            else {
+                $modoNotifCount = null;
+            }
+
+            // Si connecté: raccourcis Games favoris, et listTeams
+            if($this->getUser()) {
+                $userFav = $this->getUser()->getFavoris();
+                $userTeams = $this->getUser()->getGroupes();
+            }
+            else {
+                $userFav = null;
+                $userTeams = null;
+            }
+
+            // Homepage: derniers Topics/Médias (Que à propos des jeux fav si connected)
+            $topicManager = $entityManager->getRepository(Topic::class);
+            $MediaManager = $entityManager->getRepository(Media::class);
+
+            if($this->getUser()) {
+                $lastTopics = $topicManager->findLastTopicsFav($userFav);
+                $lastMedias = $MediaManager->findLastMediasFav($userFav);
+            }
+            else {
+                $lastTopics = $topicManager->findLastTopics();
+                $lastMedias = $MediaManager->findLastMedias();
+            }
+            
+                    
+            return $this->render('security/home.html.twig', [
+                'modoNotifCount' => $modoNotifCount,
+                'userNotifCount' => $userNotifCount,
+                'userFav' => $userFav,
+                'userTeams' => $userTeams,
+                'lastTopics' => $lastTopics,
+                'lastMedias' => $lastMedias,
+            ]);
+            throw new \LogicException('This method can be blank - it will be intercepted by the logout key on your firewall.');
         
-                
-        return $this->render('security/home.html.twig', [
-            'modoNotifCount' => $modoNotifCount,
-            'userNotifCount' => $userNotifCount,
-            'userFav' => $userFav,
-            'userTeams' => $userTeams,
-            'lastTopics' => $lastTopics,
-            'lastMedias' => $lastMedias,
-        ]);
-        throw new \LogicException('This method can be blank - it will be intercepted by the logout key on your firewall.');
+        }
+        else {
+
+            $userRepo = $entityManager->getRepository(User::class);
+            $groupRepo = $entityManager->getRepository(Group::class);
+            $usersCount = count($userRepo->findAll());
+            $teamsCount = count($groupRepo->findAll());
+
+            return $this->render('security/landingPage.html.twig', [
+                'usersCount' => $usersCount,
+                'teamsCount' => $teamsCount,
+            ]);
+
+        }
+    
     }
 }

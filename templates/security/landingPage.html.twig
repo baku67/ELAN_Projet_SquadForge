@@ -1,0 +1,45 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}SquadForge - Find mates for gaming{% endblock %}
+
+{% block body %}
+
+    {# Page 1 #}
+    <header class="globalBannerLandingPage" style="background: url('{{ asset('img/banner.jpg') }}' ); height:100vh;">
+        <a href="{{ path('app_home') }}"><img src="{{ asset('img/logoSquadForge_v2.png') }}" class="logoPng" /></a>
+        <nav class="navLine">
+            <a href="{{ path('app_games') }}">JEUX</a>
+        </nav>
+
+        <div>
+        <h2 class="landingPageSlogan">Forge your squad, Rule the game !</h2>
+
+        <span class="lp-usersCountLine">
+            <span class="lp-usersCountLabel">Users</span> 
+            <span class="lp-count">{{ usersCount }}</span>
+        </span>
+        <span class="lp-teamsCountLine">
+            <span class="lp-teamsCountLabel">Teams</span> 
+            <span class="lp-count">{{ teamsCount }}</span>
+        </span>
+
+        <div class="landingPageDownBtn">
+            <i class="fa-solid fa-chevron-down lpdownBtn1"></i>
+            <i class="fa-solid fa-chevron-down lpdownBtn2"></i>
+        </div>
+
+    </header>
+    
+
+
+    <div class="headerUnderline marginBottomHeaderLine"></div>
+    
+
+    {# Page 2 #}
+    <div class="main" style="height:100vh;">
+
+        
+
+    </div>
+    
+{% endblock %}

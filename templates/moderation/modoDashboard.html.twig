@@ -61,41 +61,42 @@
                 <p class="emptyListMsg">Aucun topic en attente de validation</p>
                 
             {% else %}
-                        
-                {% for topic in lastWaitingTopics %}
 
-                    <div id="topicCard{{ topic.id }}" class="topicCard" style="border-bottom: 4px solid {{ topic.game.color }}; cursor:pointer;">
-                        <img class="tinyLogo" src="{{ asset('img/games/tinyLogo/' ~ topic.game.tinyLogo) }}" />
-                        <span id="topicTitle{{ topic.id }}" class="topicTitle">{{ topic.title|capitalize }}</span>
-                        <span>{{ topic.validated }}</span>
-                        <span class="topicCardAuthor">{{ topic.user.pseudo }}</span>
-                        <span class="topicCardPublishDate">{{ time_diff(topic.publishDate) }}</span>
-                        {% if topic.topicPostsCount == 0 %}
-                            <span style="opacity:0.5;">{{ topic.topicPostsCount }} <i class="fa-solid fa-message" style="color:grey;"></i></span>
-                        {% else %}
-                            <span>{{ topic.topicPostsCount }} <i class="fa-solid fa-message" style="color:{{ topic.game.color }}"></i></span>
-                        {% endif %}
-                    </div>
-                    <div id="topicSubCard{{ topic.id }}" class="topicSubCard notDisplayed">
-                        <p>{{ topic.firstMsg }}</p>
-                        <div class="mediaApprovalLine">
-                            <a href="{{ path('app_validateTopic', {'id': topic.id}) }}">
-                                <span class="mediaApproveBtn"><i class="fa-solid fa-check"></i></span>
-                            </a>
-                            <a href="{{ path('app_refuseTopic', {'id': topic.id}) }}">
-                                <span class="mediaRefuseBtn"><i class="fa-solid fa-xmark"></i></span>
-                            </a>
+                <div class="sectionHomeContent">
+                        
+                    {% for topic in lastWaitingTopics %}
+
+                        <div id="topicCard{{ topic.id }}" class="topicCard" style="border-bottom: 4px solid {{ topic.game.color }}; cursor:pointer;">
+                            <img class="tinyLogo" src="{{ asset('img/games/tinyLogo/' ~ topic.game.tinyLogo) }}" />
+                            <span id="topicTitle{{ topic.id }}" class="topicTitleModo">{{ topic.title|capitalize }}</span>
+                            <div class="topicCardSubInfosModo">
+                                <span class="topicCardAuthorModo">{{ topic.user.pseudo }}</span>
+                                <span class="topicCardPublishDate">{{ time_diff(topic.publishDate) }}</span>
+                            </div>
+                        </div>
+                        <div id="topicSubCard{{ topic.id }}" class="topicSubCard notDisplayed">
+                            <p>{{ topic.firstMsg }}</p>
+                            <div class="mediaApprovalLine">
+                                <a href="{{ path('app_validateTopic', {'id': topic.id}) }}">
+                                    <span class="mediaApproveBtn"><i class="fa-solid fa-check"></i></span>
+                                </a>
+                                <a href="{{ path('app_refuseTopic', {'id': topic.id}) }}">
+                                    <span class="mediaRefuseBtn"><i class="fa-solid fa-xmark"></i></span>
+                                </a>
+                            </div>
+
                         </div>
 
-                    </div>
+                        {# OnClick TopicCard: détails et boutons validation/refus #}
+                        <script>
+                            document.getElementById('topicCard{{ topic.id }}').addEventListener('click', function() {
+                                document.getElementById('topicSubCard{{ topic.id }}').classList.toggle('notDisplayed');
+                            });
+                        </script>
+                    {% endfor %}
+                
+                </div>
 
-                    {# OnClick TopicCard: détails et boutons validation/refus #}
-                    <script>
-                        document.getElementById('topicCard{{ topic.id }}').addEventListener('click', function() {
-                            document.getElementById('topicSubCard{{ topic.id }}').classList.toggle('notDisplayed');
-                        });
-                    </script>
-                {% endfor %}
             {% endif %} 
         </div>
 
@@ -112,7 +113,7 @@
 
             {% else %}
 
-                <div class="listContainer marginTop mediaList">
+                <div class="listContainer marginTop mediaList sectionHomeContent">
 
                     {% for media in lastWaitingMedias %}
 

@@ -26,9 +26,9 @@ class CensureType extends AbstractType
             ])
             ->add('submit', SubmitType::class, [
                 // 'label' => 'Publier',
-                'label' => '<i class="fa-solid fa-paper-plane"></i>',
+                'label' => '<i class="fa-solid fa-virus-slash"></i>',
                 'label_html' => true,
-                'attr' => ["class" => "btn btn-primary"]
+                'attr' => ["class" => "btn btn-primary addCensureWordBtn"]
             ]);
             // ->add('creation_date')
             // ->add('user')

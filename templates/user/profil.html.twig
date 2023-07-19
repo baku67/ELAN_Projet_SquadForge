@@ -124,7 +124,7 @@
                         <img class="tinyLogo" src="{{ asset('img/games/tinyLogo/' ~ topic.game.tinyLogo) }}" />
                         <span class="topicTitle">{{ topic.title|capitalize }}</span>
                         <div class="topicCardSubInfos">
-                            <span>{{ topic.status }}</span>
+                            {# <span>{{ topic.status }}</span> #}
                             <span>{{ topic.validated }}</span>
                             <span class="topicCardPublishDate">{{ time_diff(topic.publishDate) }}</span>
                             {% if topic.topicPostsCount == 0 %}
