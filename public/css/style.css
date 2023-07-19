@@ -2412,6 +2412,10 @@ cursor: pointer;
     padding: 10px 20px 15px 20px;
 }
 
+.modoSectionRed {
+    border: 2px solid #E91E63 !important;
+}
+
 
 
 .reportsDiv {
@@ -2422,7 +2426,8 @@ cursor: pointer;
     margin: 20px auto;
 }
 .reportPreviewBtn {
-    border: 1px solid #b2ffdf;
+    border: 1px solid #b2ffdf79;
+    background-color: #e91e4d2f;
     padding: 5px 10px;
     border-radius: 4px;
     width: 80%;
@@ -2433,7 +2438,7 @@ cursor: pointer;
     transition: all 0.4s;
 }
 .reportPreviewBtn:hover {
-    background-color: #353535;
+    background-color: #e91e4d56;
 }
 
 .reportPreviewFacticeTxt {
@@ -2566,11 +2571,11 @@ input:disabled {
   .censuredWordsList::-webkit-scrollbar-thumb {
     border-radius: 10px;
 
-    background-color: var(--primary-color); /* Adjust the color as needed */
+    background-color: #E91E63; /* Adjust the color as needed */
   }
   
   .censuredWordsList::-webkit-scrollbar-thumb:hover {
-    background-color: #008866; /* Adjust the color as needed */
+    background-color: #E91E63; /* Adjust the color as needed */
   }
 
 

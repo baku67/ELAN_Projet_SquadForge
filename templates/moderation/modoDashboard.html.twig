@@ -157,7 +157,7 @@
 
         {# Section Signalements/Reports #}
         {# Ajax apercu on clic #}
-        <div class="sectionContainer modoSection" >
+        <div class="sectionContainer modoSection modoSectionRed" >
             <h3>Signalements</h3>
 
             <div class="reportsDiv">
@@ -168,7 +168,7 @@
 
                     {% for report in reports %}
                     
-                        <div id="reportPreviewBtn{{ index }}" class="reportPreviewBtn" onmouseover="document.getElementById('reportPreviewFacticeTxt{{ index }}').style.color = '#ff5656';" onmouseout="document.getElementById('reportPreviewFacticeTxt{{ index }}').style.color = 'white';">
+                        <div id="reportPreviewBtn{{ index }}" class="reportPreviewBtn" onmouseover="document.getElementById('reportPreviewFacticeTxt{{ index }}').style.letterSpacing = '2px';" onmouseout="document.getElementById('reportPreviewFacticeTxt{{ index }}').style.letterSpacing = '0px';">
 
                             <div class="reportDivHeader">
                                 <div id="reportPreviewHeader{{ index }}">
@@ -469,7 +469,7 @@
 
 
 
-        <div class="sectionContainer modoSection" >
+        <div class="sectionContainer modoSection modoSectionRed" >
 
             <h3>Mots censurés</h3>
             

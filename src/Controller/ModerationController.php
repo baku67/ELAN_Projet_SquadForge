@@ -275,8 +275,8 @@ class ModerationController extends AbstractController
             }
             else if ($request->request->get('mode') == 'mute') {
 
-                // Erreur si déjà mute et si date inférieur (modo peut que augmenter la date) (Pb de logique)
-                if(($author->getStatus() == 'muted' || $author->getStatus() == "") && (DateTime::createFromFormat('Y-m-d', $request->request->get('endDate')) > $author->getEndDateStatus())) {
+                // Ok que si (aucun status) ou (si muted et date de fin inférieur a nouvelle date)
+                if( ($author->getStatus() == 'muted') && (DateTime::createFromFormat('Y-m-d', $request->request->get('endDate')) > $author->getEndDateStatus()) || $author->getStatus() == "" ) {
 
                     // Maj Status et endDateStatus Author
                     $author->setStatus("muted");
@@ -293,14 +293,17 @@ class ModerationController extends AbstractController
 
                     return true;
                 }
+                else if ($author->getStatus() == 'banned') {
+                    return false;
+                }
                 else {
                     return false;
                 }
             }
             else if ($request->request->get('mode') == 'ban') {
 
-                // Erreur si déjà ban mute et si date inférieur (modo peut que augmenter la date) (Pb de logique)
-                if((($author->getStatus() == 'muted') || ($author->getStatus() == 'banned' || $author->getStatus() == "")) && (DateTime::createFromFormat('Y-m-d', $request->request->get('endDate')) > $author->getEndDateStatus())) {
+                // Ok que si (aucun status) ou si (actuellement banned jusqu'a une date inferieur à nouvelle date)
+                if( (($author->getStatus() == 'banned') && (DateTime::createFromFormat('Y-m-d', $request->request->get('endDate')) > $author->getEndDateStatus())) || $author->getStatus() == "" ) {
 
                     // Maj Status et endDateStatus Author
                     $author->setStatus("banned");
