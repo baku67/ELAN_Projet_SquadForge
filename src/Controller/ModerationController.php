@@ -10,6 +10,7 @@ use App\Entity\Media;
 use App\Entity\MediaPost;
 use App\Form\CensureType;
 use App\Entity\Report;
+use App\Entity\User;
 
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -263,6 +264,68 @@ class ModerationController extends AbstractController
     public function censureObject(EntityManagerInterface $entityManager, string $objectType, int $objectId, Request $request): Response
     {
 
+        // Check si la sentence est supérieur à celle deja en place pour l'auteur (si c'est le cas, sinon applique)
+        function applySentence(Request $request, User $author, ModerationController $controller, NotificationController $notifController, string $objectType, string $objectText, $objectReports) {
+
+            if ($request->request->get('mode') == 'void') {
+                // Pas de changement de status Author, mais notif censure publication
+                $notifController->notifCensureAuthor($author, $objectType, $objectText);
+
+                return true;
+            }
+            else if ($request->request->get('mode') == 'mute') {
+
+                // Erreur si déjà mute et si date inférieur (modo peut que augmenter la date) (Pb de logique)
+                if(($author->getStatus() == 'muted' || $author->getStatus() == "") && (DateTime::createFromFormat('Y-m-d', $request->request->get('endDate')) > $author->getEndDateStatus())) {
+
+                    // Maj Status et endDateStatus Author
+                    $author->setStatus("muted");
+                    $dateString = $request->request->get('endDate');
+                    $date = DateTime::createFromFormat('Y-m-d', $dateString);
+                    $author->setEndDateStatus($date);
+
+                    // Envoi notif à l'Author (censure + Ban/Mute) et notifs "merci" aux reporters
+                    $notifController->notifCensureAuthor($author, $objectType, $objectText);
+                    $notifController->notifBanMuteAuthor("mute", $author, $date);
+                    foreach ($objectReports as $report) {
+                        $notifController->notifThxReporters($report->getUserReporter());
+                    }
+
+                    return true;
+                }
+                else {
+                    return false;
+                }
+            }
+            else if ($request->request->get('mode') == 'ban') {
+
+                // Erreur si déjà ban mute et si date inférieur (modo peut que augmenter la date) (Pb de logique)
+                if((($author->getStatus() == 'muted') || ($author->getStatus() == 'banned' || $author->getStatus() == "")) && (DateTime::createFromFormat('Y-m-d', $request->request->get('endDate')) > $author->getEndDateStatus())) {
+
+                    // Maj Status et endDateStatus Author
+                    $author->setStatus("banned");
+                    $dateString = $request->request->get('endDate');
+                    $date = DateTime::createFromFormat('Y-m-d', $dateString);
+                    $author->setEndDateStatus($date);
+
+                    // Envoi notif à l'Author (censure + Ban/Mute) et notifs "merci" aux reporters
+                    $notifController->notifCensureAuthor($author, $objectType, $objectText);
+                    $notifController->notifBanMuteAuthor("ban", $author, $date);
+                    foreach ($objectReports as $report) {
+                        $notifController->notifThxReporters($report->getUserReporter());
+                    }
+
+                    return true;
+                }
+                else {
+                    return false; 
+                }
+            }
+
+        }
+
+
+
         if( $this->getUser() && in_array('ROLE_MODO', $this->getUser()->getRoles()) ) {
 
             // Récupération des reports en relation avec l'objet (pour envoyer notif "merci")
@@ -279,13 +342,20 @@ class ModerationController extends AbstractController
                     $objectText = $mediaReported->getTitle();
                     $author = $mediaReported->getUser();
     
-                    $mediaRepo->remove($mediaReported, true);
+                    if(applySentence($request, $author, $this, $this->notifController, $objectType, $objectText, $objectReports)) {
 
-                    // Suppr des reports associés
-                    $reportRepo = $entityManager->getRepository(report::class);
-                    $reports = $reportRepo->findBy(["objectType" => $objectType, "objectId" => $objectId]);
-                    foreach ($reports as $report) {
-                        $reportRepo->remove($report, true);
+                        $mediaRepo->remove($mediaReported, true);
+
+                        // Suppr des reports associés
+                        // $reportRepo = $entityManager->getRepository(report::class);
+                        // $reports = $reportRepo->findBy(["objectType" => $objectType, "objectId" => $objectId]);
+                        foreach ($objectReports as $report) {
+                            $reportRepo->remove($report, true);
+                        }
+
+                    } else {
+                        $this->addFlash('error', 'La pénalité est inférieur à celle déjà en place pour cet utilisateur, vous ne pouvez que l\'augmenter');
+                        return $this->redirectToRoute('app_moderationDashboard');
                     }
             
                     break;
@@ -297,13 +367,20 @@ class ModerationController extends AbstractController
                     $objectText = $topicReported->getTitle();
                     $author = $topicReported->getUser();
     
-                    $topicRepo->remove($topicReported, true);
+                    if(applySentence($request, $author, $this, $this->notifController, $objectType, $objectText, $objectReports)) {
 
-                    // Suppr des reports associés
-                    $reportRepo = $entityManager->getRepository(report::class);
-                    $reports = $reportRepo->findBy(["objectType" => $objectType, "objectId" => $objectId]);
-                    foreach ($reports as $report) {
-                        $reportRepo->remove($report, true);
+                        $topicRepo->remove($topicReported, true);
+
+                        // Suppr des reports associés
+                        // $reportRepo = $entityManager->getRepository(report::class);
+                        // $reports = $reportRepo->findBy(["objectType" => $objectType, "objectId" => $objectId]);
+                        foreach ($objectReports as $report) {
+                            $reportRepo->remove($report, true);
+                        }
+                    } 
+                    else {
+                        $this->addFlash('error', 'La pénalité est inférieur à celle déjà en place pour cet utilisateur, vous ne pouvez que l\'augmenter');
+                        return $this->redirectToRoute('app_moderationDashboard');
                     }
 
                     break;
@@ -315,17 +392,25 @@ class ModerationController extends AbstractController
                     $objectText = $topicPostReported->getText();
                     $author = $topicPostReported->getUser();
     
-                    // Attention: text brut utilisé dans TWIG pour savoir si pas de upvotes par exemple 
-                    $topicPostReported->setText("Le commentaire a été supprimé");
+                    if(applySentence($request, $author, $this, $this->notifController, $objectType, $objectText, $objectReports)) {
 
-                    $entityManager->persist($topicPostReported);
-                    $entityManager->flush();
+                        // Attention: text brut utilisé dans TWIG pour savoir si pas de upvotes par exemple 
+                        $topicPostReported->setText("Le commentaire a été supprimé");
 
-                    // Suppr des reports associés
-                    $reportRepo = $entityManager->getRepository(report::class);
-                    $reports = $reportRepo->findBy(["objectType" => $objectType, "objectId" => $objectId]);
-                    foreach ($reports as $report) {
-                        $reportRepo->remove($report, true);
+                        $entityManager->persist($topicPostReported);
+                        $entityManager->flush();
+
+                        // Suppr des reports associés
+                        // $reportRepo = $entityManager->getRepository(report::class);
+                        // $reports = $reportRepo->findBy(["objectType" => $objectType, "objectId" => $objectId]);
+                        foreach ($objectReports as $report) {
+                            $reportRepo->remove($report, true);
+                        }
+
+                    }
+                    else {
+                        $this->addFlash('error', 'La pénalité est inférieur à celle déjà en place pour cet utilisateur, vous ne pouvez que l\'augmenter');
+                        return $this->redirectToRoute('app_moderationDashboard');
                     }
 
                     break;
@@ -337,17 +422,25 @@ class ModerationController extends AbstractController
                     $objectText = $mediaPostReported->getText();
                     $author = $mediaPostReported->getUser();
     
-                    // Attention: text brut utilisé dans TWIG pour savoir si pas de upvotes par exemple 
-                    $mediaPostReported->setText("Le commentaire a été supprimé");
+                    if(applySentence($request, $author, $this, $this->notifController, $objectType, $objectText, $objectReports)) {
 
-                    $entityManager->persist($mediaPostReported);
-                    $entityManager->flush();
+                        // Attention: text brut utilisé dans TWIG pour savoir si pas de upvotes par exemple 
+                        $mediaPostReported->setText("Le commentaire a été supprimé");
 
-                    // Suppr des reports associés
-                    $reportRepo = $entityManager->getRepository(report::class);
-                    $reports = $reportRepo->findBy(["objectType" => $objectType, "objectId" => $objectId]);
-                    foreach ($reports as $report) {
-                        $reportRepo->remove($report, true);
+                        $entityManager->persist($mediaPostReported);
+                        $entityManager->flush();
+
+                        // Suppr des reports associés
+                        // $reportRepo = $entityManager->getRepository(report::class);
+                        // $reports = $reportRepo->findBy(["objectType" => $objectType, "objectId" => $objectId]);
+                        foreach ($objectReports as $report) {
+                            $reportRepo->remove($report, true);
+                        }
+
+                    }
+                    else {
+                        $this->addFlash('error', 'La pénalité est inférieur à celle déjà en place pour cet utilisateur, vous ne pouvez que l\'augmenter');
+                        return $this->redirectToRoute('app_moderationDashboard');
                     }
 
                     break;
@@ -357,57 +450,6 @@ class ModerationController extends AbstractController
             }
 
             
-            if ($request->request->get('mode') == 'void') {
-                // Pas de changement de status Author, mais notif censure publication
-                $this->notifController->notifCensureAuthor($author, $objectType, $objectText);
-            }
-            else if ($request->request->get('mode') == 'mute') {
-
-                // Erreur si déjà mute et si date inférieur (modo peut que augmenter la date) (Pb de logique)
-                if(($author->getStatus() == 'muted') && (DateTime::createFromFormat('Y-m-d', $request->request->get('endDate')) > $author->getEndDateStatus())) {
-
-                    // Maj Status et endDateStatus Author
-                    $author->setStatus("muted");
-                    $dateString = $request->request->get('endDate');
-                    $date = DateTime::createFromFormat('Y-m-d', $dateString);
-                    $author->setEndDateStatus($date);
-
-                    // Envoi notif à l'Author (censure + Ban/Mute) et notifs "merci" aux reporters
-                    $this->notifController->notifCensureAuthor($author, $objectType, $objectText);
-                    $this->notifController->notifBanMuteAuthor("mute", $author, $date);
-                    foreach ($objectReports as $report) {
-                        $this->notifController->notifThxReporters($report->getUserReporter());
-                    }
-                }
-                else {
-                    $this->addFlash('error', 'La pénalité est inférieur à celle déjà en place pour cet utilisateur, vous ne pouvez que l\'augmenter');
-                    return $this->redirectToRoute('app_moderationDashboard');
-                }
-            }
-            else if ($request->request->get('mode') == 'ban') {
-
-                // Erreur si déjà ban mute et si date inférieur (modo peut que augmenter la date) (Pb de logique)
-                if((($author->getStatus() == 'muted') || ($author->getStatus() == 'banned')) && (DateTime::createFromFormat('Y-m-d', $request->request->get('endDate')) > $author->getEndDateStatus())) {
-
-                    // Maj Status et endDateStatus Author
-                    $author->setStatus("banned");
-                    $dateString = $request->request->get('endDate');
-                    $date = DateTime::createFromFormat('Y-m-d', $dateString);
-                    $author->setEndDateStatus($date);
-
-                    // Envoi notif à l'Author (censure + Ban/Mute) et notifs "merci" aux reporters
-                    $this->notifController->notifCensureAuthor($author, $objectType, $objectText);
-                    $this->notifController->notifBanMuteAuthor("ban", $author, $date);
-                    foreach ($objectReports as $report) {
-                        $this->notifController->notifThxReporters($report->getUserReporter());
-                    }
-                }
-                else {
-                    $this->addFlash('error', 'La pénalité est inférieur à celle déjà en place pour cet utilisateur, vous ne pouvez que l\'augmenter');
-                    return $this->redirectToRoute('app_moderationDashboard');
-                }
-            }
-
             $author->setNbrCensures($author->getNbrCensures() + 1);
 
             $entityManager->persist($author);

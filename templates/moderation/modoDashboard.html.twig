@@ -120,7 +120,7 @@
                             <div class="mediaCardHeader" style="border-bottom: 4px solid {{ media.game.color }}">
                                 <img class="tinyLogo" src="{{ asset('img/games/tinyLogo/' ~ media.game.tinyLogo) }}" />
                                 <span id="mediaCardTitle{{ media.id }}" class="mediaTitle" style="font-family:'K2D',sans-serif;">{{ media.title|capitalize }}</span>
-                                <span id="topicStatusValidate{{ media.id }}">{{ media.validated }}</span>
+                                {# <span id="topicStatusValidate{{ media.id }}">{{ media.validated }}</span> #}
                                 {# <span>{{ media.user.pseudo }}</span> #}
                                 <span class="topicCardPublishDate">{{ time_diff(media.publishDate) }}</span>
                             </div>
@@ -142,7 +142,7 @@
                                 document.getElementById('mediaSubCard{{ media.id }}').classList.toggle('notDisplayed');
                                 document.getElementById('mediaCard{{ media.id }}').classList.toggle('mediaCard');
                                 document.getElementById('mediaCardTitle{{ media.id }}').classList.toggle('mediaTitle');
-                                document.getElementById('topicStatusValidate{{ media.id }}').classList.toggle('mediaStatusValidate');
+                                // document.getElementById('topicStatusValidate{{ media.id }}').classList.toggle('mediaStatusValidate');
                             });
                         </script>
 
