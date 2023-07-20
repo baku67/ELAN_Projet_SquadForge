@@ -56,9 +56,9 @@ class NotificationRepository extends ServiceEntityRepository
             ->select('n')
             ->from('App\Entity\Notification', 'n')
             ->where('n.user = :user')
-            ->andWhere('n.clicked = :clicked')
+            ->andWhere('n.seen = :seen')
             ->setParameter('user', $user)
-            ->setParameter('clicked', 0);
+            ->setParameter('seen', 0);
 
         $result = $queryBuilder->getQuery()->getResult();
 

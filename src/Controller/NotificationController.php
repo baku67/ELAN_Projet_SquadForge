@@ -44,22 +44,7 @@ class NotificationController extends AbstractController
         $user = $this->getUser();
         $notifRepo = $this->entityManager->getRepository(Notification::class);
 
-        // Onglet notifs Bulle nbr "non-vues" (int si connécté, null sinon)
-        $userNotifCount = $this->getUser() ? count($notifRepo->findByUserNotSeen($this->getUser())) : null;
-        //***** */ Si userModo: Bulles nbr éléments en attente de validation (int si modo, null sinon) 
-        $mediaRepo = $this->entityManager->getRepository(Media::class);
-        $topicRepo = $this->entityManager->getRepository(Topic::class);
-        if($this->getUser() && in_array('ROLE_MODO', $this->getUser()->getRoles())) {
-            // On compte les Topic et Médias status "waiting"
-            $mediasWaitings = count($mediaRepo->findBy(["validated" => "waiting"]));
-            $topicsWaitings = count($topicRepo->findBy(["validated" => "waiting"]));
-            $modoNotifCount = $mediasWaitings + $topicsWaitings;
-        }
-        else {
-            $modoNotifCount = null;
-        }
-        //*********************************************************************************** */
-
+        
         $notifRepo = $this->entityManager->getRepository(Notification::class);
         $notifs = $notifRepo->findBy(["user" => $this->getUser()], ["date_creation" => "DESC"]);
 
@@ -74,6 +59,25 @@ class NotificationController extends AbstractController
             $this->entityManager->persist($notif);
         }
         $this->entityManager->flush();
+
+
+        //*********************************************************************************** */
+
+
+        // Onglet notifs Bulle nbr "non-vues" (int si connécté, null sinon)
+        $userNotifCount = $this->getUser() ? count($notifRepo->findByUserNotSeen($this->getUser())) : null;
+        //***** */ Si userModo: Bulles nbr éléments en attente de validation (int si modo, null sinon) 
+        $mediaRepo = $this->entityManager->getRepository(Media::class);
+        $topicRepo = $this->entityManager->getRepository(Topic::class);
+        if($this->getUser() && in_array('ROLE_MODO', $this->getUser()->getRoles())) {
+            // On compte les Topic et Médias status "waiting"
+            $mediasWaitings = count($mediaRepo->findBy(["validated" => "waiting"]));
+            $topicsWaitings = count($topicRepo->findBy(["validated" => "waiting"]));
+            $modoNotifCount = $mediasWaitings + $topicsWaitings;
+        }
+        else {
+            $modoNotifCount = null;
+        }
 
         return $this->render('user/notifsList.html.twig', [
             'theresNotSeen' => $theresNotSeen,
