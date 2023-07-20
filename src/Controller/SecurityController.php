@@ -118,12 +118,24 @@ class SecurityController extends AbstractController
 
             $userRepo = $entityManager->getRepository(User::class);
             $groupRepo = $entityManager->getRepository(Group::class);
+            $topicRepo = $entityManager->getRepository(Topic::class);
+            $mediaRepo = $entityManager->getRepository(Media::class);
+            $gameRepo = $entityManager->getRepository(Game::class);
+
             $usersCount = count($userRepo->findAll());
             $teamsCount = count($groupRepo->findAll());
+
+            $topicsCount = count($topicRepo->findAll());
+            $mediasCount = count($mediaRepo->findAll());
+
+            $gamesCount = count($gameRepo->findAll());
 
             return $this->render('security/landingPage.html.twig', [
                 'usersCount' => $usersCount,
                 'teamsCount' => $teamsCount,
+                'topicsCount' => $topicsCount,
+                'mediasCount' => $mediasCount,
+                'gamesCount' => $gamesCount,
             ]);
 
         }

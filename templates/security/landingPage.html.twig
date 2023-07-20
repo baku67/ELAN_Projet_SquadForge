@@ -7,21 +7,35 @@
     {# Page 1 #}
     <header class="globalBannerLandingPage" style="background: url('{{ asset('img/banner.jpg') }}' ); height:100vh;">
         <a href="{{ path('app_home') }}"><img src="{{ asset('img/logoSquadForge_v2.png') }}" class="logoPng" /></a>
-        <nav class="navLine">
-            <a href="{{ path('app_games') }}">JEUX</a>
-        </nav>
 
         <div>
         <h2 class="landingPageSlogan">Forge your squad, Rule the game !</h2>
 
-        <span class="lp-usersCountLine">
-            <span class="lp-usersCountLabel">Users</span> 
-            <span class="lp-count">{{ usersCount }}</span>
-        </span>
-        <span class="lp-teamsCountLine">
-            <span class="lp-teamsCountLabel">Teams</span> 
-            <span class="lp-count">{{ teamsCount }}</span>
-        </span>
+        <div class="lp-leftSection">
+            <div>
+                <span class="lp-usersCountLabel">Users</span> 
+                <span class="lp-count">{{ usersCount }}</span>
+            </div>
+            <div>
+                <span class="lp-usersCountLabel">Teams</span> 
+                <span class="lp-count">{{ teamsCount }}</span>
+            </div>
+        </div>
+        
+        <div class="lp-teamsCountLine">
+            <div>
+                <span class="lp-teamsCountLabel">Games</span> 
+                <span class="lp-count">{{ gamesCount }}</span>
+            </div>
+            <div>
+                <span class="lp-teamsCountLabel">Topics</span> 
+                <span class="lp-count">{{ topicsCount }}</span>
+            </div>
+            <div>
+                <span class="lp-teamsCountLabel">Médias</span> 
+                <span class="lp-count">{{ mediasCount }}</span>
+            </div>
+        </div>
 
         <div class="landingPageDownBtn">
             <i class="fa-solid fa-chevron-down lpdownBtn1"></i>
@@ -32,14 +46,31 @@
     
 
 
-    <div class="headerUnderline marginBottomHeaderLine"></div>
+    {# <div class="headerUnderline marginBottomHeaderLine"></div> #}
     
 
     {# Page 2 #}
-    <div class="main" style="height:100vh;">
+    <div style="height:100vh;">
 
-        
+        <div style="display:inline-flex; width:100%; height:inherit;">
+
+            <div class="lp-p2-leftSection" style="width:50%; height:100%; height:inherit;">
+                {# // Image mockupPhone capture intégrée + anim slide/fadeIn droite/gauche#}
+            </div>
+
+            <div class="lp-p2-rightSection">
+                <h2 class="lp-p2-rightSectionTitle">Créez votre compte pour accéder à toutes les fonctionalités</h2>
+
+                <div>
+                    <a>Connexion</a>
+                    <a>Inscription</a>
+                </div>
+            </div>
+
+        </div>
 
     </div>
+
+
     
 {% endblock %}
