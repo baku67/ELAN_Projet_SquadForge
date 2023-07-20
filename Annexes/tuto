@@ -3,6 +3,8 @@ Chat interne groupe (img/gif/files/text)
 Games Roles possibles
 Img custom Team + Avatar pool img ?
 
+Anim loading en attendant media.load (et topics etc) + avec Ajax .complete
+
 !! -> Comme Signalements en cours: Faire les status BAN / MUTED (BAN: peut pas se co: affichage timer, MUTED: peut rien publier (memes comms) et timer affiché qq part)
 
 userAvatars (banque interne ?)

@@ -1,6 +1,6 @@
 :root {
-    --primary-color: #15c7af;
-    /* --primary-color: #f97b2c; */
+    /* --primary-color: #15c7af; */
+    --primary-color: #f97b2c;
     --background-color: #232323;
     --sectionBg-color: #363636;
     --white: #D9D9D9;
@@ -199,13 +199,41 @@ header {
     margin-right: 10px;
 }
 .lp-teamsCountLabel {
-    color:#e43673;
+    color:#36b7e4;
     margin-right: 10px;
 }
 
 .lp-count {
     font-weight: bold;
     font-size: 1.2em;
+}
+
+#lp-loginBtn {
+    padding: 10px 20px;
+    transition: all 0.4s;
+
+    position: relative;
+    bottom: 20px;
+}
+#lp-loginBtn:hover {
+    letter-spacing: 2px;
+}
+
+#lp-registerBtn {
+    padding: 20px 100px;
+    clip-path: polygon(4% 0, 100% 0, 96% 100%, 0% 100%);
+    background: -webkit-radial-gradient(circle, rgb(0 191 197) 0%, rgb(44 50 249 / 75%) 63%);
+    background: radial-gradient(circle, rgb(0 191 197) 0%, rgb(44 50 249 / 75%) 63%);
+    transition: all 0.4s;
+
+}
+#lp-registerBtn:hover {
+    color: white;
+    letter-spacing: 2px;
+    background: -webkit-radial-gradient(circle, rgb(0 191 197) 0%, rgb(44 50 249 / 100%) 63%);
+    background: radial-gradient(circle, rgb(0 191 197) 0%, rgb(44 50 249 / 100%) 63%);
+
+    background-position-x: 50px;
 }
 
 .lpdownBtn1 {
@@ -269,8 +297,8 @@ header {
     font-family: 'K2D', sans-serif;
     display: block;
     position: relative;
-    top: 50%;
-    transform: translate(90px, -50%);
+    top: 40%;
+    transform: translate(90px, -40%);
     margin: 0 auto;
     width: 65%;
     /* font-weight: bold; */
@@ -279,8 +307,8 @@ header {
 
 .lp-p2-rightSectionLoginDiv {
     position: relative;
-    top: 60%;
-    transform: translate(30px, -60%);
+    top: 50%;
+    transform: translate(30px, -50%);
     margin: 0 auto;
     width: 65%;
     font-weight: bold;
@@ -295,13 +323,27 @@ header {
 
     font-size: 6em;
     color: #f97b2c;
-    text-shadow: 0 0 #cdcdcd;
+
+    text-shadow: 0 0 black;
+    filter: drop-shadow(1px 2px 6px grey);
 
 }
 
 .lp-p2-leftSection-icon1 {
-    right: 8vw;
+    right: 16vw;
     top: 36px;
+    
+}
+.lp-p2-leftSection-icon2 {
+    left: 16vw;
+    bottom: 115px;
+    transform: rotate(20deg);
+}
+.lp-p2-leftSection-icon3 {
+    left: 2vw;
+    bottom: 393px;
+    z-index: 0;
+    transform: rotate(346deg);
 }
 
 
@@ -560,7 +602,7 @@ nav {
 
 
 .btn {
-    background-color: #00F38D;
+    background-color: var(--primary-color);
 }
 
 

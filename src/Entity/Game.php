@@ -70,7 +70,7 @@ class Game
     #[ORM\Column(type: Types::SMALLINT)]
     private ?int $nbrMaxPlaces = null;
 
-    #[ORM\Column(length: 255, options: ['default' => "logoSquadForge_v2.png"])]
+    #[ORM\Column(length: 255, options: ['default' => "logoSquadForge_v3.png"])]
     private ?string $siteLogo = null;
 
     public function __construct()

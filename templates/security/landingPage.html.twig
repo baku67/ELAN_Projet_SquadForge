@@ -5,10 +5,10 @@
 {% block body %}
 
     {# Page 1 #}
-    <header class="globalBannerLandingPage" style="background: url('{{ asset('img/banner.jpg') }}' ); height:100vh;">
-        <a href="{{ path('app_home') }}"><img src="{{ asset('img/logoSquadForge_v2.png') }}" class="logoPng" /></a>
+    <header id="lp-page1" class="globalBannerLandingPage" style="background: url('{{ asset('img/banner.jpg') }}' ); height:100vh;">
+        <a href="{{ path('app_home') }}"><img src="{{ asset('img/logoSquadForge_v3.png') }}" class="logoPng" /></a>
 
-        <div>
+        
         <h2 class="landingPageSlogan">Forge your squad, Rule the game !</h2>
 
         <div class="lp-leftSection">
@@ -37,7 +37,8 @@
             </div>
         </div>
 
-        <div class="landingPageDownBtn">
+        {# Scroll Btn #}
+        <div id="lp-scrollBtn" class="landingPageDownBtn">
             <i class="fa-solid fa-chevron-down lpdownBtn1"></i>
             <i class="fa-solid fa-chevron-down lpdownBtn2"></i>
         </div>
@@ -50,7 +51,7 @@
     
 
     {# Page 2 #}
-    <div style="height:100vh;">
+    <div id="lp-page2" style="height:100vh; position:relative;">
 
         <div style="display:inline-flex; width:100%; height:inherit;">
 
@@ -61,38 +62,61 @@
 
                 {# WIP absolute icons #}
                 <i class="fa-solid fa-comments lp-p2-icons lp-p2-leftSection-icon1"></i>
-                {# <i class="fa-solid fa-headset lp-p2-icons lp-p2-leftSection-icon2"></i>
-                <i class="fa-solid fa-gamepad lp-p2-icons lp-p2-leftSection-icon3"></i>
+                <i class="fa-solid fa-gamepad lp-p2-icons lp-p2-leftSection-icon2"></i>
+                <i class="fa-solid fa-headset lp-p2-icons lp-p2-leftSection-icon3"></i>
+                {# 
                 <i class="fa-solid fa-people-group lp-p2-icons lp-p2-leftSection-icon4"></i>
                 <i class="fa-solid fa-face-grin-squint-tears lp-p2-icons lp-p2-leftSection-icon5"></i> #}
             </div>
 
             <div class="lp-p2-rightSection">
                 
-                <span class="lp-p2-rightSectionTitle">Le gaming est meilleur en équipe. Rejoignez-nous dès aujourd'hui pour trouver des compagnons de jeu qui partageront votre passion.</span>
+                <span class="lp-p2-rightSectionTitle">Le gaming est meilleur en équipe. Rejoignez-nous pour trouver des teammates qui partageront votre passion.</span>
 
                 <div class="lp-p2-rightSectionLoginDiv">
-                    <a href="{{ path('app_login') }}">Connexion</a>
+                    <a id="lp-loginBtn" href="{{ path('app_login') }}">Connexion</a>
                     <br>
-                    <a href="{{ path('app_register') }}">Inscription</a>
+                    <a id="lp-registerBtn" href="{{ path('app_register') }}">Inscription</a>
                 </div>
             </div>
 
+        </div>
+
+        {# Scroll Btn #}
+        <div id="lp-scrollBtn2" class="landingPageDownBtn">
+            <i class="fa-solid fa-chevron-down lpdownBtn1"></i>
+            <i class="fa-solid fa-chevron-down lpdownBtn2"></i>
         </div>
 
     </div>
 
 
     {# Page 3 (Contenu/fonctionalitées du site) #}
-    <div style="height:100vh;">
+    <div id="lp-page3" style="height:100vh;">
 
         <h2>Bien plus qu'un simple forum !</h2>
-
     </div>
 
 
     {# Page 4: explorer les jeux ? #}
 
+
+
+    {# Btn Scroll #}
+    {# TODO: 1er tick de scroll = scroll nextSection ? #}
+    <script>
+        window.onload = function() {
+        
+            document.getElementById('lp-scrollBtn').addEventListener('click', function() {
+                const element = document.getElementById("lp-page2");
+                element.scrollIntoView({behavior: "smooth", block: "end", inline: "nearest"});
+            });
+            document.getElementById('lp-scrollBtn2').addEventListener('click', function() {
+                const element2 = document.getElementById("lp-page3");
+                element2.scrollIntoView({behavior: "smooth", block: "end", inline: "nearest"});
+            });
+        }
+    </script>
 
 
     
