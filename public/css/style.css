@@ -1,5 +1,6 @@
 :root {
     --primary-color: #15c7af;
+    /* --primary-color: #f97b2c; */
     --background-color: #232323;
     --sectionBg-color: #363636;
     --white: #D9D9D9;
@@ -230,16 +231,27 @@ header {
     }
 }
 
+.lp-p2-leftSectionImg {
+    width:100%; 
+    height:inherit;
+    object-fit:cover;
+    clip-path: polygon(0 0, 100% 0, 75% 100%, 0% 100%);
+}
+
+
 
 .lp-p2-leftSection {
-    
+    position:absolute; 
+    width:60%; 
+    height:100%; 
+    height:inherit;
 }
 
 .lp-p2-rightSection {
     /* width:50%;  */
     height:100%; 
     height:inherit; 
-    background-color:var(--primary-color); 
+    /* background-color:var(--primary-color);  */
     color:black;
     clip-path: polygon(25% 0, 100% 0, 100% 100%, 0% 100%);
 
@@ -247,17 +259,51 @@ header {
     width: 55%;
     position: absolute;
     right: 0;
+
+    background: -moz-linear-gradient(270deg, rgba(249,164,44,1) 0%, rgba(249,123,44,1) 100%);
+    background: -webkit-linear-gradient(270deg, rgba(249,164,44,1) 0%, rgba(249,123,44,1) 100%);
+    background: linear-gradient(270deg, rgba(249,164,44,1) 0%, rgba(249,123,44,1) 100%);
 }
 
 .lp-p2-rightSectionTitle {
+    font-family: 'K2D', sans-serif;
+    display: block;
     position: relative;
     top: 50%;
     transform: translate(90px, -50%);
     margin: 0 auto;
     width: 65%;
-    font-weight: bold;
-    font-size: 2.2em;
+    /* font-weight: bold; */
+    font-size: 2em;
 }
+
+.lp-p2-rightSectionLoginDiv {
+    position: relative;
+    top: 60%;
+    transform: translate(30px, -60%);
+    margin: 0 auto;
+    width: 65%;
+    font-weight: bold;
+    font-size: 2em;
+
+    text-align: center;
+}
+
+.lp-p2-icons {
+    position: absolute;
+    /* left: 0; */
+
+    font-size: 6em;
+    color: #f97b2c;
+    text-shadow: 0 0 #cdcdcd;
+
+}
+
+.lp-p2-leftSection-icon1 {
+    right: 8vw;
+    top: 36px;
+}
+
 
 
 

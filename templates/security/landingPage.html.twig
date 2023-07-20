@@ -54,22 +54,45 @@
 
         <div style="display:inline-flex; width:100%; height:inherit;">
 
-            <div class="lp-p2-leftSection" style="width:50%; height:100%; height:inherit;">
-                {# // Image mockupPhone capture intégrée + anim slide/fadeIn droite/gauche#}
+            <div class="lp-p2-leftSection">
+                {# TODO Serait mieux avec couches de zindex (Mockup passe par dessus sectionRight#}
+                {# TODO anim slide/fadeIn droite/gauche#}
+                <img src="{{ asset('img/landinPageMockup.jpg') }}" class="lp-p2-leftSectionImg">
+
+                {# WIP absolute icons #}
+                <i class="fa-solid fa-comments lp-p2-icons lp-p2-leftSection-icon1"></i>
+                {# <i class="fa-solid fa-headset lp-p2-icons lp-p2-leftSection-icon2"></i>
+                <i class="fa-solid fa-gamepad lp-p2-icons lp-p2-leftSection-icon3"></i>
+                <i class="fa-solid fa-people-group lp-p2-icons lp-p2-leftSection-icon4"></i>
+                <i class="fa-solid fa-face-grin-squint-tears lp-p2-icons lp-p2-leftSection-icon5"></i> #}
             </div>
 
             <div class="lp-p2-rightSection">
-                <h2 class="lp-p2-rightSectionTitle">Créez votre compte pour accéder à toutes les fonctionalités</h2>
+                
+                <span class="lp-p2-rightSectionTitle">Le gaming est meilleur en équipe. Rejoignez-nous dès aujourd'hui pour trouver des compagnons de jeu qui partageront votre passion.</span>
 
-                <div>
-                    <a>Connexion</a>
-                    <a>Inscription</a>
+                <div class="lp-p2-rightSectionLoginDiv">
+                    <a href="{{ path('app_login') }}">Connexion</a>
+                    <br>
+                    <a href="{{ path('app_register') }}">Inscription</a>
                 </div>
             </div>
 
         </div>
 
     </div>
+
+
+    {# Page 3 (Contenu/fonctionalitées du site) #}
+    <div style="height:100vh;">
+
+        <h2>Bien plus qu'un simple forum !</h2>
+
+    </div>
+
+
+    {# Page 4: explorer les jeux ? #}
+
 
 
     
