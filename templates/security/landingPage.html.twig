@@ -98,7 +98,7 @@
     {# TODO while load: squeleton (gris avec waves) ? #}
     {# TODO orderBy nbr de publications #}
     {# + background 100% étoiles vers le haut color primary (cf les100cie) #}
-    <div id="lp-page3" style="height:100vh;">
+    <div id="lp-page3" style="height:100vh; position:relative;">
 
         <h2 class="lp-page3-title">Choisissez un jeu</h2>
 
@@ -117,9 +117,12 @@
                 {% set index = index + 1 %}
 
             {% endfor %}
+
+            <button id="lp-arrow-right" class="lp-arrow-button lp-games-scrollHorizontal"><i class="fa-solid fa-chevron-right"></i></button>
             
         </div>
 
+        
         {# <i class="fa-solid fa-circle-chevron-down"></i> #}
 
     </div>
@@ -153,8 +156,60 @@
 
 
 
+    {# HS: Bouton Scroll horizontal gameList #}
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            var container = document.querySelector(".lp-page3-container");
+            var button = document.getElementById("lp-arrow-right");
 
+            // Adjust the step size based on your preference
+            var scrollStep = 300;
 
+            // Check if the container is overflowing horizontally
+            // function checkOverflow() {
+            //     return container.scrollWidth > container.clientWidth;
+            // }
+
+            // // Handle button visibility and scrolling
+            // function updateScroll() {
+            //     if (checkOverflow()) {
+            //         button.disabled = false;
+            //     } else {
+            //         button.disabled = true;
+            //     }
+            // }
+
+            // Scroll the container to the left
+            function scrollToLeft() {
+                var scrollAmount = container.scrollLeft + scrollStep;
+                var animationDuration = 400;
+                var startTime = null;
+
+                function step(timestamp) {
+                    if (!startTime) startTime = timestamp;
+                    var progress = timestamp - startTime;
+                    var ease = Math.min(progress / animationDuration, 1);
+                    container.scrollLeft = container.scrollLeft + ease * (scrollAmount - container.scrollLeft);
+                    if (progress < animationDuration) {
+                        requestAnimationFrame(step);
+                    }
+                }
+
+                requestAnimationFrame(step);
+            }
+
+            // Update button state on page load and window resize
+            // window.addEventListener("resize", updateScroll);
+            // updateScroll();
+
+            // Bind click event to the arrow button
+            button.addEventListener("click", function() {
+                console.log("test");
+                scrollToLeft();
+            });
+        });
+    </script>
 
 
     {# Btn Scroll général #}
@@ -170,33 +225,35 @@
                 const element2 = document.getElementById("lp-page3");
                 element2.scrollIntoView({behavior: "smooth", block: "end", inline: "nearest"});
             });
-        }
+        
 
 
-        {# OnSelect game: scroll page 4 (détails) #}
-        {% set index = 0 %}
+            // {# OnSelect game: scroll page 4 (détails) #}
+            {% set index = 0 %}
 
-        {% for game in games %}
-            
-            document.getElementById('lp-gameCard{{ index }}').addEventListener('click', function() {
+            {% for game in games %}
                 
-                // reset Bow-shadow + scroll 
-                document.querySelectorAll('.lp-gameCard').forEach(element => {
-                    element.classList.remove('lp-gameCard-boxShadow');
+                document.getElementById('lp-gameCard{{ index }}').addEventListener('click', function() {
+                    
+                    // reset Bow-shadow + scroll 
+                    document.querySelectorAll('.lp-gameCard').forEach(element => {
+                        element.classList.remove('lp-gameCard-boxShadow');
+                    });
+
+                    document.getElementById('lp-page4-selectedGameTitle').innerHTML = "{{ game.title }}<i class='fa-solid fa-right-long' style='margin-left:20px;'></i>";
+                    document.getElementById('lp-page4-selectedGameTitle').style.fontFamily = "'Julius Sans One', sans-serif";
+
+                    document.getElementById('lp-gameCard{{ index }}').classList.add('lp-gameCard-boxShadow');
+                    setTimeout(() => {
+                        document.getElementById('lp-page4').scrollIntoView({behavior: "smooth", block: "end", inline: "nearest"});
+                    }, 200);
+                
                 });
+                {% set index = index + 1 %}
 
-                document.getElementById('lp-page4-selectedGameTitle').innerHTML = "{{ game.title }}<i class='fa-solid fa-right-long' style='margin-left:20px;'></i>";
-                document.getElementById('lp-page4-selectedGameTitle').style.fontFamily = "'Julius Sans One', sans-serif";
+            {% endfor %}
 
-                document.getElementById('lp-gameCard{{ index }}').classList.add('lp-gameCard-boxShadow');
-                setTimeout(() => {
-                    document.getElementById('lp-page4').scrollIntoView({behavior: "smooth", block: "end", inline: "nearest"});
-                }, 200);
-            
-            });
-            {% set index = index + 1 %}
-
-        {% endfor %}
+        }
 
     </script>
 

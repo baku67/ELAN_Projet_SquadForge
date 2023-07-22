@@ -390,6 +390,36 @@ header {
     font-size: 1.5em;
 }
 
+
+/* Landing page scroll horizontal gameList button */
+.lp-arrow-button {
+    cursor: pointer;
+    display: inline-block;
+    width: 80px;
+    height: 100px;
+    background-color: #ccc0;
+    border: none;
+    border-radius: 50%;
+    line-height: 1;
+    outline: none;
+}
+
+.lp-arrow-button:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.lp-games-scrollHorizontal {
+    position: absolute;
+    right: 4%;
+    top: 40%;
+    font-size: 5em;
+    color: white;
+}
+
+
+
+
 .lp-page4-container {
     display: inline-flex;
     justify-content: space-evenly;
