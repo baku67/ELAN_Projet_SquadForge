@@ -211,7 +211,7 @@ header {
 
 #lp-loginBtn {
     padding: 10px 20px;
-    transition: all 0.4s;
+    transition: all 0.2s;
 
     position: relative;
     bottom: 20px;
@@ -223,9 +223,9 @@ header {
 #lp-registerBtn {
     padding: 20px 100px;
     clip-path: polygon(4% 0, 100% 0, 96% 100%, 0% 100%);
-    background: -webkit-radial-gradient(circle, rgb(0 191 197) 0%, rgb(44 50 249 / 75%) 63%);
-    background: radial-gradient(circle, rgb(0 191 197) 0%, rgb(44 50 249 / 75%) 63%);
-    transition: all 0.4s;
+    background: -webkit-radial-gradient(circle, rgb(0 191 197 / 60%) 0%, rgb(44 50 249 / 75%) 63%);
+    background: radial-gradient(circle, rgb(0 191 197 / 60%) 0%, rgb(44 50 249 / 75%) 63%);
+    transition: all 0.2s;
 
 }
 #lp-registerBtn:hover {
@@ -234,7 +234,7 @@ header {
     background: -webkit-radial-gradient(circle, rgb(0 191 197) 0%, rgb(44 50 249 / 100%) 63%);
     background: radial-gradient(circle, rgb(0 191 197) 0%, rgb(44 50 249 / 100%) 63%);
 
-    background-position-x: 50px;
+    background-position-x: 100px;
 }
 
 .lpdownBtn1 {
@@ -356,7 +356,7 @@ header {
     padding: 0 50px;
 
     /* width: 100%; */
-    overflow: hidden;
+    overflow: visible;
 }
 
 .lp-page3-title {
@@ -374,34 +374,56 @@ header {
     margin: 0 14px;
     border-radius: 8px;
 
-    transition: all 0.4s;
+
+    transition: all 0.2s ease-out;
 }
 .lp-gameCard:hover {
+    filter: sepia(1);
     transform: scale(1.05);
+    box-shadow:0 0 70px -5px var(--primary-color);
+}
+
+.lp-gameCardTitle {
+    position: relative;
+    top: 101%;
+    font-weight: bold;
+    font-size: 1.5em;
 }
 
 .lp-page4-container {
-    width: 80%;
-    margin: 50px auto;
+    display: inline-flex;
+    justify-content: space-evenly;
+    width: 100%;
+    margin: 0 auto;
 }
 
 .lp-page4-title {
+    font-family: 'K2D', sans-serif;
+
     width: 100%;
     text-align: center;
-    margin: 50px auto;
+    margin: 0px auto;
+    padding: 50px 0;
 }
 
 .lp-page4-card {
-    padding: 25px;
+    cursor: pointer;
+    width: 300px;
+    padding: 15px 25px;
     height: 25vh;
-    margin: 40px auto;
+    margin: 40px 0;
     border: 1px solid grey;
     border-radius: 5px;
 }
 
+.lp-page4-cardTitle {
+    text-align: center;
+}
+
 
 .lp-gameCard-boxShadow {
-    box-shadow: 0 0 70px -5px var(--primary-color);
+    filter: sepia(1);
+    box-shadow: 0 0 45px -5px var(--primary-color);
 }
 
 

@@ -1,7 +1,11 @@
 
+annulation filtre jeux landing page: si re-click sur gameCard (check si classList.contains) + bouton sur page 4
+
 Chat interne groupe (img/gif/files/text)
 Games Roles possibles
 Img custom Team + Avatar pool img ?
+
+
 
 Anim loading en attendant media.load (et topics etc) + avec Ajax .complete
 

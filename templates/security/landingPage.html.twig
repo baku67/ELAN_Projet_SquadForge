@@ -96,7 +96,8 @@
     {# Page 3 (Contenu/fonctionalitées du site) #}
     {# TODO Ajax change contenu page 4 (medias,topics,teams) avec loading #}
     {# TODO while load: squeleton (gris avec waves) ? #}
-    {# OnSelect: scroll page 4 #}
+    {# TODO orderBy nbr de publications #}
+    {# + background 100% étoiles vers le haut color primary (cf les100cie) #}
     <div id="lp-page3" style="height:100vh;">
 
         <h2 class="lp-page3-title">Choisissez un jeu</h2>
@@ -109,7 +110,7 @@
 
                 <div id="lp-gameCard{{ index }}" class="lp-gameCard" style="background-image: linear-gradient(rgba(0, 0, 255, 0.05), rgba(249, 123, 44, 0.5)),url('{{ asset("img/games/banner/" ~ game.banner )}}');">
 
-                    <span id="lp-gameCardTitle{{ index }}" class="lp-gameCardTitle">{{ game.title }}</span>
+                    <span id="lp-gameCardTitle{{ index }}" value="{{ game.title }}" class="lp-gameCardTitle">{{ game.title }}</span>
 
                 </div>
 
@@ -130,19 +131,20 @@
     {# TODO vertical comme page3 #}
     <div id="lp-page4" style="height:100vh;">
 
-        <h2 class="lp-page4-title">Titre Jeu</h2>
+        <h2 id="lp-page4-selectedGameTitle" class="lp-page4-title"><i class="fa-solid fa-arrow-up" style="margin:0 15px;"></i>Sélectionnez un jeu pour filtrer</h2>
 
         <div class="lp-page4-container"> 
             <div class="lp-page4-card">
-                <h3>Teams</h3>
+                <h3 class="lp-page4-cardTitle">Teams</h3>
+                {# mini listes ou juste cards ? #}
             </div>
 
             <div class="lp-page4-card">
-                <h3>Topics</h3>
+                <h3 class="lp-page4-cardTitle">Topics</h3>
             </div>
 
             <div class="lp-page4-card">
-                <h3>Médias</h3>
+                <h3 class="lp-page4-cardTitle">Médias</h3>
             </div>
         </div>
 
@@ -165,7 +167,7 @@
                 element.scrollIntoView({behavior: "smooth", block: "end", inline: "nearest"});
             });
             document.getElementById('lp-scrollBtn2').addEventListener('click', function() {
-                const element2 = document.getElementById("lp-page4");
+                const element2 = document.getElementById("lp-page3");
                 element2.scrollIntoView({behavior: "smooth", block: "end", inline: "nearest"});
             });
         }
@@ -182,10 +184,14 @@
                 document.querySelectorAll('.lp-gameCard').forEach(element => {
                     element.classList.remove('lp-gameCard-boxShadow');
                 });
+
+                document.getElementById('lp-page4-selectedGameTitle').innerHTML = "{{ game.title }}<i class='fa-solid fa-right-long' style='margin-left:20px;'></i>";
+                document.getElementById('lp-page4-selectedGameTitle').style.fontFamily = "'Julius Sans One', sans-serif";
+
                 document.getElementById('lp-gameCard{{ index }}').classList.add('lp-gameCard-boxShadow');
                 setTimeout(() => {
                     document.getElementById('lp-page4').scrollIntoView({behavior: "smooth", block: "end", inline: "nearest"});
-                }, 350);
+                }, 200);
             
             });
             {% set index = index + 1 %}
