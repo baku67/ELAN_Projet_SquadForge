@@ -60,20 +60,24 @@
 
     <div class="main">
 
-        <div class="mediaDetailTitle">
-
-            <h2 style="font-weight:bold; color:{{game.color}};">{{ media.title|capitalize }}</h2>
-
-            {% if media.status == "closed" %}
-                <span class="topicStatus topicClosed">fermé</span>
-            {% elseif media.status == "open" %}
-                <span class="topicStatus topicOpen">ouvert</span>
-            {% endif %}
-
-        </div>
+        
 
 
         <div class="mainMediaDetail">
+
+
+            <div class="mediaDetailTitle">
+
+                <h2 style="font-weight:bold; color:{{game.color}};">{{ media.title|capitalize }}</h2>
+
+                {% if media.status == "closed" %}
+                    <span class="topicStatus topicClosed">fermé</span>
+                {% elseif media.status == "open" %}
+                    <span class="topicStatus topicOpen">ouvert</span>
+                {% endif %}
+
+            </div>
+
 
             <div class="listContainer mediaDetailBg">
                 

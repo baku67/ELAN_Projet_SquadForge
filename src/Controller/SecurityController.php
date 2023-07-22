@@ -128,6 +128,7 @@ class SecurityController extends AbstractController
             $topicsCount = count($topicRepo->findAll());
             $mediasCount = count($mediaRepo->findAll());
 
+            $games = $gameRepo->findAll();
             $gamesCount = count($gameRepo->findAll());
 
             return $this->render('security/landingPage.html.twig', [
@@ -136,6 +137,7 @@ class SecurityController extends AbstractController
                 'topicsCount' => $topicsCount,
                 'mediasCount' => $mediasCount,
                 'gamesCount' => $gamesCount,
+                'games' => $games,
             ]);
 
         }

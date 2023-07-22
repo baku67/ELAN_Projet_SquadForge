@@ -91,18 +91,71 @@
     </div>
 
 
+
+
     {# Page 3 (Contenu/fonctionalitées du site) #}
+    {# TODO Ajax change contenu page 4 (medias,topics,teams) avec loading #}
+    {# TODO while load: squeleton (gris avec waves) ? #}
+    {# OnSelect: scroll page 4 #}
     <div id="lp-page3" style="height:100vh;">
 
-        <h2>Bien plus qu'un simple forum !</h2>
+        <h2 class="lp-page3-title">Choisissez un jeu</h2>
+
+        <div class="lp-page3-container"> 
+
+            {% set index = 0 %}
+
+            {% for game in games %}
+
+                <div id="lp-gameCard{{ index }}" class="lp-gameCard" style="background-image: linear-gradient(rgba(0, 0, 255, 0.05), rgba(249, 123, 44, 0.5)),url('{{ asset("img/games/banner/" ~ game.banner )}}');">
+
+                    <span id="lp-gameCardTitle{{ index }}" class="lp-gameCardTitle">{{ game.title }}</span>
+
+                </div>
+
+                {% set index = index + 1 %}
+
+            {% endfor %}
+            
+        </div>
+
+        {# <i class="fa-solid fa-circle-chevron-down"></i> #}
+
     </div>
 
 
-    {# Page 4: explorer les jeux ? #}
+
+
+    {# Page 4 (Contenus associé au jeu sélectionné) #}
+    {# TODO vertical comme page3 #}
+    <div id="lp-page4" style="height:100vh;">
+
+        <h2 class="lp-page4-title">Titre Jeu</h2>
+
+        <div class="lp-page4-container"> 
+            <div class="lp-page4-card">
+                <h3>Teams</h3>
+            </div>
+
+            <div class="lp-page4-card">
+                <h3>Topics</h3>
+            </div>
+
+            <div class="lp-page4-card">
+                <h3>Médias</h3>
+            </div>
+        </div>
+
+    </div>
 
 
 
-    {# Btn Scroll #}
+
+
+
+
+
+    {# Btn Scroll général #}
     {# TODO: 1er tick de scroll = scroll nextSection ? #}
     <script>
         window.onload = function() {
@@ -112,10 +165,33 @@
                 element.scrollIntoView({behavior: "smooth", block: "end", inline: "nearest"});
             });
             document.getElementById('lp-scrollBtn2').addEventListener('click', function() {
-                const element2 = document.getElementById("lp-page3");
+                const element2 = document.getElementById("lp-page4");
                 element2.scrollIntoView({behavior: "smooth", block: "end", inline: "nearest"});
             });
         }
+
+
+        {# OnSelect game: scroll page 4 (détails) #}
+        {% set index = 0 %}
+
+        {% for game in games %}
+            
+            document.getElementById('lp-gameCard{{ index }}').addEventListener('click', function() {
+                
+                // reset Bow-shadow + scroll 
+                document.querySelectorAll('.lp-gameCard').forEach(element => {
+                    element.classList.remove('lp-gameCard-boxShadow');
+                });
+                document.getElementById('lp-gameCard{{ index }}').classList.add('lp-gameCard-boxShadow');
+                setTimeout(() => {
+                    document.getElementById('lp-page4').scrollIntoView({behavior: "smooth", block: "end", inline: "nearest"});
+                }, 350);
+            
+            });
+            {% set index = index + 1 %}
+
+        {% endfor %}
+
     </script>
 
 

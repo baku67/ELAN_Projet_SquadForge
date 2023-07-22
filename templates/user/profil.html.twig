@@ -48,10 +48,10 @@
 
     <div class="main">
 
-        <h2 class="pageTitle">Profil {{ app.user.pseudo|capitalize }}</h2>
+        <h2 class="pageTitle">Profil</h2>
 
         <h3>Infos</h3>
-        <p>Pseudo: {{ user.pseudo }}</p>
+        <p>{{ user.pseudo|capitalize }}</p>
         <p>Email: {{ user.email }}</p>
         
         {% if not user.isVerified %}
@@ -79,13 +79,15 @@
             {% set value = "false" %}
         {% endif %}
         
-        <p>Lecture automatique des Gifs: </p>
-        <form id="toggleAutoplayForm" action="{{ path('app_toggleAutoplayGifs') }}" method="post">
-            <label class="toggleAutoPlay">
-                <input type="checkbox" value="{{ value }}" {{ checked }} name="autoPlay" id="autoPlay">
-                <span class="slider"></span>
-            </label>
-        </form>
+        <div style="display:inline-flex; width:100%;">
+            <p style="margin-right:10px;">Lecture automatique des Gifs: </p>
+            <form id="toggleAutoplayForm" action="{{ path('app_toggleAutoplayGifs') }}" method="post">
+                <label class="toggleAutoPlay">
+                    <input type="checkbox" value="{{ value }}" {{ checked }} name="autoPlay" id="autoPlay">
+                    <span class="slider"></span>
+                </label>
+            </form>
+        </div>
 
         {# Asynch app_toggleAutoplayGifs (Erreur JS promise #}
         <script>
