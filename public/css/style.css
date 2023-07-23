@@ -357,6 +357,8 @@ header {
 
     /* width: 100%; */
     overflow: visible;
+
+    transition: all 0.5s;
 }
 
 .lp-page3-title {
@@ -418,7 +420,9 @@ header {
 }
 
 
-
+.lp-page4 {
+    transition: all 0.5s ;
+}
 
 .lp-page4-container {
     display: inline-flex;
@@ -427,14 +431,19 @@ header {
     margin: 0 auto;
 }
 
-.lp-page4-title {
+.lp-page4-titleDiv {
     font-family: 'K2D', sans-serif;
 
     width: 100%;
     text-align: center;
     margin: 0px auto;
     padding: 50px 0;
+
+    background-size: cover !important;
+    background-repeat: no-repeat !important;
 }
+
+
 
 .lp-page4-card {
     cursor: pointer;

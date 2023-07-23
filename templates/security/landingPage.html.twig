@@ -2,6 +2,24 @@
 
 {% block title %}SquadForge - Find mates for gaming{% endblock %}
 
+{# Transition gameHeader backgroundImg #}
+{% block styles %}
+<style>
+    .lp-gameHeader-fadeIn {
+        animation: lp-gameBackground 10s 0.5s ease-out forwards;
+    }
+    @keyframes lp-gameBackground {
+        from {
+            background-image: radial-gradient(circle, rgba(255, 255, 255, 0) 0%, rgba(35, 35, 35, 0.996) 0%), url("/img/games/headerBackground/{{ game.subBanner }}");
+        }
+        to {
+            background-image: radial-gradient(circle, rgba(255, 255, 255, 0) 0%, rgba(35, 35, 35, 0.996) 70%), url("/img/games/headerBackground/{{ game.subBanner }}");
+        }
+    }
+</style>
+{% endblock %}
+
+
 {% block body %}
 
     {# Page 1 #}
@@ -58,7 +76,7 @@
             <div class="lp-p2-leftSection">
                 {# TODO Serait mieux avec couches de zindex (Mockup passe par dessus sectionRight#}
                 {# TODO anim slide/fadeIn droite/gauche#}
-                <img src="{{ asset('img/landinPageMockup.jpg') }}" class="lp-p2-leftSectionImg">
+                <img src="{{ asset('img/landingPageMockup2.jpg') }}" class="lp-p2-leftSectionImg">
 
                 {# WIP absolute icons #}
                 <i class="fa-solid fa-comments lp-p2-icons lp-p2-leftSection-icon1"></i>
@@ -102,7 +120,7 @@
 
         <h2 class="lp-page3-title">Choisissez un jeu</h2>
 
-        <div class="lp-page3-container"> 
+        <div id="lp-page3-container" class="lp-page3-container"> 
 
             {% set index = 0 %}
 
@@ -122,8 +140,7 @@
             
         </div>
 
-        
-        {# <i class="fa-solid fa-circle-chevron-down"></i> #}
+        {# TODO Fleche de transition page3 -> page4 si game selected  #}
 
     </div>
 
@@ -132,26 +149,38 @@
 
     {# Page 4 (Contenus associé au jeu sélectionné) #}
     {# TODO vertical comme page3 #}
-    <div id="lp-page4" style="height:100vh;">
+    <div id="lp-page4" class ="lp-page4" style="height:100vh;">
 
-        <h2 id="lp-page4-selectedGameTitle" class="lp-page4-title"><i class="fa-solid fa-arrow-up" style="margin:0 15px;"></i>Sélectionnez un jeu pour filtrer</h2>
+        <div id="lp-page4-titleDiv" class="lp-page4-titleDiv">
+            <h2 id="lp-page4-selectedGameTitle"><i class="fa-solid fa-arrow-up" style="margin:0 15px;"></i>Sélectionnez un jeu pour filtrer</h2>
+        </div>
 
         <div class="lp-page4-container"> 
             <div class="lp-page4-card">
-                <h3 class="lp-page4-cardTitle">Teams</h3>
+                <h3 class="lp-page4-cardTitle">Rejoindre/Créer une team</h3>
                 {# mini listes ou juste cards ? #}
             </div>
 
             <div class="lp-page4-card">
-                <h3 class="lp-page4-cardTitle">Topics</h3>
+                <h3 class="lp-page4-cardTitle">Parcourir les Topics</h3>
             </div>
 
             <div class="lp-page4-card">
-                <h3 class="lp-page4-cardTitle">Médias</h3>
+                <h3 class="lp-page4-cardTitle">Explorer et partagez du contenu</h3>
             </div>
         </div>
 
+        {# TODO: fleche scrollUp -> page3 (choix jeu), au meme endroit #}
+
     </div>
+
+
+
+
+
+
+
+    {# Ajax get LandingPage game content #}
 
 
 
@@ -182,21 +211,26 @@
 
             // Scroll the container to the left
             function scrollToLeft() {
-                var scrollAmount = container.scrollLeft + scrollStep;
-                var animationDuration = 400;
-                var startTime = null;
+                // var scrollAmount = container.scrollLeft + scrollStep;
+                // var animationDuration = 400;
+                // var startTime = null;
 
-                function step(timestamp) {
-                    if (!startTime) startTime = timestamp;
-                    var progress = timestamp - startTime;
-                    var ease = Math.min(progress / animationDuration, 1);
-                    container.scrollLeft = container.scrollLeft + ease * (scrollAmount - container.scrollLeft);
-                    if (progress < animationDuration) {
-                        requestAnimationFrame(step);
-                    }
-                }
+                // function step(timestamp) {
+                //     if (!startTime) startTime = timestamp;
+                //     var progress = timestamp - startTime;
+                //     var ease = Math.min(progress / animationDuration, 1);
+                //     container.scrollLeft = container.scrollLeft + ease * (scrollAmount - container.scrollLeft);
+                //     if (progress < animationDuration) {
+                //         requestAnimationFrame(step);
+                //     }
+                // }
 
-                requestAnimationFrame(step);
+                // requestAnimationFrame(step);
+
+                // En attendant:
+                document.getElementById("lp-page3-container").style.transform = "translateX(-520px)";
+
+
             }
 
             // Update button state on page load and window resize
@@ -228,7 +262,7 @@
         
 
 
-            // {# OnSelect game: scroll page 4 (détails) #}
+            // {# OnSelect game: scroll page 4 (détails) + anims #}
             {% set index = 0 %}
 
             {% for game in games %}
@@ -240,7 +274,19 @@
                         element.classList.remove('lp-gameCard-boxShadow');
                     });
 
-                    document.getElementById('lp-page4-selectedGameTitle').innerHTML = "{{ game.title }}<i class='fa-solid fa-right-long' style='margin-left:20px;'></i>";
+
+                    // Changement backgroundTitle page4
+                    document.getElementById('lp-page4-titleDiv').classList.add("lp-gameHeader-fadeOut");
+                    setTimeout(() => {
+                        
+                        document.getElementById('lp-page4-titleDiv').classList.remove("lp-gameHeader-fadeOut");
+                        // document.getElementById('lp-page4-titleDiv').style.background = "url({{ asset('img/games/banner/' ~ game.banner) }})";
+                        document.getElementById('lp-page4').style.backgroundImage = "radial-gradient(circle, rgba(255,255,255,0) 0%, rgba(35,35,35,0.995) 69%), url('/img/games/headerBackground/{{ game.subBanner }}')";
+                        document.getElementById('lp-page4-titleDiv').classList.add("lp-gameHeader-fadeIn");
+                    }, 1000);
+
+
+                    document.getElementById('lp-page4-selectedGameTitle').innerHTML = "{{ game.title }}";
                     document.getElementById('lp-page4-selectedGameTitle').style.fontFamily = "'Julius Sans One', sans-serif";
 
                     document.getElementById('lp-gameCard{{ index }}').classList.add('lp-gameCard-boxShadow');
@@ -260,3 +306,5 @@
 
     
 {% endblock %}
+
+
