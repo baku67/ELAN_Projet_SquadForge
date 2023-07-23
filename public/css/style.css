@@ -43,6 +43,7 @@ html {
 }
 
 body {
+    overflow: hidden !important;
     margin: 0;
     background-color: var(--background-color);
     color: var(--white);
@@ -485,16 +486,45 @@ header {
     /* Glass effect (https://hype4.academy/tools/glassmorphism-generator) */
     background: rgba( 255, 255, 255, 0.1 );
     /* box-shadow: 0 8px 32px 0 rgba( 31, 38, 135, 0.37 ); */
-    backdrop-filter: blur( 5.5px );
-    -webkit-backdrop-filter: blur( 5.5px );
+    backdrop-filter: blur( 12px );
+    -webkit-backdrop-filter: blur( 12px );
     border-radius: 10px;
-    border: 1px solid rgba( 255, 255, 255, 0.18 );
+    /* border: 1px solid rgba( 255, 255, 255, 0.18 ); */
+    border: 1px solid #9a9a9a;
+
+    transition: all 0.3s;
+}
+.lp-page4-card:hover { 
+    border: 1px solid #f97b2c;
+    background-color: #f97b2c50;
+}
+.lp-page4-card img {
+    transition: all 0.3s;
+}
+.lp-page4-card:hover img { 
+    transform: scale(1.15);
+    filter: sepia(0.5);
+
 }
 
 .lp-page4-cardTitle {
     text-align: center;
+    font-size: 2.5em;
+    letter-spacing: 2px;
+    color: white;
+    margin: 23px 0;
 }
 
+
+.lp-page4-teamsCardContent {
+    display: inline-flex;
+    flex-direction: column;
+    width: 100%;
+    text-align: center;
+    position: relative;
+    top: 32%;
+    transform: translateY(-32%);
+}
 
 .lp-page4-selectedGameTitle {
     font-family: 'Julius Sans One', sans-serif;
