@@ -153,6 +153,32 @@ header {
 }
 
 
+
+/* /!\  Durée anim = setTimeOut JS  */
+.lp-gameHeader-fadeOut {
+    animation: lp-gameHeader-fadeOut 0.5s 0s ease forwards;
+}
+@keyframes lp-gameHeader-fadeOut {
+    from {
+        opacity: 1;
+    }
+    to {
+        opacity: 0;
+    }
+}
+.lp-gameHeader-fadeIn {
+    animation: lp-gameHeader-fadeIn 0.5s 0s ease forwards;
+}
+@keyframes lp-gameHeader-fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+
 .landingPageDownBtn {
     cursor: pointer;
     position: absolute;
@@ -421,6 +447,7 @@ header {
 
 
 .lp-page4 {
+    display:none;
     transition: all 0.5s ;
 }
 
@@ -447,18 +474,33 @@ header {
 
 .lp-page4-card {
     cursor: pointer;
-    width: 300px;
+    width: 425px;
     padding: 15px 25px;
-    height: 25vh;
-    margin: 40px 0;
+    height: 62vh;
+    margin: 72px 0;
     border: 1px solid grey;
     border-radius: 5px;
+    background-color: #8080803d;
+
+    /* Glass effect (https://hype4.academy/tools/glassmorphism-generator) */
+    background: rgba( 255, 255, 255, 0.1 );
+    /* box-shadow: 0 8px 32px 0 rgba( 31, 38, 135, 0.37 ); */
+    backdrop-filter: blur( 5.5px );
+    -webkit-backdrop-filter: blur( 5.5px );
+    border-radius: 10px;
+    border: 1px solid rgba( 255, 255, 255, 0.18 );
 }
 
 .lp-page4-cardTitle {
     text-align: center;
 }
 
+
+.lp-page4-selectedGameTitle {
+    font-family: 'Julius Sans One', sans-serif;
+    font-size: 4.5em;
+    font-weight: 900;
+}
 
 .lp-gameCard-boxShadow {
     filter: sepia(1);

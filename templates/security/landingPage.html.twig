@@ -149,11 +149,13 @@
 
     {# Page 4 (Contenus associé au jeu sélectionné) #}
     {# TODO vertical comme page3 #}
-    <div id="lp-page4" class ="lp-page4" style="height:100vh;">
+    <div id="lp-page4" class ="lp-page4" style="height:100vh; opacity:0;">
 
         <div id="lp-page4-titleDiv" class="lp-page4-titleDiv">
             <h2 id="lp-page4-selectedGameTitle"><i class="fa-solid fa-arrow-up" style="margin:0 15px;"></i>Sélectionnez un jeu pour filtrer</h2>
         </div>
+
+        <div style="height:1px; width:100%; background:radial-gradient(circle, rgba(255,255,255,1) 11%, rgba(44,243,249,0) 70%);"></div>
 
         <div class="lp-page4-container"> 
             <div class="lp-page4-card">
@@ -274,20 +276,19 @@
                         element.classList.remove('lp-gameCard-boxShadow');
                     });
 
+                    document.getElementById("lp-page4").style.display = "block";
 
                     // Changement backgroundTitle page4
-                    document.getElementById('lp-page4-titleDiv').classList.add("lp-gameHeader-fadeOut");
+                    document.getElementById('lp-page4').classList.add("lp-gameHeader-fadeOut");
                     setTimeout(() => {
-                        
-                        document.getElementById('lp-page4-titleDiv').classList.remove("lp-gameHeader-fadeOut");
-                        // document.getElementById('lp-page4-titleDiv').style.background = "url({{ asset('img/games/banner/' ~ game.banner) }})";
                         document.getElementById('lp-page4').style.backgroundImage = "radial-gradient(circle, rgba(255,255,255,0) 0%, rgba(35,35,35,0.995) 69%), url('/img/games/headerBackground/{{ game.subBanner }}')";
-                        document.getElementById('lp-page4-titleDiv').classList.add("lp-gameHeader-fadeIn");
-                    }, 1000);
+                        document.getElementById('lp-page4').classList.add("lp-gameHeader-fadeIn");
+                    }, 500);
 
 
                     document.getElementById('lp-page4-selectedGameTitle').innerHTML = "{{ game.title }}";
-                    document.getElementById('lp-page4-selectedGameTitle').style.fontFamily = "'Julius Sans One', sans-serif";
+                    document.getElementById('lp-page4-selectedGameTitle').classList.add("lp-page4-selectedGameTitle");
+                    document.getElementById('lp-page4-selectedGameTitle').style.textShadow = "-2px -2px 0 {{ game.color }}, 2px -2px 0 {{ game.color }}, -2px 2px 0 {{ game.color }}, 2px 2px 0 {{ game.color }}";
 
                     document.getElementById('lp-gameCard{{ index }}').classList.add('lp-gameCard-boxShadow');
                     setTimeout(() => {
