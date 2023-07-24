@@ -120,31 +120,36 @@
 
         <h2 id="carousel-heading" class="lp-page3-title">Choisissez un jeu</h2>
 
-        <div id="lp-page3-container" class="lp-page3-container splide__track"> 
+        <div style="position:relative;">
 
-            <div class="splide__list">
+            <div id="lp-page3-container" class="lp-page3-container splide__track"> 
 
-                {% set index = 1 %}
+                <div class="splide__list">
 
-                {% for game in games %}
+                    {% set index = 1 %}
 
-                    <div id="lp-page3-slide0{{ index }}" class="lp-gameCard splide__slide" style="background-image: linear-gradient(rgba(0, 0, 255, 0.05), rgba(249, 123, 44, 0.5)),url('{{ asset("img/games/banner/" ~ game.banner )}}');">
+                    {% for game in games %}
 
-                        <span id="lp-gameCardTitle{{ index }}" value="{{ game.title }}" class="lp-gameCardTitle">{{ game.title }}</span>
+                        <div id="lp-page3-slide0{{ index }}" class="lp-gameCard splide__slide" style="background-image: linear-gradient(rgba(0, 0, 255, 0.05), rgba(249, 123, 44, 0.5)),url('{{ asset("img/games/banner/" ~ game.banner )}}');">
 
-                    </div>
+                            <span id="lp-gameCardTitle{{ index }}" value="{{ game.title }}" class="lp-gameCardTitle">{{ game.title }}</span>
 
-                    {% set index = index + 1 %}
+                        </div>
 
-                {% endfor %}
+                        {% set index = index + 1 %}
 
+                    {% endfor %}
+
+                </div>
+
+                
             </div>
-            
-        </div>
 
-        <!-- Add the progress bar element -->
-        <div class="my-slider-progress">
-            <div class="my-slider-progress-bar"></div>
+            <!-- Add the progress bar element -->
+            <div class="my-slider-progress">
+                <div class="my-slider-progress-bar"></div>
+            </div>
+
         </div>
 
         {# TODO Fleche de transition page3 -> page4 si game selected  #}
@@ -165,32 +170,33 @@
         <div style="height:1px; width:100%; background:radial-gradient(circle, rgba(255,255,255,1) 11%, rgba(44,243,249,0) 70%);"></div>
 
         <div class="lp-page4-container"> 
-            <a id="lp-page4-cardTeams">
-                <div class="lp-page4-card">
+            {# <a id="lp-page4-cardTeams"> #}
+                <div class="lp-page4-card lp-page4-cardTeam" style="cursor:default;">
                     <h3 class="lp-page4-cardTitle">Teams</h3>
                     {# mini listes ou juste cards ? #}
                     <div class="lp-page4-teamsCardContent">
+                        <img src="{{ asset('img/teamCardImg.png') }}" style="width:70%; margin:20px auto; opacity:0.5;">
                         <a id="lp-page4-cardTeams-seek">
-                            <span>Rejoindre une team</span>
+                            <span class="lp-page4-cardTeams-btn">Rejoindre une team</span>
                         </a>
                         <a id="lp-page4-cardTeams-create">
-                            <span>Créer votre team</span>
+                            <span class="lp-page4-cardTeams-btn">Créer votre team</span>
                         </a>
                     </div>
                 </div>
-            </a>
+            {# </a> #}
 
             <a id="lp-page4-cardTopics">
                 <div class="lp-page4-card">
                     <h3 class="lp-page4-cardTitle">Topics</h3>
-                    <img src="{{ asset('img/landingPageTopics_v2.png') }}" style="width: -webkit-fill-available; margin: 30px auto;">
+                    <img src="{{ asset('img/landingPageTopics_v2.png') }}" class="lp-page4-img" style="width:-webkit-fill-available; margin: 30px auto;">
                 </div>
             </a>
 
             <a id="lp-page4-cardMedias">
                 <div class="lp-page4-card">
                     <h3 class="lp-page4-cardTitle">Médias</h3>
-                <img src="{{ asset('img/landingPageMedias_v2.png') }}" style="width: -webkit-fill-available; margin: 30px auto;">
+                <img src="{{ asset('img/landingPageMedias_v2.png') }}" class="lp-page4-img" style="width:-webkit-fill-available; margin: 30px auto;">
                 </div>
             </a>
         </div>
@@ -284,6 +290,11 @@
                         element.classList.remove('lp-gameCard-boxShadow');
                     });
 
+                    // Couleur des btn teamCard (selon jeu)
+                    document.querySelectorAll('.lp-page4-cardTeams-btn').forEach(element => {
+                        element.style.backgroundColor = "{{ game.color }}";
+                    });
+
                     document.getElementById("lp-page4").style.display = "block";
 
                     // Changement backgroundTitle page4
@@ -297,7 +308,7 @@
                     // Adaptation des liens des cards page4
                     document.getElementById('lp-page4-cardTopics').setAttribute('href', '/allTopics/{{ game.id}}')
                     document.getElementById('lp-page4-cardMedias').setAttribute('href', '/allMedias/{{ game.id}}')
-                    document.getElementById('lp-page4-cardTeams').setAttribute('href', '/game/{{ game.id}}')
+                    // document.getElementById('lp-page4-cardTeams').setAttribute('href', '/game/{{ game.id}}')
 
                     document.getElementById('lp-page4-cardTeams-seek').setAttribute('href', '/groupList/{{ game.id}}')
                     document.getElementById('lp-page4-cardTeams-create').setAttribute('href', '/createGroup/{{ game.id}}')

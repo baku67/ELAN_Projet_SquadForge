@@ -392,11 +392,42 @@ header {
     width:100%;
 }
 
+.splide__arrows {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 100%;
+    display: inline-flex;
+    z-index: 100;
+    justify-content: space-between;
+}
+
 .lp-page3-title {
+    height: 25%;
+    align-items: center;
+    display: flex;
+    justify-content: center;
     width: 100%;
     text-align: center;
     margin: 0px auto;
     padding: 50px 0px;
+}
+
+.lp-page4-cardTeams-btn {
+    width: 85%;
+    display: block;
+    margin: 10px auto;
+    padding: 20px 0;
+    color: black;
+    font-weight: bold;
+    font-size: 1.3em;
+    border-radius: 4px;
+
+    transition: all 0.3s;
+}
+.lp-page4-cardTeams-btn:hover {
+    letter-spacing: 1px;
+    filter: sepia(1);
 }
 
 .lp-gameCard {
@@ -502,14 +533,14 @@ header {
     border: 1px solid #f97b2c;
     background-color: #f97b2c50;
 }
-.lp-page4-card img {
+.lp-page4-card .lp-page4-img {
     transition: all 0.3s;
 }
-.lp-page4-card:hover img { 
-    transform: scale(1.15);
+.lp-page4-card:hover .lp-page4-img { 
+    transform: scale(1.10);
     filter: sepia(0.5);
-
 }
+
 
 .lp-page4-cardTitle {
     text-align: center;
@@ -517,6 +548,19 @@ header {
     letter-spacing: 2px;
     color: white;
     margin: 23px 0;
+    transition: all 0.3s;
+}
+
+.lp-page4-card:hover .lp-page4-cardTitle {
+    letter-spacing: 4px;
+}
+
+
+.lp-page4-cardTeam img {
+    transition: all 0.3s;
+}
+.lp-page4-cardTeam:hover img {
+    opacity: 1 !important;
 }
 
 
@@ -526,8 +570,8 @@ header {
     width: 100%;
     text-align: center;
     position: relative;
-    top: 32%;
-    transform: translateY(-32%);
+    top: 15%;
+    transform: translateY(-15%);
 }
 
 .lp-page4-selectedGameTitle {
