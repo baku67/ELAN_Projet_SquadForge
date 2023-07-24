@@ -72,12 +72,16 @@ class Group
     #[ORM\JoinTable(name: 'group_blacklist')]
     private Collection $blacklistedUsers;
 
+    #[ORM\OneToMany(mappedBy: 'team', targetEntity: GroupSession::class, orphanRemoval: true)]
+    private Collection $groupSessions;
+
     public function __construct()
     {
         $this->members = new ArrayCollection();
         $this->groupQuestions = new ArrayCollection();
         $this->candidatures = new ArrayCollection();
         $this->blacklistedUsers = new ArrayCollection();
+        $this->groupSessions = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -345,6 +349,36 @@ class Group
     public function removeBlacklistedUser(User $blacklistedUser): self
     {
         $this->blacklistedUsers->removeElement($blacklistedUser);
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, GroupSession>
+     */
+    public function getGroupSessions(): Collection
+    {
+        return $this->groupSessions;
+    }
+
+    public function addGroupSession(GroupSession $groupSession): static
+    {
+        if (!$this->groupSessions->contains($groupSession)) {
+            $this->groupSessions->add($groupSession);
+            $groupSession->setTeam($this);
+        }
+
+        return $this;
+    }
+
+    public function removeGroupSession(GroupSession $groupSession): static
+    {
+        if ($this->groupSessions->removeElement($groupSession)) {
+            // set the owning side to null (unless already changed)
+            if ($groupSession->getTeam() === $this) {
+                $groupSession->setTeam(null);
+            }
+        }
 
         return $this;
     }

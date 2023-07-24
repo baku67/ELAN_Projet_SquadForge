@@ -1991,6 +1991,10 @@ h1, h2, h3, h4 {
     display: none !important;
 }
 
+#addSessionForm {
+    text-align: center;
+}
+
 .mediaApprovalLine {
     width: 100%;
     display: inline-flex;
@@ -2272,6 +2276,9 @@ h1, h2, h3, h4 {
     border-bottom-left-radius: 100px;
 }
 
+
+
+
 .upTopicPostBtn, .downTopicPostBtn, .upMediaPostBtn, .downMediaPostBtn {
 cursor: pointer;
 }
@@ -2387,6 +2394,11 @@ cursor: pointer;
     /* bottom: 3px; */
     transform: scale(1.5);
     filter: drop-shadow(2px 4px 6px black);
+}
+
+
+.addSessionBtn {
+    font-family: 'K2D', sans-serif;
 }
 
 .voidMemberNoClick {

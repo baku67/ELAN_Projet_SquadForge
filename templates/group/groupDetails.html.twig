@@ -445,24 +445,49 @@
                     </div>
 
 
+                    <div id="addSessionBtn">
+                        <h4 style="text-align:center;">
+                            <button class="btn btn-primary"><i class="fa-solid fa-plus"></i> Ajouter une session</button>
+                        </h4>
+                    </div>
+                    <div id="addSessionForm" class="notDisplayed">
+                        <p>test</p>
+                        <button id="cancelAddSession" class="btn btn-primary"><i class="fa-solid fa-xmark"></i> Annuler</button>
+
+                    </div>
+
+
                     <script>
                         document.addEventListener('DOMContentLoaded', function() {
-                        var calendarEl = document.getElementById('calendar');
-                        var calendar = new FullCalendar.Calendar(calendarEl, {
-                            initialView: 'dayGridWeek',
-                            locale: 'fr',
-                            firstDay: 1,
-                            // Events du planning programmés 
-                            events: [
-                                {
-                                    title: 'Meeting with Client', // Event title
-                                    start: '2023-07-25T10:00:00', // Start date and time (ISO format)
-                                    end: '2023-07-25T12:00:00', // End date and time (ISO format)
-                                },
-                            ],
-                        });
 
-                        calendar.render();
+                            // FullCalendar, Calendrier, Planning
+                            var calendarEl = document.getElementById('calendar');
+                            var calendar = new FullCalendar.Calendar(calendarEl, {
+                                initialView: 'dayGridWeek',
+                                locale: 'fr',
+                                firstDay: 1,
+                                // Events du planning programmés 
+                                events: [
+                                    {
+                                        // test
+                                        title: 'Meeting with Client', // Event title
+                                        start: '2023-07-25T10:00:00', // Start date and time (ISO format)
+                                        end: '2023-07-25T12:00:00', // End date and time (ISO format)
+                                    },
+                                ],
+                            });
+
+                            calendar.render();
+
+                            // toggle affichage du formulaire d'ajout de session
+                            document.getElementById('addSessionBtn').addEventListener('click', function() {
+                                document.getElementById('addSessionBtn').classList.toggle('notDisplayed');
+                                document.getElementById('addSessionForm').classList.toggle('notDisplayed');
+                            });
+                            document.getElementById('cancelAddSession').addEventListener('click', function() {
+                                document.getElementById('addSessionBtn').classList.toggle('notDisplayed');
+                                document.getElementById('addSessionForm').classList.toggle('notDisplayed');
+                            });
                         });
                     </script>
 
