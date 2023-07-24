@@ -574,6 +574,11 @@ header {
     transform: translateY(-15%);
 }
 
+.choseGameArrow {
+    opacity: 0.3;
+    
+}
+
 .lp-page4-selectedGameTitle {
     font-family: 'Julius Sans One', sans-serif;
     font-size: 4.5em;
@@ -2260,6 +2265,9 @@ h1, h2, h3, h4 {
 
 
 #favGameBtn {
+    position: relative;
+    bottom: 1px;
+    border-top-right-radius: 7px;
     cursor: pointer;
     border-bottom-left-radius: 100px;
 }

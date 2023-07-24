@@ -118,7 +118,11 @@
     {# + background 100% étoiles vers le haut color primary (cf les100cie) #}
     <div id="lp-page3" class="splide" style="height:100vh; position:relative;" aria-labelledby="carousel-heading">
 
-        <h2 id="carousel-heading" class="lp-page3-title">Choisissez un jeu</h2>
+        <h2 id="carousel-heading" class="lp-page3-title">
+            <i class="fa-solid fa-down-long choseGameArrow"></i>
+            <span style="margin:0 10px;">Choisissez un jeu pour filtrer</span>
+            <i class="fa-solid fa-down-long choseGameArrow"></i>
+        </h2>
 
         <div style="position:relative;">
 
@@ -239,11 +243,10 @@
     <script>
         document.addEventListener("DOMContentLoaded", function() {
 
-            
             new Splide( '.splide' ).mount();
 
             var splide = new Splide( '.splide', {
-                perPage: 4,
+                perPage: 5,
             } );
 
             var bar = splide.root.querySelector( '.my-slider-progress-bar' );
@@ -256,7 +259,6 @@
             } );
 
             splide.mount();
-
 
         });
     </script>
