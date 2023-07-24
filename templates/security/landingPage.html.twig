@@ -116,28 +116,35 @@
     {# TODO while load: squeleton (gris avec waves) ? #}
     {# TODO orderBy nbr de publications #}
     {# + background 100% étoiles vers le haut color primary (cf les100cie) #}
-    <div id="lp-page3" style="height:100vh; position:relative;">
+    <div id="lp-page3" class="splide" style="height:100vh; position:relative;" aria-labelledby="carousel-heading">
 
-        <h2 class="lp-page3-title">Choisissez un jeu</h2>
+        <h2 id="carousel-heading" class="lp-page3-title">Choisissez un jeu</h2>
 
-        <div id="lp-page3-container" class="lp-page3-container"> 
+        <div id="lp-page3-container" class="lp-page3-container splide__track"> 
 
-            {% set index = 0 %}
+            <div class="splide__list">
 
-            {% for game in games %}
+                {% set index = 1 %}
 
-                <div id="lp-gameCard{{ index }}" class="lp-gameCard" style="background-image: linear-gradient(rgba(0, 0, 255, 0.05), rgba(249, 123, 44, 0.5)),url('{{ asset("img/games/banner/" ~ game.banner )}}');">
+                {% for game in games %}
 
-                    <span id="lp-gameCardTitle{{ index }}" value="{{ game.title }}" class="lp-gameCardTitle">{{ game.title }}</span>
+                    <div id="lp-page3-slide0{{ index }}" class="lp-gameCard splide__slide" style="background-image: linear-gradient(rgba(0, 0, 255, 0.05), rgba(249, 123, 44, 0.5)),url('{{ asset("img/games/banner/" ~ game.banner )}}');">
 
-                </div>
+                        <span id="lp-gameCardTitle{{ index }}" value="{{ game.title }}" class="lp-gameCardTitle">{{ game.title }}</span>
 
-                {% set index = index + 1 %}
+                    </div>
 
-            {% endfor %}
+                    {% set index = index + 1 %}
 
-            <button id="lp-arrow-right" class="lp-arrow-button lp-games-scrollHorizontal"><i class="fa-solid fa-chevron-right"></i></button>
+                {% endfor %}
+
+            </div>
             
+        </div>
+
+        <!-- Add the progress bar element -->
+        <div class="my-slider-progress">
+            <div class="my-slider-progress-bar"></div>
         </div>
 
         {# TODO Fleche de transition page3 -> page4 si game selected  #}
@@ -158,24 +165,34 @@
         <div style="height:1px; width:100%; background:radial-gradient(circle, rgba(255,255,255,1) 11%, rgba(44,243,249,0) 70%);"></div>
 
         <div class="lp-page4-container"> 
-            <div class="lp-page4-card">
-                <h3 class="lp-page4-cardTitle">Teams</h3>
-                {# mini listes ou juste cards ? #}
-                <div class="lp-page4-teamsCardContent">
-                    <span>Rejoindre une team</span>
-                    <span>Créer votre team</span>
+            <a id="lp-page4-cardTeams">
+                <div class="lp-page4-card">
+                    <h3 class="lp-page4-cardTitle">Teams</h3>
+                    {# mini listes ou juste cards ? #}
+                    <div class="lp-page4-teamsCardContent">
+                        <a id="lp-page4-cardTeams-seek">
+                            <span>Rejoindre une team</span>
+                        </a>
+                        <a id="lp-page4-cardTeams-create">
+                            <span>Créer votre team</span>
+                        </a>
+                    </div>
                 </div>
-            </div>
+            </a>
 
-            <div class="lp-page4-card">
-                <h3 class="lp-page4-cardTitle">Topics</h3>
-                <img src="{{ asset('img/landingPageTopics_v2.png') }}" style="width: -webkit-fill-available; margin: 30px auto;">
-            </div>
+            <a id="lp-page4-cardTopics">
+                <div class="lp-page4-card">
+                    <h3 class="lp-page4-cardTitle">Topics</h3>
+                    <img src="{{ asset('img/landingPageTopics_v2.png') }}" style="width: -webkit-fill-available; margin: 30px auto;">
+                </div>
+            </a>
 
-            <div class="lp-page4-card">
-                <h3 class="lp-page4-cardTitle">Médias</h3>
-               <img src="{{ asset('img/landingPageMedias_v2.png') }}" style="width: -webkit-fill-available; margin: 30px auto;">
-            </div>
+            <a id="lp-page4-cardMedias">
+                <div class="lp-page4-card">
+                    <h3 class="lp-page4-cardTitle">Médias</h3>
+                <img src="{{ asset('img/landingPageMedias_v2.png') }}" style="width: -webkit-fill-available; margin: 30px auto;">
+                </div>
+            </a>
         </div>
 
         {# TODO: fleche scrollUp -> page3 (choix jeu), au meme endroit #}
@@ -193,63 +210,48 @@
 
 
 
+
+    <style>
+        .my-slider-progress {
+            width: 85%;
+            margin: 20px auto;
+            background: #ccc;
+        }
+        
+        .my-slider-progress-bar {
+            background: var(--primary-color);
+            height: 4px;
+            transition: width 400ms ease;
+            width: 0;
+        }
+    </style>
+
+
+
     {# HS: Bouton Scroll horizontal gameList #}
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
         document.addEventListener("DOMContentLoaded", function() {
-            var container = document.querySelector(".lp-page3-container");
-            var button = document.getElementById("lp-arrow-right");
 
-            // Adjust the step size based on your preference
-            var scrollStep = 300;
+            
+            new Splide( '.splide' ).mount();
 
-            // Check if the container is overflowing horizontally
-            // function checkOverflow() {
-            //     return container.scrollWidth > container.clientWidth;
-            // }
+            var splide = new Splide( '.splide', {
+                perPage: 4,
+            } );
 
-            // // Handle button visibility and scrolling
-            // function updateScroll() {
-            //     if (checkOverflow()) {
-            //         button.disabled = false;
-            //     } else {
-            //         button.disabled = true;
-            //     }
-            // }
+            var bar = splide.root.querySelector( '.my-slider-progress-bar' );
 
-            // Scroll the container to the left
-            function scrollToLeft() {
-                // var scrollAmount = container.scrollLeft + scrollStep;
-                // var animationDuration = 400;
-                // var startTime = null;
+            // Updates the bar width whenever the carousel moves:
+            splide.on( 'mounted move', function () {
+                var end  = splide.Components.Controller.getEnd() + 1;
+                var rate = Math.min( ( splide.index + 1 ) / end, 1 );
+                bar.style.width = String( 100 * rate ) + '%';
+            } );
 
-                // function step(timestamp) {
-                //     if (!startTime) startTime = timestamp;
-                //     var progress = timestamp - startTime;
-                //     var ease = Math.min(progress / animationDuration, 1);
-                //     container.scrollLeft = container.scrollLeft + ease * (scrollAmount - container.scrollLeft);
-                //     if (progress < animationDuration) {
-                //         requestAnimationFrame(step);
-                //     }
-                // }
-
-                // requestAnimationFrame(step);
-
-                // En attendant:
-                document.getElementById("lp-page3-container").style.transform = "translateX(-520px)";
+            splide.mount();
 
 
-            }
-
-            // Update button state on page load and window resize
-            // window.addEventListener("resize", updateScroll);
-            // updateScroll();
-
-            // Bind click event to the arrow button
-            button.addEventListener("click", function() {
-                console.log("test");
-                scrollToLeft();
-            });
         });
     </script>
 
@@ -271,11 +273,11 @@
 
 
             // {# OnSelect game: scroll page 4 (détails) + anims #}
-            {% set index = 0 %}
+            {% set index = 1 %}
 
             {% for game in games %}
                 
-                document.getElementById('lp-gameCard{{ index }}').addEventListener('click', function() {
+                document.getElementById('lp-page3-slide0{{ index }}').addEventListener('click', function() {
                     
                     // reset Bow-shadow + scroll 
                     document.querySelectorAll('.lp-gameCard').forEach(element => {
@@ -292,11 +294,20 @@
                     }, 500);
 
 
+                    // Adaptation des liens des cards page4
+                    document.getElementById('lp-page4-cardTopics').setAttribute('href', '/allTopics/{{ game.id}}')
+                    document.getElementById('lp-page4-cardMedias').setAttribute('href', '/allMedias/{{ game.id}}')
+                    document.getElementById('lp-page4-cardTeams').setAttribute('href', '/game/{{ game.id}}')
+
+                    document.getElementById('lp-page4-cardTeams-seek').setAttribute('href', '/groupList/{{ game.id}}')
+                    document.getElementById('lp-page4-cardTeams-create').setAttribute('href', '/createGroup/{{ game.id}}')
+
+
                     document.getElementById('lp-page4-selectedGameTitle').innerHTML = "{{ game.title }}";
                     document.getElementById('lp-page4-selectedGameTitle').classList.add("lp-page4-selectedGameTitle");
                     document.getElementById('lp-page4-selectedGameTitle').style.textShadow = "-2px -2px 0 {{ game.color }}, 2px -2px 0 {{ game.color }}, -2px 2px 0 {{ game.color }}, 2px 2px 0 {{ game.color }}";
 
-                    document.getElementById('lp-gameCard{{ index }}').classList.add('lp-gameCard-boxShadow');
+                    document.getElementById('lp-page3-slide0{{ index }}').classList.add('lp-gameCard-boxShadow');
                     setTimeout(() => {
                         document.getElementById('lp-page4').scrollIntoView({behavior: "smooth", block: "end", inline: "nearest"});
                     }, 200);

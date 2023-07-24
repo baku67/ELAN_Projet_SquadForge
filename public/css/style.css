@@ -376,6 +376,7 @@ header {
 
 
 .lp-page3-container {
+    width:100%;
     display: inline-flex;
     margin: 50px auto;
     text-align: center;
@@ -386,6 +387,9 @@ header {
     overflow: visible;
 
     transition: all 0.5s;
+}
+#lp-page3-list {
+    width:100%;
 }
 
 .lp-page3-title {

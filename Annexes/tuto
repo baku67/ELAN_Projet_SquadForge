@@ -1,3 +1,7 @@
+FullCalendar JS parties (dateDebut, dateFin) + vérifs user disponibilité avant d'accepter le créneau
+API Twitch (connexion, partage de media, etc...)
+Responsive
+
 
 annulation filtre jeux landing page: si re-click sur gameCard (check si classList.contains) + bouton sur page 4
 
