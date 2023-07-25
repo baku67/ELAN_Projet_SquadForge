@@ -168,6 +168,14 @@
         </div>
 
         {# TODO Fleche de transition page3 -> page4 si game selected  #}
+        <div>
+            <span>Passer</span>
+            {# Scroll Btn #}
+            <div id="lp-scrollBtn3" class="landingPageDownBtn">
+                <i class="fa-solid fa-chevron-down lpdownBtn1"></i>
+                <i class="fa-solid fa-chevron-down lpdownBtn2"></i>
+            </div>
+        </div>
 
     </div>
 
@@ -175,21 +183,21 @@
 
 
     {# Page 4 (Contenus associé au jeu sélectionné) #}
-    {# TODO vertical comme page3 #}
-    <div id="lp-page4" class ="lp-page4" style="height:100vh; opacity:0;">
+    <div id="lp-page4" class ="lp-page4" style="height:100vh;">
 
-        <div style="display:inline-flex;width:100%;justify-content:center;gap:55px;">
-            {# title: link gameDetails #}
-            <a id="lp-page4-titleLink">
-                <div id="lp-page4-titleDiv" class="lp-page4-titleDiv">
-                    <h2 id="lp-page4-selectedGameTitle"><i class="fa-solid fa-arrow-up" style="margin:0 15px;"></i>Sélectionnez un jeu pour filtrer</h2>
-                </div>
-            </a>
-            {# Scroll Btn top #}
-            <div id="lp-scrollBtn3" class="landingPageUpBtn">
-                <i class="fa-solid fa-chevron-up lpdownBtn1"></i>
-                <i class="fa-solid fa-chevron-up lpdownBtn2"></i>
+        <a id="lp-page4-titleLink">
+            <div class="lp-page4-titleDivWrapper" style="display:inline-flex;width:100%;justify-content:center;gap:55px;">
+                {# title: link gameDetails #}
+                    <div id="lp-page4-titleDiv" class="lp-page4-titleDiv">
+                        <h2 id="lp-page4-selectedGameTitle"><i class="fa-solid fa-arrow-up" style="margin:0 15px;"></i>Sélectionnez un jeu pour filtrer</h2>
+                    </div>
+                {# Scroll Btn top #}
             </div>
+        </a>
+
+        <div id="lp-scrollBtn4" class="landingPageUpBtn" style="display:none;">
+            <i class="fa-solid fa-chevron-up lpdownBtn1"></i>
+            <i class="fa-solid fa-chevron-up lpdownBtn2"></i>
         </div>
 
         <div style="height:1px; width:100%; background:radial-gradient(circle, rgba(255,255,255,1) 11%, rgba(44,243,249,0) 70%);"></div>
@@ -211,14 +219,14 @@
                 </div>
             {# </a> #}
 
-            <a id="lp-page4-cardTopics" style="margin-top:70px;">
+            <a href="{{ path('app_allTopicsGlobal') }}" id="lp-page4-cardTopics" style="margin-top:70px;">
                 <div class="lp-page4-card">
                     <h3 class="lp-page4-cardTitle">Topics</h3>
                     <img src="{{ asset('img/landingPageTopics_v2.png') }}" class="lp-page4-img" style="width:-webkit-fill-available; margin: 30px auto;">
                 </div>
             </a>
 
-            <a id="lp-page4-cardMedias" style="margin-top:70px;">
+            <a href="{{ path('app_allMediasGlobal') }}" id="lp-page4-cardMedias" style="margin-top:70px;">
                 <div class="lp-page4-card">
                     <h3 class="lp-page4-cardTitle">Médias</h3>
                 <img src="{{ asset('img/landingPageMedias_v2.png') }}" class="lp-page4-img" style="width:-webkit-fill-available; margin: 30px auto;">
@@ -299,8 +307,17 @@
                 element2.scrollIntoView({behavior: "smooth", block: "end", inline: "nearest"});
             });
             document.getElementById('lp-scrollBtn3').addEventListener('click', function() {
-                const element3 = document.getElementById("lp-page3");
+                const element3 = document.getElementById("lp-page4");
                 element3.scrollIntoView({behavior: "smooth", block: "end", inline: "nearest"});
+            });
+            document.getElementById('lp-scrollBtn4').addEventListener('click', function() {
+                const element4 = document.getElementById("lp-page3");
+                element4.scrollIntoView({behavior: "smooth", block: "end", inline: "nearest"});
+            });
+
+            document.getElementById('lp-page4-titleLink').addEventListener('click', function() {
+                const element5 = document.getElementById("lp-page3");
+                element5.scrollIntoView({behavior: "smooth", block: "end", inline: "nearest"});
             });
         
 
@@ -312,6 +329,10 @@
                 
                 document.getElementById('lp-page3-slide0{{ index }}').addEventListener('click', function() {
                     
+
+                    document.getElementById('lp-scrollBtn4').style.display = "inline-flex";
+
+
                     // reset Bow-shadow + scroll 
                     document.querySelectorAll('.lp-gameCard').forEach(element => {
                         element.classList.remove('lp-gameCard-boxShadow');
@@ -322,7 +343,7 @@
                         element.style.backgroundColor = "{{ game.color }}";
                     });
 
-                    document.getElementById("lp-page4").style.display = "block";
+                    // document.getElementById("lp-page4").style.display = "block";
 
                     // Changement backgroundTitle page4
                     document.getElementById('lp-page4').classList.add("lp-gameHeader-fadeOut");
