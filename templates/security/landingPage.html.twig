@@ -168,14 +168,15 @@
         </div>
 
         {# TODO Fleche de transition page3 -> page4 si game selected  #}
-        <div>
-            <span>Passer</span>
+            
             {# Scroll Btn #}
-            <div id="lp-scrollBtn3" class="landingPageDownBtn">
-                <i class="fa-solid fa-chevron-down lpdownBtn1"></i>
-                <i class="fa-solid fa-chevron-down lpdownBtn2"></i>
+            <div id="lp-scrollBtn3" class="landingPageDownBtn" style="display:inline-flex; flex-direction:row; gap:25px; transform: translate(50%, 25%); align-items:center; padding:20px 30px;">
+                <span style="opacity:0.8; color:grey;">Skip</span>
+                <div style="display:inline-flex; flex-direction:column;">
+                    <i class="fa-solid fa-chevron-down lpdownBtn1"></i>
+                    <i class="fa-solid fa-chevron-down lpdownBtn2"></i>
+                </div>
             </div>
-        </div>
 
     </div>
 
@@ -183,12 +184,13 @@
 
 
     {# Page 4 (Contenus associé au jeu sélectionné) #}
-    <div id="lp-page4" class ="lp-page4" style="height:100vh;">
+    <div id="lp-page4" class ="lp-page4" style="height:100vh; background-image:radial-gradient(circle, rgba(255, 255, 255, 0) 0%, rgba(35, 35, 35, 0.996) 69%), url('{{ asset('img/landingPage4.jpg') }}')">
 
         <a id="lp-page4-titleLink">
             <div class="lp-page4-titleDivWrapper" style="display:inline-flex;width:100%;justify-content:center;gap:55px;">
                 {# title: link gameDetails #}
                     <div id="lp-page4-titleDiv" class="lp-page4-titleDiv">
+                        <img id="lp-page4-gameLogo" src=""> 
                         <h2 id="lp-page4-selectedGameTitle"><i class="fa-solid fa-arrow-up" style="margin:0 15px;"></i>Sélectionnez un jeu pour filtrer</h2>
                     </div>
                 {# Scroll Btn top #}
@@ -196,8 +198,8 @@
         </a>
 
         <div id="lp-scrollBtn4" class="landingPageUpBtn" style="display:none;">
-            <i class="fa-solid fa-chevron-up lpdownBtn1"></i>
-            <i class="fa-solid fa-chevron-up lpdownBtn2"></i>
+            <i class="fa-solid fa-chevron-up lpdownBtn1inversed"></i>
+            <i class="fa-solid fa-chevron-up lpdownBtn2inversed"></i>
         </div>
 
         <div style="height:1px; width:100%; background:radial-gradient(circle, rgba(255,255,255,1) 11%, rgba(44,243,249,0) 70%);"></div>
@@ -321,6 +323,7 @@
             });
         
 
+            var gameSelected = false;
 
             // {# OnSelect game: scroll page 4 (détails) + anims #}
             {% set index = 1 %}
@@ -328,50 +331,93 @@
             {% for game in games %}
                 
                 document.getElementById('lp-page3-slide0{{ index }}').addEventListener('click', function() {
-                    
 
-                    document.getElementById('lp-scrollBtn4').style.display = "inline-flex";
+                    if(gameSelected == false) {
+                        gameSelected = !gameSelected;
+                    }
 
-
-                    // reset Bow-shadow + scroll 
-                    document.querySelectorAll('.lp-gameCard').forEach(element => {
-                        element.classList.remove('lp-gameCard-boxShadow');
-                    });
-
-                    // Couleur des btn teamCard (selon jeu)
-                    document.querySelectorAll('.lp-page4-cardTeams-btn').forEach(element => {
-                        element.style.backgroundColor = "{{ game.color }}";
-                    });
-
-                    // document.getElementById("lp-page4").style.display = "block";
-
-                    // Changement backgroundTitle page4
-                    document.getElementById('lp-page4').classList.add("lp-gameHeader-fadeOut");
-                    setTimeout(() => {
-                        document.getElementById('lp-page4').style.backgroundImage = "radial-gradient(circle, rgba(255,255,255,0) 0%, rgba(35,35,35,0.995) 69%), url('/img/games/headerBackground/{{ game.subBanner }}')";
-                        document.getElementById('lp-page4').classList.add("lp-gameHeader-fadeIn");
-                    }, 500);
+                    if(gameSelected) {
 
 
-                    // Adaptation des liens des cards page4
-                    document.getElementById('lp-page4-cardTopics').setAttribute('href', '/allTopics/{{ game.id}}');
-                    document.getElementById('lp-page4-cardMedias').setAttribute('href', '/allMedias/{{ game.id}}');
-                    // document.getElementById('lp-page4-cardTeams').setAttribute('href', '/game/{{ game.id}}')
+                        document.getElementById('lp-scrollBtn4').style.display = "inline-flex";
 
-                    document.getElementById('lp-page4-cardTeams-seek').setAttribute('href', '/groupList/{{ game.id}}');
-                    document.getElementById('lp-page4-cardTeams-create').setAttribute('href', '/createGroup/{{ game.id}}');
+                        // reset Box-shadow + scroll 
+                        document.querySelectorAll('.lp-gameCard').forEach(element => {
+                            element.classList.remove('lp-gameCard-boxShadow');
+                        });
 
-                    document.getElementById('lp-page4-titleLink').setAttribute('href', '/game/{{ game.id }}');
+                        // Couleur des btn teamCard (selon jeu)
+                        document.querySelectorAll('.lp-page4-cardTeams-btn').forEach(element => {
+                            element.style.backgroundColor = "{{ game.color }}";
+                        });
+
+                        // Changement backgroundTitle page4
+                        document.getElementById('lp-page4').classList.add("lp-gameHeader-fadeOut");
+                        setTimeout(() => {
+                            document.getElementById('lp-page4').style.backgroundImage = "radial-gradient(circle, rgba(255,255,255,0) 0%, rgba(35,35,35,0.995) 69%), url('/img/games/headerBackground/{{ game.subBanner }}')";
+                            document.getElementById('lp-page4').classList.add("lp-gameHeader-fadeIn");
+                        }, 500);
+
+                        // Adaptation des liens des cards page4
+                        document.getElementById('lp-page4-cardTopics').setAttribute('href', '/allTopics/{{ game.id}}');
+                        document.getElementById('lp-page4-cardMedias').setAttribute('href', '/allMedias/{{ game.id}}');
+                        document.getElementById('lp-page4-cardTeams-seek').setAttribute('href', '/groupList/{{ game.id}}');
+                        document.getElementById('lp-page4-cardTeams-create').setAttribute('href', '/createGroup/{{ game.id}}');
+                        document.getElementById('lp-page4-titleLink').setAttribute('href', '/game/{{ game.id }}');
+                        document.getElementById('lp-page4-gameLogo').setAttribute('src', '{{ asset("img/games/tinyLogo/" ~ game.tinyLogo ) }}');
+
+                        document.getElementById('lp-page4-selectedGameTitle').innerHTML = "{{ game.title }}";
+                        document.getElementById('lp-page4-selectedGameTitle').classList.add("lp-page4-selectedGameTitle");
+                        document.getElementById('lp-page4-selectedGameTitle').style.textShadow = "-2px -2px 0 {{ game.color }}, 2px -2px 0 {{ game.color }}, -2px 2px 0 {{ game.color }}, 2px 2px 0 {{ game.color }}";
+
+                        document.getElementById('lp-page3-slide0{{ index }}').classList.add('lp-gameCard-boxShadow');
+                        setTimeout(() => {
+                            document.getElementById('lp-page4').scrollIntoView({behavior: "smooth", block: "end", inline: "nearest"});
+                        }, 200);
+
+                    }
+                    else {
+
+                        
+
+                        document.getElementById('lp-scrollBtn4').style.display = "none";
+
+                        // reset Box-shadow + scroll 
+                        document.querySelectorAll('.lp-gameCard').forEach(element => {
+                            element.classList.remove('lp-gameCard-boxShadow');
+                        });
+
+                        // Couleur des btn teamCard (selon jeu)
+                        document.querySelectorAll('.lp-page4-cardTeams-btn').forEach(element => {
+                            element.style.backgroundColor = "{{ game.color }}";
+                        });
+
+                        // Changement backgroundTitle page4
+                        document.getElementById('lp-page4').classList.add("lp-gameHeader-fadeOut");
+                        setTimeout(() => {
+                            document.getElementById('lp-page4').style.backgroundImage = "radial-gradient(circle, rgba(255,255,255,0) 0%, rgba(35,35,35,0.995) 69%), url('/img/games/headerBackground/{{ game.subBanner }}')";
+                            document.getElementById('lp-page4').classList.add("lp-gameHeader-fadeIn");
+                        }, 500);
+
+                        // Adaptation des liens des cards page4
+                        document.getElementById('lp-page4-cardTopics').setAttribute('href', '/allTopicsGlobal');
+                        document.getElementById('lp-page4-cardMedias').setAttribute('href', '/allMediasGlobal');
+                        // document.getElementById('lp-page4-cardTeams-seek').setAttribute('href', '/groupList/{{ game.id}}');
+                        // document.getElementById('lp-page4-cardTeams-create').setAttribute('href', '/createGroup/{{ game.id}}');
+                        // document.getElementById('lp-page4-titleLink').setAttribute('href', '/game/{{ game.id }}');
+                        document.getElementById('lp-page4-gameLogo').setAttribute('src', '');
+
+                        document.getElementById('lp-page4-selectedGameTitle').innerHTML = "Sélectionnez un jeu pour filtrer";
+                        document.getElementById('lp-page4-selectedGameTitle').classList.remove("lp-page4-selectedGameTitle");
+                        document.getElementById('lp-page4-selectedGameTitle').style.textShadow = "0px 0px 0 white, 0px 0px 0 white, -0px 0px 0 white, 0px 0px 0 white";
+
+                        document.getElementById('lp-page3-slide0{{ index }}').classList.add('lp-gameCard-boxShadow');
+                        setTimeout(() => {
+                            document.getElementById('lp-page4').scrollIntoView({behavior: "smooth", block: "end", inline: "nearest"});
+                        }, 200);
 
 
-                    document.getElementById('lp-page4-selectedGameTitle').innerHTML = "{{ game.title }}";
-                    document.getElementById('lp-page4-selectedGameTitle').classList.add("lp-page4-selectedGameTitle");
-                    document.getElementById('lp-page4-selectedGameTitle').style.textShadow = "-2px -2px 0 {{ game.color }}, 2px -2px 0 {{ game.color }}, -2px 2px 0 {{ game.color }}, 2px 2px 0 {{ game.color }}";
-
-                    document.getElementById('lp-page3-slide0{{ index }}').classList.add('lp-gameCard-boxShadow');
-                    setTimeout(() => {
-                        document.getElementById('lp-page4').scrollIntoView({behavior: "smooth", block: "end", inline: "nearest"});
-                    }, 200);
+                    }
                 
                 });
                 {% set index = index + 1 %}
