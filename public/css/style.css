@@ -585,7 +585,7 @@ header {
     cursor: pointer;
     width: 425px;
     padding: 15px 25px;
-    height: 55vh;
+    height: 61vh;
     margin: 0 0;
     border: 1px solid grey;
     border-radius: 5px;
@@ -593,11 +593,10 @@ header {
 
     /* Glass effect (https://hype4.academy/tools/glassmorphism-generator) */
     background: rgba( 255, 255, 255, 0.1 );
-    /* box-shadow: 0 8px 32px 0 rgba( 31, 38, 135, 0.37 ); */
     backdrop-filter: blur( 12px );
     -webkit-backdrop-filter: blur( 12px );
     border-radius: 10px;
-    /* border: 1px solid rgba( 255, 255, 255, 0.18 ); */
+    
     border: 1px solid #9a9a9a;
 
     transition: all 0.3s;

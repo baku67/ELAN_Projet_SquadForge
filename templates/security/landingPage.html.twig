@@ -332,14 +332,25 @@
                 
                 document.getElementById('lp-page3-slide0{{ index }}').addEventListener('click', function() {
 
+
+                    // if(document.getElementById('lp-page3-slide0{{ index }}').getAttribute('selected') == true)
+                    document.getElementById('lp-page3-slide0{{ index }}').setAttribute('selected', true);
+
                     if(gameSelected == false) {
                         gameSelected = !gameSelected;
                     }
 
                     if(gameSelected) {
 
+                        // si game clické meme que selected: gameSlected = false;
+
 
                         document.getElementById('lp-scrollBtn4').style.display = "inline-flex";
+
+                        // BorderColor selon game selected
+                        document.querySelectorAll('.lp-page4-card').forEach(element => {
+                            element.style.border = "1px solid {{ game.color }};";
+                        });
 
                         // reset Box-shadow + scroll 
                         document.querySelectorAll('.lp-gameCard').forEach(element => {
@@ -377,10 +388,13 @@
 
                     }
                     else {
-
                         
-
                         document.getElementById('lp-scrollBtn4').style.display = "none";
+
+                        // BorderColor neutre / gris
+                        document.querySelectorAll('.lp-page4-card').forEach(element => {
+                            element.style.border = "1px solid #9a9a9a;";
+                        });
 
                         // reset Box-shadow + scroll 
                         document.querySelectorAll('.lp-gameCard').forEach(element => {
