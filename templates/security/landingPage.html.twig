@@ -71,7 +71,8 @@
     {# Page 2 #}
     <div id="lp-page2" style="height:100vh; position:relative;">
 
-        <div style="display:inline-flex; width:100%; height:inherit;">
+        {# Partie 1 (50vh) de la page 2 #}
+        <div style="display:inline-flex; width:100%; height:50vh;">
 
             <div class="lp-p2-leftSection">
                 {# TODO Serait mieux avec couches de zindex (Mockup passe par dessus sectionRight#}
@@ -100,6 +101,16 @@
 
         </div>
 
+        {# Partie 2 (50vh) de la page 2 #}
+        <div>
+            <div>
+                
+            </div>
+            <div>
+            
+            </div>
+        </div>
+
         {# Scroll Btn #}
         <div id="lp-scrollBtn2" class="landingPageDownBtn">
             <i class="fa-solid fa-chevron-down lpdownBtn1"></i>
@@ -120,7 +131,7 @@
 
         <h2 id="carousel-heading" class="lp-page3-title">
             <i class="fa-solid fa-down-long choseGameArrow"></i>
-            <span style="margin:0 10px;">Choisissez un jeu pour filtrer</span>
+            <span style="margin:0 25px;">Choisissez un jeu pour filtrer</span>
             <i class="fa-solid fa-down-long choseGameArrow"></i>
         </h2>
 
@@ -167,15 +178,25 @@
     {# TODO vertical comme page3 #}
     <div id="lp-page4" class ="lp-page4" style="height:100vh; opacity:0;">
 
-        <div id="lp-page4-titleDiv" class="lp-page4-titleDiv">
-            <h2 id="lp-page4-selectedGameTitle"><i class="fa-solid fa-arrow-up" style="margin:0 15px;"></i>Sélectionnez un jeu pour filtrer</h2>
+        <div style="display:inline-flex;width:100%;justify-content:center;gap:55px;">
+            {# title: link gameDetails #}
+            <a id="lp-page4-titleLink">
+                <div id="lp-page4-titleDiv" class="lp-page4-titleDiv">
+                    <h2 id="lp-page4-selectedGameTitle"><i class="fa-solid fa-arrow-up" style="margin:0 15px;"></i>Sélectionnez un jeu pour filtrer</h2>
+                </div>
+            </a>
+            {# Scroll Btn top #}
+            <div id="lp-scrollBtn3" class="landingPageUpBtn">
+                <i class="fa-solid fa-chevron-up lpdownBtn1"></i>
+                <i class="fa-solid fa-chevron-up lpdownBtn2"></i>
+            </div>
         </div>
 
         <div style="height:1px; width:100%; background:radial-gradient(circle, rgba(255,255,255,1) 11%, rgba(44,243,249,0) 70%);"></div>
 
         <div class="lp-page4-container"> 
             {# <a id="lp-page4-cardTeams"> #}
-                <div class="lp-page4-card lp-page4-cardTeam" style="cursor:default;">
+                <div class="lp-page4-card lp-page4-cardTeam" style="cursor:default; margin-top:70px;">
                     <h3 class="lp-page4-cardTitle">Teams</h3>
                     {# mini listes ou juste cards ? #}
                     <div class="lp-page4-teamsCardContent">
@@ -190,14 +211,14 @@
                 </div>
             {# </a> #}
 
-            <a id="lp-page4-cardTopics">
+            <a id="lp-page4-cardTopics" style="margin-top:70px;">
                 <div class="lp-page4-card">
                     <h3 class="lp-page4-cardTitle">Topics</h3>
                     <img src="{{ asset('img/landingPageTopics_v2.png') }}" class="lp-page4-img" style="width:-webkit-fill-available; margin: 30px auto;">
                 </div>
             </a>
 
-            <a id="lp-page4-cardMedias">
+            <a id="lp-page4-cardMedias" style="margin-top:70px;">
                 <div class="lp-page4-card">
                     <h3 class="lp-page4-cardTitle">Médias</h3>
                 <img src="{{ asset('img/landingPageMedias_v2.png') }}" class="lp-page4-img" style="width:-webkit-fill-available; margin: 30px auto;">
@@ -277,6 +298,10 @@
                 const element2 = document.getElementById("lp-page3");
                 element2.scrollIntoView({behavior: "smooth", block: "end", inline: "nearest"});
             });
+            document.getElementById('lp-scrollBtn3').addEventListener('click', function() {
+                const element3 = document.getElementById("lp-page3");
+                element3.scrollIntoView({behavior: "smooth", block: "end", inline: "nearest"});
+            });
         
 
 
@@ -308,12 +333,14 @@
 
 
                     // Adaptation des liens des cards page4
-                    document.getElementById('lp-page4-cardTopics').setAttribute('href', '/allTopics/{{ game.id}}')
-                    document.getElementById('lp-page4-cardMedias').setAttribute('href', '/allMedias/{{ game.id}}')
+                    document.getElementById('lp-page4-cardTopics').setAttribute('href', '/allTopics/{{ game.id}}');
+                    document.getElementById('lp-page4-cardMedias').setAttribute('href', '/allMedias/{{ game.id}}');
                     // document.getElementById('lp-page4-cardTeams').setAttribute('href', '/game/{{ game.id}}')
 
-                    document.getElementById('lp-page4-cardTeams-seek').setAttribute('href', '/groupList/{{ game.id}}')
-                    document.getElementById('lp-page4-cardTeams-create').setAttribute('href', '/createGroup/{{ game.id}}')
+                    document.getElementById('lp-page4-cardTeams-seek').setAttribute('href', '/groupList/{{ game.id}}');
+                    document.getElementById('lp-page4-cardTeams-create').setAttribute('href', '/createGroup/{{ game.id}}');
+
+                    document.getElementById('lp-page4-titleLink').setAttribute('href', '/game/{{ game.id }}');
 
 
                     document.getElementById('lp-page4-selectedGameTitle').innerHTML = "{{ game.title }}";
