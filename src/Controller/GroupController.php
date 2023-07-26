@@ -271,6 +271,7 @@ class GroupController extends AbstractController
                 $groupSessionsArray = [];
                 foreach ($groupSessions as $session) {
                     $sessionArray = [
+                        'sessionId' => $session->getId(),
                         'title' => $session->getTitle(), 
                         'start' => $session->getDateStart()->format('Y-m-d\TH:i:s'), 
                         'end' => $session->getDateEnd()->format('Y-m-d\TH:i:s'),
@@ -294,15 +295,31 @@ class GroupController extends AbstractController
                         if($form->isValid()) {
 
                             // Vérif si dateFin > dateDébut + au moins 1h de diff
-        
-                            $session = $form->getData();
-                            $session->setTeam($group);
+                            if($form->get('dateEnd')->getData() > $form->get('dateStart')->getData()) {
 
-                            $entityManager->persist($session);
-                            $entityManager->flush();
-    
-                            $this->addFlash('success', 'La session a bien été ajouté');
-                            return $this->redirectToRoute('app_groupDetails', ['groupId' => $group->getId()]);
+                                if($form->get('title')->getData() != '') {
+
+                                    $session = $form->getData();
+                                    $session->setTeam($group);
+
+                                    $entityManager->persist($session);
+                                    $entityManager->flush();
+
+                                    // Envoi notifs aux membres (et si besoin confirmation)
+                                    $this->notifController->notifMembersNewSession($group, $session);
+            
+                                    $this->addFlash('success', 'La session a bien été ajouté');
+                                    return $this->redirectToRoute('app_groupDetails', ['groupId' => $group->getId()]);
+
+                                } else {
+                                    $this->addFlash('error', 'Vous devez donner un titre à la session');
+                                    return $this->redirectToRoute('app_groupDetails', ['groupId' => $group->getId()]);
+                                }
+                            }
+                            else {
+                                $this->addFlash('error', 'Les dates de session ne sont pas valides');
+                                return $this->redirectToRoute('app_groupDetails', ['groupId' => $group->getId()]);
+                            }
 
                         }
                     }

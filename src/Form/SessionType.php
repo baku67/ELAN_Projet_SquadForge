@@ -5,6 +5,7 @@ namespace App\Form;
 use App\Entity\GroupSession;
 use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -31,12 +32,11 @@ class SessionType extends AbstractType
                 'label' => 'Titre',
                 'required' => true,
                 'attr' => ["class" => "form-control"],
-                // 'constraints' => [
-                //     new Callback([$this, 'validateTextInput']),
-                // ],
             ])
-            ->add('comfirmNeeded')
-            // ->add('team')
+            ->add('comfirmNeeded', CheckboxType::class, [
+                'label' => 'Comfirmation requise',
+                'required' => false,
+            ])
 
             ->add('submit', SubmitType::class, [
                 'label' => 'Publier',

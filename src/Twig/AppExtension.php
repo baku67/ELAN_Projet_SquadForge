@@ -37,23 +37,23 @@ class AppExtension extends AbstractExtension
 
         if ($days > 0) {
             if ($days > 365) {
-                return "> 1an";
+                return "il y a > 1an";
             }
             else {
                 if($days > 30) {
                     $nbrMonth = intval($days / 30);
-                    return "{$nbrMonth}mois";
+                    return "il y a {$nbrMonth}mois";
                 }
                 else {
-                    return "{$days}j";
+                    return "il y a {$days}j";
                 }
             }
         }
         else if (($hours > 0) && (empty($days))) {
-            return "{$hours}h";
+            return "il y a {$hours}h";
         }
         else if (($minutes >= 0) && (empty($hours)) && (empty($days))) {
-            return "{$minutes}m";
+            return "il y a {$minutes}m";
         }
         else if ((empty($days)) && (empty($hours)) && (empty($minutes))) {
             return "à l'instant";

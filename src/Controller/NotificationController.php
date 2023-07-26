@@ -7,6 +7,7 @@ use App\Entity\Candidature;
 use App\Entity\Media;
 use App\Entity\Group;
 use App\Entity\Topic;
+use App\Entity\GroupSession;
 use App\Entity\User;
 use App\Entity\MediaPost;
 use App\Entity\TopicPost;
@@ -153,10 +154,65 @@ class NotificationController extends AbstractController
 
 
 
+    // Passe la notif clickée en "clicked" et redirige vers notifsList (pour les notifs sans redirections)
+    #[Route('/notifClicked/{notifId}', name: 'app_notifClicked')]
+    public function notifClicked(int $notifId, Request $request): Response
+    {
+        $notifRepo = $this->entityManager->getRepository(Notification::class);
+        $notif = $notifRepo->find($notifId);
+        $notif->setClicked(true);
+
+        $this->entityManager->persist($notif);
+        $this->entityManager->flush();
+
+        $this->addFlash('success', 'Le lien n\'existe plus');
+        return $this->redirectToRoute('app_showNotifsList');
+    }
+
+
+
 
     // **************************************************************************************************************************
     // Fonctions de création de notifications
     // **************************************************************************************************************************
+
+
+    public function notifMembersNewSession(Group $group, GroupSession $session): bool 
+    {
+        $members = $group->getMembers();
+
+        foreach ($members as $member) {
+
+            if($member != $group->getLeader()) {
+
+                $notification = new Notification();
+
+                $text = "<span style='font-weight:bold;text-decoration:underline;'>" . $group->getTitle() . '</span>: Une session a été planifié "' . $session->getTitle() . '". ';
+                if ($session->isComfirmNeeded()) {
+                    $text .= 'Confirmation demandée par le leader de la team.';
+                }
+                $notification->setText($text);
+        
+                $notification->setDateCreation(new \DateTime());
+                $notification->setUser($member);
+                $notification->setClicked(false);
+
+                $this->entityManager->persist($notification);
+                $this->entityManager->flush();
+
+                $link = $this->urlGenerator->generate('app_groupDetails', ['groupId' => $group->getId(), 'notifId' => $notification->getId()], UrlGeneratorInterface::ABSOLUTE_URL);
+                $notification->setLink($link);        
+        
+                $this->entityManager->persist($notification);
+                $this->entityManager->flush();
+
+            }
+
+        }
+
+        return true;
+    }
+
 
 
     public function notifCensureAuthor(User $user, string $type, string $objectText): bool
@@ -192,6 +248,14 @@ class NotificationController extends AbstractController
         $this->entityManager->persist($notification);
         $this->entityManager->flush();
 
+        // Lien clickable juste pour passer en "clicked"
+        $link = $this->urlGenerator->generate('app_notifClicked', ['notifId' => $notification->getId()], UrlGeneratorInterface::ABSOLUTE_URL);
+        $notification->setLink($link);
+
+        $this->entityManager->persist($notification);
+        $this->entityManager->flush();
+
+
         return true;
     }
 
@@ -219,6 +283,12 @@ class NotificationController extends AbstractController
         $this->entityManager->persist($notification);
         $this->entityManager->flush();
 
+        $link = $this->urlGenerator->generate('app_notifClicked', ['notifId' => $notification->getId()], UrlGeneratorInterface::ABSOLUTE_URL);
+        $notification->setLink($link);
+
+        $this->entityManager->persist($notification);
+        $this->entityManager->flush();
+
         return true;
     }
 
@@ -233,6 +303,12 @@ class NotificationController extends AbstractController
         $notification->setDateCreation(new \DateTime());
         $notification->setUser($user);
         $notification->setClicked(false);
+
+        $this->entityManager->persist($notification);
+        $this->entityManager->flush();
+
+        $link = $this->urlGenerator->generate('app_notifClicked', ['notifId' => $notification->getId()], UrlGeneratorInterface::ABSOLUTE_URL);
+        $notification->setLink($link);
 
         $this->entityManager->persist($notification);
         $this->entityManager->flush();

@@ -78,7 +78,7 @@
                 {% else  %}
                     <span>par {{ topic.user.pseudo|capitalize }}</span>
                 {% endif %}
-                <span>Il y a {{ time_diff(topic.publishDate) }}</span>
+                <span>{{ time_diff(topic.publishDate) }}</span>
             </div>
             {# <p>Intro</p> #}
         </div>
@@ -253,7 +253,7 @@
                                     <span class="postAuthorUser postSelf">Vous</span>
                                 {% else %}
                                     <span class="postAuthorUser">{{ post.user.pseudo }}</span>
-                                    <span class="postPublishDate">il y a {{ time_diff(post.publishDate) }}</span>
+                                    <span class="postPublishDate">{{ time_diff(post.publishDate) }}</span>
                                     {% if post.text != "Le commentaire a été supprimé" %}
                                         {% if app.user %}
                                         
