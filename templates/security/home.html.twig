@@ -49,7 +49,7 @@
 
         {% if app.user %}
         
-            <p class="greetingMsg">Welcome back, <span style="color:white;">{{ app.user.pseudo }}</span> !</p>
+            <p class="greetingMsg">Welcome back, <span style="color:white;">{{ app.user.pseudo|capitalize }}</span> !</p>
 
         {% else %}
             <p>Créer un compte</p>

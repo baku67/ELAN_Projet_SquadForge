@@ -79,7 +79,8 @@
 
             <div>
                 <div class="gameInfosSubTitleBg" style="background-color: {{ gameFrom.color }}"></div>
-                <h3 class="gameSubTitle noMarginBottom"><i class="fa-solid fa-user-group"></i> Membres ( {{ group.members|length }}/{{ group.nbrPlaces }} )</h3>
+                <h3 class="gameSubTitle noMarginBottom"><i class="fa-solid fa-user-group"></i> Membres</h3>
+                <span>( {{ group.members|length }}/{{ group.nbrPlaces }} )</span>
             </div>
 
             <div class="sectionContent">
@@ -94,7 +95,7 @@
                 {% endif %}
 
                 <li class="memberCard leaderCard" style="background-color: {{ gameFrom.color }}">
-                    {{ leaderPseudo }}
+                    {{ leaderPseudo|capitalize }}
                     <span style="text-align:center; color:#ffe039;filter:drop-shadow(2px 4px 6px black);"><i class="fa-solid fa-crown"></i></span>
                 </li>
                 
@@ -108,7 +109,7 @@
                         {% if member == app.user %}
                             {% set memberPseudo = "Vous" %}
                         {% else %}
-                            {% set memberPseudo = member.pseudo %}
+                            {% set memberPseudo = member.pseudo|capitalize %}
                         {% endif %}
                         
                         <li class="memberCard" style="background-color: {{ gameFrom.color }}">{{ memberPseudo }}
@@ -118,7 +119,7 @@
                             </span> 
 
                             <dialog class="modalDialog" id="kickMemberModal{{indexMember}}">
-                                <p>Êtes-vous sûr de vouloir éjecter {{ member.pseudo }} de la team ?</p>
+                                <p>Êtes-vous sûr de vouloir éjecter {{ member.pseudo|capitalize }} de la team ?</p>
                                 <a class="confirmModal" href="{{ path('app_kickGroupMember',{'memberId': member.id, 'groupId': group.id, 'type':"normal"}) }}">Oui</a>
                                 <a class="confirmModal" href="{{ path('app_kickGroupMember',{'memberId': member.id, 'groupId': group.id, 'type':"blacklisted"}) }}">Oui et blacklister</a>
                                 <span class="cancelModal" onclick="kickMemberModal{{indexMember}}.close()">Annuler</span>
@@ -228,7 +229,7 @@
                                             <option id="voidSelect" value="">-- Choisir</option>
                                             {% for member in group.members %}
                                                 {% if member != app.user %}
-                                                    <option value="{{member.id}}">{{member.pseudo}}</option>
+                                                    <option value="{{member.id}}">{{member.pseudo|capitalize}}</option>
                                                 {% endif %}
                                             {% endfor %}
                                         </select>
@@ -440,6 +441,11 @@
 
                     <div class="sectionContent">
 
+                        <span>Sessions à venir: x (si 0 msgVide)</span>
+                        <br>
+                        <span>(Si !0)Prochaine session prévue: dans x jours</span>
+                        <br>
+
                         <div id='calendar'></div>
 
                     </div>
@@ -456,10 +462,26 @@
 
 
                     <div id="eventDetailDiv" class="notDisplayed">
-                        <span>Détail de la session:</span>
-                        <a id="cancelEventBtn" style="color:grey">Annuler la session</a>
+                        <h5>Détail de la session</h5>
                         <br>                                
                         <span id="eventTitle"></span>
+                        <br>
+                        <a id="cancelEventBtn">Annuler la session</a>
+                        <br>
+                        <div style="display:inline-flex; width:100%; justify-content:center;">
+                            <div style="display:inline-flex; flex-direction:column; margin:0 10px;">
+                                <i id="member{{ app.user.id }}" class="fa-solid fa-user" style="color:#008926;"></i>
+                                <span>Vous</span>
+                            </div>
+                            {% for member in members %}
+                                {% if member != group.leader %}
+                                    <div style="display:inline-flex; flex-direction:column; margin:0 10px;">
+                                        <i id="member{{ member.id }}" class="fa-solid fa-user"></i>
+                                        <span>{{ member.pseudo|capitalize }}</span>
+                                    </div>
+                                {% endif %}
+                            {% endfor %}
+                        </div>
                     </div>
 
 
@@ -481,11 +503,11 @@
                                     const element = document.getElementById("eventDetailDiv");
                                     element.scrollIntoView({behavior: "smooth", block: "center", inline: "nearest"});
 
-                                    console.log(info.event.title)
-                                    console.log(info.event.extendedProps.sessionId)
-                                    console.log(info.event.extendedProps.confirmRequired)
-                                    console.log(info.event.start)
-                                    console.log(info.event.end)
+                                    // console.log(info.event.title)
+                                    // console.log(info.event.extendedProps.sessionId)
+                                    // console.log(info.event.extendedProps.confirmRequired)
+                                    // console.log(info.event.start)
+                                    // console.log(info.event.end)
 
                                     // Url des boutons de disponibilité
                                     document.getElementById("cancelEventBtn").setAttribute("href", "/cancelSession/" + info.event.extendedProps.sessionId);
@@ -493,8 +515,28 @@
                                     document.getElementById("eventTitle").textContent = info.event.title;
 
 
-                                    // Ajax get la dispoState pour la session cliquée et le membre connecté
-
+                                    // Ajax get les dispoState des membres pour la session cliquée 
+                                    $.ajax({
+                                        url: '/getSessionMembersDispo/' + info.event.extendedProps.sessionId,
+                                        type: 'GET',
+                                        success: function(response) {
+                                            console.log(response.memberDispoArray);
+                                            for (let i = 0; i < response.memberDispoArray.length; i++) {
+                                                if(response.memberDispoArray[i]["disponibility"] == "dispo") {
+                                                    document.getElementById("member" + response.memberDispoArray[i]["id"]).style.color = "#008926";
+                                                }
+                                                else if (response.memberDispoArray[i]["disponibility"] == "perhaps") {
+                                                    document.getElementById("member" + response.memberDispoArray[i]["id"]).style.color = "#a6490f";
+                                                }
+                                                else if (response.memberDispoArray[i]["disponibility"] == "notdispo") {
+                                                    document.getElementById("member" + response.memberDispoArray[i]["id"]).style.color = "#890035";
+                                                }
+                                            }
+                                        },
+                                        error: function(xhr, status, error) {
+                                            window.FlashMessage.error('Une erreur est survenue');
+                                        }
+                                    });
 
                                 },
                                 initialView: 'dayGridWeek',
@@ -607,20 +649,28 @@
 
                             <div class="sectionContent">
 
+                                <span>Sessions à venir: x (si 0 msgVide)</span>
+                                <br>
+                                <span>(Si !0)Prochaine session prévue: dans x jours</span>
+                                <br>
+
                                 <div id='calendar'></div>
 
                             </div>
 
                             <div id="eventDetailDiv" class="notDisplayed">
-                                <span>Détail de la session:</span>
-                                <br>                                
-                                <span id="eventTitle"></span>
-                                <br>
-                                <span>Disponibilité:</span>
-                                <div class="eventDispoOptions">
-                                    <span id="eventDispoBtn">Disponible</span>
-                                    <span id="eventPerhapsBtn">Peut-être</span>
-                                    <span id="eventNotDispoBtn">Indisponible</span>
+                                <div class="">
+                                    <span>Détail de la session</span>
+                                    <span id="eventTitle"></span>
+                                </div>
+
+                                <div class="">
+                                    <span>Disponibilité</span>
+                                    <div class="eventDispoOptions">
+                                        <span id="eventDispoBtn">Disponible</span>
+                                        <span id="eventPerhapsBtn">Peut-être</span>
+                                        <span id="eventNotDispoBtn">Indisponible</span>
+                                    </div>
                                 </div>
                                 {# Ajax: Affichage des membres et leur dispo #}
                                 {# Leader: btn envoi notif relance sous membre #}

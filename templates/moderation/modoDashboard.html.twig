@@ -69,7 +69,7 @@
                             <img class="tinyLogo" src="{{ asset('img/games/tinyLogo/' ~ topic.game.tinyLogo) }}" />
                             <span id="topicTitle{{ topic.id }}" class="topicTitleModo">{{ topic.title|capitalize }}</span>
                             <div class="topicCardSubInfosModo">
-                                <span class="topicCardAuthorModo">{{ topic.user.pseudo }}</span>
+                                <span class="topicCardAuthorModo">{{ topic.user.pseudo|capitalize }}</span>
                                 <span class="topicCardPublishDate">{{ time_diff(topic.publishDate) }}</span>
                             </div>
                         </div>
@@ -478,7 +478,7 @@
                     <div style="display:inline-flex; justify-content:space-around; padding: 5px 0; border-bottom:1px solid rgba(255,255,255,0.2);">
                         <span style="width:100px; font-family:'K2D', sans-serif;">"{{ censureWord.word }}"</span>
                         <span style="width:100px;">{{ time_diff(censureWord.creationDate) }}</span>
-                        <pspan style="width:100px;">par {{ censureWord.user.pseudo }}</span>
+                        <pspan style="width:100px;">par {{ censureWord.user.pseudo|capitalize }}</span>
                         <a href="{{ path('app_deleteCensure', {'id': censureWord.id }) }}">
                             <i class="fa-solid fa-xmark"></i>
                         </a>

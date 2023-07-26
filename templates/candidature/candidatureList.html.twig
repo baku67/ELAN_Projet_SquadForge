@@ -74,7 +74,7 @@
         {% for candidature in candidatures %}
             <a href="{{ path('app_candidatureDetails',{'candidatureId':candidature.id}) }}">
                 <div class="candidatureCard">
-                    <span>{{ candidature.user.pseudo }}</span>
+                    <span>{{ candidature.user.pseudo|capitalize }}</span>
                     <p style="font-family:'K2D', sans-serif;">{{ candidature.text }}</p>
                     <span class="topicCardPublishDate">{{ time_diff(candidature.creationDate) }}</span>
                 </div>

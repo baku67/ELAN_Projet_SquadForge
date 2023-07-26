@@ -8,6 +8,10 @@
     /* --secondary-font: "'K2D', sans-serif"; */
 }
 
+span {
+    font-family: 'K2D', sans-serif;
+}
+
 /* Bootstrap  */
     .btn-primary {
         margin: 0px auto;
@@ -579,8 +583,23 @@ header {
 
 #eventDetailDiv {
     text-align: center;
+    padding: 15px 15px 25px 15px;
+    border: 1px solid;
+    margin: 0 35px;
+    border-radius: 5px;
 }
 #eventTitle {
+    font-family: 'K2D', sans-serif;
+}
+
+#cancelEventBtn {
+    font-family: 'K2D', sans-serif;
+}
+
+.fc-view-harness {
+    font-family: 'K2D', sans-serif;
+}
+.fc-header-toolbar {
     font-family: 'K2D', sans-serif;
 }
 
@@ -2709,8 +2728,9 @@ cursor: pointer;
 }
 
 .leaderCard {
-    border: 2px solid #ffe039;
+    /* border: 2px solid #ffe039; */
 }
+
 
 
 .kickMemberBtn {
@@ -2900,7 +2920,7 @@ cursor: pointer;
 
 .sectionContainer {
     margin: 50px auto;
-    padding: 4px 10px 15px 0px;
+    padding: 4px 0px 15px 0px;
     border-radius: 6px;
 }
 

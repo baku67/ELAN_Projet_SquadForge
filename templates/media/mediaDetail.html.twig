@@ -291,7 +291,7 @@
                                     {% if post.user == app.user %}
                                         <span class="postAuthorUser postSelf">Vous</span>
                                     {% else %}
-                                        <span class="postAuthorUser">{{ post.user.pseudo }}</span>
+                                        <span class="postAuthorUser">{{ post.user.pseudo|capitalize }}</span>
                                         <span class="postPublishDate">{{ time_diff(post.publishDate) }}</span>
 
                                         {% if post.text != "Le commentaire a été supprimé" %}

@@ -104,7 +104,7 @@ class SessionController extends AbstractController
 
 
 
-    
+    // Ajax récup de la disponibilité de l'user connecté quand il clique sur une session du calendrier
     #[Route('/getSessionSelfDispo/{sessionId}', name: 'app_getSessionSelfDispo')]
     public function getSessionSelfDispo(EntityManagerInterface $entityManager, int $sessionId, Request $request): Response
     {
@@ -126,4 +126,33 @@ class SessionController extends AbstractController
 
     }
 
+
+
+
+    // Ajax Leader: récup des disponibilités des membres quand il clique sur une session du calendrier
+    #[Route('/getSessionMembersDispo/{sessionId}', name: 'app_getSessionMembersDispo')]
+    public function getSessionMembersDispo(EntityManagerInterface $entityManager, int $sessionId, Request $request): Response
+    {
+
+            $sessionRepo = $entityManager->getRepository(GroupSession::class);
+            $sessionDispoRepo = $entityManager->getRepository(GroupSessionDispo::class);
+            $session = $sessionRepo->find($sessionId);
+            $group = $session->getTeam();
+            $members = $group->getMembers();
+
+            // Pour chaque membre: tab[id => dispo, ...]
+            $membersDispoArray = [];
+            foreach ($members as $member) {
+                // ajout dans result si membre a une row dispo (findOneBy)
+                if( !is_null($sessionDispoRepo->findOneBy(['session' => $session, 'member' => $member])) ) {
+                    $membersDispoArray[] = [
+                        "id" => $member->getId(),
+                        "disponibility" => $sessionDispoRepo->findOneBy(['session' => $session, 'member' => $member])->getDisponibility(),
+                    ];
+                }
+            }
+
+            return new JsonResponse(['success' => true, 'memberDispoArray' => $membersDispoArray]); 
+
+    }
 }
