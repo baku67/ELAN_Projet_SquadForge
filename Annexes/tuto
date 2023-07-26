@@ -1,3 +1,26 @@
+TODO:
+
+Maquetteage responsive (les page les + importantes niveau reponsivité) + Desktop (reprendre la maquette pour adapter au projet)
+Responsive 
+RGPD (Hash, failles, persitance des données ? Anonymisation ou Suppression ? Regexp mot de passe, mentions légales, ...)
+SQL 
+
+Axes d'amélioration (chat avec web-socket par exemple, avatar user, profil etc..)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 Intégrer bandeau page 2 à la page 1 ? (oui en bas, scrollBtn noirs sur bandeau)
 
 FullCalendar JS parties (dateDebut, dateFin) + vérifs user disponibilité avant d'accepter le créneau

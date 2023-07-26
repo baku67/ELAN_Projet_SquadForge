@@ -451,13 +451,14 @@
                         </h4>
                     </div>
                     <div id="addSessionForm" class="notDisplayed">
-                        <p>test</p>
+                        {{ form_start(formAddSession)}}
+                        {{ form_end(formAddSession)}}
                         <button id="cancelAddSession" class="btn btn-primary"><i class="fa-solid fa-xmark"></i> Annuler</button>
-
                     </div>
 
 
                     <script>
+
                         document.addEventListener('DOMContentLoaded', function() {
 
                             // FullCalendar, Calendrier, Planning
@@ -468,12 +469,13 @@
                                 firstDay: 1,
                                 // Events du planning programmés 
                                 events: [
-                                    {
-                                        // test
-                                        title: 'Meeting with Client', // Event title
-                                        start: '2023-07-25T10:00:00', // Start date and time (ISO format)
-                                        end: '2023-07-25T12:00:00', // End date and time (ISO format)
-                                    },
+                                    {% for session in groupSessionsArray %}
+                                        {
+                                            title: '{{ session.title|e }}', // Event title
+                                            start: '{{ session.start|e }}', // Start date and time (ISO format)
+                                            end: '{{ session.end|e }}', // End date and time (ISO format)
+                                        },
+                                    {% endfor %}
                                 ],
                             });
 

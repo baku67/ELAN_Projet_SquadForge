@@ -7,11 +7,13 @@ use App\Entity\Candidature;
 use App\Entity\Group;
 use App\Entity\GroupQuestion;
 use App\Entity\GroupAnswer;
+use App\Entity\GroupSession;
 use App\Entity\Game;
 use App\Entity\Topic;
 use App\Entity\Media;
 use App\Entity\User;
 use App\Form\GroupType;
+use App\Form\SessionType;
 use App\Form\CandidatureType;
 use App\Repository\GroupRepository;
 use App\Repository\NotificationRepository;
@@ -263,6 +265,49 @@ class GroupController extends AbstractController
                     $waitingCandidature = false;
                 }
 
+
+                // Récupération des Sessions du groupe (Collection -> array)
+                $groupSessions = $group->getGroupSessions();
+                $groupSessionsArray = [];
+                foreach ($groupSessions as $session) {
+                    $sessionArray = [
+                        'title' => $session->getTitle(), 
+                        'start' => $session->getDateStart()->format('Y-m-d\TH:i:s'), 
+                        'end' => $session->getDateEnd()->format('Y-m-d\TH:i:s'),
+                    ];
+                    $groupSessionsArray[] = $sessionArray;
+                }
+
+
+                // Ajout/planification d'une session:
+                $session = new GroupSession();
+                $form = $this->createForm(SessionType::class, $session);
+                $form -> handleRequest($request);
+        
+
+                // Vérifs/Filtres
+                if($form->isSubmitted()) {
+        
+                    // Vérif leader du groupe
+                    if($this->getUser() == $group->getLeader()) {
+        
+                        if($form->isValid()) {
+
+                            // Vérif si dateFin > dateDébut + au moins 1h de diff
+        
+                            $session = $form->getData();
+                            $session->setTeam($group);
+
+                            $entityManager->persist($session);
+                            $entityManager->flush();
+    
+                            $this->addFlash('success', 'La session a bien été ajouté');
+                            return $this->redirectToRoute('app_groupDetails', ['groupId' => $group->getId()]);
+
+                        }
+                    }
+                }
+
                 return $this->render('group/groupDetails.html.twig', [
                     'modoNotifCount' => $modoNotifCount,
                     'userNotifCount' => $userNotifCount,
@@ -274,6 +319,8 @@ class GroupController extends AbstractController
                     'candidatureCount' => $candidatureCount,
                     'candidature' => $candidature,
                     'blacklistedNbr' => $blacklistedNbr,
+                    'groupSessionsArray' => $groupSessionsArray,
+                    'formAddSession' => $form->createView(),
                 ]);
             }
             // Si privé mais que user=memebre
