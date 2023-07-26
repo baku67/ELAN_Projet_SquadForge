@@ -275,6 +275,7 @@ class GroupController extends AbstractController
                         'title' => $session->getTitle(), 
                         'start' => $session->getDateStart()->format('Y-m-d\TH:i:s'), 
                         'end' => $session->getDateEnd()->format('Y-m-d\TH:i:s'),
+                        'confirmRequired' => $session->isComfirmNeeded(),
                     ];
                     $groupSessionsArray[] = $sessionArray;
                 }

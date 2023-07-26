@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\GroupSessionRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -29,6 +31,14 @@ class GroupSession
 
     #[ORM\Column(options: ['default' => false])]
     private ?bool $comfirmNeeded = null;
+
+    #[ORM\OneToMany(mappedBy: 'session', targetEntity: GroupSessionDispo::class, orphanRemoval: true)]
+    private Collection $groupSessionDispos;
+
+    public function __construct()
+    {
+        $this->groupSessionDispos = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -91,6 +101,36 @@ class GroupSession
     public function setComfirmNeeded(bool $comfirmNeeded): static
     {
         $this->comfirmNeeded = $comfirmNeeded;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, GroupSessionDispo>
+     */
+    public function getGroupSessionDispos(): Collection
+    {
+        return $this->groupSessionDispos;
+    }
+
+    public function addGroupSessionDispo(GroupSessionDispo $groupSessionDispo): static
+    {
+        if (!$this->groupSessionDispos->contains($groupSessionDispo)) {
+            $this->groupSessionDispos->add($groupSessionDispo);
+            $groupSessionDispo->setSession($this);
+        }
+
+        return $this;
+    }
+
+    public function removeGroupSessionDispo(GroupSessionDispo $groupSessionDispo): static
+    {
+        if ($this->groupSessionDispos->removeElement($groupSessionDispo)) {
+            // set the owning side to null (unless already changed)
+            if ($groupSessionDispo->getSession() === $this) {
+                $groupSessionDispo->setSession(null);
+            }
+        }
 
         return $this;
     }

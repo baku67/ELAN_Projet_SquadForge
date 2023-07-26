@@ -105,6 +105,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(options: ['default' => 0])]
     private ?int $nbrCensures = null;
 
+    #[ORM\OneToMany(mappedBy: 'groupMember', targetEntity: GroupSessionDispo::class, orphanRemoval: true)]
+    private Collection $groupSessionDispos;
+
     public function __construct()
     {
         $this->favoris = new ArrayCollection();
@@ -123,6 +126,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         $this->groupsWhereBlackisted = new ArrayCollection();
         $this->notifications = new ArrayCollection();
         $this->reports = new ArrayCollection();
+        $this->groupSessionDispos = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -765,6 +769,36 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setNbrCensures(int $nbrCensures): static
     {
         $this->nbrCensures = $nbrCensures;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, GroupSessionDispo>
+     */
+    public function getGroupSessionDispos(): Collection
+    {
+        return $this->groupSessionDispos;
+    }
+
+    public function addGroupSessionDispo(GroupSessionDispo $groupSessionDispo): static
+    {
+        if (!$this->groupSessionDispos->contains($groupSessionDispo)) {
+            $this->groupSessionDispos->add($groupSessionDispo);
+            $groupSessionDispo->setGroupMember($this);
+        }
+
+        return $this;
+    }
+
+    public function removeGroupSessionDispo(GroupSessionDispo $groupSessionDispo): static
+    {
+        if ($this->groupSessionDispos->removeElement($groupSessionDispo)) {
+            // set the owning side to null (unless already changed)
+            if ($groupSessionDispo->getGroupMember() === $this) {
+                $groupSessionDispo->setGroupMember(null);
+            }
+        }
 
         return $this;
     }

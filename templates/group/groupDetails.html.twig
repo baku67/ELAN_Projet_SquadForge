@@ -582,6 +582,22 @@
 
                             </div>
 
+                            <div id="eventDetailDiv" class="notDisplayed">
+                                <span>Détail de la session:</span>
+                                <a id="cancelEventBtn" style="color:grey">Annuler la session</a>
+                                <br>                                
+                                <span id="eventTitle"></span>
+                                <br>
+                                <span>Disponibilité:</span>
+                                <div>
+                                    <a id="eventDispoBtn">Disponible</a>
+                                    <a id="eventPerhapsBtn">Peut-être</a>
+                                    <a id="eventNotDispoBtn">Indisponible</a>
+                                </div>
+                                {# Ajax: Affichage des membres et leur dispo #}
+                                {# Leader: btn envoi notif relance sous membre #}
+                            </div>
+
                             <script>
                                 document.addEventListener('DOMContentLoaded', function() {
 
@@ -591,7 +607,23 @@
 
                                     var calendar = new FullCalendar.Calendar(calendarEl, {
                                         eventClick: function(info) {
+
                                             console.log(info.event.title)
+                                            console.log(info.event.extendedProps.sessionId)
+                                            console.log(info.event.extendedProps.confirmRequired)
+                                            console.log(info.event.start)
+                                            console.log(info.event.end)
+
+                                            // Url des boutons de disponibilité
+                                            document.getElementById("cancelEventBtn").setAttribute("href", "/cancelSession/" + info.event.extendedProps.sessionId);
+                                            document.getElementById("eventDispoBtn").setAttribute("href", "/sessionMemberDispo/" + info.event.extendedProps.sessionId + "/" + {{ app.user.id }} + "/dispo");
+                                            document.getElementById("eventPerhapsBtn").setAttribute("href", "/sessionMemberDispo/" + info.event.extendedProps.sessionId + "/" + {{ app.user.id }} + "/perhaps");
+                                            document.getElementById("eventNotDispoBtn").setAttribute("href", "/sessionMemberDispo/" + info.event.extendedProps.sessionId + "/" + {{ app.user.id }} + "/notdispo");
+
+                                            document.getElementById("eventDetailDiv").classList.remove("notDisplayed");
+                                            
+                                            document.getElementById("eventTitle").textContent = info.event.title;
+
                                         },
                                         initialView: 'dayGridWeek',
                                         locale: 'fr',

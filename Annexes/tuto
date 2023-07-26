@@ -8,6 +8,7 @@ Responsive
 RGPD (Hash, failles, persitance des données ? Anonymisation ou Suppression ? Regexp mot de passe, mentions légales, ...)
 SQL (réviser avant exam)
 SEO (référencement, IMPORTANT jurée au taquet)
+"Serialization" / "déésérialisation" par exemple pour récup evnts FullCalendar (= formattage des data JSON par exemple)
 
 Axes d'amélioration (chat avec web-socket par exemple, avatar user, profil etc..)
 
@@ -17,7 +18,7 @@ Axes d'amélioration (chat avec web-socket par exemple, avatar user, profil etc.
 40 minutes de question
 
 
-TODO: routes/999 : créer page 404
+TODO: "/routes/999" : créer page 404
 
 
 
