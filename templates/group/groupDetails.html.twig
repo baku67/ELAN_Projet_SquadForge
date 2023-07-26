@@ -460,23 +460,31 @@
                     <script>
 
                         document.addEventListener('DOMContentLoaded', function() {
+                            let calendarEl = document.getElementById('calendar');
+                            let data = '{{ groupSessionsArray | raw }}';
+                            let res = JSON.parse(data);
 
-                            // FullCalendar, Calendrier, Planning
-                            var calendarEl = document.getElementById('calendar');
                             var calendar = new FullCalendar.Calendar(calendarEl, {
+                                eventClick: function(info) {
+                                    console.log(info.event.title)
+                                },
                                 initialView: 'dayGridWeek',
                                 locale: 'fr',
+                                timeZone: 'Europe/Paris',
                                 firstDay: 1,
-                                // Events du planning programmés 
-                                events: [
-                                    {% for session in groupSessionsArray %}
-                                        {
-                                            title: '{{ session.title|e }}', // Event title
-                                            start: '{{ session.start|e }}', // Start date and time (ISO format)
-                                            end: '{{ session.end|e }}', // End date and time (ISO format)
-                                        },
-                                    {% endfor %}
-                                ],
+                                headerToolbar: {
+                                    start: 'prev next today',
+                                    center: 'title',
+                                    end: 'dayGridMonth listMonth listYear',
+                                },
+                                buttonText: {
+                                    'today' : 'Aujourd\'hui',
+                                    'week' : 'semaine',
+                                    'month' : 'Grille',
+                                    'listMonth' : 'Mois',
+                                    'listYear' : 'Année',
+                                },
+                                events: res,
                             });
 
                             calendar.render();
@@ -577,26 +585,31 @@
                             <script>
                                 document.addEventListener('DOMContentLoaded', function() {
 
-                                    // FullCalendar, Calendrier, Planning
-                                    var calendarEl = document.getElementById('calendar');
+                                    let calendarEl = document.getElementById('calendar');
+                                    let data = '{{ groupSessionsArray | raw }}';
+                                    let res = JSON.parse(data);
+
                                     var calendar = new FullCalendar.Calendar(calendarEl, {
                                         eventClick: function(info) {
-                                            alert('Event: ' + info.event.title);
+                                            console.log(info.event.title)
                                         },
                                         initialView: 'dayGridWeek',
                                         locale: 'fr',
+                                        timeZone: 'Europe/Paris',
                                         firstDay: 1,
-                                        // Events du planning programmés 
-                                        events: [
-                                            {% for session in groupSessionsArray %}
-                                                {
-                                                    id: '{{ session.sessionId }}',
-                                                    title: '{{ session.title|e }}', // Event title
-                                                    start: '{{ session.start|e }}', // Start date and time (ISO format)
-                                                    end: '{{ session.end|e }}', // End date and time (ISO format)
-                                                },
-                                            {% endfor %}
-                                        ],
+                                        headerToolbar: {
+                                            start: 'prev next today',
+                                            center: 'title',
+                                            end: 'dayGridMonth listMonth listYear',
+                                        },
+                                        buttonText: {
+                                            'today' : 'Aujourd\'hui',
+                                            'week' : 'semaine',
+                                            'month' : 'Grille',
+                                            'listMonth' : 'Mois',
+                                            'listYear' : 'Année',
+                                        },
+                                        events: res,
                                     });
 
                                     calendar.render();

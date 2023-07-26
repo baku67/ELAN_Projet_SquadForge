@@ -1,12 +1,23 @@
-TODO:
+TODO dossirt
 
+Trello
+Méthode Mosow (hierarchisation taches)
+Meurise
 Maquetteage responsive (les page les + importantes niveau reponsivité) + Desktop (reprendre la maquette pour adapter au projet)
 Responsive 
 RGPD (Hash, failles, persitance des données ? Anonymisation ou Suppression ? Regexp mot de passe, mentions légales, ...)
-SQL 
+SQL (réviser avant exam)
+SEO (référencement, IMPORTANT jurée au taquet)
 
 Axes d'amélioration (chat avec web-socket par exemple, avatar user, profil etc..)
 
+"Empreinte numérique"  =  algo (argonII, md5) + salt + Hash
+
+25 minutes de blabla powerpoint, 10min de présentation app
+40 minutes de question
+
+
+TODO: routes/999 : créer page 404
 
 
 
@@ -21,7 +32,7 @@ Bouton pour switcher entre les différent affichage de FullCalendar (month, mult
 
 
 
-
+Idéé: créer API récup notes/moyennes par jeux et mini-projet de récup des notes 
 
 Intégrer bandeau page 2 à la page 1 ? (oui en bas, scrollBtn noirs sur bandeau)
 

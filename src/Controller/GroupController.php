@@ -266,7 +266,7 @@ class GroupController extends AbstractController
                 }
 
 
-                // Récupération des Sessions du groupe (Collection -> array)
+                // Récupération des Sessions du groupe (Collection -> array) JSON (raw parse: front)
                 $groupSessions = $group->getGroupSessions();
                 $groupSessionsArray = [];
                 foreach ($groupSessions as $session) {
@@ -294,7 +294,7 @@ class GroupController extends AbstractController
         
                         if($form->isValid()) {
 
-                            // Vérif si dateFin > dateDébut + au moins 1h de diff
+                            // Vérif si dateFin > dateDébut + TODO au moins 1h de diff
                             if($form->get('dateEnd')->getData() > $form->get('dateStart')->getData()) {
 
                                 if($form->get('title')->getData() != '') {
@@ -336,7 +336,7 @@ class GroupController extends AbstractController
                     'candidatureCount' => $candidatureCount,
                     'candidature' => $candidature,
                     'blacklistedNbr' => $blacklistedNbr,
-                    'groupSessionsArray' => $groupSessionsArray,
+                    'groupSessionsArray' => json_encode($groupSessionsArray),
                     'formAddSession' => $form->createView(),
                 ]);
             }
