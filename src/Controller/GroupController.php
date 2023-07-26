@@ -286,7 +286,6 @@ class GroupController extends AbstractController
                 $form = $this->createForm(SessionType::class, $session);
                 $form -> handleRequest($request);
         
-
                 // Vérifs/Filtres
                 if($form->isSubmitted()) {
         

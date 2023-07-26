@@ -19,6 +19,15 @@ use App\Repository\NotificationRepository;
 
 class SessionController extends AbstractController
 {
+
+    private $notifController;
+
+    public function __construct(NotificationController $notifController) {
+
+        $this->notifController = $notifController;
+    }
+
+
     #[Route('/cancelSession/{sessionId}', name: 'app_cancelSession')]
     public function cancelSession(EntityManagerInterface $entityManager, int $sessionId): Response
     {
@@ -29,12 +38,12 @@ class SessionController extends AbstractController
         // Vérif Leader
         if($session->getTeam()->getLeader() == $this->getUser()) {
 
-            $sessionRepo->remove($session, true);
+            // Envoi notifs annulation aux autres membres
+            $this->notifController->notifCancelSession($session);
 
             // Vérifs cascade dispo suppr
-
-            // Envoi notifs annulation aux membres
-
+            $sessionRepo->remove($session, true);
+            
             $this->addFlash('success', 'Session annulée avec succès');
             return $this->redirectToRoute('app_groupDetails', ['groupId' => $session->getTeam()->getId()]);
 

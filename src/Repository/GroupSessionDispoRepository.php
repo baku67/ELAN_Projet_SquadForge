@@ -21,6 +21,15 @@ class GroupSessionDispoRepository extends ServiceEntityRepository
         parent::__construct($registry, GroupSessionDispo::class);
     }
 
+
+    public function remove(GroupSessionDispo $entity, bool $flush = false): void
+    {
+        $this->getEntityManager()->remove($entity);
+
+        if ($flush) {
+            $this->getEntityManager()->flush();
+        }
+    }
 //    /**
 //     * @return GroupSessionDispo[] Returns an array of GroupSessionDispo objects
 //     */

@@ -95,7 +95,7 @@
 
                 <li class="memberCard leaderCard" style="background-color: {{ gameFrom.color }}">
                     {{ leaderPseudo }}
-                    <span style="text-align:center; color:#ffe039;"><i class="fa-solid fa-crown"></i></span>
+                    <span style="text-align:center; color:#ffe039;filter:drop-shadow(2px 4px 6px black);"><i class="fa-solid fa-crown"></i></span>
                 </li>
                 
 
@@ -445,10 +445,8 @@
                     </div>
 
 
-                    <div id="addSessionBtn">
-                        <h4 style="text-align:center;">
-                            <button class="btn btn-primary"><i class="fa-solid fa-plus"></i> Ajouter une session</button>
-                        </h4>
+                    <div id="addSessionBtn" style="text-align:center;">
+                        <button class="btn btn-primary"><i class="fa-solid fa-plus"></i> Ajouter une session</button>
                     </div>
                     <div id="addSessionForm" class="notDisplayed">
                         {{ form_start(formAddSession)}}
@@ -457,16 +455,42 @@
                     </div>
 
 
+                    <div id="eventDetailDiv" class="notDisplayed">
+                        <span>Détail de la session:</span>
+                        <a id="cancelEventBtn" style="color:grey">Annuler la session</a>
+                        <br>                                
+                        <span id="eventTitle"></span>
+                    </div>
+
+
                     <script>
 
                         document.addEventListener('DOMContentLoaded', function() {
+
                             let calendarEl = document.getElementById('calendar');
                             let data = '{{ groupSessionsArray | raw }}';
                             let res = JSON.parse(data);
 
                             var calendar = new FullCalendar.Calendar(calendarEl, {
                                 eventClick: function(info) {
+
+                                    document.getElementById("eventDetailDiv").classList.remove("notDisplayed");
+
+                                    // scroll detail Session
+                                    const element = document.getElementById("eventDetailDiv");
+                                    element.scrollIntoView({behavior: "smooth", block: "center", inline: "nearest"});
+
                                     console.log(info.event.title)
+                                    console.log(info.event.extendedProps.sessionId)
+                                    console.log(info.event.extendedProps.confirmRequired)
+                                    console.log(info.event.start)
+                                    console.log(info.event.end)
+
+                                    // Url des boutons de disponibilité
+                                    document.getElementById("cancelEventBtn").setAttribute("href", "/cancelSession/" + info.event.extendedProps.sessionId);
+
+                                    document.getElementById("eventTitle").textContent = info.event.title;
+
                                 },
                                 initialView: 'dayGridWeek',
                                 locale: 'fr',
@@ -608,6 +632,12 @@
                                     var calendar = new FullCalendar.Calendar(calendarEl, {
                                         eventClick: function(info) {
 
+                                            document.getElementById("eventDetailDiv").classList.remove("notDisplayed");
+
+                                            // scroll detail Session
+                                            const element = document.getElementById("eventDetailDiv");
+                                            element.scrollIntoView({behavior: "smooth", block: "center", inline: "nearest"});
+
                                             console.log(info.event.title)
                                             console.log(info.event.extendedProps.sessionId)
                                             console.log(info.event.extendedProps.confirmRequired)
@@ -620,8 +650,6 @@
                                             document.getElementById("eventPerhapsBtn").setAttribute("href", "/sessionMemberDispo/" + info.event.extendedProps.sessionId + "/" + {{ app.user.id }} + "/perhaps");
                                             document.getElementById("eventNotDispoBtn").setAttribute("href", "/sessionMemberDispo/" + info.event.extendedProps.sessionId + "/" + {{ app.user.id }} + "/notdispo");
 
-                                            document.getElementById("eventDetailDiv").classList.remove("notDisplayed");
-                                            
                                             document.getElementById("eventTitle").textContent = info.event.title;
 
                                         },

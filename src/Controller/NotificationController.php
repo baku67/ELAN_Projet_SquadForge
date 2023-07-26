@@ -176,6 +176,40 @@ class NotificationController extends AbstractController
     // Fonctions de création de notifications
     // **************************************************************************************************************************
 
+    public function notifCancelSession(GroupSession $session): bool
+    {
+        $members = $session->getTeam()->getMembers();
+        $group = $session->getTeam();
+        
+        foreach ($members as $member) {
+
+            if($member != $group->getLeader()) {
+
+                $notification = new Notification();
+
+                $text = "<span style='font-weight:bold;text-decoration:underline;'>" . $group->getTitle() . '</span>: Une session a été annulée "' . $session->getTitle() . '". ';
+                $notification->setText($text);
+        
+                $notification->setDateCreation(new \DateTime());
+                $notification->setUser($member);
+                $notification->setClicked(false);
+
+                $this->entityManager->persist($notification);
+                $this->entityManager->flush();
+
+                $link = $this->urlGenerator->generate('app_groupDetails', ['groupId' => $group->getId(), 'notifId' => $notification->getId()], UrlGeneratorInterface::ABSOLUTE_URL);
+                $notification->setLink($link);        
+        
+                $this->entityManager->persist($notification);
+                $this->entityManager->flush();
+
+            }
+        }
+
+        return true;
+    }
+
+
 
     public function notifMembersNewSession(Group $group, GroupSession $session): bool 
     {
