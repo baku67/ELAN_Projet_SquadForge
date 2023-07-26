@@ -6,6 +6,8 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Request;
 
 use App\Entity\User;
 use App\Entity\GroupSession;
@@ -58,8 +60,8 @@ class SessionController extends AbstractController
 
 
     
-    #[Route('/sessionMemberDispo/{sessionId}/{disponibility}', name: 'app_sessionMemberDispo')]
-    public function sessionMemberDispo(EntityManagerInterface $entityManager, int $sessionId, string $disponibility): Response
+    #[Route('/updateSessionMemberDispo/{sessionId}/{disponibility}', name: 'app_updateSessionMemberDispo')]
+    public function updateSessionMemberDispo(EntityManagerInterface $entityManager, int $sessionId, string $disponibility): Response
     {
 
         $sessionRepo = $entityManager->getRepository(GroupSession::class);
@@ -89,8 +91,8 @@ class SessionController extends AbstractController
             $entityManager->persist($sessionDispo);
             $entityManager->flush();
             
-            $this->addFlash('success', 'Disponibilité envoyée');
-            return $this->redirectToRoute('app_groupDetails', ['groupId' => $session->getTeam()->getId()]);
+            // return $this->redirectToRoute('app_groupDetails', ['groupId' => $session->getTeam()->getId()]);
+            return new JsonResponse(['success' => true]); 
 
         }
         else {
@@ -99,4 +101,29 @@ class SessionController extends AbstractController
         }
 
     }
+
+
+
+    
+    #[Route('/getSessionSelfDispo/{sessionId}', name: 'app_getSessionSelfDispo')]
+    public function getSessionSelfDispo(EntityManagerInterface $entityManager, int $sessionId, Request $request): Response
+    {
+
+            $sessionRepo = $entityManager->getRepository(GroupSession::class);
+            $sessionDispoRepo = $entityManager->getRepository(GroupSessionDispo::class);
+            $session = $sessionRepo->find($sessionId);
+            $group = $session->getTeam();
+
+            // Vérif si disponibilité existe déjà -> si statut different: update
+            if( !is_null($sessionDispoRepo->findOneBy(['session' => $session, 'member' => $this->getUser()])) ) {
+                $sessionDispoState = $sessionDispoRepo->findOneBy(['session' => $session, 'member' => $this->getUser()])->getDisponibility();
+            }
+            else {
+                $sessionDispoState = null;
+            }
+
+            return new JsonResponse(['success' => true, 'selfDisponibility' => $sessionDispoState]); 
+
+    }
+
 }

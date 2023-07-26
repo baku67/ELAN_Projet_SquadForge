@@ -577,6 +577,43 @@ header {
 }
 
 
+#eventDetailDiv {
+    text-align: center;
+}
+#eventTitle {
+    font-family: 'K2D', sans-serif;
+}
+
+.eventDispoOptions {
+    font-family: 'K2D', sans-serif;
+    cursor: pointer;
+    
+}
+.eventDispoOptions span {
+    padding: 5px 12px;
+    border: 1px solid grey;
+    border-radius: 3px;
+    background-color: #181818;
+    transition: all 0.3s;
+}
+.eventDispoOptions span:hover {
+    opacity: 0.8;
+}
+
+.dispoState {
+    background-color: #008926 !important;
+    border-color: #008926 !important;
+}
+.perhapsState {
+    background-color: #a6490f !important;
+    border-color: #a6490f !important;
+}
+.notdispoState {
+    background-color: #890035 !important;
+    border-color: #890035 !important;
+}
+
+
 .lp-page4-cardMedias {
 
 }
