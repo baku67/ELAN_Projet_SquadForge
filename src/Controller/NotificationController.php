@@ -8,6 +8,7 @@ use App\Entity\Media;
 use App\Entity\Group;
 use App\Entity\Topic;
 use App\Entity\GroupSession;
+use App\Entity\GroupSessionDispo;
 use App\Entity\User;
 use App\Entity\MediaPost;
 use App\Entity\TopicPost;
@@ -243,6 +244,52 @@ class NotificationController extends AbstractController
             }
 
         }
+
+        return true;
+    }
+
+
+
+
+    public function notifNewDispo(GroupSessionDispo $sessionDispo): bool
+    {
+        $leader = $sessionDispo->getSession()->getTeam()->getLeader();
+        
+        $notification = new Notification();
+
+        if($sessionDispo->getDisponibility() == "dispo") {
+            $dispoText = "est disponible";
+        }
+        else if($sessionDispo->getDisponibility() == "perhaps") {
+            $dispoText = "est peut-être disponible";
+        }
+        else if($sessionDispo->getDisponibility() == "notdispo") {
+            $dispoText = "n'est pas disponible";
+        }
+
+        $text = "<span style='font-weight:bold;text-decoration:underline;'>"
+        . $sessionDispo->getSession()->getTeam()->getTitle()
+        . '</span>: Le membre "'
+        . $sessionDispo->getMember()->getPseudo()
+        . '" ' . $dispoText
+        . ' pour la session "'
+        . $sessionDispo->getSession()->getTitle()
+        . '" qui a lieu le '
+        . $sessionDispo->getSession()->getDateStart()->format('d/m à h:m');
+        $notification->setText($text);
+
+        $notification->setDateCreation(new \DateTime());
+        $notification->setUser($leader);
+        $notification->setClicked(false);
+
+        $this->entityManager->persist($notification);
+        $this->entityManager->flush();
+
+        $link = $this->urlGenerator->generate('app_groupDetails', ['groupId' => $sessionDispo->getSession()->getTeam()->getId(), 'notifId' => $notification->getId()], UrlGeneratorInterface::ABSOLUTE_URL);
+        $notification->setLink($link);        
+
+        $this->entityManager->persist($notification);
+        $this->entityManager->flush();
 
         return true;
     }

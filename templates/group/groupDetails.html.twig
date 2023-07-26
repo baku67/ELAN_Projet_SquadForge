@@ -608,7 +608,6 @@
 
                             <div id="eventDetailDiv" class="notDisplayed">
                                 <span>Détail de la session:</span>
-                                <a id="cancelEventBtn" style="color:grey">Annuler la session</a>
                                 <br>                                
                                 <span id="eventTitle"></span>
                                 <br>
@@ -645,10 +644,9 @@
                                             console.log(info.event.end)
 
                                             // Url des boutons de disponibilité
-                                            document.getElementById("cancelEventBtn").setAttribute("href", "/cancelSession/" + info.event.extendedProps.sessionId);
-                                            document.getElementById("eventDispoBtn").setAttribute("href", "/sessionMemberDispo/" + info.event.extendedProps.sessionId + "/" + {{ app.user.id }} + "/dispo");
-                                            document.getElementById("eventPerhapsBtn").setAttribute("href", "/sessionMemberDispo/" + info.event.extendedProps.sessionId + "/" + {{ app.user.id }} + "/perhaps");
-                                            document.getElementById("eventNotDispoBtn").setAttribute("href", "/sessionMemberDispo/" + info.event.extendedProps.sessionId + "/" + {{ app.user.id }} + "/notdispo");
+                                            document.getElementById("eventDispoBtn").setAttribute("href", "/sessionMemberDispo/" + info.event.extendedProps.sessionId + "/dispo");
+                                            document.getElementById("eventPerhapsBtn").setAttribute("href", "/sessionMemberDispo/" + info.event.extendedProps.sessionId + "/perhaps");
+                                            document.getElementById("eventNotDispoBtn").setAttribute("href", "/sessionMemberDispo/" + info.event.extendedProps.sessionId + "/notdispo");
 
                                             document.getElementById("eventTitle").textContent = info.event.title;
 
