@@ -140,11 +140,22 @@ body {
     height: 100px;
     width: 141px;
     position: absolute;
-    right: 5px;
-    top: 5px;
+    right: -50px;
+    top: -50px;  
     /* height: -webkit-fill-available; */
-}
 
+    animation: topRightEdgeSvgAnim 0.5s 1.3s ease forwards;
+}
+@keyframes topRightEdgeSvgAnim {
+    from {
+        right: -50px;
+        top: -50px;  
+    }
+    to {
+        right: 5px;
+        top: 5px;    
+    }
+}
 
 #bottomLeftEdgeSvgPath {
     opacity: 0.80;
@@ -162,11 +173,22 @@ body {
     height: 100px;
     width: 141px;
     position: absolute;
-    left: 8px;
-    bottom: 8px;
+    left: -50px;
+    bottom: -50px;  
     /* height: -webkit-fill-available; */
-}
 
+    animation: bottomLeftEdgeSvgAnim 0.5s 1.3s ease forwards;
+}
+@keyframes bottomLeftEdgeSvgAnim {
+    from {
+        left: -50px;
+        bottom: -50px;  
+    }
+    to {
+        left: 8px;
+        bottom: 8px;    
+    }
+}
 
 .centeredLogo {
     position: relative;
@@ -177,7 +199,20 @@ body {
     transform: translateX(-69px);
     z-index: 99;
     margin-top: 25px;
+
+    opacity: 0;
+    animation: fadeInCenteredLogo 0.5s 1.5s ease forwards;
 }
+@keyframes fadeInCenteredLogo {
+    from {
+        opacity:0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+
 .centeredLogoImg {
     width: 240px !important;
 }
@@ -264,6 +299,19 @@ header {
     background: rgba(35, 35, 35, 0.89);
 
     z-index: 1;
+}
+
+#lp-page1a {
+    opacity: 0;
+    animation: lp-page1a-fadeIn 0.7s 1.2s ease forwards;
+}
+@keyframes lp-page1a-fadeIn {
+    from {
+        opacity: 0;
+    }   
+    to {
+        opacity: 1;
+    }
 }
 
 
@@ -491,11 +539,22 @@ header {
     /* test: */
     width: 55%;
     position: absolute;
-    right: 0;
+    /* right: 0; */
+    right: -600px;
 
     background: -moz-linear-gradient(270deg, rgba(249,164,44,1) 0%, rgba(249,123,44,1) 100%);
     background: linear-gradient(270deg, rgba(249,164,44,1) 0%, rgba(249,123,44,1) 100%);
     background: -webkit-linear-gradient(270deg, rgba(249,164,44,1) 0%, rgba(249,123,44,1) 100%);
+
+    animation: lp-p2-rightSectionAnim 1s 0.6s ease forwards;
+}
+@keyframes lp-p2-rightSectionAnim {
+    from {
+        right: -600px;
+    }
+    to {
+        right: 0;
+    }
 }
 
 
@@ -525,10 +584,17 @@ header {
 .lp-p1b-div {
     position: relative;
     top: 50%;
+    width: 100%;
     gap: 100px;
     display: inline-flex;
     flex-direction: column;
     transform: translateY(-50%);
+}
+
+#lp-login {
+    width: 50%;
+    margin: 0 auto;
+    transform: translateX(56px);
 }
 
 
@@ -732,6 +798,7 @@ header {
     padding: 0px 16px 5px 16px;
     margin-top: 2px;
     background-color: #8080801c;
+    width: 200px;
 
     transition: all 0.3s;
 }
@@ -744,6 +811,7 @@ header {
     padding: 0px 16px 5px 16px;
     margin-top: 2px;
     background-color: #8080801c;
+    width: 200px;
 }
 
 

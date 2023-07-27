@@ -148,4 +148,10 @@ class SecurityController extends AbstractController
         }
     
     }
+
+    #[Route(path: '/getLoginForm', name: 'app_getLoginForm')]
+    public function getLoginForm(): Response
+    {
+        return $this->render('security/login_form.html.twig');
+    }
 }
