@@ -266,10 +266,25 @@ class GroupController extends AbstractController
                 }
 
 
-                // Récupération des Sessions du groupe (Collection -> array) JSON (raw parse: front)
+                // Récupération des Sessions du groupe 
                 $groupSessions = $group->getGroupSessions();
                 $groupSessionsArray = [];
+                $incomingSessionsCount = 0;
+                $nextSession = null;
+
                 foreach ($groupSessions as $session) {
+
+                    // Décompte des sessions à venir
+                    if($session->getDateStart() > new \DateTime()) {
+                        $incomingSessionsCount += 1;
+
+                        // Récup de la prochaine session
+                        if ($nextSession === null || $session->getDateStart() < $nextSession->getDateStart()) {
+                            $nextSession = $session;
+                        }
+                    }
+
+                    // Tableau des Sessions
                     $sessionArray = [
                         'sessionId' => $session->getId(),
                         'title' => $session->getTitle(), 
@@ -338,6 +353,8 @@ class GroupController extends AbstractController
                     'blacklistedNbr' => $blacklistedNbr,
                     'groupSessionsArray' => json_encode($groupSessionsArray),
                     'formAddSession' => $form->createView(),
+                    'incomingSessionsCount' => $incomingSessionsCount,
+                    'nextSession' => $nextSession,
                 ]);
             }
             // Si privé mais que user=memebre

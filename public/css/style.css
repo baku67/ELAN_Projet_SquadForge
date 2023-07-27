@@ -63,6 +63,21 @@ body {
 }
 
 
+.planningInfos {
+    text-align: center;
+    padding: 10px 10px 10px 10px;
+    margin-bottom: 25px;
+    background-color: #ffffff14;
+    border-radius: 6px;
+}
+
+.incomingSessionsNbr {
+    color: #b43a3a;
+    font-size: 1.5em;
+    font-weight: bold;
+    margin-left: 7px;
+}
+
 .landingPageSlogan {
     width: max-content;
     max-width: 75%;
@@ -592,6 +607,10 @@ header {
     border: 1px solid;
     margin: 0 35px;
     border-radius: 5px;
+
+    display: inline-flex;
+    flex-direction: column;
+    width: 100%;
 }
 #eventTitle {
     font-family: 'K2D', sans-serif;
@@ -599,6 +618,11 @@ header {
 
 #cancelEventBtn {
     font-family: 'K2D', sans-serif;
+    padding: 5px 10px;
+    background-color: #b43a3a;
+    border-radius: 5px;
+    width: fit-content;
+    margin: 5px auto 15px auto;
 }
 
 .fc-view-harness {

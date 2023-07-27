@@ -462,12 +462,10 @@
 
 
                     <div id="eventDetailDiv" class="notDisplayed">
-                        <h5>Détail de la session</h5>
-                        <br>                                
+                        <h5>Détail de la session</h5>                              
                         <span id="eventTitle"></span>
-                        <br>
                         <a id="cancelEventBtn">Annuler la session</a>
-                        <br>
+                        <h5>Disponibilités</h5>
                         <div style="display:inline-flex; width:100%; justify-content:center;">
                             <div style="display:inline-flex; flex-direction:column; margin:0 10px;">
                                 <i id="member{{ app.user.id }}" class="fa-solid fa-user" style="color:#008926;"></i>
@@ -512,7 +510,7 @@
                                     // Url des boutons de disponibilité
                                     document.getElementById("cancelEventBtn").setAttribute("href", "/cancelSession/" + info.event.extendedProps.sessionId);
 
-                                    document.getElementById("eventTitle").textContent = info.event.title;
+                                    document.getElementById("eventTitle").textContent = '"' + info.event.title + '"';
 
 
                                     // Ajax get les dispoState des membres pour la session cliquée 
@@ -649,10 +647,21 @@
 
                             <div class="sectionContent">
 
-                                <span>Sessions à venir: x (si 0 msgVide)</span>
-                                <br>
-                                <span>(Si !0)Prochaine session prévue: dans x jours</span>
-                                <br>
+                                <div class="planningInfos">
+                                    {% if incomingSessionsCount > 0 %}
+                                    
+                                        <span style="display:inline-flex; align-items:center;">Sessions à venir: <span class="incomingSessionsNbr">{{ incomingSessionsCount }}</span></span>
+                                        <br>
+                                        <span>Prochaine session prévue: dans {{ time_diff_future(nextSession.dateStart) }}</span>
+                                        <br>
+                                    
+                                    {% else %}
+                                        
+                                        <span>Sessions à venir: <span class="emptyListMsg">Aucune session à venir.</span></span>
+                                        <br>
+
+                                    {% endif %}
+                                </div>
 
                                 <div id='calendar'></div>
 
@@ -660,12 +669,12 @@
 
                             <div id="eventDetailDiv" class="notDisplayed">
                                 <div class="">
-                                    <span>Détail de la session</span>
+                                    <h5>Détail de la session</h5>
                                     <span id="eventTitle"></span>
                                 </div>
 
                                 <div class="">
-                                    <span>Disponibilité</span>
+                                    <h5>Disponibilité</h5>
                                     <div class="eventDispoOptions">
                                         <span id="eventDispoBtn">Disponible</span>
                                         <span id="eventPerhapsBtn">Peut-être</span>
@@ -717,7 +726,7 @@
                                             });
 
                                             // console.log(info.event.extendedProps.sessionId)
-                                            document.getElementById("eventTitle").textContent = info.event.title;
+                                            document.getElementById("eventTitle").textContent = '"' + info.event.title + '"';
 
                                             document.getElementById('eventDispoBtn').onclick = function() {
                                                 toggleDispo(info.event.extendedProps.sessionId, 'dispo');
