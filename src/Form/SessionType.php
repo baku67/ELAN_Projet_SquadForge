@@ -21,6 +21,7 @@ class SessionType extends AbstractType
                 'data' => new \DateTime(),
                 'required' => true,
                 'html5' => false,
+                'widget' => 'single_text',
                 'attr' => ['min' => ( new \DateTime() )->format('Y-m-d H:i:s'), 'id' => 'date_start_picker']
             ])
             ->add('dateEnd', DateTimeType::class, [
@@ -28,6 +29,7 @@ class SessionType extends AbstractType
                 'data' => new \DateTime(),
                 'required' => true,
                 'html5' => false,
+                'widget' => 'single_text',
                 'attr' => ['min' => ( new \DateTime() )->format('Y-m-d H:i:s'), 'id' => 'date_end_picker']
             ])
             ->add('title', TextType::class, [

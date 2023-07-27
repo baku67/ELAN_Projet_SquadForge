@@ -5,6 +5,8 @@
     --sectionBg-color: #363636;
     --white: #D9D9D9;
 
+    /* --bs-body-color: white !important; */
+
     /* --secondary-font: "'K2D', sans-serif"; */
 }
 
@@ -2569,6 +2571,16 @@ cursor: pointer;
 .addSessionBtn {
     font-family: 'K2D', sans-serif;
     margin-bottom: 20px;
+}
+
+#session_title {
+    width: 65%;
+    margin: 5px auto 10px auto;
+}
+
+#date_end_picker, #date_start_picker {
+    border-radius: 5px;
+    font-family: 'K2D', sans-serif;
 }
 
 .voidMemberNoClick {

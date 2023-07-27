@@ -287,7 +287,7 @@ class GroupController extends AbstractController
                     // Tableau des Sessions
                     $sessionArray = [
                         'sessionId' => $session->getId(),
-                        'title' => $session->getTitle(), 
+                        'title' => ucfirst($session->getTitle()), 
                         'start' => $session->getDateStart()->format('Y-m-d\TH:i:s'), 
                         'end' => $session->getDateEnd()->format('Y-m-d\TH:i:s'),
                         'confirmRequired' => $session->isComfirmNeeded(),

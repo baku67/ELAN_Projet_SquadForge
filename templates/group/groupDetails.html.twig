@@ -466,30 +466,35 @@
                     <div id="addSessionForm" class="notDisplayed">
 
                         {# ids pour flatPickr #}
-                        {{ form_label(formAddSession.dateStart) }}
-                        {{ form_widget(formAddSession.dateStart, {'id': 'date_start_picker'}) }}
-                        {{ form_label(formAddSession.dateEnd) }}
-                        {{ form_widget(formAddSession.dateEnd, {'id': 'date_end_picker'}) }}
-
                         {{ form_row(formAddSession.title) }}
-                        {{ form_row(formAddSession.comfirmNeeded) }}
+                        {{ form_label(formAddSession.dateStart, 'Début') }}
+                        {{ form_widget(formAddSession.dateStart, {'id': 'date_start_picker'}) }}
+                        {{ form_label(formAddSession.dateEnd, 'Fin') }}
+                        {{ form_widget(formAddSession.dateEnd, {'id': 'date_end_picker'}) }}
+                        {# {{ form_row(formAddSession.comfirmNeeded) }} #}
                         {{ form_row(formAddSession.submit) }}
+                        {{ form_widget(formAddSession._token) }}
+                        {{ form_errors(formAddSession) }}
 
-                        <button id="cancelAddSession" class="btn btn-primary"><i class="fa-solid fa-xmark"></i> Annuler</button>
-                    
+                        <br>
+                        <div style="display:inline-flex;margin:10px auto;">
+                            
+                            <button id="cancelAddSession" class="btn btn-primary">Annuler</button>
+                        </div>
+
                         <script>
                             document.addEventListener('DOMContentLoaded', function() {
                                 console.log('DOMContentLoaded');
                                 flatpickr('#date_start_picker', {
-                                    // enableTime: true,
-                                    // minDate: 'today',
-                                    // dateFormat: 'Y-m-d H:i',
+                                    enableTime: true,
+                                    minDate: 'today',
+                                    dateFormat: 'Y-m-d H:i',
                                 });
 
                                 flatpickr('#date_end_picker', {
-                                    // enableTime: true,
-                                    // minDate: 'today',
-                                    // dateFormat: 'Y-m-d H:i',
+                                    enableTime: true,
+                                    minDate: 'today',
+                                    dateFormat: 'Y-m-d H:i',
                                 });
                             });
                         </script>
