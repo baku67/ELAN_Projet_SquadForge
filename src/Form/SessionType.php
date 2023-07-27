@@ -20,18 +20,20 @@ class SessionType extends AbstractType
                 'date_label' => 'Début',
                 'data' => new \DateTime(),
                 'required' => true,
-                'attr' => ['min' => ( new \DateTime() )->format('Y-m-d H:i:s')]
+                'html5' => false,
+                'attr' => ['min' => ( new \DateTime() )->format('Y-m-d H:i:s'), 'id' => 'date_start_picker']
             ])
             ->add('dateEnd', DateTimeType::class, [
                 'date_label' => 'Fin',
                 'data' => new \DateTime(),
                 'required' => true,
-                'attr' => ['min' => ( new \DateTime() )->format('Y-m-d H:i:s')]
+                'html5' => false,
+                'attr' => ['min' => ( new \DateTime() )->format('Y-m-d H:i:s'), 'id' => 'date_end_picker']
             ])
             ->add('title', TextType::class, [
                 'label' => 'Titre',
                 'required' => true,
-                'attr' => ["class" => "form-control"],
+                'attr' => ["class" => "form-control", 'id' => 'testtttt'],
             ])
             ->add('comfirmNeeded', CheckboxType::class, [
                 'label' => 'Comfirmation requise',

@@ -610,7 +610,7 @@ header {
 
     display: inline-flex;
     flex-direction: column;
-    width: 100%;
+    width: -webkit-fill-available;
 }
 #eventTitle {
     font-family: 'K2D', sans-serif;
@@ -2568,6 +2568,7 @@ cursor: pointer;
 
 .addSessionBtn {
     font-family: 'K2D', sans-serif;
+    margin-bottom: 20px;
 }
 
 .voidMemberNoClick {

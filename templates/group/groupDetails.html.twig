@@ -436,15 +436,23 @@
     
                     <div>
                         <div class="gameInfosSubTitleBg" style="background-color: {{ gameFrom.color }}"></div>
-                        <h3 class="gameSubTitle noMarginBottom"><i class="fa-solid fa-clipboard-user"></i> Planning</h3>
+                        <h3 class="gameSubTitle noMarginBottom"><i class="fa-solid fa-calendar-days"></i> Planning</h3>
                     </div>
 
                     <div class="sectionContent">
 
-                        <span>Sessions à venir: x (si 0 msgVide)</span>
-                        <br>
-                        <span>(Si !0)Prochaine session prévue: dans x jours</span>
-                        <br>
+                        <div class="planningInfos">
+                            {% if incomingSessionsCount > 0 %}
+                            
+                                <span style="display:inline-flex; align-items:center;">Sessions à venir: <span class="incomingSessionsNbr">{{ incomingSessionsCount }}</span></span>
+                                <span>Prochaine session prévue: dans {{ time_diff_future(nextSession.dateStart) }}</span>
+                            
+                            {% else %}
+                                
+                                <span>Sessions à venir: <span class="emptyListMsg">Aucune session à venir.</span></span>
+
+                            {% endif %}
+                        </div>
 
                         <div id='calendar'></div>
 
@@ -454,14 +462,42 @@
                     <div id="addSessionBtn" style="text-align:center;">
                         <button class="btn btn-primary"><i class="fa-solid fa-plus"></i> Ajouter une session</button>
                     </div>
+
                     <div id="addSessionForm" class="notDisplayed">
-                        {{ form_start(formAddSession)}}
-                        {{ form_end(formAddSession)}}
+
+                        {# ids pour flatPickr #}
+                        {{ form_label(formAddSession.dateStart) }}
+                        {{ form_widget(formAddSession.dateStart, {'id': 'date_start_picker'}) }}
+                        {{ form_label(formAddSession.dateEnd) }}
+                        {{ form_widget(formAddSession.dateEnd, {'id': 'date_end_picker'}) }}
+
+                        {{ form_row(formAddSession.title) }}
+                        {{ form_row(formAddSession.comfirmNeeded) }}
+                        {{ form_row(formAddSession.submit) }}
+
                         <button id="cancelAddSession" class="btn btn-primary"><i class="fa-solid fa-xmark"></i> Annuler</button>
+                    
+                        <script>
+                            document.addEventListener('DOMContentLoaded', function() {
+                                console.log('DOMContentLoaded');
+                                flatpickr('#date_start_picker', {
+                                    // enableTime: true,
+                                    // minDate: 'today',
+                                    // dateFormat: 'Y-m-d H:i',
+                                });
+
+                                flatpickr('#date_end_picker', {
+                                    // enableTime: true,
+                                    // minDate: 'today',
+                                    // dateFormat: 'Y-m-d H:i',
+                                });
+                            });
+                        </script>
+                    
                     </div>
 
 
-                    <div id="eventDetailDiv" class="notDisplayed">
+                    <div id="eventDetailDiv" class="notDisplayed" style="border-color: {{ gameFrom.color }}; background-color: {{ gameFrom.color }}08;">
                         <h5>Détail de la session</h5>                              
                         <span id="eventTitle"></span>
                         <a id="cancelEventBtn">Annuler la session</a>
@@ -634,15 +670,13 @@
                         
                     {% else %}
 
-                        <p>Membre Standard</p>
-
                         {# // Planning (lecture seul) #}
                         {# Planification des sessions (FullCalendar JS) #}
                         <div class="sectionContainer" style="border: 1px solid {{ gameFrom.color }}50; border-top:2px solid {{ gameFrom.color }}; border-left:1px solid {{ gameFrom.color }};">
             
                             <div>
                                 <div class="gameInfosSubTitleBg" style="background-color: {{ gameFrom.color }}"></div>
-                                <h3 class="gameSubTitle noMarginBottom"><i class="fa-solid fa-clipboard-user"></i> Planning</h3>
+                                <h3 class="gameSubTitle noMarginBottom"><i class="fa-solid fa-calendar-days"></i> Planning</h3>
                             </div>
 
                             <div class="sectionContent">
@@ -651,14 +685,11 @@
                                     {% if incomingSessionsCount > 0 %}
                                     
                                         <span style="display:inline-flex; align-items:center;">Sessions à venir: <span class="incomingSessionsNbr">{{ incomingSessionsCount }}</span></span>
-                                        <br>
                                         <span>Prochaine session prévue: dans {{ time_diff_future(nextSession.dateStart) }}</span>
-                                        <br>
                                     
                                     {% else %}
                                         
                                         <span>Sessions à venir: <span class="emptyListMsg">Aucune session à venir.</span></span>
-                                        <br>
 
                                     {% endif %}
                                 </div>
@@ -667,7 +698,7 @@
 
                             </div>
 
-                            <div id="eventDetailDiv" class="notDisplayed">
+                            <div id="eventDetailDiv" class="notDisplayed" style="border-color: {{ gameFrom.color }}; background-color: {{ gameFrom.color }}08;">
                                 <div class="">
                                     <h5>Détail de la session</h5>
                                     <span id="eventTitle"></span>
