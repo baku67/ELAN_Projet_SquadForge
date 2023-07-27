@@ -21,6 +21,7 @@ footer {
 
 /* Bootstrap  */
     .btn-primary {
+        font-family: 'K2D', sans-serif;
         margin: 0px auto;
         color: black;
     } 
@@ -74,7 +75,7 @@ body {
 }
 
 .incomingSessionsNbr {
-    color: #b43a3a;
+    color: #38db25;
     font-size: 1.5em;
     font-weight: bold;
     margin-left: 7px;
@@ -939,7 +940,7 @@ nav {
     clip-path: polygon(14% 0, 100% 0, 86% 100%, 0% 100%); */
     padding: 11px 30px;
     position: relative;
-    left: 11px;
+    left: 0px;
     border-top-right-radius: 10px;
     top: -5px;
     background-color: rgb(255 255 255 / 5%);
@@ -1246,7 +1247,11 @@ nav {
 }
 
 #createTopicBtn {
+    font-family: 'Julius Sans One', sans-serif;
     cursor: pointer;
+}
+#createMediaBtn {
+    font-family: 'Julius Sans One', sans-serif;
 }
 
 

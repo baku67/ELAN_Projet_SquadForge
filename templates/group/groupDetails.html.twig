@@ -444,9 +444,11 @@
                         <div class="planningInfos">
                             {% if incomingSessionsCount > 0 %}
                             
-                                <span style="display:inline-flex; align-items:center;">Sessions à venir: <span class="incomingSessionsNbr">{{ incomingSessionsCount }}</span></span>
-                                <span>Prochaine session prévue: dans {{ time_diff_future(nextSession.dateStart) }}</span>
-                            
+                                <div style="display:inline-flex; flex-direction:column;">
+                                    <span style="display:inline-flex; align-items:center; justify-content:center;">Sessions à venir: <span class="incomingSessionsNbr">{{ incomingSessionsCount }}</span></span>
+                                    <span>Prochaine session prévue: dans {{ time_diff_future(nextSession.dateStart) }}</span>
+                                </div>
+
                             {% else %}
                                 
                                 <span>Sessions à venir: <span class="emptyListMsg">Aucune session à venir.</span></span>
@@ -466,21 +468,24 @@
                     <div id="addSessionForm" class="notDisplayed">
 
                         {# ids pour flatPickr #}
-                        {{ form_row(formAddSession.title) }}
-                        {{ form_label(formAddSession.dateStart, 'Début') }}
-                        {{ form_widget(formAddSession.dateStart, {'id': 'date_start_picker'}) }}
-                        {{ form_label(formAddSession.dateEnd, 'Fin') }}
-                        {{ form_widget(formAddSession.dateEnd, {'id': 'date_end_picker'}) }}
-                        {# {{ form_row(formAddSession.comfirmNeeded) }} #}
-                        {{ form_row(formAddSession.submit) }}
-                        {{ form_widget(formAddSession._token) }}
-                        {{ form_errors(formAddSession) }}
-
-                        <br>
-                        <div style="display:inline-flex;margin:10px auto;">
+                        {{ form_start(formAddSession)}}
+                            {{ form_row(formAddSession.title) }}
+                            {{ form_label(formAddSession.dateStart, 'Début') }}
+                            {{ form_widget(formAddSession.dateStart, {'id': 'date_start_picker'}) }}
+                            {{ form_label(formAddSession.dateEnd, 'Fin') }}
+                            {{ form_widget(formAddSession.dateEnd, {'id': 'date_end_picker'}) }}
+                            {# {{ form_row(formAddSession.comfirmNeeded) }} #}
                             
-                            <button id="cancelAddSession" class="btn btn-primary">Annuler</button>
-                        </div>
+                            {{ form_widget(formAddSession._token) }}
+                            {{ form_errors(formAddSession) }}
+                        
+                            <br>
+                            <div style="display:inline-flex;margin:10px auto;">
+                                {{ form_row(formAddSession.submit) }}
+                                <button id="cancelAddSession" class="btn btn-primary">Annuler</button>
+                            </div>
+
+                        {{ form_end(formAddSession)}}
 
                         <script>
                             document.addEventListener('DOMContentLoaded', function() {
@@ -689,9 +694,11 @@
                                 <div class="planningInfos">
                                     {% if incomingSessionsCount > 0 %}
                                     
-                                        <span style="display:inline-flex; align-items:center;">Sessions à venir: <span class="incomingSessionsNbr">{{ incomingSessionsCount }}</span></span>
-                                        <span>Prochaine session prévue: dans {{ time_diff_future(nextSession.dateStart) }}</span>
-                                    
+                                        <div style="display:inline-flex; flex-direction:column;">
+                                            <span style="display:inline-flex; align-items:center; justify-content:center;">Sessions à venir: <span class="incomingSessionsNbr">{{ incomingSessionsCount }}</span></span>
+                                            <span>Prochaine session prévue: dans {{ time_diff_future(nextSession.dateStart) }}</span>
+                                        </div>
+
                                     {% else %}
                                         
                                         <span>Sessions à venir: <span class="emptyListMsg">Aucune session à venir.</span></span>

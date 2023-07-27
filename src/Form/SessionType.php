@@ -37,10 +37,10 @@ class SessionType extends AbstractType
                 'required' => true,
                 'attr' => ["class" => "form-control", 'id' => 'testtttt'],
             ])
-            ->add('comfirmNeeded', CheckboxType::class, [
-                'label' => 'Comfirmation requise',
-                'required' => false,
-            ])
+            // ->add('comfirmNeeded', CheckboxType::class, [
+            //     'label' => 'Comfirmation requise',
+            //     'required' => false,
+            // ])
 
             ->add('submit', SubmitType::class, [
                 'label' => 'Publier',

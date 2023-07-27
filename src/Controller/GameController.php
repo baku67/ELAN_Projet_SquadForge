@@ -117,115 +117,124 @@ class GameController extends AbstractController
         }
 
         $game = $gamesRepo->find($id);
-        $gameGenre = $game->getGenre()->getName();
-        $user = $this->getUser();
-        $censures = $censureRepo->findAll();
-        if($user) {
-            $userGameGroups = $groupRepo->findGroupsByUserAndGame($user, $game);
-        } 
-        else {
-            $userGameGroups = null;
-        }
 
-        $nbrOfTeams = count($groupRepo->findBy(["game" => $game, "status" => "public"]));
+        if( !is_null($game) ) {
 
-        // Check si relation "Favoris" (user_game), customQuery mieux ?
-        if ($this->getUser()) {
-            $isFavorited = $user->getFavoris()->contains($game);
-        }
-        else {
-            $isFavorited = false;
-        }
+            $gameGenre = $game->getGenre()->getName();
+            $user = $this->getUser();
+            $censures = $censureRepo->findAll();
+            if($user) {
+                $userGameGroups = $groupRepo->findGroupsByUserAndGame($user, $game);
+            } 
+            else {
+                $userGameGroups = null;
+            }
 
+            $nbrOfTeams = count($groupRepo->findBy(["game" => $game, "status" => "public"]));
 
-        // Récup de la note utilisateur
-        $notationRepo = $entityManager->getRepository(Notation::class);
-        
-        if($this->getuser()) {
-            $userGameNotation = $notationRepo->findOneBy(['user' => $user, 'game' => $game]);
-        }
-        else {
-            $userGameNotation = null;
-        }
-
-        // Nombre de Notations user pour le jeu
-        $nbrOfNotations = $notationRepo->countGameNotations($game);
-        // Calc moyenne des notes (arrondi .5)
-        $averageRating = ceil($notationRepo->getGameAverageNotation($game) * 2) / 2;
-
-        // 5 derniers Topics du jeu
-        $gameTopicsDesc = $topicRepo->findByGameMin($game);
-
-        // Compte des topics du jeu
-        $gameTopicsCount = $topicRepo->countGameTopics($game);
-        
-
-        // Form ajout Topic (Affichage et handleRequest)
-        $topic = new Topic();
-        $form = $this->createForm(TopicType::class, $topic);
-        $form -> handleRequest($request);
-
-        // Vérifs/Filtres
-        if($form->isSubmitted()) {
-
-            if($this->getUser()) {
-
-                if( !($this->getUser()->isBanned()) && !($this->getUser()->IsMuted()) ) {
-
-                    if($form->isValid()) {
-
-                        // Hydrataion du "Topic" a partir des données du form
-                        $topic = $form->getData();
-
-                        // Init de la publish_date du comment
-                        $topic->setPublishDate(new \DateTime());
-                        $topic->setGame($game);
-                        $topic->setUser($user);
-                        $topic->setStatus("open");
-                        // En attendant le système de validation avant publication par un modo:
-                        $topic->setValidated("waiting");
-                        
-                        // Récupération du titre
-                        $titleInputValue = $form->get('title')->getData();
-
-                        // Liste des mots du commentaires
-                        $words = str_word_count($titleInputValue, 1);
-
-                        // Décompte du nombre de mots dans la liste
-                        $wordCount = count($words);
-
-                        // Vérification du compte de mots
-                        if ($wordCount >= 5) {
-
-                            // Modifs Base de données
-                            $entityManager->persist($topic);
-                            $entityManager->flush();
-
-                            $this->addFlash('success', 'Le topic a été envoyé pour validation');
-                            return $this->redirectToRoute('app_game', ['id' => $game->getId()]);
-
-                        } else {
-                            
-                            $this->addFlash('error', 'Le titre doit faire au minimum 5 mots !');
-                            return $this->redirectToRoute('app_game', ['id' => $game->getId()]);
-                        }
-
-                    } 
-                    else {
-                        $this->addFlash('error', 'Les données envoyées ne sont pas valides');
-                        return $this->redirectToRoute('app_game', ['id' => $game->getId()]);
-                    }   
-                }
-                else {
-                    $this->addFlash('error', 'Vous êtes actuellement réduit au silence (ou bannis), et ne pouvez rien publier');
-                    return $this->redirectToRoute('app_game', ['id' => $game->getId()]);
-                }
+            // Check si relation "Favoris" (user_game), customQuery mieux ?
+            if ($this->getUser()) {
+                $isFavorited = $user->getFavoris()->contains($game);
             }
             else {
-                $this->addFlash('error', 'Vous devez être connecté pour publier un topic');
-                return $this->redirectToRoute('app_login');
+                $isFavorited = false;
+            }
+
+
+            // Récup de la note utilisateur
+            $notationRepo = $entityManager->getRepository(Notation::class);
+            
+            if($this->getuser()) {
+                $userGameNotation = $notationRepo->findOneBy(['user' => $user, 'game' => $game]);
+            }
+            else {
+                $userGameNotation = null;
+            }
+
+            // Nombre de Notations user pour le jeu
+            $nbrOfNotations = $notationRepo->countGameNotations($game);
+            // Calc moyenne des notes (arrondi .5)
+            $averageRating = ceil($notationRepo->getGameAverageNotation($game) * 2) / 2;
+
+            // 5 derniers Topics du jeu
+            $gameTopicsDesc = $topicRepo->findByGameMin($game);
+
+            // Compte des topics du jeu
+            $gameTopicsCount = $topicRepo->countGameTopics($game);
+            
+
+            // Form ajout Topic (Affichage et handleRequest)
+            $topic = new Topic();
+            $form = $this->createForm(TopicType::class, $topic);
+            $form -> handleRequest($request);
+
+            // Vérifs/Filtres
+            if($form->isSubmitted()) {
+
+                if($this->getUser()) {
+
+                    if( !($this->getUser()->isBanned()) && !($this->getUser()->IsMuted()) ) {
+
+                        if($form->isValid()) {
+
+                            // Hydrataion du "Topic" a partir des données du form
+                            $topic = $form->getData();
+
+                            // Init de la publish_date du comment
+                            $topic->setPublishDate(new \DateTime());
+                            $topic->setGame($game);
+                            $topic->setUser($user);
+                            $topic->setStatus("open");
+                            // En attendant le système de validation avant publication par un modo:
+                            $topic->setValidated("waiting");
+                            
+                            // Récupération du titre
+                            $titleInputValue = $form->get('title')->getData();
+
+                            // Liste des mots du commentaires
+                            $words = str_word_count($titleInputValue, 1);
+
+                            // Décompte du nombre de mots dans la liste
+                            $wordCount = count($words);
+
+                            // Vérification du compte de mots
+                            if ($wordCount >= 5) {
+
+                                // Modifs Base de données
+                                $entityManager->persist($topic);
+                                $entityManager->flush();
+
+                                $this->addFlash('success', 'Le topic a été envoyé pour validation');
+                                return $this->redirectToRoute('app_game', ['id' => $game->getId()]);
+
+                            } else {
+                                
+                                $this->addFlash('error', 'Le titre doit faire au minimum 5 mots !');
+                                return $this->redirectToRoute('app_game', ['id' => $game->getId()]);
+                            }
+
+                        } 
+                        else {
+                            $this->addFlash('error', 'Les données envoyées ne sont pas valides');
+                            return $this->redirectToRoute('app_game', ['id' => $game->getId()]);
+                        }   
+                    }
+                    else {
+                        $this->addFlash('error', 'Vous êtes actuellement réduit au silence (ou bannis), et ne pouvez rien publier');
+                        return $this->redirectToRoute('app_game', ['id' => $game->getId()]);
+                    }
+                }
+                else {
+                    $this->addFlash('error', 'Vous devez être connecté pour publier un topic');
+                    return $this->redirectToRoute('app_login');
+                }
             }
         }
+        else {
+            $this->addFlash('error', 'Le jeu demandé n\'existe pas ou plus.');
+            return $this->redirectToRoute('app_home');
+        }
+        
 
 
         // 5 derniers médias du jeu

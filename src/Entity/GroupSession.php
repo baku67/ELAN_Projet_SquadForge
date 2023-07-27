@@ -29,7 +29,7 @@ class GroupSession
     #[ORM\Column(length: 100)]
     private ?string $title = null;
 
-    #[ORM\Column(options: ['default' => false])]
+    #[ORM\Column(options: ['default' => false], nullable: true)]
     private ?bool $comfirmNeeded = null;
 
     #[ORM\OneToMany(mappedBy: 'session', targetEntity: GroupSessionDispo::class, orphanRemoval: true)]
