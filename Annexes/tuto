@@ -23,8 +23,6 @@ TODO: "/routes/999" : créer page 404
 
 
 
-OnClick session dans planning: detail asynchrone + form de réponse (dispo/pas dispo/peut etre) et reponses des autres membres
-
 
 https://fullcalendar.io/docs
 Bouton pour switcher entre les différent affichage de FullCalendar (month, multi-month,... default:week)

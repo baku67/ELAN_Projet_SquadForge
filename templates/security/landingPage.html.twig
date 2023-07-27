@@ -22,37 +22,75 @@
 
 {% block body %}
 
-    {# Page 1 #}
-    <header id="lp-page1" class="globalBannerLandingPage" style="background: url('{{ asset('img/banner.jpg') }}' ); height:100vh;">
-        <a href="{{ path('app_home') }}"><img src="{{ asset('img/logoSquadForge_v3.png') }}" class="logoPng" /></a>
+    <div style="display:inline-flex; width:100%; position:relative;">
+
+        {# Page 1a #}
+        <header id="lp-page1a" class="globalBannerLandingPage" style="background: url('{{ asset('img/banner.jpg') }}' ); height:100vh; width:70%;">
+            <a href="{{ path('app_home') }}"><img src="{{ asset('img/logoSquadForge_v3.png') }}" class="logoPng" /></a>
+
+            
+            <h2 class="landingPageSlogan">Forge your squad, Rule the game !</h2>
+
+            <div class="lp-leftSection">
+                <div>
+                    <span class="lp-usersCountLabel">Users</span> 
+                    <span class="lp-count">{{ usersCount }}</span>
+                </div>
+                <div>
+                    <span class="lp-usersCountLabel">Teams</span> 
+                    <span class="lp-count">{{ teamsCount }}</span>
+                </div>
+            </div>
+            
+            <div class="lp-teamsCountLine">
+                <div>
+                    <span class="lp-teamsCountLabel">Games</span> 
+                    <span class="lp-count">{{ gamesCount }}</span>
+                </div>
+                <div>
+                    <span class="lp-teamsCountLabel">Topics</span> 
+                    <span class="lp-count">{{ topicsCount }}</span>
+                </div>
+                <div>
+                    <span class="lp-teamsCountLabel">Médias</span> 
+                    <span class="lp-count">{{ mediasCount }}</span>
+                </div>
+            </div>
+
+
+
+        </header>
+
 
         
-        <h2 class="landingPageSlogan">Forge your squad, Rule the game !</h2>
 
-        <div class="lp-leftSection">
-            <div>
-                <span class="lp-usersCountLabel">Users</span> 
-                <span class="lp-count">{{ usersCount }}</span>
-            </div>
-            <div>
-                <span class="lp-usersCountLabel">Teams</span> 
-                <span class="lp-count">{{ teamsCount }}</span>
-            </div>
-        </div>
+
+        {# <div class="headerUnderline marginBottomHeaderLine"></div> #}
         
-        <div class="lp-teamsCountLine">
-            <div>
-                <span class="lp-teamsCountLabel">Games</span> 
-                <span class="lp-count">{{ gamesCount }}</span>
-            </div>
-            <div>
-                <span class="lp-teamsCountLabel">Topics</span> 
-                <span class="lp-count">{{ topicsCount }}</span>
-            </div>
-            <div>
-                <span class="lp-teamsCountLabel">Médias</span> 
-                <span class="lp-count">{{ mediasCount }}</span>
-            </div>
+
+        {# Page 1b #}
+        <div id="lp-page1b" style="height:100vh; position:relative;width:30%;">
+
+            {# Partie 1 (50vh) de la page 2 #}
+
+                <div class="lp-p2-rightSection" style="width:140%; z-index:10;">
+                    
+                    <div class="lp-p1b-div" >
+
+
+                        <p class="lp-p1b-rightSectionTitle">Le <strong>gaming</strong> est meilleur en équipe. Rejoignez-nous pour trouver des <strong>teammates</strong> qui partageront votre passion.</p>
+
+
+                        <div class="lp-p1b-rightSectionLoginDiv">
+                            <a id="lp-loginBtn" href="{{ path('app_login') }}">Connexion</a>
+                            <br>
+                            <a id="lp-registerBtn" href="{{ path('app_register') }}">Inscription</a>
+                        </div>
+                    </div>
+
+                </div>
+
+
         </div>
 
         {# Scroll Btn #}
@@ -61,14 +99,12 @@
             <i class="fa-solid fa-chevron-down lpdownBtn2"></i>
         </div>
 
-    </header>
-    
+
+    </div>
 
 
-    {# <div class="headerUnderline marginBottomHeaderLine"></div> #}
-    
 
-    {# Page 2 #}
+    {# BACKUP Page 2 #}
     <div id="lp-page2" style="height:100vh; position:relative;">
 
         {# Partie 1 (50vh) de la page 2 #}
