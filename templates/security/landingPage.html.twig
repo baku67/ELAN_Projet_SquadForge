@@ -26,47 +26,44 @@
 
         {# Page 1a #}
         <header id="lp-page1a" class="globalBannerLandingPage" style="background: url('{{ asset('img/banner.jpg') }}' ); height:100vh; width:70%;">
-            <a href="{{ path('app_home') }}"><img src="{{ asset('img/logoSquadForge_v3.png') }}" class="logoPng" /></a>
+            
+            <a href="{{ path('app_home') }}" class="centeredLogo">
+                <img src="{{ asset('img/logoSquadForge_v3.png') }}" class="logoPng centeredLogoImg" />
+            </a>
 
             
             <h2 class="landingPageSlogan">Forge your squad, Rule the game !</h2>
 
-            <div class="lp-leftSection">
-                <div>
-                    <span class="lp-usersCountLabel">Users</span> 
-                    <span class="lp-count">{{ usersCount }}</span>
+            <div class="lp-statsDiv">
+                <div class="lp-leftSection">
+                    <div>
+                        <span class="lp-usersCountLabel">Users</span> 
+                        <span class="lp-count">{{ usersCount }}</span>
+                    </div>
+                    <div>
+                        <span class="lp-usersCountLabel">Teams</span> 
+                        <span class="lp-count">{{ teamsCount }}</span>
+                    </div>
                 </div>
-                <div>
-                    <span class="lp-usersCountLabel">Teams</span> 
-                    <span class="lp-count">{{ teamsCount }}</span>
+                
+                <div class="lp-teamsCountLine">
+                    <div>
+                        <span class="lp-teamsCountLabel">Games</span> 
+                        <span class="lp-count">{{ gamesCount }}</span>
+                    </div>
+                    <div>
+                        <span class="lp-teamsCountLabel">Topics</span> 
+                        <span class="lp-count">{{ topicsCount }}</span>
+                    </div>
+                    <div>
+                        <span class="lp-teamsCountLabel">Médias</span> 
+                        <span class="lp-count">{{ mediasCount }}</span>
+                    </div>
                 </div>
             </div>
-            
-            <div class="lp-teamsCountLine">
-                <div>
-                    <span class="lp-teamsCountLabel">Games</span> 
-                    <span class="lp-count">{{ gamesCount }}</span>
-                </div>
-                <div>
-                    <span class="lp-teamsCountLabel">Topics</span> 
-                    <span class="lp-count">{{ topicsCount }}</span>
-                </div>
-                <div>
-                    <span class="lp-teamsCountLabel">Médias</span> 
-                    <span class="lp-count">{{ mediasCount }}</span>
-                </div>
-            </div>
-
-
 
         </header>
 
-
-        
-
-
-        {# <div class="headerUnderline marginBottomHeaderLine"></div> #}
-        
 
         {# Page 1b #}
         <div id="lp-page1b" style="height:100vh; position:relative;width:30%;">
@@ -93,11 +90,33 @@
 
         </div>
 
+
         {# Scroll Btn #}
         <div id="lp-scrollBtn" class="landingPageDownBtn">
             <i class="fa-solid fa-chevron-down lpdownBtn1"></i>
             <i class="fa-solid fa-chevron-down lpdownBtn2"></i>
         </div>
+
+
+        {# SVG coin haut-droite #}
+        <svg class="topRightEdgeSvg">
+            <path 
+                id="topRightEdgeSvgPath"
+                d="M 14 14 L 124 14 L 124 86"
+                fill-opacity="0"
+                />
+        </svg>
+
+        <svg class="bottomLeftEdgeSvg">
+            <path 
+                id="bottomLeftEdgeSvgPath"
+                d="M 14 14 L 14 86 L 124 86"
+                fill-opacity="0"
+                />
+        </svg>
+
+
+        {# <div class="headerUnderline marginBottomHeaderLine"></div> #}
 
 
     </div>
