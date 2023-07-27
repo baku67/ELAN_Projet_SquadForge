@@ -110,7 +110,11 @@ body {
     z-index: 10;
     background-color: #00000021;
     padding: 17px 25px;
+
+    opacity: 0;
+    animation: fadeIn 0.5s 1.7s ease forwards;
 }
+
 
 
 .lp-statsDiv {
@@ -406,6 +410,9 @@ header {
     position: relative;
     z-index: 10;
     font-size: 1.5em;
+
+    opacity: 0;
+    animation: fadeIn 0.5s 1.9s ease forwards;
 }
 
 /* .lp-teamsCountLine {
@@ -420,6 +427,9 @@ header {
     position: relative;
     z-index: 10;
     font-size: 1.5em;
+
+    opacity: 0;
+    animation: fadeIn 0.5s 1.9s ease forwards;
 }
 
 .lp-usersCountLabel {
@@ -762,6 +772,7 @@ header {
 }
 
 .lp-page4-cardTeams-btn {
+    font-family: 'Julius Sans One', sans-serif;
     width: 85%;
     display: block;
     margin: 10px auto;

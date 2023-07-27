@@ -22,7 +22,12 @@
 
 {% block body %}
 
-    <div style="display:inline-flex; width:100%; position:relative;">
+    <script>
+        document.getElementById('authenticationDiv').style.display = "none";
+    </script>
+
+
+    <div id="section1" class="section" style="display:inline-flex; width:100%; position:relative;">
 
         {# Page 1a #}
         <header id="lp-page1a" class="globalBannerLandingPage" style="background: url('{{ asset('img/banner.jpg') }}' ); height:100vh; width:70%;">
@@ -161,7 +166,7 @@
 
 
     {# BACKUP Page 2 #}
-    <div id="lp-page2" style="height:100vh; position:relative;">
+    <div id="lp-page2" class="section" style="height:100vh; position:relative;">
 
         {# Partie 1 (50vh) de la page 2 #}
         <div style="display:inline-flex; width:100%; height:50vh; top:50%; transform:translateY(-50%); position:absolute;">
@@ -214,7 +219,7 @@
     {# TODO while load: squeleton (gris avec waves) ? #}
     {# TODO orderBy nbr de publications #}
     {# + background 100% étoiles vers le haut color primary (cf les100cie) #}
-    <div id="lp-page3" class="splide" style="height:100vh; position:relative;" aria-labelledby="carousel-heading">
+    <div id="lp-page3" class="splide section" style="height:100vh; position:relative;" aria-labelledby="carousel-heading">
 
         <h2 id="carousel-heading" class="lp-page3-title">
             <i class="fa-solid fa-down-long choseGameArrow"></i>
@@ -232,7 +237,7 @@
 
                     {% for game in games %}
 
-                        <div id="lp-page3-slide0{{ index }}" class="lp-gameCard splide__slide" style="background-image: linear-gradient(rgba(0, 0, 255, 0.05), rgba(249, 123, 44, 0.5)),url('{{ asset("img/games/banner/" ~ game.banner )}}');">
+                        <div id="lp-page3-slide0{{ index }}" class="lp-gameCard splide__slide" style="background-image: linear-gradient(rgba(0, 0, 255, 0.05), rgba(249, 123, 44, 0.5)),url('{{ asset("img/games/banner/" ~ game.banner )}}'); background-size:cover;">
 
                             <span id="lp-gameCardTitle{{ index }}" value="{{ game.title }}" class="lp-gameCardTitle">{{ game.title }}</span>
 
@@ -271,7 +276,7 @@
 
 
     {# Page 4 (Contenus associé au jeu sélectionné) #}
-    <div id="lp-page4" class ="lp-page4" style="height:100vh; background-image:radial-gradient(circle, rgba(255, 255, 255, 0) 0%, rgba(35, 35, 35, 0.996) 69%), url('{{ asset('img/landingPage4.jpg') }}')">
+    <div id="lp-page4" class ="lp-page4 section" style="height:100vh; background-image:radial-gradient(circle, rgba(255, 255, 255, 0) 0%, rgba(35, 35, 35, 0.996) 69%), url('{{ asset('img/landingPage4.jpg') }}')">
 
         <a id="lp-page4-titleLink">
             <div class="lp-page4-titleDivWrapper" style="display:inline-flex;width:100%;justify-content:center;gap:55px;">
@@ -350,7 +355,60 @@
     {# Ajax get LandingPage game content #}
 
 
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    {# AOS.js scroll smooth entres sections #}
+    <script>
+
+        AOS.init({
+            duration: 800,
+            easing: 'ease-in-out', 
+            once: true, 
+        });
+
+        // Add the "active" class to the currently visible section
+        const sections = document.querySelectorAll('.section');
+        const options = {
+            root: null,
+            rootMargin: '0px',
+            threshold: 0.5, // Adjust this value based on your preference for when a section is considered active
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach((entry) => {
+                if (entry.isIntersecting) {
+                    sections.forEach((section) => {
+                        section.classList.remove('active');
+                    });
+                    entry.target.classList.add('active');
+                }
+            });
+        }, options);
+
+        sections.forEach((section) => {
+            observer.observe(section);
+        });
+
+        // Custom scrolling behavior
+        document.addEventListener('wheel', (e) => {
+            e.preventDefault();
+            const delta = e.wheelDelta || -e.deltaY || -e.detail;
+            const activeSection = document.querySelector('.section.active');
+            let targetSection;
+
+            if (activeSection) {
+                if (delta < 0) {
+                    targetSection = activeSection.nextElementSibling;
+                } else {
+                    targetSection = activeSection.previousElementSibling;
+                }
+
+                if (targetSection) {
+                    targetSection.scrollIntoView({ behavior: 'smooth' });
+                }
+            }
+        }, { passive: false });
+    </script>
+
+
     {# Splide JS carousel games #}
     <script>
         document.addEventListener("DOMContentLoaded", function() {
@@ -524,7 +582,6 @@
     </script>
 
 
-    
 {% endblock %}
 
 
