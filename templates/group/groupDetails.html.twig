@@ -5,7 +5,7 @@
 {% block body %}
 
     <header class="gameHeader" style="background: url('{{ asset('img/games/banner/' ~ gameFrom.banner ) }}' )">
-        <a href="{{ path('app_home') }}"><img src="{{ asset('img/' ~ gameFrom.siteLogo ) }}" class="logoPng" id="logoPng" /></a>
+        <a href="{{ path('app_home') }}"><img src="{{ asset('img/games/headerSiteLogo/' ~ gameFrom.siteLogo ) }}" class="logoPng" id="logoPng" /></a>
         <nav class="navLine">
             <a href="{{ path('app_games') }}" style="color:white;">Jeux</a>
             {% if app.user %}
@@ -688,31 +688,30 @@
                                     var calendar = new FullCalendar.Calendar(calendarEl, {
                                         eventClick: function(info) {
 
+                                            // reset des state dispo Btn
+                                            document.getElementById("eventDispoBtn").classList.remove("dispoState");
+                                            document.getElementById("eventPerhapsBtn").classList.remove("perhapsState");
+                                            document.getElementById("eventNotDispoBtn").classList.remove("notdispoState");
+
                                             // Ajax get la dispoState pour la session cliquée et le membre connecté
                                             $.ajax({
                                                 url: '/getSessionSelfDispo/' + info.event.extendedProps.sessionId,
                                                 type: 'GET',
                                                 success: function(response) {
-                                                    if(response.selfDisponibility == "dispo") {
-                                                        console.log('dispo');
+                                                    if (response.selfDisponibility == "dispo") {
                                                         document.getElementById("eventDispoBtn").classList.add("dispoState");
                                                     } else if (response.selfDisponibility == "perhaps") {
-                                                        console.log('perhaps');
                                                         document.getElementById("eventPerhapsBtn").classList.add("perhapsState");
                                                     } else if (response.selfDisponibility == "notdispo") {
                                                         document.getElementById("eventNotDispoBtn").classList.add("notdispoState");
                                                     }
 
-                                                    
                                                     // Affichage + scroll detail Session
                                                     const element = document.getElementById("eventDetailDiv");
                                                     element.classList.remove("notDisplayed");
-                                                    element.scrollIntoView({behavior: "smooth", block: "center", inline: "nearest"});
-
-
+                                                    element.scrollIntoView({ behavior: "smooth", block: "center", inline: "nearest" });
                                                 },
                                                 error: function(xhr, status, error) {
-
                                                     window.FlashMessage.error('Une erreur est survenue');
                                                 }
                                             });
@@ -720,46 +719,15 @@
                                             // console.log(info.event.extendedProps.sessionId)
                                             document.getElementById("eventTitle").textContent = info.event.title;
 
-                                            // Ajax toggle Disponibility 
-                                            document.getElementById('eventDispoBtn').addEventListener("click", function() {
-                                                $.ajax({
-                                                    url: '/updateSessionMemberDispo/' + info.event.extendedProps.sessionId + "/dispo",
-                                                    type: 'GET',
-                                                    success: function(response) {
-                                                        window.FlashMessage.success('Disponibilité mise à jour');
-
-                                                        document.getElementById('eventNotDispoBtn').classList.remove("notdispoState");
-                                                        document.getElementById('eventPerhapsBtn').classList.remove("perhapsState");
-                                                        document.getElementById('eventDispoBtn').classList.add("dispoState");
-                                                    }
-                                                })
-                                            })
-                                            document.getElementById('eventPerhapsBtn').addEventListener("click", function() {
-                                                $.ajax({
-                                                    url: '/updateSessionMemberDispo/' + info.event.extendedProps.sessionId + "/perhaps",
-                                                    type: 'GET',
-                                                    success: function(response) {
-                                                        window.FlashMessage.success('Disponibilité mise à jour');
-
-                                                        document.getElementById('eventNotDispoBtn').classList.remove("notdispoState");
-                                                        document.getElementById('eventPerhapsBtn').classList.add("perhapsState");
-                                                        document.getElementById('eventDispoBtn').classList.remove("dispoState");
-                                                    }
-                                                })
-                                            })
-                                            document.getElementById('eventNotDispoBtn').addEventListener("click", function() {
-                                                $.ajax({
-                                                    url: '/updateSessionMemberDispo/' + info.event.extendedProps.sessionId + "/notdispo",
-                                                    type: 'GET',
-                                                    success: function(response) {
-                                                        window.FlashMessage.success('Disponibilité mise à jour');
-
-                                                        document.getElementById('eventNotDispoBtn').classList.add("notdispoState");
-                                                        document.getElementById('eventPerhapsBtn').classList.remove("perhapsState");
-                                                        document.getElementById('eventDispoBtn').classList.remove("dispoState");
-                                                    }
-                                                })
-                                            })
+                                            document.getElementById('eventDispoBtn').onclick = function() {
+                                                toggleDispo(info.event.extendedProps.sessionId, 'dispo');
+                                            };
+                                            document.getElementById('eventPerhapsBtn').onclick = function() {
+                                                toggleDispo(info.event.extendedProps.sessionId, 'perhaps');
+                                            };
+                                            document.getElementById('eventNotDispoBtn').onclick = function() {
+                                                toggleDispo(info.event.extendedProps.sessionId, 'notdispo');
+                                            };
                                         },
                                         initialView: 'dayGridWeek',
                                         locale: 'fr',
@@ -782,6 +750,34 @@
 
                                     calendar.render();
 
+                                    // toggle de la disponibilité
+                                    function toggleDispo(sessionId, disponibility) {
+                                        $.ajax({
+                                            url: '/updateSessionMemberDispo/' + sessionId + "/" + disponibility,
+                                            type: 'GET',
+                                            cache: false,
+                                            success: function(response) {
+                                                window.FlashMessage.success('Disponibilité mise à jour');
+
+                                                if (disponibility === 'dispo') {
+                                                    document.getElementById('eventNotDispoBtn').classList.remove("notdispoState");
+                                                    document.getElementById('eventPerhapsBtn').classList.remove("perhapsState");
+                                                    document.getElementById('eventDispoBtn').classList.add("dispoState");
+                                                } else if (disponibility === 'perhaps') {
+                                                    document.getElementById('eventNotDispoBtn').classList.remove("notdispoState");
+                                                    document.getElementById('eventPerhapsBtn').classList.add("perhapsState");
+                                                    document.getElementById('eventDispoBtn').classList.remove("dispoState");
+                                                } else if (disponibility === 'notdispo') {
+                                                    document.getElementById('eventNotDispoBtn').classList.add("notdispoState");
+                                                    document.getElementById('eventPerhapsBtn').classList.remove("perhapsState");
+                                                    document.getElementById('eventDispoBtn').classList.remove("dispoState");
+                                                }
+                                            },
+                                            // error: function(xhr, status, error) {
+                                            //     window.FlashMessage.error('Une erreur est survenue');
+                                            // }
+                                        });
+                                    }
                                 });
                             </script>
 

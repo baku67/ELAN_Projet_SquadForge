@@ -73,33 +73,38 @@ class SessionController extends AbstractController
         // Vérif membre du groupe
         if($group->getMembers()->contains($this->getUser())) {
 
-            // Vérif si disponibilité existe déjà -> si statut different: update
-            if( !is_null($sessionDispoRepo->findOneBy(['session' => $session, 'member' => $this->getUser()])) ) {
-                $sessionDispo = $sessionDispoRepo->findOneBy(['session' => $session, 'member' => $this->getUser()]);
-                $sessionDispo->setDisponibility($disponibility);
-            }
-            else {
-                $sessionDispo = new GroupSessionDispo;
-                $sessionDispo->setSession($session);
-                $sessionDispo->setMember($this->getUser());
-                $sessionDispo->setDisponibility($disponibility);    
-            }
+            // Vérif si session passée
+            // if($session->getDateStart() > new \DateTime()) {
+                
+                // Vérif si disponibilité existe déjà -> si statut different: update
+                if( !is_null($sessionDispoRepo->findOneBy(['session' => $session, 'member' => $this->getUser()])) ) {
+                    $sessionDispo = $sessionDispoRepo->findOneBy(['session' => $session, 'member' => $this->getUser()]);
+                    $sessionDispo->setDisponibility($disponibility);
+                }
+                else {
+                    $sessionDispo = new GroupSessionDispo;
+                    $sessionDispo->setSession($session);
+                    $sessionDispo->setMember($this->getUser());
+                    $sessionDispo->setDisponibility($disponibility);    
+                }
 
-            // Envoi notif au leader
-            $this->notifController->notifNewDispo($sessionDispo);
+                // Envoi notif au leader
+                $this->notifController->notifNewDispo($sessionDispo);
 
-            $entityManager->persist($sessionDispo);
-            $entityManager->flush();
-            
-            // return $this->redirectToRoute('app_groupDetails', ['groupId' => $session->getTeam()->getId()]);
-            return new JsonResponse(['success' => true]); 
+                $entityManager->persist($sessionDispo);
+                $entityManager->flush();
+                
+                // return $this->redirectToRoute('app_groupDetails', ['groupId' => $session->getTeam()->getId()]);
+                return new JsonResponse(['success' => true]); 
 
+            // }
+            // else {
+            //     return new JsonResponse(['error' => 'La session est passée']);
+            // }
         }
         else {
-            $this->addFlash('error', 'Vous devez être membre du groupe pour faire cela.');
-            return $this->redirectToRoute('app_groupDetails', ['groupId' => $session->getTeam()->getId()]);
+            return new JsonResponse(['error' => 'Vous devez être membre du groupe pour faire cela.']);
         }
-
     }
 
 

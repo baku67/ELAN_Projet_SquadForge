@@ -12,6 +12,11 @@ span {
     font-family: 'K2D', sans-serif;
 }
 
+footer {
+    background-color: #f97b2c29;
+    height: 100px;
+}
+
 /* Bootstrap  */
     .btn-primary {
         margin: 0px auto;
@@ -463,7 +468,7 @@ header {
 }
 
 .lp-page3-title {
-    height: 25%;
+    height: 15%;
     align-items: center;
     display: flex;
     justify-content: center;

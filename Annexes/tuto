@@ -1,4 +1,5 @@
-TODO dossirt
+TODO: Fix media Masonry W3school
+TODO dossier
 
 Trello
 Méthode Mosow (hierarchisation taches)
@@ -30,6 +31,7 @@ Bouton pour switcher entre les différent affichage de FullCalendar (month, mult
 
 
 
+Gérer les listes: notifs/media/topics par exemple: load onScroll ?
 
 
 
@@ -58,11 +60,9 @@ Img custom Team + Avatar pool img ?
 
 Anim loading en attendant media.load (et topics etc) + avec Ajax .complete
 
-!! -> Comme Signalements en cours: Faire les status BAN / MUTED (BAN: peut pas se co: affichage timer, MUTED: peut rien publier (memes comms) et timer affiché qq part)
 
 userAvatars (banque interne ?)
 
-/home "Derniers Topics/Médias" : que ceux des jeux favorisé par l'user (donne + de sens au systeme de favoris) (DUCOUP que pour isConnected, sinon tous les topics/Medias)
 
 GameRoles optionnels: exemple
 lol: "Top-lane", "Jungler", "mid", "support", etc..
@@ -71,9 +71,6 @@ Valorant: noms des persos
 COD, PUBG, etc... : pas de rôles ?
 Roles libres ? (ajouté par le leader du groupe)
 
-En cours: notifs likes (par packs)
-Reste notifs TopicPOstsLikes et MediaPostLikes
-Faire signalements après parce que meme mécanique de grouping de notifs modos
 
 /!\ La route (depuis une notif) "candidatureDetails", ou "groupDetails" ne marche pas sur mobile (fatal ERR_CONNECTION_REFUSED), 
 sur PC fonctionne très bien,
@@ -82,29 +79,11 @@ inspecter le browser mobile par USB avec https://developer.chrome.com/docs/devto
 
 AUTRE BUG MOBILE: Sur mobile: si je suis déco la masonry fonctionne bien, si je me co c'est deg (c'est pas lié au timeOut)
 
-Manque bouton open/close Media 
-Async fetch periodique du newNotif unclicked (user puis modo*)
-Modal confirmations (leaveGroupe, passLead, exclure, etc)
-Mansonry js pour gallerie medias
-
-Les Flash spam fonctionnent (à peu pres) sur gameDetails avec /notationUpdate, chercher "document.querySelector('#ajaxFlash').className = "";"
-
-ajax app_deleteNotif ("X"): need ajout dynamique idNotif pour onSuccess JS
-
-
-https://symfony.com/doc/current/notifier.html: notifs et chat :0
-https://smaine-milianni.medium.com/create-a-notifier-transport-in-symfony-968f34adcc09
-
-ChatGPT NOTIFS DE LIKES GROUPÉES  !!!!!!! (spoiler c'est chaud):
-https://chat.openai.com/share/2025dcea-0ed8-4acf-b95e-eba72112a23c
-
 LeaderGroup: changer nbr Place + handle nbrMembers (à voir si modes de jeu) 
 
 Tags de Medias (définis, table pour pouvoir ajouter facilement en tant que modo) (+Filtres disponibles)
 
 Mettre des anims de clip-path partout :onHover + :onActive (pour mobile)
-
-Ne pas oublier d'intégrer Censure dans les nouveaux forms (Candidatures, GroupQuestion, Group, etc...) + factoriser
 
 dans homepage, barre de recherche avec un select dans quoi on cherche ("tout", "jeux", "topic", "medias", "groupes")
  
@@ -115,18 +94,12 @@ TopicCards: {# Faire une div BG absolute pour chaque card avec clipPath anim onm
 
 Library: "Imagine" -> need extension php "GD"  (resize/compress img/gifs/png)
 
-Si reclick user sur la meme note que celle déjà donnée: retire le vote (et étoiles pré-remplies jaunes)
-
 Ajouter table assoc user/game avec lastSeenTopicId et lastSeenMediaId (pour les NEW des cards jeux)
  
 Médias liste scroll infinie avec regen  (+ bouton toggle affichage grid/linéaire )
 
 Limite de topic/media par jour (pour modo et anti-spam)
 
-/!\ Groupe: Admin peut changer le header background (need approv modo parce que img publique)
-
-
-Factoriser form ajouts topics depuis mini-list et listDetails
 
 Dans /home: mettre un flux Médias global basé sur les favoris (et auto gen quand scroll bottom infini) + trending (date et score)
 
@@ -138,24 +111,12 @@ Dans /home: mettre un flux Médias global basé sur les favoris (et auto gen qua
 TODO:
 Mettre un paramètre GET dans le redirect app_login pour rediriger vers la page du click après login
 *User muted tant que l'email est pas vérifié ? 
-https://codepen.io/mahish/pen/RajmQw OU http://jsfiddle.net/Lpjj3n1e/ SCROLL HORIZONTAL DES LISTE DE JEUX
-
-Logo Black: meme couleur que bg
-Déplacer la partie authent de base vers chaque vue (car couleur Police à adapter)
-
-Pour les boutons dispo uniquement pour admin: https://stackoverflow.com/questions/7731310/text-in-border-css-html (avec "admin" et doré), fieldset et legend
 
 regex mdp (création de compte)
 
-Le nbr_views dans table Topic: faire plutot une table assoc pour 1 vue possible par user (anti-span), au moment ou il voit le detail du topic
 
 
 
-
-Notifications: "un tel a liké votre <a ref>commentaire</a>" 
-"Un tel a commenté votre <a refComm>topic</a>" 
-Plus tard: "votre <a ref>topic/media</a> a été validé par la modération"
-(Dans profil et bulle Nav)
 
 
 
