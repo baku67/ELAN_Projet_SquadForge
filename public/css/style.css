@@ -116,6 +116,10 @@ body {
 }
 
 
+.active {
+    animation: fadeIn 0.6s 0s ease forwards;
+}
+
 
 .lp-statsDiv {
     display: inline-flex;
@@ -133,7 +137,7 @@ body {
     transform: scale(1);
     fill: none;
     stroke: #2c2c2c;
-    stroke-width: 12;
+    stroke-width: 6;
     /* stroke-linecap: round; */
     stroke-linejoin: miter;
     stroke-miterlimit: 4;
@@ -156,8 +160,8 @@ body {
         top: -50px;  
     }
     to {
-        right: 5px;
-        top: 5px;    
+        right: 0px;
+        top: 0px;    
     }
 }
 
@@ -165,8 +169,8 @@ body {
     opacity: 0.80;
     transform: scale(1);
     fill: none;
-    stroke: var(--primary-color);
-    stroke-width: 12;
+    stroke: #f9822c;
+    stroke-width: 6;
     /* stroke-linecap: round; */
     stroke-linejoin: miter;
     stroke-miterlimit: 4;
@@ -189,8 +193,8 @@ body {
         bottom: -50px;  
     }
     to {
-        left: 8px;
-        bottom: 8px;    
+        left: 2px;
+        bottom: 2px;    
     }
 }
 
@@ -349,11 +353,11 @@ header {
     cursor: pointer;
     position: absolute;
     padding: 17px 28px;
-    bottom: 4%;
+    bottom: 2%;
     right: 50%;
     display: inline-flex;
     flex-direction: column;
-    transform: translate(50%, -4%);
+    transform: translate(50%, -2%);
     font-size: 2.3em;
     z-index: 10;
     /* transform: scaleX(1.3);  */
@@ -366,6 +370,10 @@ header {
 
 
 
+#lp-scrollBtn {
+    opacity: 0;
+    animation: fadeIn 0.5s 2.3s ease forwards;
+}
 
 
 .landingPageUpBtn {
@@ -390,7 +398,7 @@ header {
 .lp-page4-titleDivWrapper:hover {
     filter: sepia(0.05);
     background-color: rgba(221, 221, 221, 0.1);
-    letter-spacing: 2px;
+    letter-spacing: 1px;
 }
 
 
@@ -461,7 +469,7 @@ header {
 
 #lp-registerBtn {
     padding: 20px 100px;
-    clip-path: polygon(4% 0, 100% 0, 96% 100%, 0% 100%);
+    clip-path: polygon(3% 0, 100% 0, 100% 100%, 0% 100%);
     background: -webkit-radial-gradient(circle, rgb(0 191 197 / 60%) 0%, rgb(44 50 249 / 75%) 63%);
     background: radial-gradient(circle, rgb(0 191 197 / 60%) 0%, rgb(44 50 249 / 75%) 63%);
     transition: all 0.2s;
@@ -604,7 +612,7 @@ header {
 #lp-login {
     width: 50%;
     margin: 0 auto;
-    transform: translateX(56px);
+    transform: translateX(51px);
 }
 
 
@@ -750,6 +758,19 @@ header {
     width:100%;
 }
 
+/* Pas bon car se deplace en meme temps que parent ? */
+#lp-page3-list::before {
+    /* height: 100%;
+    width:100%;
+    background-color: black;
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 999; */
+
+}
+
 .splide__arrows {
     position: absolute;
     top: 50%;
@@ -826,11 +847,13 @@ header {
 }
 
 
-#lp-p1-topLeftQuare {
+#lp-p1-topLeftSquare {
     position: absolute;
     width: 500px;
     height: 752px;
-    background-color: var(--primary-color);
+    /* background-color: var(--primary-color); */
+    background: linear-gradient(270deg, rgba(249,164,44,1) 0%, rgba(249,123,44,1) 100%);
+    background: -webkit-linear-gradient(270deg, rgba(249,164,44,1) 0%, rgba(249,123,44,1) 100%);
     z-index: 999;
     transform: rotate(36deg);
     left: -359px;
@@ -844,7 +867,7 @@ header {
         top:-900px;
     }
     to {
-        top: -380px;
+        top: -400px;
     }
 }
 
@@ -856,7 +879,7 @@ header {
     background-color: grey;
     margin: 0 14px;
     border-radius: 8px;
-
+    background-position-x: center;
 
     transition: all 0.2s ease-out;
 }
@@ -903,6 +926,7 @@ header {
 
 .lp-page4 {
     position: relative;
+    background-position-x: center;
     /* display:none; */
     transition: all 0.5s ;
 }
