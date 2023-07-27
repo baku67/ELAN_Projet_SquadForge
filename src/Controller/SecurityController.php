@@ -9,6 +9,7 @@ use App\Entity\User;
 use App\Entity\Topic;
 use App\Entity\Media;
 use App\Entity\Group;
+use App\Entity\GroupSession;
 
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\PersistentCollection;
@@ -120,6 +121,7 @@ class SecurityController extends AbstractController
             $groupRepo = $entityManager->getRepository(Group::class);
             $topicRepo = $entityManager->getRepository(Topic::class);
             $mediaRepo = $entityManager->getRepository(Media::class);
+            $sessionRepo = $entityManager->getRepository(GroupSession::class);
             $gameRepo = $entityManager->getRepository(Game::class);
 
             $usersCount = count($userRepo->findAll());
@@ -131,12 +133,15 @@ class SecurityController extends AbstractController
             $games = $gameRepo->findAll();
             $gamesCount = count($gameRepo->findAll());
 
+            $sessionsCount = count($sessionRepo->findAll());
+
             return $this->render('security/landingPage.html.twig', [
                 'usersCount' => $usersCount,
                 'teamsCount' => $teamsCount,
                 'topicsCount' => $topicsCount,
                 'mediasCount' => $mediasCount,
                 'gamesCount' => $gamesCount,
+                'sessionsCount' => $sessionsCount,
                 'games' => $games,
             ]);
 

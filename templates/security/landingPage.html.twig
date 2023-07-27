@@ -36,29 +36,41 @@
 
             <div class="lp-statsDiv">
                 <div class="lp-leftSection">
-                    <div>
-                        <span class="lp-usersCountLabel">Users</span> 
+                    <div class="lp-p1a-btn-noHover">
+                        <span class="lp-usersCountLabel">Utilisateurs</span> 
                         <span class="lp-count">{{ usersCount }}</span>
                     </div>
-                    <div>
-                        <span class="lp-usersCountLabel">Teams</span> 
-                        <span class="lp-count">{{ teamsCount }}</span>
+                    {# <a href="{{ path('app_groupListGlobal') }}"> #}
+                        <div class="lp-p1a-btn">
+                            <span class="lp-usersCountLabel">Teams</span> 
+                            <span class="lp-count">{{ teamsCount }}</span>
+                        </div>
+                    {# </a> #}
+                    <div class="lp-p1a-btn-noHover">
+                        <span class="lp-usersCountLabel">Sessions</span> 
+                        <span class="lp-count">{{ sessionsCount }}</span>
                     </div>
                 </div>
                 
                 <div class="lp-teamsCountLine">
-                    <div>
-                        <span class="lp-teamsCountLabel">Games</span> 
-                        <span class="lp-count">{{ gamesCount }}</span>
-                    </div>
-                    <div>
-                        <span class="lp-teamsCountLabel">Topics</span> 
-                        <span class="lp-count">{{ topicsCount }}</span>
-                    </div>
-                    <div>
-                        <span class="lp-teamsCountLabel">Médias</span> 
-                        <span class="lp-count">{{ mediasCount }}</span>
-                    </div>
+                    <a href="{{ path('app_games') }}">
+                        <div class="lp-p1a-btn">
+                                <span class="lp-teamsCountLabel">Jeux</span>
+                            <span class="lp-count">{{ gamesCount }}</span>
+                        </div>
+                    </a>
+                    <a href="{{ path('app_allTopicsGlobal') }}">
+                        <div class="lp-p1a-btn">
+                                <span class="lp-teamsCountLabel">Topics</span> 
+                            <span class="lp-count">{{ topicsCount }}</span>
+                        </div>
+                    </a>
+                    <a href="{{ path('app_allMediasGlobal') }}">
+                        <div class="lp-p1a-btn">
+                                <span class="lp-teamsCountLabel">Médias</span> 
+                            <span class="lp-count">{{ mediasCount }}</span>
+                        </div>
+                    </a>
                 </div>
             </div>
 
@@ -72,20 +84,25 @@
 
                 <div class="lp-p2-rightSection" style="width:140%; z-index:10;">
                     
-                    <div class="lp-p1b-div" >
+                    {# Conteneur dynamique #}
+                    <div id="lp-p1b-div" class="lp-p1b-div" >
 
-
-                        <p class="lp-p1b-rightSectionTitle">Le <strong>gaming</strong> est meilleur en équipe. Rejoignez-nous pour trouver des <strong>teammates</strong> qui partageront votre passion.</p>
-
+                        <p class="lp-p1b-rightSectionTitle">Le <strong>gaming</strong> est meilleur en équipe.<br>Rejoignez-nous pour trouver des <strong>teammates</strong> qui partageront votre passion.</p>
 
                         <div class="lp-p1b-rightSectionLoginDiv">
                             <a id="lp-loginBtn" href="{{ path('app_login') }}">Connexion</a>
                             <br>
                             <a id="lp-registerBtn" href="{{ path('app_register') }}">Inscription</a>
                         </div>
+
                     </div>
 
                 </div>
+
+                {# Affichage forms login/signUp dans le header #}
+                <script>
+
+                </script>
 
 
         </div>
@@ -115,6 +132,10 @@
                 />
         </svg>
 
+        <div id="lp-p1-topLeftQuare">
+
+        </div>
+
 
         {# <div class="headerUnderline marginBottomHeaderLine"></div> #}
 
@@ -127,7 +148,7 @@
     <div id="lp-page2" style="height:100vh; position:relative;">
 
         {# Partie 1 (50vh) de la page 2 #}
-        <div style="display:inline-flex; width:100%; height:50vh;">
+        <div style="display:inline-flex; width:100%; height:50vh; top:50%; transform:translateY(-50%); position:absolute;">
 
             <div class="lp-p2-leftSection">
                 {# TODO Serait mieux avec couches de zindex (Mockup passe par dessus sectionRight#}
@@ -145,13 +166,8 @@
 
             <div class="lp-p2-rightSection">
                 
-                <span class="lp-p2-rightSectionTitle">Le gaming est meilleur en équipe. Rejoignez-nous pour trouver des teammates qui partageront votre passion.</span>
+                <span class="lp-p2-rightSectionTitle">Restez connecté et informé à propos vos univers favoris. Communiquez avec vos teammates, publiez votre contenu, rejoingez ou créez une team, et plus encore !</span>
 
-                <div class="lp-p2-rightSectionLoginDiv">
-                    <a id="lp-loginBtn" href="{{ path('app_login') }}">Connexion</a>
-                    <br>
-                    <a id="lp-registerBtn" href="{{ path('app_register') }}">Inscription</a>
-                </div>
             </div>
 
         </div>
@@ -190,7 +206,7 @@
             <i class="fa-solid fa-down-long choseGameArrow"></i>
         </h2>
 
-        <div style="position:relative;">
+        <div style="position:relative; margin-top:20px;">
 
             <div id="lp-page3-container" class="lp-page3-container splide__track"> 
 
@@ -226,7 +242,7 @@
             
             {# Scroll Btn #}
             <div id="lp-scrollBtn3" class="landingPageDownBtn" style="display:inline-flex; flex-direction:row; gap:25px; transform: translate(50%, 8%); align-items:center; padding:20px 30px;">
-                <span style="opacity:0.8; color:grey;">Skip</span>
+                <span style="opacity:0.8; color:grey;">Passer cette étape</span>
                 <div style="display:inline-flex; flex-direction:column;">
                     <i class="fa-solid fa-chevron-down lpdownBtn1"></i>
                     <i class="fa-solid fa-chevron-down lpdownBtn2"></i>
@@ -293,35 +309,29 @@
 
         {# TODO: fleche scrollUp -> page3 (choix jeu), au meme endroit #}
 
+
+        {# Recherche Async #}
+        <div>
+            <span>Vous cherchez quelque chose en particulier ?</span>
+            <div>
+                <form>
+
+                </form>
+            </div>
+        </div>
+
     </div>
 
 
+    {# Page 5: resultat de la recherche, (default hidden) #}
+    {# Recherche globale si aucun jeu séléctionné, recherche spécifique au jeu sinon #}
+    {# Recherche dans "Medias" "Topics" "Jeux" "Team" "Genre" (chacun est togglable, default: tous cochés) #}
 
 
 
 
 
     {# Ajax get LandingPage game content #}
-
-
-
-
-
-    <style>
-        .my-slider-progress {
-            width: 85%;
-            margin: 20px auto;
-            background: #ccc;
-        }
-        
-        .my-slider-progress-bar {
-            background: var(--primary-color);
-            height: 4px;
-            transition: width 400ms ease;
-            width: 0;
-        }
-    </style>
-
 
 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
@@ -332,7 +342,7 @@
             new Splide( '.splide' ).mount();
 
             var splide = new Splide( '.splide', {
-                perPage: 5,
+                perPage: 7,
             } );
 
             var bar = splide.root.querySelector( '.my-slider-progress-bar' );
