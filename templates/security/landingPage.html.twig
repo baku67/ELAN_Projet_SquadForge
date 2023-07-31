@@ -98,7 +98,7 @@
                             <span id="lp-loginBtn" style="font-family:'Julius Sans One', sans-serif; cursor:pointer;">Connexion</span>
                             <br>
                             {# TODO form https://chat.openai.com/share/798e5950-f849-4c0e-91eb-eec2f2c1d929 #}
-                            <a href="{{ path('app_register')}}"  id="lp-registerBtn">Inscription</a>
+                            <a id="lp-registerBtn" href="{{ path('app_register')}}" >Inscription</a>
                         </div>
 
                     </div>
@@ -109,8 +109,6 @@
                 <script>
                         document.getElementById("lp-loginBtn").addEventListener("click", function() {
 
-                            console.log("testttt");
-
                             const loginFormContainer = document.getElementById('lp-p1b-div');
                             fetch('/getLoginForm')
                                 .then(response => response.text())
@@ -119,9 +117,6 @@
                                 })
                                 .catch(error => console.error('Error fetching login form:', error));
 
-                        });
-                        document.getElementById("lp-loginBtn").addEventListener("click", function() {
-                            
                         });
                 </script>
 
@@ -264,7 +259,7 @@
             
             {# Scroll Btn #}
             <div id="lp-scrollBtn3" class="landingPageDownBtn" style="display:inline-flex; flex-direction:row; gap:25px; transform: translate(50%, 8%); align-items:center; padding:20px 30px;">
-                <span style="opacity:0.8; color:grey;">Passer cette étape</span>
+                <span style="opacity:0.8; color:grey; font-size:0.7em;">Passer cette étape</span>
                 <div style="display:inline-flex; flex-direction:column;">
                     <i class="fa-solid fa-chevron-down lpdownBtn1"></i>
                     <i class="fa-solid fa-chevron-down lpdownBtn2"></i>
@@ -299,7 +294,7 @@
 
         <div class="lp-page4-container"> 
             {# <a id="lp-page4-cardTeams"> #}
-                <div class="lp-page4-card lp-page4-cardTeam" style="cursor:default; margin-top:70px;">
+                <div class="lp-page4-card lp-page4-cardTeam" style="cursor:default; margin-top:50px;">
                     <h3 class="lp-page4-cardTitle">Teams</h3>
                     {# mini listes ou juste cards ? #}
                     <div class="lp-page4-teamsCardContent">
@@ -314,14 +309,14 @@
                 </div>
             {# </a> #}
 
-            <a href="{{ path('app_allTopicsGlobal') }}" id="lp-page4-cardTopics" style="margin-top:70px;">
+            <a href="{{ path('app_allTopicsGlobal') }}" id="lp-page4-cardTopics" style="margin-top:50px;">
                 <div class="lp-page4-card">
                     <h3 class="lp-page4-cardTitle">Topics</h3>
                     <img src="{{ asset('img/landingPageTopics_v2.png') }}" class="lp-page4-img" style="width:-webkit-fill-available; margin: 30px auto;">
                 </div>
             </a>
 
-            <a href="{{ path('app_allMediasGlobal') }}" id="lp-page4-cardMedias" style="margin-top:70px;">
+            <a href="{{ path('app_allMediasGlobal') }}" id="lp-page4-cardMedias" style="margin-top:50px;">
                 <div class="lp-page4-card">
                     <h3 class="lp-page4-cardTitle">Médias</h3>
                 <img src="{{ asset('img/landingPageMedias_v2.png') }}" class="lp-page4-img" style="width:-webkit-fill-available; margin: 30px auto;">
@@ -331,14 +326,50 @@
 
 
         {# Recherche Async #}
-        <div>
-            <span>Vous cherchez quelque chose en particulier ?</span>
-            <div>
-                <form>
+        <div class="lp-searchDiv" style="text-align:center; font-family:'K2D', sans serif;">
+            <span>Vous recherchez quelque chose en particulier ?</span>
 
-                </form>
+            <div style="display:inline-flex; align-items:baseline;">
+                <ul class="lp-filterList" style="display:inline-flex;">
+                    <li id="topicsFilter" value="true" class="lp-filterBtn" style="background-color: var(--primary-color); color:black;">Topics</li>
+                    <li id="mediasFilter" value="true" class="lp-filterBtn" style="background-color: var(--primary-color); color:black;">Médias</li>
+                    <li id="gamesFilter" value="true" class="lp-filterBtn" style="background-color: var(--primary-color); color:black;">Jeux</li>
+                    <li id="teamsFilter" value="false" class="lp-filterBtn">Teams</li>
+                </ul>
+
+                <div style="margin-top:7px;">
+                    <input type="text" placeholder="Entrez un ou plusieurs mots clés">
+                    <span><i class="fa-solid fa-magnifying-glass"></i></span>
+                </div>
             </div>
+
         </div>
+
+        <script>
+
+            console.log(gameSelected);
+
+            document.querySelectorAll('.lp-filterBtn').forEach((element) => {
+                element.addEventListener('click', function() {
+                    const currentValue = element.getAttribute('value');
+                    const newValue = currentValue === 'true' ? 'false' : 'true';
+                    element.setAttribute('value', newValue);
+                    if(newValue == 'false') {
+                        element.style.backgroundColor = "rgba(128, 128, 128, 0.2)";
+                        element.style.color = "white";
+                    }
+                    else {
+                        element.style.backgroundColor = "var(--primary-color)";
+                        element.style.color = "black";
+                    }
+                });
+            });
+
+            // Récup des filtres actif
+
+            // Ajax search
+
+        </script>
 
     </div>
 

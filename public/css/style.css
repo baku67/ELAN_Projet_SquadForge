@@ -468,18 +468,19 @@ header {
 }
 
 #lp-registerBtn {
+    background-color: #11a3a3;
     padding: 20px 100px;
     clip-path: polygon(3% 0, 100% 0, 100% 100%, 0% 100%);
-    background: -webkit-radial-gradient(circle, rgb(0 191 197 / 60%) 0%, rgb(44 50 249 / 75%) 63%);
-    background: radial-gradient(circle, rgb(0 191 197 / 60%) 0%, rgb(44 50 249 / 75%) 63%);
+    /* background: -webkit-radial-gradient(circle, rgb(0 191 197 / 60%) 0%, rgb(44 50 249 / 75%) 63%);
+    background: radial-gradient(circle, rgb(0 191 197 / 60%) 0%, rgb(44 50 249 / 75%) 63%); */
     transition: all 0.2s;
 
 }
 #lp-registerBtn:hover {
     color: white;
     letter-spacing: 2px;
-    background: -webkit-radial-gradient(circle, rgb(0 191 197) 0%, rgb(44 50 249 / 100%) 63%);
-    background: radial-gradient(circle, rgb(0 191 197) 0%, rgb(44 50 249 / 100%) 63%);
+    /* background: -webkit-radial-gradient(circle, rgb(0 191 197) 0%, rgb(44 50 249 / 100%) 63%);
+    background: radial-gradient(circle, rgb(0 191 197) 0%, rgb(44 50 249 / 100%) 63%); */
 
     background-position-x: 100px;
 }
@@ -782,6 +783,7 @@ header {
 }
 
 .lp-page3-title {
+    font-size:1.3em;
     height: 15%;
     align-items: center;
     display: flex;
@@ -815,6 +817,7 @@ header {
     width: 75%;
     margin: 20px auto;
     background: #ccc;
+    opacity: 0.5;
 }
 
 .my-slider-progress-bar {
@@ -938,6 +941,31 @@ header {
     margin: 0 auto;
 }
 
+.lp-searchDiv {
+    text-align: center;
+    font-family: 'K2D', sans serif;
+    position: absolute;
+    bottom: 32px;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+
+.lp-filterList {
+    margin: 0 15px;
+}
+.lp-filterList li {
+    margin: 0 2px;
+    padding: 3px 6px;
+    background-color: rgba(128, 128, 128, 0.2);
+}
+
+.lp-filterActive {
+
+}
+
+
+
 .lp-page4-titleDiv {
     position: relative;
     font-family: 'K2D', sans-serif;
@@ -946,7 +974,7 @@ header {
     width: 100%;
     text-align: center;
     margin: 0px auto;
-    padding: 50px 0;
+    padding: 25px 0;
 
     background-size: cover !important;
     background-repeat: no-repeat !important;
@@ -1075,10 +1103,10 @@ header {
 
 .lp-page4-cardTitle {
     text-align: center;
-    font-size: 2.5em;
+    font-size: 1.8em;
     letter-spacing: 2px;
     color: white;
-    margin: 23px 0;
+    margin: 18px 0;
     transition: all 0.3s;
 }
 
@@ -1113,7 +1141,7 @@ header {
 
 .lp-page4-selectedGameTitle {
     font-family: 'Julius Sans One', sans-serif;
-    font-size: 4.5em;
+    font-size: 3em;
     font-weight: 900;
 }
 
