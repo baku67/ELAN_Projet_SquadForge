@@ -305,6 +305,7 @@
                     <input id="lp-searchText" type="text" pattern="[a-zA-Z0-9\s\-_]*" placeholder="Recherchez...">
                 </div>
 
+                {# Filtres recherche #}
                 <ul class="lp-filterList" style="display:inline-flex;">
                     <li id="gamesFilter" value="true" class="lp-filterBtn" style="background-color: var(--primary-color); color:black;">Jeux</li>
                     <li id="topicsFilter" value="true" class="lp-filterBtn" style="background-color: var(--primary-color); color:black;">Topics</li>
@@ -317,7 +318,7 @@
         </div>
 
 
-        <div class="lp-page4-container"> 
+        <div id="lp-page4-container" class="lp-page4-container"> 
             {# <a id="lp-page4-cardTeams"> #}
             <div class="lp-page4-card lp-page4-cardTeam" style="cursor:default; margin-top:50px;">
                 <h3 class="lp-page4-cardTitle">Teams</h3>
@@ -448,45 +449,6 @@
         window.onload = function() {
 
 
-            // Ajax recherche avec filtres
-            document.getElementById("lp-searchText").addEventListener('input', function() {
-                
-                // Sanitize front text input
-                var textInput = this.value.replace(/[^a-zA-Z0-9\s-_]/g, '');
-                this.value = textInput
-
-                // array des filtres
-                var filterArray = {
-                    "games" : document.getElementById("gamesFilter").getAttribute("value"),
-                    "topics" : document.getElementById("topicsFilter").getAttribute("value"), 
-                    "medias" : document.getElementById("mediasFilter").getAttribute("value"), 
-                    "teams" : document.getElementById("teamsFilter").getAttribute("value")
-                };
-
-
-                console.log(textInput);
-                console.log(filterArray);
-
-                // fetch('/searchLandingPage/' + textInput + filterArray, {
-                //     method: 'GET',
-                //     headers: {
-                //         'Content-Type': 'application/json'
-                //     }
-                // })
-                // .then(response => response.json())
-                // .then(data => {
-                //     if (data.success) {
-
-
-
-                //     } else {
-                //         window.FlashMessage.error('Il y a eu un problème avec le chargment du contenu');
-                //     }
-
-                // })
-            })
-            // Relance recherche lors toggle si text input
-
         
             document.getElementById('lp-scrollBtn').addEventListener('click', function() {
                 const element = document.getElementById("lp-page2");
@@ -513,7 +475,7 @@
 
             var gameSelected = false;
 
-            // toggle CSS des filtres actifs searchBar
+            // toggle des filtres actifs searchBar (Styles + values pour ajax)
             document.querySelectorAll('.lp-filterBtn').forEach((element) => {
                 element.addEventListener('click', function() {
                     console.log('click bouton filtre searchBar');
@@ -531,9 +493,58 @@
                 });
             });
 
-            // Récup des filtres actif
+            // Ajax recherche avec filtres (TODO: delayed 1s & loading (friction positive))
+            document.getElementById("lp-searchText").addEventListener('input', function() {
+                
+                // Sanitize front text input
+                var textInput = this.value.replace(/[^a-zA-Z0-9\s-_]/g, '');
+                this.value = textInput;
 
-            // Ajax search
+
+                var gameSelectedId = null;
+
+                // array des filtres
+                var filterArray = {
+                    "games" : document.getElementById("gamesFilter").getAttribute("value"),
+                    "topics" : document.getElementById("topicsFilter").getAttribute("value"), 
+                    "medias" : document.getElementById("mediasFilter").getAttribute("value"), 
+                    "teams" : document.getElementById("teamsFilter").getAttribute("value")
+                };
+
+                console.log(textInput);
+                console.log(filterArray);
+
+                var queryString = new URLSearchParams(filterArray).toString();
+
+
+                // TODO: delayed search
+                if(textInput != "") {
+                    fetch('/searchLandingPage/' + textInput + '?' + queryString, {
+                        method: 'GET',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        }
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.success) {
+
+                            console.log("success!");
+
+                            document.getElementById("lp-page4-container").innerHTML = "<span>Résultats de la recherche :</span><br>";
+
+
+                        } else {
+                            window.FlashMessage.error('Il y a eu un problème avec le chargment du contenu');
+                        }
+
+                    })
+                }
+                else {
+
+                }
+            })
+            // Relance recherche lors toggle si text input
 
 
             // {# OnSelect game: scroll page 4 (détails) + anims #}
