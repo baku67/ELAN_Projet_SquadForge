@@ -281,9 +281,10 @@
                         <img id="lp-page4-gameLogo" src=""> 
                         <h2 id="lp-page4-selectedGameTitle"><i class="fa-solid fa-arrow-up" style="margin:0 15px;"></i>Sélectionnez un jeu pour filtrer</h2>
                     </div>
-                {# Scroll Btn top #}
             </div>
         </a>
+
+
 
         <div id="lp-scrollBtn4" class="landingPageUpBtn" style="display:none;">
             <i class="fa-solid fa-chevron-up lpdownBtn1inversed"></i>
@@ -292,21 +293,44 @@
 
         <div style="height:1px; width:100%; background:radial-gradient(circle, rgba(255,255,255,1) 11%, rgba(44,243,249,0) 70%);"></div>
 
+
+        {# Recherche Async #}
+        <div class="lp-searchDiv" style="text-align:center; font-family:'K2D', sans serif;">
+
+            <div style="display:inline-flex; align-items:baseline;">
+
+                <span style="margin-right:30px; font-size:2em; line-height:0;">Ou</span>
+
+                <div style="margin-top:7px;">
+                    <input id="lp-searchText" type="text" pattern="[a-zA-Z0-9\s\-_]*" placeholder="Recherchez...">
+                </div>
+
+                <ul class="lp-filterList" style="display:inline-flex;">
+                    <li id="gamesFilter" value="true" class="lp-filterBtn" style="background-color: var(--primary-color); color:black;">Jeux</li>
+                    <li id="topicsFilter" value="true" class="lp-filterBtn" style="background-color: var(--primary-color); color:black;">Topics</li>
+                    <li id="mediasFilter" value="true" class="lp-filterBtn" style="background-color: var(--primary-color); color:black;">Médias</li>
+                    <li id="teamsFilter" value="false" class="lp-filterBtn">Teams</li>
+                </ul>
+
+            </div>
+
+        </div>
+
+
         <div class="lp-page4-container"> 
             {# <a id="lp-page4-cardTeams"> #}
-                <div class="lp-page4-card lp-page4-cardTeam" style="cursor:default; margin-top:50px;">
-                    <h3 class="lp-page4-cardTitle">Teams</h3>
-                    {# mini listes ou juste cards ? #}
-                    <div class="lp-page4-teamsCardContent">
-                        <img src="{{ asset('img/teamCardImg.png') }}" style="width:70%; margin:20px auto; opacity:0.5;">
-                        <a id="lp-page4-cardTeams-seek">
-                            <span class="lp-page4-cardTeams-btn">Rejoindre une team</span>
-                        </a>
-                        <a id="lp-page4-cardTeams-create">
-                            <span class="lp-page4-cardTeams-btn">Créer votre team</span>
-                        </a>
-                    </div>
+            <div class="lp-page4-card lp-page4-cardTeam" style="cursor:default; margin-top:50px;">
+                <h3 class="lp-page4-cardTitle">Teams</h3>
+                <div class="lp-page4-teamsCardContent">
+                    <img src="{{ asset('img/teamCardImg.png') }}" style="width:70%; margin:20px auto; opacity:0.5;">
+                    <a id="lp-page4-cardTeams-seek">
+                        <span class="lp-page4-cardTeams-btn">Rejoindre une team</span>
+                    </a>
+                    <a id="lp-page4-cardTeams-create">
+                        <span class="lp-page4-cardTeams-btn">Créer votre team</span>
+                    </a>
                 </div>
+            </div>
             {# </a> #}
 
             <a href="{{ path('app_allTopicsGlobal') }}" id="lp-page4-cardTopics" style="margin-top:50px;">
@@ -325,51 +349,6 @@
         </div>
 
 
-        {# Recherche Async #}
-        <div class="lp-searchDiv" style="text-align:center; font-family:'K2D', sans serif;">
-            <span>Vous recherchez quelque chose en particulier ?</span>
-
-            <div style="display:inline-flex; align-items:baseline;">
-                <ul class="lp-filterList" style="display:inline-flex;">
-                    <li id="topicsFilter" value="true" class="lp-filterBtn" style="background-color: var(--primary-color); color:black;">Topics</li>
-                    <li id="mediasFilter" value="true" class="lp-filterBtn" style="background-color: var(--primary-color); color:black;">Médias</li>
-                    <li id="gamesFilter" value="true" class="lp-filterBtn" style="background-color: var(--primary-color); color:black;">Jeux</li>
-                    <li id="teamsFilter" value="false" class="lp-filterBtn">Teams</li>
-                </ul>
-
-                <div style="margin-top:7px;">
-                    <input type="text" placeholder="Entrez un ou plusieurs mots clés">
-                    <span><i class="fa-solid fa-magnifying-glass"></i></span>
-                </div>
-            </div>
-
-        </div>
-
-        <script>
-
-            console.log(gameSelected);
-
-            document.querySelectorAll('.lp-filterBtn').forEach((element) => {
-                element.addEventListener('click', function() {
-                    const currentValue = element.getAttribute('value');
-                    const newValue = currentValue === 'true' ? 'false' : 'true';
-                    element.setAttribute('value', newValue);
-                    if(newValue == 'false') {
-                        element.style.backgroundColor = "rgba(128, 128, 128, 0.2)";
-                        element.style.color = "white";
-                    }
-                    else {
-                        element.style.backgroundColor = "var(--primary-color)";
-                        element.style.color = "black";
-                    }
-                });
-            });
-
-            // Récup des filtres actif
-
-            // Ajax search
-
-        </script>
 
     </div>
 
@@ -467,6 +446,47 @@
     {# Btn Scroll général #}
     <script>
         window.onload = function() {
+
+
+            // Ajax recherche avec filtres
+            document.getElementById("lp-searchText").addEventListener('input', function() {
+                
+                // Sanitize front text input
+                var textInput = this.value.replace(/[^a-zA-Z0-9\s-_]/g, '');
+                this.value = textInput
+
+                // array des filtres
+                var filterArray = {
+                    "games" : document.getElementById("gamesFilter").getAttribute("value"),
+                    "topics" : document.getElementById("topicsFilter").getAttribute("value"), 
+                    "medias" : document.getElementById("mediasFilter").getAttribute("value"), 
+                    "teams" : document.getElementById("teamsFilter").getAttribute("value")
+                };
+
+
+                console.log(textInput);
+                console.log(filterArray);
+
+                // fetch('/searchLandingPage/' + textInput + filterArray, {
+                //     method: 'GET',
+                //     headers: {
+                //         'Content-Type': 'application/json'
+                //     }
+                // })
+                // .then(response => response.json())
+                // .then(data => {
+                //     if (data.success) {
+
+
+
+                //     } else {
+                //         window.FlashMessage.error('Il y a eu un problème avec le chargment du contenu');
+                //     }
+
+                // })
+            })
+            // Relance recherche lors toggle si text input
+
         
             document.getElementById('lp-scrollBtn').addEventListener('click', function() {
                 const element = document.getElementById("lp-page2");
@@ -493,6 +513,29 @@
 
             var gameSelected = false;
 
+            // toggle CSS des filtres actifs searchBar
+            document.querySelectorAll('.lp-filterBtn').forEach((element) => {
+                element.addEventListener('click', function() {
+                    console.log('click bouton filtre searchBar');
+                    const currentValue = element.getAttribute('value');
+                    const newValue = currentValue === 'true' ? 'false' : 'true';
+                    element.setAttribute('value', newValue);
+                    if(newValue == 'false') {
+                        element.style.backgroundColor = "rgba(128, 128, 128, 0.2)";
+                        element.style.color = "white";
+                    }
+                    else {
+                        element.style.backgroundColor = "var(--primary-color)";
+                        element.style.color = "black";
+                    }
+                });
+            });
+
+            // Récup des filtres actif
+
+            // Ajax search
+
+
             // {# OnSelect game: scroll page 4 (détails) + anims #}
             {% set index = 1 %}
 
@@ -506,11 +549,12 @@
 
                     if(gameSelected == false) {
                         gameSelected = !gameSelected;
+
                     }
 
                     if(gameSelected) {
 
-                        // si game clické meme que selected: gameSlected = false;
+                        // si game clické meme que selected: gameSelected = false;
 
 
                         document.getElementById('lp-scrollBtn4').style.display = "inline-flex";
