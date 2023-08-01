@@ -16,6 +16,10 @@
             background-image: radial-gradient(circle, rgba(255, 255, 255, 0) 0%, rgba(35, 35, 35, 0.996) 70%), url("/img/games/headerBackground/{{ game.subBanner }}");
         }
     }
+
+    body {
+         overflow-y: hidden;
+    }
 </style>
 {% endblock %}
 
@@ -78,6 +82,9 @@
                     </a>
                 </div>
             </div>
+
+            {# éclair #}
+            {# <div class="lightning">ECLAIR</div> #}
 
         </header>
 
@@ -248,18 +255,18 @@
                 
             </div>
 
-            <!-- Add the progress bar element -->
-            <div class="my-slider-progress">
+            <!-- (Désactivé) Add the progress bar element -->
+            {# <div class="my-slider-progress">
                 <div class="my-slider-progress-bar"></div>
-            </div>
+            </div> #}
 
         </div>
 
         {# TODO Fleche de transition page3 -> page4 si game selected  #}
             
             {# Scroll Btn #}
-            <div id="lp-scrollBtn3" class="landingPageDownBtn" style="display:inline-flex; flex-direction:row; gap:25px; transform: translate(50%, 8%); align-items:center; padding:20px 30px;">
-                <span style="opacity:0.8; color:grey; font-size:0.7em;">Passer cette étape</span>
+            <div id="lp-scrollBtn3" class="landingPageDownBtn" style="display:inline-flex; flex-direction:row; gap:25px; transform: translate(50%, 8%); align-items:center; padding:30px 30px;">
+                <span style="opacity:0.8; color:grey; font-size:0.9em;">Passer</span>
                 <div style="display:inline-flex; flex-direction:column;">
                     <i class="fa-solid fa-chevron-down lpdownBtn1"></i>
                     <i class="fa-solid fa-chevron-down lpdownBtn2"></i>
@@ -279,7 +286,7 @@
                 {# title: link gameDetails #}
                     <div id="lp-page4-titleDiv" class="lp-page4-titleDiv">
                         <img id="lp-page4-gameLogo" src=""> 
-                        <h2 id="lp-page4-selectedGameTitle"><i class="fa-solid fa-arrow-up" style="margin:0 15px;"></i>Sélectionnez un jeu pour filtrer</h2>
+                        <h2 id="lp-page4-selectedGameTitle"><i class="fa-solid fa-arrow-up" style="margin:0 15px; color:#707070;"></i>Sélectionnez un jeu pour filtrer</h2>
                     </div>
             </div>
         </a>
@@ -305,13 +312,21 @@
                     <input id="lp-searchText" type="text" pattern="[a-zA-Z0-9\s\-_]*" placeholder="Recherchez...">
                 </div>
 
-                {# Filtres recherche #}
-                <ul class="lp-filterList" style="display:inline-flex;">
-                    <li id="gamesFilter" value="true" class="lp-filterBtn" style="background-color: var(--primary-color); color:black;">Jeux</li>
-                    <li id="topicsFilter" value="true" class="lp-filterBtn" style="background-color: var(--primary-color); color:black;">Topics</li>
-                    <li id="mediasFilter" value="true" class="lp-filterBtn" style="background-color: var(--primary-color); color:black;">Médias</li>
-                    <li id="teamsFilter" value="false" class="lp-filterBtn">Teams</li>
-                </ul>
+                <div style="position:relative;">
+
+                    <span class="lp-filtersLabel">Filtres</span>
+
+                    {# Filtres recherche #}
+                    <ul class="lp-filterList" style="display:inline-flex;">
+                        <li class="filterIcon">[</li>
+                        <li id="gamesFilter" value="true" class="lp-filterBtn" style="background-color: var(--primary-color); color:black;">Jeux</li>
+                        <li id="topicsFilter" value="true" class="lp-filterBtn" style="background-color: var(--primary-color); color:black;">Topics</li>
+                        <li id="mediasFilter" value="true" class="lp-filterBtn" style="background-color: var(--primary-color); color:black;">Médias</li>
+                        <li id="teamsFilter" value="false" class="lp-filterBtn">Teams</li>
+                        <li class="filterIcon">]</li>
+                    </ul>
+
+                </div>
 
             </div>
 
@@ -320,7 +335,7 @@
 
         <div id="lp-page4-container" class="lp-page4-container"> 
             {# <a id="lp-page4-cardTeams"> #}
-            <div class="lp-page4-card lp-page4-cardTeam" style="cursor:default; margin-top:50px;">
+            <div class="lp-page4-card lp-page4-cardTeam" style="cursor:default;">
                 <h3 class="lp-page4-cardTitle">Teams</h3>
                 <div class="lp-page4-teamsCardContent">
                     <img src="{{ asset('img/teamCardImg.png') }}" style="width:70%; margin:20px auto; opacity:0.5;">
@@ -334,14 +349,14 @@
             </div>
             {# </a> #}
 
-            <a href="{{ path('app_allTopicsGlobal') }}" id="lp-page4-cardTopics" style="margin-top:50px;">
+            <a href="{{ path('app_allTopicsGlobal') }}" id="lp-page4-cardTopics">
                 <div class="lp-page4-card">
                     <h3 class="lp-page4-cardTitle">Topics</h3>
                     <img src="{{ asset('img/landingPageTopics_v2.png') }}" class="lp-page4-img" style="width:-webkit-fill-available; margin: 30px auto;">
                 </div>
             </a>
 
-            <a href="{{ path('app_allMediasGlobal') }}" id="lp-page4-cardMedias" style="margin-top:50px;">
+            <a href="{{ path('app_allMediasGlobal') }}" id="lp-page4-cardMedias">
                 <div class="lp-page4-card">
                     <h3 class="lp-page4-cardTitle">Médias</h3>
                 <img src="{{ asset('img/landingPageMedias_v2.png') }}" class="lp-page4-img" style="width:-webkit-fill-available; margin: 30px auto;">
@@ -429,14 +444,13 @@
                 perPage: 7,
             } );
 
-            var bar = splide.root.querySelector( '.my-slider-progress-bar' );
-
-            // Updates the bar width whenever the carousel moves:
-            splide.on( 'mounted move', function () {
-                var end  = splide.Components.Controller.getEnd() + 1;
-                var rate = Math.min( ( splide.index + 1 ) / end, 1 );
-                bar.style.width = String( 100 * rate ) + '%';
-            } );
+            // var bar = splide.root.querySelector( '.my-slider-progress-bar' );
+            // // Updates the bar width whenever the carousel moves:
+            // splide.on( 'mounted move', function () {
+            //     var end  = splide.Components.Controller.getEnd() + 1;
+            //     var rate = Math.min( ( splide.index + 1 ) / end, 1 );
+            //     bar.style.width = String( 100 * rate ) + '%';
+            // } );
 
             splide.mount();
 
@@ -566,6 +580,9 @@
                     if(gameSelected) {
 
                         // si game clické meme que selected: gameSelected = false;
+
+                        document.getElementById('lp-page4-titleDiv').style.opacity = "1";
+                        document.getElementById('lp-page4-titleDiv').style.fontStyle = "normal";
 
 
                         document.getElementById('lp-scrollBtn4').style.display = "inline-flex";
