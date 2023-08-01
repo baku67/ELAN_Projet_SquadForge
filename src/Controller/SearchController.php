@@ -9,6 +9,12 @@ use App\Entity\Media;
 use App\Entity\Group;
 use App\Entity\Genre;
 
+use Symfony\Component\Serializer\Encoder\JsonEncoder;
+use Symfony\Component\Serializer\Encoder\XmlEncoder;
+use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
+use Symfony\Component\Serializer\Serializer;
+use Symfony\Component\Serializer\Normalizer\AbstractNormalizer;
+
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -32,6 +38,7 @@ class SearchController extends AbstractController
 
             // $sanitizeTextInput = $this->sanitizeTextInput($textInput);
 
+
             $games = $request->query->get('games');
             $topics = $request->query->get('topics');
             $medias = $request->query->get('medias');
@@ -40,18 +47,29 @@ class SearchController extends AbstractController
             // Handle AJAX request, return JSON response
             $topicRepo = $entityManager->getRepository(Topic::class);
 
-            $resultTopics = $topicRepo->findBy(["title" => "zz zz zz zz zz" ]);
+            // $textInput = "zz zz zz zz zz";
+            $query = $topicRepo->createQueryBuilder('t')
+            ->where('t.title LIKE :searchText')
+            ->setParameter('searchText', "%$textInput%")
+            ->setMaxResults(5)
+            ->getQuery();
+            $resultTopics = $query->getResult();
+
             if (empty($resultTopics)) {
                 $resultTopics = null;
             }
 
+            $encoders = [new XmlEncoder(), new JsonEncoder()];
+            $normalizers = [new ObjectNormalizer()];
+            $serializer = new Serializer($normalizers, $encoders);
+
             $responseData = [
                 'success' => true, // Set based on your business logic
-                'topics' => $resultTopics,
+                'topics' => $serializer->serialize($topicRepo->find(13), 'json', [AbstractNormalizer::ATTRIBUTES => ['title']]),
             ];
 
             
-            return new JsonResponse($responseData);
+            return new Response($responseData);
         // }
 
         // Handle regular HTML request, render Twig template

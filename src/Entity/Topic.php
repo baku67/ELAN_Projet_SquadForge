@@ -2,6 +2,9 @@
 
 namespace App\Entity;
 
+use Symfony\Component\Serializer\Annotation\Groups;
+use Symfony\Component\Serializer\Annotation\MaxDepth;
+
 use App\Repository\TopicRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -28,7 +31,7 @@ class Topic
     #[ORM\Column(length: 50)]
     private ?string $validated = null;
 
-    #[ORM\ManyToOne(inversedBy: 'user')]
+    #[ORM\ManyToOne(inversedBy: 'topics')]
     private ?Game $game = null;
 
     #[ORM\ManyToOne(inversedBy: 'topics')]

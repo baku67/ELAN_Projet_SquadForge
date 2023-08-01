@@ -2,6 +2,9 @@
 
 namespace App\Entity;
 
+use Symfony\Component\Serializer\Annotation\Groups;
+use Symfony\Component\Serializer\Annotation\MaxDepth;
+
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -68,7 +71,7 @@ class Game
     private Collection $gameGroups;
 
     #[ORM\Column(type: Types::SMALLINT)]
-    private ?int $nbrMaxPlaces = null;
+    private ?int $nbrPlaces = null;
 
     #[ORM\Column(length: 255, options: ['default' => "logoSquadForge_v3.png"])]
     private ?string $siteLogo = null;
