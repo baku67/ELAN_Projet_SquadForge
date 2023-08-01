@@ -334,8 +334,9 @@
 
 
         <div id="lp-page4-container" class="lp-page4-container"> 
-            {# <a id="lp-page4-cardTeams"> #}
-            <div class="lp-page4-card lp-page4-cardTeam" style="cursor:default;">
+
+            {# Cards si recherche input vide #}
+            <div class="lp-page4-card lp-page4-cardTeam" id="lp-page4-cardTeams" style="cursor:default;">
                 <h3 class="lp-page4-cardTitle">Teams</h3>
                 <div class="lp-page4-teamsCardContent">
                     <img src="{{ asset('img/teamCardImg.png') }}" style="width:70%; margin:20px auto; opacity:0.5;">
@@ -347,7 +348,6 @@
                     </a>
                 </div>
             </div>
-            {# </a> #}
 
             <a href="{{ path('app_allTopicsGlobal') }}" id="lp-page4-cardTopics">
                 <div class="lp-page4-card">
@@ -362,6 +362,13 @@
                 <img src="{{ asset('img/landingPageMedias_v2.png') }}" class="lp-page4-img" style="width:-webkit-fill-available; margin: 30px auto;">
                 </div>
             </a>
+
+            {# Resultats de la recherche #}
+            <div id="searchResultsDiv" style="display:none;">
+                test result recherche
+            </div>
+
+
         </div>
 
 
@@ -507,13 +514,16 @@
                 });
             });
 
-            // Ajax recherche avec filtres (TODO: delayed 1s & loading (friction positive))
-            document.getElementById("lp-searchText").addEventListener('input', function() {
                 
+
+            let searchTimer;
+
+            function delayedSearch() {
+                // Clear any previously set timer
+                clearTimeout(searchTimer);
                 // Sanitize front text input
                 var textInput = this.value.replace(/[^a-zA-Z0-9\s-_]/g, '');
                 this.value = textInput;
-
 
                 var gameSelectedId = null;
 
@@ -525,39 +535,52 @@
                     "teams" : document.getElementById("teamsFilter").getAttribute("value")
                 };
 
-                console.log(textInput);
+                console.log("text input:\"" + textInput + "\"");
                 console.log(filterArray);
 
                 var queryString = new URLSearchParams(filterArray).toString();
 
+                // "Debouncing": ajout d'un delai avant requête
+                searchTimer = setTimeout(() => {
+                    if(textInput !== "") {
+                        fetch('/searchLandingPage/' + textInput + '?' + queryString, {
+                            method: 'GET',
+                            headers: {
+                                'Content-Type': 'application/json'
+                            }
+                        })
+                        .then(response => response.json())
+                        .then(data => {
+                            if (data.success) {
 
-                // TODO: delayed search
-                if(textInput != "") {
-                    fetch('/searchLandingPage/' + textInput + '?' + queryString, {
-                        method: 'GET',
-                        headers: {
-                            'Content-Type': 'application/json'
-                        }
-                    })
-                    .then(response => response.json())
-                    .then(data => {
-                        if (data.success) {
+                                console.log("success!");
 
-                            console.log("success!");
-
-                            document.getElementById("lp-page4-container").innerHTML = "<span>Résultats de la recherche :</span><br>";
+                                document.getElementById("lp-page4-cardTeams").style.display = "none";
+                                document.getElementById("lp-page4-cardTopics").style.display = "none";
+                                document.getElementById("lp-page4-cardMedias").style.display = "none";
+                                document.getElementById("searchResultsDiv").style.display = "block";
+                                // document.getElementById("lp-page4-container").innerHTML += "<span id='searchResults'>Résultats de la recherche :</span><br>";
 
 
-                        } else {
-                            window.FlashMessage.error('Il y a eu un problème avec le chargment du contenu');
-                        }
+                            } else {
+                                window.FlashMessage.error('Il y a eu un problème avec le chargment du contenu');
+                            }
 
-                    })
-                }
-                else {
+                        })
+                    }
+                    else {
+                        document.getElementById("searchResultsDiv").style.display = "none";
+                        document.getElementById("lp-page4-cardTeams").style.display = "block";
+                        document.getElementById("lp-page4-cardTopics").style.display = "block";
+                        document.getElementById("lp-page4-cardMedias").style.display = "block";
+                    }
+                }, 500);
+            }
 
-                }
-            })
+            // Ajax recherche avec filtres (TODO: loading (friction positive))
+            document.getElementById("lp-searchText").addEventListener('input', delayedSearch) 
+
+
             // Relance recherche lors toggle si text input
 
 
