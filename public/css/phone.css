@@ -1,4 +1,4 @@
-@media only screen and (max-width: 480px) {
+@media (max-width: 767px) {
 
     /* LANDINGPAGE */
     #section1 {
@@ -34,6 +34,9 @@
         }
     }
 
+    .splide__list {
+        padding-left: 0 !important;
+    }
 
     .lp-p1b-div {
         top: 45%;
@@ -58,12 +61,33 @@
         animation: lp-p2-bottomSectionAnim-phone 1s 0.6s ease forwards;
     }
     @keyframes lp-p2-bottomSectionAnim-phone {
-        from {
+        0% {
             bottom: -600px;
         }
-        to {
-            bottom: 0;
+        100% {
+            clip-path: polygon(0 10%, 100% 0, 100% 100%, 0% 100%);
+            bottom: 1px;
         }
+    }
+
+    .lp-gameCard {
+        margin: 5px auto;
+        width: 200px;
+        height: 90px;
+        border-radius: 4px;
+    }
+
+    .lp-page3-containerMaster {
+        overflow: hidden;
+        /* border-top: 1px solid white;
+        border-bottom: 1px solid white; */
+    }
+    .lp-page3-container {
+        margin: 0 auto;
+    }
+    
+    #lp-scrollBtn {
+        animation: fadeIn 0.5s 0.5s ease forwards;
     }
 
 
@@ -71,6 +95,38 @@
         position:relative; 
         text-align:center; 
         bottom:0px;
+    }
+
+
+    .lp-phone-slpideTrait1 {
+        display: block;
+        height:1px; 
+        position:absolute; 
+        width:100%; 
+        background:radial-gradient(circle, rgba(255,255,255,1) 11%, rgba(44,243,249,0) 90%);
+    }
+    .lp-phone-slpideTrait2 {
+        display: block;
+        height:1px; 
+        bottom:0px; 
+        position:absolute; 
+        width:100%; 
+        background:radial-gradient(circle, rgba(255,255,255,1) 11%, rgba(44,243,249,0) 90%);
+    }
+
+
+    .lp-gameCardTitle {
+        display: none;
+    }
+
+    .lp-gameCardTitlePhone {
+        width: 30%;
+        display: block;
+    }
+
+    .lp-page3-slideContainer {
+        width: 80%;
+        display: inline-flex;
     }
 
 
@@ -152,12 +208,12 @@
 
 
 
-    #lp-page2 {
+    /* #lp-page2 {
         height: 50vh !important;
     }
     #lp-page3 {
         height: 50vh !important;
-    }
+    } */
 
     .lp-page4-container {
         flex-direction: column;

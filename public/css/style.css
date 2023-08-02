@@ -128,6 +128,13 @@ body {
 }
 
 
+.lp-phone-slpideTrait1 {
+    display: none;
+}
+.lp-phone-slpideTrait2 {
+    display: none;
+}
+
 .lp-statsDiv {
     display: inline-flex;
     width: 100%;
@@ -639,6 +646,11 @@ header {
 }
 
 
+.lp-page3-containerMaster {
+    position:relative; 
+    margin-top:20px;
+}
+
 
 .lp-p2-rightSection {
     height:100%; 
@@ -1052,6 +1064,10 @@ header {
     font-size: 1.5em;
 }
 
+.lp-gameCardTitlePhone {
+    display: none;
+}
+
 
 .filterIcon {
     font-size: 3.7em;
@@ -1161,7 +1177,7 @@ header {
 
 
 .lp-page4-titleDiv {
-    background-color: #00000036;
+    background-color: #0000001c;
 
     font-style: italic;
     opacity: 0.6;

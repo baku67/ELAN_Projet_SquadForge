@@ -189,7 +189,7 @@
                 <i class="fa-solid fa-face-grin-squint-tears lp-p2-icons lp-p2-leftSection-icon5"></i> #}
             </div>
 
-            <div class="lp-p2-rightSection">
+            <div class="lp-p2-rightSection" style="width:60%;">
                 
                 <span class="lp-p2-rightSectionTitle">Emmenez SquadForge avec vous !<br>Restez connecté et informé à propos de vos univers favoris. <strong>Partagez</strong> avec vos teammates, publiez votre <strong>contenu</strong>, rejoingez ou créez une <strong>team</strong>, et plus encore !</span>
 
@@ -231,9 +231,13 @@
             <i class="fa-solid fa-down-long choseGameArrow"></i>
         </h2>
 
-        <div style="position:relative; margin-top:20px;">
+        <div class="lp-page3-containerMaster">
 
             <div id="lp-page3-container" class="lp-page3-container splide__track"> 
+
+
+                <div class="lp-phone-slpideTrait1"></div>
+
 
                 <div class="splide__list">
 
@@ -241,9 +245,16 @@
 
                     {% for game in games %}
 
-                        <div id="lp-page3-slide0{{ index }}" class="lp-gameCard splide__slide" style="background-image: linear-gradient(rgba(0, 0, 255, 0.05), rgba(249, 123, 44, 0.5)),url('{{ asset("img/games/banner/" ~ game.banner )}}'); background-size:cover;">
+                        <div class="lp-page3-slideContainer">
 
-                            <span id="lp-gameCardTitle{{ index }}" value="{{ game.title }}" class="lp-gameCardTitle">{{ game.title }}</span>
+                            <div id="lp-page3-slide0{{ index }}" class="lp-gameCard splide__slide" style="background-image: linear-gradient(rgba(0, 0, 255, 0.05), rgba(249, 123, 44, 0.5)),url('{{ asset("img/games/banner/" ~ game.banner )}}'); background-size:cover;">
+
+                                <span id="lp-gameCardTitle{{ index }}" value="{{ game.title }}" class="lp-gameCardTitle">{{ game.title }}</span>
+
+                            </div>
+
+                            {# only Phone: #}
+                            <span value="{{ game.title }}" class="lp-gameCardTitlePhone">{{ game.title }}</span>
 
                         </div>
 
@@ -252,6 +263,8 @@
                     {% endfor %}
 
                 </div>
+
+                <div class="lp-phone-slpideTrait2"></div>
 
                 
             </div>
@@ -339,7 +352,7 @@
         <div id="lp-page4-container" class="lp-page4-container"> 
 
             {# Cards si recherche input vide #}
-            <div class="lp-page4-card lp-page4-cardTeam" id="lp-page4-cardTeams" style="cursor:default;">
+            <div class="lp-page4-card lp-page4-cardTeam" id="lp-page4-cardTeams" style="cursor:default; margin:0px 0px;">
                 <h3 class="lp-page4-cardTitle">Teams</h3>
                 <div class="lp-page4-teamsCardContent">
                     <img src="{{ asset('img/teamCardImg.png') }}" class="lp-page4-teamsCardImg">
@@ -456,16 +469,17 @@
             || navigator.userAgent.match(/BlackBerry/i)
             || navigator.userAgent.match(/Windows Phone/i);
             
+            // Slide Scroll vertical sur mobile pas bonne idee car mess avec le scroll page
             if (isMobile){
 
                var splide = new Splide( '.splide', {
-                    perPage: 3,
-                    // direction: 'ttb',
-                    // drag: 'y',
+                    direction : 'ttb',
+                    height    : '25rem',
+                    perPage: 1,
+                    pagination: false,
                 } );
 
             } else {
-                alert('pc');
 
                 var splide = new Splide( '.splide', {
                     perPage: 7,
@@ -474,8 +488,6 @@
             }
 
             new Splide( '.splide' ).mount();
-
-            
 
             // var bar = splide.root.querySelector( '.my-slider-progress-bar' );
             // // Updates the bar width whenever the carousel moves:
