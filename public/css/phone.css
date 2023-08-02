@@ -36,7 +36,15 @@
 
 
     .lp-p1b-div {
+        top: 45%;
+        transform: translateY(-45%);
         gap: 55px;
+    }
+
+    #lp-login {
+        transform: translateX(0);
+        transform: scale(0.8);
+        width: 70%;
     }
     #lp-loginBtn {
         bottom: 18px;
@@ -56,6 +64,13 @@
         to {
             bottom: 0;
         }
+    }
+
+
+    #loginFormTitle {
+        position:relative; 
+        text-align:center; 
+        bottom:0px;
     }
 
 
@@ -84,6 +99,7 @@
         font-size: 1.1em;
     }
     #lp-registerBtn {
+        margin: 18px auto;
         padding: 10px 53px;
         clip-path: polygon(0% 0, 100% 0, 100% 100%, 0% 100%);
     }
@@ -111,6 +127,7 @@
     }
 
     .landingPageDownBtn {
+        bottom: 7px;
         padding: 3px 28px;
         font-size: 1.1em;
     }
@@ -135,10 +152,99 @@
 
 
 
+    #lp-page2 {
+        height: 50vh !important;
+    }
+    #lp-page3 {
+        height: 50vh !important;
+    }
+
+    .lp-page4-container {
+        flex-direction: column;
+    }
+    .lp-page4-card {
+        height: 20vh;
+        margin: 5px auto;
+        border-radius: 5px;
+
+        display: inline-flex;
+    }
+
+    .lp-page4-cardTitle {
+        font-size: 1.3em;
+        align-self: center;
+    }
+    .lp-page4-card:hover .lp-page4-cardTitle {
+        letter-spacing: 2px;
+    }
+    .lp-page4-img {
+        margin: 0px auto;
+    }
+
+    #lp-page4-cardTeams, #lp-page4-cardMedias, #lp-page4-cardTopics {
+        width: 80%;
+        height: 20vh;
+        margin: 5px auto;
+
+        display: inline-flex;
+    }
+
+    #lp-page4-selectedGameTitle {
+        font-size: 1.2em;
+    }
+
+    .lp-searchDiv {
+        padding: 13px 0 9px 0;
+    }
+
+    #orSpan {
+        margin-right: 10px;
+        font-size: 1.3em;
+    }
 
 
+    .lp-searchSubDiv {
+        flex-direction: column; 
+    }
 
 
+    #lp-page4-cardTeams-seek, #lp-page4-cardTeams-create {
+        font-size: 0.7em;
+    }
+
+
+    .lp-page4-teamsCardImg {
+        display: none;
+    }
+
+    .lp-page4-cardTeams-btn {
+        padding: 11px 0;
+    }
+    .lp-page4-cardTeams-btn:hover {
+        letter-spacing: 0px;
+    }
+
+
+    #lp-registerBtn {
+        margin:30px auto; 
+        width:100%; 
+        clip-path:polygon(0% 0, 100% 0, 100% 100%, 0% 100%); 
+        padding:10px 45px; 
+        font-size:1.2em;
+    }
+
+    .lp-filterBtn {
+        font-size: 0.8em;
+    }
+
+
+    .gameDetailsIcon {
+        font-size: 1.5em;
+        right: 30px;
+    }
+    .lp-page4-titleDivWrapper:hover .gameDetailsIcon {
+        right: 15px;
+    }
 
 
 

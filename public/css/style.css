@@ -140,7 +140,7 @@ body {
 
 
 #topRightEdgeSvgPath {
-    opacity: 0.3;
+    opacity: 0.5;
     transform: scale(1);
     fill: none;
     stroke: #2c2c2c;
@@ -166,8 +166,8 @@ body {
         top: -50px;  
     }
     85% {
-        right: 7px;
-        top: 7px;    
+        right: 5px;
+        top: 5px;    
     }
     100% {
         right: -1px;
@@ -176,7 +176,7 @@ body {
 }
 
 #bottomLeftEdgeSvgPath {
-    opacity: 0.3;
+    opacity: 0.5;
     transform: scale(1);
     fill: none;
     stroke: #f9822c;
@@ -464,6 +464,7 @@ header {
 .lp-filterBtn {
     cursor: pointer;
     border: 1px solid rgb(163, 163, 163);
+    border-radius: 2px;
     margin: 0 2px;
     padding: 3px 6px;
     background-color: rgba(128, 128, 128, 0.2);
@@ -556,6 +557,15 @@ header {
     background-position-x: 100px;
 }
 
+#lp-registerFormBtn {
+    background-color: var(--secondary-color);
+    margin:30px auto; 
+    width:100%; 
+    clip-path:polygon(0% 0, 100% 0, 100% 100%, 0% 100%); 
+    padding:10px 45px; 
+    font-size:1.2em;
+}
+
 .lpdownBtn1 {
     color: rgba(255, 255, 255, 0.7);
     animation: brightChevron 1.4s 0s linear infinite;
@@ -610,6 +620,11 @@ header {
 }
 
 
+#loginFormTitle {
+    position:relative; 
+    text-align:center; 
+    bottom:10px;
+}
 
 
 .lp-p2-leftSection {
@@ -622,6 +637,8 @@ header {
 #lp-phone-line {
     display: none;
 }
+
+
 
 .lp-p2-rightSection {
     height:100%; 
@@ -664,6 +681,32 @@ header {
     }
 }
 
+
+/* .lp-p2-rightSection {
+    height:100%; 
+    height:inherit; 
+    color:black;
+    clip-path: polygon(0% 0, 100% 0, 100% 100%, 0% 100%);
+    width:60%; 
+    z-index:10;
+
+    position: absolute;
+    right: -600px;
+
+    background: -moz-linear-gradient(270deg, rgba(249,164,44,1) 0%, rgba(249,123,44,1) 100%);
+    background: linear-gradient(270deg, rgba(249,164,44,1) 0%, rgba(249,123,44,1) 100%);
+    background: -webkit-linear-gradient(270deg, rgba(249,164,44,1) 0%, rgba(249,123,44,1) 100%);
+
+    animation: lp-p2-rightSectionAnim 1s 0.6s ease forwards, lp-p2-rightSectionAnim-phase2 10s 1.6s ease infinite;
+} */
+
+#orSpan {
+    margin-right:30px; 
+    font-size:2em; 
+    line-height:0;
+    opacity: 0.7;
+    font-style: italic;
+}
 
 #searchResultsDiv {
     position: relative;
@@ -913,6 +956,7 @@ header {
     font-weight: bold;
     font-size: 1.3em;
     border-radius: 4px;
+    /* border-width: 0px !important; */
 
     transition: all 0.3s;
 }
@@ -1010,12 +1054,12 @@ header {
 
 
 .filterIcon {
-    font-size: 3.2em;
+    font-size: 3.7em;
     line-height: 0;
     font-weight: 100;
-    opacity: 0.32;
+    opacity: 0.4;
     position: relative;
-    top: 11px;
+    top: 14px;
 }
 
 
@@ -1070,9 +1114,9 @@ header {
 .lp-filtersLabel {
     position: absolute;
     font-size: 0.8em;
-    top: 0;
+    top: 3px;
     left: 50%;
-    opacity: 0.7;
+    opacity: 0.85;
     transform: translate(-50%, -21px);
 }
 
@@ -1094,7 +1138,10 @@ header {
     padding: 30px 0 30px 0;
 
 }
-
+.lp-searchSubDiv {
+    display:inline-flex; 
+    align-items:baseline;
+}
 
 .lp-filterList {
     align-items: baseline;
@@ -1106,8 +1153,16 @@ header {
 }
 
 
+.lp-searchFiltersDiv {
+    position:relative;
+    margin-top: 25px;
+}
+
+
 
 .lp-page4-titleDiv {
+    background-color: #00000036;
+
     font-style: italic;
     opacity: 0.6;
 
@@ -1215,7 +1270,7 @@ header {
     background: rgba( 255, 255, 255, 0.1 );
     backdrop-filter: blur( 12px );
     -webkit-backdrop-filter: blur( 12px );
-    border-radius: 10px;
+    border-radius: 8px;
     
     border: 1px solid #9a9a9a;
 
@@ -1233,6 +1288,17 @@ header {
 .lp-page4-card:hover .lp-page4-img { 
     transform: scale(1.10);
     filter: sepia(0.5);
+}
+
+.lp-page4-img {
+    width:-webkit-fill-available; 
+    margin: 15px auto;
+}
+
+.lp-page4-teamsCardImg {
+    width:70%;
+    margin:20px auto; 
+    opacity:0.5;
 }
 
 
@@ -1269,6 +1335,7 @@ header {
 
 .lp-page4-teamsCardContent {
     display: inline-flex;
+    justify-content: center;
     flex-direction: column;
     width: 100%;
     text-align: center;
@@ -1294,6 +1361,19 @@ header {
     box-shadow: 0 0 45px -5px var(--primary-color);
 }
 
+
+.gameDetailsIcon {
+    position: absolute;
+    right: 60px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 2em;
+
+    transition: all 0.3s;
+}
+.lp-page4-titleDivWrapper:hover .gameDetailsIcon {
+    right: 35px;
+}
 
 
 .pageTitle {

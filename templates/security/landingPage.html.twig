@@ -191,7 +191,6 @@
 
             <div class="lp-p2-rightSection">
                 
-
                 <span class="lp-p2-rightSectionTitle">Emmenez SquadForge avec vous !<br>Restez connecté et informé à propos de vos univers favoris. <strong>Partagez</strong> avec vos teammates, publiez votre <strong>contenu</strong>, rejoingez ou créez une <strong>team</strong>, et plus encore !</span>
 
             </div>
@@ -289,6 +288,7 @@
                     <div id="lp-page4-titleDiv" class="lp-page4-titleDiv">
                         <img id="lp-page4-gameLogo" src=""> 
                         <h2 id="lp-page4-selectedGameTitle"><i class="fa-solid fa-arrow-up" style="margin:0 15px; color:#707070;"></i>Sélectionnez un jeu pour filtrer</h2>
+                        <i class="fa-solid fa-arrow-right gameDetailsIcon" id="gameDetailsIcon" style="display:none;"></i>
                     </div>
             </div>
         </a>
@@ -304,17 +304,18 @@
 
 
         {# Recherche Async #}
-        <div class="lp-searchDiv" style="text-align:center; font-family:'K2D', sans serif;">
+        <div class="lp-searchDiv">
 
-            <div style="display:inline-flex; align-items:baseline;">
+            <div class="lp-searchSubDiv">
 
-                <span style="margin-right:30px; font-size:2em; line-height:0;">Ou</span>
+                
 
-                <div style="margin-top:7px;">
+                <div style="margin-top:7px; display:inline-flex; align-items:baseline;">
+                    <span id="orSpan">Ou</span>
                     <input id="lp-searchText" type="text" pattern="[a-zA-Z0-9\s\-_]*" placeholder="Recherchez...">
                 </div>
 
-                <div style="position:relative;">
+                <div class="lp-searchFiltersDiv">
 
                     <span class="lp-filtersLabel">Filtres</span>
 
@@ -341,7 +342,7 @@
             <div class="lp-page4-card lp-page4-cardTeam" id="lp-page4-cardTeams" style="cursor:default;">
                 <h3 class="lp-page4-cardTitle">Teams</h3>
                 <div class="lp-page4-teamsCardContent">
-                    <img src="{{ asset('img/teamCardImg.png') }}" style="width:70%; margin:20px auto; opacity:0.5;">
+                    <img src="{{ asset('img/teamCardImg.png') }}" class="lp-page4-teamsCardImg">
                     <a id="lp-page4-cardTeams-seek">
                         <span class="lp-page4-cardTeams-btn">Rejoindre une team</span>
                     </a>
@@ -354,14 +355,14 @@
             <a href="{{ path('app_allTopicsGlobal') }}" id="lp-page4-cardTopics">
                 <div class="lp-page4-card">
                     <h3 class="lp-page4-cardTitle">Topics</h3>
-                    <img src="{{ asset('img/landingPageTopics_v2.png') }}" class="lp-page4-img" style="width:-webkit-fill-available; margin: 30px auto;">
+                    <img src="{{ asset('img/landingPageTopics_v2.png') }}" class="lp-page4-img">
                 </div>
             </a>
 
             <a href="{{ path('app_allMediasGlobal') }}" id="lp-page4-cardMedias">
                 <div class="lp-page4-card">
                     <h3 class="lp-page4-cardTitle">Médias</h3>
-                <img src="{{ asset('img/landingPageMedias_v2.png') }}" class="lp-page4-img" style="width:-webkit-fill-available; margin: 30px auto;">
+                <img src="{{ asset('img/landingPageMedias_v2.png') }}" class="lp-page4-img">
                 </div>
             </a>
 
@@ -447,11 +448,34 @@
     <script>
         document.addEventListener("DOMContentLoaded", function() {
 
+            var isMobile = navigator.userAgent.match(/Android/i)
+            || navigator.userAgent.match(/webOS/i)
+            || navigator.userAgent.match(/iPhone/i)
+            || navigator.userAgent.match(/iPad/i)
+            || navigator.userAgent.match(/iPod/i)
+            || navigator.userAgent.match(/BlackBerry/i)
+            || navigator.userAgent.match(/Windows Phone/i);
+            
+            if (isMobile){
+
+               var splide = new Splide( '.splide', {
+                    perPage: 3,
+                    // direction: 'ttb',
+                    // drag: 'y',
+                } );
+
+            } else {
+                alert('pc');
+
+                var splide = new Splide( '.splide', {
+                    perPage: 7,
+                    direction: 'ltr',
+                } );
+            }
+
             new Splide( '.splide' ).mount();
 
-            var splide = new Splide( '.splide', {
-                perPage: 7,
-            } );
+            
 
             // var bar = splide.root.querySelector( '.my-slider-progress-bar' );
             // // Updates the bar width whenever the carousel moves:
@@ -561,7 +585,7 @@
                                 document.getElementById("lp-page4-cardTeams").style.display = "none";
                                 document.getElementById("lp-page4-cardTopics").style.display = "none";
                                 document.getElementById("lp-page4-cardMedias").style.display = "none";
-                                document.getElementById("searchResultsDiv").style.display = "block";
+                                document.getElementById("searchResultsDiv").style.display = "flex";
                                 // document.getElementById("lp-page4-container").innerHTML += "<span id='searchResults'>Résultats de la recherche :</span><br>";
 
 
@@ -573,9 +597,9 @@
                     }
                     else {
                         document.getElementById("searchResultsDiv").style.display = "none";
-                        document.getElementById("lp-page4-cardTeams").style.display = "block";
-                        document.getElementById("lp-page4-cardTopics").style.display = "block";
-                        document.getElementById("lp-page4-cardMedias").style.display = "block";
+                        document.getElementById("lp-page4-cardTeams").style.display = "flex";
+                        document.getElementById("lp-page4-cardTopics").style.display = "flex";
+                        document.getElementById("lp-page4-cardMedias").style.display = "flex";
                     }
                 }, 500);
             }
@@ -604,6 +628,9 @@
                     }
 
                     if(gameSelected) {
+
+                        document.getElementById('gameDetailsIcon').style = "block";
+                        document.getElementById('orSpan').style.opacity = "0";
 
                         // si game clické meme que selected: gameSelected = false;
 
@@ -645,7 +672,7 @@
 
                         document.getElementById('lp-page4-selectedGameTitle').innerHTML = "{{ game.title }}";
                         document.getElementById('lp-page4-selectedGameTitle').classList.add("lp-page4-selectedGameTitle");
-                        document.getElementById('lp-page4-selectedGameTitle').style.textShadow = "-2px -2px 0 {{ game.color }}, 2px -2px 0 {{ game.color }}, -2px 2px 0 {{ game.color }}, 2px 2px 0 {{ game.color }}";
+                        document.getElementById('lp-page4-selectedGameTitle').style.textShadow = "-1px -1px 0 {{ game.color }}, 1px -1px 0 {{ game.color }}, -1px 1px 0 {{ game.color }}, 1px 1px 0 {{ game.color }}";
 
                         document.getElementById('lp-page3-slide0{{ index }}').classList.add('lp-gameCard-boxShadow');
                         setTimeout(() => {
@@ -654,6 +681,9 @@
 
                     }
                     else {
+
+                        document.getElementById('gameDetailsIcon').style = "none";
+                        document.getElementById('orSpan').style.opacity = "0.7";
                         
                         document.getElementById('lp-scrollBtn4').style.display = "none";
 
