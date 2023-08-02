@@ -198,14 +198,15 @@
         </div>
 
         {# Partie 2 (50vh) de la page 2 #}
-        <div>
+        {# <div>
             <div>
                 
             </div>
             <div>
             
             </div>
-        </div>
+        </div> #}
+        <a href="https://api.twitch.tv/kraken/oauth2/authorize?response_type=code&client_id=9xmxl9h3npck0tvgcdejwzeczhbl0w&redirect_uri=http://localhost&scope=user_read">Connection avec Twitch</a>
 
         {# Scroll Btn #}
         <div id="lp-scrollBtn2" class="landingPageDownBtn">
@@ -247,7 +248,7 @@
 
                         <div class="lp-page3-slideContainer">
 
-                            <div id="lp-page3-slide0{{ index }}" class="lp-gameCard splide__slide" style="background-image: linear-gradient(rgba(0, 0, 255, 0.05), rgba(249, 123, 44, 0.5)),url('{{ asset("img/games/banner/" ~ game.banner )}}'); background-size:cover;">
+                            <div id="lp-page3-slide0{{ index }}" class="lp-gameCard splide__slide" style="background-image: linear-gradient(rgba(0, 0, 255, 0.05), rgba(249, 123, 44, 0.5)),url('{{ asset("img/games/headerBackground/" ~ game.subBanner )}}'); background-size:cover;">
 
                                 <span id="lp-gameCardTitle{{ index }}" value="{{ game.title }}" class="lp-gameCardTitle">{{ game.title }}</span>
 
@@ -352,16 +353,25 @@
         <div id="lp-page4-container" class="lp-page4-container"> 
 
             {# Cards si recherche input vide #}
-            <div class="lp-page4-card lp-page4-cardTeam" id="lp-page4-cardTeams" style="cursor:default; margin:0px 0px;">
-                <h3 class="lp-page4-cardTitle">Teams</h3>
-                <div class="lp-page4-teamsCardContent">
-                    <img src="{{ asset('img/teamCardImg.png') }}" class="lp-page4-teamsCardImg">
-                    <a id="lp-page4-cardTeams-seek">
-                        <span class="lp-page4-cardTeams-btn">Rejoindre une team</span>
-                    </a>
-                    <a id="lp-page4-cardTeams-create">
-                        <span class="lp-page4-cardTeams-btn">Créer votre team</span>
-                    </a>
+            <div class="lp-page4-card lp-page4-cardTeam" id="lp-page4-cardTeams" style="cursor:default;">
+                <div id="lp-teamsCardGameSelected" style="display:none;">
+                    <h3 class="lp-page4-cardTitle">Teams</h3>
+                    <div class="lp-page4-teamsCardContent">
+                        <img src="{{ asset('img/teamCardImg.png') }}" class="lp-page4-teamsCardImg">
+                        <a id="lp-page4-cardTeams-seek">
+                            <span class="lp-page4-cardTeams-btn">Rejoindre une team</span>
+                        </a>
+                        <a id="lp-page4-cardTeams-create">
+                            <span class="lp-page4-cardTeams-btn">Créer votre team</span>
+                        </a>
+                    </div>
+                </div>
+                <div id="lp-teamsCardGameNotSelected">
+                    <h3 class="lp-page4-cardTitle">Teams</h3>
+                    <div class="lp-page4-teamsCardContent">
+                        <img src="{{ asset('img/teamCardImg.png') }}" class="lp-page4-teamsCardImg">
+                        <span>Veuillez commencer par sélectionner un jeu</span>
+                    </div>
                 </div>
             </div>
 
@@ -526,10 +536,11 @@
                 element4.scrollIntoView({behavior: "smooth", block: "end", inline: "nearest"});
             });
 
-            document.getElementById('lp-page4-titleLink').addEventListener('click', function() {
+            document.getElementById('lp-page4-titleLink').addEventListener('click', gameTitleClick);
+            function gameTitleClick() {
                 const element5 = document.getElementById("lp-page3");
                 element5.scrollIntoView({behavior: "smooth", block: "end", inline: "nearest"});
-            });
+            }
         
 
             var gameSelected = false;
@@ -636,19 +647,21 @@
 
                     if(gameSelected == false) {
                         gameSelected = !gameSelected;
-
                     }
 
                     if(gameSelected) {
 
+                        // TODO: si game clické meme que selected: gameSelected = false;
+
+
                         document.getElementById('gameDetailsIcon').style = "block";
                         document.getElementById('orSpan').style.opacity = "0";
-
-                        // si game clické meme que selected: gameSelected = false;
+                        document.getElementById('lp-teamsCardGameNotSelected').style.display = "none";
+                        document.getElementById('lp-teamsCardGameSelected').style.display = "block";
+                        document.getElementById('lp-page4-titleLink').removeEventListener('click', gameTitleClick);
 
                         document.getElementById('lp-page4-titleDiv').style.opacity = "1";
                         document.getElementById('lp-page4-titleDiv').style.fontStyle = "normal";
-
 
                         document.getElementById('lp-scrollBtn4').style.display = "inline-flex";
 
@@ -689,13 +702,16 @@
                         document.getElementById('lp-page3-slide0{{ index }}').classList.add('lp-gameCard-boxShadow');
                         setTimeout(() => {
                             document.getElementById('lp-page4').scrollIntoView({behavior: "smooth", block: "end", inline: "nearest"});
-                        }, 200);
+                        }, 350);
 
                     }
                     else {
 
                         document.getElementById('gameDetailsIcon').style = "none";
                         document.getElementById('orSpan').style.opacity = "0.7";
+                        document.getElementById('lp-teamsCardGameSelected').style.display = "none";
+                        document.getElementById('lp-teamsCardGameNotSelected').style.display = "block";
+
                         
                         document.getElementById('lp-scrollBtn4').style.display = "none";
 

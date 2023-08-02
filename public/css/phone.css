@@ -7,7 +7,10 @@
     }
     #lp-page1a {
         height: 65vh;
-        width: 100%;
+        /* Bidouillage: fix decalage */
+        width: 110%;
+        padding-right: 50px;
+
     }
     #lp-page1b {
         height: 45vh;
@@ -71,10 +74,11 @@
     }
 
     .lp-gameCard {
-        margin: 5px auto;
-        width: 200px;
+        margin: 0px 0px;
+        width: 60%;
         height: 90px;
-        border-radius: 4px;
+        border-top-right-radius: 0px;
+        border-bottom-right-radius: 0px;
     }
 
     .lp-page3-containerMaster {
@@ -120,13 +124,16 @@
     }
 
     .lp-gameCardTitlePhone {
-        width: 30%;
+        width: 40%;
         display: block;
+        align-self: center;
     }
 
     .lp-page3-slideContainer {
         width: 80%;
         display: inline-flex;
+        border: 1px solid #80808066;
+        border-radius: 5px;
     }
 
 
@@ -243,6 +250,9 @@
         margin: 5px auto;
 
         display: inline-flex;
+    }
+    #lp-page4-cardTeams {
+        margin: 0px auto;
     }
 
     #lp-page4-selectedGameTitle {

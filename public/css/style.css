@@ -550,18 +550,13 @@ header {
     background-color: var(--secondary-color);
     padding: 20px 100px;
     clip-path: polygon(3% 0, 100% 0, 100% 100%, 0% 100%);
-    /* background: -webkit-radial-gradient(circle, rgb(0 191 197 / 60%) 0%, rgb(44 50 249 / 75%) 63%);
-    background: radial-gradient(circle, rgb(0 191 197 / 60%) 0%, rgb(44 50 249 / 75%) 63%); */
     transition: all 0.2s;
 
 }
 #lp-registerBtn:hover {
     color: white;
     letter-spacing: 2px;
-    /* background: -webkit-radial-gradient(circle, rgb(0 191 197) 0%, rgb(44 50 249 / 100%) 63%);
-    background: radial-gradient(circle, rgb(0 191 197) 0%, rgb(44 50 249 / 100%) 63%); */
-
-    background-position-x: 100px;
+    background-color: #06b0b9;
 }
 
 #lp-registerFormBtn {
@@ -571,6 +566,11 @@ header {
     clip-path:polygon(0% 0, 100% 0, 100% 100%, 0% 100%); 
     padding:10px 45px; 
     font-size:1.2em;
+    transition: all 0.2s;
+}
+#lp-registerFormBtn:hover {
+    letter-spacing: 1px;
+    background-color: #06b0b9;
 }
 
 .lpdownBtn1 {
@@ -1043,11 +1043,15 @@ header {
 .lp-gameCard {
     cursor: pointer;
     height: 250px;
-    width: 280px;
+    width: 200px;
     background-color: grey;
     margin: 0 14px;
-    border-radius: 8px;
     background-position-x: center;
+
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
+    border-bottom-left-radius: 8px;
+    border-bottom-right-radius: 8px;
 
     transition: all 0.2s ease-out;
 }
@@ -1068,12 +1072,16 @@ header {
     display: none;
 }
 
+#lp-page4-cardTeams {
+    margin: 0px 0px;
+}
+
 
 .filterIcon {
     font-size: 3.7em;
     line-height: 0;
     font-weight: 100;
-    opacity: 0.4;
+    opacity: 0.3;
     position: relative;
     top: 14px;
 }
