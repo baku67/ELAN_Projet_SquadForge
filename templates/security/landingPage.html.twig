@@ -31,10 +31,10 @@
     </script>
 
 
-    <div id="section1" class="section" style="opacity:0; display:inline-flex; width:100%; position:relative;">
+    <div id="section1" class="section">
 
         {# Page 1a #}
-        <header id="lp-page1a" class="globalBannerLandingPage" style="background: url('{{ asset('img/banner.jpg') }}' ); height:100vh; width:70%;">
+        <header id="lp-page1a" class="globalBannerLandingPage" style="background: url('{{ asset('img/banner.jpg') }}');">
             
             <a href="{{ path('app_home') }}" class="centeredLogo">
                 <img src="{{ asset('img/logoSquadForge_v3.png') }}" class="logoPng centeredLogoImg" />
@@ -64,19 +64,19 @@
                 <div class="lp-teamsCountLine">
                     <a href="{{ path('app_games') }}">
                         <div class="lp-p1a-btn">
-                                <span class="lp-teamsCountLabel">Jeux</span>
+                            <span class="lp-teamsCountLabel">Jeux</span>
                             <span class="lp-count">{{ gamesCount }}</span>
                         </div>
                     </a>
                     <a href="{{ path('app_allTopicsGlobal') }}">
                         <div class="lp-p1a-btn">
-                                <span class="lp-teamsCountLabel">Topics</span> 
+                            <span class="lp-teamsCountLabel">Topics</span> 
                             <span class="lp-count">{{ topicsCount }}</span>
                         </div>
                     </a>
                     <a href="{{ path('app_allMediasGlobal') }}">
                         <div class="lp-p1a-btn">
-                                <span class="lp-teamsCountLabel">Médias</span> 
+                            <span class="lp-teamsCountLabel">Médias</span> 
                             <span class="lp-count">{{ mediasCount }}</span>
                         </div>
                     </a>
@@ -86,15 +86,18 @@
             {# éclair #}
             {# <div class="lightning">ECLAIR</div> #}
 
+            {# trait design (phone only) #}
+            {# <div id="lp-phone-line"></div> #}
+
         </header>
 
 
         {# Page 1b #}
-        <div id="lp-page1b" style="height:100vh; position:relative;width:30%;">
+        <div id="lp-page1b">
 
             {# Partie 1 (50vh) de la page 2 #}
 
-                <div class="lp-p2-rightSection" style="width:140%; z-index:10;">
+                <div class="lp-p2-rightSection">
                     
                     {# Conteneur dynamique #}
                     <div id="lp-p1b-div" class="lp-p1b-div" >
@@ -103,7 +106,6 @@
 
                         <div class="lp-p1b-rightSectionLoginDiv">
                             <span id="lp-loginBtn" style="font-family:'Julius Sans One', sans-serif; cursor:pointer;">Connexion</span>
-                            <br>
                             {# TODO form https://chat.openai.com/share/798e5950-f849-4c0e-91eb-eec2f2c1d929 #}
                             <a id="lp-registerBtn" href="{{ path('app_register')}}" >Inscription</a>
                         </div>

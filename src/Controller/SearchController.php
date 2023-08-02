@@ -69,7 +69,7 @@ class SearchController extends AbstractController
             ];
 
             
-            return new Response($responseData);
+            return new JsonResponse($responseData);
         // }
 
         // Handle regular HTML request, render Twig template

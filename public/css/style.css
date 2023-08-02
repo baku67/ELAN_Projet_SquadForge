@@ -20,6 +20,23 @@ footer {
     height: 100px;
 }
 
+/* LandingPage */
+#section1 {
+    opacity:0; 
+    display:inline-flex;
+    width:100%; 
+    position:relative;
+}
+#lp-page1a {
+    height:100vh; 
+    width:70%;
+}
+#lp-page1b {
+    height:100vh; 
+    position:relative;
+    width:30%;
+}
+
 /* Bootstrap  */
     .btn-primary {
         font-family: 'K2D', sans-serif;
@@ -503,6 +520,7 @@ header {
 }
 
 .lp-count {
+    text-align: center;
     font-weight: bold;
     font-size: 1.1em;
     float: right;
@@ -593,6 +611,7 @@ header {
 
 
 
+
 .lp-p2-leftSection {
     position:absolute; 
     width:60%; 
@@ -600,18 +619,19 @@ header {
     height:inherit;
 }
 
+#lp-phone-line {
+    display: none;
+}
+
 .lp-p2-rightSection {
-    /* width:50%;  */
     height:100%; 
     height:inherit; 
-    /* background-color:var(--primary-color);  */
     color:black;
     clip-path: polygon(0% 0, 100% 0, 100% 100%, 0% 100%);
+    width:140%; 
+    z-index:10;
 
-    /* test: */
-    width: 55%;
     position: absolute;
-    /* right: 0; */
     right: -600px;
 
     background: -moz-linear-gradient(270deg, rgba(249,164,44,1) 0%, rgba(249,123,44,1) 100%);

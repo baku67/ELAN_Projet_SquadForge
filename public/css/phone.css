@@ -1,5 +1,119 @@
 @media only screen and (max-width: 480px) {
 
+    /* LANDINGPAGE */
+    #section1 {
+        height: 100vh;
+        flex-direction: column;
+    }
+    #lp-page1a {
+        height: 65vh;
+        width: 100%;
+    }
+    #lp-page1b {
+        height: 45vh;
+        width: 100%;
+
+        /* bottom: 30px; */
+    }
+
+    #lp-p1-topLeftSquare {
+        opacity: 0;
+        left: 0;
+        top: -630px;
+        transform: rotate(84deg);
+        animation: squareAnimResp 1s 0.7s ease forwards;
+    }
+    @keyframes squareAnimResp {
+        0% {
+            opacity: 0;
+            top: -630px;
+        }   
+        100% {
+            opacity: 1;
+            top: -610px;
+        }
+    }
+
+
+    .lp-p1b-div {
+        gap: 55px;
+    }
+    #lp-loginBtn {
+        bottom: 18px;
+    }
+
+    .lp-p2-rightSection {
+        width: 100%;
+        right: 0;
+        bottom: -600px;
+        clip-path: polygon(0 10%, 100% 0, 100% 100%, 0% 100%);
+        animation: lp-p2-bottomSectionAnim-phone 1s 0.6s ease forwards;
+    }
+    @keyframes lp-p2-bottomSectionAnim-phone {
+        from {
+            bottom: -600px;
+        }
+        to {
+            bottom: 0;
+        }
+    }
+
+
+    .lp-p1a-btn, .lp-p1a-btn-noHover {
+        width: 165px;
+    }
+
+    #lp-phone-line {
+        z-index: 999;
+        bottom: 20px;
+        display: block;
+        position: absolute;
+        height: 4px;
+        width: 150%;
+        background-color: var(--primary-color);
+    }
+
+    .lp-p1b-rightSectionTitle {
+        transform: translateX(0);
+        font-size: 1.1em;
+        margin-top: 1px;
+        max-width: 85%;
+    }
+    .lp-p1b-rightSectionLoginDiv {
+        transform: translateX(0);
+        font-size: 1.1em;
+    }
+    #lp-registerBtn {
+        padding: 10px 53px;
+        clip-path: polygon(0% 0, 100% 0, 100% 100%, 0% 100%);
+    }
+
+    .lp-leftSection, .lp-teamsCountLine {
+        font-size: 1em;
+    }
+
+    .centeredLogo {
+        transform: translateX(0px);
+    }
+    .landingPageSlogan  {
+        max-width: 92%;
+        font-size: 1em;
+        transform: translateX(0px);
+        margin: 10px auto 20px auto;
+        background: radial-gradient(circle, rgba(247,114,31,0.3) 0%, rgba(35,35,35,0) 100%);
+    }
+    .lp-statsDiv {
+        transform: translateX(0px);
+        margin: 0 auto;
+    }
+    .centeredLogoImg {
+        width: 175px !important;
+    }
+
+    .landingPageDownBtn {
+        padding: 3px 28px;
+        font-size: 1.1em;
+    }
 
 
     .mediaListGrid {
