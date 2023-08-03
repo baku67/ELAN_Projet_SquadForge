@@ -172,7 +172,9 @@ body {
 .lp-p2b {
     display:inline-flex; 
     width:100%; 
-    height:50vh; 
+    /* height:50vh;  */
+    /* TEST: */
+    height: 40vh;
  
     position:relative;
 }
@@ -793,7 +795,7 @@ header {
 }
 
 .lp-p2-leftSectionImg {
-    width:112%; 
+    width:102%; 
     position: relative;
     z-index: 999;
     overflow: visible;
@@ -802,6 +804,22 @@ header {
 
     position: relative;
     z-index: 999;
+
+    animation: dropShadowMockup 3s ease infinite;
+}
+@keyframes dropShadowMockup {
+    0% {
+        filter: drop-shadow(2px 4px 6px var(--primary-color));
+    }
+    45% {
+        filter: drop-shadow(2px 4px 6px rgba(0, 0, 0, 0));
+    }
+    55% {
+        filter: drop-shadow(2px 4px 6px rgba(0, 0, 0, 0));
+    }
+    100% {
+        filter: drop-shadow(2px 4px 6px var(--primary-color));
+    }
 }
 
 .twitchPresentation {
@@ -1108,7 +1126,7 @@ header {
     /* left: 0; */
 
     opacity: 0.2;
-    font-size: 8em;
+    font-size: 7em;
     color: #f9932d;
 
     text-shadow: 0 0 black;
@@ -1117,20 +1135,20 @@ header {
 }
 
 .lp-p2-leftSection-icon1 {
-    right: 12vw;
-    top: -60px;
-    
+    right: 13vw;
+    top: -37px;
+    transform: rotate3d(1, 1, 1, 298deg);
 }
 .lp-p2-leftSection-icon2 {
-    left: 14vw;
-    bottom: 78px;
-    transform: rotate(1deg);
+    left: 10vw;
+    bottom: 48px;
+    transform: rotate(1deg) rotate3d(1, 1, 1, 329deg);
 }
 .lp-p2-leftSection-icon3 {
-    left: 6vw;
-    bottom: 320px;
+    left: 8vw;
+    bottom: 305px;
     z-index: 0;
-    transform: rotate(306deg);
+    transform: rotate(306deg) rotate3d(1, 1, 1, 52deg);
 }
 
 #lp-page3 {
