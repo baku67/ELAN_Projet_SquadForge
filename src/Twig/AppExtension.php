@@ -5,6 +5,8 @@ namespace App\Twig;
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFunction;
 
+use App\Entity\OAuthTwitch;
+
 class AppExtension extends AbstractExtension
 {
     public function getFunctions(): array
@@ -12,6 +14,7 @@ class AppExtension extends AbstractExtension
         return [
             new TwigFunction('time_diff', [$this, 'calculateTimeDiff']),
             new TwigFunction('time_diff_future', [$this, 'calculateTimeDiffFuture']),
+            new TwigFunction('twitchOAuth', [$this, 'twitchOAuth']),
         ];
     }
 
@@ -111,6 +114,17 @@ class AppExtension extends AbstractExtension
         }
     }
 
+
+    public function twitchOAuth()
+    {
+        
+        $oauth = new OAuthTwitch('9xmxl9h3npck0tvgcdejwzeczhbl0w', 'l0qj5m6wmay7k28z20a48s7f74xs3x', 'http://localhost:8000', 'user:read:broadcast');
+
+        $link = $oauth->get_link_connect();
+
+        return $link;
+    }
+    
 
     public function getName(): string
     {
