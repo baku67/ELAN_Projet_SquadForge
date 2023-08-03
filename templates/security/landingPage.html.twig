@@ -172,9 +172,11 @@
     <div id="lp-page2" class="section" style="opacity:0; height:100vh; position:relative;">
 
         <div class="lp-p2a">
-            <div class="lp-p2a-link">
-                <p>Associez votre ompte Twitch pour 
-                <a href="{{ twitchOAuth() }}">Se connecter avec Twitch</a>
+            <div class="lp-p2a-wrapper">
+                <div class="lp-p2a-content">
+                    <p class="twitchPresentation">Associez votre compte Twitch pour partager votre contenu plus facilement etc ... </p>
+                    <a href="{{ twitchOAuth() }}" class="twitchLoginBtn">Se connecter avec Twitch</a>
+                </div>
             </div>
 
             {# Twitch logo SVG #}
@@ -209,15 +211,15 @@
             <div class="lp-p2-leftSection">
                 {# TODO Serait mieux avec couches de zindex (Mockup passe par dessus sectionRight#}
                 {# TODO anim slide/fadeIn droite/gauche#}
-                <img src="{{ asset('img/landingPageMockup2.jpg') }}" class="lp-p2-leftSectionImg">
+                <img src="{{ asset('img/landingPageMockup_noBg.png') }}" class="lp-p2-leftSectionImg">
 
                 {# WIP absolute icons #}
                 <i class="fa-solid fa-comments lp-p2-icons lp-p2-leftSection-icon1"></i>
-                <i class="fa-solid fa-gamepad lp-p2-icons lp-p2-leftSection-icon2"></i>
-                <i class="fa-solid fa-headset lp-p2-icons lp-p2-leftSection-icon3"></i>
-                {# 
-                <i class="fa-solid fa-people-group lp-p2-icons lp-p2-leftSection-icon4"></i>
-                <i class="fa-solid fa-face-grin-squint-tears lp-p2-icons lp-p2-leftSection-icon5"></i> #}
+                <i class="fa-solid fa-face-grin-squint-tears lp-p2-icons lp-p2-leftSection-icon2" style="font-size:8em;"></i>
+                {# <i class="fa-solid fa-gamepad lp-p2-icons lp-p2-leftSection-icon2"></i> #}
+                <i class="fa-solid fa-headset lp-p2-icons lp-p2-leftSection-icon3" style="font-size:5.8em"></i>
+                
+                {# <i class="fa-solid fa-people-group lp-p2-icons lp-p2-leftSection-icon2"></i> #}
             </div>
 
             <div class="lp-p2-rightSection" style="width:60%;">
@@ -385,7 +387,7 @@
                     <h3 class="lp-page4-cardTitle">Teams</h3>
                     <div class="lp-page4-teamsCardContent">
                         <img src="{{ asset('img/teamCardImg.png') }}" class="lp-page4-teamsCardImg">
-                        <span>Veuillez commencer par sélectionner un jeu</span>
+                        <span class="emptyListMsg">Veuillez commencer par sélectionner un jeu</span>
                     </div>
                 </div>
             </div>

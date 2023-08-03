@@ -140,11 +140,19 @@ body {
     height:50vh; 
     position:relative;
 }
-.lp-p2a-link {
+.lp-p2a-wrapper {
     width: 50%;
+    display: inline-flex;
+    flex-direction: column;
 }
 .lp-p2a-img {
     width: 50%;
+}
+.lp-p2a-content {
+    text-align: center;
+    position: relative;
+    top: 35%;
+    transform: translateY(-40%);
 }
 
 .lp-p2b {
@@ -274,6 +282,8 @@ body {
 .twitchLogoSvgContainer {
     position: relative;
     width: 50%;
+
+    background: radial-gradient(circle, rgba(145,70,255,0.4) 0%, rgba(35,35,35,0) 70%);
 }
 
 .twitchSvg1 {
@@ -307,7 +317,7 @@ body {
     transform: scale(0.75);
     fill: #ffffff;
     fill-opacity: 1;
-    stroke: #000000;
+    stroke: #000000ab;
     stroke-width: 4;
     stroke-linecap: round;
     stroke-linejoin: miter;
@@ -769,12 +779,34 @@ header {
 }
 
 .lp-p2-leftSectionImg {
-    width:100%; 
-    height:inherit;
-    object-fit:cover;
-    clip-path: polygon(0 0, 100% 0, 75% 100%, 0% 100%);
+    width:112%; 
+    position: relative;
+    z-index: 999;
+    overflow: visible;
+    bottom: 85px;
+    filter: drop-shadow(2px 4px 6px var(--primary-color));
+
+    position: relative;
+    z-index: 999;
 }
 
+.twitchPresentation {
+    font-family: 'K2D', sans-serif;
+    font-size: 1.4em;
+    width: 60%;
+    margin: 50px auto;
+}
+.twitchLoginBtn {
+    padding: 20px 37px;
+    background-color: #9146FF;
+    color: white;
+    font-size: 1.15em;
+
+    transition: all 0.4s;
+}
+.twitchLoginBtn:hover {
+    background-color: #9d6ae9;
+}
 
 #loginFormTitle {
     position:relative; 
@@ -810,7 +842,7 @@ header {
     z-index:10;
 
     position: absolute;
-    right: -700px;
+    right: -1000px;
 
     background: -moz-linear-gradient(270deg, rgba(249,164,44,1) 0%, rgba(249,123,44,1) 100%);
     background: linear-gradient(270deg, rgba(249,164,44,1) 0%, rgba(249,123,44,1) 100%);
@@ -820,7 +852,7 @@ header {
 }
 @keyframes lp-p2-rightSectionAnim {
     from {
-        right: -700px;
+        right: -1000px;
         clip-path: polygon(0% 0, 100% 0, 100% 100%, 0% 100%);
     }
     to {
@@ -1003,14 +1035,15 @@ header {
 
 .lp-p2-rightSectionTitle {
     font-family: 'K2D', sans-serif;
+    text-align: center;
     display: block;
     position: relative;
     top: 40%;
     transform: translate(90px, -40%);
     margin: 0 auto;
-    width: 65%;
+    width: 55%;
     /* font-weight: bold; */
-    font-size: 1.5em;
+    font-size: 1.65em;
 }
 
 .lp-p2-rightSectionLoginDiv {
@@ -1029,7 +1062,8 @@ header {
     position: absolute;
     /* left: 0; */
 
-    font-size: 6em;
+    opacity: 0.2;
+    font-size: 8em;
     color: #f9932d;
 
     text-shadow: 0 0 black;
@@ -1038,20 +1072,20 @@ header {
 }
 
 .lp-p2-leftSection-icon1 {
-    right: 13vw;
-    top: 36px;
+    right: 12vw;
+    top: -60px;
     
 }
 .lp-p2-leftSection-icon2 {
     left: 14vw;
-    bottom: 115px;
-    transform: rotate(20deg);
+    bottom: 78px;
+    transform: rotate(1deg);
 }
 .lp-p2-leftSection-icon3 {
-    left: 2vw;
-    bottom: 259px;
+    left: 6vw;
+    bottom: 320px;
     z-index: 0;
-    transform: rotate(346deg);
+    transform: rotate(306deg);
 }
 
 #lp-page3 {
