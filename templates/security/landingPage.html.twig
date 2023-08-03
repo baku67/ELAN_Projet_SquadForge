@@ -171,10 +171,34 @@
     {# BACKUP Page 2 #}
     <div id="lp-page2" class="section" style="opacity:0; height:100vh; position:relative;">
 
-        <a href="{{ twitchOAuth() }}">LIEN TWITCH</a>
+        <div class="lp-p2a">
+            <div class="lp-p2a-link">
+                <p>Associez votre ompte Twitch pour 
+                <a href="{{ twitchOAuth() }}">Se connecter avec Twitch</a>
+            </div>
+
+            {# <img class="lp-p2a-img" src="{{ asset('img/twitchLogo.jpg') }}" alt="logo Twitch"> #}
+            <div class="twitchLogoSvgContainer">
+                <svg class="twitchSvg1">
+                    <path 
+                        id="twitchSvgPath1"
+                        d="M 42 84 L 57 48 L 267 48 L 267 186 L 204 252 L 159 252 L 132 282 L 96 282 L 96 252 L 42 252 L 42 84"
+                        fill-opacity="0"
+                    />
+                </svg>
+                <svg class="twitchSvg2">
+                    <path 
+                        id="twitchSvgPath2"
+                        d="M 42 84 L 42 48 L 267 48 L 267 196 L 214 252 L 159 252 L 129 252 L 102 282 L 102 252 L 42 252 L 42 84"
+                        fill-opacity="0"
+                    />
+                </svg>
+            </div>
+
+        </div>
 
         {# Partie 1 (50vh) de la page 2 #}
-        <div style="display:inline-flex; width:100%; height:50vh; top:50%; transform:translateY(-50%); position:absolute;">
+        <div class="lp-p2b">
 
             <div class="lp-p2-leftSection">
                 {# TODO Serait mieux avec couches de zindex (Mockup passe par dessus sectionRight#}
@@ -198,15 +222,6 @@
 
         </div>
 
-        {# Partie 2 (50vh) de la page 2 #}
-        {# <div>
-            <div>
-                
-            </div>
-            <div>
-            
-            </div>
-        </div> #}
 
         {# Scroll Btn #}
         <div id="lp-scrollBtn2" class="landingPageDownBtn">
@@ -224,7 +239,7 @@
     {# TODO while load: squeleton (gris avec waves) ? #}
     {# TODO orderBy nbr de publications #}
     {# + background 100% étoiles vers le haut color primary (cf les100cie) #}
-    <div id="lp-page3" class="splide section" style="opacity:0; height:100vh; position:relative;" aria-labelledby="carousel-heading">
+    <div id="lp-page3" class="splide section" aria-labelledby="carousel-heading">
 
         <h2 id="carousel-heading" class="lp-page3-title">
             <i class="fa-solid fa-down-long choseGameArrow"></i>
