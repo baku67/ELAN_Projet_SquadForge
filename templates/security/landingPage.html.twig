@@ -149,16 +149,15 @@
                 />
         </svg>
 
-        <svg class="bottomLeftEdgeSvg">
+        {# <svg class="bottomLeftEdgeSvg">
             <path 
                 id="bottomLeftEdgeSvgPath"
                 d="M 14 14 L 14 86 L 124 86"
                 fill-opacity="0"
                 />
-        </svg>
+        </svg> #}
 
         <div id="lp-p1-topLeftSquare">
-
         </div>
 
 
@@ -206,7 +205,6 @@
             
             </div>
         </div> #}
-        <a href="https://api.twitch.tv/kraken/oauth2/authorize?response_type=code&client_id=9xmxl9h3npck0tvgcdejwzeczhbl0w&redirect_uri=http://localhost&scope=user_read">Connection avec Twitch</a>
 
         {# Scroll Btn #}
         <div id="lp-scrollBtn2" class="landingPageDownBtn">
@@ -308,12 +306,6 @@
         </a>
 
 
-
-        <div id="lp-scrollBtn4" class="landingPageUpBtn" style="display:none;">
-            <i class="fa-solid fa-chevron-up lpdownBtn1inversed"></i>
-            <i class="fa-solid fa-chevron-up lpdownBtn2inversed"></i>
-        </div>
-
         <div style="height:1px; width:100%; background:radial-gradient(circle, rgba(255,255,255,1) 11%, rgba(44,243,249,0) 70%);"></div>
 
 
@@ -376,14 +368,14 @@
             </div>
 
             <a href="{{ path('app_allTopicsGlobal') }}" id="lp-page4-cardTopics">
-                <div class="lp-page4-card">
+                <div class="lp-page4-card lp-page4-cardTopics">
                     <h3 class="lp-page4-cardTitle">Topics</h3>
                     <img src="{{ asset('img/landingPageTopics_v2.png') }}" class="lp-page4-img">
                 </div>
             </a>
 
             <a href="{{ path('app_allMediasGlobal') }}" id="lp-page4-cardMedias">
-                <div class="lp-page4-card">
+                <div class="lp-page4-card lp-page4-cardMedias">
                     <h3 class="lp-page4-cardTitle">Médias</h3>
                 <img src="{{ asset('img/landingPageMedias_v2.png') }}" class="lp-page4-img">
                 </div>
@@ -531,10 +523,6 @@
                 const element3 = document.getElementById("lp-page4");
                 element3.scrollIntoView({behavior: "smooth", block: "end", inline: "nearest"});
             });
-            document.getElementById('lp-scrollBtn4').addEventListener('click', function() {
-                const element4 = document.getElementById("lp-page3");
-                element4.scrollIntoView({behavior: "smooth", block: "end", inline: "nearest"});
-            });
 
             document.getElementById('lp-page4-titleLink').addEventListener('click', gameTitleClick);
             function gameTitleClick() {
@@ -663,8 +651,6 @@
                         document.getElementById('lp-page4-titleDiv').style.opacity = "1";
                         document.getElementById('lp-page4-titleDiv').style.fontStyle = "normal";
 
-                        document.getElementById('lp-scrollBtn4').style.display = "inline-flex";
-
                         // BorderColor selon game selected
                         document.querySelectorAll('.lp-page4-card').forEach(element => {
                             element.style.border = "1px solid {{ game.color }};";
@@ -711,9 +697,6 @@
                         document.getElementById('orSpan').style.opacity = "0.7";
                         document.getElementById('lp-teamsCardGameSelected').style.display = "none";
                         document.getElementById('lp-teamsCardGameNotSelected').style.display = "block";
-
-                        
-                        document.getElementById('lp-scrollBtn4').style.display = "none";
 
                         // BorderColor neutre / gris
                         document.querySelectorAll('.lp-page4-card').forEach(element => {

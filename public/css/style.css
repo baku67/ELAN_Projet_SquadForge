@@ -86,6 +86,17 @@ body {
     -moz-user-select: none; /* Firefox */
     -ms-user-select: none; /* Internet Explorer */
     user-select: none; /* Standard */
+
+    opacity: 0;
+    animation: fadeInBody 1s ease forwards;
+}
+@keyframes fadeInBody {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
 }
 
 
@@ -114,7 +125,7 @@ body {
     transform: translateX(-66px);
     font-size: 1.6em;
     z-index: 10;
-    padding: 17px 25px;
+    padding: 20px 25px;
 
     background: radial-gradient(circle, rgba(247,114,31,0.2) 0%, rgba(35,35,35,0) 100%);
 
@@ -974,7 +985,7 @@ header {
 }
 .lp-page4-cardTeams-btn:hover {
     letter-spacing: 1px;
-    filter: sepia(1);
+    filter: saturate(0.7);
 }
 
 
@@ -1159,7 +1170,7 @@ header {
     text-align: center;
     font-family: 'K2D', sans serif;
     /* margin-top: 30px; */
-    padding: 30px 0 30px 0;
+    padding: 15px 0 20px 0;
 
 }
 .lp-searchSubDiv {
@@ -1197,7 +1208,7 @@ header {
     width: 100%;
     text-align: center;
     margin: 0px auto;
-    padding: 25px 0;
+    padding: 35px 0;
 
     background-size: cover !important;
     background-repeat: no-repeat !important;
@@ -1303,8 +1314,8 @@ header {
     animation: fadeIn-lp-page4card 0.4s 1s ease forwards;
 }
 .lp-page4-card:hover { 
-    border: 1px solid #f97b2c;
-    background-color: #f97b2c50;
+    /* border: 1px solid #f97b2c;
+    background-color: #f97b2c50; */
 }
 .lp-page4-card .lp-page4-img {
     transition: all 0.3s;
@@ -1312,6 +1323,15 @@ header {
 .lp-page4-card:hover .lp-page4-img { 
     transform: scale(1.10);
     filter: sepia(0.5);
+}
+
+.lp-page4-cardTopics:hover {
+    border: 1px solid #f97b2c;
+    background-color: #f97b2c50;
+}
+.lp-page4-cardMedias:hover {
+    border: 1px solid #f97b2c;
+    background-color: #f97b2c50;
 }
 
 .lp-page4-img {
@@ -1388,6 +1408,7 @@ header {
 
 .gameDetailsIcon {
     position: absolute;
+    opacity: 0.5;
     right: 60px;
     top: 50%;
     transform: translateY(-50%);
@@ -1396,7 +1417,8 @@ header {
     transition: all 0.3s;
 }
 .lp-page4-titleDivWrapper:hover .gameDetailsIcon {
-    right: 35px;
+    right: 45px;
+    opacity: 1;
 }
 
 
@@ -1436,23 +1458,23 @@ nav {
 
 .main {
     width: 85%;
-    margin: 50px auto;
+    margin: 25px auto;
 }
 
 .authenticationDiv {
     position:absolute; 
     display:inline-flex; 
     align-items: baseline;
-    background-color: var(--primary-color);
-    clip-path: polygon(0 0, 100% 0, 100% 100%, 15% 100%);
+    /* background-color: var(--primary-color); */
+    /* clip-path: polygon(0 0, 100% 0, 100% 100%, 15% 100%); */
     padding-left: 5px;
     margin-right: -10px;
     z-index: 10;
     top:0px; 
     right:10px;
-    padding-top: 0px;
+    padding-top: 2px;
     padding-bottom: 0px;
-    padding-right: 9px;
+    padding-right: 0px;
 }
 
 .linkFixPosition {
@@ -1502,18 +1524,19 @@ nav {
     position: relative;
     z-index: 11;
 
-    width: 200px;
+    width: 170px;
     padding: 10px;
     margin: 5px;
 }
 
 .profil {
-    color: black;
+    font-size: 0.75em;
+    color: rgb(255, 255, 255);
     padding: 5px 14px 5px 37px;
 }
 .decoBtn {
     padding: 5px 14px;
-    border-left: 1px solid rgb(0 0 0 / 30%);
+    border-left: 1px solid rgba(160, 160, 160, 0.4);
 }
 
 .genreGameList {
@@ -1523,29 +1546,40 @@ nav {
     margin-bottom: 35px;
 }
 
+
 .headerGameTitle {
     position: absolute;
     z-index: 11;
-
-    color: black;
-    bottom: 30px;
-    right: 0;
-    padding-left: 50px;
-    padding-right: 10px;
-    padding-top: 2px;
-    padding-bottom: 2px;
-
-    clip-path: polygon(10% 0, 100% 0, 100% 100%, 0% 100%);
-    
-    background-color: #f1f1f1;
-
-    /* A adapter en fonction du jeu */
-    /* background-color: #ff4655;
+    font-size: 1.6em;
     color: white;
-    text-shadow: 1px 1px white; */
+    bottom: 42px;
+    right: 0;
+    padding-left: 42px;
+    padding-right: 16px;
+    padding-top: 8px;
+    padding-bottom: 7px;
+    clip-path: polygon(100% 0, 100% 0, 100% 100%, 100% 100%);
+    background-color: #f1f1f112;
+    transition: all 0.4s;
+
+    right: -200px;
+    animation: slideGameNavTitle 0.7s ease forwards;
+}
+.headerGameTitle:hover {
+    background-color: #f1f1f12a;
+    letter-spacing: 2px;
+}
+@keyframes slideGameNavTitle {
+    from {
+        right: -200px;
+        clip-path: polygon(100% 0, 100% 0, 100% 100%, 100% 100%);
+    }
+    to {
+        right: 0px;
+        clip-path: polygon(10% 0, 100% 0, 100% 100%, 0% 100%);
+    }
 
 }
-
 
 
 

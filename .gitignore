@@ -1,4 +1,15 @@
 
+/config/packages/twitch_oauth.yaml
+# security:
+#     providers:
+#         twitch_provider:
+#             id: twitch.oauth.provider
+
+# twitch_oauth:
+#     client_id: 'twitch client id'
+#     client_secret: 'twitch recret'
+#     redirect_route: 'http://localhost'
+
 ###> symfony/framework-bundle ###
 /.env.local
 /.env.local.php
