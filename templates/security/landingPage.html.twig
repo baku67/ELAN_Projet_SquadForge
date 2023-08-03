@@ -177,22 +177,28 @@
                 <a href="{{ twitchOAuth() }}">Se connecter avec Twitch</a>
             </div>
 
-            {# <img class="lp-p2a-img" src="{{ asset('img/twitchLogo.jpg') }}" alt="logo Twitch"> #}
+            {# Twitch logo SVG #}
             <div class="twitchLogoSvgContainer">
-                <svg class="twitchSvg1">
+                {# Outer et inner logo #}
+                <svg class="twitchSvg1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 320">
                     <path 
                         id="twitchSvgPath1"
                         d="M 42 84 L 57 48 L 267 48 L 267 186 L 204 252 L 159 252 L 132 282 L 96 282 L 96 252 L 42 252 L 42 84"
                         fill-opacity="0"
                     />
                 </svg>
-                <svg class="twitchSvg2">
+                <svg class="twitchSvg2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 320">
                     <path 
                         id="twitchSvgPath2"
-                        d="M 42 84 L 42 48 L 267 48 L 267 196 L 214 252 L 159 252 L 129 252 L 102 282 L 102 252 L 42 252 L 42 84"
+                        d="M 38 84 L 38 48 L 267 48 L 267 196 L 214 252 L 159 252 L 129 252 L 102 282 L 102 252 L 37 252 L 38 84"
                         fill-opacity="0"
                     />
                 </svg>
+
+                {# logo yeux #}
+                <div id="logoTwitchEye1"></div>
+                <div id="logoTwitchEye2"></div>
+
             </div>
 
         </div>
@@ -309,7 +315,7 @@
 
 
     {# Page 4 (Contenus associé au jeu sélectionné) #}
-    <div id="lp-page4" class ="lp-page4 section" style="opacity:0; height:100vh; background-image:radial-gradient(circle, rgba(255, 255, 255, 0) 0%, rgba(35, 35, 35, 0.996) 69%), url('{{ asset('img/landingPage4.jpg') }}')">
+    <div id="lp-page4" class ="lp-page4 section">
 
         <a id="lp-page4-titleLink">
             <div class="lp-page4-titleDivWrapper" style="display:inline-flex;width:100%;justify-content:center;gap:55px;">
