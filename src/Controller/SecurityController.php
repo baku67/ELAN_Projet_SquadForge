@@ -11,6 +11,9 @@ use App\Entity\Media;
 use App\Entity\Group;
 use App\Entity\GroupSession;
 
+use Symfony\Component\HttpFoundation\RequestStack;
+use App\Entity\OAuthTwitch;
+
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\PersistentCollection;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -20,6 +23,10 @@ use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 
 class SecurityController extends AbstractController
 {
+
+    public function __construct(private RequestStack $requestStack){
+    }
+
 
     #[Route(path: '/login', name: 'app_login')]
     public function login(AuthenticationUtils $authenticationUtils): Response
@@ -124,6 +131,28 @@ class SecurityController extends AbstractController
             $sessionRepo = $entityManager->getRepository(GroupSession::class);
             $gameRepo = $entityManager->getRepository(Game::class);
 
+            // Lien twitch oauth:
+                // session_start();
+                $session = $this->requestStack->getSession();
+                $session->start();
+                
+                $oauth = new OAuthTwitch('9xmxl9h3npck0tvgcdejwzeczhbl0w', 'l0qj5m6wmay7k28z20a48s7f74xs3x', 'http://localhost:8000/oauthCallback', 'user:read:broadcast');
+
+                $link = $oauth->get_link_connect();
+
+                if(!empty($_GET['code'])) {
+                    $code = htmlspecialchars(($_GET['code']));
+                    $token = $oauth->get_token($code);
+
+                    // $_SESSION['token'] = $token;
+                    $session->set('token', $token);
+                }
+                else {
+                    // HS car le code passe par ici (pourtant code bien présent dans l'url callback)
+                    $session->set('token', 'testEmptyGetCode2');
+                }
+            // fin lien twitch oauth
+
             $usersCount = count($userRepo->findAll());
             $teamsCount = count($groupRepo->findAll());
 
@@ -143,6 +172,7 @@ class SecurityController extends AbstractController
                 'gamesCount' => $gamesCount,
                 'sessionsCount' => $sessionsCount,
                 'games' => $games,
+                'linkTwitchOAuth' => $link,
             ]);
 
         }
