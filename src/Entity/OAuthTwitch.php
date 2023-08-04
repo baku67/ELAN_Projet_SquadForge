@@ -84,4 +84,39 @@ class OAuthTwitch{
     }
 
 
+    // Recherche d'un jeu par mot
+    public function get_games($title) {
+        $link = API_LINK."/games?name=".$title;
+        
+        $ch = curl_init($link);
+
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_HTTPHEADER, $this->_headers);
+
+        $res = curl_exec($ch);
+        curl_close($ch);
+
+        return json_decode($res);
+    }
+
+
+    // Récup des streams actuels sur un jeu
+    // https://dev.twitch.tv/docs/api/reference/#get-streams
+    public function get_game_streams($id){
+
+        $link = API_LINK."/streams?game_id=".$id;
+        
+        $ch = curl_init($link);
+
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_HTTPHEADER, $this->_headers);
+
+        $res = curl_exec($ch);
+        curl_close($ch);
+
+        return json_decode($res);
+    }
+
+
+
 }

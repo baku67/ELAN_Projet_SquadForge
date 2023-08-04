@@ -4,7 +4,26 @@
 
 {% block body %}
 
-    {# HS: oauth token missing #}
+    {# Erreur access_token lors Refresh #}
+
+    {# Fonctionne ('mistermv') #}
+    <p>Recherche des channels par mot</p>
     {{ dump(findChannel("mistermv")) }}
+
+    <br><br>
+
+    {# Fonctionne ('mario') mais pas tout les jeux #}
+    <p>Recherche d'un jeu</p>
+    {{ dump(findGamesByName("fortnite")) }}
+
+
+    <br><br>
+
+    {# <p>Recherche des channels par jeu_id</p>
+    {{ dump(findGameChannels(1)) }}  #}
+
+
+
+    
 
 {% endblock %}

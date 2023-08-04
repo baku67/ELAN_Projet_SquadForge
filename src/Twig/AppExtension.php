@@ -26,6 +26,8 @@ class AppExtension extends AbstractExtension
             new TwigFunction('time_diff_future', [$this, 'calculateTimeDiffFuture']),
             new TwigFunction('twitchOAuth', [$this, 'twitchOAuth']),
             new TwigFunction('findChannel', [$this, 'findChannel']),
+            new TwigFunction('findGameChannels', [$this, 'findGameChannels']),
+            new TwigFunction('findGamesByName', [$this, 'findGamesByName']),
         ];
     }
 
@@ -168,11 +170,57 @@ class AppExtension extends AbstractExtension
         }
         $oauth->set_headers($session->get('token'));
 
-        $channel = $oauth->search_channel($input);
+        $channels = $oauth->search_channel($input);
 
 
-        return $channel;
+        return $channels;
     }
+
+
+    // Recherche de jeux par mot
+    public function findGamesByName(string $title)
+    {
+        $session = $this->requestStack->getSession();
+
+        $oauth = new OAuthTwitch('9xmxl9h3npck0tvgcdejwzeczhbl0w', 'l0qj5m6wmay7k28z20a48s7f74xs3x', 'http://localhost:8000/oauthCallback', 'user:read:broadcast');
+
+        // Comme HS:
+        // $oauth->set_headers($session->get('token'));
+        if(!empty($_GET['code'])) {
+            $code = htmlspecialchars(($_GET['code']));
+            $token = $oauth->get_token($code);
+            $session->set('token', $token);
+        }
+        $oauth->set_headers($session->get('token'));
+
+        $games = $oauth->get_games($title);
+
+
+        return $games;
+    }
+
+    // TODO: get les Streamers qui stream le jeu (id envoyé en paramètre) actuellement
+    public function findGameChannels(int $id)
+    {
+        $session = $this->requestStack->getSession();
+
+        $oauth = new OAuthTwitch('9xmxl9h3npck0tvgcdejwzeczhbl0w', 'l0qj5m6wmay7k28z20a48s7f74xs3x', 'http://localhost:8000/oauthCallback', 'user:read:broadcast');
+
+        // Comme HS:
+        // $oauth->set_headers($session->get('token'));
+        if(!empty($_GET['code'])) {
+            $code = htmlspecialchars(($_GET['code']));
+            $token = $oauth->get_token($code);
+            $session->set('token', $token);
+        }
+        $oauth->set_headers($session->get('token'));
+
+        $channels = $oauth->get_game_streams($id);
+
+
+        return $channels;
+    }
+
     
 
     public function getName(): string
