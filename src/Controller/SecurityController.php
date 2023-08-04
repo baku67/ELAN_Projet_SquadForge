@@ -154,4 +154,11 @@ class SecurityController extends AbstractController
     {
         return $this->render('security/login_form.html.twig');
     }
+
+
+    #[Route(path: '/oauthCallback', name: 'app_oauthCallback')]
+    public function oauthCallback(): Response
+    {
+        return $this->render('security/testOAuth.html.twig');
+    }
 }
