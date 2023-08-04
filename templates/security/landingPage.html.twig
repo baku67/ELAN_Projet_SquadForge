@@ -271,6 +271,15 @@
 
                         <div class="lp-page3-slideContainer">
 
+                            <svg class="gameSelectedBracketUp">
+                                <path 
+                                    id="gameSelectedBracketUpPath{{ index }}"
+                                    class="gameSelectedBracketUpPath" 
+                                    d="M 57 82 L 57 48 L 66 48 L 267 48 L 276 48 L 276 82"
+                                    fill-opacity="0"
+                                    />
+                            </svg>
+
                             <div id="lp-page3-slide0{{ index }}" class="lp-gameCard splide__slide" style="background-image: linear-gradient(rgba(0, 0, 255, 0.05), rgba(249, 123, 44, 0.5)),url('{{ asset("img/games/headerBackground/" ~ game.subBanner )}}'); background-size:cover;">
 
                                 <span id="lp-gameCardTitle{{ index }}" value="{{ game.title }}" class="lp-gameCardTitle">{{ game.title }}</span>
@@ -279,6 +288,15 @@
 
                             {# only Phone: #}
                             <span value="{{ game.title }}" class="lp-gameCardTitlePhone">{{ game.title }}</span>
+
+                            <svg class="gameSelectedBracketDown">
+                                <path 
+                                    id="gameSelectedBracketDownPath{{ index }}"
+                                    class="gameSelectedBracketDownPath" 
+                                    d="M 57 82 L 57 48 L 66 48 L 267 48 L 276 48 L 276 82"
+                                    fill-opacity="0"
+                                    />
+                            </svg>
 
                         </div>
 
@@ -654,8 +672,9 @@
                 
                 document.getElementById('lp-page3-slide0{{ index }}').addEventListener('click', function() {
 
+                    document.getElementById('gameSelectedBracketUpPath{{ index }}').style.opacity = "1";
+                    document.getElementById('gameSelectedBracketDownPath{{ index }}').style.opacity = "1";
 
-                    // if(document.getElementById('lp-page3-slide0{{ index }}').getAttribute('selected') == true)
                     document.getElementById('lp-page3-slide0{{ index }}').setAttribute('selected', true);
 
                     if(gameSelected == false) {
