@@ -137,7 +137,7 @@ class SecurityController extends AbstractController
                 $session = $this->requestStack->getSession();
                 $session->start();
                 
-                $oauth = new OAuthTwitch('9xmxl9h3npck0tvgcdejwzeczhbl0w', 'l0qj5m6wmay7k28z20a48s7f74xs3x', 'http://localhost:8000/oauthCallback', 'user:read:email');
+                $oauth = new OAuthTwitch('9xmxl9h3npck0tvgcdejwzeczhbl0w', 'l0qj5m6wmay7k28z20a48s7f74xs3x', 'http://localhost:8000/oauthCallback', 'user:read:email+user:read:follows');
 
                 $link = $oauth->get_link_connect();
 
@@ -183,7 +183,7 @@ class SecurityController extends AbstractController
     {
         $session = $this->requestStack->getSession();
 
-        $oauth = new OAuthTwitch('9xmxl9h3npck0tvgcdejwzeczhbl0w', 'l0qj5m6wmay7k28z20a48s7f74xs3x', 'http://localhost:8000/oauthCallback', 'user:read:email');
+        $oauth = new OAuthTwitch('9xmxl9h3npck0tvgcdejwzeczhbl0w', 'l0qj5m6wmay7k28z20a48s7f74xs3x', 'http://localhost:8000/oauthCallback', 'user:read:email+user:read:follows');
 
         if(!empty($request->query->get('code'))) {
             $code = htmlspecialchars(($request->query->get('code')));

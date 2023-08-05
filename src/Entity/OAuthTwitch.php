@@ -54,8 +54,30 @@ class OAuthTwitch{
 
     // *********  Requêtes spécifiques:
 
-    public function get_user($username) {
-        $link = API_LINK."/users?login=".$username;
+    // Récupération de l'User logged-in 
+    public function get_user() {
+        $link = API_LINK."/users";
+        // $link = API_LINK."/users?login=".$username;
+
+        // cURL 
+        $ch = curl_init($link);
+
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_HTTPHEADER, $this->_headers);
+
+        $res = curl_exec($ch);
+        curl_close($ch);
+
+        // on decode et on renvoie
+        return json_decode($res);
+    }
+
+
+    // Récupération des chaines suivies par l'User connecté (ID test)
+    public function get_user_followed_channels($id) {
+        $link = API_LINK."/channels/followed?user_id=".$id;
+        // $link = API_LINK."/users?login=".$username;
+
         // cURL 
         $ch = curl_init($link);
 
