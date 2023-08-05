@@ -25,6 +25,9 @@ class AppExtension extends AbstractExtension
             new TwigFunction('findChannel', [$this, 'findChannel']),
             new TwigFunction('findGameChannels', [$this, 'findGameChannels']),
             new TwigFunction('findGamesByName', [$this, 'findGamesByName']),
+            new TwigFunction('getUser', [$this, 'getUser']),
+            new TwigFunction('getUserFromUsername', [$this, 'getUserFromUsername']),
+            
         ];
     }
 
@@ -125,41 +128,31 @@ class AppExtension extends AbstractExtension
     }
 
 
-    // (déplacé dans securityController:landingPgae) TODO: Tester de mettre ça dans le controller + template landingPage
-    // public function twitchOAuth()
-    // {
-    //     // session_start();
-    //     $session = $this->requestStack->getSession();
-    //     $session->start();
-        
-    //     $oauth = new OAuthTwitch('9xmxl9h3npck0tvgcdejwzeczhbl0w', 'l0qj5m6wmay7k28z20a48s7f74xs3x', 'http://localhost:8000/oauthCallback', 'user:read:broadcast');
 
-    //     $link = $oauth->get_link_connect();
 
-    //     if(!empty($_GET['code'])) {
-    //         $code = htmlspecialchars(($_GET['code']));
-    //         $token = $oauth->get_token($code);
+    // *********************  Twitch OAuth requêtes API
 
-    //         // $_SESSION['token'] = $token;
-    //         $session->set('token', $token);
-    //     }
-    //     else {
-    //         // HS car le code passe par ici (pourtant code bien présent dans l'url callback)
-    //         $session->set('token', 'testEmptyGetCode2');
-    //     }
+    public function getUser(string $username) 
+    {
+        $session = $this->requestStack->getSession();
 
-    //     return $link;
-    //     // Pour tester le token en session:
-    //     // return $session->get('token');
-    // }
+        $oauth = new OAuthTwitch('9xmxl9h3npck0tvgcdejwzeczhbl0w', 'l0qj5m6wmay7k28z20a48s7f74xs3x', 'http://localhost:8000/oauthCallback', 'user:read:email');
+        $oauth->set_headers($session->get('token'));
+
+        $user = $oauth->get_user($username);
+        // Si ni ID ou Username spécifié, mais User Acces Toekn, alors renvoi l'user coonecté: (HS) https://dev.twitch.tv/docs/api/reference/#get-users
+        // $channels = $oauth->get_user($session->get('token'));
+
+        return $user;
+    }
+
+
 
     public function findChannel(string $input)
     {
         $session = $this->requestStack->getSession();
 
-        // passer oauth originael par le controller et le template en parametre d'appel de function ?
-        $oauth = new OAuthTwitch('9xmxl9h3npck0tvgcdejwzeczhbl0w', 'l0qj5m6wmay7k28z20a48s7f74xs3x', 'http://localhost:8000/oauthCallback', 'user:read:broadcast');
-
+        $oauth = new OAuthTwitch('9xmxl9h3npck0tvgcdejwzeczhbl0w', 'l0qj5m6wmay7k28z20a48s7f74xs3x', 'http://localhost:8000/oauthCallback', 'user:read:email');
         $oauth->set_headers($session->get('token'));
 
         $channels = $oauth->search_channel($input);
@@ -173,9 +166,7 @@ class AppExtension extends AbstractExtension
     {
         $session = $this->requestStack->getSession();
 
-        // passer oauth originael par le controller et le template en parametre d'appel de function ?
-        $oauth = new OAuthTwitch('9xmxl9h3npck0tvgcdejwzeczhbl0w', 'l0qj5m6wmay7k28z20a48s7f74xs3x', 'http://localhost:8000/oauthCallback', 'user:read:broadcast');
-
+        $oauth = new OAuthTwitch('9xmxl9h3npck0tvgcdejwzeczhbl0w', 'l0qj5m6wmay7k28z20a48s7f74xs3x', 'http://localhost:8000/oauthCallback', 'user:read:email');
         $oauth->set_headers($session->get('token'));
 
         $games = $oauth->get_games($title);
@@ -188,9 +179,7 @@ class AppExtension extends AbstractExtension
     {
         $session = $this->requestStack->getSession();
 
-        // passer oauth originael par le controller et le template en parametre d'appel de function ?
-        $oauth = new OAuthTwitch('9xmxl9h3npck0tvgcdejwzeczhbl0w', 'l0qj5m6wmay7k28z20a48s7f74xs3x', 'http://localhost:8000/oauthCallback', 'user:read:broadcast');
-
+        $oauth = new OAuthTwitch('9xmxl9h3npck0tvgcdejwzeczhbl0w', 'l0qj5m6wmay7k28z20a48s7f74xs3x', 'http://localhost:8000/oauthCallback', 'user:read:email');
         $oauth->set_headers($session->get('token'));
 
         $channels = $oauth->get_game_streams($id);

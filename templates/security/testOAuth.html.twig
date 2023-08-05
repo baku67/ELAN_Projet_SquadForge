@@ -5,6 +5,13 @@
 {% block body %}
 
     {# Erreur access_token lors Refresh #}
+    <span>Test token session: {{ testToken }}</span>
+    <span>Test $_GET code param: {{ testGetCodeParam }}</span>
+
+    <p>Id de l'user from pseudo "nujabb"</p>
+    {{ dump(getUser("nujabb")) }}
+    {# {{ dump(getUserId("nujabb").data[0].id) }} #}
+
 
     {# Fonctionne ('mistermv') #}
     <p>Recherche des channels par mot</p>
@@ -19,8 +26,8 @@
 
     <br><br>
 
-    {# <p>Recherche des channels par jeu_id</p>
-    {{ dump(findGameChannels(1)) }}  #}
+    <p>Recherche des channels par jeu_id</p>
+    {{ dump(findGameChannels(33214)) }} 
 
 
 

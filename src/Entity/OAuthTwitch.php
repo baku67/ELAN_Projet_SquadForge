@@ -51,9 +51,27 @@ class OAuthTwitch{
         ];
     }
 
-    // Methode pour rechercher une chaine 
-    public function search_channel($name){
 
+    // *********  Requêtes spécifiques:
+
+    public function get_user($username) {
+        $link = API_LINK."/users?login=".$username;
+        // cURL 
+        $ch = curl_init($link);
+
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_HTTPHEADER, $this->_headers);
+
+        $res = curl_exec($ch);
+        curl_close($ch);
+
+        // on decode et on renvoie
+        return json_decode($res);
+    }
+
+
+    
+    public function search_channel($name){
 
         $link = API_LINK."/search/channels?query=".$name;
         // cURL 
@@ -68,6 +86,8 @@ class OAuthTwitch{
         // on decode et on renvoie
         return json_decode($res);
     }
+
+
 
     public function get_channel_info($id){
         $link = API_LINK."/channels?broadcaster_id=".$id;
@@ -84,7 +104,7 @@ class OAuthTwitch{
     }
 
 
-    // Recherche d'un jeu par mot
+    
     public function get_games($title) {
         $link = API_LINK."/games?name=".$title;
         

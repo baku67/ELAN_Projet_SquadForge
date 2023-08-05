@@ -18,6 +18,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\PersistentCollection;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 
@@ -65,7 +66,7 @@ class SecurityController extends AbstractController
     // Homepage (différentes selon User connected ou non)
     #[Route(path: '/', name: 'app_landingPage')]
     #[Route(path: '/home', name: 'app_home')]
-    public function homepage(EntityManagerInterface $entityManager)
+    public function homepage(EntityManagerInterface $entityManager, Request $request)
     {
 
         if($this->getUser()) {
@@ -136,21 +137,11 @@ class SecurityController extends AbstractController
                 $session = $this->requestStack->getSession();
                 $session->start();
                 
-                $oauth = new OAuthTwitch('9xmxl9h3npck0tvgcdejwzeczhbl0w', 'l0qj5m6wmay7k28z20a48s7f74xs3x', 'http://localhost:8000/oauthCallback', 'user:read:broadcast');
+                $oauth = new OAuthTwitch('9xmxl9h3npck0tvgcdejwzeczhbl0w', 'l0qj5m6wmay7k28z20a48s7f74xs3x', 'http://localhost:8000/oauthCallback', 'user:read:email');
 
                 $link = $oauth->get_link_connect();
 
-                if(!empty($_GET['code'])) {
-                    $code = htmlspecialchars(($_GET['code']));
-                    $token = $oauth->get_token($code);
-
-                    // $_SESSION['token'] = $token;
-                    $session->set('token', $token);
-                }
-                else {
-                    // HS car le code passe par ici (pourtant code bien présent dans l'url callback)
-                    $session->set('token', 'testEmptyGetCode2');
-                }
+                
             // fin lien twitch oauth
 
             $usersCount = count($userRepo->findAll());
@@ -173,6 +164,7 @@ class SecurityController extends AbstractController
                 'sessionsCount' => $sessionsCount,
                 'games' => $games,
                 'linkTwitchOAuth' => $link,
+                'testToken' => $session->get('token'),
             ]);
 
         }
@@ -187,8 +179,27 @@ class SecurityController extends AbstractController
 
 
     #[Route(path: '/oauthCallback', name: 'app_oauthCallback')]
-    public function oauthCallback(): Response
+    public function oauthCallback(Request $request): Response
     {
-        return $this->render('security/testOAuth.html.twig');
+        $session = $this->requestStack->getSession();
+
+        $oauth = new OAuthTwitch('9xmxl9h3npck0tvgcdejwzeczhbl0w', 'l0qj5m6wmay7k28z20a48s7f74xs3x', 'http://localhost:8000/oauthCallback', 'user:read:email');
+
+        if(!empty($request->query->get('code'))) {
+            $code = htmlspecialchars(($request->query->get('code')));
+            $token = $oauth->get_token($code);
+
+            // $_SESSION['token'] = $token;
+            $session->set('token', $token);
+        }
+        else {
+            // HS car le code passe par ici (pourtant code bien présent dans l'url callback)
+            $session->set('token', 'testEmptyGetCode22');
+        }
+
+        return $this->render('security/testOAuth.html.twig', [
+            'testToken' => $session->get('token'),
+            'testGetCodeParam' => $request->query->get('code'),
+        ]);
     }
 }
