@@ -2,27 +2,6 @@
 
 {% block title %}SquadForge - Find mates for gaming{% endblock %}
 
-{# Transition gameHeader backgroundImg #}
-{% block styles %}
-<style>
-    .lp-gameHeader-fadeIn {
-        animation: lp-gameBackground 10s 0.5s ease-out forwards;
-    }
-    @keyframes lp-gameBackground {
-        from {
-            background-image: radial-gradient(circle, rgba(255, 255, 255, 0) 0%, rgba(35, 35, 35, 0.996) 0%), url("/img/games/headerBackground/{{ game.subBanner }}");
-        }
-        to {
-            background-image: radial-gradient(circle, rgba(255, 255, 255, 0) 0%, rgba(35, 35, 35, 0.996) 70%), url("/img/games/headerBackground/{{ game.subBanner }}");
-        }
-    }
-
-    body {
-         overflow-y: hidden;
-    }
-</style>
-{% endblock %}
-
 
 {% block body %}
 
@@ -105,7 +84,9 @@
                         <p class="lp-p1b-rightSectionTitle">Le <strong>gaming</strong> est meilleur en équipe.<br>Rejoignez-nous pour trouver des <strong>teammates</strong> qui partageront votre passion.</p>
 
                         <div class="lp-p1b-rightSectionLoginDiv">
-                            <span id="lp-loginBtn" style="font-family:'Julius Sans One', sans-serif; cursor:pointer;">Connexion</span>
+                            <div style="display:inline-flex; align-items: baseline; position:relative; bottom:30px">
+                                <span id="lp-loginBtn" style="font-family:'Julius Sans One', sans-serif; cursor:pointer;">Connexion</span> | <a id="lp-loginTwitchBtn" href="{{ linkTwitchOAuth }}" class="twitchWord">Twitch</a>
+                            </div>
                             {# TODO form https://chat.openai.com/share/798e5950-f849-4c0e-91eb-eec2f2c1d929 #}
                             <a id="lp-registerBtn" href="{{ path('app_register')}}" >Inscription</a>
                         </div>
@@ -251,9 +232,9 @@
     <div id="lp-page3" class="splide section" aria-labelledby="carousel-heading">
 
         <h2 id="carousel-heading" class="lp-page3-title">
-            <i class="fa-solid fa-down-long choseGameArrow"></i>
-            <span style="margin:0 25px; font-size:2em;">Choisissez un jeu pour filtrer</span>
-            <i class="fa-solid fa-down-long choseGameArrow"></i>
+            <i class="fa-solid fa-down-long choseGameArrow arrowLeft"></i>
+            <span class="lp-p3-title">Choisissez un jeu pour filtrer</span>
+            <i class="fa-solid fa-down-long choseGameArrow arrowRight"></i>
         </h2>
 
         <div class="lp-page3-containerMaster">
@@ -509,6 +490,10 @@
     <script>
         document.addEventListener("DOMContentLoaded", function() {
 
+            // Désactivation scroll vertical pour cette page
+            var body = document.querySelector('html');
+            body.style.overflowY = 'hidden';
+
             var isMobile = navigator.userAgent.match(/Android/i)
             || navigator.userAgent.match(/webOS/i)
             || navigator.userAgent.match(/iPhone/i)
@@ -588,7 +573,7 @@
                     element.setAttribute('value', newValue);
                     if(newValue == 'false') {
                         element.style.backgroundColor = "rgba(128, 128, 128, 0.2)";
-                        element.style.color = "white";
+                        element.style.color = "var(--white)";
                     }
                     else {
                         element.style.backgroundColor = "var(--primary-color)";

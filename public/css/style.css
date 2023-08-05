@@ -18,6 +18,7 @@
 }
 .twitchWord {
     font-family: 'twitch',sans-serif;
+    text-shadow: 1px 2px black;
     letter-spacing: 1px;
     line-height: 0;
     font-size: 1.2em;
@@ -276,19 +277,26 @@ body {
 }
 
 
+.lp-p3-title {
+    margin:0 25px; 
+    font-size:2em;
+}
+
 .lp-page3-slideContainer {
     position: relative;
 }
 .lp-page3-slideContainer:hover .gameSelectedBracketUpPath  {
     opacity: 1 !important;
+    transform: translateY(0px);
 }
 .lp-page3-slideContainer:hover .gameSelectedBracketDownPath {
     opacity: 1 !important;
+    transform: translateY(0px);
 }
 
 
 .gameSelectedBracketUp {
-    z-index: 999;
+    /* z-index: 999; */
     opacity: 1;
     height: 91px;
     width: 300px;
@@ -305,11 +313,13 @@ body {
     stroke-linecap: round;
     stroke-linejoin: miter;
     stroke-miterlimit: 4;
+
+    transform: translateY(-7px);
     transition: all 0.3s;
 }
 
 .gameSelectedBracketDown {
-    z-index: 999;
+    z-index: -999;
     opacity: 1;
     height: 91px;
     width: 300px;
@@ -328,6 +338,8 @@ body {
     stroke-linecap: round;
     stroke-linejoin: miter;
     stroke-miterlimit: 4;
+
+    transform: translateY(-7px);
     transition: all 0.3s;
 }
 
@@ -779,12 +791,22 @@ header {
     padding: 10px 20px;
     transition: all 0.2s;
 
-    position: relative;
-    bottom: 28px;
+    /* position: relative;
+    bottom: 28px; */
 }
 #lp-loginBtn:hover {
     letter-spacing: 2px;
 }
+#lp-loginTwitchBtn {
+    color: black;
+    text-shadow: 1px 4px #9146FF;
+    padding: 10px 20px;
+    transition: all 0.2s;
+}
+#lp-loginTwitchBtn:hover {
+    letter-spacing: 3px;
+}
+
 
 #lp-registerBtn {
     background-color: var(--secondary-color);
@@ -1417,7 +1439,7 @@ header {
     font-size: 3.7em;
     line-height: 0;
     font-weight: 100;
-    opacity: 0.3;
+    opacity: 0.7;
     position: relative;
     top: 14px;
 }
@@ -1466,6 +1488,7 @@ header {
 
 
 #lp-searchText {
+    border-color: #ffffff99 !important;
     border-radius: 5px;
     padding: 3px 10px;
     background-color: #232323;
@@ -1475,7 +1498,7 @@ header {
 }
 #lp-searchText:focus {
     outline: none;
-    border: 2px solid var(--primary-color);
+    border: 2px solid var(--primary-color) !important;
 }
 
 .lp-filtersLabel {
