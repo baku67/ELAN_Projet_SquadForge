@@ -229,76 +229,81 @@
     {# TODO while load: squeleton (gris avec waves) ? #}
     {# TODO orderBy nbr de publications #}
     {# + background 100% étoiles vers le haut color primary (cf les100cie) #}
-    <div id="lp-page3" class="splide section" aria-labelledby="carousel-heading">
+    <div id="lp-page3" class="section" aria-labelledby="carousel-heading">
+        
+        {# Splide container #}
+        <div class="splide">
 
-        <h2 id="carousel-heading" class="lp-page3-title">
-            <i class="fa-solid fa-down-long choseGameArrow arrowLeft"></i>
-            <span class="lp-p3-title">Choisissez un jeu pour filtrer</span>
-            <i class="fa-solid fa-down-long choseGameArrow arrowRight"></i>
-        </h2>
+            <h2 id="carousel-heading" class="lp-page3-title">
+                <i class="fa-solid fa-down-long choseGameArrow arrowLeft"></i>
+                <span class="lp-p3-title">Choisissez un jeu pour filtrer</span>
+                <i class="fa-solid fa-down-long choseGameArrow arrowRight"></i>
+            </h2>
 
-        <div class="lp-page3-containerMaster">
+            <div class="lp-page3-containerMaster">
 
-            <div id="lp-page3-container" class="lp-page3-container splide__track"> 
-
-
-                <div class="lp-phone-slpideTrait1"></div>
+                <div id="lp-page3-container" class="lp-page3-container splide__track"> 
 
 
-                <div class="splide__list">
+                    <div class="lp-phone-slpideTrait1"></div>
 
-                    {% set index = 1 %}
 
-                    {% for game in games %}
+                    <div class="splide__list">
 
-                        <div class="lp-page3-slideContainer">
+                        {% set index = 1 %}
 
-                            <svg class="gameSelectedBracketUp">
-                                <path 
-                                    id="gameSelectedBracketUpPath{{ index }}"
-                                    class="gameSelectedBracketUpPath" 
-                                    d="M 57 82 L 57 58 C 57 53 60 48 66 48 L 67 48 L 266 48 C 274 48 276 51 276 56 L 276 55 L 276 82"
-                                    {# d="M 57 82 L 57 48 L 66 48 L 267 48 L 276 48 L 276 82" (sharp angles) #}
-                                    fill-opacity="0"
-                                    />
-                            </svg>
+                        {% for game in games %}
 
-                            <div id="lp-page3-slide0{{ index }}" class="lp-gameCard splide__slide" style="background-image: linear-gradient(rgba(0, 0, 255, 0.05), rgba(249, 123, 44, 0.5)),url('{{ asset("img/games/headerBackground/" ~ game.subBanner )}}'); background-size:cover;">
+                            <div class="lp-page3-slideContainer splide__slide">
 
-                                <span id="lp-gameCardTitle{{ index }}" value="{{ game.title }}" class="lp-gameCardTitle">{{ game.title }}</span>
+                                <svg class="gameSelectedBracketUp">
+                                    <path 
+                                        id="gameSelectedBracketUpPath{{ index }}"
+                                        class="gameSelectedBracketUpPath" 
+                                        d="M 57 82 L 57 58 C 57 53 60 48 66 48 L 67 48 L 266 48 C 274 48 276 51 276 56 L 276 55 L 276 82"
+                                        {# d="M 57 82 L 57 48 L 66 48 L 267 48 L 276 48 L 276 82" (sharp angles) #}
+                                        fill-opacity="0"
+                                        />
+                                </svg>
+
+                                <div id="lp-page3-slide0{{ index }}" class="lp-gameCard" style="background-image: linear-gradient(rgba(0, 0, 255, 0.05), rgba(249, 123, 44, 0.5)),url('{{ asset("img/games/headerBackground/" ~ game.subBanner )}}'); background-size:cover;">
+
+                                    <span id="lp-gameCardTitle{{ index }}" value="{{ game.title }}" class="lp-gameCardTitle">{{ game.title }}</span>
+
+                                </div>
+
+                                {# only Phone: #}
+                                <span value="{{ game.title }}" class="lp-gameCardTitlePhone">{{ game.title }}</span>
+
+                                <svg class="gameSelectedBracketDown">
+                                    <path 
+                                        id="gameSelectedBracketDownPath{{ index }}"
+                                        class="gameSelectedBracketDownPath" 
+                                        d="M 57 82 L 57 58 C 57 53 60 48 66 48 L 67 48 L 266 48 C 274 48 276 51 276 56 L 276 55 L 276 82"
+                                        {# d="M 57 82 L 57 48 L 66 48 L 267 48 L 276 48 L 276 82" (sharp angles) #}
+                                        fill-opacity="0"
+                                        />
+                                </svg>
 
                             </div>
 
-                            {# only Phone: #}
-                            <span value="{{ game.title }}" class="lp-gameCardTitlePhone">{{ game.title }}</span>
+                            {% set index = index + 1 %}
 
-                            <svg class="gameSelectedBracketDown">
-                                <path 
-                                    id="gameSelectedBracketDownPath{{ index }}"
-                                    class="gameSelectedBracketDownPath" 
-                                    d="M 57 82 L 57 58 C 57 53 60 48 66 48 L 67 48 L 266 48 C 274 48 276 51 276 56 L 276 55 L 276 82"
-                                    {# d="M 57 82 L 57 48 L 66 48 L 267 48 L 276 48 L 276 82" (sharp angles) #}
-                                    fill-opacity="0"
-                                    />
-                            </svg>
+                        {% endfor %}
 
-                        </div>
+                    </div>
 
-                        {% set index = index + 1 %}
+                    <div class="lp-phone-slpideTrait2"></div>
 
-                    {% endfor %}
-
+                    
                 </div>
 
-                <div class="lp-phone-slpideTrait2"></div>
+                <!-- (Désactivé) Add the progress bar element -->
+                {# <div class="my-slider-progress">
+                    <div class="my-slider-progress-bar"></div>
+                </div> #}
 
-                
             </div>
-
-            <!-- (Désactivé) Add the progress bar element -->
-            {# <div class="my-slider-progress">
-                <div class="my-slider-progress-bar"></div>
-            </div> #}
 
         </div>
 
@@ -490,7 +495,7 @@
     <script>
         document.addEventListener("DOMContentLoaded", function() {
 
-            // Désactivation scroll vertical pour cette page
+            // Désactivation scroll vertical pour la landingPage
             var body = document.querySelector('html');
             body.style.overflowY = 'hidden';
 
@@ -512,25 +517,45 @@
                     pagination: false,
                 } );
 
+                splide.mount();
+
             } else {
+                    
+                console.log('init splide pc');
 
                 var splide = new Splide( '.splide', {
-                    perPage: 7,
-                    direction: 'ltr',
+                    // // largeur du carousel:
+                    width: '100%',
+                    // // largeur des cards (HS?):
+                    // fixedWidth: "200px",
+                    // type   : 'slide',
+                    // arrows: true,
+                    perPage: 5,
+                    // direction: 'ltr',
+                    // // navigation: true,
+                    // autoplay: true,
                 } );
+
+                // Le drag Splide est bien détecté:
+                splide.on( 'mounted move', function () {
+                    console.log('test drag splide');
+                });
+
+                splide.mount();
+
             }
 
-            new Splide( '.splide' ).mount();
+            // new Splide( '.splide' ).mount();
 
             // var bar = splide.root.querySelector( '.my-slider-progress-bar' );
-            // // Updates the bar width whenever the carousel moves:
+            // Updates the bar width whenever the carousel moves:
             // splide.on( 'mounted move', function () {
             //     var end  = splide.Components.Controller.getEnd() + 1;
             //     var rate = Math.min( ( splide.index + 1 ) / end, 1 );
             //     bar.style.width = String( 100 * rate ) + '%';
             // } );
 
-            splide.mount();
+           
 
         });
     </script>

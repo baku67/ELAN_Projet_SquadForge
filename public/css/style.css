@@ -1396,6 +1396,9 @@ header {
     }
 }
 
+.splide__list {
+    width:100%
+}
 
 .lp-gameCard {
     cursor: pointer;
