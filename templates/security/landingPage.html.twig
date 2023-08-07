@@ -418,6 +418,12 @@
                 test result recherche
             </div>
 
+            {# Scroll Btn up (to page 3) #}
+            <div id="lp-scrollBtn4" class="landingPageDownBtn" style="transform: translate(50%, 0) rotate(180deg);">
+                <i class="fa-solid fa-chevron-down lpdownBtn1"></i>
+                <i class="fa-solid fa-chevron-down lpdownBtn2"></i>
+            </div>
+
 
         </div>
 
@@ -495,9 +501,9 @@
     <script>
         document.addEventListener("DOMContentLoaded", function() {
 
-            // Désactivation scroll vertical pour la landingPage
-            var body = document.querySelector('html');
-            body.style.overflowY = 'hidden';
+            // Désactivation scroll vertical pour la landingPage (désactivé)
+            // var body = document.querySelector('html');
+            // body.style.overflowY = 'hidden';
 
             var isMobile = navigator.userAgent.match(/Android/i)
             || navigator.userAgent.match(/webOS/i)
@@ -512,8 +518,8 @@
 
                var splide = new Splide( '.splide', {
                     direction : 'ttb',
-                    height    : '25rem',
-                    perPage: 1,
+                    height: '25rem',
+                    perPage: 5,
                     pagination: false,
                 } );
 
@@ -577,6 +583,10 @@
             });
             document.getElementById('lp-scrollBtn3').addEventListener('click', function() {
                 const element3 = document.getElementById("lp-page4");
+                element3.scrollIntoView({behavior: "smooth", block: "end", inline: "nearest"});
+            });
+            document.getElementById('lp-scrollBtn4').addEventListener('click', function() {
+                const element3 = document.getElementById("lp-page3");
                 element3.scrollIntoView({behavior: "smooth", block: "end", inline: "nearest"});
             });
 

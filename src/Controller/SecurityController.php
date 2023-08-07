@@ -44,12 +44,23 @@ class SecurityController extends AbstractController
                 // return $this->render('security/home.html.twig');
             }
         }
+
+        $session = $this->requestStack->getSession();
+        $session->start();
+        
+        $oauth = new OAuthTwitch('9xmxl9h3npck0tvgcdejwzeczhbl0w', 'l0qj5m6wmay7k28z20a48s7f74xs3x', 'http://localhost:8000/oauthCallback', 'user:read:email+user:read:follows');
+
+        $link = $oauth->get_link_connect();
+
         // get the login error if there is one
         $error = $authenticationUtils->getLastAuthenticationError();
         // last username entered by the user
         $lastUsername = $authenticationUtils->getLastUsername();
 
-        return $this->render('security/login.html.twig', ['last_username' => $lastUsername, 'error' => $error]);
+        return $this->render('security/login.html.twig', [
+            'last_username' => $lastUsername, 
+            'linkTwitchOAuth' => $link,
+            'error' => $error]);
     }
 
 
