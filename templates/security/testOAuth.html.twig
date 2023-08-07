@@ -1,10 +1,23 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Log in!{% endblock %}
+{% block title %}Connecté !{% endblock %}
 
 {% block body %}
 
     {# Erreur access_token lors Refresh #}
+    <span>Test token session: {{ testToken }}</span>
+    <span>Test $_GET code param: {{ testGetCodeParam }}</span>
+
+    <p>User connecté</p>
+    {{ dump(getUser()) }}
+    {{ dump(getUser().data[0].id) }} 
+    {{ dump(getUser().data[0].display_name) }} 
+    {{ dump(getUser().data[0].email) }}
+
+
+    <span>Chaines suivies par l'user connecté (id de test)</span>
+    {{ dump(getUserFollowedChannels(165654934) ) }}
+
 
     {# Fonctionne ('mistermv') #}
     <p>Recherche des channels par mot</p>
@@ -19,8 +32,8 @@
 
     <br><br>
 
-    {# <p>Recherche des channels par jeu_id</p>
-    {{ dump(findGameChannels(1)) }}  #}
+    <p>Recherche des channels par jeu_id</p>
+    {{ dump(findGameChannels(33214)) }} 
 
 
 

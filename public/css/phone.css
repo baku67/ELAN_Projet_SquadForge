@@ -56,6 +56,23 @@
         bottom: 18px;
     }
 
+    .lp-p1-rightSection {
+        width: 100%;
+        right: 0;
+        bottom: -600px;
+        clip-path: polygon(0 10%, 100% 0, 100% 100%, 0% 100%);
+        animation: lp-p2-bottomSectionAnim-phone 1s 0.6s ease forwards;
+    }
+    @keyframes lp-p2-bottomSectionAnim-phone {
+        0% {
+            bottom: -600px;
+        }
+        100% {
+            clip-path: polygon(0 10%, 100% 0, 100% 100%, 0% 100%);
+            bottom: 1px;
+        }
+    }
+
     .lp-p2-rightSection {
         width: 100%;
         right: 0;
@@ -94,6 +111,24 @@
         animation: fadeIn 0.5s 0.5s ease forwards;
     }
 
+
+    .lp-p3-title {
+        margin:0 25px; 
+        font-size:1em;
+    }
+
+    .arrowLeft {
+        left: 15px;
+    }
+    .arrowRight {
+        right: 15px;
+    }
+    .gameSelectedBracketUp {
+        display: none;
+    }
+    .gameSelectedBracketDown {
+        display: none;
+    }
 
     #loginFormTitle {
         position:relative; 

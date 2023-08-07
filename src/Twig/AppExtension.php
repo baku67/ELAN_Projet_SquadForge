@@ -13,10 +13,7 @@ use App\Entity\OAuthTwitch;
 
 class AppExtension extends AbstractExtension
 {
-    public function __construct(
-        private RequestStack $requestStack,
-    ){
-
+    public function __construct(private RequestStack $requestStack){
     }
 
     public function getFunctions(): array
@@ -28,6 +25,9 @@ class AppExtension extends AbstractExtension
             new TwigFunction('findChannel', [$this, 'findChannel']),
             new TwigFunction('findGameChannels', [$this, 'findGameChannels']),
             new TwigFunction('findGamesByName', [$this, 'findGamesByName']),
+            new TwigFunction('getUser', [$this, 'getUser']),
+            new TwigFunction('getUserFromUsername', [$this, 'getUserFromUsername']),
+            new TwigFunction('getUserFollowedChannels', [$this, 'getUserFollowedChannels']),
         ];
     }
 
@@ -128,95 +128,78 @@ class AppExtension extends AbstractExtension
     }
 
 
-    public function twitchOAuth()
+
+
+    // *********************  Twitch OAuth requêtes API ********************************************
+
+    // Récupération de l'User logged-in (Car aucun ID ou Username spécifié)
+    public function getUser() 
     {
-        // session_start();
         $session = $this->requestStack->getSession();
-        $session->start();
-        
-        $oauth = new OAuthTwitch('9xmxl9h3npck0tvgcdejwzeczhbl0w', 'l0qj5m6wmay7k28z20a48s7f74xs3x', 'http://localhost:8000/oauthCallback', 'user:read:broadcast');
 
-        $link = $oauth->get_link_connect();
+        $oauth = new OAuthTwitch('9xmxl9h3npck0tvgcdejwzeczhbl0w', 'l0qj5m6wmay7k28z20a48s7f74xs3x', 'http://localhost:8000/oauthCallback', 'user:read:email+user:read:follows');
+        $oauth->set_headers($session->get('token'));
 
-        if(!empty($_GET['code'])) {
-            $code = htmlspecialchars(($_GET['code']));
-            $token = $oauth->get_token($code);
+        // Si ni ID ou Username spécifié, mais User Acces Toekn, alors renvoi l'user coonecté: (HS) https://dev.twitch.tv/docs/api/reference/#get-users
+        $user = $oauth->get_user();
+        // $channels = $oauth->get_user($session->get('token'));
 
-            // $_SESSION['token'] = $token;
-            $session->set('token', $token);
-        }
-        else {
-            // HS car le code passe par ici (pourtant code bien présent dans l'url callback)
-            $session->set('token', 'testEmptyGetCode2');
-        }
-
-        return $link;
-        // Pour tester le token en session:
-        // return $session->get('token');
+        return $user;
     }
 
+
+    // Récupération des chaines suivies par l'User connecté (id User)
+    public function getUserFollowedChannels($id)
+    {
+        $session = $this->requestStack->getSession();
+
+        $oauth = new OAuthTwitch('9xmxl9h3npck0tvgcdejwzeczhbl0w', 'l0qj5m6wmay7k28z20a48s7f74xs3x', 'http://localhost:8000/oauthCallback', 'user:read:email+user:read:follows');
+        $oauth->set_headers($session->get('token'));
+
+        $user = $oauth->get_user_followed_channels($id);
+        // Si ni ID ou Username spécifié, mais User Acces Toekn, alors renvoi l'user coonecté: (HS) https://dev.twitch.tv/docs/api/reference/#get-users
+        // $channels = $oauth->get_user($session->get('token'));
+
+        return $user;
+    }
+
+
+    // Récupération des chaines par nom
     public function findChannel(string $input)
     {
         $session = $this->requestStack->getSession();
 
-        $oauth = new OAuthTwitch('9xmxl9h3npck0tvgcdejwzeczhbl0w', 'l0qj5m6wmay7k28z20a48s7f74xs3x', 'http://localhost:8000/oauthCallback', 'user:read:broadcast');
-
-        // Comme HS:
-        // $oauth->set_headers($session->get('token'));
-        if(!empty($_GET['code'])) {
-            $code = htmlspecialchars(($_GET['code']));
-            $token = $oauth->get_token($code);
-            $session->set('token', $token);
-        }
+        $oauth = new OAuthTwitch('9xmxl9h3npck0tvgcdejwzeczhbl0w', 'l0qj5m6wmay7k28z20a48s7f74xs3x', 'http://localhost:8000/oauthCallback', 'user:read:email+user:read:follows');
         $oauth->set_headers($session->get('token'));
 
         $channels = $oauth->search_channel($input);
-
 
         return $channels;
     }
 
 
-    // Recherche de jeux par mot
+    // Récupération de jeux par mot
     public function findGamesByName(string $title)
     {
         $session = $this->requestStack->getSession();
 
-        $oauth = new OAuthTwitch('9xmxl9h3npck0tvgcdejwzeczhbl0w', 'l0qj5m6wmay7k28z20a48s7f74xs3x', 'http://localhost:8000/oauthCallback', 'user:read:broadcast');
-
-        // Comme HS:
-        // $oauth->set_headers($session->get('token'));
-        if(!empty($_GET['code'])) {
-            $code = htmlspecialchars(($_GET['code']));
-            $token = $oauth->get_token($code);
-            $session->set('token', $token);
-        }
+        $oauth = new OAuthTwitch('9xmxl9h3npck0tvgcdejwzeczhbl0w', 'l0qj5m6wmay7k28z20a48s7f74xs3x', 'http://localhost:8000/oauthCallback', 'user:read:email+user:read:follows');
         $oauth->set_headers($session->get('token'));
 
         $games = $oauth->get_games($title);
 
-
         return $games;
     }
 
-    // TODO: get les Streamers qui stream le jeu (id envoyé en paramètre) actuellement
+    // Récupération des Streamers qui stream le jeu actuellement (ID jeu envoyé en paramètre) 
     public function findGameChannels(int $id)
     {
         $session = $this->requestStack->getSession();
 
-        $oauth = new OAuthTwitch('9xmxl9h3npck0tvgcdejwzeczhbl0w', 'l0qj5m6wmay7k28z20a48s7f74xs3x', 'http://localhost:8000/oauthCallback', 'user:read:broadcast');
-
-        // Comme HS:
-        // $oauth->set_headers($session->get('token'));
-        if(!empty($_GET['code'])) {
-            $code = htmlspecialchars(($_GET['code']));
-            $token = $oauth->get_token($code);
-            $session->set('token', $token);
-        }
+        $oauth = new OAuthTwitch('9xmxl9h3npck0tvgcdejwzeczhbl0w', 'l0qj5m6wmay7k28z20a48s7f74xs3x', 'http://localhost:8000/oauthCallback', 'user:read:email+user:read:follows');
         $oauth->set_headers($session->get('token'));
 
         $channels = $oauth->get_game_streams($id);
-
 
         return $channels;
     }

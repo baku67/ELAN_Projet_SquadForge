@@ -2,27 +2,6 @@
 
 {% block title %}SquadForge - Find mates for gaming{% endblock %}
 
-{# Transition gameHeader backgroundImg #}
-{% block styles %}
-<style>
-    .lp-gameHeader-fadeIn {
-        animation: lp-gameBackground 10s 0.5s ease-out forwards;
-    }
-    @keyframes lp-gameBackground {
-        from {
-            background-image: radial-gradient(circle, rgba(255, 255, 255, 0) 0%, rgba(35, 35, 35, 0.996) 0%), url("/img/games/headerBackground/{{ game.subBanner }}");
-        }
-        to {
-            background-image: radial-gradient(circle, rgba(255, 255, 255, 0) 0%, rgba(35, 35, 35, 0.996) 70%), url("/img/games/headerBackground/{{ game.subBanner }}");
-        }
-    }
-
-    body {
-         overflow-y: hidden;
-    }
-</style>
-{% endblock %}
-
 
 {% block body %}
 
@@ -105,7 +84,9 @@
                         <p class="lp-p1b-rightSectionTitle">Le <strong>gaming</strong> est meilleur en équipe.<br>Rejoignez-nous pour trouver des <strong>teammates</strong> qui partageront votre passion.</p>
 
                         <div class="lp-p1b-rightSectionLoginDiv">
-                            <span id="lp-loginBtn" style="font-family:'Julius Sans One', sans-serif; cursor:pointer;">Connexion</span>
+                            <div style="display:inline-flex; align-items: baseline; position:relative; bottom:30px">
+                                <span id="lp-loginBtn" style="font-family:'Julius Sans One', sans-serif; cursor:pointer;">Connexion</span> | <a id="lp-loginTwitchBtn" href="{{ linkTwitchOAuth }}" class="twitchWord">Twitch</a>
+                            </div>
                             {# TODO form https://chat.openai.com/share/798e5950-f849-4c0e-91eb-eec2f2c1d929 #}
                             <a id="lp-registerBtn" href="{{ path('app_register')}}" >Inscription</a>
                         </div>
@@ -175,7 +156,8 @@
             <div class="lp-p2a-wrapper">
                 <div class="lp-p2a-content">
                     <p class="twitchPresentation">Associez votre compte <strong>Twitch</strong> pour partager votre contenu plus facilement etc ... </p>
-                    <a href="{{ twitchOAuth() }}" class="twitchLoginBtn">Se connecter avec <span class="twitchWord">Twitch</span></a>
+                    <a href="{{ linkTwitchOAuth }}" class="twitchLoginBtn">Se connecter avec <span class="twitchWord">Twitch</span></a>
+                    {# <span>Token: {{ testToken }}</span> #}
                 </div>
             </div>
 
@@ -247,76 +229,81 @@
     {# TODO while load: squeleton (gris avec waves) ? #}
     {# TODO orderBy nbr de publications #}
     {# + background 100% étoiles vers le haut color primary (cf les100cie) #}
-    <div id="lp-page3" class="splide section" aria-labelledby="carousel-heading">
+    <div id="lp-page3" class="section" aria-labelledby="carousel-heading">
+        
+        {# Splide container #}
+        <div class="splide">
 
-        <h2 id="carousel-heading" class="lp-page3-title">
-            <i class="fa-solid fa-down-long choseGameArrow"></i>
-            <span style="margin:0 25px; font-size:2em;">Choisissez un jeu pour filtrer</span>
-            <i class="fa-solid fa-down-long choseGameArrow"></i>
-        </h2>
+            <h2 id="carousel-heading" class="lp-page3-title">
+                <i class="fa-solid fa-down-long choseGameArrow arrowLeft"></i>
+                <span class="lp-p3-title">Choisissez un jeu pour filtrer</span>
+                <i class="fa-solid fa-down-long choseGameArrow arrowRight"></i>
+            </h2>
 
-        <div class="lp-page3-containerMaster">
+            <div class="lp-page3-containerMaster">
 
-            <div id="lp-page3-container" class="lp-page3-container splide__track"> 
-
-
-                <div class="lp-phone-slpideTrait1"></div>
+                <div id="lp-page3-container" class="lp-page3-container splide__track"> 
 
 
-                <div class="splide__list">
+                    <div class="lp-phone-slpideTrait1"></div>
 
-                    {% set index = 1 %}
 
-                    {% for game in games %}
+                    <div class="splide__list">
 
-                        <div class="lp-page3-slideContainer">
+                        {% set index = 1 %}
 
-                            <svg class="gameSelectedBracketUp">
-                                <path 
-                                    id="gameSelectedBracketUpPath{{ index }}"
-                                    class="gameSelectedBracketUpPath" 
-                                    d="M 57 82 L 57 58 C 57 53 60 48 66 48 L 67 48 L 266 48 C 274 48 276 51 276 56 L 276 55 L 276 82"
-                                    {# d="M 57 82 L 57 48 L 66 48 L 267 48 L 276 48 L 276 82" (sharp angles) #}
-                                    fill-opacity="0"
-                                    />
-                            </svg>
+                        {% for game in games %}
 
-                            <div id="lp-page3-slide0{{ index }}" class="lp-gameCard splide__slide" style="background-image: linear-gradient(rgba(0, 0, 255, 0.05), rgba(249, 123, 44, 0.5)),url('{{ asset("img/games/headerBackground/" ~ game.subBanner )}}'); background-size:cover;">
+                            <div class="lp-page3-slideContainer splide__slide">
 
-                                <span id="lp-gameCardTitle{{ index }}" value="{{ game.title }}" class="lp-gameCardTitle">{{ game.title }}</span>
+                                <svg class="gameSelectedBracketUp">
+                                    <path 
+                                        id="gameSelectedBracketUpPath{{ index }}"
+                                        class="gameSelectedBracketUpPath" 
+                                        d="M 57 82 L 57 58 C 57 53 60 48 66 48 L 67 48 L 266 48 C 274 48 276 51 276 56 L 276 55 L 276 82"
+                                        {# d="M 57 82 L 57 48 L 66 48 L 267 48 L 276 48 L 276 82" (sharp angles) #}
+                                        fill-opacity="0"
+                                        />
+                                </svg>
+
+                                <div id="lp-page3-slide0{{ index }}" class="lp-gameCard" style="background-image: linear-gradient(rgba(0, 0, 255, 0.05), rgba(249, 123, 44, 0.5)),url('{{ asset("img/games/headerBackground/" ~ game.subBanner )}}'); background-size:cover;">
+
+                                    <span id="lp-gameCardTitle{{ index }}" value="{{ game.title }}" class="lp-gameCardTitle">{{ game.title }}</span>
+
+                                </div>
+
+                                {# only Phone: #}
+                                <span value="{{ game.title }}" class="lp-gameCardTitlePhone">{{ game.title }}</span>
+
+                                <svg class="gameSelectedBracketDown">
+                                    <path 
+                                        id="gameSelectedBracketDownPath{{ index }}"
+                                        class="gameSelectedBracketDownPath" 
+                                        d="M 57 82 L 57 58 C 57 53 60 48 66 48 L 67 48 L 266 48 C 274 48 276 51 276 56 L 276 55 L 276 82"
+                                        {# d="M 57 82 L 57 48 L 66 48 L 267 48 L 276 48 L 276 82" (sharp angles) #}
+                                        fill-opacity="0"
+                                        />
+                                </svg>
 
                             </div>
 
-                            {# only Phone: #}
-                            <span value="{{ game.title }}" class="lp-gameCardTitlePhone">{{ game.title }}</span>
+                            {% set index = index + 1 %}
 
-                            <svg class="gameSelectedBracketDown">
-                                <path 
-                                    id="gameSelectedBracketDownPath{{ index }}"
-                                    class="gameSelectedBracketDownPath" 
-                                    d="M 57 82 L 57 58 C 57 53 60 48 66 48 L 67 48 L 266 48 C 274 48 276 51 276 56 L 276 55 L 276 82"
-                                    {# d="M 57 82 L 57 48 L 66 48 L 267 48 L 276 48 L 276 82" (sharp angles) #}
-                                    fill-opacity="0"
-                                    />
-                            </svg>
+                        {% endfor %}
 
-                        </div>
+                    </div>
 
-                        {% set index = index + 1 %}
+                    <div class="lp-phone-slpideTrait2"></div>
 
-                    {% endfor %}
-
+                    
                 </div>
 
-                <div class="lp-phone-slpideTrait2"></div>
+                <!-- (Désactivé) Add the progress bar element -->
+                {# <div class="my-slider-progress">
+                    <div class="my-slider-progress-bar"></div>
+                </div> #}
 
-                
             </div>
-
-            <!-- (Désactivé) Add the progress bar element -->
-            {# <div class="my-slider-progress">
-                <div class="my-slider-progress-bar"></div>
-            </div> #}
 
         </div>
 
@@ -431,6 +418,12 @@
                 test result recherche
             </div>
 
+            {# Scroll Btn up (to page 3) #}
+            <div id="lp-scrollBtn4" class="landingPageDownBtn" style="transform: translate(50%, 0) rotate(180deg);">
+                <i class="fa-solid fa-chevron-down lpdownBtn1"></i>
+                <i class="fa-solid fa-chevron-down lpdownBtn2"></i>
+            </div>
+
 
         </div>
 
@@ -508,6 +501,10 @@
     <script>
         document.addEventListener("DOMContentLoaded", function() {
 
+            // Désactivation scroll vertical pour la landingPage (désactivé)
+            // var body = document.querySelector('html');
+            // body.style.overflowY = 'hidden';
+
             var isMobile = navigator.userAgent.match(/Android/i)
             || navigator.userAgent.match(/webOS/i)
             || navigator.userAgent.match(/iPhone/i)
@@ -521,30 +518,50 @@
 
                var splide = new Splide( '.splide', {
                     direction : 'ttb',
-                    height    : '25rem',
-                    perPage: 1,
+                    height: '25rem',
+                    perPage: 5,
                     pagination: false,
                 } );
 
+                splide.mount();
+
             } else {
+                    
+                console.log('init splide pc');
 
                 var splide = new Splide( '.splide', {
-                    perPage: 7,
-                    direction: 'ltr',
+                    // // largeur du carousel:
+                    width: '100%',
+                    // // largeur des cards (HS?):
+                    // fixedWidth: "200px",
+                    // type   : 'slide',
+                    // arrows: true,
+                    perPage: 5,
+                    // direction: 'ltr',
+                    // // navigation: true,
+                    // autoplay: true,
                 } );
+
+                // Le drag Splide est bien détecté:
+                splide.on( 'mounted move', function () {
+                    console.log('test drag splide');
+                });
+
+                splide.mount();
+
             }
 
-            new Splide( '.splide' ).mount();
+            // new Splide( '.splide' ).mount();
 
             // var bar = splide.root.querySelector( '.my-slider-progress-bar' );
-            // // Updates the bar width whenever the carousel moves:
+            // Updates the bar width whenever the carousel moves:
             // splide.on( 'mounted move', function () {
             //     var end  = splide.Components.Controller.getEnd() + 1;
             //     var rate = Math.min( ( splide.index + 1 ) / end, 1 );
             //     bar.style.width = String( 100 * rate ) + '%';
             // } );
 
-            splide.mount();
+           
 
         });
     </script>
@@ -568,6 +585,10 @@
                 const element3 = document.getElementById("lp-page4");
                 element3.scrollIntoView({behavior: "smooth", block: "end", inline: "nearest"});
             });
+            document.getElementById('lp-scrollBtn4').addEventListener('click', function() {
+                const element3 = document.getElementById("lp-page3");
+                element3.scrollIntoView({behavior: "smooth", block: "end", inline: "nearest"});
+            });
 
             document.getElementById('lp-page4-titleLink').addEventListener('click', gameTitleClick);
             function gameTitleClick() {
@@ -587,7 +608,7 @@
                     element.setAttribute('value', newValue);
                     if(newValue == 'false') {
                         element.style.backgroundColor = "rgba(128, 128, 128, 0.2)";
-                        element.style.color = "white";
+                        element.style.color = "var(--white)";
                     }
                     else {
                         element.style.backgroundColor = "var(--primary-color)";

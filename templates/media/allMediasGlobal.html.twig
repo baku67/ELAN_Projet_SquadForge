@@ -87,7 +87,9 @@
                                 <img src="{{ asset("img/uploads/" ~ media.url) }}" alt="media" class="mediaImg" />
                             {% endif %}
                         {% else %}
+                        <a href="{{ path('app_mediaDetail', {'id': media.id}) }}">
                             <img src="{{ asset("img/uploads/" ~ media.url) }}" alt="media" class="mediaImg" />
+                        </a>
                         {% endif %}
                         
                     </div>
