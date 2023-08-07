@@ -23,7 +23,7 @@
         opacity: 0;
         left: 0;
         top: -630px;
-        transform: rotate(84deg);
+        transform: rotate(87deg);
         animation: squareAnimResp 1s 0.7s ease forwards;
     }
     @keyframes squareAnimResp {
@@ -73,6 +73,42 @@
         }
     }
 
+    .lp-p2a {
+        height: 100vh;
+        display: inline-flex;
+        flex-direction: column-reverse;
+    }
+    .lp-p2b {
+        display: none;
+    }
+
+    .splide__arrow {
+        display: none;
+    }
+    .lp-page3-title {
+        padding: 58px 0px 40px 0px;
+    }
+
+    .gameSelectedBracketUp {
+        /* display:none; */
+        display: block;
+        transform: rotate(270deg) scale(0.47);
+
+        height: 89px;
+        width: 294px;
+        left: -158px;
+        top: 10px;
+    }
+    .gameSelectedBracketDown {
+        /* display:none; */
+        display: block;
+        transform: rotate(90deg) scale(0.47);
+
+        left: 63px;
+        bottom: 13px;
+    }
+
+
     .lp-p2-rightSection {
         width: 100%;
         right: 0;
@@ -93,7 +129,7 @@
     .lp-gameCard {
         margin: 0px 0px;
         width: 60%;
-        height: 90px;
+        height: 100%;
         border-top-right-radius: 0px;
         border-bottom-right-radius: 0px;
     }
@@ -123,12 +159,7 @@
     .arrowRight {
         right: 15px;
     }
-    .gameSelectedBracketUp {
-        display: none;
-    }
-    .gameSelectedBracketDown {
-        display: none;
-    }
+
 
     #loginFormTitle {
         position:relative; 

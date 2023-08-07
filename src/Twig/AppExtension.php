@@ -5,6 +5,8 @@ namespace App\Twig;
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFunction;
 
+use App\Entity\User;
+
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\RequestStack;
@@ -143,6 +145,12 @@ class AppExtension extends AbstractExtension
         // Si ni ID ou Username spécifié, mais User Acces Toekn, alors renvoi l'user coonecté: (HS) https://dev.twitch.tv/docs/api/reference/#get-users
         $user = $oauth->get_user();
         // $channels = $oauth->get_user($session->get('token'));
+
+        // (HS depuis entity) Ajout user BDD (pas de mdp car handled par Twitch), id, pseudo, email
+        // $user = new User();
+        // $user -> setPseudo('nujabbbbbbbbbb');
+        // $userRepo = $entityManager->getRepository(User::class);
+        // $userRepo -> save($user, true);
 
         return $user;
     }
