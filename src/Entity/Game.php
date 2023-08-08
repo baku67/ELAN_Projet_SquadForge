@@ -22,40 +22,46 @@ class Game
     #[ORM\Column(name: 'id')]
     private ?int $id = null;
 
-    #[ORM\Column(length: 100)]
+    #[ORM\Column(name: 'title', length: 100)]
     private ?string $title = null;
 
-    #[ORM\Column(length: 100)]
+    #[ORM\Column(name: 'editor', length: 100)]
     private ?string $editor = null;
 
-    #[ORM\Column(type: Types::DATETIME_MUTABLE)]
+    #[ORM\Column(name: 'publish_date', type: Types::DATETIME_MUTABLE)]
     private ?\DateTimeInterface $publish_date = null;
 
-    #[ORM\Column(type: Types::TEXT, nullable: true)]
+    #[ORM\Column(name: 'description', type: Types::TEXT, nullable: true)]
     private ?string $description = null;
 
-    #[ORM\Column(length: 50)]
+    #[ORM\Column(name: 'color', length: 50)]
     private ?string $color = null;
 
-    #[ORM\ManyToOne(inversedBy: 'games')]
+    #[ORM\ManyToOne(targetEntity: Genre::class)]
+    #[ORM\JoinTable(name: 'genre')]
+    #[ORM\JoinColumn(name:'genre_id', referencedColumnName:'id')]
     private ?Genre $genre = null;
 
-    #[ORM\Column(length: 255, nullable: true)]
+    #[ORM\Column(name: 'logo', length: 255, nullable: true)]
     private ?string $logo = null;
 
-    #[ORM\Column(length: 255, nullable: true)]
+    #[ORM\Column(name: 'banner', length: 255, nullable: true)]
     private ?string $banner = null;
 
-    #[ORM\Column(length: 50, nullable: true)]
+    #[ORM\Column(name: 'font_color', length: 50, nullable: true)]
     private ?string $fontColor = null;
 
+    // #[ORM\ManyToMany(targetEntity: User::class, inversedBy: 'favoris')]
+    // #[ORM\JoinTable(name: 'favoris')]
+    // #[ORM\JoinColumn(name:'user_id', referencedColumnName:'id', nullable: false)]
+    // #[ORM\InverseJoinColumn(name:'game_id', referencedColumnName:'id', nullable: false)]
     #[ORM\ManyToMany(targetEntity: User::class, mappedBy: 'favoris')]
     private Collection $favUsers;
 
     #[ORM\OneToMany(mappedBy: 'game', targetEntity: Topic::class)]
     private Collection $topics;
 
-    #[ORM\Column(length: 255, nullable: true)]
+    #[ORM\Column(name:'tiny_logo', length: 255, nullable: true)]
     private ?string $tinyLogo = null;
 
     #[ORM\OneToMany(mappedBy: 'game', targetEntity: Notation::class)]
@@ -64,7 +70,7 @@ class Game
     #[ORM\OneToMany(mappedBy: 'game', targetEntity: Media::class)]
     private Collection $media;
 
-    #[ORM\Column(length: 255, nullable: true)]
+    #[ORM\Column(name: 'sub_banner', length: 255, nullable: true)]
     private ?string $subBanner = null;
 
     #[ORM\OneToMany(mappedBy: 'game', targetEntity: Group::class, orphanRemoval: true)]
@@ -73,7 +79,7 @@ class Game
     #[ORM\Column(type: Types::SMALLINT)]
     private ?int $nbrPlaces = null;
 
-    #[ORM\Column(length: 255, options: ['default' => "logoSquadForge_v3.png"])]
+    #[ORM\Column(name: 'site_logo', length: 255, options: ['default' => "logoSquadForge_v3.png"])]
     private ?string $siteLogo = null;
 
     public function __construct()

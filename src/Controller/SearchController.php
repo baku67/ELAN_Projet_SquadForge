@@ -39,35 +39,51 @@ class SearchController extends AbstractController
             // $sanitizeTextInput = $this->sanitizeTextInput($textInput);
 
 
-            $games = $request->query->get('games');
-            $topics = $request->query->get('topics');
-            $medias = $request->query->get('medias');
-            $teams = $request->query->get('teams');
+            // Gerer filtre jeu / noJeu
 
-            // Handle AJAX request, return JSON response
-            $topicRepo = $entityManager->getRepository(Topic::class);
+            $gamesFilter = $request->query->get('games');
+            $topicsFilter = $request->query->get('topics');
+            $mediasFilter = $request->query->get('medias');
+            $teamsFilter = $request->query->get('teams');
 
-            $query = $topicRepo->createQueryBuilder('t')
-            ->where('t.title LIKE :searchText')
-            ->setParameter('searchText', "%$textInput%")
-            ->setMaxResults(5)
-            ->getQuery();
-            $resultTopics = $query->getResult();
+            // TODO: boolean 
+            if($gamesFilter == "true") {
+                $GameRepo = $entityManager->getRepository(Game::class);
+                $queryGames = $GameRepo->createQueryBuilder('t')
+                ->where('t.title LIKE :searchText')
+                ->setParameter('searchText', "%$textInput%")
+                ->setMaxResults(3)
+                ->getQuery();
+                $resultGames = $queryGames->getResult();    
+            } else {
+                $resultGames = null;
+            }
 
-            if (empty($resultTopics)) {
+
+            if($topicsFilter == "true") {
+                $topicRepo = $entityManager->getRepository(Topic::class);
+                $queryTopics = $topicRepo->createQueryBuilder('t')
+                ->where('t.title LIKE :searchText')
+                ->setParameter('searchText', "%$textInput%")
+                ->setMaxResults(3)
+                ->getQuery();
+                $resultTopics = $queryTopics->getResult();    
+            } else {
                 $resultTopics = null;
             }
+
 
             $encoders = [new XmlEncoder(), new JsonEncoder()];
             $normalizers = [new ObjectNormalizer()];
             $serializer = new Serializer($normalizers, $encoders);
 
-            
+            // publishDate ignored car volumineux (boucle?)
+            // voir pour compter les likes en back plutot que count en Front
             return new JsonResponse(
                 [
                     'success' => true,
-                    'topics' => json_decode($serializer->serialize($resultTopics, 'json', [AbstractNormalizer::IGNORED_ATTRIBUTES => ['game','genre','user','topic']]), true),
-                    // 'topics' => $topicRepo->find(13),
+                    'games' => json_decode($serializer->serialize($resultGames, 'json', [AbstractNormalizer::IGNORED_ATTRIBUTES => ['game', 'genre', 'user', 'topics', 'media', 'favUsers', 'notations', 'gameGroups', 'publishDate']]), true),
+                    'topics' => json_decode($serializer->serialize($resultTopics, 'json', [AbstractNormalizer::IGNORED_ATTRIBUTES => ['game', 'genre', 'user', 'topic', 'topicPosts', 'publishDate']]), true),
                 ]
             );
         // }

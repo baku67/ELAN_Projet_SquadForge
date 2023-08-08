@@ -587,7 +587,7 @@
 
                 var gameSelectedId = null;
 
-                // array des filtres
+                // array des filtres ("Jeux" disparait si gameSelected)
                 var filterArray = {
                     "games" : document.getElementById("gamesFilter").getAttribute("value"),
                     "topics" : document.getElementById("topicsFilter").getAttribute("value"), 
@@ -659,9 +659,9 @@
                     document.querySelectorAll('.gameSelectedBracketDownPath').forEach(element => {
                         element.style.opacity = "0";
                     });
-                        document.getElementById('gameSelectedBracketUpPath{{ index }}').style.opacity = "1";
-                        document.getElementById('gameSelectedBracketDownPath{{ index }}').style.opacity = "1";
 
+                    document.getElementById('gameSelectedBracketUpPath{{ index }}').style.opacity = "1";
+                    document.getElementById('gameSelectedBracketDownPath{{ index }}').style.opacity = "1";
 
                     document.getElementById('lp-page3-slide0{{ index }}').setAttribute('selected', true);
 
@@ -673,6 +673,9 @@
 
                         // TODO: si game clické meme que selected: gameSelected = false;
 
+                        // Disparition du Filtre "Game" sur page4 comme gameSelected (& value=false)
+                        document.getElementById('gamesFilter').style.display = "none";
+                        document.getElementById('gamesFilter').setAttribute('value', 'false');
 
                         document.getElementById('gameDetailsIcon').style = "block";
                         document.getElementById('orSpan').style.opacity = "0";
@@ -724,6 +727,11 @@
 
                     }
                     else {
+
+                        // Réaparition du Filtre "Game" sur page4 comme !gameSelected (et réactivation par defaut, voir si style suit)
+                        document.getElementById('gamesFilter').style.display = "none";
+                        document.getElementById('gamesFilter').setAttribute('value', 'true');
+
 
                         document.getElementById('gameDetailsIcon').style = "none";
                         document.getElementById('orSpan').style.opacity = "0.7";
