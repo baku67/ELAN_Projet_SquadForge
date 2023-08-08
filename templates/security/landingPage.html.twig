@@ -554,7 +554,11 @@
             }
         
 
+
             var gameSelected = false;
+
+            var gameSelectedId = 0;
+
 
             // toggle des filtres actifs searchBar (Styles + values pour ajax)
             document.querySelectorAll('.lp-filterBtn').forEach((element) => {
@@ -576,73 +580,6 @@
 
                 
 
-            let searchTimer;
-
-            function delayedSearch() {
-                // Clear any previously set timer
-                clearTimeout(searchTimer);
-                // Sanitize front text input
-                var textInput = this.value.replace(/[^a-zA-Z0-9\s-_]/g, '');
-                this.value = textInput;
-
-                var gameSelectedId = null;
-
-                // array des filtres ("Jeux" disparait si gameSelected)
-                var filterArray = {
-                    "games" : document.getElementById("gamesFilter").getAttribute("value"),
-                    "topics" : document.getElementById("topicsFilter").getAttribute("value"), 
-                    "medias" : document.getElementById("mediasFilter").getAttribute("value"), 
-                    "teams" : document.getElementById("teamsFilter").getAttribute("value")
-                };
-
-                console.log("text input:\"" + textInput + "\"");
-                console.log(filterArray);
-
-                var queryString = new URLSearchParams(filterArray).toString();
-
-                // "Debouncing": ajout d'un delai avant requête
-                searchTimer = setTimeout(() => {
-                    if(textInput !== "") {
-                        fetch('/searchLandingPage/' + textInput + '?' + queryString, {
-                            method: 'GET',
-                            headers: {
-                                'Content-Type': 'application/json'
-                            }
-                        })
-                        .then(response => response.json())
-                        .then(data => {
-                            if (data.success) {
-
-                                console.log("success!");
-                                console.log(data.topics);
-
-                                document.getElementById("lp-page4-cardTeams").style.display = "none";
-                                document.getElementById("lp-page4-cardTopics").style.display = "none";
-                                document.getElementById("lp-page4-cardMedias").style.display = "none";
-                                document.getElementById("searchResultsDiv").style.display = "flex";
-                                // document.getElementById("lp-page4-container").innerHTML += "<span id='searchResults'>Résultats de la recherche :</span><br>";
-
-
-                            } else {
-                                window.FlashMessage.error('Il y a eu un problème avec le chargment du contenu');
-                            }
-
-                        })
-                    }
-                    else {
-                        document.getElementById("searchResultsDiv").style.display = "none";
-                        document.getElementById("lp-page4-cardTeams").style.display = "flex";
-                        document.getElementById("lp-page4-cardTopics").style.display = "flex";
-                        document.getElementById("lp-page4-cardMedias").style.display = "flex";
-                    }
-                }, 500);
-            }
-
-            // Ajax recherche avec filtres (TODO: loading (friction positive))
-            document.getElementById("lp-searchText").addEventListener('input', delayedSearch) 
-
-
-            // Relance recherche lors toggle si text input
 
 
             // {# OnSelect game: scroll page 4 (détails) + anims #}
@@ -651,6 +588,8 @@
             {% for game in games %}
                 
                 document.getElementById('lp-page3-slide0{{ index }}').addEventListener('click', function() {
+
+                    // document.getElementById('lp-page3-slide0{{ index }}').setAttribute('id', game.id);
 
                     // Reset SVG brackets et ajout sur gameSelected
                     document.querySelectorAll('.gameSelectedBracketUpPath').forEach(element => {
@@ -670,6 +609,10 @@
                     }
 
                     if(gameSelected) {
+
+                        gameSelectedId = {{ game.id }};
+                        console.log(gameSelectedId);
+
 
                         // TODO: si game clické meme que selected: gameSelected = false;
 
@@ -728,6 +671,8 @@
                     }
                     else {
 
+                        gameSelectedId = 0;
+
                         // Réaparition du Filtre "Game" sur page4 comme !gameSelected (et réactivation par defaut, voir si style suit)
                         document.getElementById('gamesFilter').style.display = "none";
                         document.getElementById('gamesFilter').setAttribute('value', 'true');
@@ -784,6 +729,72 @@
                 {% set index = index + 1 %}
 
             {% endfor %}
+
+
+
+            let searchTimer;
+
+            function delayedSearch() {
+                // Clear any previously set timer
+                clearTimeout(searchTimer);
+                // Sanitize front text input
+                var textInput = this.value.replace(/[^a-zA-Z0-9\s-_]/g, '');
+                this.value = textInput;
+
+                // array des filtres ("Jeux" disparait si gameSelected)
+                var filterArray = {
+                    "games" : document.getElementById("gamesFilter").getAttribute("value"),
+                    "topics" : document.getElementById("topicsFilter").getAttribute("value"), 
+                    "medias" : document.getElementById("mediasFilter").getAttribute("value"), 
+                    "teams" : document.getElementById("teamsFilter").getAttribute("value")
+                };
+
+                console.log("text input:\"" + textInput + "\"");
+                console.log(filterArray);
+
+                var queryString = new URLSearchParams(filterArray).toString();
+
+                // "Debouncing": ajout d'un delai avant requête
+                searchTimer = setTimeout(() => {
+                    if(textInput !== "") {
+                        fetch('/searchLandingPage/' + textInput + '/' + gameSelectedId + '?' + queryString, {
+                            method: 'GET',
+                            headers: {
+                                'Content-Type': 'application/json'
+                            }
+                        })
+                        .then(response => response.json())
+                        .then(data => {
+                            if (data.success) {
+
+                                console.log("success!");
+                                console.log(data.topics);
+
+                                document.getElementById("lp-page4-cardTeams").style.display = "none";
+                                document.getElementById("lp-page4-cardTopics").style.display = "none";
+                                document.getElementById("lp-page4-cardMedias").style.display = "none";
+                                document.getElementById("searchResultsDiv").style.display = "flex";
+                                // document.getElementById("lp-page4-container").innerHTML += "<span id='searchResults'>Résultats de la recherche :</span><br>";
+
+
+                            } else {
+                                window.FlashMessage.error('Il y a eu un problème avec le chargment du contenu');
+                            }
+
+                        })
+                    }
+                    else {
+                        document.getElementById("searchResultsDiv").style.display = "none";
+                        document.getElementById("lp-page4-cardTeams").style.display = "flex";
+                        document.getElementById("lp-page4-cardTopics").style.display = "flex";
+                        document.getElementById("lp-page4-cardMedias").style.display = "flex";
+                    }
+                }, 500);
+            }
+
+            // Ajax recherche avec filtres (TODO: loading (friction positive))
+            document.getElementById("lp-searchText").addEventListener('input', delayedSearch) 
+
 
         }
 

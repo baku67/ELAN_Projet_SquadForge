@@ -27,8 +27,8 @@ use Doctrine\ORM\PersistentCollection;
 
 class SearchController extends AbstractController
 {
-    #[Route('/searchLandingPage/{textInput}', name: 'app_searchLandingPage')]
-    public function searchLandingPage(EntityManagerInterface $entityManager, string $textInput = null, Request $request): Response
+    #[Route('/searchLandingPage/{textInput}/{gameSelectedId}', name: 'app_searchLandingPage')]
+    public function searchLandingPage(EntityManagerInterface $entityManager, string $textInput = null, int $gameSelectedId, Request $request): Response
     {
 
         // TODO: Validate et Sanitize $textInput et $filterArray 
@@ -39,22 +39,29 @@ class SearchController extends AbstractController
             // $sanitizeTextInput = $this->sanitizeTextInput($textInput);
 
 
-            // Gerer filtre jeu / noJeu
-
             $gamesFilter = $request->query->get('games');
             $topicsFilter = $request->query->get('topics');
             $mediasFilter = $request->query->get('medias');
             $teamsFilter = $request->query->get('teams');
 
-            // TODO: boolean 
+
+            // TODO: filters booleans
+
             if($gamesFilter == "true") {
                 $GameRepo = $entityManager->getRepository(Game::class);
-                $queryGames = $GameRepo->createQueryBuilder('t')
-                ->where('t.title LIKE :searchText')
-                ->setParameter('searchText', "%$textInput%")
-                ->setMaxResults(3)
-                ->getQuery();
-                $resultGames = $queryGames->getResult();    
+                $queryGames = $GameRepo->createQueryBuilder('g')
+                ->where('g.title LIKE :searchText')
+                ->setParameter('searchText', "%$textInput%");
+
+                // Si 0: aucun jeu séléctionné
+                if($gameSelectedId != 0) {
+                    $queryGames->andWhere('t.game = :gameSelectedId')
+                    ->setParameter('gameSelectedId', $gameSelectedId);
+                }
+
+                $queryGames->setMaxResults(3);
+
+                $resultGames = $queryGames->getQuery()->getResult();    
             } else {
                 $resultGames = null;
             }
@@ -64,12 +71,59 @@ class SearchController extends AbstractController
                 $topicRepo = $entityManager->getRepository(Topic::class);
                 $queryTopics = $topicRepo->createQueryBuilder('t')
                 ->where('t.title LIKE :searchText')
-                ->setParameter('searchText', "%$textInput%")
-                ->setMaxResults(3)
-                ->getQuery();
-                $resultTopics = $queryTopics->getResult();    
+                ->setParameter('searchText', "%$textInput%");
+
+                // Si 0: aucun jeu séléctionné
+                if($gameSelectedId != 0) {
+                    $queryTopics->andWhere('t.game = :gameSelectedId')
+                    ->setParameter('gameSelectedId', $gameSelectedId);
+                }
+
+                $queryTopics->setMaxResults(3);
+
+                $resultTopics = $queryTopics->getQuery()->getResult();    
             } else {
                 $resultTopics = null;
+            }
+
+
+            if($mediasFilter == "true") {
+                $mediaRepo = $entityManager->getRepository(Media::class);
+                $queryMedia = $mediaRepo->createQueryBuilder('m')
+                ->where('m.title LIKE :searchText')
+                ->setParameter('searchText', "%$textInput%");
+
+                // Si 0: aucun jeu séléctionné
+                if($gameSelectedId != 0) {
+                    $queryMedia->andWhere('m.game = :gameSelectedId')
+                    ->setParameter('gameSelectedId', $gameSelectedId);
+                }
+
+                $queryMedia->setMaxResults(3);
+
+                $resultMedias = $queryMedia->getQuery()->getResult();    
+            } else {
+                $resultMedias = null;
+            }
+
+
+            if($teamsFilter == "true") {
+                $groupRepo = $entityManager->getRepository(Group::class);
+                $queryGroups = $groupRepo->createQueryBuilder('g')
+                ->where('g.title LIKE :searchText')
+                ->setParameter('searchText', "%$textInput%");
+
+                // Si 0: aucun jeu séléctionné
+                if($gameSelectedId != 0) {
+                    $queryGroups->andWhere('g.game = :gameSelectedId')
+                    ->setParameter('gameSelectedId', $gameSelectedId);
+                }
+
+                $queryGroups->setMaxResults(3);
+
+                $resultTeams = $queryGroups->getQuery()->getResult();    
+            } else {
+                $resultTeams = null;
             }
 
 
@@ -77,13 +131,16 @@ class SearchController extends AbstractController
             $normalizers = [new ObjectNormalizer()];
             $serializer = new Serializer($normalizers, $encoders);
 
-            // publishDate ignored car volumineux (boucle?)
-            // voir pour compter les likes en back plutot que count en Front
+            // publishDates ignored car volumineux (boucle?)
+            // TODO: teams: voir pour avoir juste le game title et logo (pb de circular reference) 
+            // voir pour compter les likes en back plutot que count en Front (pour Medias)
             return new JsonResponse(
                 [
                     'success' => true,
                     'games' => json_decode($serializer->serialize($resultGames, 'json', [AbstractNormalizer::IGNORED_ATTRIBUTES => ['game', 'genre', 'user', 'topics', 'media', 'favUsers', 'notations', 'gameGroups', 'publishDate']]), true),
                     'topics' => json_decode($serializer->serialize($resultTopics, 'json', [AbstractNormalizer::IGNORED_ATTRIBUTES => ['game', 'genre', 'user', 'topic', 'topicPosts', 'publishDate']]), true),
+                    'medias' => json_decode($serializer->serialize($resultMedias, 'json', [AbstractNormalizer::IGNORED_ATTRIBUTES => ['game', 'genre', 'user', 'media', 'mediaPosts', 'publishDate', 'userUpvote']]), true),
+                    'teams' => json_decode($serializer->serialize($resultTeams, 'json', [AbstractNormalizer::IGNORED_ATTRIBUTES => ['creationDate', 'leader', 'game', 'members', 'groupQuestions', 'candidatures', 'blacklistedUsers', 'groupSessions']]), true),
                 ]
             );
         // }
