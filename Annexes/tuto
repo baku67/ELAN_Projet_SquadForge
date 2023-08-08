@@ -1,27 +1,16 @@
 TODO: Fix media Masonry W3school
-TODO dossier
 
-Trello
-Méthode Mosow (hierarchisation taches)
-Meurise
-Maquetteage responsive (les page les + importantes niveau reponsivité) + Desktop (reprendre la maquette pour adapter au projet)
-Responsive 
-RGPD (Hash, failles, persitance des données ? Anonymisation ou Suppression ? Regexp mot de passe, mentions légales, ...)
-SQL (réviser avant exam)
-SEO (référencement, IMPORTANT jurée au taquet)
-"Serialization" / "déésérialisation" par exemple pour récup evnts FullCalendar (= formattage des data JSON par exemple)
-
-Axes d'amélioration (chat avec web-socket par exemple, avatar user, profil etc..)
-
-"Empreinte numérique"  =  algo (argonII, md5) + salt + Hash
-
-25 minutes de blabla powerpoint, 10min de présentation app
-40 minutes de question
 
 
 TODO: "/routes/999" : créer page 404
 
 
+FRONT: mettre splider sur liste jeux favoris (et memes cards games)
+
+
+AJOUTER VERIF BACKEND:
+nom de team déjà pris (ajax)
+"vous n'êtes pas disponible pour cette session, vous êtes déjà enregistré pour la session {titre} {date}
 
 
 https://fullcalendar.io/docs
@@ -33,13 +22,8 @@ Gérer les listes: notifs/media/topics par exemple: load onScroll ?
 
 
 
-Idéé: créer API récup notes/moyennes par jeux et mini-projet de récup des notes 
 
-Intégrer bandeau page 2 à la page 1 ? (oui en bas, scrollBtn noirs sur bandeau)
 
-FullCalendar JS parties (dateDebut, dateFin) + vérifs user disponibilité avant d'accepter le créneau
-API Twitch (connexion, partage de media, etc...)
-Responsive
 
 footer avec des liens internes
 Mots, descriptifs avec strong landingPage (pour referencement)

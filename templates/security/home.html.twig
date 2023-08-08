@@ -57,24 +57,68 @@
         
         {% if app.user %}
             {# Raccourcis Jeux favoris si logged in #}
-            <div class="sectionHomeContainer">
+            <div class="splide sectionHomeContainer">
 
                 <div class="blinkingSectionTitle">
                     <div class="homeFavGamesTitle" style="background-color:var(--primary-color);"></div>
-                    <h3 class="homeSubTitle noMarginBottom"><i style="" class="fa-solid fa-heart"></i> Jeux Favoris</h3>
+                    <h3 class="homeSubTitle noMarginBottom"><i class="fa solid fa-heart"></i> Jeux Favoris</h3>
                 </div>
 
-                <div class="sectionHomeContent genreGameList">
-                    {% for gameFav in userFav %}
-                        <a  class="gameCardLink" href="{{ path('app_game', {'id': gameFav.id} )}}" onmouseover="this.style.filter='drop-shadow(0px 0px 6px {{ gameFav.color }})'" onmouseout="this.style.filter='drop-shadow(0px 0px 5px black)'">
-                            <div class="gameCard">
-                                <img src="{{ asset("img/games/logo/" ~ gameFav.logo) }}" class="gameLogo" alt="logo {{ gameFav.title }}"/>
-                                <div class="gameCardUnderline" style="background-color:{{ gameFav.color }}"></div>
-                            </div>
-                        </a>
-                    {% endfor %}
-                </div>
+                <div class="lp-page3-containerMaster">
 
+                    <div id="lp-page3-container" class="lp-page3-container splide__track"> 
+
+                        <div class="lp-phone-slpideTrait1"></div>
+
+                        <div class="splide__list">
+
+                            {% set index = 1 %}
+
+                            {% for game in userFav %}
+
+                                <div class="lp-page3-slideContainer splide__slide">
+
+                                    <svg class="gameSelectedBracketUp">
+                                        <path 
+                                            id="gameSelectedBracketUpPath{{ index }}"
+                                            class="gameSelectedBracketUpPath" 
+                                            d="M 57 82 L 57 58 C 57 53 60 48 66 48 L 67 48 L 266 48 C 274 48 276 51 276 56 L 276 55 L 276 82"
+                                            {# d="M 57 82 L 57 48 L 66 48 L 267 48 L 276 48 L 276 82" (sharp angles) #}
+                                            fill-opacity="0"
+                                            />
+                                    </svg>
+
+                                    <div id="lp-page3-slide0{{ index }}" class="lp-gameCard" style="background-image: linear-gradient(rgba(0, 0, 255, 0.05), rgba(249, 123, 44, 0.5)),url('{{ asset("img/games/headerBackground/" ~ game.subBanner )}}'); background-size:cover;">
+
+                                        <span id="lp-gameCardTitle{{ index }}" value="{{ game.title }}" class="lp-gameCardTitle">{{ game.title }}</span>
+
+                                    </div>
+
+                                    {# only Phone: #}
+                                    <span value="{{ game.title }}" class="lp-gameCardTitlePhone">{{ game.title }}</span>
+
+                                    <svg class="gameSelectedBracketDown">
+                                        <path 
+                                            id="gameSelectedBracketDownPath{{ index }}"
+                                            class="gameSelectedBracketDownPath" 
+                                            d="M 57 82 L 57 58 C 57 53 60 48 66 48 L 67 48 L 266 48 C 274 48 276 51 276 56 L 276 55 L 276 82"
+                                            {# d="M 57 82 L 57 48 L 66 48 L 267 48 L 276 48 L 276 82" (sharp angles) #}
+                                            fill-opacity="0"
+                                            />
+                                    </svg>
+
+                                </div>
+
+                                {% set index = index + 1 %}
+
+                            {% endfor %}
+
+                        </div>
+
+                        <div class="lp-phone-slpideTrait2"></div>
+
+                    </div>
+                </div>
             </div>
 
             {# Raccourcis Teams si logged in #}
@@ -289,9 +333,46 @@
         </div>
 
 
-
-
-
     </div>
+
+
+
+    {# Splide JS carousel games #}
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+
+            var isMobile = navigator.userAgent.match(/Android/i)
+            || navigator.userAgent.match(/webOS/i)
+            || navigator.userAgent.match(/iPhone/i)
+            || navigator.userAgent.match(/iPad/i)
+            || navigator.userAgent.match(/iPod/i)
+            || navigator.userAgent.match(/BlackBerry/i)
+            || navigator.userAgent.match(/Windows Phone/i);
+            
+            // Slide Scroll vertical sur mobile pas bonne idee car mess avec le scroll page
+            if (isMobile){
+
+               var splide = new Splide( '.splide', {
+                    direction : 'ttb',
+                    height: '25rem',
+                    perPage: 4,
+                    pagination: false,
+                } );
+
+                splide.mount();
+
+            } else {
+                    
+                var splide = new Splide( '.splide', {
+                    width: '100%',
+                    perPage: 6,
+
+                } );
+
+                splide.mount();
+            }
+
+        });
+    </script>
     
 {% endblock %}

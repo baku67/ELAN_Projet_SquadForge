@@ -224,11 +224,8 @@
 
 
 
-    {# Page 3 (Contenu/fonctionalitées du site) #}
-    {# TODO Ajax change contenu page 4 (medias,topics,teams) avec loading #}
-    {# TODO while load: squeleton (gris avec waves) ? #}
+    {# Page 3 #}
     {# TODO orderBy nbr de publications #}
-    {# + background 100% étoiles vers le haut color primary (cf les100cie) #}
     <div id="lp-page3" class="section" aria-labelledby="carousel-heading">
         
         {# Splide container #}
@@ -297,11 +294,6 @@
 
                     
                 </div>
-
-                <!-- (Désactivé) Add the progress bar element -->
-                {# <div class="my-slider-progress">
-                    <div class="my-slider-progress-bar"></div>
-                </div> #}
 
             </div>
 
@@ -432,14 +424,6 @@
     </div>
 
 
-    {# Page 5: resultat de la recherche, (default hidden) #}
-    {# Recherche globale si aucun jeu séléctionné, recherche spécifique au jeu sinon #}
-    {# Recherche dans "Medias" "Topics" "Jeux" "Team" "Genre" (chacun est togglable, default: tous cochés) #}
-
-
-
-
-
 
 
     {# AOS.js scroll smooth entres sections #}
@@ -527,41 +511,14 @@
 
             } else {
                     
-                console.log('init splide pc');
-
                 var splide = new Splide( '.splide', {
-                    // // largeur du carousel:
                     width: '100%',
-                    // // largeur des cards (HS?):
-                    // fixedWidth: "200px",
-                    // type   : 'slide',
-                    // arrows: true,
                     perPage: 6,
-                    // direction: 'ltr',
-                    // // navigation: true,
-                    // autoplay: true,
                 } );
-
-                // Le drag Splide est bien détecté:
-                splide.on( 'mounted move', function () {
-                    console.log('test drag splide');
-                });
 
                 splide.mount();
 
             }
-
-            // new Splide( '.splide' ).mount();
-
-            // var bar = splide.root.querySelector( '.my-slider-progress-bar' );
-            // Updates the bar width whenever the carousel moves:
-            // splide.on( 'mounted move', function () {
-            //     var end  = splide.Components.Controller.getEnd() + 1;
-            //     var rate = Math.min( ( splide.index + 1 ) / end, 1 );
-            //     bar.style.width = String( 100 * rate ) + '%';
-            // } );
-
-           
 
         });
     </script>
