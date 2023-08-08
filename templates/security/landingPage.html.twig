@@ -575,7 +575,11 @@
                         element.style.backgroundColor = "var(--primary-color)";
                         element.style.color = "black";
                     }
+
+                    delayedSearch();
                 });
+
+
             });
 
                 
@@ -668,6 +672,7 @@
                             document.getElementById('lp-page4').scrollIntoView({behavior: "smooth", block: "end", inline: "nearest"});
                         }, 350);
 
+                        delayedSearch();
                     }
                     else {
 
@@ -723,6 +728,7 @@
                         }, 200);
 
 
+                        delayedSearch();
                     }
                 
                 });
@@ -738,8 +744,8 @@
                 // Clear any previously set timer
                 clearTimeout(searchTimer);
                 // Sanitize front text input
-                var textInput = this.value.replace(/[^a-zA-Z0-9\s-_]/g, '');
-                this.value = textInput;
+                var textInput = document.getElementById("lp-searchText").value.replace(/[^a-zA-Z0-9\s-_]/g, '');
+                document.getElementById("lp-searchText").value = textInput;
 
                 // array des filtres ("Jeux" disparait si gameSelected)
                 var filterArray = {
