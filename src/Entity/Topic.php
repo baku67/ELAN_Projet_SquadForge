@@ -12,32 +12,37 @@ use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: TopicRepository::class)]
+#[ORM\Table(name: 'topic')]
 class Topic
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
-    #[ORM\Column]
+    #[ORM\Column(name: "id")]
     private ?int $id = null;
 
-    #[ORM\Column(length: 200)]
+    #[ORM\Column(name: 'title', length: 200)]
     private ?string $title = null;
 
-    #[ORM\Column(type: Types::DATETIME_MUTABLE)]
+    #[ORM\Column(name: 'publish_date', type: Types::DATETIME_MUTABLE)]
     private ?\DateTimeInterface $publish_date = null;
 
-    #[ORM\Column(length: 50)]
+    #[ORM\Column(name: 'status', length: 50)]
     private ?string $status = null;
 
-    #[ORM\Column(length: 50)]
+    #[ORM\Column(name: 'validated', length: 50)]
     private ?string $validated = null;
 
-    #[ORM\ManyToOne(inversedBy: 'topics')]
+    #[ORM\ManyToOne(targetEntity: Game::class)]
+    #[ORM\JoinTable(name: 'game')]
+    #[ORM\JoinColumn(name:'game_id', referencedColumnName:'id')]
     private ?Game $game = null;
 
-    #[ORM\ManyToOne(inversedBy: 'topics')]
+    #[ORM\ManyToOne(targetEntity: User::class)]
+    #[ORM\JoinTable(name: 'user')]
+    #[ORM\JoinColumn(name:'user_id', referencedColumnName:'id')]
     private ?User $user = null;
 
-    #[ORM\Column(type: Types::TEXT, nullable: true)]
+    #[ORM\Column(name: 'first_msg', type: Types::TEXT, nullable: true)]
     private ?string $firstMsg = null;
 
     #[ORM\OneToMany(mappedBy: 'topic', targetEntity: TopicPost::class, cascade: ["remove"])]

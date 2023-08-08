@@ -76,38 +76,40 @@
 
                             {% for game in userFav %}
 
-                                <div class="lp-page3-slideContainer splide__slide">
+                                <a  class="gameCardLink" href="{{ path('app_game', {'id': game.id} )}}">
+                                    <div class="lp-page3-slideContainer splide__slide">
 
-                                    <svg class="gameSelectedBracketUp">
-                                        <path 
-                                            id="gameSelectedBracketUpPath{{ index }}"
-                                            class="gameSelectedBracketUpPath" 
-                                            d="M 57 82 L 57 58 C 57 53 60 48 66 48 L 67 48 L 266 48 C 274 48 276 51 276 56 L 276 55 L 276 82"
-                                            {# d="M 57 82 L 57 48 L 66 48 L 267 48 L 276 48 L 276 82" (sharp angles) #}
-                                            fill-opacity="0"
-                                            />
-                                    </svg>
+                                        <svg class="gameSelectedBracketUp">
+                                            <path 
+                                                id="gameSelectedBracketUpPath{{ index }}"
+                                                class="gameSelectedBracketUpPath" 
+                                                d="M 57 82 L 57 58 C 57 53 60 48 66 48 L 67 48 L 266 48 C 274 48 276 51 276 56 L 276 55 L 276 82"
+                                                {# d="M 57 82 L 57 48 L 66 48 L 267 48 L 276 48 L 276 82" (sharp angles) #}
+                                                fill-opacity="0"
+                                                />
+                                        </svg>
 
-                                    <div id="lp-page3-slide0{{ index }}" class="lp-gameCard" style="background-image: linear-gradient(rgba(0, 0, 255, 0.05), rgba(249, 123, 44, 0.5)),url('{{ asset("img/games/headerBackground/" ~ game.subBanner )}}'); background-size:cover;">
+                                        <div id="lp-page3-slide0{{ index }}" class="lp-gameCard" style="background-image: linear-gradient(rgba(0, 0, 255, 0.05), rgba(249, 123, 44, 0.5)),url('{{ asset("img/games/headerBackground/" ~ game.subBanner )}}'); background-size:cover;">
 
-                                        <span id="lp-gameCardTitle{{ index }}" value="{{ game.title }}" class="lp-gameCardTitle">{{ game.title }}</span>
+                                            <span id="lp-gameCardTitle{{ index }}" value="{{ game.title }}" class="lp-gameCardTitle">{{ game.title }}</span>
+
+                                        </div>
+
+                                        {# only Phone: #}
+                                        <span value="{{ game.title }}" class="lp-gameCardTitlePhone">{{ game.title }}</span>
+
+                                        <svg class="gameSelectedBracketDown">
+                                            <path 
+                                                id="gameSelectedBracketDownPath{{ index }}"
+                                                class="gameSelectedBracketDownPath" 
+                                                d="M 57 82 L 57 58 C 57 53 60 48 66 48 L 67 48 L 266 48 C 274 48 276 51 276 56 L 276 55 L 276 82"
+                                                {# d="M 57 82 L 57 48 L 66 48 L 267 48 L 276 48 L 276 82" (sharp angles) #}
+                                                fill-opacity="0"
+                                                />
+                                        </svg>
 
                                     </div>
-
-                                    {# only Phone: #}
-                                    <span value="{{ game.title }}" class="lp-gameCardTitlePhone">{{ game.title }}</span>
-
-                                    <svg class="gameSelectedBracketDown">
-                                        <path 
-                                            id="gameSelectedBracketDownPath{{ index }}"
-                                            class="gameSelectedBracketDownPath" 
-                                            d="M 57 82 L 57 58 C 57 53 60 48 66 48 L 67 48 L 266 48 C 274 48 276 51 276 56 L 276 55 L 276 82"
-                                            {# d="M 57 82 L 57 48 L 66 48 L 267 48 L 276 48 L 276 82" (sharp angles) #}
-                                            fill-opacity="0"
-                                            />
-                                    </svg>
-
-                                </div>
+                                </a>
 
                                 {% set index = index + 1 %}
 

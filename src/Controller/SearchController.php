@@ -47,7 +47,6 @@ class SearchController extends AbstractController
             // Handle AJAX request, return JSON response
             $topicRepo = $entityManager->getRepository(Topic::class);
 
-            // $textInput = "zz zz zz zz zz";
             $query = $topicRepo->createQueryBuilder('t')
             ->where('t.title LIKE :searchText')
             ->setParameter('searchText', "%$textInput%")
@@ -63,18 +62,16 @@ class SearchController extends AbstractController
             $normalizers = [new ObjectNormalizer()];
             $serializer = new Serializer($normalizers, $encoders);
 
-            $responseData = [
-                'success' => true, // Set based on your business logic
-                'topics' => $serializer->serialize($topicRepo->find(13), 'json', [AbstractNormalizer::ATTRIBUTES => ['title']]),
-            ];
-
             
-            return new JsonResponse($responseData);
+            return new JsonResponse(
+                [
+                    'success' => true,
+                    'topics' => json_decode($serializer->serialize($resultTopics, 'json', [AbstractNormalizer::IGNORED_ATTRIBUTES => ['game','genre','user','topic']]), true),
+                    // 'topics' => $topicRepo->find(13),
+                ]
+            );
         // }
 
-        // Handle regular HTML request, render Twig template
-        // return $this->render('search/index.html.twig', [
-        //     'controller_name' => 'SearchController',
-        // ]);
+
     }
 }
