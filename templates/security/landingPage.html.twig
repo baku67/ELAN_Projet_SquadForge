@@ -613,19 +613,31 @@
                         // Lors toggle filtre: adaptation div results
                         switch (element.getAttribute('name')) {
                             case "gamesFilter":
-                                document.getElementById('lp-searchGamesDiv').style.display = "none";
+                                document.getElementById('lp-searchGamesDiv').style.opacity = "0";
+                                setTimeout(() => {
+                                    document.getElementById('lp-searchGamesDiv').style.display = "none";
+                                }, 300);
                                 break;
 
                             case "teamsFilter":
-                                document.getElementById('lp-searchTeamsDiv').style.display = "none";
+                                document.getElementById('lp-searchTeamsDiv').style.opacity = "0";
+                                setTimeout(() => {
+                                    document.getElementById('lp-searchTeamsDiv').style.display = "none";
+                                }, 300);
                                 break;
                         
                             case "topicsFilter":
-                                document.getElementById('lp-searchTopicsDiv').style.display = "none";
+                                document.getElementById('lp-searchTopicsDiv').style.opacity = "0";
+                                setTimeout(() => {
+                                    document.getElementById('lp-searchTopicsDiv').style.display = "none";
+                                }, 300);
                                 break;
 
                             case "mediasFilter":
-                                document.getElementById('lp-searchMediasDiv').style.display = "none";
+                                document.getElementById('lp-searchMediasDiv').style.opacity = "0";
+                                setTimeout(() => {
+                                    document.getElementById('lp-searchMediasDiv').style.display = "none";
+                                }, 300);
                                 break;
 
                             default:
@@ -640,18 +652,30 @@
                         switch (element.getAttribute('name')) {
                             case "gamesFilter":
                                 document.getElementById('lp-searchGamesDiv').style.display = "block";
+                                setTimeout(() => {
+                                    document.getElementById('lp-searchGamesDiv').style.opacity = "1";
+                                }, 300);
                                 break;
 
                             case "teamsFilter":
                                 document.getElementById('lp-searchTeamsDiv').style.display = "block";
+                                setTimeout(() => {
+                                    document.getElementById('lp-searchTeamsDiv').style.opacity = "1";
+                                }, 300);
                                 break;
                         
                             case "topicsFilter":
                                 document.getElementById('lp-searchTopicsDiv').style.display = "block";
+                                setTimeout(() => {
+                                    document.getElementById('lp-searchTopicsDiv').style.opacity = "1";
+                                }, 300);
                                 break;
 
                             case "mediasFilter":
                                 document.getElementById('lp-searchMediasDiv').style.display = "block";
+                                setTimeout(() => {
+                                    document.getElementById('lp-searchMediasDiv').style.opacity = "1";
+                                }, 300);
                                 break;
 
                             default:
@@ -865,12 +889,10 @@
                                 document.getElementById("lp-page4-cardTopics").style.display = "none";
                                 document.getElementById("lp-page4-cardMedias").style.display = "none";
                                 document.getElementById("searchResultsDiv").style.display = "flex";
-                                // document.getElementById("lp-page4-container").innerHTML += "<span id='searchResults'>Résultats de la recherche :</span><br>";
 
+                                // *** Affichage des résultats:
 
-                                // Pour chaque result, on alimente les lignes de la liste
-
-                                if(data.topics.length > 0) {
+                                if(data.topics !== null && data.topics.length > 0) {
                                     let content = "";
 
                                     data.topics.forEach(element => {

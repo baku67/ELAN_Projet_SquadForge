@@ -1075,8 +1075,11 @@ header {
 #searchResultsDiv {
     position: relative;
     flex-direction: column;
+    background-color: #00000059;
+    backdrop-filter: blur(24px);
     width: 90%;
     top: 300px;
+    border-radius: 10px;
     opacity: 0;
 
     animation: slideSearchResultDiv 0.8s ease forwards;
@@ -1547,6 +1550,7 @@ header {
 
 .lp-page4-container {
     display: inline-flex;
+    height: inherit;
     justify-content: space-evenly;
     width: 100%;
     margin: 23px auto;
