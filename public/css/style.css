@@ -1096,8 +1096,15 @@ header {
     font-family: 'K2D', sans-serif;
 }
 
-#lp-searchMediasDiv, #lp-searchTopicsDiv, #lp-searchGamesDiv, #lp-searchTeamsDiv {
+
+.lp-searchResultDiv {
     transition: all 0.3s;
+
+    width: 300px;
+}
+
+.lp-searchResultDivTitle {
+    text-align: center;
 }
 
 

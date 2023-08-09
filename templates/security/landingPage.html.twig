@@ -412,44 +412,43 @@
 
                 <div style="display: inline-flex; width:100%; justify-content:space-around; margin-top:50px;">
 
-                    <div id="lp-searchGamesDiv">
-                        <h4>Jeux</h4>
-                        <ul class="lp-searchResultList">
-                            <li>test jeux li</li>
-                            <li>test jeux li</li>
-                            <li>test jeux li</li>
+                    <div id="lp-searchGamesDiv" class="lp-searchResultDiv">
+                        <h4 class="lp-searchResultDivTitle">Jeux</h4>
+                        <ul id="lp-searchResultGamesList" class="lp-searchResultList">
+                            <li></li>
+                            <li></li>
+                            <li></li>
                         </ul>
                     </div>
 
-                    <div id="lp-searchTeamsDiv" style="display:none;">
-                        <h4>Teams</h4>
-                        <ul class="lp-searchResultList">
-                            <li>test team li</li>
-                            <li>test team li</li>
-                            <li>test team li</li>
+                    <div id="lp-searchTeamsDiv" class="lp-searchResultDiv" style="display:none;">
+                        <h4 class="lp-searchResultDivTitle">Teams</h4>
+                        <ul id="lp-searchResultTeamsList" class="lp-searchResultList">
+                            <li></li>
+                            <li></li>
+                            <li></li>
                         </ul>
                     </div>
 
-                    <div id="lp-searchTopicsDiv">
-                        <h4>Topics</h4>
-                        <ul class="lp-searchResultList">
-                            <li>test topic li</li>
-                            <li>test topic li</li>
-                            <li>test topic li</li>
+                    <div id="lp-searchTopicsDiv" class="lp-searchResultDiv">
+                        <h4 class="lp-searchResultDivTitle">Topics</h4>
+                        <ul id="lp-searchResultTopicsList" class="lp-searchResultList">
+                            <li></li>
+                            <li></li>
+                            <li></li>
                         </ul>
                     </div>
 
-                    <div id="lp-searchMediasDiv">
-                        <h4>Medias</h4>
-                        <ul class="lp-searchResultList">
-                            <li>test media li</li>
-                            <li>test media li</li>
-                            <li>test media li</li>
+                    <div id="lp-searchMediasDiv" class="lp-searchResultDiv">
+                        <h4 class="lp-searchResultDivTitle">Medias</h4>
+                        <ul id="lp-searchResultMediasList" class="lp-searchResultList">
+                            <li></li>
+                            <li></li>
+                            <li></li>
                         </ul>
                     </div>
 
                 </div>
-
             </div>
 
             {# Scroll Btn up (to page 3) #}
@@ -609,6 +608,7 @@
                     const currentValue = element.getAttribute('value');
                     const newValue = currentValue === 'true' ? 'false' : 'true';
                     element.setAttribute('value', newValue);
+
                     if(newValue == 'false') {
                         element.style.backgroundColor = "rgba(128, 128, 128, 0.2)";
                         element.style.color = "var(--white)";
@@ -875,6 +875,57 @@
                                 console.log(data.games);
                                 console.log(data.teams);
 
+                                // Pour chaque result, on alimente les lignes de la liste
+
+                                if(data.topics.length > 0) {
+                                    let topicsLines = document.querySelectorAll('#lp-searchResultTopicsList li');
+                                    let topicsLineIndex = 0;
+                                    data.topics.forEach(element => {
+                                        topicsLines[topicsLineIndex].textContent = element.title;
+                                        topicsLineIndex++;
+                                    }); 
+                                } 
+                                else {
+                                    document.querySelector('#lp-searchResultTopicsList > li').textContent = "Aucun résultat";
+                                }
+
+                                if(data.medias !== null && data.medias.length > 0) {
+                                    let mediasLines = document.querySelectorAll('#lp-searchResultMediasList li');
+                                    let mediasLineIndex = 0;
+                                    data.medias.forEach(element => {
+                                        mediasLines[mediasLineIndex].textContent = element.title;
+                                        mediasLineIndex++;
+                                    }); 
+                                } 
+                                else {
+                                    document.querySelector('#lp-searchResultMediasList > li').textContent = "Aucun résultat";
+                                }
+
+                                if(data.teams !== null && data.teams.length > 0) {
+                                    let teamsLines = document.querySelectorAll('#lp-searchResultTeamsList li');
+                                    let teamsLineIndex = 0;
+                                    data.teams.forEach(element => {
+                                        teamsLines[teamsLineIndex].textContent = element.title;
+                                        teamsLineIndex++;
+                                    }); 
+                                } 
+                                else {
+                                    document.querySelector('#lp-searchResultTeamsList > li').textContent = "Aucun résultat";
+                                }
+
+                                if(data.games !== null && data.games.length > 0) {
+                                    let gamesLines = document.querySelectorAll('#lp-searchResultGamesList li');
+                                    let gamesLineIndex = 0;
+                                    data.games.forEach(element => {
+                                        gamesLines[gamesLineIndex].textContent = element.title;
+                                        gamesLineIndex++;
+                                    }); 
+                                } 
+                                else {
+                                    document.querySelector('#lp-searchResultGamesList > li').textContent = "Aucun résultat";
+                                }
+
+                                // TODO: liens
 
                             } else {
                                 window.FlashMessage.error('Il y a eu un problème avec le chargment du contenu');
