@@ -409,9 +409,11 @@
             {# Resultats de la recherche #}
             <div id="searchResultsDiv" style="display:none;">
 
-                <h3 style="text-align:center; margin-top:20px;">Résultats de recherche</h3>
+                <h3 style="text-align:center; margin-top:15px; margin-bottom:7px;">Résultats de recherche</h3>
 
-                <div style="display: inline-flex; width:100%; justify-content:space-around; margin-top:50px;">
+                <div class="lp-searchTrait"></div>
+
+                <div style="display: inline-flex; width:100%; justify-content:space-around; margin-top:40px;">
 
                     <div id="lp-searchGamesDiv" class="lp-searchResultDiv">
                         <h4 class="lp-searchResultDivTitle"><a href='{{ path('app_games') }}'>Jeux</a></h4>
@@ -908,12 +910,12 @@
                                     let content = "";
 
                                     data.topics.forEach(element => {
-                                        content += "<li><a class='searchLineLink' href='/topicDetail/" + element.id + "'>" + element.title + "</a></li>";
+                                        content += "<li class='searchLine'><a class='searchLineLink' href='/topicDetail/" + element.id + "'>" + element.title + "</a></li>";
                                     }); 
                                     document.getElementById('lp-searchResultTopicsList').innerHTML = content;
                                 } 
                                 else {
-                                    document.getElementById('lp-searchResultTopicsList').innerHTML = "<span class='emptyListMsg'>Aucun résultat</span>";
+                                    document.getElementById('lp-searchResultTopicsList').innerHTML = "<span class='emptyListMsg' style='width:100%; display:block;'>Aucun résultat</span>";
                                 }
 
 
@@ -921,12 +923,12 @@
                                     let content = "";
 
                                     data.medias.forEach(element => {
-                                        content += "<li><a class='searchLineLink' href='/mediaDetail/" + element.id + "'>" + element.title + "</a></li>";
+                                        content += "<li class='searchLine'><a class='searchLineLink' href='/mediaDetail/" + element.id + "'>" + element.title + "</a></li>";
                                     }); 
                                     document.getElementById('lp-searchResultMediasList').innerHTML = content;
                                 } 
                                 else {
-                                    document.getElementById('lp-searchResultMediasList').innerHTML = "<span class='emptyListMsg'>Aucun résultat</span>";
+                                    document.getElementById('lp-searchResultMediasList').innerHTML = "<span class='emptyListMsg' style='width:100%; display:block;'>Aucun résultat</span>";
                                 }
 
 
@@ -934,12 +936,12 @@
                                     let content = "";
 
                                     data.teams.forEach(element => {
-                                        content += "<li><a class='searchLineLink' href='/groupDetails/" + element.id + "'>" + element.title + "</a></li>";
+                                        content += "<li class='searchLine'><a class='searchLineLink' href='/groupDetails/" + element.id + "'>" + element.title + "</a></li>";
                                     }); 
                                     document.getElementById('lp-searchResultTeamsList').innerHTML = content;
                                 } 
                                 else {
-                                    document.getElementById('lp-searchResultTeamsList').innerHTML = "<span class='emptyListMsg'>Aucun résultat</span>";
+                                    document.getElementById('lp-searchResultTeamsList').innerHTML = "<span class='emptyListMsg' style='width:100%; display:block;'>Aucun résultat</span>";
                                 }
 
 
@@ -947,12 +949,12 @@
                                     let content = "";
 
                                     data.games.forEach(element => {
-                                        content += "<li><a class='searchLineLink' href='/game/" + element.id + "'>" + element.title + "</a></li>";
+                                        content += "<li class='searchLine'><a class='searchLineLink' href='/game/" + element.id + "'>" + element.title + "</a></li>";
                                     }); 
                                     document.getElementById('lp-searchResultGamesList').innerHTML = content;
                                 } 
                                 else {
-                                    document.getElementById('lp-searchResultGamesList').innerHTML = "<span class='emptyListMsg'>Aucun résultat</span>";
+                                    document.getElementById('lp-searchResultGamesList').innerHTML = "<span class='emptyListMsg' style='width:100%; display:block;'>Aucun résultat</span>";
                                 }
 
                             } else {
@@ -967,7 +969,7 @@
                         document.getElementById("lp-page4-cardTopics").style.display = "flex";
                         document.getElementById("lp-page4-cardMedias").style.display = "flex";
                     }
-                }, 500);
+                }, 250);
             }
 
             // Ajax recherche avec filtres (TODO: loading (friction positive))
