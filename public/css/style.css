@@ -1074,6 +1074,8 @@ header {
 
 #searchResultsDiv {
     position: relative;
+    flex-direction: column;
+    width: 90%;
     top: 300px;
     opacity: 0;
 
@@ -1088,6 +1090,14 @@ header {
         opacity: 1;
         top: 0px;
     }
+}
+
+.lp-searchResultList {
+    font-family: 'K2D', sans-serif;
+}
+
+#lp-searchMediasDiv, #lp-searchTopicsDiv, #lp-searchGamesDiv, #lp-searchTeamsDiv {
+    transition: all 0.3s;
 }
 
 

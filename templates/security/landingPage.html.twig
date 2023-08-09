@@ -352,10 +352,10 @@
                     {# Filtres recherche #}
                     <ul class="lp-filterList" style="display:inline-flex;">
                         <li class="filterIcon">[</li>
-                        <li id="gamesFilter" value="true" class="lp-filterBtn" style="background-color: var(--primary-color); color:black;">Jeux</li>
-                        <li id="topicsFilter" value="true" class="lp-filterBtn" style="background-color: var(--primary-color); color:black;">Topics</li>
-                        <li id="mediasFilter" value="true" class="lp-filterBtn" style="background-color: var(--primary-color); color:black;">Médias</li>
-                        <li id="teamsFilter" value="false" class="lp-filterBtn">Teams</li>
+                        <li id="gamesFilter" value="true" name="gamesFilter" class="lp-filterBtn" style="background-color: var(--primary-color); color:black;">Jeux</li>
+                        <li id="topicsFilter" value="true" name="topicsFilter" class="lp-filterBtn" style="background-color: var(--primary-color); color:black;">Topics</li>
+                        <li id="mediasFilter" value="true" name="mediasFilter" class="lp-filterBtn" style="background-color: var(--primary-color); color:black;">Médias</li>
+                        <li id="teamsFilter" value="false" name="teamsFilter" class="lp-filterBtn">Teams</li>
                         <li class="filterIcon">]</li>
                     </ul>
 
@@ -407,7 +407,49 @@
 
             {# Resultats de la recherche #}
             <div id="searchResultsDiv" style="display:none;">
-                test result recherche
+
+                <h3 style="text-align:center; margin-top:20px;">Résultats de recherche (jeu, filtres? tmp)</h3>
+
+                <div style="display: inline-flex; width:100%; justify-content:space-around; margin-top:50px;">
+
+                    <div id="lp-searchGamesDiv">
+                        <h4>Jeux</h4>
+                        <ul class="lp-searchResultList">
+                            <li>test jeux li</li>
+                            <li>test jeux li</li>
+                            <li>test jeux li</li>
+                        </ul>
+                    </div>
+
+                    <div id="lp-searchTeamsDiv" style="display:none;">
+                        <h4>Teams</h4>
+                        <ul class="lp-searchResultList">
+                            <li>test team li</li>
+                            <li>test team li</li>
+                            <li>test team li</li>
+                        </ul>
+                    </div>
+
+                    <div id="lp-searchTopicsDiv">
+                        <h4>Topics</h4>
+                        <ul class="lp-searchResultList">
+                            <li>test topic li</li>
+                            <li>test topic li</li>
+                            <li>test topic li</li>
+                        </ul>
+                    </div>
+
+                    <div id="lp-searchMediasDiv">
+                        <h4>Medias</h4>
+                        <ul class="lp-searchResultList">
+                            <li>test media li</li>
+                            <li>test media li</li>
+                            <li>test media li</li>
+                        </ul>
+                    </div>
+
+                </div>
+
             </div>
 
             {# Scroll Btn up (to page 3) #}
@@ -570,18 +612,61 @@
                     if(newValue == 'false') {
                         element.style.backgroundColor = "rgba(128, 128, 128, 0.2)";
                         element.style.color = "var(--white)";
+
+                        // Lors toggle filtre: adaptation div results
+                        switch (element.getAttribute('name')) {
+                            case "gamesFilter":
+                                document.getElementById('lp-searchGamesDiv').style.display = "none";
+                                break;
+
+                            case "teamsFilter":
+                                document.getElementById('lp-searchTeamsDiv').style.display = "none";
+                                break;
+                        
+                            case "topicsFilter":
+                                document.getElementById('lp-searchTopicsDiv').style.display = "none";
+                                break;
+
+                            case "mediasFilter":
+                                document.getElementById('lp-searchMediasDiv').style.display = "none";
+                                break;
+
+                            default:
+                                break;
+                        }
                     }
                     else {
                         element.style.backgroundColor = "var(--primary-color)";
                         element.style.color = "black";
+
+                        // Lors toggle filtre: adaptation div results
+                        switch (element.getAttribute('name')) {
+                            case "gamesFilter":
+                                document.getElementById('lp-searchGamesDiv').style.display = "block";
+                                break;
+
+                            case "teamsFilter":
+                                document.getElementById('lp-searchTeamsDiv').style.display = "block";
+                                break;
+                        
+                            case "topicsFilter":
+                                document.getElementById('lp-searchTopicsDiv').style.display = "block";
+                                break;
+
+                            case "mediasFilter":
+                                document.getElementById('lp-searchMediasDiv').style.display = "block";
+                                break;
+
+                            default:
+                                break;
+                        }
                     }
 
                     delayedSearch();
                 });
-
-
             });
 
+            
                 
 
 
@@ -617,8 +702,10 @@
                         gameSelectedId = {{ game.id }};
                         console.log(gameSelectedId);
 
-
                         // TODO: si game clické meme que selected: gameSelected = false;
+
+                        // Disparition de la div "jeux"
+                        document.getElementById('lp-searchGamesDiv').style.display = "none";
 
                         // Disparition du Filtre "Game" sur page4 comme gameSelected (& value=false)
                         document.getElementById('gamesFilter').style.display = "none";
@@ -677,6 +764,10 @@
                     else {
 
                         gameSelectedId = 0;
+
+                        // Réaparition de la div "jeux"
+                        document.getElementById('lp-searchGamesDiv').style.display = "none";
+
 
                         // Réaparition du Filtre "Game" sur page4 comme !gameSelected (et réactivation par defaut, voir si style suit)
                         document.getElementById('gamesFilter').style.display = "none";
@@ -773,14 +864,16 @@
                         .then(data => {
                             if (data.success) {
 
-                                console.log("success!");
-                                console.log(data.topics);
-
                                 document.getElementById("lp-page4-cardTeams").style.display = "none";
                                 document.getElementById("lp-page4-cardTopics").style.display = "none";
                                 document.getElementById("lp-page4-cardMedias").style.display = "none";
                                 document.getElementById("searchResultsDiv").style.display = "flex";
                                 // document.getElementById("lp-page4-container").innerHTML += "<span id='searchResults'>Résultats de la recherche :</span><br>";
+
+                                console.log(data.topics);
+                                console.log(data.medias);
+                                console.log(data.games);
+                                console.log(data.teams);
 
 
                             } else {
