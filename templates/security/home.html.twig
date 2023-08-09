@@ -133,7 +133,7 @@
 
                 <div class="sectionHomeContent genreGameList" style="text-align:center;">
                     {% for userTeam in userTeams %}
-                        <a class="groupCard" href="{{ path('app_groupDetails', {'groupId': userTeam.id } ) }}" style="position:relative; box-shadow: 0 0 2px 1px {{ userTeam.game.color }};">
+                        <!-- <a class="groupCard" href="{{ path('app_groupDetails', {'groupId': userTeam.id } ) }}" style="position:relative; box-shadow: 0 0 2px 1px {{ userTeam.game.color }};">
                             <div>
                                 <div>
                                     <img src="{{ asset('img/games/tinyLogo/' ~ userTeam.game.tinyLogo) }}" class="tinyLogoTeam">
@@ -147,6 +147,15 @@
                                     {# Icon Leader #}
                                     {% if userTeam.leader == app.user %}<i class="fa-solid fa-crown" style="color:#ffe039;"></i>{% endif %}
                                 </div>
+                            </div>
+                        </a> -->
+
+                        <a class="groupCard" href="{{ path('app_groupDetails', {'groupId': userTeam.id } ) }}" style="position:relative;">
+                            <div>
+                                <img src="{{ asset('img/games/tinyLogo/' ~ userTeam.game.tinyLogo) }}" class="tinyLogoTeam">
+                                <h5 class="teamCardTitle" style="background-color: {{ userTeam.game.color }}; color:{{ userTeam.game.fontColor }};">
+                                    {{ userTeam.title }} 
+                                </h5>
                             </div>
                         </a>
                     {% endfor %}

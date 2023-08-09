@@ -413,7 +413,7 @@
 
                 <div class="lp-searchTrait"></div>
 
-                <div style="display: inline-flex; width:100%; justify-content:space-around; margin-top:40px;">
+                <div style="display: inline-flex; width:100%; justify-content:space-evenly; margin-top:40px;">
 
                     <div id="lp-searchGamesDiv" class="lp-searchResultDiv">
                         <h4 class="lp-searchResultDivTitle"><a href='{{ path('app_games') }}'>Jeux</a></h4>
@@ -785,7 +785,7 @@
                         document.getElementById('lp-page4-titleLink').setAttribute('href', '/game/{{ game.id }}');
                         document.getElementById('lp-page4-gameLogo').setAttribute('src', '{{ asset("img/games/tinyLogo/" ~ game.tinyLogo ) }}');
 
-                        document.getElementById('lp-page4-selectedGameTitle').innerHTML = "{{ game.title }}";
+                        document.getElementById('lp-page4-selectedGameTitle').innerHTML = "<span id='cleanGameSelected'><i class='fa-solid fa-xmark'></i></span> {{ game.title }}";
                         document.getElementById('lp-page4-selectedGameTitle').classList.add("lp-page4-selectedGameTitle");
                         document.getElementById('lp-page4-selectedGameTitle').style.textShadow = "-1px -1px 0 {{ game.color }}, 1px -1px 0 {{ game.color }}, -1px 1px 0 {{ game.color }}, 1px 1px 0 {{ game.color }}";
 
@@ -793,6 +793,69 @@
                         setTimeout(() => {
                             document.getElementById('lp-page4').scrollIntoView({behavior: "smooth", block: "end", inline: "nearest"});
                         }, 350);
+
+
+                        // Btn suppression du filtre gameSelected:
+                        document.getElementById('cleanGameSelected').addEventListener('click', () => {
+
+                            // Evite le click sur le lien de la div parente:
+                            event.preventDefault();
+
+                            gameSelectedId = 0;
+                            
+                            // Réaparition de la div "jeux"
+                            document.getElementById('lp-searchGamesDiv').style.display = "none";
+
+                            // Réaparition du Filtre "Game" sur page4 comme !gameSelected (et réactivation par defaut, voir si style suit)
+                            document.getElementById('gamesFilter').style.display = "none";
+                            document.getElementById('gamesFilter').setAttribute('value', 'true');
+
+                            document.getElementById('gameDetailsIcon').style = "none";
+                            document.getElementById('orSpan').style.display = "block";
+                            document.getElementById('lp-teamsCardGameSelected').style.display = "none";
+                            document.getElementById('lp-teamsCardGameNotSelected').style.display = "block";
+
+                            // BorderColor neutre / gris
+                            document.querySelectorAll('.lp-page4-card').forEach(element => {
+                                element.style.border = "1px solid #9a9a9a;";
+                            });
+
+                            // reset Box-shadow + scroll 
+                            document.querySelectorAll('.lp-gameCard').forEach(element => {
+                                element.classList.remove('lp-gameCard-boxShadow');
+                            });
+
+                            // Couleur des btn teamCard (selon jeu)
+                            document.querySelectorAll('.lp-page4-cardTeams-btn').forEach(element => {
+                                element.style.backgroundColor = "{{ game.color }}";
+                            });
+
+                            // Reset backgroundImg
+                            document.getElementById('lp-page4').classList.remove('lp-gameHeader-fadeIn');
+                            document.getElementById('lp-page4').classList.add("lp-gameHeader-fadeOut");
+                            setTimeout(() => {
+                                document.getElementById('lp-page4').style.backgroundImage = "radial-gradient(circle, rgba(0, 0, 0, 0.5) 0%, rgba(35, 35, 35, 0.996) 69%), url('{{ asset('img/landingPage4.jpg') }}')";
+                                document.getElementById('lp-page4').classList.add("lp-gameHeader-fadeIn");
+                            }, 400);
+
+                            // Adaptation des liens des cards page4
+                            document.getElementById('lp-page4-cardTopics').setAttribute('href', '/allTopicsGlobal');
+                            document.getElementById('lp-page4-cardMedias').setAttribute('href', '/allMediasGlobal');
+                            document.getElementById('lp-page4-gameLogo').setAttribute('src', '');
+
+                            document.getElementById('lp-page4-selectedGameTitle').innerHTML = "<i class='fa-solid fa-arrow-up' style='margin:0 15px; color:#707070;'></i>Sélectionnez un jeu pour filtrer";
+                            document.getElementById('lp-page4-selectedGameTitle').classList.remove("lp-page4-selectedGameTitle");
+                            document.getElementById('lp-page4-selectedGameTitle').style.textShadow = "rgba(116, 200, 20, 0) -0px -0px 0px, rgba(116, 200, 20, 0) 0px -0px 0px, rgba(116, 200, 20, 0) -0px 0px 0px, rgba(116, 200, 20, 0) 0px 0px 0px";
+                            document.getElementById('lp-page4-selectedGameTitle').classList.add("lp-page4-titleDiv");
+
+                            document.getElementById('lp-page3-slide0{{ index }}').classList.add('lp-gameCard-boxShadow');
+                            setTimeout(() => {
+                                document.getElementById('lp-page4').scrollIntoView({behavior: "smooth", block: "end", inline: "nearest"});
+                            }, 200);
+
+                            delayedSearch();
+
+                        })
 
                         delayedSearch();
                     }
@@ -803,11 +866,9 @@
                         // Réaparition de la div "jeux"
                         document.getElementById('lp-searchGamesDiv').style.display = "none";
 
-
                         // Réaparition du Filtre "Game" sur page4 comme !gameSelected (et réactivation par defaut, voir si style suit)
                         document.getElementById('gamesFilter').style.display = "none";
                         document.getElementById('gamesFilter').setAttribute('value', 'true');
-
 
                         document.getElementById('gameDetailsIcon').style = "none";
                         document.getElementById('orSpan').style.display = "block";
@@ -839,9 +900,6 @@
                         // Adaptation des liens des cards page4
                         document.getElementById('lp-page4-cardTopics').setAttribute('href', '/allTopicsGlobal');
                         document.getElementById('lp-page4-cardMedias').setAttribute('href', '/allMediasGlobal');
-                        // document.getElementById('lp-page4-cardTeams-seek').setAttribute('href', '/groupList/{{ game.id}}');
-                        // document.getElementById('lp-page4-cardTeams-create').setAttribute('href', '/createGroup/{{ game.id}}');
-                        // document.getElementById('lp-page4-titleLink').setAttribute('href', '/game/{{ game.id }}');
                         document.getElementById('lp-page4-gameLogo').setAttribute('src', '');
 
                         document.getElementById('lp-page4-selectedGameTitle').innerHTML = "Sélectionnez un jeu pour filtrer";

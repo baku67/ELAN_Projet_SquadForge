@@ -1573,6 +1573,28 @@ header {
     margin: 23px auto;
 }
 
+#lp-teamsCardGameSelected {
+    width: 100%;
+}
+#lp-teamsCardGameNotSelected {
+    width: 100%;
+}
+
+#cleanGameSelected {
+    color: black;
+    position: relative;
+    top: 1px;
+    opacity: 1;
+    padding: 0 14px;
+    border-radius: 5px;
+
+    transition: all 0.3s;
+}
+#cleanGameSelected:hover {
+    background-color: #000000a6;
+    color: white;
+}
+
 .searchLineLink {
     width: 100%;
     display: block;
