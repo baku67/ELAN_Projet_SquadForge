@@ -59,7 +59,7 @@ class SearchController extends AbstractController
                     ->setParameter('gameSelectedId', $gameSelectedId);
                 }
 
-                $queryGames->setMaxResults(3);
+                $queryGames->setMaxResults(5);
 
                 $resultGames = $queryGames->getQuery()->getResult();    
             } else {
@@ -79,7 +79,7 @@ class SearchController extends AbstractController
                     ->setParameter('gameSelectedId', $gameSelectedId);
                 }
 
-                $queryTopics->setMaxResults(3);
+                $queryTopics->setMaxResults(5);
 
                 $resultTopics = $queryTopics->getQuery()->getResult();    
             } else {
@@ -99,7 +99,7 @@ class SearchController extends AbstractController
                     ->setParameter('gameSelectedId', $gameSelectedId);
                 }
 
-                $queryMedia->setMaxResults(3);
+                $queryMedia->setMaxResults(5);
 
                 $resultMedias = $queryMedia->getQuery()->getResult();    
             } else {
@@ -119,7 +119,7 @@ class SearchController extends AbstractController
                     ->setParameter('gameSelectedId', $gameSelectedId);
                 }
 
-                $queryGroups->setMaxResults(3);
+                $queryGroups->setMaxResults(5);
 
                 $resultTeams = $queryGroups->getQuery()->getResult();    
             } else {

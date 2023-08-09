@@ -149,7 +149,7 @@
 
 
 
-    {# BACKUP Page 2 #}
+    {# Page 2 #}
     <div id="lp-page2" class="section" style="opacity:0; height:100vh; position:relative;">
 
         <div class="lp-p2a">
@@ -341,6 +341,7 @@
                 
 
                 <div style="margin-top:7px; display:inline-flex; align-items:baseline;">
+                    <span id="cleanSearchBtn"><i class="fa-solid fa-xmark"></i></span>
                     <span id="orSpan">Ou</span>
                     <input id="lp-searchText" type="text" pattern="[a-zA-Z0-9\s\-_]*" placeholder="Recherchez...">
                 </div>
@@ -408,40 +409,35 @@
             {# Resultats de la recherche #}
             <div id="searchResultsDiv" style="display:none;">
 
-                <h3 style="text-align:center; margin-top:20px;">Résultats de recherche (jeu, filtres? tmp)</h3>
+                <h3 style="text-align:center; margin-top:20px;">Résultats de recherche</h3>
 
                 <div style="display: inline-flex; width:100%; justify-content:space-around; margin-top:50px;">
 
                     <div id="lp-searchGamesDiv" class="lp-searchResultDiv">
-                        <h4 class="lp-searchResultDivTitle">Jeux</h4>
+                        <h4 class="lp-searchResultDivTitle"><a href='{{ path('app_games') }}'>Jeux</a></h4>
                         <ul id="lp-searchResultGamesList" class="lp-searchResultList">
+                            {# contenu ajouté ajax #}
                         </ul>
                     </div>
 
                     <div id="lp-searchTeamsDiv" class="lp-searchResultDiv" style="display:none;">
-                        <h4 class="lp-searchResultDivTitle">Teams</h4>
+                        <h4 class="lp-searchResultDivTitle"><a id="lp-searchResultTeamsDivTitle-link">Teams</a></h4>
                         <ul id="lp-searchResultTeamsList" class="lp-searchResultList">
-                            <li></li>
-                            <li></li>
-                            <li></li>
+                            {# contenu ajouté ajax #}
                         </ul>
                     </div>
 
                     <div id="lp-searchTopicsDiv" class="lp-searchResultDiv">
-                        <h4 class="lp-searchResultDivTitle">Topics</h4>
+                        <h4 class="lp-searchResultDivTitle"><a id="lp-searchResultTopicsDivTitle-link" href='{{ path('app_allTopicsGlobal') }}'>Topics</a></h4>
                         <ul id="lp-searchResultTopicsList" class="lp-searchResultList">
-                            <li></li>
-                            <li></li>
-                            <li></li>
+                            {# contenu ajouté ajax #}
                         </ul>
                     </div>
 
                     <div id="lp-searchMediasDiv" class="lp-searchResultDiv">
-                        <h4 class="lp-searchResultDivTitle">Medias</h4>
+                        <h4 class="lp-searchResultDivTitle"><a id="lp-searchResultMediasDivTitle-link" href='{{ path('app_allMediasGlobal') }}'>Medias</a></h4>
                         <ul id="lp-searchResultMediasList" class="lp-searchResultList">
-                            <li></li>
-                            <li></li>
-                            <li></li>
+                            {# contenu ajouté ajax #}
                         </ul>
                     </div>
 
@@ -723,7 +719,23 @@
                         gameSelectedId = {{ game.id }};
                         console.log(gameSelectedId);
 
+                        // Btn croix pour supprimer la recherche en cours
+                        document.getElementById('cleanSearchBtn').style.display = "block";
+                        document.getElementById('cleanSearchBtn').addEventListener('click', function() {
+                            document.getElementById('lp-searchText').value = "";
+                            // Permet de trigger le 'input' event pour annuler la search
+                            var event = new Event('input');
+                            document.getElementById('lp-searchText').dispatchEvent(event);
+                        })
+
+                        // Liens dynamiques Titres sections search result
+                        document.getElementById('lp-searchResultTopicsDivTitle-link').setAttribute('href', '/allTopics/' + gameSelectedId);
+                        document.getElementById('lp-searchResultMediasDivTitle-link').setAttribute('href', '/allMedias/' + gameSelectedId);
+                        document.getElementById('lp-searchResultTeamsDivTitle-link').setAttribute('href', '/groupList/' + gameSelectedId);
+                        
+
                         // TODO: si game clické meme que selected: gameSelected = false;
+                        // TODO: croix pour suppr input et revenir aux cards
 
                         // Disparition de la div "jeux"
                         document.getElementById('lp-searchGamesDiv').style.display = "none";
@@ -733,7 +745,7 @@
                         document.getElementById('gamesFilter').setAttribute('value', 'false');
 
                         document.getElementById('gameDetailsIcon').style = "block";
-                        document.getElementById('orSpan').style.opacity = "0";
+                        document.getElementById('orSpan').style.display = "none";
                         document.getElementById('lp-teamsCardGameNotSelected').style.display = "none";
                         document.getElementById('lp-teamsCardGameSelected').style.display = "block";
                         document.getElementById('lp-page4-titleLink').removeEventListener('click', gameTitleClick);
@@ -796,7 +808,7 @@
 
 
                         document.getElementById('gameDetailsIcon').style = "none";
-                        document.getElementById('orSpan').style.opacity = "0.7";
+                        document.getElementById('orSpan').style.display = "block";
                         document.getElementById('lp-teamsCardGameSelected').style.display = "none";
                         document.getElementById('lp-teamsCardGameNotSelected').style.display = "block";
 
@@ -896,7 +908,7 @@
                                     let content = "";
 
                                     data.topics.forEach(element => {
-                                        content += "<li><a href='/topicDetail/" + element.id + "'>" + element.title + "</a></li>";
+                                        content += "<li><a class='searchLineLink' href='/topicDetail/" + element.id + "'>" + element.title + "</a></li>";
                                     }); 
                                     document.getElementById('lp-searchResultTopicsList').innerHTML = content;
                                 } 
@@ -909,7 +921,7 @@
                                     let content = "";
 
                                     data.medias.forEach(element => {
-                                        content += "<li><a href='/mediaDetail/" + element.id + "'>" + element.title + "</a></li>";
+                                        content += "<li><a class='searchLineLink' href='/mediaDetail/" + element.id + "'>" + element.title + "</a></li>";
                                     }); 
                                     document.getElementById('lp-searchResultMediasList').innerHTML = content;
                                 } 
@@ -922,7 +934,7 @@
                                     let content = "";
 
                                     data.teams.forEach(element => {
-                                        content += "<li><a href='/groupDetails/" + element.id + "'>" + element.title + "</a></li>";
+                                        content += "<li><a class='searchLineLink' href='/groupDetails/" + element.id + "'>" + element.title + "</a></li>";
                                     }); 
                                     document.getElementById('lp-searchResultTeamsList').innerHTML = content;
                                 } 
@@ -935,7 +947,7 @@
                                     let content = "";
 
                                     data.games.forEach(element => {
-                                        content += "<li><a href='/game/" + element.id + "'>" + element.title + "</a></li>";
+                                        content += "<li><a class='searchLineLink' href='/game/" + element.id + "'>" + element.title + "</a></li>";
                                     }); 
                                     document.getElementById('lp-searchResultGamesList').innerHTML = content;
                                 } 
@@ -959,7 +971,18 @@
             }
 
             // Ajax recherche avec filtres (TODO: loading (friction positive))
-            document.getElementById("lp-searchText").addEventListener('input', delayedSearch) 
+            document.getElementById("lp-searchText").addEventListener('input', () => {
+
+                delayedSearch();
+
+                if(document.getElementById("lp-searchText").value != "") {
+                    document.getElementById("cleanSearchBtn").style.opacity = "1";
+                }
+                else {
+                    document.getElementById("cleanSearchBtn").style.opacity = "0.3";
+                }
+
+            }) 
 
 
         }
