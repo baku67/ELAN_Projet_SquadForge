@@ -415,9 +415,6 @@
                     <div id="lp-searchGamesDiv" class="lp-searchResultDiv">
                         <h4 class="lp-searchResultDivTitle">Jeux</h4>
                         <ul id="lp-searchResultGamesList" class="lp-searchResultList">
-                            <li></li>
-                            <li></li>
-                            <li></li>
                         </ul>
                     </div>
 
@@ -870,62 +867,59 @@
                                 document.getElementById("searchResultsDiv").style.display = "flex";
                                 // document.getElementById("lp-page4-container").innerHTML += "<span id='searchResults'>Résultats de la recherche :</span><br>";
 
-                                console.log(data.topics);
-                                console.log(data.medias);
-                                console.log(data.games);
-                                console.log(data.teams);
 
                                 // Pour chaque result, on alimente les lignes de la liste
 
                                 if(data.topics.length > 0) {
-                                    let topicsLines = document.querySelectorAll('#lp-searchResultTopicsList li');
-                                    let topicsLineIndex = 0;
+                                    let content = "";
+
                                     data.topics.forEach(element => {
-                                        topicsLines[topicsLineIndex].textContent = element.title;
-                                        topicsLineIndex++;
+                                        content += "<li><a href='/topicDetail/" + element.id + "'>" + element.title + "</a></li>";
                                     }); 
+                                    document.getElementById('lp-searchResultTopicsList').innerHTML = content;
                                 } 
                                 else {
-                                    document.querySelector('#lp-searchResultTopicsList > li').textContent = "Aucun résultat";
+                                    document.getElementById('lp-searchResultTopicsList').innerHTML = "<span class='emptyListMsg'>Aucun résultat</span>";
                                 }
+
 
                                 if(data.medias !== null && data.medias.length > 0) {
-                                    let mediasLines = document.querySelectorAll('#lp-searchResultMediasList li');
-                                    let mediasLineIndex = 0;
+                                    let content = "";
+
                                     data.medias.forEach(element => {
-                                        mediasLines[mediasLineIndex].textContent = element.title;
-                                        mediasLineIndex++;
+                                        content += "<li><a href='/mediaDetail/" + element.id + "'>" + element.title + "</a></li>";
                                     }); 
+                                    document.getElementById('lp-searchResultMediasList').innerHTML = content;
                                 } 
                                 else {
-                                    document.querySelector('#lp-searchResultMediasList > li').textContent = "Aucun résultat";
+                                    document.getElementById('lp-searchResultMediasList').innerHTML = "<span class='emptyListMsg'>Aucun résultat</span>";
                                 }
+
 
                                 if(data.teams !== null && data.teams.length > 0) {
-                                    let teamsLines = document.querySelectorAll('#lp-searchResultTeamsList li');
-                                    let teamsLineIndex = 0;
+                                    let content = "";
+
                                     data.teams.forEach(element => {
-                                        teamsLines[teamsLineIndex].textContent = element.title;
-                                        teamsLineIndex++;
+                                        content += "<li><a href='/groupDetails/" + element.id + "'>" + element.title + "</a></li>";
                                     }); 
+                                    document.getElementById('lp-searchResultTeamsList').innerHTML = content;
                                 } 
                                 else {
-                                    document.querySelector('#lp-searchResultTeamsList > li').textContent = "Aucun résultat";
+                                    document.getElementById('lp-searchResultTeamsList').innerHTML = "<span class='emptyListMsg'>Aucun résultat</span>";
                                 }
+
 
                                 if(data.games !== null && data.games.length > 0) {
-                                    let gamesLines = document.querySelectorAll('#lp-searchResultGamesList li');
-                                    let gamesLineIndex = 0;
+                                    let content = "";
+
                                     data.games.forEach(element => {
-                                        gamesLines[gamesLineIndex].textContent = element.title;
-                                        gamesLineIndex++;
+                                        content += "<li><a href='/game/" + element.id + "'>" + element.title + "</a></li>";
                                     }); 
+                                    document.getElementById('lp-searchResultGamesList').innerHTML = content;
                                 } 
                                 else {
-                                    document.querySelector('#lp-searchResultGamesList > li').textContent = "Aucun résultat";
+                                    document.getElementById('lp-searchResultGamesList').innerHTML = "<span class='emptyListMsg'>Aucun résultat</span>";
                                 }
-
-                                // TODO: liens
 
                             } else {
                                 window.FlashMessage.error('Il y a eu un problème avec le chargment du contenu');
