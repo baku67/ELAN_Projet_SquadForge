@@ -688,16 +688,12 @@
             
                 
 
-
-
             // {# OnSelect game: scroll page 4 (détails) + anims #}
             {% set index = 1 %}
 
             {% for game in games %}
                 
                 document.getElementById('lp-page3-slide0{{ index }}').addEventListener('click', function() {
-
-                    // document.getElementById('lp-page3-slide0{{ index }}').setAttribute('id', game.id);
 
                     // Reset SVG brackets et ajout sur gameSelected
                     document.querySelectorAll('.gameSelectedBracketUpPath').forEach(element => {
@@ -735,10 +731,6 @@
                         document.getElementById('lp-searchResultMediasDivTitle-link').setAttribute('href', '/allMedias/' + gameSelectedId);
                         document.getElementById('lp-searchResultTeamsDivTitle-link').setAttribute('href', '/groupList/' + gameSelectedId);
                         
-
-                        // TODO: si game clické meme que selected: gameSelected = false;
-                        // TODO: croix pour suppr input et revenir aux cards
-
                         // Disparition de la div "jeux"
                         document.getElementById('lp-searchGamesDiv').style.display = "none";
 
@@ -773,7 +765,7 @@
                         // Changement backgroundTitle page4
                         document.getElementById('lp-page4').classList.add("lp-gameHeader-fadeOut");
                         setTimeout(() => {
-                            document.getElementById('lp-page4').style.backgroundImage = "radial-gradient(circle, rgba(255,255,255,0) 0%, rgba(35,35,35,0.995) 69%), url('/img/games/headerBackground/{{ game.subBanner }}')";
+                            document.getElementById('lp-page4').style.backgroundImage = "radial-gradient(circle, rgba(0,0,0,0.35) 0%, rgba(35,35,35,0.995) 69%), url('/img/games/headerBackground/{{ game.subBanner }}')";
                             document.getElementById('lp-page4').classList.add("lp-gameHeader-fadeIn");
                         }, 500);
 

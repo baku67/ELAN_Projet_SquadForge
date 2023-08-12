@@ -1581,12 +1581,14 @@ header {
 }
 
 #cleanGameSelected {
-    color: black;
+    color: rgb(216, 216, 216);
     position: relative;
     top: 1px;
     opacity: 1;
     padding: 0 14px;
     border-radius: 5px;
+
+    text-shadow: rgba(116, 200, 20, 0) -0px -0px 0px, rgba(116, 200, 20, 0) 0px -0px 0px, rgba(116, 200, 20, 0) -0px 0px 0px, rgba(116, 200, 20, 0) 0px 0px 0px;
 
     transition: all 0.3s;
 }
@@ -1779,7 +1781,7 @@ header {
 }
 
 .lp-page4-cardTopics:hover {
-    border: 13px solid #f97b2c;
+    border: 8px solid #f97b2c;
     color: #f97b2c;
     border-radius: 0px;
     background-color: rgba(255, 255, 255, 0);
@@ -1787,7 +1789,7 @@ header {
     backdrop-filter: blur(44px) grayscale(1);
 }
 .lp-page4-cardMedias:hover {
-    border: 13px solid #f97b2c;
+    border: 8px solid #f97b2c;
     color: #f97b2c;
     border-radius: 0px;
     background-color: rgba(255, 255, 255, 0);
