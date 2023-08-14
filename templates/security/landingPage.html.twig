@@ -787,8 +787,12 @@
                         }, 350);
 
 
+
                         // Btn suppression du filtre gameSelected:
                         document.getElementById('cleanGameSelected').addEventListener('click', () => {
+
+                            // Suppression lien jeu selectionné (TODO: remettre le scroll)
+                            document.getElementById('lp-page4-titleLink').setAttribute('href', '');
 
                             // Evite le click sur le lien de la div parente:
                             event.preventDefault();
@@ -838,7 +842,6 @@
                             document.getElementById('lp-page4-selectedGameTitle').innerHTML = "<i class='fa-solid fa-arrow-up' style='margin:0 15px; color:#707070;'></i>Sélectionnez un jeu pour filtrer";
                             document.getElementById('lp-page4-selectedGameTitle').classList.remove("lp-page4-selectedGameTitle");
                             document.getElementById('lp-page4-selectedGameTitle').style.textShadow = "rgba(116, 200, 20, 0) -0px -0px 0px, rgba(116, 200, 20, 0) 0px -0px 0px, rgba(116, 200, 20, 0) -0px 0px 0px, rgba(116, 200, 20, 0) 0px 0px 0px";
-                            document.getElementById('lp-page4-selectedGameTitle').classList.add("lp-page4-titleDiv");
 
                             document.getElementById('lp-page3-slide0{{ index }}').classList.add('lp-gameCard-boxShadow');
                             setTimeout(() => {
@@ -960,7 +963,7 @@
                                     let content = "";
 
                                     data.topics.forEach(element => {
-                                        content += "<li class='searchLine'><a class='searchLineLink' href='/topicDetail/" + element.id + "'>" + element.title + "</a></li>";
+                                        content += "<li class='searchLine' style='border-color:" + element.color + "'><a class='searchLineLink' href='/topicDetail/" + element[0].id + "'>" + element[0].title + "</a></li>";
                                     }); 
                                     document.getElementById('lp-searchResultTopicsList').innerHTML = content;
                                 } 
@@ -973,7 +976,7 @@
                                     let content = "";
 
                                     data.medias.forEach(element => {
-                                        content += "<li class='searchLine'><a class='searchLineLink' href='/mediaDetail/" + element.id + "'>" + element.title + "</a></li>";
+                                        content += "<li class='searchLine' style='border-color:" + element.color + "'><a class='searchLineLink' href='/mediaDetail/" + element[0].id + "'>" + element[0].title + "</a></li>";
                                     }); 
                                     document.getElementById('lp-searchResultMediasList').innerHTML = content;
                                 } 
@@ -986,7 +989,7 @@
                                     let content = "";
 
                                     data.teams.forEach(element => {
-                                        content += "<li class='searchLine'><a class='searchLineLink' href='/groupDetails/" + element.id + "'>" + element.title + "</a></li>";
+                                        content += "<li class='searchLine' style='border-color:" + element.color + "'><a class='searchLineLink' href='/groupDetails/" + element[0].id + "'>" + element[0].title + "</a></li>";
                                     }); 
                                     document.getElementById('lp-searchResultTeamsList').innerHTML = content;
                                 } 
@@ -999,7 +1002,7 @@
                                     let content = "";
 
                                     data.games.forEach(element => {
-                                        content += "<li class='searchLine'><a class='searchLineLink' href='/game/" + element.id + "'>" + element.title + "</a></li>";
+                                        content += "<li class='searchLine' style='border-color:" + element.color + "'><a class='searchLineLink' href='/game/" + element.id + "'><span>" + element.title + "</span><img class='lp-search-gameLogo' src='./img/games/tinyLogo/" + element.tinyLogo + "'></a></li>";
                                     }); 
                                     document.getElementById('lp-searchResultGamesList').innerHTML = content;
                                 } 
