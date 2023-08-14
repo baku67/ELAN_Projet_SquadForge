@@ -1614,6 +1614,13 @@ header {
     color: white;
 }
 
+.ellipsed {
+    display: inline-block;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
 .searchLineLink {
     width: 100%;
     display: inline-flex;

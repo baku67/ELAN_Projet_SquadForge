@@ -153,7 +153,7 @@
                         <a class="groupCard" href="{{ path('app_groupDetails', {'groupId': userTeam.id } ) }}" style="position:relative;">
                             <div>
                                 <img src="{{ asset('img/games/tinyLogo/' ~ userTeam.game.tinyLogo) }}" class="tinyLogoTeam">
-                                <h5 class="teamCardTitle" style="background-color: {{ userTeam.game.color }}; color:{{ userTeam.game.fontColor }};">
+                                <h5 title="{{ userTeam.title }}" class="teamCardTitle" style="background-color: {{ userTeam.game.color }}; color:{{ userTeam.game.fontColor }};">
                                     {{ userTeam.title }} 
                                 </h5>
                             </div>
@@ -182,7 +182,7 @@
 
                 {% for topic in lastTopics %}
                     <a href="{{ path('app_topicDetail', {'id': topic.id}) }}">
-                        <div class="topicCard" style="border-bottom: 4px solid {{ topic.game.color }}">
+                        <div title="{{ topic.title|capitalize }}" class="topicCard" style="border-bottom: 4px solid {{ topic.game.color }}">
                             <img class="tinyLogo" src="{{ asset('img/games/tinyLogo/' ~ topic.game.tinyLogo) }}" />
                             <span class="topicTitle">{{ topic.title|capitalize }}</span>
                             <div class="topicCardSubInfos">
@@ -236,7 +236,7 @@
                                 {% if app.user and not app.user.autoPlayGifs %}
                                 <a href="{{ path('app_mediaDetail', {'id': media.id}) }}">
                                 {% endif %}
-                                <div class="mediaCardHeader" style="border-bottom: 5px solid {{ media.game.color }}">
+                                <div class="mediaCardHeader" title="{{ media.title|capitalize }}" style="border-bottom: 5px solid {{ media.game.color }}">
                                     <img class="tinyLogo" src="{{ asset('img/games/tinyLogo/' ~ media.game.tinyLogo) }}" />
                                     <span class="mediaTitle">{{ media.title|capitalize }}</span>
                                     {# <span>{{ media.status }}</span>

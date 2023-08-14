@@ -963,7 +963,7 @@
                                     let content = "";
 
                                     data.topics.forEach(element => {
-                                        content += "<li class='searchLine' style='border-color:" + element.color + "'><a class='searchLineLink' href='/topicDetail/" + element[0].id + "'><img class='lp-search-gameLogo' src='./img/games/tinyLogo/" + element.tinyLogo + "'>" + element[0].title + "</a></li>";
+                                        content += "<li title='" + element[0].title + "' class='searchLine' style='border-color:" + element.color + "'><a class='searchLineLink' href='/topicDetail/" + element[0].id + "'><img class='lp-search-gameLogo' src='./img/games/tinyLogo/" + element.tinyLogo + "'><span class='ellipsed'>" + element[0].title + "</span></a></li>";
                                     }); 
                                     document.getElementById('lp-searchResultTopicsList').innerHTML = content;
                                 } 
@@ -976,7 +976,7 @@
                                     let content = "";
 
                                     data.medias.forEach(element => {
-                                        content += "<li class='searchLine' style='border-color:" + element.color + "'><a class='searchLineLink' href='/mediaDetail/" + element[0].id + "'><img class='lp-search-gameLogo' src='./img/games/tinyLogo/" + element.tinyLogo + "'>" + element[0].title + "</a></li>";
+                                        content += "<li title='" + element[0].title + "' class='searchLine' style='border-color:" + element.color + "'><a class='searchLineLink' href='/mediaDetail/" + element[0].id + "'><img class='lp-search-gameLogo' src='./img/games/tinyLogo/" + element.tinyLogo + "'><span class='ellipsed'>" + element[0].title + "</span></a></li>";
                                     }); 
                                     document.getElementById('lp-searchResultMediasList').innerHTML = content;
                                 } 
@@ -989,7 +989,7 @@
                                     let content = "";
 
                                     data.teams.forEach(element => {
-                                        content += "<li class='searchLine' style='border-color:" + element.color + "'><a class='searchLineLink' href='/groupDetails/" + element[0].id + "'><img class='lp-search-gameLogo' src='./img/games/tinyLogo/" + element.tinyLogo + "'>" + element[0].title + "</a></li>";
+                                        content += "<li title='" + element[0].title + "' class='searchLine' style='border-color:" + element.color + "'><a class='searchLineLink' href='/groupDetails/" + element[0].id + "'><img class='lp-search-gameLogo' src='./img/games/tinyLogo/" + element.tinyLogo + "'><span class='ellipsed'>" + element[0].title + "</span></a></li>";
                                     }); 
                                     document.getElementById('lp-searchResultTeamsList').innerHTML = content;
                                 } 
@@ -1002,7 +1002,7 @@
                                     let content = "";
 
                                     data.games.forEach(element => {
-                                        content += "<li class='searchLine' style='border-color:" + element.color + "'><a class='searchLineLink' href='/game/" + element.id + "'><span>" + element.title + "</span><img class='lp-search-gameLogo' src='./img/games/tinyLogo/" + element.tinyLogo + "'></a></li>";
+                                        content += "<li title='" + element.title + "' class='searchLine' style='border-color:" + element.color + "'><a class='searchLineLink' href='/game/" + element.id + "'><img class='lp-search-gameLogo' src='./img/games/tinyLogo/" + element.tinyLogo + "'><span class='ellipsed'>" + element.title + "</span></a></li>";
                                     }); 
                                     document.getElementById('lp-searchResultGamesList').innerHTML = content;
                                 } 
