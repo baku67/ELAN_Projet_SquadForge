@@ -963,7 +963,7 @@
                                     let content = "";
 
                                     data.topics.forEach(element => {
-                                        content += "<li class='searchLine' style='border-color:" + element.color + "'><a class='searchLineLink' href='/topicDetail/" + element[0].id + "'>" + element[0].title + "</a></li>";
+                                        content += "<li class='searchLine' style='border-color:" + element.color + "'><a class='searchLineLink' href='/topicDetail/" + element[0].id + "'><img class='lp-search-gameLogo' src='./img/games/tinyLogo/" + element.tinyLogo + "'>" + element[0].title + "</a></li>";
                                     }); 
                                     document.getElementById('lp-searchResultTopicsList').innerHTML = content;
                                 } 
@@ -976,7 +976,7 @@
                                     let content = "";
 
                                     data.medias.forEach(element => {
-                                        content += "<li class='searchLine' style='border-color:" + element.color + "'><a class='searchLineLink' href='/mediaDetail/" + element[0].id + "'>" + element[0].title + "</a></li>";
+                                        content += "<li class='searchLine' style='border-color:" + element.color + "'><a class='searchLineLink' href='/mediaDetail/" + element[0].id + "'><img class='lp-search-gameLogo' src='./img/games/tinyLogo/" + element.tinyLogo + "'>" + element[0].title + "</a></li>";
                                     }); 
                                     document.getElementById('lp-searchResultMediasList').innerHTML = content;
                                 } 
@@ -989,7 +989,7 @@
                                     let content = "";
 
                                     data.teams.forEach(element => {
-                                        content += "<li class='searchLine' style='border-color:" + element.color + "'><a class='searchLineLink' href='/groupDetails/" + element[0].id + "'>" + element[0].title + "</a></li>";
+                                        content += "<li class='searchLine' style='border-color:" + element.color + "'><a class='searchLineLink' href='/groupDetails/" + element[0].id + "'><img class='lp-search-gameLogo' src='./img/games/tinyLogo/" + element.tinyLogo + "'>" + element[0].title + "</a></li>";
                                     }); 
                                     document.getElementById('lp-searchResultTeamsList').innerHTML = content;
                                 } 
