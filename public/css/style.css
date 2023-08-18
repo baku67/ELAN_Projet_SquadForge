@@ -1614,6 +1614,11 @@ header {
     color: white;
 }
 
+.registerRestriction {
+    font-family: 'K2D', sans-serif;
+    color:red;
+}
+
 .ellipsed {
     display: inline-block;
     white-space: nowrap;

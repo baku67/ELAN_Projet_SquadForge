@@ -37,6 +37,7 @@ class RegistrationController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
 
             $user->setAutoPlayGifs(true);
+            $user->setNbrCensures(0);
 
             // encode the plain password
             $user->setPassword(

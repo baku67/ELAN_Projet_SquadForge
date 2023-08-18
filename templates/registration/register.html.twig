@@ -16,7 +16,7 @@
             <div class="alert alert-danger danger" role="alert">{{ flash_error }}</div>
         {% endfor %}
 
-        <h1>Register</h1>
+        <h1>S'inscrire</h1>
 
         {{ form_start(registrationForm) }}
             {{ form_row(registrationForm.email) }}
@@ -24,14 +24,105 @@
             {{ form_row(registrationForm.plainPassword, {
                 label: 'Password'
             }) }}
+            <span>Votre mot de passe doit comporter:</span>
+            <ul>
+                <li id="registerRestriction-nbrChar" class="registerRestriction">- Au moins 12 caractères</li>
+                <li id="registerRestriction-nbrMaj" class="registerRestriction">- Au moins 1 majuscule</li>
+                <li id="registerRestriction-nbrMin" class="registerRestriction">- Au moins 1 minuscule</li>
+                <li id="registerRestriction-nbrNum" class="registerRestriction">- Au moins 1 chiffre</li>
+                <li id="registerRestriction-nbrSpecial" class="registerRestriction">- Au moins 1 caractère spécial</li>
+                <li id="registerRestriction-passwordMatch" class="registerRestriction">- Les mots de passe doivent correspondre</li>
+            </ul>
             {{ form_row(registrationForm.agreeTerms) }}
-
-            <button type="submit" class="btn btn-primary">Register</button>
         {{ form_end(registrationForm) }}
 
         <a href="{{ path('app_login') }}">Se connecter</a>
 
     </div>
+
+    <script>
+        window.onload = function() {
+            
+            document.getElementById('registration_form_plainPassword_first').addEventListener('input', function() {
+
+                var input = document.getElementById('registration_form_plainPassword_first').value;
+                
+                // Check 12 char:
+                const nbrCharResult = /.{12,}/.test(input);
+                if(nbrCharResult) {
+                    document.getElementById('registerRestriction-nbrChar').style.color = 'green';
+                }
+                else {
+                    document.getElementById('registerRestriction-nbrChar').style.color = 'red';
+                }
+
+                // Check 1 Minuscule:
+                const nbrMinResult = /[a-z]/.test(input);
+                if(nbrMinResult) {
+                    document.getElementById('registerRestriction-nbrMin').style.color = 'green';
+                }
+                else {
+                    document.getElementById('registerRestriction-nbrMin').style.color = 'red';
+                }
+
+                // Check 1 Majuscule:
+                const nbrMajResult = /[A-Z]/.test(input);
+                if(nbrMajResult) {
+                    document.getElementById('registerRestriction-nbrMaj').style.color = 'green';
+                }
+                else {
+                    document.getElementById('registerRestriction-nbrMaj').style.color = 'red';
+                }
+
+                // Check 1 chiffre:
+                const nbrNumResult = /[0-9]/.test(input);
+                if(nbrNumResult) {
+                    document.getElementById('registerRestriction-nbrNum').style.color = 'green';
+                }
+                else {
+                    document.getElementById('registerRestriction-nbrNum').style.color = 'red';
+                }
+
+                // Check 1 Special char:
+                const nbrSpecialResult = /[$?*@!#%&()^~{}]/.test(input);
+                if(nbrSpecialResult) {
+                    document.getElementById('registerRestriction-nbrSpecial').style.color = 'green';
+                }
+                else {
+                    document.getElementById('registerRestriction-nbrSpecial').style.color = 'red';
+                }
+
+
+                // Check match des password (à déplacer en dehors du eventListener input):
+                var passwordsMatches = false;
+                if(document.getElementById('registration_form_plainPassword_first').value == document.getElementById('registration_form_plainPassword_second').value) {
+                    document.getElementById('registerRestriction-passwordMatch').style.color = 'green';
+                    passwordsMatches = true;
+                    console.log('matche password!');
+                }
+                else {
+                    document.getElementById('registerRestriction-passwordMatch').style.color = 'red';
+                    passwordsMatches = false;
+                    console.log('not matche password!');
+                }
+
+                // TEST
+                // console.log(document.getElementById('registration_form_plainPassword_first').value);
+                // console.log(document.getElementById('registration_form_plainPassword_second').value);
+
+
+                // Activation du bouton si critères remplis:
+                if(passwordsMatches && nbrCharResult && nbrMinResult && nbrMajResult && nbrNumResult && nbrSpecialResult) {
+                    document.getElementById('registration_form_submit').disabled = false;
+                }
+                else {
+                    document.getElementById('registration_form_submit').disabled = true;
+                }
+
+            })
+
+        }
+    </script>
 
 
 {% endblock %}
