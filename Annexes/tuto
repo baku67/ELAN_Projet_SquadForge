@@ -1,3 +1,6 @@
+PRIO: LandingPage: quand remove (X) gameFilter => le filtre game repop pas 
+- La croix clean input à mettre dans le champ à droite
+
 Ajouter la fonction delayedSearch() lors d'un gameSelected et lors d'un toggle de filtre pour reprock la search
 
 Mettre mettre page 2 (twitch/mockup) en derniere page 

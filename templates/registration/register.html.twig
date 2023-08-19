@@ -16,27 +16,49 @@
             <div class="alert alert-danger danger" role="alert">{{ flash_error }}</div>
         {% endfor %}
 
-        <h1>S'inscrire</h1>
+        <h1>Rejoignez la communauté !</h1>
 
-        {{ form_start(registrationForm) }}
-            {{ form_row(registrationForm.email) }}
-            {{ form_row(registrationForm.pseudo) }}
-            {{ form_row(registrationForm.plainPassword, {
-                label: 'Password'
-            }) }}
-            <span>Votre mot de passe doit comporter:</span>
-            <ul>
-                <li id="registerRestriction-nbrChar" class="registerRestriction">- Au moins 12 caractères</li>
-                <li id="registerRestriction-nbrMaj" class="registerRestriction">- Au moins 1 majuscule</li>
-                <li id="registerRestriction-nbrMin" class="registerRestriction">- Au moins 1 minuscule</li>
-                <li id="registerRestriction-nbrNum" class="registerRestriction">- Au moins 1 chiffre</li>
-                <li id="registerRestriction-nbrSpecial" class="registerRestriction">- Au moins 1 caractère spécial</li>
-                <li id="registerRestriction-passwordMatch" class="registerRestriction">- Les mots de passe doivent correspondre</li>
-            </ul>
-            {{ form_row(registrationForm.agreeTerms) }}
-        {{ form_end(registrationForm) }}
+        <div style="display:inline-flex; width:100%; margin-top:30px;">
+            <div class="registerLeftDiv">
 
-        <a href="{{ path('app_login') }}">Se connecter</a>
+                {{ form_start(registrationForm) }}
+                    {{ form_row(registrationForm.email) }}
+                    {{ form_row(registrationForm.pseudo) }}
+                    {{ form_row(registrationForm.plainPassword, {
+                        label: 'Password'
+                    }) }}
+                    
+                    {{ form_row(registrationForm.agreeTerms) }}
+                {{ form_end(registrationForm) }}
+
+                <a href="{{ path('app_login') }}">Se connecter</a>
+
+            </div>
+
+            <div class="registerRightDiv">
+
+                <div style="position:relative; display:flex; width:70%; font-family:'K2D', sans-serif; margin:0 auto;">
+                    <p style="padding-right:70px; font-size: 1.2em;">Créé un compte pour personaliser le contenu du site, pour t'exprimer, participer, et rejoindre ou créer une team qui te correspond !</p>
+                    <div class="registerRightShape"></div>
+                </div>
+
+                <div style="display:flex; justify-content:center; margin: 20px 0;">
+                    <div class="register_restrictionsDiv">
+                        <span>Votre mot de passe doit comporter:</span>
+                        <ul style="line-height:20px; margin-top:8px;">
+                            <li id="registerRestriction-nbrChar" class="registerRestriction">- Au moins 12 caractères</li>
+                            <li id="registerRestriction-nbrMaj" class="registerRestriction">- Au moins 1 majuscule</li>
+                            <li id="registerRestriction-nbrMin" class="registerRestriction">- Au moins 1 minuscule</li>
+                            <li id="registerRestriction-nbrNum" class="registerRestriction">- Au moins 1 chiffre</li>
+                            <li id="registerRestriction-nbrSpecial" class="registerRestriction">- Au moins 1 caractère spécial</li>
+                            <li id="registerRestriction-passwordMatch" class="registerRestriction">- Les mots de passe doivent correspondre</li>
+                        </ul>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
 
     </div>
 

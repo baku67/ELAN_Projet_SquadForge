@@ -1590,6 +1590,35 @@ header {
     margin: 23px auto;
 }
 
+.register_restrictionsDiv {
+    /* line-height: 15px; */
+    /* padding: 10px 15px 0px 15px; */
+    border-top: 1px solid grey;
+    padding: 30px 47px 0px 47px;
+    width: fit-content;
+}
+
+.registerLeftDiv {
+    width: 50%;
+    margin: 25px;;
+}
+
+.registerRightDiv {
+    width: 50%;
+}
+
+
+.registerRightShape {
+    clip-path: polygon(100% 11%, 46% 100%, 100% 100%);
+    background-color: var(--primary-color);
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    width: 144px;
+    height: 65px;
+    opacity: 0.4;
+}
+
 #lp-teamsCardGameSelected {
     width: 100%;
 }
