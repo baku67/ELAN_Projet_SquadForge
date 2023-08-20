@@ -1611,6 +1611,10 @@ header {
 }
 
 
+#registerPseudoCriteria {
+    display: none;
+}
+
 .registerRightShape {
     clip-path: polygon(100% 0, 72% 100%, 100% 100%);
     background-color: var(--primary-color);

@@ -21,6 +21,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
+use Symfony\Component\HttpFoundation\JsonResponse;
 
 class SecurityController extends AbstractController
 {
@@ -212,5 +213,33 @@ class SecurityController extends AbstractController
             'testToken' => $session->get('token'),
             'testGetCodeParam' => $request->query->get('code'),
         ]);
+    }
+
+
+
+    // /registerForm: Ajax check Pseudo available critère front
+    #[Route(path: '/checkPseudoAvailable/{inputPseudo}', name: 'app_checkPseudoAvailable')]
+    public function checkPseudoAvailable(EntityManagerInterface $entityManager, Request $request, string $inputPseudo): Response
+    {
+
+        $userRepo = $entityManager->getRepository(User::class);
+        $checkPseudo = $userRepo->findBy(['pseudo' => $inputPseudo]);
+
+        if($checkPseudo) {
+            $pseudoAvailable = false;
+        }
+        else {
+            $pseudoAvailable = true;
+        }
+
+        
+        return new JsonResponse(
+            [
+                'success' => true,
+                'pseudoAvailable' => $pseudoAvailable
+            ]
+        );
+
+
     }
 }
