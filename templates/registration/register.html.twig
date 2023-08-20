@@ -21,29 +21,38 @@
         <div style="display:inline-flex; width:100%; margin-top:30px;">
             <div class="registerLeftDiv">
 
-                {{ form_start(registrationForm) }}
-                    {{ form_row(registrationForm.email) }}
-                    {{ form_row(registrationForm.pseudo) }}
-                    {{ form_row(registrationForm.plainPassword, {
-                        label: 'Password'
-                    }) }}
-                    
-                    {{ form_row(registrationForm.agreeTerms) }}
-                {{ form_end(registrationForm) }}
+                <div style="width:95%; margin:0 auto; padding:20px 40px; border:2px solid #f97b2c61; background-color: #f97b2c0a; border-radius:7px;">
+                    {{ form_start(registrationForm) }}
+                        {{ form_row(registrationForm.email) }}
+                        {{ form_row(registrationForm.pseudo) }}
+                        {{ form_row(registrationForm.plainPassword, {
+                            label: 'Password'
+                        }) }}
+                        
+                        {{ form_row(registrationForm.agreeTerms) }}
+                    {{ form_end(registrationForm) }}
 
-                <a href="{{ path('app_login') }}">Se connecter</a>
+                    <a href="{{ path('app_login') }}">Se connecter</a>
+                </div>
 
+                
             </div>
 
             <div class="registerRightDiv">
 
-                <div style="position:relative; display:flex; width:70%; font-family:'K2D', sans-serif; margin:0 auto;">
-                    <p style="padding-right:70px; font-size: 1.2em;">Créé un compte pour personaliser le contenu du site, pour t'exprimer, participer, et rejoindre ou créer une team qui te correspond !</p>
+                <div style="position:relative; display:flex; width:85%; font-family:'K2D', sans-serif; margin:0 auto;">
+                    <p style="padding-right:35px; font-size:1.2em; margin-block-end:0;">Créé un compte pour personaliser le contenu du site, pour t'exprimer, participer, et rejoindre ou créer une team qui te correspond !</p>
                     <div class="registerRightShape"></div>
                 </div>
 
-                <div style="display:flex; justify-content:center; margin: 20px 0;">
+                <div style="display:flex; justify-content:center; margin:40px 0;">
+
                     <div class="register_restrictionsDiv">
+
+                        <span class="registerRestriction">- Votre email doit être valide</span>
+
+                        <span class="registerRestriction">- Le pseudo choisi est déjà utilisé</span>
+
                         <span>Votre mot de passe doit comporter:</span>
                         <ul style="line-height:20px; margin-top:8px;">
                             <li id="registerRestriction-nbrChar" class="registerRestriction">- Au moins 12 caractères</li>
@@ -54,6 +63,7 @@
                             <li id="registerRestriction-passwordMatch" class="registerRestriction">- Les mots de passe doivent correspondre</li>
                         </ul>
                     </div>
+
                 </div>
 
             </div>
@@ -62,89 +72,9 @@
 
     </div>
 
-    <script>
-        window.onload = function() {
-            
-            document.getElementById('registration_form_plainPassword_first').addEventListener('input', function() {
-
-                var input = document.getElementById('registration_form_plainPassword_first').value;
-                
-                // Check 12 char:
-                const nbrCharResult = /.{12,}/.test(input);
-                if(nbrCharResult) {
-                    document.getElementById('registerRestriction-nbrChar').style.color = 'green';
-                }
-                else {
-                    document.getElementById('registerRestriction-nbrChar').style.color = 'red';
-                }
-
-                // Check 1 Minuscule:
-                const nbrMinResult = /[a-z]/.test(input);
-                if(nbrMinResult) {
-                    document.getElementById('registerRestriction-nbrMin').style.color = 'green';
-                }
-                else {
-                    document.getElementById('registerRestriction-nbrMin').style.color = 'red';
-                }
-
-                // Check 1 Majuscule:
-                const nbrMajResult = /[A-Z]/.test(input);
-                if(nbrMajResult) {
-                    document.getElementById('registerRestriction-nbrMaj').style.color = 'green';
-                }
-                else {
-                    document.getElementById('registerRestriction-nbrMaj').style.color = 'red';
-                }
-
-                // Check 1 chiffre:
-                const nbrNumResult = /[0-9]/.test(input);
-                if(nbrNumResult) {
-                    document.getElementById('registerRestriction-nbrNum').style.color = 'green';
-                }
-                else {
-                    document.getElementById('registerRestriction-nbrNum').style.color = 'red';
-                }
-
-                // Check 1 Special char:
-                const nbrSpecialResult = /[$?*@!#%&()^~{}]/.test(input);
-                if(nbrSpecialResult) {
-                    document.getElementById('registerRestriction-nbrSpecial').style.color = 'green';
-                }
-                else {
-                    document.getElementById('registerRestriction-nbrSpecial').style.color = 'red';
-                }
-
-
-                // Check match des password (à déplacer en dehors du eventListener input):
-                var passwordsMatches = false;
-                if(document.getElementById('registration_form_plainPassword_first').value == document.getElementById('registration_form_plainPassword_second').value) {
-                    document.getElementById('registerRestriction-passwordMatch').style.color = 'green';
-                    passwordsMatches = true;
-                    console.log('matche password!');
-                }
-                else {
-                    document.getElementById('registerRestriction-passwordMatch').style.color = 'red';
-                    passwordsMatches = false;
-                    console.log('not matche password!');
-                }
-
-                // TEST
-                // console.log(document.getElementById('registration_form_plainPassword_first').value);
-                // console.log(document.getElementById('registration_form_plainPassword_second').value);
-
-
-                // Activation du bouton si critères remplis:
-                if(passwordsMatches && nbrCharResult && nbrMinResult && nbrMajResult && nbrNumResult && nbrSpecialResult) {
-                    document.getElementById('registration_form_submit').disabled = false;
-                }
-                else {
-                    document.getElementById('registration_form_submit').disabled = true;
-                }
-
-            })
-
-        }
-    </script>
+    {% block javascripts %}
+        <script src="{{ asset('js/registerPage.js') }}"></script>
+    {% endblock %}
 
 
 {% endblock %}

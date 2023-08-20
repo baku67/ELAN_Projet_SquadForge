@@ -1,22 +1,24 @@
+En cours: le details des champ input d'adapte si champ != "", et sections validé, email, mdp, agree terms
+
+BACKEND sécu /REGISTER: email/mdp validation; agree terms, confirm email, vérif pseudo unique, etc...
+
 PRIO: LandingPage: quand remove (X) gameFilter => le filtre game repop pas 
 - La croix clean input à mettre dans le champ à droite
 
+Header forms inscriptionFrom, listes, etc (trop basique)
+
 Ajouter la fonction delayedSearch() lors d'un gameSelected et lors d'un toggle de filtre pour reprock la search
 
-Mettre mettre page 2 (twitch/mockup) en derniere page 
+footer avec des liens internes
+
+
+
 
 TODO: Fix media Masonry W3school
 
-
-
 TODO: "/routes/999" : créer page 404
 
-
-FRONT: mettre splider sur liste jeux favoris (et memes cards games)
-
-
 AJOUTER VERIF BACKEND:
-nom de team déjà pris (ajax)
 "vous n'êtes pas disponible pour cette session, vous êtes déjà enregistré pour la session {titre} {date}
 
 
@@ -24,33 +26,27 @@ https://fullcalendar.io/docs
 Bouton pour switcher entre les différent affichage de FullCalendar (month, multi-month,... default:week)
 
 
-
 Gérer les listes: notifs/media/topics par exemple: load onScroll ?
 
 
 
-
-
-
-footer avec des liens internes
+Meta tags, SEO
 Mots, descriptifs avec strong landingPage (pour referencement)
 
+
+
+Pas prio: 
 topics "sondages"
-
-LandingPage: barre de recherche globale (cherche dans Topics, Medias, game, et group)
-
-annulation filtre jeux landing page: si re-click sur gameCard (check si classList.contains) + bouton sur page 4
-
-Chat interne groupe (img/gif/files/text)
 Games Roles possibles
+Chat interne groupe (img/gif/files/text)
 Img custom Team + Avatar pool img ?
 
 
 
+
+
+
 Anim loading en attendant media.load (et topics etc) + avec Ajax .complete
-
-
-userAvatars (banque interne ?)
 
 
 GameRoles optionnels: exemple

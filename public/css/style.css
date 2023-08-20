@@ -1596,11 +1596,14 @@ header {
     border-top: 1px solid grey;
     padding: 30px 47px 0px 47px;
     width: fit-content;
+    display: inline-flex;
+    flex-direction: column;
 }
 
 .registerLeftDiv {
-    width: 50%;
-    margin: 25px;;
+    font-family: 'K2D', sans-serif;
+    width: 70%;
+    margin: 25px;
 }
 
 .registerRightDiv {
@@ -1609,15 +1612,22 @@ header {
 
 
 .registerRightShape {
-    clip-path: polygon(100% 11%, 46% 100%, 100% 100%);
+    clip-path: polygon(100% 0, 72% 100%, 100% 100%);
     background-color: var(--primary-color);
     position: absolute;
     bottom: 0;
     right: 0;
-    width: 144px;
-    height: 65px;
-    opacity: 0.4;
+    width: 200px;
+    height: 85px;
+    opacity: 0.8;
+
+    background: rgb(249,123,44);
+    background: -moz-linear-gradient(305deg, rgba(249,123,44,0.5900735294117647) 0%, rgba(255,255,255,0) 21%);
+    background: -webkit-linear-gradient(305deg, rgba(249,123,44,0.5900735294117647) 0%, rgba(255,255,255,0) 21%);
+    background: linear-gradient(305deg, rgba(249,123,44,0.5900735294117647) 0%, rgba(255,255,255,0) 21%);
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#f97b2c",endColorstr="#ffffff",GradientType=1);
 }
+
 
 #lp-teamsCardGameSelected {
     width: 100%;
