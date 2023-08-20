@@ -11,7 +11,7 @@
             {% if app.user %}
                 <a href="{{ path('app_userGroups') }}" style="color:white">TEAMS</a>
                 <a href="{{ path('app_showNotifsList') }}">
-                    <div style="position:relative; margin-right:10px;">
+                    <div class="navNotifDiv">
                         <i class="fa-solid fa-bell notifBell"></i>
                         {# Bulle newNotifCount si > 0#}
                         {% if userNotifCount > 0 %}

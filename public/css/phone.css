@@ -129,9 +129,12 @@
     .lp-gameCard {
         margin: 0px 0px;
         width: 60%;
-        height: 100%;
+        /* height: 100%; */
+        height: 80px;
         border-top-right-radius: 0px;
         border-bottom-right-radius: 0px;
+
+
     }
 
     .lp-page3-containerMaster {
@@ -140,9 +143,98 @@
         border-bottom: 1px solid white; */
     }
     .lp-page3-container {
+        padding: 0 5px;
         margin: 0 auto;
     }
+
+
+    .main {
+        width: 92%;
+    }
+
+
+    .greetingMsg {
+        font-size: 1.4em;
+        margin: 0px auto;
+    }
+
+    .logoPng {
+        padding: 0;
+        margin: 0;
+        margin-top: 3px;
+        width: 100px;
+
+        transform: scale(0.95);
+    }
+    .navLine {
+        font-size: 0.7em;
+    }
+
+    .marginBottomHeaderLine  {
+        margin-bottom: 0px;
+    }
+
+    .sectionHomeContainer {
+        margin: 33px auto;
+    }
+
+    .authenticationDiv {
+        padding-top: 0px;
+    }
+
+    .profil {
+        font-size: 0.70em;
+        padding: 5px 14px 5px 20px;
+    }
+
+    .decoBtn {
+        font-size: 0.9em;
+        padding: 2px 8px 5px 12px;
+    }
+
+    .navNotifDiv {
+        margin-right:0px;
+    } 
+
+    .navLine * {
+        margin: 0 3px;
+    }
+
+    nav {
+        padding-right: 4px;
+    }
+
+    .topicList {
+        width: 100%;
+    }
+    .sectionHomeContent {
+        padding: 30px 5px 20px 5px;
+    }
+
+    .masonry-grid {
+        width: 100%;
+    }
+
+    .headerGameTitle {
+        padding-left: 36px;
+        padding-right: 14px;
+        padding-top: 4px;
+        padding-bottom: 0px;
+        bottom: 23px;
+        right: 0;
+        font-size: 1em;
+        border-right: 5px solid #74c814;
+    }
+
+    .gameHeaderInfosContent {
+        padding:5px;
+    }
     
+    .gameTitle h2 {
+        font-size: 2.6em;
+        font-weight: 200;
+    }
+
     #lp-scrollBtn {
         animation: fadeIn 0.5s 0.5s ease forwards;
     }

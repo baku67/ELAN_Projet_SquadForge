@@ -1496,6 +1496,8 @@ header {
 
 .lp-gameCardTitlePhone {
     display: none;
+    padding: 3px;
+
 }
 
 #lp-page4-cardTeams {
@@ -1613,6 +1615,11 @@ header {
 
 #registerPseudoCriteria {
     display: none;
+}
+
+.navNotifDiv {
+    position:relative; 
+    margin-right:10px;
 }
 
 .registerRightShape {
@@ -2086,19 +2093,24 @@ nav {
     position: relative;
     z-index: 11;
 
-    width: 185px;
-    padding: 10px;
-    margin: 5px;
+    width: 165px;
+    padding: 6px;
+    margin: 0px;
 }
 
 .profil {
-    font-size: 0.75em;
+    font-size: 0.88em;
     color: rgb(255, 255, 255);
     padding: 5px 14px 5px 37px;
 }
 .decoBtn {
+    font-size: 0.88em;
     padding: 5px 14px;
     border-left: 1px solid rgba(160, 160, 160, 0.4);
+}
+
+.gameHeaderInfosContent {
+    padding:25px;
 }
 
 .genreGameList {
