@@ -3326,6 +3326,10 @@ h1, h2, h3, h4 {
 }
 
 
+.registerBtn {
+    text-align: right;
+}
+
 
 .gameHeaderInfos {
     position: relative;

@@ -45,13 +45,13 @@ class RegistrationFormType extends AbstractType
                 'invalid_message' => 'The password fields must match.',
                 'options' => ['attr' => ['class' => 'password-field form-control']],
                 'required' => true,
-                'first_options'  => ['label' => 'Password'],
-                'second_options' => ['label' => 'Repeat Password'],
+                'first_options'  => ['label' => 'Mot de passe'],
+                'second_options' => ['label' => 'Comfirmez le mot de passe'],
                 'required' => true,
             ])
             ->add('submit', SubmitType::class, [
                 'label' => 'S\'inscrire',
-                'attr' => ["class" => "btn btn-primary", "disabled" => true],
+                'attr' => ["class" => "btn btn-primary registerBtn", "disabled" => true],
             ]);
 
         ;
