@@ -192,7 +192,7 @@
 
                             {# Partie cachée de la reportCard (Ajax) #}
                             <div id="preview{{ index }}" class="notDisplayed">
-                                <div >
+                                <div class="reportContentDiv" style="">
                                     <p id="detailText{{ index }}" class="reportCardText"></p>
                                     <img id="detailImg{{ index }}" src="" class="reportDetailImg" >
                                     <div class="reportDateAndAuthorDiv">
@@ -362,7 +362,7 @@
 
                                     switch (response.objectType) {
                                         case "media":
-                                            document.getElementById('detailText{{ index }}').innerText = response.object["title"];
+                                            document.getElementById('detailText{{ index }}').innerHTML = "<i class='fa-solid fa-quote-left reportQuote'></i>" + response.object["title"] + "<i class='fa-solid fa-quote-right reportQuote'></i>";
                                             document.getElementById('detailPublishDate{{ index }}').innerText = publishDateDelay(response.object["date"]["date"]);
                                             // document.getElementById('detailGame{{ index }}').innerText = response.object["game"];
                                             document.getElementById('detailObjectAuthor{{ index }}').innerHTML = "par " + response.object["author"] + " (Censures: " + "<span class='strongNbr'>" + response.object["authorNbrCensures"] + "</span>)";
@@ -370,14 +370,14 @@
                                             break;
 
                                         case "topic":
-                                            document.getElementById('detailText{{ index }}').innerText = response.object["title"];
+                                            document.getElementById('detailText{{ index }}').innerHTML = "<i class='fa-solid fa-quote-left reportQuote'></i>" + response.object["title"] + "<i class='fa-solid fa-quote-right reportQuote'></i>";
                                             document.getElementById('detailPublishDate{{ index }}').innerText = publishDateDelay(response.object["date"]["date"]);
                                             // document.getElementById('detailGame{{ index }}').innerText = response.object["game"];
                                             document.getElementById('detailObjectAuthor{{ index }}').innerHTML = "par " + response.object["author"] + " (Censures: " + "<span class='strongNbr'>" + response.object["authorNbrCensures"] + "</span>)";
                                             break;
 
                                         case "topicPost":
-                                            document.getElementById('detailText{{ index }}').innerText = response.object["title"];
+                                            document.getElementById('detailText{{ index }}').innerHTML = "<i class='fa-solid fa-quote-left reportQuote'></i>" + response.object["title"] + "<i class='fa-solid fa-quote-right reportQuote'></i>";
                                             document.getElementById('detailPublishDate{{ index }}').innerText = publishDateDelay(response.object["date"]["date"]);
                                             // document.getElementById('detailGame{{ index }}').innerText = response.object["game"];
                                             document.getElementById('detailObjectAuthor{{ index }}').innerHTML = "par " + response.object["author"] + " (Censures: " + "<span class='strongNbr'>" + response.object["authorNbrCensures"] + "</span>)";

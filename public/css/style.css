@@ -4375,7 +4375,7 @@ cursor: pointer;
 }
 .reportPreviewBtn {
     border: 1px solid #b2ffdf79;
-    background-color: #e91e4d2f;
+    background-color: #991e3a1f;
     padding: 5px 10px;
     border-radius: 4px;
     width: 80%;
@@ -4383,10 +4383,13 @@ cursor: pointer;
 
     color: white;
 
-    transition: all 0.4s;
+    transition: all 0.3s;
 }
 .reportPreviewBtn:hover {
-    background-color: #e91e4d56;
+    /* background-color: #e91e4d56; */
+    border: 2px solid #b2ffdf79;
+    margin: 6px auto;
+
 }
 
 .reportPreviewFacticeTxt {
@@ -4434,7 +4437,21 @@ input:disabled {
 
 .reportCardText {
     margin: 8px auto 5px auto;
-    color: #ffc9c9;
+    background-color: #ffffff30;
+    padding: 10px auto 2px auto;
+}
+
+.reportContentDiv { 
+    background-color: #ffffff1c;
+    width: 95%;
+    margin: 12px auto;
+    padding: 5px 15px 10px 15px;
+    border-radius: 5px;
+}
+
+.reportQuote { 
+    margin: 0 10px;
+    font-size: 110%;
 }
 
 
