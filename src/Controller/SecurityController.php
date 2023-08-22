@@ -26,7 +26,11 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 class SecurityController extends AbstractController
 {
 
-    public function __construct(private RequestStack $requestStack){
+    private $notifController;
+
+    public function __construct(NotificationController $notifController, private RequestStack $requestStack) {
+
+        $this->notifController = $notifController;
     }
 
 
@@ -264,8 +268,75 @@ class SecurityController extends AbstractController
 
             $userToDelete = $this->getUser();
 
-            // anonymisation des publications de l'user:
+            // Gestion memberships
+            // Si après le leave, il reste des membre et que l'User était leader, passe le lead, si plus aucun membre: suppr le groupe
+            $groups = $userToDelete->getGroupes();
+            foreach ($groups as $group) {
 
+                // Suppression des inscriptions aux sessions de groupes:
+                $sessions = $userToDelete->getGroupSessionDispos();
+                foreach ($sessions as $session) {
+                    $userToDelete->removeGroupSessionDispo($session);
+                }
+
+                // Retire le membre du groupe:
+                $userToDelete->removeGroupe($group);
+                $entityManager->persist($userToDelete);
+
+                $this->notifController->notifMemberLeave($group, $this->getUser());
+
+                // Vérifs
+                $members = $group->getMembers();
+                if ($members->count() > 0) {
+                    if ( $group->getLeader() == $this->getUser() ) {
+
+                        $membersArray = $members->toArray();
+                        $randomIndex = array_rand($membersArray);
+                        $randomMember = $membersArray[$randomIndex];
+                        $group->setLeader($randomMember);
+                        // Envoi notif au nouveau leader
+                        $this->notifController->notifNewLeader($randomMember, $group);
+
+                        $entityManager->persist($group);
+
+                        $entityManager->flush(); 
+                    }
+                // Si apprès le leave, aucun membre: suppr le groupe
+                } 
+                else {
+                    $groupRepo->remove($group);
+                }
+            }
+
+
+
+
+            // Gestion publications
+            // anonymisation des publications de l'user => NULL (contenu gardé):
+            $topics = $userToDelete->getTopics();
+            foreach ($topics as $topic) {
+                $userToDelete->removeTopic($topic);
+            }
+
+            $medias = $userToDelete->getMedia();
+            foreach ($medias as $media) {
+                $userToDelete->removeMedia($media);
+            }
+
+
+            $topicPosts = $userToDelete->getTopicPosts();
+            foreach ($topicPosts as $topicPost) {
+                $userToDelete->removeTopicPost($topicPost);
+            }
+
+            $mediaPosts = $userToDelete->getMediaPosts();
+            foreach ($mediaPosts as $mediaPost) {
+                $userToDelete->removeMediaPost($mediaPost);
+            }
+
+            $entityManager->persist($userToDelete);
+            $entityManager->flush();
+            
 
 
             // Suppression User:

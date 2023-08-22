@@ -514,6 +514,10 @@ class GroupController extends AbstractController
         // Persist intermédiaire pour empecher repasser le lead random au user
         $entityManager->persist($group);
 
+        // Suppression des inscriptions aux sessions:
+        // $sessionDispos = $entityManager->getRepository(GroupSessionDispo::class);
+        // $sessions = $sessionDispo->findBy(["session" => $group, "member" => $this->getUser()]);
+
         // Notif aux autres membres (group(+membres), leaver)
         $this->notifController->notifMemberLeave($group, $this->getUser());
 

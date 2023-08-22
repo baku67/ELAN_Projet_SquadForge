@@ -113,7 +113,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(options: ['default' => 0])]
     private ?int $nbrCensures = null;
 
-    #[ORM\OneToMany(mappedBy: 'groupMember', targetEntity: GroupSessionDispo::class, orphanRemoval: true)]
+    #[ORM\OneToMany(mappedBy: 'member', targetEntity: GroupSessionDispo::class, orphanRemoval: true)]
     private Collection $groupSessionDispos;
 
     public function __construct()
@@ -793,7 +793,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     {
         if (!$this->groupSessionDispos->contains($groupSessionDispo)) {
             $this->groupSessionDispos->add($groupSessionDispo);
-            $groupSessionDispo->setGroupMember($this);
+            $groupSessionDispo->setMember($this);
         }
 
         return $this;
@@ -803,8 +803,8 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     {
         if ($this->groupSessionDispos->removeElement($groupSessionDispo)) {
             // set the owning side to null (unless already changed)
-            if ($groupSessionDispo->getGroupMember() === $this) {
-                $groupSessionDispo->setGroupMember(null);
+            if ($groupSessionDispo->getMember() === $this) {
+                $groupSessionDispo->setMember(null);
             }
         }
 

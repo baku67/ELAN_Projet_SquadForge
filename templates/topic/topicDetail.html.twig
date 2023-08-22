@@ -76,7 +76,13 @@
                 {% if app.user == topic.user %}
                     <span>par vous</span>
                 {% else  %}
-                    <span>par {{ topic.user.pseudo|capitalize }}</span>
+                    {% if topic.user %}
+                        <span>par {{ topic.user.pseudo|capitalize }}</span>
+                    {% else %}
+                        <span class="emptyListMsg">L'auteur n'existe plus</span>
+                    {% endif %}
+                    
+                    
                 {% endif %}
                 <span>{{ time_diff(topic.publishDate) }}</span>
             </div>
@@ -252,7 +258,12 @@
                                 {% if post.user == app.user %}
                                     <span class="postAuthorUser postSelf">Vous</span>
                                 {% else %}
-                                    <span class="postAuthorUser">{{ post.user.pseudo|capitalize }}</span>
+                                    {% if post.user %}
+                                        <span class="postAuthorUser">{{ post.user.pseudo|capitalize }}</span>
+                                    {% else %}
+                                        <span class="postAuthorUser emptyListMsg">L'utilisateur n'existe plus</span>
+                                    {% endif %}
+                                    
                                     <span class="postPublishDate">{{ time_diff(post.publishDate) }}</span>
                                     {% if post.text != "Le commentaire a été supprimé" %}
                                         {% if app.user %}
