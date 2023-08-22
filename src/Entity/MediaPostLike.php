@@ -17,6 +17,7 @@ class MediaPostLike
     private ?string $state = null;
 
     #[ORM\ManyToOne(inversedBy: 'mediaPostLikes')]
+    #[ORM\JoinColumn(nullable: false, onDelete: "cascade")]
     private ?User $user = null;
 
     #[ORM\ManyToOne(inversedBy: 'mediaPostLikes')]
