@@ -244,11 +244,43 @@ class SecurityController extends AbstractController
     }
 
 
+
+    // Page "Politique de confidentialité"
     #[Route(path: '/privacy', name: 'app_privacy')]
     public function privacy(): Response
     {
-
         return $this->render('security/privacy.html.twig', []);
+    }
+
+
+
+    // Suppression de compte par l'User
+    #[Route(path: '/deleteSelfAccount', name: 'app_deleteSelfAccount')]
+    public function deleteSelfAccount(EntityManagerInterface $entityManager): Response
+    {
+    
+        // Vérif User logged In
+        if($this->getUser()) {
+
+            $userToDelete = $this->getUser();
+
+            // anonymisation des publications de l'user:
+
+
+
+            // Suppression User:
+            $entityManager->remove($userToDelete);
+            $entityManager->flush();
+
+            $this->addFlash('error', 'Votre compte a bien été supprimé');
+            return $this->redirectToRoute('app_home');
+
+        }
+        else {
+            $this->addFlash('error', 'Vous devez être connecté pour supprimer votre compte');
+            return $this->redirectToRoute('app_home');
+        }
+
     }
 
 }

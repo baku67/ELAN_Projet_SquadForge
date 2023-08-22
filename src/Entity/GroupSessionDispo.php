@@ -19,7 +19,7 @@ class GroupSessionDispo
 
     #[ORM\ManyToOne(inversedBy: 'groupSessionDispos')]
     #[ORM\JoinColumn(nullable: false)]
-    private ?User $member = null;
+    private ?User $groupMember = null;
 
     #[ORM\Column(length: 50, nullable: true)]
     private ?string $disponibility = null;
@@ -43,12 +43,12 @@ class GroupSessionDispo
 
     public function getMember(): ?User
     {
-        return $this->member;
+        return $this->groupMember;
     }
 
-    public function setMember(?User $member): static
+    public function setMember(?User $groupMember): static
     {
-        $this->member = $member;
+        $this->groupMember = $groupMember;
 
         return $this;
     }

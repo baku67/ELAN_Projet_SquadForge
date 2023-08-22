@@ -29,12 +29,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column]
     private array $roles = [];
 
-    /**
-    * @Assert\Regex(
-    * pattern = "/^(?=.*\d)(?=.*[A-Z])(?=.*[@#$%])(?!.*(.)\1{2}).*[a-z]/m",
-    * match=true,
-    * message="Votre mot de passe doit comporter au moins huit caractères, dont des lettres majuscules et minuscules, un chiffre et un symbole.")
-    */
     #[ORM\Column]
     private ?string $password = null;
 
@@ -44,8 +38,10 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(length: 20)]
     private ?string $pseudo = null;
 
-    #[ORM\JoinTable(name: 'favoris')]
     #[ORM\ManyToMany(targetEntity: Game::class, inversedBy: 'favUsers')]
+    #[ORM\JoinTable(name: 'favoris')]
+    #[ORM\JoinColumn(name:'user_id', referencedColumnName:'id', nullable: false, onDelete: "cascade")]
+    #[ORM\InverseJoinColumn(name:'game_id', referencedColumnName:'id', nullable: false)]
     private Collection $favoris;
 
     #[ORM\OneToMany(mappedBy: 'user', targetEntity: Topic::class)]
@@ -57,7 +53,10 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToMany(mappedBy: 'user', targetEntity: TopicPost::class)]
     private Collection $topicPosts;
 
-    #[ORM\ManyToMany(targetEntity: TopicPost::class, mappedBy: 'postLike')]
+    #[ORM\ManyToMany(targetEntity: TopicPost::class, mappedBy: 'postLikes')]
+    #[ORM\JoinTable(name: 'post_like')]
+    #[ORM\JoinColumn(name:'user_id', referencedColumnName:'id', nullable: false, onDelete: "cascade")]
+    #[ORM\InverseJoinColumn(name:'topic_post_id', referencedColumnName:'id', nullable: false)]
     private Collection $likedTopicPosts;
 
     #[ORM\OneToMany(mappedBy: 'user', targetEntity: PostLike::class)]
@@ -82,6 +81,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private Collection $leadedGroups;
 
     #[ORM\ManyToMany(targetEntity: Group::class, mappedBy: 'members')]
+    #[ORM\JoinTable(name: 'membre_group')]
+    #[ORM\JoinColumn(name:'user_id', referencedColumnName:'id', nullable: false)]
+    #[ORM\InverseJoinColumn(name:'group_id', referencedColumnName:'id', nullable: false)]
     private Collection $groupes;
 
     #[ORM\OneToMany(mappedBy: 'user', targetEntity: Candidature::class)]
@@ -89,6 +91,8 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     #[ORM\ManyToMany(targetEntity: Group::class, mappedBy: 'blacklistedUsers')]
     #[ORM\JoinTable(name: 'group_blacklist')]
+    #[ORM\JoinColumn(name:'user_id', referencedColumnName:'id', nullable: false, onDelete: "cascade")]
+    #[ORM\InverseJoinColumn(name:'group_id', referencedColumnName:'id', nullable: false)]
     private Collection $groupsWhereBlackisted;
 
     #[ORM\OneToMany(mappedBy: 'user', targetEntity: Notification::class, orphanRemoval: true)]

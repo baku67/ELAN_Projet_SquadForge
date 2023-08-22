@@ -55,7 +55,13 @@
         <p>Email: {{ user.email }}</p>
 
         {# Suppression de compte (+modal comfirmation): (privacy: garde donnéees 2 mois) #}
-        <span id="deleteSelfAccount">Supprimer le compte</span>
+        <span id="deleteSelfAccount" onclick="deleteAccountModal.showModal()">Supprimer le compte</span>
+
+        <dialog class="modalDialog" id="deleteAccountModal">
+            <p>Êtes-vous sûr de vouloir supprimer votre compte ?</p>
+            <a class="confirmModal" href="{{ path('app_deleteSelfAccount') }}">Oui</a>
+            <span class="cancelModal" onclick="deleteAccountModal.close()">Annuler</span>
+        </dialog>
 
         
         {% if not user.isVerified %}

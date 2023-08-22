@@ -160,15 +160,15 @@ window.onload = function() {
                 passwordsMatches = false;
             }
 
-            // (TODO: factoriser) Activation du bouton si critères remplis:
-            if(passwordsMatches && nbrCharResult && nbrMinResult && nbrMajResult && nbrNumResult && nbrSpecialResult) {
-                console.log("bouton clickjable");
-                document.getElementById('registration_form_submit').disabled = false;
-            }
-            else {
-                console.log("bouton non clickjable");
-                document.getElementById('registration_form_submit').disabled = true;
-            }
+            // (désactivé: Toggle btn submit disabled si critères non remplis):
+            // if(passwordsMatches && nbrCharResult && nbrMinResult && nbrMajResult && nbrNumResult && nbrSpecialResult) {
+            //     console.log("bouton clickjable");
+            //     document.getElementById('registration_form_submit').disabled = false;
+            // }
+            // else {
+            //     console.log("bouton non clickjable");
+            //     document.getElementById('registration_form_submit').disabled = true;
+            // }
 
         } 
         else {
@@ -203,15 +203,15 @@ window.onload = function() {
         const nbrNumResult = /[0-9]/.test(inputPassword);
         const nbrSpecialResult = /[$?*@!#%&()^~{}]/.test(inputPassword);
 
-        // (TODO: factoriser) Activation du bouton si critères remplis:
-        if(passwordsMatches && nbrCharResult && nbrMinResult && nbrMajResult && nbrNumResult && nbrSpecialResult) {
-            console.log("bouton clickjable");
-            document.getElementById('registration_form_submit').disabled = false;
-        }
-        else {
-            console.log("bouton non clickjable");
-            document.getElementById('registration_form_submit').disabled = true;
-        }
+        // (désactivé: Toggle btn submit disabled si critères non remplis):
+        // if(passwordsMatches && nbrCharResult && nbrMinResult && nbrMajResult && nbrNumResult && nbrSpecialResult) {
+        //     console.log("bouton clickjable");
+        //     document.getElementById('registration_form_submit').disabled = false;
+        // }
+        // else {
+        //     console.log("bouton non clickjable");
+        //     document.getElementById('registration_form_submit').disabled = true;
+        // }
 
     })
 
