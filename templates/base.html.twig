@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="fr">
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1" />
@@ -50,7 +50,7 @@
         {% endblock %}
 
         {# Tarte au citron #}
-        <script src="{{asset('js/tarteaucitron.js/tarteaucitron.js') }}"></script>
+        <script src="{{asset('tarteaucitron.js/tarteaucitron.js') }}"></script>
 
         <script type="text/javascript">
             tarteaucitron.init({
@@ -60,7 +60,7 @@
             "hashtag": "#tarteaucitron", /* Open the panel with this hashtag */
             "cookieName": "tarteaucitron", /* Cookie name */
         
-            "orientation": "middle", /* Banner position (top - bottom) */
+            "orientation": "bottom", /* Banner position (top - bottom) */
         
             "groupServices": false, /* Group services by category */
             "showDetailsOnClick": true, /* Click to expand the description */
@@ -96,6 +96,9 @@
             "mandatory": true, /* Show a message about mandatory cookies */
             "mandatoryCta": true /* Show the disabled accept button when mandatory on */
             });
+            (tarteaucitron.job = tarteaucitron.job || []).push('twitch');
+            tarteaucitron.user.googleFonts = 'families';
+            (tarteaucitron.job = tarteaucitron.job || []).push('googlefonts');
         </script>
     </head>
 
