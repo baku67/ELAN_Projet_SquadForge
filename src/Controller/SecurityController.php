@@ -90,6 +90,9 @@ class SecurityController extends AbstractController
             $notifRepo = $entityManager->getRepository(Notification::class);
             $mediaRepo = $entityManager->getRepository(Media::class);
             $topicRepo = $entityManager->getRepository(Topic::class);
+            $gameRepo = $entityManager->getRepository(Game::class);
+
+            $allGames = $gameRepo->findAll();
 
             // Onglet notifs Bulle nbr "non-vues" (int si connécté, null sinon)
             $userNotifCount = $this->getUser() ? count($notifRepo->findByUserNotSeen($this->getUser())) : null;
@@ -107,6 +110,11 @@ class SecurityController extends AbstractController
             // Si connecté: raccourcis Games favoris, et listTeams
             if($this->getUser()) {
                 $userFav = $this->getUser()->getFavoris();
+
+                // Si aucun Favoris, $userFav = allGames
+                // if(count($userFav) == 0) {
+                //     $userFav = $gameRepo->findAll();
+                // }
                 $userTeams = $this->getUser()->getGroupes();
             }
             else {
@@ -132,6 +140,7 @@ class SecurityController extends AbstractController
                 'modoNotifCount' => $modoNotifCount,
                 'userNotifCount' => $userNotifCount,
                 'userFav' => $userFav,
+                'allGames' => $allGames,
                 'userTeams' => $userTeams,
                 'lastTopics' => $lastTopics,
                 'lastMedias' => $lastMedias,
