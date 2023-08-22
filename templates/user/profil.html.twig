@@ -53,6 +53,10 @@
         <h3>Infos</h3>
         <p>{{ user.pseudo|capitalize }}</p>
         <p>Email: {{ user.email }}</p>
+
+        {# Suppression de compte (+modal comfirmation): (privacy: garde donnéees 2 mois) #}
+        <span id="deleteSelfAccount">Supprimer le compte</span>
+
         
         {% if not user.isVerified %}
         <p style="color:red;">Votre email est toujours en attente de validation, vérifiez votre boîte mail pour pouvoir profiter de toutes les fonctionalités</p>

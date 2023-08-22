@@ -242,4 +242,13 @@ class SecurityController extends AbstractController
 
 
     }
+
+
+    #[Route(path: '/privacy', name: 'app_privacy')]
+    public function privacy(): Response
+    {
+
+        return $this->render('security/privacy.html.twig', []);
+    }
+
 }
