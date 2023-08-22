@@ -2,14 +2,11 @@
 
 namespace App\Form;
 
-
 use App\Entity\Censure;
 use App\Repository\CensureRepository;
-use Symfony\Component\Validator\Constraints\Callback;
 use Symfony\Component\Validator\Context\ExecutionContextInterface;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
-
 use App\Entity\Topic;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -17,6 +14,10 @@ use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+
+use Symfony\Component\Validator\Constraints\Length;
+use Symfony\Component\Validator\Constraints\Callback;
+use Symfony\Component\Validator\Constraints\NotBlank;
 
 class TopicType extends AbstractType
 {
@@ -41,6 +42,13 @@ class TopicType extends AbstractType
                 'attr' => ["class" => "form-control"],
                 'constraints' => [
                     new Callback([$this, 'validateTextInput']),
+                    new NotBlank([
+                        'message' => 'Le titre ne peut pas être vide.',
+                    ]),
+                    new Length([
+                        'max' => 1000,
+                        'maxMessage' => 'Le titre ne peut pas faire plus de 250 caractères.',
+                    ]),
                 ],
             ])
             ->add('firstMsg', TextareaType::class, [
@@ -50,13 +58,16 @@ class TopicType extends AbstractType
                     "class" => "form-control", 
                     'rows' => 3
                 ],
+                'constraints' => [
+                    // new Callback([$this, 'validateTextInput']),
+                    new Length([
+                        'max' => 1000,
+                        'maxMessage' => 'Le premier message ne peut pas faire plus de 1000 caractères.',
+                    ]),
+                ],
                 
             ])
-            // ->add('publish_date')
-            // ->add('status')
-            // ->add('validated')
-            // ->add('game')
-            // ->add('user')
+
             ->add('submit', SubmitType::class, [
                 'label' => 'Publier',
                 'attr' => ["class" => "btn btn-primary"]

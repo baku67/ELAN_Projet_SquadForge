@@ -110,11 +110,12 @@ regex mdp (création de compte)
 
 
 
+MAILHOG:
 
-
-Mailing (MailHog: dl: https://github.com/mailhog/MailHog/releases ):
-Port 1025: outil de mailing
+Lancer l'executable: dl: https://github.com/mailhog/MailHog/releases :
 Port 8025: boite mail
+// Port 1025: outil de mailing
+
 
 Composer install (pour bundle vérif email, etc...)
 Si problème de "autoload_runtime" : run "composer dump-autoload"

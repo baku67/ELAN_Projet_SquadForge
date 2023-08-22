@@ -448,7 +448,7 @@
                         </div>
 
                         <div style="position:relative; margin: 5px auto;">
-                            <span class="labelSpan" style="width:100%;">{{ form_label(formAddMedia.url, 'Choisissez un fichier')}}<span class="fileUploadCriteria"><span id="extensionCriteria">(.png .jpg .gif .jpeg)</span> <span id="fileCriteria">(10MB)</span></span></span>
+                            <span class="labelSpan" style="width:100%;">{{ form_label(formAddMedia.url, 'Choisissez un fichier')}}<span class="fileUploadCriteria"><span id="extensionCriteria">(.png .jpg .gif .jpeg)</span> <span id="fileCriteria">(5MB)</span></span></span>
                             {{ form_widget(formAddMedia.url) }} 
                         </div>
 
@@ -657,17 +657,17 @@
             let fileInput = document.getElementById('media_url');
             fileInput.addEventListener('change', function(event) {
                 var uploadedFile = event.target.files[0];
-                const maxFileSize = 10 * 1024 * 1024; // 10 MB 
+                const maxFileSize = 5 * 1024 * 1024; // 5 MB 
 
                 if (uploadedFile && uploadedFile.size > maxFileSize) {
                     // event.target.value = ''; // On supprimer le fichier de l'input
                     document.getElementById('fileCriteria').style.color = 'red';
-                    document.getElementById('fileCriteria').innerHTML = "( > 10 MB <i class='fa-solid fa-triangle-exclamation'></i> )";
+                    document.getElementById('fileCriteria').innerHTML = "( > 5 MB <i class='fa-solid fa-triangle-exclamation'></i> )";
                     fileSizeCriteria = false;
                 }
                 else {
                     document.getElementById('fileCriteria').style.color = '#00c600';
-                    document.getElementById('fileCriteria').innerHTML = "( 10 MB <i class='fa-solid fa-check'></i> )";
+                    document.getElementById('fileCriteria').innerHTML = "( 5 MB <i class='fa-solid fa-check'></i> )";
                     fileSizeCriteria = true;
                 }
 

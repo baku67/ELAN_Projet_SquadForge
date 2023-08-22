@@ -4,11 +4,9 @@ namespace App\Form;
 
 use App\Entity\Censure;
 use App\Repository\CensureRepository;
-use Symfony\Component\Validator\Constraints\Callback;
 use Symfony\Component\Validator\Context\ExecutionContextInterface;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
-
 use App\Entity\Group;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
@@ -21,14 +19,18 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
+use Symfony\Component\Validator\Constraints\Length;
+use Symfony\Component\Validator\Constraints\Callback;
+use Symfony\Component\Validator\Constraints\NotBlank;
+use Symfony\Component\Validator\Constraints\Range;
+
+
 class GroupType extends AbstractType
 {
-
 
     public function __construct(private CensureRepository $censureRepository)
     {
     }
-
 
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
@@ -42,6 +44,13 @@ class GroupType extends AbstractType
                 ],
                 'constraints' => [
                     new Callback([$this, 'validateTextInput']),
+                    new NotBlank([
+                        'message' => 'Le titre ne peut pas être vide.',
+                    ]),
+                    new Length([
+                        'max' => 1000,
+                        'maxMessage' => 'Le titre ne peut pas faire plus de 250 caractères.',
+                    ]),
                 ],
             ])
             ->add('description', TextareaType::class, [
@@ -50,7 +59,16 @@ class GroupType extends AbstractType
                     "class" => "form-control",
                     'placeholder' => 'Entrez une présentation de la team...',
                     'rows' => 3
-                ]
+                ],
+                'constraints' => [
+                    new NotBlank([
+                        'message' => 'La description ne peut pas être vide.',
+                    ]),
+                    new Length([
+                        'max' => 1000,
+                        'maxMessage' => 'Le description ne peut pas faire plus de 2500 caractères.',
+                    ]),
+                ],
             ])
             ->add('nbrPlaces', IntegerType::class, [
                 'label' => "Places",
@@ -58,10 +76,19 @@ class GroupType extends AbstractType
                 'attr' => [
                     "class" => "form-control nbrPlaceInput",
                     'placeholder' => '2',
-                    'value' => '2',
+                    'value' => '3',
                     'min' => '2',
-                    // A adapter si modes de jeu:
+                    // TODO: A adapter selon jeu:
                     'max' => '6',
+                ],
+                // TODO: A adapter selon jeu:
+                'constraints' => [
+                    new Range([
+                        'min' => 2,
+                        'max' => 6,
+                        'minMessage' => 'Le minimum de places est de 2}.',
+                        'maxMessage' => 'Le nombre de place ne peut pas excéder 6.',
+                    ]),
                 ],
             ])
             ->add('restriction_18', CheckboxType::class, [

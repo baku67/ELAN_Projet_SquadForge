@@ -315,6 +315,7 @@ class GroupController extends AbstractController
                                 if($form->get('title')->getData() != '') {
 
                                     $session = $form->getData();
+
                                     $session->setTeam($group);
 
                                     $entityManager->persist($session);

@@ -5,11 +5,13 @@ namespace App\Form;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
-
 use App\Entity\Candidature;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+
+use Symfony\Component\Validator\Constraints\Length;
+use Symfony\Component\Validator\Constraints\NotBlank;
 
 class CandidatureType extends AbstractType
 {
@@ -24,13 +26,20 @@ class CandidatureType extends AbstractType
                     "class" => "form-control",
                     'placeholder' => 'Votre message...',
                     'rows' => 3,
-                ]
+                ],
+                'constraints' => [
+                    new NotBlank([
+                        'message' => 'Vous devez entrer un message ne peut pas être vide.',
+                    ]),
+                    new Length([
+                        'min' => 10,
+                        'max' => 1500,
+                        'maxMessage' => 'Le message ne peut pas faire moins de 10 caractères.',
+                        'maxMessage' => 'Le message ne peut pas faire plus de 1500 caractères.',
+                    ]),
+                ],
             ])
-            // ->add('groupQuestions', CollectionType::class, [
-            //     'entry_type' => GroupQuestionsType::class,
-            //     'allow_add' => true,
-            //     'by_reference' => false,
-            // ])
+
             ->add('submit', SubmitType::class, [
                 'label' => 'Envoyer&nbsp;<i class="fa-solid fa-paper-plane"></i>',
                 'label_html' => true,
@@ -38,9 +47,6 @@ class CandidatureType extends AbstractType
                     "class" => "candidatureSubmitBg"
                 ]
             ]);
-            // ->add('creation_date')
-            // ->add('groupe')
-            // ->add('user')
         ;
     }
 

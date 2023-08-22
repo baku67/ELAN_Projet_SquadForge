@@ -11,6 +11,10 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
+use Symfony\Component\Validator\Constraints\Length;
+use Symfony\Component\Validator\Constraints\NotBlank;
+
+
 class SessionType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
@@ -36,6 +40,18 @@ class SessionType extends AbstractType
                 'label' => 'Titre',
                 'required' => true,
                 'attr' => ["class" => "form-control", 'id' => 'testtttt'],
+                'constraints' => [
+                    new NotBlank([
+                        'message' => 'Le titre ne peut pas être vide.',
+                    ]),
+                    new Length([
+                        'min' => 5,
+                        'max' => 100,
+                        'minMessage' => 'Le titre doit faire au moins 5 caractères.',
+                        'maxMessage' => 'Le titre ne peut pas faire plus de 100 caractères.',
+                    ]),
+                ],
+
             ])
             // ->add('comfirmNeeded', CheckboxType::class, [
             //     'label' => 'Comfirmation requise',
@@ -53,6 +69,7 @@ class SessionType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => GroupSession::class,
+            'sanitize_html' => true,
         ]);
     }
 }

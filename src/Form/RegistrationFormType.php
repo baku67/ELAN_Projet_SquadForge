@@ -49,8 +49,8 @@ class RegistrationFormType extends AbstractType
                     ]),
                 ],
                 'attr' => ['class' => 'form-check-input'],
-                'required' => true,
-                'label' => 'Accéptez les termes d\'agrément',
+                // 'required' => true,
+                'label' => 'Accéptez les termes d\'agrément ',
             ])
             ->add('plainPassword', RepeatedType::class, [
                 'mapped' => false,

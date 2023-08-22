@@ -16,22 +16,18 @@ class CensureType extends AbstractType
     {
         $builder
             ->add('word', TextType::class, [
-                // 'label' => 'Message',
                 'required' => true,
                 'attr' => [
                     "class" => "form-control",
                     'placeholder' => 'Entrez un mot à censurer'
-                    // 'rows' => 1
                 ]
             ])
             ->add('submit', SubmitType::class, [
-                // 'label' => 'Publier',
                 'label' => '<i class="fa-solid fa-virus-slash"></i>',
                 'label_html' => true,
                 'attr' => ["class" => "btn btn-primary addCensureWordBtn"]
             ]);
-            // ->add('creation_date')
-            // ->add('user')
+
         ;
     }
 

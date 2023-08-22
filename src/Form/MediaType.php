@@ -4,19 +4,21 @@ namespace App\Form;
 
 use App\Entity\Censure;
 use App\Repository\CensureRepository;
-use Symfony\Component\Validator\Constraints\Callback;
 use Symfony\Component\Validator\Context\ExecutionContextInterface;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
-
 use App\Entity\Media;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
-
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+
+use Symfony\Component\Validator\Constraints\Length;
+use Symfony\Component\Validator\Constraints\Callback;
+use Symfony\Component\Validator\Constraints\File;
+use Symfony\Component\Validator\Constraints\NotBlank;
 
 class MediaType extends AbstractType
 {
@@ -39,19 +41,33 @@ class MediaType extends AbstractType
                 'attr' => ["class" => "form-control"],
                 'constraints' => [
                     new Callback([$this, 'validateTextInput']),
+                    new NotBlank([
+                        'message' => 'Le titre ne peut pas être vide.',
+                    ]),
+                    new Length([
+                        'max' => 1000,
+                        'maxMessage' => 'Le titre ne peut pas faire plus de 250 caractères.',
+                    ]),
                 ],
             ])
             ->add('url', FileType::class, [
                 'label' => 'Choisissez un fichier',
                 'required' => true, 
-                'attr' => ["class" => "form-control"]
+                'attr' => ["class" => "form-control"],
+                'constraints' => [
+                    new File([
+                        'maxSize' => '5M', // Maximum file size
+                        'mimeTypes' => [
+                            'image/png', // Allowed image formats
+                            'image/jpeg',
+                            'image/jpg',
+                            'image/gif',
+                        ],
+                        'mimeTypesMessage' => 'Please upload a valid PDF document.',
+                    ]),
+                ],
             ])
-            // ->add('publish_date')
-            // ->add('url')
-            // ->add('status')
-            // ->add('validated')
-            // ->add('user')
-            // ->add('game')
+
             ->add('submit', SubmitType::class, [
                 'label' => 'Publier',
                 'attr' => ["class" => "btn btn-primary"]
