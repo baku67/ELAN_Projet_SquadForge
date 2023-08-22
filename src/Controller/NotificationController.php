@@ -591,93 +591,121 @@ class NotificationController extends AbstractController
 
 
 
-    public function notifValidatedMedia(User $author, Media $media): bool 
+    public function notifValidatedMedia(?User $author, Media $media): bool 
     {
-        $notification = new Notification();
+        // handle utilisateur supprimé
+        if($author) {
 
-        $notification->setText("Votre média \"" . $media->getTitle() . "\" a été approuvé par la modération");
+            $notification = new Notification();
 
-        $notification->setDateCreation(new \DateTime());
-        $notification->setUser($author);
-        $notification->setClicked(false);
+            $notification->setText("Votre média \"" . $media->getTitle() . "\" a été approuvé par la modération");
 
-        $this->entityManager->persist($notification);
-        $this->entityManager->flush();
+            $notification->setDateCreation(new \DateTime());
+            $notification->setUser($author);
+            $notification->setClicked(false);
 
-        // Lien notif post-add pour récup l'id notif et l'injecter dans la route pour state "clicked":
-        $link = $this->urlGenerator->generate('app_mediaDetail', ['id' => $media->getId(), 'notifId' => $notification->getId()], UrlGeneratorInterface::ABSOLUTE_URL);
-        $notification->setLink($link); 
-        $this->entityManager->persist($notification);
-        $this->entityManager->flush();
+            $this->entityManager->persist($notification);
+            $this->entityManager->flush();
+
+            // Lien notif post-add pour récup l'id notif et l'injecter dans la route pour state "clicked":
+            $link = $this->urlGenerator->generate('app_mediaDetail', ['id' => $media->getId(), 'notifId' => $notification->getId()], UrlGeneratorInterface::ABSOLUTE_URL);
+            $notification->setLink($link); 
+            $this->entityManager->persist($notification);
+            $this->entityManager->flush();
+                
+
+            return true;
+
+        } else {
+            return false;
+        }
+    }
+
+    public function notifRefusedMedia(?User $author, Media $media): bool 
+    {
+        // handle utilisateur supprimé
+        if($author) {
+
+            $notification = new Notification();
+
+            $notification->setText("Votre média \"" . $media->getTitle() . "\" a été refusé par la modération");
+
+            $notification->setDateCreation(new \DateTime());
+            $notification->setUser($author);
+            $notification->setClicked(false);
+
+            $this->entityManager->persist($notification);
+            $this->entityManager->flush();
             
+            // Lien notif (format localhost pour test mais marche en prod normalement):
+            $link = $this->urlGenerator->generate('app_user', ['notifId' => $notification->getId()], UrlGeneratorInterface::ABSOLUTE_URL);
+            $notification->setLink($link);    
+            $this->entityManager->persist($notification);
+            $this->entityManager->flush();
 
-        return true;
+            return true;
+
+        } else {
+            return false;
+        }
     }
 
-    public function notifRefusedMedia(User $author, Media $media): bool 
+    public function notifValidatedTopic(?User $author, Topic $topic): bool 
     {
-        $notification = new Notification();
+        // handle utilisateur supprimé
+        if($author) {
 
-        $notification->setText("Votre média \"" . $media->getTitle() . "\" a été refusé par la modération");
+            $notification = new Notification();
 
-        $notification->setDateCreation(new \DateTime());
-        $notification->setUser($author);
-        $notification->setClicked(false);
+            $notification->setText("Votre topic \"" . $topic->getTitle() . "\" a été approuvé par la modération");
 
-        $this->entityManager->persist($notification);
-        $this->entityManager->flush();
-        
-        // Lien notif (format localhost pour test mais marche en prod normalement):
-        $link = $this->urlGenerator->generate('app_user', ['notifId' => $notification->getId()], UrlGeneratorInterface::ABSOLUTE_URL);
-        $notification->setLink($link);    
-        $this->entityManager->persist($notification);
-        $this->entityManager->flush();
+            $notification->setDateCreation(new \DateTime());
+            $notification->setUser($author);
+            $notification->setClicked(false);
 
-        return true;
+            $this->entityManager->persist($notification);
+            $this->entityManager->flush();
+
+            // Lien notif (format localhost pour test mais marche en prod normalement):
+            $link = $this->urlGenerator->generate('app_topicDetail', ['id' => $topic->getId(), 'notifId' => $notification->getId()], UrlGeneratorInterface::ABSOLUTE_URL);
+            $notification->setLink($link); 
+            $this->entityManager->persist($notification);
+            $this->entityManager->flush();
+
+            return true;
+
+        } else {
+            return false;
+        }
     }
 
-    public function notifValidatedTopic(User $author, Topic $topic): bool 
+    public function notifRefusedTopic(?User $author, Topic $topic): bool 
     {
-        $notification = new Notification();
+        // handle utilisateur supprimé
+        if($author) {
 
-        $notification->setText("Votre topic \"" . $topic->getTitle() . "\" a été approuvé par la modération");
+            $notification = new Notification();
 
-        $notification->setDateCreation(new \DateTime());
-        $notification->setUser($author);
-        $notification->setClicked(false);
+            $notification->setText("Votre topic \"" . $topic->getTitle() . "\" a été refusé par la modération");
 
-        $this->entityManager->persist($notification);
-        $this->entityManager->flush();
+            $notification->setDateCreation(new \DateTime());
+            $notification->setUser($author);
+            $notification->setClicked(false);
 
-        // Lien notif (format localhost pour test mais marche en prod normalement):
-        $link = $this->urlGenerator->generate('app_topicDetail', ['id' => $topic->getId(), 'notifId' => $notification->getId()], UrlGeneratorInterface::ABSOLUTE_URL);
-        $notification->setLink($link); 
-        $this->entityManager->persist($notification);
-        $this->entityManager->flush();
+            $this->entityManager->persist($notification);
+            $this->entityManager->flush();
 
-        return true;
-    }
+            // Lien notif (format localhost pour test mais marche en prod normalement):
+            $link = $this->urlGenerator->generate('app_user', ['notifId' => $notification->getId()], UrlGeneratorInterface::ABSOLUTE_URL);
+            $notification->setLink($link); 
+            $this->entityManager->persist($notification);
+            $this->entityManager->flush();
 
-    public function notifRefusedTopic(User $author, Topic $topic): bool 
-    {
-        $notification = new Notification();
+            return true;
 
-        $notification->setText("Votre topic \"" . $topic->getTitle() . "\" a été refusé par la modération");
-
-        $notification->setDateCreation(new \DateTime());
-        $notification->setUser($author);
-        $notification->setClicked(false);
-
-        $this->entityManager->persist($notification);
-        $this->entityManager->flush();
-
-        // Lien notif (format localhost pour test mais marche en prod normalement):
-        $link = $this->urlGenerator->generate('app_user', ['notifId' => $notification->getId()], UrlGeneratorInterface::ABSOLUTE_URL);
-        $notification->setLink($link); 
-        $this->entityManager->persist($notification);
-        $this->entityManager->flush();
-
-        return true;
+        } else {
+            return false;
+        }
     }
 
 
@@ -687,92 +715,108 @@ class NotificationController extends AbstractController
 
 
 
-    public function notifUpvoteMedia(User $author, Media $media): bool
+    public function notifUpvoteMedia(?User $author, Media $media): bool
     {
-        // Check si deja notif pour ce media (et +1 et update text)
-        $notifRepo = $this->entityManager->getRepository(Notification::class);
-        $notifChecked = $notifRepo->findOneBy(["type" => "media", "typeId" => $media->getId()]);
-        if(!is_null($notifChecked)) {
 
-            $notification = $notifChecked;
+        // handle utilisateur supprimé
+        if($author) {
 
-            $notification->setText("Votre média \"" . $media->getTitle() . "\" a été upvoté par <strong style='font-size:1.1em;'>" . ($notification->getTypeNbr()+1) . "</strong> personnes");
+            // Check si deja notif pour ce media (et +1 et update text)
+            $notifRepo = $this->entityManager->getRepository(Notification::class);
+            $notifChecked = $notifRepo->findOneBy(["type" => "media", "typeId" => $media->getId()]);
+            if(!is_null($notifChecked)) {
 
-            // La notif repasse en "non-lue"
-            $notification->setClicked(false);
-            // La date est maj pour top-list
-            $notification->setDateCreation(new \DateTime());
-            // Incrémentation du compteur
-            $notification->setTypeNbr($notification->getTypeNbr()+1);
+                $notification = $notifChecked;
 
-            $this->entityManager->persist($notification);
-            $this->entityManager->flush();
+                $notification->setText("Votre média \"" . $media->getTitle() . "\" a été upvoté par <strong style='font-size:1.1em;'>" . ($notification->getTypeNbr()+1) . "</strong> personnes");
 
-            return true;
-        }
-        // Si aucune notif pour ce media: la créé 
-        else {
-            $notification = new Notification();
+                // La notif repasse en "non-lue"
+                $notification->setClicked(false);
+                // La date est maj pour top-list
+                $notification->setDateCreation(new \DateTime());
+                // Incrémentation du compteur
+                $notification->setTypeNbr($notification->getTypeNbr()+1);
 
-            $notification->setText("Votre média \"" . $media->getTitle() . "\" a été upvoté");
+                $this->entityManager->persist($notification);
+                $this->entityManager->flush();
 
-            $notification->setDateCreation(new \DateTime());
-            $notification->setUser($author);
-            $notification->setClicked(false);
-            $notification->setType("media");
-            $notification->setTypeId($media->getId());
-            $notification->setTypeNbr(1);
+                return true;
+            }
+            // Si aucune notif pour ce media: la créé 
+            else {
+                $notification = new Notification();
 
-            $this->entityManager->persist($notification);
-            $this->entityManager->flush();
+                $notification->setText("Votre média \"" . $media->getTitle() . "\" a été upvoté");
 
-            // Lien notif (format localhost pour test mais marche en prod normalement):
-            $link = $this->urlGenerator->generate('app_mediaDetail', ['id' => $media->getId(),'notifId' => $notification->getId()], UrlGeneratorInterface::ABSOLUTE_URL);
-            $notification->setLink($link); 
-            $this->entityManager->persist($notification);
-            $this->entityManager->flush();
-    
+                $notification->setDateCreation(new \DateTime());
+                $notification->setUser($author);
+                $notification->setClicked(false);
+                $notification->setType("media");
+                $notification->setTypeId($media->getId());
+                $notification->setTypeNbr(1);
 
-            return true;
+                $this->entityManager->persist($notification);
+                $this->entityManager->flush();
+
+                // Lien notif (format localhost pour test mais marche en prod normalement):
+                $link = $this->urlGenerator->generate('app_mediaDetail', ['id' => $media->getId(),'notifId' => $notification->getId()], UrlGeneratorInterface::ABSOLUTE_URL);
+                $notification->setLink($link); 
+                $this->entityManager->persist($notification);
+                $this->entityManager->flush();
+        
+
+                return true;
+            }
+
+        } else {
+            return false;
         }
 
     }
 
 
     // Un utilisateur retire son upvote du Media: nbr Upvote de la notif -1
-    public function notifDecrementNbrUpvoteMedia(User $author, Media $media): bool 
+    public function notifDecrementNbrUpvoteMedia(?User $author, Media $media): bool 
     {
-        // Check si deja notif pour ce media (et +1 et update text)
-        $notifRepo = $this->entityManager->getRepository(Notification::class);
-        $notifChecked = $notifRepo->findOneBy(["type" => "media", "typeId" => $media->getId()]);
 
-        // Si notif supprimée entre temps
-        if(!is_null($notifChecked)) {
+        // handle utilisateur supprimé
+        if($author) {
 
-            // Si tout le monde a retiré son upvote: suppr notif
-            if (($notifChecked->getTypeNbr()-1) <= 0) {
+            // Check si deja notif pour ce media (et +1 et update text)
+            $notifRepo = $this->entityManager->getRepository(Notification::class);
+            $notifChecked = $notifRepo->findOneBy(["type" => "media", "typeId" => $media->getId()]);
 
-                $notifRepo->remove($notifChecked);
-                $this->entityManager->flush();
+            // Si notif supprimée entre temps
+            if(!is_null($notifChecked)) {
 
-                return true;
-            }
-            else {
+                // Si tout le monde a retiré son upvote: suppr notif
+                if (($notifChecked->getTypeNbr()-1) <= 0) {
 
-                $notifChecked->setText("Votre média \"" . $media->getTitle() . "\" a été upvoté par <strong style='font-size:1.1em;'>" . ($notifChecked->getTypeNbr()-1) . "</strong> personnes");
+                    $notifRepo->remove($notifChecked);
+                    $this->entityManager->flush();
 
-                // Pas de proc notif ni de top-list
-    
-                $notifChecked->setTypeNbr($notifChecked->getTypeNbr()-1);
+                    return true;
+                }
+                else {
+
+                    $notifChecked->setText("Votre média \"" . $media->getTitle() . "\" a été upvoté par <strong style='font-size:1.1em;'>" . ($notifChecked->getTypeNbr()-1) . "</strong> personnes");
+
+                    // Pas de proc notif ni de top-list
         
-                $this->entityManager->persist($notifChecked);
-                $this->entityManager->flush();
-        
-                return true;
+                    $notifChecked->setTypeNbr($notifChecked->getTypeNbr()-1);
+            
+                    $this->entityManager->persist($notifChecked);
+                    $this->entityManager->flush();
+            
+                    return true;
+                }
             }
+
+            return false;
+        
+        } else {
+            return false;
         }
-
-        return false;
     }
 
 
@@ -784,92 +828,108 @@ class NotificationController extends AbstractController
     // Notifs likes de posts ****************************************************
 
 
-    public function notifUpvoteMediaPost(User $author, MediaPost $mediaPost): bool
+    public function notifUpvoteMediaPost(?User $author, MediaPost $mediaPost): bool
     {
-        // Check si deja notif pour ce mediaPost (et +1 et update text)
-        $notifRepo = $this->entityManager->getRepository(Notification::class);
-        $notifChecked = $notifRepo->findOneBy(["type" => "mediaPost", "typeId" => $mediaPost->getId()]);
-        if(!is_null($notifChecked)) {
 
-            $notification = $notifChecked;
+        // handle utilisateur supprimé
+        if($author) {
 
-            $notification->setText("Votre post \"" . substr($mediaPost->getText(), 0, 50) . "\" a été upvoté par <strong style='font-size:1.1em;'>" . ($notification->getTypeNbr()+1) . "</strong> personnes");
+            // Check si deja notif pour ce mediaPost (et +1 et update text)
+            $notifRepo = $this->entityManager->getRepository(Notification::class);
+            $notifChecked = $notifRepo->findOneBy(["type" => "mediaPost", "typeId" => $mediaPost->getId()]);
+            if(!is_null($notifChecked)) {
 
-            // La notif repasse en "non-lue"
-            $notification->setClicked(false);
-            // La date est maj pour top-list
-            $notification->setDateCreation(new \DateTime());
-            // Incrémentation du compteur
-            $notification->setTypeNbr($notification->getTypeNbr()+1);
+                $notification = $notifChecked;
 
-            $this->entityManager->persist($notification);
-            $this->entityManager->flush();
+                $notification->setText("Votre post \"" . substr($mediaPost->getText(), 0, 50) . "\" a été upvoté par <strong style='font-size:1.1em;'>" . ($notification->getTypeNbr()+1) . "</strong> personnes");
 
-            return true;
-        }
-        // Si aucune notif pour ce mediaPost: la créé
-        else {
-            $notification = new Notification();
+                // La notif repasse en "non-lue"
+                $notification->setClicked(false);
+                // La date est maj pour top-list
+                $notification->setDateCreation(new \DateTime());
+                // Incrémentation du compteur
+                $notification->setTypeNbr($notification->getTypeNbr()+1);
 
-            $notification->setText("Votre post \"" . substr($mediaPost->getText(), 0, 50) . "\" a été upvoté");
+                $this->entityManager->persist($notification);
+                $this->entityManager->flush();
 
-            $notification->setDateCreation(new \DateTime());
-            $notification->setUser($author);
-            $notification->setClicked(false);
-            $notification->setType("mediaPost");
-            $notification->setTypeId($mediaPost->getId());
-            $notification->setTypeNbr(1);
+                return true;
+            }
+            // Si aucune notif pour ce mediaPost: la créé
+            else {
+                $notification = new Notification();
 
-            $this->entityManager->persist($notification);
-            $this->entityManager->flush();
+                $notification->setText("Votre post \"" . substr($mediaPost->getText(), 0, 50) . "\" a été upvoté");
 
-            $media = $mediaPost->getMedia();
+                $notification->setDateCreation(new \DateTime());
+                $notification->setUser($author);
+                $notification->setClicked(false);
+                $notification->setType("mediaPost");
+                $notification->setTypeId($mediaPost->getId());
+                $notification->setTypeNbr(1);
 
-            // Lien notif 
-            $link = $this->urlGenerator->generate('app_mediaDetail', ['id' => $media->getId(),'notifId' => $notification->getId()], UrlGeneratorInterface::ABSOLUTE_URL);
-            $notification->setLink($link); 
-            $this->entityManager->persist($notification);
-            $this->entityManager->flush();
-    
-            return true;
+                $this->entityManager->persist($notification);
+                $this->entityManager->flush();
+
+                $media = $mediaPost->getMedia();
+
+                // Lien notif 
+                $link = $this->urlGenerator->generate('app_mediaDetail', ['id' => $media->getId(),'notifId' => $notification->getId()], UrlGeneratorInterface::ABSOLUTE_URL);
+                $notification->setLink($link); 
+                $this->entityManager->persist($notification);
+                $this->entityManager->flush();
+        
+                return true;
+            }
+
+        } else {
+             return false;
         }
     }
 
 
 
     // Un utilisateur retire son upvote du MediaPost: nbr Upvote de la notif -1
-    public function decrAndUpdateNotifMediaPostLike(User $author, MediaPost $mediaPost): bool 
+    public function decrAndUpdateNotifMediaPostLike(?User $author, MediaPost $mediaPost): bool 
     {
-        // Check si deja notif pour ce mediaPost (et +1 et update text)
-        $notifRepo = $this->entityManager->getRepository(Notification::class);
-        $notifChecked = $notifRepo->findOneBy(["type" => "mediaPost", "typeId" => $mediaPost->getId()]);
 
-        // Si notif supprimée entre temps
-        if(!is_null($notifChecked)) {
+        // handle utilisateur supprimé
+        if($author) {
 
-            // Si tout le monde a retiré son upvote: suppr notif
-            if (($notifChecked->getTypeNbr()-1) <= 0) {
+            // Check si deja notif pour ce mediaPost (et +1 et update text)
+            $notifRepo = $this->entityManager->getRepository(Notification::class);
+            $notifChecked = $notifRepo->findOneBy(["type" => "mediaPost", "typeId" => $mediaPost->getId()]);
 
-                $notifRepo->remove($notifChecked);
-                $this->entityManager->flush();
+            // Si notif supprimée entre temps
+            if(!is_null($notifChecked)) {
 
-                return true;
-            }
-            else {
+                // Si tout le monde a retiré son upvote: suppr notif
+                if (($notifChecked->getTypeNbr()-1) <= 0) {
 
-                $notifChecked->setText("Votre commentaire \"" . substr($mediaPost->getText(), 0,50) . "\" a été upvoté par <strong style='font-size:1.1em;'>" . ($notifChecked->getTypeNbr()-1) . "</strong> personnes");
+                    $notifRepo->remove($notifChecked);
+                    $this->entityManager->flush();
 
-                // Pas de proc notif ni de top-list
-    
-                $notifChecked->setTypeNbr($notifChecked->getTypeNbr()-1);
+                    return true;
+                }
+                else {
+
+                    $notifChecked->setText("Votre commentaire \"" . substr($mediaPost->getText(), 0,50) . "\" a été upvoté par <strong style='font-size:1.1em;'>" . ($notifChecked->getTypeNbr()-1) . "</strong> personnes");
+
+                    // Pas de proc notif ni de top-list
         
-                $this->entityManager->persist($notifChecked);
-                $this->entityManager->flush();
-        
-                return true;
+                    $notifChecked->setTypeNbr($notifChecked->getTypeNbr()-1);
+            
+                    $this->entityManager->persist($notifChecked);
+                    $this->entityManager->flush();
+            
+                    return true;
+                }
             }
+            return false;
+
+        } else {
+            return false;
         }
-        return false;
     }
     
 
@@ -935,91 +995,107 @@ class NotificationController extends AbstractController
 
     // topicPost
 
-    public function notifUpvoteTopicPost(User $author, TopicPost $topicPost): bool
+    public function notifUpvoteTopicPost(?User $author, TopicPost $topicPost): bool
     {
-        // Check si deja notif pour ce topicPost (et +1 et update text)
-        $notifRepo = $this->entityManager->getRepository(Notification::class);
-        $notifChecked = $notifRepo->findOneBy(["type" => "topicPost", "typeId" => $topicPost->getId()]);
-        if(!is_null($notifChecked)) {
+        // handle utilisateur supprimé
+        if($author) {
 
-            $notification = $notifChecked;
+            // Check si deja notif pour ce topicPost (et +1 et update text)
+            $notifRepo = $this->entityManager->getRepository(Notification::class);
+            $notifChecked = $notifRepo->findOneBy(["type" => "topicPost", "typeId" => $topicPost->getId()]);
+            if(!is_null($notifChecked)) {
 
-            $notification->setText("Votre post \"" . substr($topicPost->getText(), 0, 50) . "\" a été upvoté par <strong style='font-size:1.1em;'>" . ($notification->getTypeNbr()+1) . "</strong> personnes");
+                $notification = $notifChecked;
 
-            // La notif repasse en "non-lue"
-            $notification->setClicked(false);
-            // La date est maj pour top-list
-            $notification->setDateCreation(new \DateTime());
-            // Incrémentation du compteur
-            $notification->setTypeNbr($notification->getTypeNbr()+1);
+                $notification->setText("Votre post \"" . substr($topicPost->getText(), 0, 50) . "\" a été upvoté par <strong style='font-size:1.1em;'>" . ($notification->getTypeNbr()+1) . "</strong> personnes");
 
-            $this->entityManager->persist($notification);
-            $this->entityManager->flush();
+                // La notif repasse en "non-lue"
+                $notification->setClicked(false);
+                // La date est maj pour top-list
+                $notification->setDateCreation(new \DateTime());
+                // Incrémentation du compteur
+                $notification->setTypeNbr($notification->getTypeNbr()+1);
 
-            return true;
+                $this->entityManager->persist($notification);
+                $this->entityManager->flush();
+
+                return true;
+            }
+            // Si aucune notif pour ce topicPost: la créé
+            else {
+                $notification = new Notification();
+
+                $notification->setText("Votre post \"" . substr($topicPost->getText(), 0, 50) . "\" a été upvoté");
+
+                $notification->setDateCreation(new \DateTime());
+                $notification->setUser($author);
+                $notification->setClicked(false);
+                $notification->setType("topicPost");
+                $notification->setTypeId($topicPost->getId());
+                $notification->setTypeNbr(1);
+
+                $this->entityManager->persist($notification);
+                $this->entityManager->flush();
+
+                $topic = $topicPost->getTopic();
+
+                // Lien notif 
+                $link = $this->urlGenerator->generate('app_topicDetail', ['id' => $topic->getId(),'notifId' => $notification->getId()], UrlGeneratorInterface::ABSOLUTE_URL);
+                $notification->setLink($link); 
+                $this->entityManager->persist($notification);
+                $this->entityManager->flush();
+        
+                return true;
+            }
+
         }
-        // Si aucune notif pour ce topicPost: la créé
         else {
-            $notification = new Notification();
-
-            $notification->setText("Votre post \"" . substr($topicPost->getText(), 0, 50) . "\" a été upvoté");
-
-            $notification->setDateCreation(new \DateTime());
-            $notification->setUser($author);
-            $notification->setClicked(false);
-            $notification->setType("topicPost");
-            $notification->setTypeId($topicPost->getId());
-            $notification->setTypeNbr(1);
-
-            $this->entityManager->persist($notification);
-            $this->entityManager->flush();
-
-            $topic = $topicPost->getTopic();
-
-            // Lien notif 
-            $link = $this->urlGenerator->generate('app_topicDetail', ['id' => $topic->getId(),'notifId' => $notification->getId()], UrlGeneratorInterface::ABSOLUTE_URL);
-            $notification->setLink($link); 
-            $this->entityManager->persist($notification);
-            $this->entityManager->flush();
-    
-            return true;
+            return false;
         }
     }
 
 
     // Un utilisateur retire son upvote du TopicPost: nbr Upvote de la notif -1
-    public function decrAndUpdateNotifTopicPostLike(User $author, TopicPost $topicPost): bool 
+    public function decrAndUpdateNotifTopicPostLike(?User $author, TopicPost $topicPost): bool 
     {
-        // Check si deja notif pour ce topicPost (et +1 et update text)
-        $notifRepo = $this->entityManager->getRepository(Notification::class);
-        $notifChecked = $notifRepo->findOneBy(["type" => "topicPost", "typeId" => $topicPost->getId()]);
 
-        // Si notif supprimée entre temps
-        if(!is_null($notifChecked)) {
+        // handle utilisateur supprimé
+        if($author) {
 
-            // Si tout le monde a retiré son upvote: suppr notif
-            if (($notifChecked->getTypeNbr()-1) <= 0) {
+            // Check si deja notif pour ce topicPost (et +1 et update text)
+            $notifRepo = $this->entityManager->getRepository(Notification::class);
+            $notifChecked = $notifRepo->findOneBy(["type" => "topicPost", "typeId" => $topicPost->getId()]);
 
-                $notifRepo->remove($notifChecked);
-                $this->entityManager->flush();
+            // Si notif supprimée entre temps
+            if(!is_null($notifChecked)) {
 
-                return true;
-            }
-            else {
+                // Si tout le monde a retiré son upvote: suppr notif
+                if (($notifChecked->getTypeNbr()-1) <= 0) {
 
-                $notifChecked->setText("Votre commentaire \"" . substr($topicPost->getText(), 0,50) . "\" a été upvoté par <strong style='font-size:1.1em;'>" . ($notifChecked->getTypeNbr()-1) . "</strong> personnes");
+                    $notifRepo->remove($notifChecked);
+                    $this->entityManager->flush();
 
-                // Pas de proc notif ni de top-list
-    
-                $notifChecked->setTypeNbr($notifChecked->getTypeNbr()-1);
+                    return true;
+                }
+                else {
+
+                    $notifChecked->setText("Votre commentaire \"" . substr($topicPost->getText(), 0,50) . "\" a été upvoté par <strong style='font-size:1.1em;'>" . ($notifChecked->getTypeNbr()-1) . "</strong> personnes");
+
+                    // Pas de proc notif ni de top-list
         
-                $this->entityManager->persist($notifChecked);
-                $this->entityManager->flush();
-        
-                return true;
+                    $notifChecked->setTypeNbr($notifChecked->getTypeNbr()-1);
+            
+                    $this->entityManager->persist($notifChecked);
+                    $this->entityManager->flush();
+            
+                    return true;
+                }
             }
+            return false;
+
+        } else {
+            return false;
         }
-        return false;
     }
     
 
