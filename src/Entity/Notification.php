@@ -21,7 +21,7 @@ class Notification
     private ?\DateTimeInterface $date_creation = null;
 
     #[ORM\ManyToOne(inversedBy: 'notifications')]
-    #[ORM\JoinColumn(nullable: false)]
+    #[ORM\JoinColumn(nullable: false, onDelete: "cascade")]
     private ?User $user = null;
 
     #[ORM\Column(options:["default" => false], nullable:true)]

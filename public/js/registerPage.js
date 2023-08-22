@@ -1,5 +1,19 @@
 window.onload = function() {
 
+    
+    var emailValid = false;
+    var termsAccepted = false;
+    var pseudoValid = false;
+
+    var passwordsMatches = false;
+    var nbrCharResult = false;
+    var nbrMinResult = false;
+    var nbrMajResult = false;
+    var nbrNumResult = false;
+    var nbrSpecialResult = false;
+
+
+
     // Regex validation Email (critère front)
     document.getElementById('registration_form_email').addEventListener('input', function() {
 
@@ -7,7 +21,7 @@ window.onload = function() {
 
         if(inputEmail !== "") {
 
-            const emailValid = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/.test(inputEmail);
+            emailValid = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/.test(inputEmail);
 
             if(emailValid) {
                 document.getElementById('registerEmailCriteria').style.color = 'green';
@@ -22,7 +36,27 @@ window.onload = function() {
 
         }
 
+        checkIfAllCriterias();
+
     })
+
+
+
+    // validation case "Terms and conditions" cochée:
+    document.getElementById('registration_form_agreeTerms').addEventListener('input', function() {
+
+        if (document.getElementById('registration_form_agreeTerms').checked) {
+            termsAccepted = true;
+            document.getElementById('registerTermsCriteria').style.color = 'green';
+        } else {
+            termsAccepted = false;
+            document.getElementById('registerTermsCriteria').style.color = 'red';
+        }
+
+        checkIfAllCriterias();
+
+    })
+
 
 
 
@@ -54,10 +88,12 @@ window.onload = function() {
                             if (data.success) {
 
                                 if(data.pseudoAvailable) {
+                                    pseudoValid = true;
                                     document.getElementById('registerPseudoCriteria').style.color = "green";
                                     document.getElementById('registerPseudoCriteria').textContent = "- Le pseudo est disponible";
                                 }
                                 else {
+                                    pseudoValid = false;
                                     document.getElementById('registerPseudoCriteria').style.color = "red";
                                     document.getElementById('registerPseudoCriteria').textContent = "- Le pseudo est déjà utilisé";
                                 }
@@ -78,6 +114,7 @@ window.onload = function() {
             else {
                 document.getElementById('registerPseudoCriteria').style.display = "block";
 
+                pseudoValid = false;
                 document.getElementById('registerPseudoCriteria').style.color = "red";
                 document.getElementById('registerPseudoCriteria').textContent = "- Le pseudo doit faire au moins 5 caractères";
             }
@@ -87,17 +124,17 @@ window.onload = function() {
             document.getElementById('registerPseudoCriteria').style.display = "none";
         }
 
+        checkIfAllCriterias();
+
     });
 
 
-            
+       
+    
     // Regex validation mot de passse (critères front)
     document.getElementById('registration_form_plainPassword_first').addEventListener('input', function() {
 
         var inputPassword = document.getElementById('registration_form_plainPassword_first').value;
-
-        var passwordsMatches = false;
-
 
 
         if(inputPassword !== "") {
@@ -105,7 +142,7 @@ window.onload = function() {
             // Display des infos mdp:
         
             // Check 12 char:
-            const nbrCharResult = /.{10,}/.test(inputPassword);
+            nbrCharResult = /.{10,}/.test(inputPassword);
             if(nbrCharResult) {
                 document.getElementById('registerRestriction-nbrChar').style.color = 'green';
             }
@@ -114,7 +151,7 @@ window.onload = function() {
             }
 
             // Check 1 Minuscule:
-            const nbrMinResult = /[a-z]/.test(inputPassword);
+            nbrMinResult = /[a-z]/.test(inputPassword);
             if(nbrMinResult) {
                 document.getElementById('registerRestriction-nbrMin').style.color = 'green';
             }
@@ -123,7 +160,7 @@ window.onload = function() {
             }
 
             // Check 1 Majuscule:
-            const nbrMajResult = /[A-Z]/.test(inputPassword);
+            nbrMajResult = /[A-Z]/.test(inputPassword);
             if(nbrMajResult) {
                 document.getElementById('registerRestriction-nbrMaj').style.color = 'green';
             }
@@ -132,7 +169,7 @@ window.onload = function() {
             }
 
             // Check 1 chiffre:
-            const nbrNumResult = /[0-9]/.test(inputPassword);
+            nbrNumResult = /[0-9]/.test(inputPassword);
             if(nbrNumResult) {
                 document.getElementById('registerRestriction-nbrNum').style.color = 'green';
             }
@@ -141,7 +178,7 @@ window.onload = function() {
             }
 
             // Check 1 Special char:
-            const nbrSpecialResult = /[$?*@!#%&()^~{}]/.test(inputPassword);
+            nbrSpecialResult = /[$?*@!#%&()^~{}]/.test(inputPassword);
             if(nbrSpecialResult) {
                 document.getElementById('registerRestriction-nbrSpecial').style.color = 'green';
             }
@@ -160,15 +197,6 @@ window.onload = function() {
                 passwordsMatches = false;
             }
 
-            // (désactivé: Toggle btn submit disabled si critères non remplis):
-            // if(passwordsMatches && nbrCharResult && nbrMinResult && nbrMajResult && nbrNumResult && nbrSpecialResult) {
-            //     console.log("bouton clickjable");
-            //     document.getElementById('registration_form_submit').disabled = false;
-            // }
-            // else {
-            //     console.log("bouton non clickjable");
-            //     document.getElementById('registration_form_submit').disabled = true;
-            // }
 
         } 
         else {
@@ -182,7 +210,11 @@ window.onload = function() {
             document.getElementById('registerRestriction-passwordMatch').style.color = 'red';
 
         }
+
+        checkIfAllCriterias();
     })
+
+
 
 
     document.getElementById('registration_form_plainPassword_second').addEventListener('input', function() {
@@ -197,22 +229,26 @@ window.onload = function() {
             passwordsMatches = false;
         }
 
-        const nbrCharResult = /.{10,}/.test(inputPassword);
-        const nbrMinResult = /[a-z]/.test(inputPassword);
-        const nbrMajResult = /[A-Z]/.test(inputPassword);
-        const nbrNumResult = /[0-9]/.test(inputPassword);
-        const nbrSpecialResult = /[$?*@!#%&()^~{}]/.test(inputPassword);
-
-        // (désactivé: Toggle btn submit disabled si critères non remplis):
-        // if(passwordsMatches && nbrCharResult && nbrMinResult && nbrMajResult && nbrNumResult && nbrSpecialResult) {
-        //     console.log("bouton clickjable");
-        //     document.getElementById('registration_form_submit').disabled = false;
-        // }
-        // else {
-        //     console.log("bouton non clickjable");
-        //     document.getElementById('registration_form_submit').disabled = true;
-        // }
-
+        checkIfAllCriterias();
     })
+
+
+
+
+
+
+    // Fonction de vérification des critères pour activer le bouton submit
+    function checkIfAllCriterias() {
+        if(emailValid && pseudoValid && termsAccepted && passwordsMatches && nbrCharResult && nbrMinResult && nbrMajResult && nbrNumResult && nbrSpecialResult) {
+            console.log("proc bouton clickjable");
+            document.getElementById('registration_form_submit').disabled = false;
+
+
+        }
+        else {
+            console.log("bouton non clickjable");
+            document.getElementById('registration_form_submit').disabled = true;
+        }
+    }
 
 }

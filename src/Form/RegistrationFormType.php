@@ -54,7 +54,7 @@ class RegistrationFormType extends AbstractType
                 'label' => 'S\'inscrire',
                 'attr' => [
                     "class" => "btn btn-primary registerBtn", 
-                    // "disabled" => true
+                    "disabled" => true
                 ],
             ]);
 
