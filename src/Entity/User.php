@@ -2,16 +2,19 @@
 
 namespace App\Entity;
 
-use App\Repository\UserRepository;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
+use DateTime;
+use ORM\JoinTable;
+use ORM\JoinColumn;
+use ORM\InverseJoinColumn;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use App\Repository\UserRepository;
+use Doctrine\Common\Collections\Collection;
+use Doctrine\Common\Collections\ArrayCollection;
+use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
-use Symfony\Component\Security\Core\User\UserInterface;
-use DateTime;
-use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
 #[ORM\Table(name: '`user`')]
@@ -39,9 +42,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private ?string $pseudo = null;
 
     #[ORM\ManyToMany(targetEntity: Game::class, inversedBy: 'favUsers')]
-    #[ORM\JoinTable(name: 'favoris')]
-    #[ORM\JoinColumn(name:'user_id', referencedColumnName:'id', nullable: false, onDelete: "cascade")]
-    #[ORM\InverseJoinColumn(name:'game_id', referencedColumnName:'id', nullable: false)]
+    // #[JoinTable(name: 'favoris')]
+    // #[JoinColumn(name:'user_id', referencedColumnName:'id', nullable: false, onDelete: "cascade")]
+    // #[InverseJoinColumn(name:'game_id', referencedColumnName:'id', nullable: false)]
     private Collection $favoris;
 
     #[ORM\OneToMany(mappedBy: 'user', targetEntity: Topic::class)]
@@ -53,11 +56,11 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToMany(mappedBy: 'user', targetEntity: TopicPost::class)]
     private Collection $topicPosts;
 
-    #[ORM\ManyToMany(targetEntity: TopicPost::class, mappedBy: 'postLikes')]
-    #[ORM\JoinTable(name: 'post_like')]
-    #[ORM\JoinColumn(name:'user_id', referencedColumnName:'id', nullable: false, onDelete: "cascade")]
-    #[ORM\InverseJoinColumn(name:'topic_post_id', referencedColumnName:'id', nullable: false)]
-    private Collection $likedTopicPosts;
+    // #[ORM\ManyToMany(targetEntity: TopicPost::class, mappedBy: 'postLikes')]
+    // #[ORM\JoinTable(name: 'post_like')]
+    // #[ORM\JoinColumn(name:'user_id', referencedColumnName:'id', nullable: false, onDelete: "cascade")]
+    // #[ORM\InverseJoinColumn(name:'topic_post_id', referencedColumnName:'id', nullable: false)]
+    // private Collection $likedTopicPosts;
 
     #[ORM\OneToMany(mappedBy: 'user', targetEntity: PostLike::class)]
     private Collection $postLikes;
@@ -81,18 +84,18 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private Collection $leadedGroups;
 
     #[ORM\ManyToMany(targetEntity: Group::class, mappedBy: 'members')]
-    #[ORM\JoinTable(name: 'membre_group')]
-    #[ORM\JoinColumn(name:'user_id', referencedColumnName:'id', nullable: false)]
-    #[ORM\InverseJoinColumn(name:'group_id', referencedColumnName:'id', nullable: false)]
+    // #[ORM\JoinTable(name: 'membre_group')]
+    // #[ORM\JoinColumn(name:'user_id', referencedColumnName:'id', nullable: false)]
+    // #[ORM\InverseJoinColumn(name:'group_id', referencedColumnName:'id', nullable: false)]
     private Collection $groupes;
 
     #[ORM\OneToMany(mappedBy: 'user', targetEntity: Candidature::class)]
     private Collection $candidatures;
 
     #[ORM\ManyToMany(targetEntity: Group::class, mappedBy: 'blacklistedUsers')]
-    #[ORM\JoinTable(name: 'group_blacklist')]
-    #[ORM\JoinColumn(name:'user_id', referencedColumnName:'id', nullable: false, onDelete: "cascade")]
-    #[ORM\InverseJoinColumn(name:'group_id', referencedColumnName:'id', nullable: false)]
+    // #[ORM\JoinTable(name: 'group_blacklist')]
+    // #[ORM\JoinColumn(name:'user_id', referencedColumnName:'id', nullable: false)]
+    // #[ORM\InverseJoinColumn(name:'group_id', referencedColumnName:'id', nullable: false)]
     private Collection $groupsWhereBlackisted;
 
     #[ORM\OneToMany(mappedBy: 'user', targetEntity: Notification::class, orphanRemoval: true)]
@@ -122,7 +125,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         $this->topics = new ArrayCollection();
         $this->notations = new ArrayCollection();
         $this->topicPosts = new ArrayCollection();
-        $this->likedTopicPosts = new ArrayCollection();
+        // $this->likedTopicPosts = new ArrayCollection();
         $this->postLikes = new ArrayCollection();
         $this->media = new ArrayCollection();
         $this->mediaPosts = new ArrayCollection();
@@ -382,32 +385,32 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
-    /**
-     * @return Collection<int, TopicPost>
-     */
-    public function getLikedTopicPosts(): Collection
-    {
-        return $this->likedTopicPosts;
-    }
+    // /**
+    //  * @return Collection<int, TopicPost>
+    //  */
+    // public function getLikedTopicPosts(): Collection
+    // {
+    //     return $this->likedTopicPosts;
+    // }
 
-    public function addLikedTopicPost(TopicPost $likedTopicPost): self
-    {
-        if (!$this->likedTopicPosts->contains($likedTopicPost)) {
-            $this->likedTopicPosts->add($likedTopicPost);
-            $likedTopicPost->addPostLike($this);
-        }
+    // public function addLikedTopicPost(TopicPost $likedTopicPost): self
+    // {
+    //     if (!$this->likedTopicPosts->contains($likedTopicPost)) {
+    //         $this->likedTopicPosts->add($likedTopicPost);
+    //         $likedTopicPost->addPostLike($this);
+    //     }
 
-        return $this;
-    }
+    //     return $this;
+    // }
 
-    public function removeLikedTopicPost(TopicPost $likedTopicPost): self
-    {
-        if ($this->likedTopicPosts->removeElement($likedTopicPost)) {
-            $likedTopicPost->removePostLike($this);
-        }
+    // public function removeLikedTopicPost(TopicPost $likedTopicPost): self
+    // {
+    //     if ($this->likedTopicPosts->removeElement($likedTopicPost)) {
+    //         $likedTopicPost->removePostLike($this);
+    //     }
 
-        return $this;
-    }
+    //     return $this;
+    // }
 
     /**
      * @return Collection<int, PostLike>

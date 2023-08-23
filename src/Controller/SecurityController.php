@@ -127,6 +127,8 @@ class SecurityController extends AbstractController
             $MediaManager = $entityManager->getRepository(Media::class);
 
             if($this->getUser()) {
+                // $lastTopics = [];
+                // $lastMedias = [];
                 $lastTopics = $topicManager->findLastTopicsFav($userFav);
                 $lastMedias = $MediaManager->findLastMediasFav($userFav);
             }
@@ -140,6 +142,7 @@ class SecurityController extends AbstractController
                 'modoNotifCount' => $modoNotifCount,
                 'userNotifCount' => $userNotifCount,
                 'userFav' => $userFav,
+                // 'userFav' => null,
                 'allGames' => $allGames,
                 'userTeams' => $userTeams,
                 'lastTopics' => $lastTopics,
@@ -294,7 +297,6 @@ class SecurityController extends AbstractController
 
                 $this->notifController->notifMemberLeave($group, $this->getUser());
 
-                // Vérifs
                 $members = $group->getMembers();
                 if ($members->count() > 0) {
                     if ( $group->getLeader() == $this->getUser() ) {
@@ -316,8 +318,6 @@ class SecurityController extends AbstractController
                     $groupRepo->remove($group);
                 }
             }
-
-
 
 
             // Gestion publications

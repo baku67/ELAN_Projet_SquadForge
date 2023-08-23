@@ -32,12 +32,12 @@ class Topic
     #[ORM\Column(name: 'validated', length: 50)]
     private ?string $validated = null;
 
-    #[ORM\ManyToOne(targetEntity: Game::class)]
+    #[ORM\ManyToOne(targetEntity: Game::class, inversedBy: 'topics')]
     #[ORM\JoinTable(name: 'game')]
     #[ORM\JoinColumn(name:'game_id', referencedColumnName:'id')]
     private ?Game $game = null;
 
-    #[ORM\ManyToOne(targetEntity: User::class)]
+    #[ORM\ManyToOne(targetEntity: User::class, inversedBy: 'topics')]
     #[ORM\JoinTable(name: 'user')]
     #[ORM\JoinColumn(name:'user_id', referencedColumnName:'id')]
     private ?User $user = null;

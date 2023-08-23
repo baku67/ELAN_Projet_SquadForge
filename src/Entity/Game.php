@@ -37,7 +37,7 @@ class Game
     #[ORM\Column(name: 'color', length: 50)]
     private ?string $color = null;
 
-    #[ORM\ManyToOne(targetEntity: Genre::class)]
+    #[ORM\ManyToOne(targetEntity: Genre::class, inversedBy: 'games')]
     #[ORM\JoinTable(name: 'genre')]
     #[ORM\JoinColumn(name:'genre_id', referencedColumnName:'id')]
     private ?Genre $genre = null;

@@ -33,19 +33,17 @@ class TopicPost
     #[ORM\ManyToOne(inversedBy: 'topicPosts')]
     private ?Topic $topic = null;
 
-    #[ORM\ManyToOne(targetEntity: TopicPost::class, inversedBy: 'topicPosts')]
-    #[ORM\JoinColumn(name: 'parent_id', referencedColumnName: 'id', nullable: true)]
-    private ?TopicPost $parent = null;
-
-    #[ORM\OneToMany(mappedBy: 'parent', targetEntity: self::class)]
-    private Collection $topicPosts;
-
-    #[ORM\ManyToOne(targetEntity: TopicPost::class, inversedBy: 'children')]
-    #[ORM\JoinColumn(name: 'topic_post_id', referencedColumnName: 'id', nullable: true)]
-    private ?TopicPost $topicPost = null;
-
-    #[ORM\OneToMany(mappedBy: 'topicPost', targetEntity: self::class, orphanRemoval: true)]
-    private Collection $children;
+    // (Inutilisé pour l'instant: commentaire en cascade)
+    // #[ORM\ManyToOne(targetEntity: TopicPost::class, inversedBy: 'topicPosts')]
+    // #[ORM\JoinColumn(name: 'parent_id', referencedColumnName: 'id', nullable: true)]
+    // private ?TopicPost $parent = null;
+    // #[ORM\OneToMany(mappedBy: 'parent', targetEntity: self::class)]
+    // private Collection $topicPosts;
+    // #[ORM\ManyToOne(targetEntity: TopicPost::class, inversedBy: 'children')]
+    // #[ORM\JoinColumn(name: 'topic_post_id', referencedColumnName: 'id', nullable: true)]
+    // private ?TopicPost $topicPost = null;
+    // #[ORM\OneToMany(mappedBy: 'topicPost', targetEntity: self::class, orphanRemoval: true)]
+    // private Collection $children;
 
     // Nouveau sytème avec entité cette fois
     #[ORM\OneToMany(mappedBy: 'topicPost', targetEntity: PostLike::class, cascade: ["remove"])]
@@ -54,8 +52,8 @@ class TopicPost
 
     public function __construct()
     {
-        $this->topicPosts = new ArrayCollection();
-        $this->children = new ArrayCollection();
+        // $this->topicPosts = new ArrayCollection();
+        // $this->children = new ArrayCollection();
         $this->postLikes = new ArrayCollection();
 
     }
