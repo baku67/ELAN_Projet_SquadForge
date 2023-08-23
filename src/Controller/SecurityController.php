@@ -14,6 +14,7 @@ use App\Entity\GroupSession;
 use Symfony\Component\HttpFoundation\RequestStack;
 use App\Entity\OAuthTwitch;
 
+use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\PersistentCollection;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -272,13 +273,15 @@ class SecurityController extends AbstractController
 
     // Suppression de compte par l'User
     #[Route(path: '/deleteSelfAccount', name: 'app_deleteSelfAccount')]
-    public function deleteSelfAccount(EntityManagerInterface $entityManager): Response
+    public function deleteSelfAccount(EntityManagerInterface $entityManager, TokenStorageInterface $tokenStorage): Response
     {
     
         // Vérif User logged In
         if($this->getUser()) {
 
             $userToDelete = $this->getUser();
+
+            $tokenStorage->setToken(null);
 
             // Gestion memberships
             // Si après le leave, il reste des membre et que l'User était leader, passe le lead, si plus aucun membre: suppr le groupe
@@ -343,16 +346,12 @@ class SecurityController extends AbstractController
                 $userToDelete->removeMediaPost($mediaPost);
             }
 
-            $entityManager->persist($userToDelete);
-            $entityManager->flush();
             
-
-
             // Suppression User:
             $entityManager->remove($userToDelete);
             $entityManager->flush();
 
-            $this->addFlash('error', 'Votre compte a bien été supprimé');
+            $this->addFlash('success', 'Votre compte a bien été supprimé');
             return $this->redirectToRoute('app_home');
 
         }
