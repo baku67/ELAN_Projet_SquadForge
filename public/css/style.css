@@ -1487,6 +1487,43 @@ header {
     box-shadow:0 0 35px -5px var(--primary-color);
 }
 
+.lp-gameCard:hover .favArrayPlus {
+    display: block;
+}
+
+.favArrayHeart {
+    display: none;
+    font-size: 8em;
+    /* color: #000000db; */
+    color: var(--primary-color);
+    filter: drop-shadow(2px 4px 6px black);
+    backdrop-filter: blur(1px);
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+}
+.favArrayPlus {
+    display: none;
+    font-size: 8em;
+    /* color: #000000db; */
+    color: var(--primary-color);
+    backdrop-filter: blur(1px);
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.addArrayFav_title {
+    text-align: center;
+}
+
+.addArrayFavBtn {
+    padding: 15px 35px;
+    border-radius: 2px;
+}
+
 .lp-gameCardTitle {
     position: relative;
     top: 107%;
@@ -4387,10 +4424,12 @@ cursor: pointer;
 }
 .reportPreviewBtn:hover {
     /* background-color: #e91e4d56; */
-    border: 2px solid #b2ffdf79;
-    margin: 6px auto;
+    /* border: 2px solid #b2ffdf79;
+    margin: 6px auto; */
 
 }
+
+
 
 .reportPreviewFacticeTxt {
     transition: all 0.4s;

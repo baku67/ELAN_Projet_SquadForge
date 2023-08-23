@@ -323,6 +323,8 @@ class SecurityController extends AbstractController
             }
 
 
+            // Suppression des report
+
             // Gestion publications
             // anonymisation des publications de l'user => NULL (contenu gardé):
             $topics = $userToDelete->getTopics();
