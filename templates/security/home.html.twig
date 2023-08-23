@@ -61,15 +61,15 @@
             {# Selection onClick card (ajout de l'id du jeu dans un tableau qui sera passer au controller lors du click Valider) #}
             {% if userFav|length == 0 %}
 
-                <div class="splide">
+                <div class="splide splideAddFavs">
 
-                    <h3 id="carousel-heading" class="addArrayFav_title">Commencez par sélectionner vos jeux favoris</h3>
+                    <h2 id="carousel-heading" class="addArrayFav_title">Commencez par ajouter vos jeux favoris :</h2>
 
                     <div class="lp-page3-containerMaster">
 
                         <div style="overflow:hidden;">
 
-                            <div id="lp-page3-container" class="lp-page3-container splide__track"> 
+                            <div id="lp-page3-container" class="lp-page3-container splide__track" style="margin-top:15px;"> 
 
                                 <div class="lp-phone-slpideTrait1"></div>
 
@@ -135,7 +135,7 @@
 
                     </div>
 
-                    <div style="text-align:center; margin:35px auto;">
+                    <div style="text-align:center; margin:50px auto 15px auto;" id="validateAddFavsDiv" title="Sélectionnez d'abord un ou plusieurs jeux">
                         <button id="addArrayFavBtn" class="btn btn-primary addArrayFavBtn" disabled>Valider</button>
                     </div>
 
@@ -190,9 +190,11 @@
                                     // Activation du bouton submit que si array pas vide 
                                     if(favArray.length == 0 ) {
                                         document.getElementById('addArrayFavBtn').disabled = true;
+                                        document.getElementById('addArrayFavBtn').setAttribute('title', "Sélectionnez d'abord un ou plusieurs jeux");
                                     }
                                     else {
                                         document.getElementById('addArrayFavBtn').disabled = false;
+                                        document.getElementById('addArrayFavBtn').setAttribute('title', "");
                                     }
 
                                 })

@@ -1470,6 +1470,14 @@ header {
     /* overflow-y: hidden;
     overflow-x: hidden; */
 }
+.splideAddFavs {
+    max-width: 100%;
+    padding: 25px;
+    background-color: #8080801a;
+    border-radius: 18px;
+    border: 1px solid #8080804a;
+    filter: drop-shadow(2px 4px 6px black);
+}
 
 .lp-gameCard {
     cursor: pointer;
@@ -1522,7 +1530,10 @@ header {
 }
 
 .addArrayFav_title {
+    font-family: 'K2D', sans-serif;
     text-align: center;
+    margin-top: 5px;
+    font-size: 1.9em;
 }
 
 .addArrayFavBtn {
@@ -4250,10 +4261,10 @@ cursor: pointer;
 .greetingMsg {
     color: var(--primary-color);
     font-weight: bold;
-    font-size: 2.7em;
+    font-size: 2.4em;
     text-align: center;
     width: 100%;
-    margin: 60px auto;
+    margin: 45px auto;
 }
 
 .sectionContainer {
