@@ -111,11 +111,6 @@ class SecurityController extends AbstractController
             // Si connecté: raccourcis Games favoris, et listTeams
             if($this->getUser()) {
                 $userFav = $this->getUser()->getFavoris();
-
-                // Si aucun Favoris, $userFav = allGames
-                // if(count($userFav) == 0) {
-                //     $userFav = $gameRepo->findAll();
-                // }
                 $userTeams = $this->getUser()->getGroupes();
             }
             else {
@@ -128,8 +123,6 @@ class SecurityController extends AbstractController
             $MediaManager = $entityManager->getRepository(Media::class);
 
             if($this->getUser()) {
-                // $lastTopics = [];
-                // $lastMedias = [];
                 $lastTopics = $topicManager->findLastTopicsFav($userFav);
                 $lastMedias = $MediaManager->findLastMediasFav($userFav);
             }
@@ -143,7 +136,6 @@ class SecurityController extends AbstractController
                 'modoNotifCount' => $modoNotifCount,
                 'userNotifCount' => $userNotifCount,
                 'userFav' => $userFav,
-                // 'userFav' => null,
                 'allGames' => $allGames,
                 'userTeams' => $userTeams,
                 'lastTopics' => $lastTopics,

@@ -197,6 +197,29 @@
 
                             {% endfor %}
 
+
+                            // Envoi de l'array nouveau Favoris (ajax):
+                            document.getElementById('addArrayFavBtn').addEventListener("click", function() {
+
+                                fetch('/addArrayFav', {
+                                    method: 'POST',
+                                    headers: {
+                                        'Content-Type': 'application/json'
+                                    },
+                                    body: JSON.stringify(favArray)
+                                })
+                                .then(response => response.json())
+                                .then(data => {
+                                    if (data.success) {
+                                        window.FlashMessage.success(data.newState);  
+                                        location.reload(); 
+                                        // alert(data.data);                                                 
+                                    } else {
+                                        window.FlashMessage.error('Une erreur est survenue');
+                                    }
+                                });
+                            })
+
                         }
 
                     </script>
@@ -587,7 +610,6 @@
                 splide.mount();
 
             } else {
-                    
                 var splide = new Splide( '.splide', {
                     width: '100%',
                     perPage: 6,

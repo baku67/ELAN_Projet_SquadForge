@@ -86,6 +86,50 @@ class UserController extends AbstractController
 
 
 
+
+
+    // Ajout array jeux favoris (quand liste favoris vide)
+    #[Route('/addArrayFav', name: 'app_addArrayFav')]
+    public function addArrayFav(EntityManagerInterface $entityManager, Request $request): JsonResponse
+    {
+    
+        // Get the JSON data from the request body
+        $jsonData = $request->getContent();
+
+        // Decode the JSON data to get the array of IDs
+        $favArray = json_decode($jsonData, true); // true to decode as associative array
+
+
+        if (is_array($favArray)) {
+
+            foreach ($favArray as $id) {
+
+                $gameToFav = $entityManager->getRepository(Game::class)->find($id);
+
+                if($gameToFav) {
+                    $this->getUser()->addFavori($gameToFav);
+                }
+            }
+
+            $entityManager->persist($this->getUser());
+            $entityManager->flush();
+            
+            // Le reload de la page se fait lors ajax onSuccess (front)
+            return $this->json(['success' => true, 'newState' => 'Les jeux sélectionnés ont été ajouté aux favoris', 'data' => $favArray]);
+        } else {
+            // Le reload de la page se fait lors ajax onSuccess (front)
+            return $this->json(['success' => false, 'newState' => 'Une erreur est survenue']);
+        }
+
+
+        
+
+    }
+
+
+
+
+
     // Ajax Asynch toggleAutoplayGifs (A fixer! juste inversion bool BDD pour l'instant)
     #[Route('/toggleAutoplayGifs', name: 'app_toggleAutoplayGifs')]
     public function toggleAutoplayGifs(EntityManagerInterface $entityManager, Request $request): Response
