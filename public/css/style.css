@@ -1462,7 +1462,13 @@ header {
 } */
 
 .splide__list {
-    width:100%
+    width:100%;
+    /* overflow: hidden; */
+}
+.splide__track {
+    /* overflow-y: visible; marche pas */
+    /* overflow-y: hidden;
+    overflow-x: hidden; */
 }
 
 .lp-gameCard {
