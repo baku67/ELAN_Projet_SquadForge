@@ -4,7 +4,7 @@
 
 {% block body %}
 
-    <header class="globalBanner" style="background: url('{{ asset('img/banner.jpg') }}' )">
+    <header class="globalBanner" style="background: url('{{ asset('img/banner1.jpg') }}' )">
         <a href="{{ path('app_home') }}"><img src="{{ asset('img/logoSquadForge_v3.png') }}" class="logoPng" /></a>
         <nav class="navLine">
             <a href="{{ path('app_games') }}">JEUX</a>
@@ -80,7 +80,7 @@
                                     {# ici userFav = allGames si aucun fav (backend) #}
                                     {% for game in allGames %}
 
-                                        <a class="gameCardLink splide__slide">
+                                        <a class="gameCardLink splide__slide" style="transform:scale(0.9);">
                                             <span id="noFavSplide_gameId{{ index }}" style="display:none;">{{ game.id }}</span>
                                             <div class="lp-page3-slideContainer">
 
@@ -262,7 +262,7 @@
 
                                     {% for game in userFav %}
 
-                                        <a  class="gameCardLink splide__slide" href="{{ path('app_game', {'id': game.id} )}}">
+                                        <a  class="gameCardLink splide__slide" href="{{ path('app_game', {'id': game.id} )}}" style="transform:scale(0.9);">
                                             <div class="lp-page3-slideContainer">
 
                                                 <svg class="gameSelectedBracketUp">

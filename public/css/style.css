@@ -554,11 +554,13 @@ header {
 
     /* background: linear-gradient(to bottom, rgba(0,0,0,0) 0%, rgba(0,0,0,0.8) 100%); */
 
-    background: rgb(255,255,255);
+    /* background: rgb(255,255,255);
     background: -moz-radial-gradient(circle, rgba(255,255,255,0.09615384615384615) 0%, rgba(35,35,35,0.9182692307692307) 70%);
     background: -webkit-radial-gradient(circle, rgba(255,255,255,0.09615384615384615) 0%, rgba(35,35,35,0.9182692307692307) 70%);
     background: radial-gradient(circle, rgba(255,255,255,0.09615384615384615) 0%, rgba(35,35,35,0.9182692307692307) 70%);
-    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#ffffff",endColorstr="#232323",GradientType=1);
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#ffffff",endColorstr="#232323",GradientType=1); */
+
+    background: radial-gradient(circle, rgb(0 0 0 / 12%) 0%, rgba(35,35,35,0.9082692307692307) 70%);
 
     z-index: 1;
 }
@@ -1470,6 +1472,11 @@ header {
     /* overflow-y: hidden;
     overflow-x: hidden; */
 }
+.splide__slide {
+    
+    /* transform: scale(0.9); */
+}
+
 .splideAddFavs {
     max-width: 100%;
     padding: 25px;
@@ -1481,8 +1488,12 @@ header {
 
 .lp-gameCard {
     cursor: pointer;
+
     height: 250px;
     width: 200px;
+    /* height: 200px;
+    width: 170px; */
+
     background-color: grey;
     margin: 0 14px;
     background-position-x: center;
@@ -1533,7 +1544,7 @@ header {
     font-family: 'K2D', sans-serif;
     text-align: center;
     margin-top: 5px;
-    font-size: 1.9em;
+    font-size: 1.5em;
 }
 
 .addArrayFavBtn {
@@ -1673,7 +1684,7 @@ header {
 
 .navNotifDiv {
     position:relative; 
-    margin-right:10px;
+    /* margin-right:10px; */
 }
 
 .registerRightShape {
@@ -2088,16 +2099,20 @@ nav {
     position:absolute; 
     display:inline-flex; 
     align-items: baseline;
-    /* background-color: var(--primary-color); */
-    /* clip-path: polygon(0 0, 100% 0, 100% 100%, 15% 100%); */
-    padding-left: 5px;
+    background-color: #04010054;
+    padding-left: 0px;
     margin-right: -10px;
     z-index: 10;
     top:0px; 
     right:10px;
-    padding-top: 2px;
-    padding-bottom: 0px;
     padding-right: 0px;
+    border-bottom-left-radius: 10px;
+    border-bottom: 1px solid #8f8f8f3b;
+    border-left: 1px solid #8f8f8f3b;
+
+    
+    /* padding-top: 2px;
+    padding-bottom: 5px; */
 }
 
 .linkFixPosition {
@@ -2111,7 +2126,7 @@ nav {
     width: 100%; 
     background-color: var(--primary-color); 
     position: relative; 
-    top: 2px;
+    top: 3px;
 }
 .marginBottomHeaderLine {
     margin-bottom: 40px;
@@ -2147,7 +2162,7 @@ nav {
     position: relative;
     z-index: 11;
 
-    width: 165px;
+    width: 169px;
     padding: 6px;
     margin: 0px;
 }
@@ -2155,12 +2170,26 @@ nav {
 .profil {
     font-size: 0.88em;
     color: rgb(255, 255, 255);
-    padding: 5px 14px 5px 37px;
+    padding: 13px 14px 7px 20px;
+    border-bottom-left-radius: 7px;
+
+    transition: all 0.4s;
 }
 .decoBtn {
     font-size: 0.88em;
-    padding: 5px 14px;
+    padding: 13px 12px 7px 12px;
     border-left: 1px solid rgba(160, 160, 160, 0.4);
+
+    transition: all 0.4s;
+}
+
+.profil:hover {
+    background-color: var(--primary-color);
+    color: black;
+    font-weight: bold;
+}
+.decoBtn:hover {
+    background-color: #7e0000;
 }
 
 .gameHeaderInfosContent {
@@ -4097,9 +4126,16 @@ cursor: pointer;
 
 .navLine {
     display: inline-flex;
+    padding-top: 7px;
+    padding-left: 15px;
+    background-color: #04010054;
+    border-top-left-radius: 7px;
+
+    border-top: 1px solid #8f8f8f3b;
+    border-left: 1px solid #8f8f8f3b;
 }
 .navLine * {
-    margin: 0 4px;
+    padding: 0px 7px;
 }
 .notifBell {
     color: white;
@@ -4261,7 +4297,7 @@ cursor: pointer;
 .greetingMsg {
     color: var(--primary-color);
     font-weight: bold;
-    font-size: 2.4em;
+    font-size: 2.1em;
     text-align: center;
     width: 100%;
     margin: 45px auto;
