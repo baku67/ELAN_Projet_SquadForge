@@ -7,13 +7,14 @@
     <header class="globalBanner" style="background: url('{{ asset('img/banner1.jpg') }}' )">
         <a href="{{ path('app_home') }}"><img src="{{ asset('img/logoSquadForge_v3.png') }}" class="logoPng" /></a>
         <nav class="navLine">
-            <a href="{{ path('app_games') }}">JEUX</a>
+            <a href="{{ path('app_home') }}" class="homeNav"><i class="fa-solid fa-house"></i></a>
+            <a href="{{ path('app_games') }}" class="gamesNav caps">jeux</a>
             {% if app.user %}
-                <a href="{{ path('app_userGroups') }}" style="white;">TEAMS</a>
-                <a href="{{ path('app_showNotifsList') }}">
+                <a href="{{ path('app_userGroups') }}" class="teamsNav caps">teams</a>
+                <a href="{{ path('app_showNotifsList') }}" class="notifsNav" style="padding:0;">
                     <div class="navNotifDiv">
                         <i class="fa-solid fa-bell notifBell"></i>
-                        {# Bulle newNotifCount si > 0#}
+                        {# Bulle newNotifCount si > 0 #}
                         {% if userNotifCount > 0 %}
                             <span class="newNotifBubbleCount" id="newNotifBubbleCount">{{ userNotifCount }}</span>
                         {% endif %}
@@ -21,8 +22,8 @@
                 </a>
             {% endif %}
             {% if app.user and "ROLE_MODO" in app.user.roles %}
-                <a href="{{ path('app_moderationDashboard') }}">
-                    <div style="position:relative; margin-right:10px;">
+                <a href="{{ path('app_moderationDashboard') }}" class="modoNav navActive">
+                    <div style="position:relative;">
                         <span>Modération</span>
                         {% if modoNotifCount > 0 %}
                             <span class="newNotifBubbleCount">{{ modoNotifCount }}</span>

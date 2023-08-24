@@ -108,7 +108,7 @@
 
         <div class="authenticationDiv" id="authenticationDiv">
             {% if app.user %}
-                <a href="{{ path('app_user') }}" class="profil"><i class="fa-solid fa-user"></i>  {{ app.user.pseudo|capitalize }}</a>
+                <a href="{{ path('app_user') }}" class="profil" id="profilBtnNav"><i class="fa-solid fa-user"></i>  {{ app.user.pseudo|capitalize }}</a>
                 <a href="{{ path('app_logout') }}" class="decoBtn"><i class="fa-solid fa-power-off"></i></a>
             {% else %}
                 <a href="{{ path('app_login') }}" class="profil" style="border-right:2px solid #80808061">Connexion</a>

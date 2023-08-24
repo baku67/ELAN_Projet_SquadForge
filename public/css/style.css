@@ -1689,7 +1689,8 @@ header {
 .navNotifDiv {
     position:relative; 
     /* margin-right:10px; */
-    padding: 0;
+    /* padding: 0; */
+    padding: 0 8px 0 8px !important;
     padding-top: 7px !important;
 }
 
@@ -2178,7 +2179,7 @@ nav {
     font-size: 0.88em;
     color: rgb(255, 255, 255);
     padding: 9px 14px 7px 17px;
-    border-bottom-left-radius: 7px;
+    border-bottom-left-radius: 4px;
 
     transition: all 0.4s;
 }
@@ -2196,8 +2197,10 @@ nav {
     font-weight: bold;
 }
 .decoBtn:hover {
-    background-color: #7e0000;
+    background-color: #bb0000;
 }
+
+
 
 .gameHeaderInfosContent {
     padding:25px;
@@ -2250,19 +2253,24 @@ nav {
 .favButton {
     float: right; /* temporaire */
 
-    padding: 10px 20px 10px 24px;
+    padding: 12px 20px 12px 24px;
     background-color: rgb(255 255 255 / 5%);
     border-top: 1px solid rgb(255 255 255 / 20%);
     border-bottom: 1px solid rgb(255 255 255 / 20%);
     /* clip-path: polygon(14% 0, 100% 0, 86% 100%, 0% 100%); */
     clip-path: polygon(0% 0, 100% 0, 100% 100%, 20% 100%);
 
+    transition: all 0.3s;
 }
 .favIcon {
     font-size: 2em;
     position: relative;
     right: -6px;
     top: 0px;
+}
+
+.favButton:hover {
+    background-color: #f1f1f12a;
 }
 
 
@@ -4165,7 +4173,14 @@ cursor: pointer;
     transition: all 0.3s;
     border-top-left-radius: 3px;
 }
+.modoNav {
+    padding-top: 6px;
+    padding-left: 0;
+    text-transform: uppercase;
+    transition: all 0.3s;
+}
 .notifsNav {
+    padding-right: 3px !important;
     color: white;
     transition: all 0.3s;
 }
@@ -4186,6 +4201,10 @@ cursor: pointer;
     background-color: white;
     color: black;
 }
+.modoNav:hover {
+    background-color: white;
+    color: black !important;
+}
 
 .navActive {
     /* border-bottom: 3px solid var(--primary-color); */
@@ -4200,16 +4219,16 @@ cursor: pointer;
     width: 20px;
 
     position: absolute;
-    right: -12px;
+    right: -3px;
     /* background-color: var(--primary-color); */
-    background-color: #f10506;
+    background-color: #ff0000;
     /* color: black; */
     color: #ffe3e3;
 
     padding: 0px 4px;
     padding-top: 2px;
     border-radius: 100px;
-    top: 2px;
+    top: -1px;
     line-height: 15px;
     font-weight: 600;
     border: 1px solid rgba(0, 0, 0, 0.4);

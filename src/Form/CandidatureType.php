@@ -32,9 +32,9 @@ class CandidatureType extends AbstractType
                         'message' => 'Vous devez entrer un message ne peut pas être vide.',
                     ]),
                     new Length([
-                        'min' => 10,
+                        'min' => 1,
                         'max' => 1500,
-                        'maxMessage' => 'Le message ne peut pas faire moins de 10 caractères.',
+                        'maxMessage' => 'Le message ne peut pas faire moins de 1 caractères.',
                         'maxMessage' => 'Le message ne peut pas faire plus de 1500 caractères.',
                     ]),
                 ],
