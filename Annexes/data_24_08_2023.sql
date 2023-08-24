@@ -1,49 +1,35 @@
--- --------------------------------------------------------
--- Hôte:                         127.0.0.1
--- Version du serveur:           8.0.30 - MySQL Community Server - GPL
--- SE du serveur:                Win64
--- HeidiSQL Version:             12.1.0.6537
--- --------------------------------------------------------
+DELETE FROM `user`;
+INSERT INTO `user` (`id`, `email`, `roles`, `password`, `is_verified`, `pseudo`, `auto_play_gifs`, `status`, `end_date_status`, `nbr_censures`) VALUES
+	(3, 'basile08@hotmail.fr', '["ROLE_MODO"]', '$2y$13$PFkqOIh3ZRbIx6totl7OE.aHyfWw9YQcb7ZqN.XeBtsr1YR/lZDiK', 1, 'basile', 1, '', '2023-07-22 21:46:56', 20),
+	(7, 'basile09@hotmail.fr', '[]', '$2y$13$VQhOrGgKRQ1rdIoNWVld9eANrYSBAYbuGOCQQ5rHYbMfzBfpv4Sxa', 1, 'basile2', NULL, 'muted', '2023-07-25 05:33:42', 4),
+	(8, 'basile10@hotmail.fr', '[]', '$2y$13$aQvLMfshYRre.ij4LrLkiO9prlAoISs8gqAItt.aC976djlHg5FdK', 1, 'basile3', 1, NULL, NULL, 0),
+	(95, 'basile100@hotmail.fr', '[]', '$2y$13$JxJQQGHr6.N.eXLLAQ1PVufgrkOEQ6ux76wEii1CpMa1/SgdU94We', 1, 'basile100', 1, NULL, NULL, 0),
+	(97, 'basile1000@hotmail.fr', '[]', '$2y$13$3HEhG1fVIir8OERh24La/unF9ivkRwmYZyxZ0lSpTU/IFqQtcpdh6', 1, 'basile1000', 1, NULL, NULL, 0),
+	(98, 'basile22@hotmail.fr', '[]', '$2y$13$1H8ZNrtzJfOuil.Fqy1gg.Nh2AG1wSphWL3opDrhXvQ1TPUGrAn6O', 1, 'basile22', 1, NULL, NULL, 0),
+	(99, 'basile00@hotmail.fr', '[]', '$2y$13$Hl7hpUl.gu6iBmHVCaSBo.4jAKqFpt4Z/yXrWKJj1be1kjdPDYEjm', 0, 'basile00', 1, NULL, NULL, 0);
 
-/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
-/*!40101 SET NAMES utf8 */;
-/*!50503 SET NAMES utf8mb4 */;
-/*!40103 SET @OLD_TIME_ZONE=@@TIME_ZONE */;
-/*!40103 SET TIME_ZONE='+00:00' */;
-/*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
-/*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
-/*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
--- Listage de la structure de table squadforge. candidature
-CREATE TABLE IF NOT EXISTS `candidature` (
-  `id` int NOT NULL AUTO_INCREMENT,
-  `groupe_id` int DEFAULT NULL,
-  `user_id` int DEFAULT NULL,
-  `text` longtext COLLATE utf8mb4_unicode_ci,
-  `creation_date` datetime NOT NULL,
-  `status` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,
-  PRIMARY KEY (`id`),
-  KEY `IDX_E33BD3B87A45358C` (`groupe_id`),
-  KEY `IDX_E33BD3B8A76ED395` (`user_id`),
-  CONSTRAINT `FK_E33BD3B87A45358C` FOREIGN KEY (`groupe_id`) REFERENCES `group` (`id`),
-  CONSTRAINT `FK_E33BD3B8A76ED395` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=90 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+DELETE FROM `genre`;
+INSERT INTO `genre` (`id`, `name`) VALUES
+	(1, 'FPS'),
+	(2, 'indie'),
+	(3, 'Battle Royal'),
+	(4, 'MOBA');
 
--- Listage des données de la table squadforge.candidature : ~0 rows (environ)
-DELETE FROM `candidature`;
 
--- Listage de la structure de table squadforge. censure
-CREATE TABLE IF NOT EXISTS `censure` (
-  `id` int NOT NULL AUTO_INCREMENT,
-  `user_id` int DEFAULT NULL,
-  `creation_date` datetime NOT NULL,
-  `word` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,
-  PRIMARY KEY (`id`),
-  KEY `IDX_5268F5A9A76ED395` (`user_id`),
-  CONSTRAINT `FK_5268F5A9A76ED395` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=26 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+DELETE FROM `game`;
+INSERT INTO `game` (`id`, `genre_id`, `title`, `editor`, `publish_date`, `description`, `color`, `logo`, `banner`, `font_color`, `tiny_logo`, `sub_banner`, `nbr_places`, `site_logo`) VALUES
+	(1, 1, 'Overwatch', 'Blizzard', '2017-05-01 21:16:23', 'FPS dynamique et efficace', '#ff9b00', 'overwatchLogo.png', 'overwatchBanner.jpg', 'white', 'overwatch1.png', 'overwatchHeaderBg.jpg', 0, 'logoSquadForge_overwatch.png'),
+	(2, 1, 'Call of Duty', 'Activision', '2002-05-01 21:16:54', 'FPS connu ', '#74c814', 'callOfDutyLogo.png', 'codBanner.jpg', 'white', 'cod1.png', 'callofdutyHeaderBg.jpg', 0, 'logoSquadForge_cod.png'),
+	(3, 2, 'Isaac', 'Edmund McMillen', '2003-05-01 23:59:12', 'Oulah', '#e24f37', 'isaacLogo.jpg', 'isaacBanner.jpg', 'white', 'isaac1.png', 'overwatchHeaderBg.jpg', 0, 'logoSquadForge_White_Rogned.png'),
+	(4, 1, 'Valorant', 'Riot Games', '2021-05-02 01:41:56', 'Fps mélange entre Overwatch et Counter Strike', '#ff4655', 'valorantLogo.png', 'valorantBanner.jpg', 'white', 'valorant1.png', 'valorantHeaderBg.jpg', 0, 'logoSquadForge_valorant.png'),
+	(5, 3, 'PUBG', 'Krafton', '2016-05-02 02:52:53', 'Battle royal pas ouf', '#ffd632', 'pubgLogo.jpeg', 'pubgBanner.jpg', 'white', 'pubg1.png', 'pubgHeaderBg.jpg', 0, 'logoSquadForge_pubg.png'),
+	(6, 4, 'League of Legend', 'Riot Games', '2023-07-04 00:15:46', 'Bah c\'est lol', '#d4af61', 'lolLogo.jpg', 'lolBanner.jpg', 'white', 'lol1.png', 'lolHeaderBg.jpg', 0, 'logoSquadForge_lol.png'),
+	(7, 4, 'League of Legend', 'Riot Games', '2023-07-04 00:15:46', 'Bah c\'est lol', '#d4af61', 'lolLogo.jpg', 'lolBanner.jpg', 'white', 'lol1.png', 'lolHeaderBg.jpg', 0, 'logoSquadForge_lol.png'),
+	(8, 4, 'League of Legend', 'Riot Games', '2023-07-04 00:15:46', 'Bah c\'est lol', '#d4af61', 'lolLogo.jpg', 'lolBanner.jpg', 'white', 'lol1.png', 'lolHeaderBg.jpg', 0, 'logoSquadForge_lol.png'),
+	(9, 4, 'League of Legend', 'Riot Games', '2023-07-04 00:15:46', 'Bah c\'est lol', '#d4af61', 'lolLogo.jpg', 'lolBanner.jpg', 'white', 'lol1.png', 'lolHeaderBg.jpg', 0, 'logoSquadForge_lol.png');
 
--- Listage des données de la table squadforge.censure : ~16 rows (environ)
+
 DELETE FROM `censure`;
 INSERT INTO `censure` (`id`, `user_id`, `creation_date`, `word`) VALUES
 	(1, 3, '2023-05-17 18:04:44', 'pute'),
@@ -63,115 +49,7 @@ INSERT INTO `censure` (`id`, `user_id`, `creation_date`, `word`) VALUES
 	(23, 3, '2023-05-18 01:09:32', 'bitch'),
 	(25, 3, '2023-07-03 23:42:12', 'dfvdfv');
 
--- Listage de la structure de table squadforge. doctrine_migration_versions
-CREATE TABLE IF NOT EXISTS `doctrine_migration_versions` (
-  `version` varchar(191) COLLATE utf8mb3_unicode_ci NOT NULL,
-  `executed_at` datetime DEFAULT NULL,
-  `execution_time` int DEFAULT NULL,
-  PRIMARY KEY (`version`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_unicode_ci;
 
--- Listage des données de la table squadforge.doctrine_migration_versions : ~0 rows (environ)
-DELETE FROM `doctrine_migration_versions`;
-INSERT INTO `doctrine_migration_versions` (`version`, `executed_at`, `execution_time`) VALUES
-	('DoctrineMigrations\\Version20230430131901', '2023-05-01 19:46:44', 43),
-	('DoctrineMigrations\\Version20230430154643', '2023-05-01 19:46:44', 8),
-	('DoctrineMigrations\\Version20230527014530', '2023-05-27 03:46:00', 94);
-
--- Listage de la structure de table squadforge. favoris
-CREATE TABLE IF NOT EXISTS `favoris` (
-  `user_id` int NOT NULL,
-  `game_id` int NOT NULL,
-  PRIMARY KEY (`user_id`,`game_id`),
-  KEY `IDX_8933C432A76ED395` (`user_id`),
-  KEY `IDX_8933C432E48FD905` (`game_id`),
-  CONSTRAINT `FK_8933C432A76ED395` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`) ON DELETE CASCADE,
-  CONSTRAINT `FK_8933C432E48FD905` FOREIGN KEY (`game_id`) REFERENCES `game` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
--- Listage des données de la table squadforge.favoris : ~6 rows (environ)
-DELETE FROM `favoris`;
-INSERT INTO `favoris` (`user_id`, `game_id`) VALUES
-	(3, 2),
-	(3, 4),
-	(3, 5),
-	(3, 6),
-	(7, 2),
-	(8, 4);
-
--- Listage de la structure de table squadforge. game
-CREATE TABLE IF NOT EXISTS `game` (
-  `id` int NOT NULL AUTO_INCREMENT,
-  `genre_id` int DEFAULT NULL,
-  `title` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `editor` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `publish_date` datetime NOT NULL,
-  `description` longtext COLLATE utf8mb4_unicode_ci,
-  `color` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `logo` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `banner` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `font_color` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `tiny_logo` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `sub_banner` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `nbr_places` smallint NOT NULL,
-  `site_logo` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'logoSquadForge_v3.png',
-  PRIMARY KEY (`id`),
-  KEY `IDX_232B318C4296D31F` (`genre_id`),
-  CONSTRAINT `FK_232B318C4296D31F` FOREIGN KEY (`genre_id`) REFERENCES `genre` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
--- Listage des données de la table squadforge.game : ~9 rows (environ)
-DELETE FROM `game`;
-INSERT INTO `game` (`id`, `genre_id`, `title`, `editor`, `publish_date`, `description`, `color`, `logo`, `banner`, `font_color`, `tiny_logo`, `sub_banner`, `nbr_places`, `site_logo`) VALUES
-	(1, 1, 'Overwatch', 'Blizzard', '2017-05-01 21:16:23', 'FPS dynamique et efficace', '#ff9b00', 'overwatchLogo.png', 'overwatchBanner.jpg', 'white', 'overwatch1.png', 'overwatchHeaderBg.jpg', 0, 'logoSquadForge_overwatch.png'),
-	(2, 1, 'Call of Duty', 'Activision', '2002-05-01 21:16:54', 'FPS connu ', '#74c814', 'callOfDutyLogo.png', 'codBanner.jpg', 'white', 'cod1.png', 'callofdutyHeaderBg.jpg', 0, 'logoSquadForge_cod.png'),
-	(3, 2, 'Isaac', 'Edmund McMillen', '2003-05-01 23:59:12', 'Oulah', '#e24f37', 'isaacLogo.jpg', 'isaacBanner.jpg', 'white', 'isaac1.png', 'overwatchHeaderBg.jpg', 0, 'logoSquadForge_White_Rogned.png'),
-	(4, 1, 'Valorant', 'Riot Games', '2021-05-02 01:41:56', 'Fps mélange entre Overwatch et Counter Strike', '#ff4655', 'valorantLogo.png', 'valorantBanner.jpg', 'white', 'valorant1.png', 'valorantHeaderBg.jpg', 0, 'logoSquadForge_valorant.png'),
-	(5, 3, 'PUBG', 'Krafton', '2016-05-02 02:52:53', 'Battle royal pas ouf', '#ffd632', 'pubgLogo.jpeg', 'pubgBanner.jpg', 'white', 'pubg1.png', 'pubgHeaderBg.jpg', 0, 'logoSquadForge_pubg.png'),
-	(6, 4, 'League of Legend', 'Riot Games', '2023-07-04 00:15:46', 'Bah c\'est lol', '#d4af61', 'lolLogo.jpg', 'lolBanner.jpg', 'white', 'lol1.png', 'lolHeaderBg.jpg', 0, 'logoSquadForge_lol.png'),
-	(7, 4, 'League of Legend', 'Riot Games', '2023-07-04 00:15:46', 'Bah c\'est lol', '#d4af61', 'lolLogo.jpg', 'lolBanner.jpg', 'white', 'lol1.png', 'lolHeaderBg.jpg', 0, 'logoSquadForge_lol.png'),
-	(8, 4, 'League of Legend', 'Riot Games', '2023-07-04 00:15:46', 'Bah c\'est lol', '#d4af61', 'lolLogo.jpg', 'lolBanner.jpg', 'white', 'lol1.png', 'lolHeaderBg.jpg', 0, 'logoSquadForge_lol.png'),
-	(9, 4, 'League of Legend', 'Riot Games', '2023-07-04 00:15:46', 'Bah c\'est lol', '#d4af61', 'lolLogo.jpg', 'lolBanner.jpg', 'white', 'lol1.png', 'lolHeaderBg.jpg', 0, 'logoSquadForge_lol.png');
-
--- Listage de la structure de table squadforge. genre
-CREATE TABLE IF NOT EXISTS `genre` (
-  `id` int NOT NULL AUTO_INCREMENT,
-  `name` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
--- Listage des données de la table squadforge.genre : ~2 rows (environ)
-DELETE FROM `genre`;
-INSERT INTO `genre` (`id`, `name`) VALUES
-	(1, 'FPS'),
-	(2, 'indie'),
-	(3, 'Battle Royal'),
-	(4, 'MOBA');
-
--- Listage de la structure de table squadforge. group
-CREATE TABLE IF NOT EXISTS `group` (
-  `id` int NOT NULL AUTO_INCREMENT,
-  `leader_id` int NOT NULL,
-  `game_id` int NOT NULL,
-  `title` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `description` longtext COLLATE utf8mb4_unicode_ci,
-  `nbr_places` smallint NOT NULL,
-  `creation_date` datetime NOT NULL,
-  `restriction_18` tinyint(1) DEFAULT NULL,
-  `restriction_lang` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `status` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `img_url` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `restriction_mic` tinyint(1) DEFAULT NULL,
-  `candidature_description` longtext COLLATE utf8mb4_unicode_ci,
-  `restriction_img_proof` tinyint(1) NOT NULL,
-  PRIMARY KEY (`id`),
-  KEY `IDX_6DC044C573154ED4` (`leader_id`),
-  KEY `IDX_6DC044C5E48FD905` (`game_id`),
-  CONSTRAINT `FK_6DC044C573154ED4` FOREIGN KEY (`leader_id`) REFERENCES `user` (`id`),
-  CONSTRAINT `FK_6DC044C5E48FD905` FOREIGN KEY (`game_id`) REFERENCES `game` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=50 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
--- Listage des données de la table squadforge.group : ~5 rows (environ)
 DELETE FROM `group`;
 INSERT INTO `group` (`id`, `leader_id`, `game_id`, `title`, `description`, `nbr_places`, `creation_date`, `restriction_18`, `restriction_lang`, `status`, `img_url`, `restriction_mic`, `candidature_description`, `restriction_img_proof`) VALUES
 	(36, 7, 1, 'La team overwatch', 'fzefzef', 2, '2023-06-21 21:39:31', 0, 'fr', 'hidden', NULL, 0, NULL, 0),
@@ -180,68 +58,14 @@ INSERT INTO `group` (`id`, `leader_id`, `game_id`, `title`, `description`, `nbr_
 	(47, 7, 4, 'Valo team numéro One', 'Ola', 6, '2023-07-08 06:14:54', 1, NULL, 'public', NULL, 0, NULL, 1),
 	(49, 3, 2, 'fzefzefzef', 'zefzefzef', 2, '2023-08-22 14:57:39', 1, NULL, 'public', NULL, 1, NULL, 1);
 
--- Listage de la structure de table squadforge. group_answer
-CREATE TABLE IF NOT EXISTS `group_answer` (
-  `id` int NOT NULL AUTO_INCREMENT,
-  `group_question_id` int DEFAULT NULL,
-  `candidature_id` int DEFAULT NULL,
-  `text` longtext COLLATE utf8mb4_unicode_ci NOT NULL,
-  PRIMARY KEY (`id`),
-  KEY `IDX_95B92F53B9FE97E` (`group_question_id`),
-  KEY `IDX_95B92F5B6121583` (`candidature_id`),
-  CONSTRAINT `FK_95B92F53B9FE97E` FOREIGN KEY (`group_question_id`) REFERENCES `group_question` (`id`),
-  CONSTRAINT `FK_95B92F5B6121583` FOREIGN KEY (`candidature_id`) REFERENCES `candidature` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=321 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Listage des données de la table squadforge.group_answer : ~0 rows (environ)
-DELETE FROM `group_answer`;
-
--- Listage de la structure de table squadforge. group_blacklist
-CREATE TABLE IF NOT EXISTS `group_blacklist` (
-  `group_id` int NOT NULL,
-  `user_id` int NOT NULL,
-  PRIMARY KEY (`group_id`,`user_id`),
-  KEY `IDX_FBA40F64FE54D947` (`group_id`),
-  KEY `IDX_FBA40F64A76ED395` (`user_id`),
-  CONSTRAINT `FK_FBA40F64A76ED395` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`) ON DELETE CASCADE,
-  CONSTRAINT `FK_FBA40F64FE54D947` FOREIGN KEY (`group_id`) REFERENCES `group` (`id`) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
--- Listage des données de la table squadforge.group_blacklist : ~1 rows (environ)
-DELETE FROM `group_blacklist`;
-
--- Listage de la structure de table squadforge. group_question
-CREATE TABLE IF NOT EXISTS `group_question` (
-  `id` int NOT NULL AUTO_INCREMENT,
-  `groupe_id` int DEFAULT NULL,
-  `text` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `required` tinyint(1) NOT NULL,
-  PRIMARY KEY (`id`),
-  KEY `IDX_BFC705317A45358C` (`groupe_id`),
-  CONSTRAINT `FK_BFC705317A45358C` FOREIGN KEY (`groupe_id`) REFERENCES `group` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=39 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
--- Listage des données de la table squadforge.group_question : ~4 rows (environ)
 DELETE FROM `group_question`;
 INSERT INTO `group_question` (`id`, `groupe_id`, `text`, `required`) VALUES
 	(30, 36, 'Test 1', 1),
 	(36, 38, 'Test', 1),
 	(38, 39, 'Question 1', 1);
 
--- Listage de la structure de table squadforge. group_session
-CREATE TABLE IF NOT EXISTS `group_session` (
-  `id` int NOT NULL AUTO_INCREMENT,
-  `team_id` int NOT NULL,
-  `date_start` datetime NOT NULL,
-  `date_end` datetime NOT NULL,
-  `title` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `comfirm_needed` tinyint(1) DEFAULT '0',
-  PRIMARY KEY (`id`),
-  KEY `IDX_564481D8296CD8AE` (`team_id`),
-  CONSTRAINT `FK_564481D8296CD8AE` FOREIGN KEY (`team_id`) REFERENCES `group` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Listage des données de la table squadforge.group_session : ~7 rows (environ)
 DELETE FROM `group_session`;
 INSERT INTO `group_session` (`id`, `team_id`, `date_start`, `date_end`, `title`, `comfirm_needed`) VALUES
 	(4, 47, '2023-07-26 20:25:00', '2023-07-26 21:25:00', 'hrhrtyh', 0),
@@ -253,44 +77,15 @@ INSERT INTO `group_session` (`id`, `team_id`, `date_start`, `date_end`, `title`,
 	(13, 39, '2023-08-22 10:00:00', '2023-08-30 10:00:00', 'rzeqffeqf', NULL),
 	(14, 49, '2023-08-23 15:10:00', '2023-08-23 17:10:00', 'fesfsefs', NULL);
 
--- Listage de la structure de table squadforge. group_session_dispo
-CREATE TABLE IF NOT EXISTS `group_session_dispo` (
-  `id` int NOT NULL AUTO_INCREMENT,
-  `session_id` int NOT NULL,
-  `member_id` int NOT NULL,
-  `disponibility` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  KEY `IDX_CCAF3BBB613FECDF` (`session_id`),
-  KEY `IDX_CCAF3BBB7597D3FE` (`member_id`),
-  CONSTRAINT `FK_CCAF3BBB613FECDF` FOREIGN KEY (`session_id`) REFERENCES `group_session` (`id`),
-  CONSTRAINT `FK_CCAF3BBB7597D3FE` FOREIGN KEY (`member_id`) REFERENCES `user` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Listage des données de la table squadforge.group_session_dispo : ~3 rows (environ)
 DELETE FROM `group_session_dispo`;
 INSERT INTO `group_session_dispo` (`id`, `session_id`, `member_id`, `disponibility`) VALUES
 	(3, 4, 3, 'perhaps'),
 	(4, 4, 8, 'dispo'),
 	(6, 5, 3, 'notdispo');
 
--- Listage de la structure de table squadforge. media
-CREATE TABLE IF NOT EXISTS `media` (
-  `id` int NOT NULL AUTO_INCREMENT,
-  `title` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `publish_date` datetime NOT NULL,
-  `url` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `status` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `validated` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `user_id` int DEFAULT NULL,
-  `game_id` int DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  KEY `IDX_6A2CA10CA76ED395` (`user_id`),
-  KEY `IDX_6A2CA10CE48FD905` (`game_id`),
-  CONSTRAINT `FK_6A2CA10CA76ED395` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`),
-  CONSTRAINT `FK_6A2CA10CE48FD905` FOREIGN KEY (`game_id`) REFERENCES `game` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=75 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Listage des données de la table squadforge.media : ~25 rows (environ)
+
 DELETE FROM `media`;
 INSERT INTO `media` (`id`, `title`, `publish_date`, `url`, `status`, `validated`, `user_id`, `game_id`) VALUES
 	(1, 'Regardez donc ce 360° no scope, il doit etre dégouterrrr', '2023-05-09 08:59:47', 'valorant.gif', 'open', 'validated', 3, 4),
@@ -320,21 +115,7 @@ INSERT INTO `media` (`id`, `title`, `publish_date`, `url`, `status`, `validated`
 	(43, 'Retest gif upload overwatch gif', '2023-05-26 01:05:36', '646fe9944d7af_1685055892.gif', 'closed', 'validated', 3, 1),
 	(74, 'test topic test topic  test topic', '2023-07-19 22:35:14', '64b8490234ab6_1689798914.jpg', 'open', 'waiting', 3, 4);
 
--- Listage de la structure de table squadforge. media_post
-CREATE TABLE IF NOT EXISTS `media_post` (
-  `id` int NOT NULL AUTO_INCREMENT,
-  `user_id` int DEFAULT NULL,
-  `media_id` int DEFAULT NULL,
-  `text` longtext COLLATE utf8mb4_unicode_ci NOT NULL,
-  `publish_date` datetime NOT NULL,
-  PRIMARY KEY (`id`),
-  KEY `IDX_99CDB35EA76ED395` (`user_id`),
-  KEY `IDX_99CDB35EEA9FDD75` (`media_id`),
-  CONSTRAINT `FK_99CDB35EA76ED395` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`),
-  CONSTRAINT `FK_99CDB35EEA9FDD75` FOREIGN KEY (`media_id`) REFERENCES `media` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=32 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Listage des données de la table squadforge.media_post : ~19 rows (environ)
 DELETE FROM `media_post`;
 INSERT INTO `media_post` (`id`, `user_id`, `media_id`, `text`, `publish_date`) VALUES
 	(1, 3, 17, 'Test publiccation de media Post', '2023-05-10 09:17:16'),
@@ -357,36 +138,13 @@ INSERT INTO `media_post` (`id`, `user_id`, `media_id`, `text`, `publish_date`) V
 	(18, 3, 41, 'wvdsvqsdv', '2023-06-15 21:27:00'),
 	(22, 7, 30, 'test', '2023-07-04 01:24:41');
 
--- Listage de la structure de table squadforge. media_post_like
-CREATE TABLE IF NOT EXISTS `media_post_like` (
-  `id` int NOT NULL AUTO_INCREMENT,
-  `user_id` int NOT NULL,
-  `media_post_id` int DEFAULT NULL,
-  `state` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,
-  PRIMARY KEY (`id`),
-  KEY `IDX_40569436A76ED395` (`user_id`),
-  KEY `IDX_405694362A5E8565` (`media_post_id`),
-  CONSTRAINT `FK_405694362A5E8565` FOREIGN KEY (`media_post_id`) REFERENCES `media_post` (`id`),
-  CONSTRAINT `FK_40569436A76ED395` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=67 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='Upvote ou Downvote d''un Post de Media par un User';
 
--- Listage des données de la table squadforge.media_post_like : ~1 rows (environ)
 DELETE FROM `media_post_like`;
 INSERT INTO `media_post_like` (`id`, `user_id`, `media_post_id`, `state`) VALUES
 	(52, 7, 18, 'upvote');
 
--- Listage de la structure de table squadforge. media_upvotes
-CREATE TABLE IF NOT EXISTS `media_upvotes` (
-  `media_id` int NOT NULL,
-  `user_id` int NOT NULL,
-  PRIMARY KEY (`media_id`,`user_id`),
-  KEY `IDX_DE6026A8EA9FDD75` (`media_id`),
-  KEY `IDX_DE6026A8A76ED395` (`user_id`),
-  CONSTRAINT `FK_DE6026A8A76ED395` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`) ON DELETE CASCADE,
-  CONSTRAINT `FK_DE6026A8EA9FDD75` FOREIGN KEY (`media_id`) REFERENCES `media` (`id`) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Listage des données de la table squadforge.media_upvotes : ~18 rows (environ)
+
 DELETE FROM `media_upvotes`;
 INSERT INTO `media_upvotes` (`media_id`, `user_id`) VALUES
 	(3, 3),
@@ -408,18 +166,7 @@ INSERT INTO `media_upvotes` (`media_id`, `user_id`) VALUES
 	(43, 3),
 	(43, 7);
 
--- Listage de la structure de table squadforge. membre_group
-CREATE TABLE IF NOT EXISTS `membre_group` (
-  `group_id` int NOT NULL,
-  `user_id` int NOT NULL,
-  PRIMARY KEY (`group_id`,`user_id`),
-  KEY `IDX_DBE64B44FE54D947` (`group_id`),
-  KEY `IDX_DBE64B44A76ED395` (`user_id`),
-  CONSTRAINT `FK_DBE64B44A76ED395` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`) ON DELETE CASCADE,
-  CONSTRAINT `FK_DBE64B44FE54D947` FOREIGN KEY (`group_id`) REFERENCES `group` (`id`) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Listage des données de la table squadforge.membre_group : ~9 rows (environ)
 DELETE FROM `membre_group`;
 INSERT INTO `membre_group` (`group_id`, `user_id`) VALUES
 	(36, 7),
@@ -431,38 +178,7 @@ INSERT INTO `membre_group` (`group_id`, `user_id`) VALUES
 	(47, 8),
 	(49, 3);
 
--- Listage de la structure de table squadforge. messenger_messages
-CREATE TABLE IF NOT EXISTS `messenger_messages` (
-  `id` bigint NOT NULL AUTO_INCREMENT,
-  `body` longtext COLLATE utf8mb4_unicode_ci NOT NULL,
-  `headers` longtext COLLATE utf8mb4_unicode_ci NOT NULL,
-  `queue_name` varchar(190) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `created_at` datetime NOT NULL,
-  `available_at` datetime NOT NULL,
-  `delivered_at` datetime DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  KEY `IDX_75EA56E0FB7336F0` (`queue_name`),
-  KEY `IDX_75EA56E0E3BD61CE` (`available_at`),
-  KEY `IDX_75EA56E016BA31DB` (`delivered_at`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Listage des données de la table squadforge.messenger_messages : ~0 rows (environ)
-DELETE FROM `messenger_messages`;
-
--- Listage de la structure de table squadforge. notation
-CREATE TABLE IF NOT EXISTS `notation` (
-  `id` int NOT NULL AUTO_INCREMENT,
-  `user_id` int DEFAULT NULL,
-  `game_id` int DEFAULT NULL,
-  `note` int DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  KEY `IDX_268BC95A76ED395` (`user_id`),
-  KEY `IDX_268BC95E48FD905` (`game_id`),
-  CONSTRAINT `FK_268BC95A76ED395` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`),
-  CONSTRAINT `FK_268BC95E48FD905` FOREIGN KEY (`game_id`) REFERENCES `game` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=54 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
--- Listage des données de la table squadforge.notation : ~9 rows (environ)
 DELETE FROM `notation`;
 INSERT INTO `notation` (`id`, `user_id`, `game_id`, `note`) VALUES
 	(9, 8, 4, 3),
@@ -475,24 +191,7 @@ INSERT INTO `notation` (`id`, `user_id`, `game_id`, `note`) VALUES
 	(48, 7, 2, 4),
 	(53, 3, 4, 4);
 
--- Listage de la structure de table squadforge. notification
-CREATE TABLE IF NOT EXISTS `notification` (
-  `id` int NOT NULL AUTO_INCREMENT,
-  `user_id` int NOT NULL,
-  `text` longtext COLLATE utf8mb4_unicode_ci NOT NULL,
-  `date_creation` datetime NOT NULL,
-  `seen` tinyint(1) DEFAULT '0',
-  `link` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `clicked` tinyint(1) DEFAULT '0',
-  `type` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `type_id` int DEFAULT NULL,
-  `type_nbr` int DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  KEY `IDX_BF5476CAA76ED395` (`user_id`),
-  CONSTRAINT `FK_BF5476CAA76ED395` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=519 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Listage des données de la table squadforge.notification : ~85 rows (environ)
 DELETE FROM `notification`;
 INSERT INTO `notification` (`id`, `user_id`, `text`, `date_creation`, `seen`, `link`, `clicked`, `type`, `type_id`, `type_nbr`) VALUES
 	(408, 7, '<span style=\'font-weight:bold;text-decoration:underline;\'>Valo team numéro One</span>: Le membre "basile" est dispo pour la session "hrhrtyh" qui a lieu le ', '2023-07-26 21:03:23', 1, NULL, 0, NULL, NULL, NULL),
@@ -576,64 +275,7 @@ INSERT INTO `notification` (`id`, `user_id`, `text`, `date_creation`, `seen`, `l
 	(516, 3, '"basileeee" a quitté la team "fzefzefzef"', '2023-08-22 15:23:54', 0, 'http://127.0.0.1:8000/groupDetails/49/516', 0, NULL, NULL, NULL),
 	(517, 3, 'Nouvelle candidature de "basileeee" pour votre team "fzefzefzef"', '2023-08-22 15:24:16', 0, 'http://127.0.0.1:8000/candidatureDetails/89/517', 0, NULL, NULL, NULL);
 
--- Listage de la structure de table squadforge. post_like
-CREATE TABLE IF NOT EXISTS `post_like` (
-  `id` int NOT NULL AUTO_INCREMENT,
-  `user_id` int NOT NULL,
-  `topic_post_id` int DEFAULT NULL,
-  `state` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,
-  PRIMARY KEY (`id`),
-  KEY `IDX_653627B8A76ED395` (`user_id`),
-  KEY `IDX_653627B8C3225EF9` (`topic_post_id`),
-  CONSTRAINT `FK_653627B8A76ED395` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`) ON DELETE CASCADE,
-  CONSTRAINT `FK_653627B8C3225EF9` FOREIGN KEY (`topic_post_id`) REFERENCES `topic_post` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=73 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Listage des données de la table squadforge.post_like : ~15 rows (environ)
-DELETE FROM `post_like`;
-INSERT INTO `post_like` (`id`, `user_id`, `topic_post_id`, `state`) VALUES
-	(6, 3, 18, 'upvote'),
-	(7, 3, 19, 'upvote'),
-	(8, 3, 3, 'upvote'),
-	(14, 3, 14, 'upvote'),
-	(41, 3, 21, 'downvote'),
-	(42, 3, 22, 'downvote'),
-	(47, 7, 20, 'upvote'),
-	(56, 7, 19, 'upvote'),
-	(57, 7, 18, 'upvote'),
-	(63, 7, 6, 'upvote'),
-	(64, 7, 17, 'upvote'),
-	(65, 7, 5, 'upvote'),
-	(68, 7, 7, 'upvote');
-
--- Listage de la structure de table squadforge. report
-CREATE TABLE IF NOT EXISTS `report` (
-  `id` int NOT NULL AUTO_INCREMENT,
-  `user_reporter_id` int DEFAULT NULL,
-  `object_id` int NOT NULL,
-  `object_type` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `creation_date` datetime NOT NULL,
-  `report_motif_id` int NOT NULL,
-  PRIMARY KEY (`id`),
-  KEY `IDX_C42F778448D42F60` (`user_reporter_id`),
-  KEY `IDX_C42F7784D08E2164` (`report_motif_id`),
-  CONSTRAINT `FK_C42F778448D42F60` FOREIGN KEY (`user_reporter_id`) REFERENCES `user` (`id`),
-  CONSTRAINT `FK_C42F7784D08E2164` FOREIGN KEY (`report_motif_id`) REFERENCES `report_motif` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=71 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
--- Listage des données de la table squadforge.report : ~0 rows (environ)
-DELETE FROM `report`;
-INSERT INTO `report` (`id`, `user_reporter_id`, `object_id`, `object_type`, `creation_date`, `report_motif_id`) VALUES
-	(70, 3, 53, 'topic', '2023-07-19 22:49:29', 3);
-
--- Listage de la structure de table squadforge. report_motif
-CREATE TABLE IF NOT EXISTS `report_motif` (
-  `id` int NOT NULL AUTO_INCREMENT,
-  `text` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
--- Listage des données de la table squadforge.report_motif : ~6 rows (environ)
 DELETE FROM `report_motif`;
 INSERT INTO `report_motif` (`id`, `text`) VALUES
 	(1, 'Harcèlement'),
@@ -643,24 +285,13 @@ INSERT INTO `report_motif` (`id`, `text`) VALUES
 	(6, 'Incitation à la haine'),
 	(7, 'Contenu illégal (atteinte à la vie privée, etc)');
 
--- Listage de la structure de table squadforge. topic
-CREATE TABLE IF NOT EXISTS `topic` (
-  `id` int NOT NULL AUTO_INCREMENT,
-  `title` varchar(200) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `publish_date` datetime NOT NULL,
-  `status` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `validated` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `game_id` int DEFAULT NULL,
-  `user_id` int DEFAULT NULL,
-  `first_msg` longtext COLLATE utf8mb4_unicode_ci,
-  PRIMARY KEY (`id`),
-  KEY `IDX_9D40DE1BE48FD905` (`game_id`),
-  KEY `IDX_9D40DE1BA76ED395` (`user_id`),
-  CONSTRAINT `FK_9D40DE1BA76ED395` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`),
-  CONSTRAINT `FK_9D40DE1BE48FD905` FOREIGN KEY (`game_id`) REFERENCES `game` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=55 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Listage des données de la table squadforge.topic : ~32 rows (environ)
+
+DELETE FROM `report`;
+INSERT INTO `report` (`id`, `user_reporter_id`, `object_id`, `object_type`, `creation_date`, `report_motif_id`) VALUES
+	(70, 3, 53, 'topic', '2023-07-19 22:49:29', 3);
+
+
 DELETE FROM `topic`;
 INSERT INTO `topic` (`id`, `title`, `publish_date`, `status`, `validated`, `game_id`, `user_id`, `first_msg`) VALUES
 	(1, 'Je sais pa vou mé', '2023-04-03 23:45:48', 'open', 'validated', 2, 3, 'da zadaz zadad az azd azd a azdad az a azd az az azd zd  zadzdaz azdad zd a zd  zd za zaadazd azda ad az zd azdaza za '),
@@ -697,21 +328,8 @@ INSERT INTO `topic` (`id`, `title`, `publish_date`, `status`, `validated`, `game
 	(53, 'dqzdqz s sd sdf sdf s', '2023-07-19 22:42:53', 'open', 'validated', 4, 3, 'dzdqzdqd'),
 	(54, 'test npouveau topic basile 11 test delete User', '2023-08-22 14:34:20', 'open', 'validated', 2, NULL, 'dbgfdbdf');
 
--- Listage de la structure de table squadforge. topic_post
-CREATE TABLE IF NOT EXISTS `topic_post` (
-  `id` int NOT NULL AUTO_INCREMENT,
-  `user_id` int DEFAULT NULL,
-  `topic_id` int DEFAULT NULL,
-  `text` longtext COLLATE utf8mb4_unicode_ci NOT NULL,
-  `publish_date` datetime NOT NULL,
-  PRIMARY KEY (`id`),
-  KEY `IDX_62610D38A76ED395` (`user_id`),
-  KEY `IDX_62610D381F55203D` (`topic_id`),
-  CONSTRAINT `FK_62610D381F55203D` FOREIGN KEY (`topic_id`) REFERENCES `topic` (`id`),
-  CONSTRAINT `FK_62610D38A76ED395` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=31 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Listage des données de la table squadforge.topic_post : ~28 rows (environ)
+
 DELETE FROM `topic_post`;
 INSERT INTO `topic_post` (`id`, `user_id`, `topic_id`, `text`, `publish_date`) VALUES
 	(1, 3, 14, 'test message', '2023-05-05 17:36:59'),
@@ -743,45 +361,24 @@ INSERT INTO `topic_post` (`id`, `user_id`, `topic_id`, `text`, `publish_date`) V
 	(29, NULL, 15, 'Basile 11 topicPost', '2023-08-22 14:20:31'),
 	(30, NULL, 54, 'test post onDelete User', '2023-08-22 16:12:00');
 
--- Listage de la structure de table squadforge. user
-CREATE TABLE IF NOT EXISTS `user` (
-  `id` int NOT NULL AUTO_INCREMENT,
-  `email` varchar(180) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `roles` json NOT NULL,
-  `password` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `is_verified` tinyint(1) NOT NULL,
-  `pseudo` varchar(20) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `auto_play_gifs` tinyint(1) DEFAULT '1',
-  `status` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `end_date_status` datetime DEFAULT NULL,
-  `nbr_censures` int NOT NULL DEFAULT '0',
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `UNIQ_8D93D649E7927C74` (`email`)
-) ENGINE=InnoDB AUTO_INCREMENT=100 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Listage des données de la table squadforge.user : ~6 rows (environ)
-DELETE FROM `user`;
-INSERT INTO `user` (`id`, `email`, `roles`, `password`, `is_verified`, `pseudo`, `auto_play_gifs`, `status`, `end_date_status`, `nbr_censures`) VALUES
-	(3, 'basile08@hotmail.fr', '["ROLE_MODO"]', '$2y$13$PFkqOIh3ZRbIx6totl7OE.aHyfWw9YQcb7ZqN.XeBtsr1YR/lZDiK', 1, 'basile', 1, '', '2023-07-22 21:46:56', 20),
-	(7, 'basile09@hotmail.fr', '[]', '$2y$13$VQhOrGgKRQ1rdIoNWVld9eANrYSBAYbuGOCQQ5rHYbMfzBfpv4Sxa', 1, 'basile2', NULL, 'muted', '2023-07-25 05:33:42', 4),
-	(8, 'basile10@hotmail.fr', '[]', '$2y$13$aQvLMfshYRre.ij4LrLkiO9prlAoISs8gqAItt.aC976djlHg5FdK', 1, 'basile3', 1, NULL, NULL, 0),
-	(95, 'basile100@hotmail.fr', '[]', '$2y$13$JxJQQGHr6.N.eXLLAQ1PVufgrkOEQ6ux76wEii1CpMa1/SgdU94We', 1, 'basile100', 1, NULL, NULL, 0),
-	(97, 'basile1000@hotmail.fr', '[]', '$2y$13$3HEhG1fVIir8OERh24La/unF9ivkRwmYZyxZ0lSpTU/IFqQtcpdh6', 1, 'basile1000', 1, NULL, NULL, 0),
-	(98, 'basile22@hotmail.fr', '[]', '$2y$13$1H8ZNrtzJfOuil.Fqy1gg.Nh2AG1wSphWL3opDrhXvQ1TPUGrAn6O', 1, 'basile22', 1, NULL, NULL, 0),
-	(99, 'basile00@hotmail.fr', '[]', '$2y$13$Hl7hpUl.gu6iBmHVCaSBo.4jAKqFpt4Z/yXrWKJj1be1kjdPDYEjm', 0, 'basile00', 1, NULL, NULL, 0);
+DELETE FROM `post_like`;
+INSERT INTO `post_like` (`id`, `user_id`, `topic_post_id`, `state`) VALUES
+	(6, 3, 18, 'upvote'),
+	(7, 3, 19, 'upvote'),
+	(8, 3, 3, 'upvote'),
+	(14, 3, 14, 'upvote'),
+	(41, 3, 21, 'downvote'),
+	(42, 3, 22, 'downvote'),
+	(47, 7, 20, 'upvote'),
+	(56, 7, 19, 'upvote'),
+	(57, 7, 18, 'upvote'),
+	(63, 7, 6, 'upvote'),
+	(64, 7, 17, 'upvote'),
+	(65, 7, 5, 'upvote'),
+	(68, 7, 7, 'upvote');
 
--- Listage de la structure de table squadforge. user_game
-CREATE TABLE IF NOT EXISTS `user_game` (
-  `user_id` int NOT NULL,
-  `game_id` int NOT NULL,
-  PRIMARY KEY (`user_id`,`game_id`),
-  KEY `IDX_59AA7D45A76ED395` (`user_id`),
-  KEY `IDX_59AA7D45E48FD905` (`game_id`),
-  CONSTRAINT `FK_59AA7D45A76ED395` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`) ON DELETE CASCADE,
-  CONSTRAINT `FK_59AA7D45E48FD905` FOREIGN KEY (`game_id`) REFERENCES `game` (`id`) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Listage des données de la table squadforge.user_game : ~0 rows (environ)
 DELETE FROM `user_game`;
 INSERT INTO `user_game` (`user_id`, `game_id`) VALUES
 	(98, 1),
@@ -794,8 +391,38 @@ INSERT INTO `user_game` (`user_id`, `game_id`) VALUES
 	(98, 8),
 	(98, 9);
 
-/*!40103 SET TIME_ZONE=IFNULL(@OLD_TIME_ZONE, 'system') */;
-/*!40101 SET SQL_MODE=IFNULL(@OLD_SQL_MODE, '') */;
-/*!40014 SET FOREIGN_KEY_CHECKS=IFNULL(@OLD_FOREIGN_KEY_CHECKS, 1) */;
-/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
-/*!40111 SET SQL_NOTES=IFNULL(@OLD_SQL_NOTES, 1) */;
+DELETE FROM `favoris`;
+INSERT INTO `favoris` (`user_id`, `game_id`) VALUES
+	(3, 2),
+	(3, 4),
+	(3, 5),
+	(3, 6),
+	(7, 2),
+	(8, 4);
+
+
+
+-- TABLES FAV:
+-- Listage de la structure de table squadforge. favoris
+CREATE TABLE IF NOT EXISTS `favoris` (
+  `user_id` int NOT NULL,
+  `game_id` int NOT NULL,
+  PRIMARY KEY (`user_id`,`game_id`),
+  KEY `IDX_8933C432A76ED395` (`user_id`),
+  KEY `IDX_8933C432E48FD905` (`game_id`),
+  CONSTRAINT `FK_8933C432A76ED395` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`) ON DELETE CASCADE,
+  CONSTRAINT `FK_8933C432E48FD905` FOREIGN KEY (`game_id`) REFERENCES `game` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- Listage de la structure de table squadforge. user_game
+CREATE TABLE IF NOT EXISTS `user_game` (
+  `user_id` int NOT NULL,
+  `game_id` int NOT NULL,
+  PRIMARY KEY (`user_id`,`game_id`),
+  KEY `IDX_59AA7D45A76ED395` (`user_id`),
+  KEY `IDX_59AA7D45E48FD905` (`game_id`),
+  CONSTRAINT `FK_59AA7D45A76ED395` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`) ON DELETE CASCADE,
+  CONSTRAINT `FK_59AA7D45E48FD905` FOREIGN KEY (`game_id`) REFERENCES `game` (`id`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+

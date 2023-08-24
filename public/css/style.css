@@ -541,6 +541,10 @@ header {
     position: relative;
     overflow: hidden;
 }
+
+.globalBanner, .gameHeader {
+    overflow: visible !important;
+}
 .gameHeader img {
     
 }
@@ -1507,7 +1511,7 @@ header {
     transition: all 0.2s ease-out;
 }
 .lp-gameCard:hover {
-    filter: sepia(1);
+    /* filter: sepia(1); */
     transform: scale(1.05);
     box-shadow:0 0 35px -5px var(--primary-color);
 }
@@ -1685,6 +1689,8 @@ header {
 .navNotifDiv {
     position:relative; 
     /* margin-right:10px; */
+    padding: 0;
+    padding-top: 7px !important;
 }
 
 .registerRightShape {
@@ -2083,9 +2089,9 @@ nav {
     position: absolute;
     z-index: 11;
 
-    bottom: 0px;
+    bottom: -3px;
     right: 0px;
-    padding-right: 10px;
+    /* padding-right: 10px; */
     color: white; 
 
 }
@@ -2168,16 +2174,17 @@ nav {
 }
 
 .profil {
+    font-family: 'K2D', sans-serif;
     font-size: 0.88em;
     color: rgb(255, 255, 255);
-    padding: 13px 14px 7px 20px;
+    padding: 9px 14px 7px 17px;
     border-bottom-left-radius: 7px;
 
     transition: all 0.4s;
 }
 .decoBtn {
     font-size: 0.88em;
-    padding: 13px 12px 7px 12px;
+    padding: 9px 13px 7px 13px;
     border-left: 1px solid rgba(160, 160, 160, 0.4);
 
     transition: all 0.4s;
@@ -2209,12 +2216,12 @@ nav {
     z-index: 11;
     font-size: 1.6em;
     color: white;
-    bottom: 42px;
+    bottom: 32px;
     right: 0;
     padding-left: 42px;
     padding-right: 16px;
-    padding-top: 8px;
-    padding-bottom: 7px;
+    padding-top: 11px;
+    padding-bottom: 9px;
     clip-path: polygon(100% 0, 100% 0, 100% 100%, 100% 100%);
     background-color: #f1f1f112;
     transition: all 0.4s;
@@ -4126,8 +4133,7 @@ cursor: pointer;
 
 .navLine {
     display: inline-flex;
-    padding-top: 7px;
-    padding-left: 15px;
+    font-family: 'K2D';
     background-color: #04010054;
     border-top-left-radius: 7px;
 
@@ -4135,10 +4141,59 @@ cursor: pointer;
     border-left: 1px solid #8f8f8f3b;
 }
 .navLine * {
-    padding: 0px 7px;
+    padding: 0px 10px;
 }
-.notifBell {
+
+.caps {
+    text-transform: uppercase;
+}
+
+.gamesNav {
+    padding-top: 7px;
+    padding-bottom: 4px;
+    transition: all 0.3s;
+}
+.teamsNav {
+    padding-top: 7px;
+    padding-bottom: 4px;
+    transition: all 0.3s;
+}
+.homeNav {
+    padding-top: 7px;
+    padding-left: 10px;
+    padding-bottom: 4px;
+    transition: all 0.3s;
+    border-top-left-radius: 3px;
+}
+.notifsNav {
     color: white;
+    transition: all 0.3s;
+}
+
+.gamesNav:hover {
+    background-color: white;
+    color: black;
+}
+.teamsNav:hover {
+    background-color: white;
+    color: black;
+}
+.homeNav:hover {
+    background-color: white;
+    color: black;
+}
+.notifsNav:hover {
+    background-color: white;
+    color: black;
+}
+
+.navActive {
+    /* border-bottom: 3px solid var(--primary-color); */
+    background-color: var(--primary-color);
+}
+
+.notifBell {
+    /* color: white; */
 }
 .newNotifBubbleCount {
     /* Pour diff entre 1 et 2 etc... */

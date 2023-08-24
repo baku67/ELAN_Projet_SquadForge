@@ -7,10 +7,11 @@
     <header class="globalBanner" style="background: url('{{ asset('img/banner1.jpg') }}' )">
         <a href="{{ path('app_home') }}"><img src="{{ asset('img/logoSquadForge_v3.png') }}" class="logoPng" /></a>
         <nav class="navLine">
-            <a href="{{ path('app_games') }}">JEUX</a>
+            <a href="{{ path('app_home') }}" class="homeNav navActive"><i class="fa-solid fa-house"></i></a>
+            <a href="{{ path('app_games') }}" class="gamesNav caps">jeux</a>
             {% if app.user %}
-                <a href="{{ path('app_userGroups') }}" style="white;">TEAMS</a>
-                <a href="{{ path('app_showNotifsList') }}">
+                <a href="{{ path('app_userGroups') }}" class="teamsNav caps">teams</a>
+                <a href="{{ path('app_showNotifsList') }}" class="notifsNav" style="padding:0;">
                     <div class="navNotifDiv">
                         <i class="fa-solid fa-bell notifBell"></i>
                         {# Bulle newNotifCount si > 0 #}
@@ -97,9 +98,9 @@
                                                 <div id="lp-page3-slide0{{ index }}" class="lp-gameCard" style="background-image: linear-gradient(rgba(0, 0, 255, 0.05), rgba(249, 123, 44, 0.5)),url('{{ asset("img/games/headerBackground/" ~ game.subBanner )}}'); background-size:cover;">
                                                     
                                                     {# "+" hover card #}
-                                                    <span><i id="favArrayPlus{{ index }}" class="fa-solid fa-plus favArrayHeart favArrayPlus"></i></span>
+                                                    <i id="favArrayPlus{{ index }}" class="fa-solid fa-plus favArrayHeart favArrayPlus"></i>
                                                     {# Coeur ajouté à l'array fav #}
-                                                    <span><i id="favArrayHeart{{ index }}" class="fa-solid fa-heart-circle-check favArrayHeart"></i></span>
+                                                    <i id="favArrayHeart{{ index }}" class="fa-solid fa-heart-circle-check favArrayHeart"></i>
                                                     
                                                     <span id="lp-gameCardTitle{{ index }}" value="{{ game.title }}" class="lp-gameCardTitle">{{ game.title }}</span>
 
