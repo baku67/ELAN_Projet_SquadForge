@@ -16,7 +16,7 @@
                         <i class="fa-solid fa-bell notifBell"></i>
                         {# Bulle newNotifCount si > 0 #}
                         {% if userNotifCount > 0 %}
-                            <span class="newNotifBubbleCount" id="newNotifBubbleCount">{{ userNotifCount }}</span>
+                            <span class="newNotifBubbleCount bubleNotif" id="newNotifBubbleCount">{{ userNotifCount }}</span>
                         {% endif %}
                     </div>
                 </a>
@@ -174,9 +174,11 @@
                                     
                                     if(!favArray.includes({{game.id}})) {
 
-                                        document.getElementById('favArrayHeart{{ index }}').style.display = "block";
+                                        // document.getElementById('favArrayHeart{{ index }}').style.display = "block";
+                                        document.getElementById('favArrayHeart{{ index }}').style.opacity = "1";
 
-                                        document.getElementById('favArrayPlus{{ index }}').style.display = "none";
+                                        // document.getElementById('favArrayPlus{{ index }}').style.display = "none";
+                                        document.getElementById('favArrayPlus{{ index }}').style.opacity = "0";
 
                                         document.getElementById('lp-page3-slide0{{ index }}').style.backgroundImage = "linear-gradient(rgb(0 0 0 /95%), rgba(249, 123, 44, 0.5)),url(/img/games/headerBackground/{{ game.subBanner }})";
 
@@ -191,7 +193,8 @@
                                     // Reclick sur un jeu ajouté = retire le jeu
                                     else {
 
-                                        document.getElementById('favArrayHeart{{ index }}').style.display = "none";
+                                        // document.getElementById('favArrayHeart{{ index }}').style.display = "none";
+                                        document.getElementById('favArrayHeart{{ index }}').style.opacity = "0";
 
                                         document.getElementById('lp-page3-slide0{{ index }}').style.backgroundImage = "linear-gradient(rgba(0, 0, 255, 0.05), rgba(249, 123, 44, 0.5)),url(/img/games/headerBackground/{{ game.subBanner }})";
 
