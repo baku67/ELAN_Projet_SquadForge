@@ -24,7 +24,7 @@
             {% if app.user and "ROLE_MODO" in app.user.roles %}
             
                 <a href="{{ path('app_moderationDashboard') }}" id="modoNav" class="modoNav">
-                    <div style="position:relative;">
+                    <div class="modoNavSubDiv">
                         <span>Modération</span>
                         {% if modoNotifValidationCount > 0 %}
                             <span class="newNotifBubbleCount bubleModo1">{{ modoNotifValidationCount }}</span>
@@ -155,8 +155,8 @@
 
                     </div>
 
-                    <div style="text-align:center; margin:50px auto 15px auto;" id="validateAddFavsDiv" title="Sélectionnez d'abord un ou plusieurs jeux">
-                        <button id="addArrayFavBtn" class="btn btn-primary addArrayFavBtn" disabled>Valider</button>
+                    <div style="text-align:center; margin:50px auto 15px auto; width:fit-content;" id="validateAddFavsDiv" title="Sélectionnez d'abord un ou plusieurs jeux">
+                        <button id="addArrayFavBtn" class="btn btn-primary addArrayFavBtn" disabled>Ajouter</button>
                     </div>
 
                     <script>

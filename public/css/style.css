@@ -444,7 +444,7 @@ body {
     height: 60px;
     width: 20px;
     background-color: #9146FF;
-    box-shadow: 0 0 20px 7px #9046ff71;
+    box-shadow: 0 0 20px 7px #9046ff3d;
     border-radius: 3px;
 
     animation: clignementLogoTwitch 4s forwards ease infinite;
@@ -460,7 +460,7 @@ body {
     height: 60px;
     width: 20px;
     background-color: #9146FF;
-    box-shadow: 0 0 20px 7px #9046ff71;
+    box-shadow: 0 0 20px 7px #9046ff3d;
     border-radius: 3px;
 
     animation: clignementLogoTwitch 4s forwards ease infinite;
@@ -976,6 +976,35 @@ header {
 }
 
 
+#lp-p1-topLeftSquare {
+    position: absolute;
+    width: 500px;
+    height: 752px;
+
+    /* background-color: var(--primary-color); */
+    /* background: linear-gradient(270deg, rgba(249,164,44,1) 0%, rgba(249,123,44,1) 100%);
+    background: -webkit-linear-gradient(270deg, rgba(249,164,44,1) 0%, rgba(249,123,44,1) 100%); */
+    background-image: -webkit-linear-gradient(270deg, rgba(249,164,44,1) 0%, rgba(249,123,44,0.5) 100%), url('../img/testMotif2.jpg');
+    background-size: cover;
+
+    z-index: 999;
+    transform: rotate(36deg);
+    left: -359px;
+    top:-900px;
+
+    animation: squareAnim 1s 0.5s ease forwards, squareAnim-phase2 8s 1.6s ease-in-out infinite;
+}
+
+@keyframes squareAnim {
+    from {
+        top:-900px;
+    }
+    to {
+        top: -400px;
+    }
+}
+
+
 .lp-p1-rightSection {
     height:100%; 
     height:inherit; 
@@ -987,9 +1016,12 @@ header {
     position: absolute;
     right: -1000px;
 
-    background: -moz-linear-gradient(270deg, rgba(249,164,44,1) 0%, rgba(249,123,44,1) 100%);
+    /* background: -moz-linear-gradient(270deg, rgba(249,164,44,1) 0%, rgba(249,123,44,1) 100%);
     background: linear-gradient(270deg, rgba(249,164,44,1) 0%, rgba(249,123,44,1) 100%);
-    background: -webkit-linear-gradient(270deg, rgba(249,164,44,1) 0%, rgba(249,123,44,1) 100%);
+    background: -webkit-linear-gradient(270deg, rgba(249,164,44,1) 0%, rgba(249,123,44,1) 100%); */
+    background-size: cover;
+    /* background-image: -webkit-linear-gradient(270deg, rgba(249,164,44,0.9) 0%, rgba(249,123,44,0.6) 100%), url('../img/testMotif1.jpg'); */
+    background-image: -webkit-linear-gradient(270deg, rgba(249,164,44,0.9) 0%, rgba(249,123,44,0.2) 100%), url('../img/testMotif2.jpg');
 
     animation: lp-p1-rightSectionAnim 1s 0.6s ease forwards, lp-p1-rightSectionAnim-phase2 8s 1.6s ease-in-out infinite;
 }
@@ -1432,29 +1464,7 @@ header {
 }
 
 
-#lp-p1-topLeftSquare {
-    position: absolute;
-    width: 500px;
-    height: 752px;
-    /* background-color: var(--primary-color); */
-    background: linear-gradient(270deg, rgba(249,164,44,1) 0%, rgba(249,123,44,1) 100%);
-    background: -webkit-linear-gradient(270deg, rgba(249,164,44,1) 0%, rgba(249,123,44,1) 100%);
-    z-index: 999;
-    transform: rotate(36deg);
-    left: -359px;
-    top:-900px;
 
-    animation: squareAnim 1s 0.5s ease forwards, squareAnim-phase2 8s 1.6s ease-in-out infinite;
-}
-
-@keyframes squareAnim {
-    from {
-        top:-900px;
-    }
-    to {
-        top: -400px;
-    }
-}
 /* @keyframes squareAnim-phase2 {
     0% {
         transform: rotate(36deg);
@@ -1485,9 +1495,14 @@ header {
     max-width: 100%;
     padding: 25px;
     background-color: #8080801a;
-    border-radius: 18px;
+    border-radius: 10px;
     border: 1px solid #8080804a;
     filter: drop-shadow(2px 4px 6px black);
+}
+
+.modoNavSubDiv {
+    position: relative;
+    padding-left: 0px !important;
 }
 
 .lp-gameCard {
@@ -1512,7 +1527,7 @@ header {
 }
 .lp-gameCard:hover {
     /* filter: sepia(1); */
-    transform: scale(1.05);
+    /* transform: scale(1.05); */
     box-shadow:0 0 35px -5px var(--primary-color);
 }
 
@@ -1528,7 +1543,7 @@ header {
     filter: drop-shadow(2px 4px 6px black);
     backdrop-filter: blur(1px);
     position: absolute;
-    left: 50%;
+    left: 53%;
     top: 50%;
     transform: translate(-50%, -50%);
 }
@@ -1539,7 +1554,7 @@ header {
     color: var(--primary-color);
     backdrop-filter: blur(1px);
     position: absolute;
-    left: 50%;
+    left: 53%;
     top: 50%;
     transform: translate(-50%, -50%);
 }
@@ -4179,6 +4194,8 @@ cursor: pointer;
     padding-top: 6px;
     padding-left: 0;
     text-transform: uppercase;
+    border-left: 1px solid grey;
+
     transition: all 0.3s;
 }
 .notifsNav {

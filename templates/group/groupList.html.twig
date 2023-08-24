@@ -25,7 +25,7 @@
             {% if app.user and "ROLE_MODO" in app.user.roles %}
             
                 <a href="{{ path('app_moderationDashboard') }}" style="color:{{ gameFrom.fontColor }};" id="modoNav" class="modoNav">
-                    <div style="position:relative;">
+                    <div class="modoNavSubDiv">
                         <span>Modération</span>
                         {% if modoNotifValidationCount > 0 %}
                             <span class="newNotifBubbleCount bubleModo1">{{ modoNotifValidationCount }}</span>
