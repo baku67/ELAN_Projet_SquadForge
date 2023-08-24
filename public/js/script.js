@@ -1,6 +1,36 @@
 
 window.addEventListener('load', function() {
 
+
+    // *************************  Scroll Header fixed + reduced ************************
+
+        // Exécuté partout (landingPage y compris:)
+        // console.log('TESTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT');
+        // if (document.getElementsByTagName('header')[0] !== null) {
+
+            window.addEventListener('scroll', () => {
+                // Vérifiez la position verticale de défilement
+                if (window.scrollY > 0) {
+                    // OULALA horrible
+                    document.getElementsByTagName('header')[0].classList.add('headerFixed');
+                    document.getElementById('logoPng').style.width = "41px";
+
+                    document.getElementsByClassName('navLine')[0].style.bottom = "0px";
+                } else {
+                    // OULALA horrible
+                    document.getElementsByTagName('header')[0].classList.remove('headerFixed');
+                    document.getElementById('logoPng').style.width = "169px";
+
+                    document.getElementsByClassName('navLine')[0].style.bottom = "-3px";
+                }
+            });
+
+        // }
+
+    // µµµµµµµµµµµµµµµµµµµµµµµµµµµµµµµµµµµµµµµµµµµµµµµµµµµµµµµµµµµµµµµµµµµµµµµµµµµµµµµµ
+
+
+
     // Library pour pouvoir desactiver l'autoPlay des gifs (paramètres User)
     Gifffer();
 

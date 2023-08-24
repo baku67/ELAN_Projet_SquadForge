@@ -5,7 +5,7 @@
 {% block body %}
 
     <header class="globalBanner" style="background: url('{{ asset('img/banner1.jpg') }}' )">
-        <a href="{{ path('app_home') }}"><img src="{{ asset('img/logoSquadForge_v3.png') }}" class="logoPng" /></a>
+        <a href="{{ path('app_home') }}"><img src="{{ asset('img/logoSquadForge_v3.png') }}" class="logoPng" id="logoPng" /></a>
         <nav class="navLine">
             <a href="{{ path('app_home') }}" class="homeNav navActive"><i class="fa-solid fa-house"></i></a>
             <a href="{{ path('app_games') }}" class="gamesNav caps">jeux</a>
@@ -210,9 +210,17 @@
                                         document.getElementById('lp-page3-slide0{{ index }}').style.backgroundImage = "linear-gradient(rgba(0, 0, 255, 0.05), rgba(249, 123, 44, 0.5)),url(/img/games/headerBackground/{{ game.subBanner }})";
 
                                         document.getElementById('gameSelectedBracketUpPath{{ index }}').style.opacity = "0";
-                                        document.getElementById('gameSelectedBracketUpPath{{ index }}').style.transform = "translateY(-7px)";
+                                        document.getElementById('gameSelectedBracketUpPath{{ index }}').style.transform = "translateY(0px)";
                                         document.getElementById('gameSelectedBracketDownPath{{ index }}').style.opacity = "0";
-                                        document.getElementById('gameSelectedBracketDownPath{{ index }}').style.transform = "translateY(-7px)";
+                                        document.getElementById('gameSelectedBracketDownPath{{ index }}').style.transform = "translateY(2px)";
+
+                                        // Test fix hover brackets "[]" verticaux (apres add+remove favGame de la liste de jeux à ajouter aux favoris)
+                                        // document.getElementById('lp-page3-slide0{{ index }}').addEventListener("mouseover", function() {
+                                        //     document.getElementById('gameSelectedBracketUpPath{{ index }}').style.transform = "translateY(-20px)";
+                                        // })
+                                        // document.getElementById('lp-page3-slide0{{ index }}').addEventListener("mouseout", function() {
+                                        //     document.getElementById('gameSelectedBracketUpPath{{ index }}').style.transform = "translateY(10px)";
+                                        // })
 
                                         let indexToDelete = favArray.indexOf({{ game.id }});
                                         if (indexToDelete !== -1) {
