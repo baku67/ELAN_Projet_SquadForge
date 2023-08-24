@@ -102,7 +102,7 @@
 
                                         <a class="gameCardLink splide__slide" style="transform:scale(0.9);">
                                             <span id="noFavSplide_gameId{{ index }}" style="display:none;">{{ game.id }}</span>
-                                            <div class="lp-page3-slideContainer">
+                                            <div id="lp-page3-slideContainer{{ index }}" class="lp-page3-slideContainer">
 
                                                 <svg class="gameSelectedBracketUp">
                                                     <path 
@@ -168,16 +168,27 @@
 
                             var favArray = [];
 
-                            {% for game in allGames %}
-            
-                                document.getElementById('lp-page3-slide0{{ index }}').addEventListener('click', function() {
-                                    
-                                    if(!favArray.includes({{game.id}})) {
 
-                                        // document.getElementById('favArrayHeart{{ index }}').style.display = "block";
+
+                            {% for game in allGames %}
+
+                                function handleMouseOver{{ index }}() {
+                                    document.getElementById("favArrayPlus{{ index }}").style.opacity = "1";
+                                }
+
+                                function handleMouseOut{{ index }}() {
+                                    document.getElementById("favArrayPlus{{ index }}").style.opacity = "0";
+                                }
+
+                                function handleClick{{ index }}() {
+
+                                    if (!favArray.includes({{ game.id }})) {
+
+                                        document.getElementById("lp-page3-slide0{{ index }}").removeEventListener("mouseover", handleMouseOver{{ index }});
+                                        document.getElementById("lp-page3-slide0{{ index }}").removeEventListener("mouseout", handleMouseOut{{ index }});
+
                                         document.getElementById('favArrayHeart{{ index }}').style.opacity = "1";
 
-                                        // document.getElementById('favArrayPlus{{ index }}').style.display = "none";
                                         document.getElementById('favArrayPlus{{ index }}').style.opacity = "0";
 
                                         document.getElementById('lp-page3-slide0{{ index }}').style.backgroundImage = "linear-gradient(rgb(0 0 0 /95%), rgba(249, 123, 44, 0.5)),url(/img/games/headerBackground/{{ game.subBanner }})";
@@ -187,13 +198,13 @@
                                         document.getElementById('gameSelectedBracketDownPath{{ index }}').style.opacity = "1";
                                         document.getElementById('gameSelectedBracketDownPath{{ index }}').style.transform = "translateY(2px)";
 
+                                        favArray.push({{ game.id }});
 
-                                        favArray.push({{game.id}});
-                                    }
-                                    // Reclick sur un jeu ajouté = retire le jeu
-                                    else {
+                                    } else {
 
-                                        // document.getElementById('favArrayHeart{{ index }}').style.display = "none";
+                                        document.getElementById("lp-page3-slide0{{ index }}").addEventListener("mouseover", handleMouseOver{{ index }});
+                                        document.getElementById("lp-page3-slide0{{ index }}").addEventListener("mouseout", handleMouseOut{{ index }});
+
                                         document.getElementById('favArrayHeart{{ index }}').style.opacity = "0";
 
                                         document.getElementById('lp-page3-slide0{{ index }}').style.backgroundImage = "linear-gradient(rgba(0, 0, 255, 0.05), rgba(249, 123, 44, 0.5)),url(/img/games/headerBackground/{{ game.subBanner }})";
@@ -203,14 +214,13 @@
                                         document.getElementById('gameSelectedBracketDownPath{{ index }}').style.opacity = "0";
                                         document.getElementById('gameSelectedBracketDownPath{{ index }}').style.transform = "translateY(-7px)";
 
-                                        let indexToDelete = favArray.indexOf({{game.id}});
-                                        if (indexToDelete !== -1) { // Check if the number is in the array
-                                            favArray.splice(indexToDelete, 1); // Remove the number at the specified index
+                                        let indexToDelete = favArray.indexOf({{ game.id }});
+                                        if (indexToDelete !== -1) {
+                                            favArray.splice(indexToDelete, 1);
                                         }
-                                    
+
                                     }
 
-                                    // Activation du bouton submit que si array pas vide 
                                     if(favArray.length == 0 ) {
                                         document.getElementById('addArrayFavBtn').disabled = true;
                                         document.getElementById('addArrayFavBtn').setAttribute('title', "Sélectionnez d'abord un ou plusieurs jeux");
@@ -219,12 +229,18 @@
                                         document.getElementById('addArrayFavBtn').disabled = false;
                                         document.getElementById('addArrayFavBtn').setAttribute('title', "");
                                     }
+                                }
 
-                                })
+                                document.getElementById("lp-page3-slide0{{ index }}").addEventListener("mouseover", handleMouseOver{{ index }});
+                                document.getElementById("lp-page3-slide0{{ index }}").addEventListener("mouseout", handleMouseOut{{ index }});
+                                document.getElementById("lp-page3-slide0{{ index }}").addEventListener("click", handleClick{{ index }});
 
-                            {% set index = index + 1 %}
+                                {% set index = index + 1 %}
 
                             {% endfor %}
+
+
+
 
 
                             // Envoi de l'array nouveau Favoris (ajax):

@@ -1534,9 +1534,9 @@ header {
     box-shadow:0 0 35px -5px var(--primary-color);
 }
 
-.lp-gameCard:hover .favArrayPlus {
+/* .lp-gameCard:hover .favArrayPlus {
     opacity: 1;
-}
+} */
 
 .favArrayHeart {
     opacity: 0;
