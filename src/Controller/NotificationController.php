@@ -6,6 +6,7 @@ use App\Entity\Notification;
 use App\Entity\Candidature;
 use App\Entity\Media;
 use App\Entity\Group;
+use App\Entity\Report;
 use App\Entity\Topic;
 use App\Entity\GroupSession;
 use App\Entity\GroupSessionDispo;
@@ -71,20 +72,26 @@ class NotificationController extends AbstractController
         //***** */ Si userModo: Bulles nbr éléments en attente de validation (int si modo, null sinon) 
         $mediaRepo = $this->entityManager->getRepository(Media::class);
         $topicRepo = $this->entityManager->getRepository(Topic::class);
+        $reportRepo = $this->entityManager->getRepository(Report::class);
+
         if($this->getUser() && in_array('ROLE_MODO', $this->getUser()->getRoles())) {
             // On compte les Topic et Médias status "waiting"
             $mediasWaitings = count($mediaRepo->findBy(["validated" => "waiting"]));
             $topicsWaitings = count($topicRepo->findBy(["validated" => "waiting"]));
-            $modoNotifCount = $mediasWaitings + $topicsWaitings;
+            $modoNotifValidationCount = $mediasWaitings + $topicsWaitings;
+            // Nombre de cards report (groupée, != nbr reports)
+            $modoNotifReportCount = count($reportRepo->getAllReportsGroupedByOjectIdAndType());
         }
         else {
-            $modoNotifCount = null;
+            $modoNotifValidationCount = null;
+            $modoNotifReportCount = null;
         }
 
         return $this->render('user/notifsList.html.twig', [
             'theresNotSeen' => $theresNotSeen,
             'userNotifCount' => $userNotifCount,
-            'modoNotifCount' => $modoNotifCount,
+            'modoNotifValidationCount' => $modoNotifValidationCount,
+            'modoNotifReportCount' => $modoNotifReportCount,
             'user' => $user,
             'notifs' => $notifs,
         ]);

@@ -9,6 +9,7 @@ use App\Entity\Censure;
 use App\Entity\MediaPost;
 use App\Entity\MediaPostLike;
 use App\Entity\Game;
+use App\Entity\Report;
 use App\Entity\ReportMotif;
 use App\Form\MediaType;
 use App\Form\MediaPostType;
@@ -39,6 +40,7 @@ class MediaController extends AbstractController
         $notifRepo = $entityManager->getRepository(Notification::class);
         $mediaRepo = $entityManager->getRepository(Media::class);
         $topicRepo = $entityManager->getRepository(Topic::class);
+        $reportRepo = $entityManager->getRepository(Report::class);
 
         // Onglet notifs Bulle nbr "non-vues" (int si connécté, null sinon)
         $userNotifCount = $this->getUser() ? count($notifRepo->findByUserNotSeen($this->getUser())) : null;
@@ -47,10 +49,13 @@ class MediaController extends AbstractController
             // On compte les Topic et Médias status "waiting"
             $mediasWaitings = count($mediaRepo->findBy(["validated" => "waiting"]));
             $topicsWaitings = count($topicRepo->findBy(["validated" => "waiting"]));
-            $modoNotifCount = $mediasWaitings + $topicsWaitings;
+            $modoNotifValidationCount = $mediasWaitings + $topicsWaitings;
+            // Nombre de cards report (groupée, != nbr reports)
+            $modoNotifReportCount = count($reportRepo->getAllReportsGroupedByOjectIdAndType());
         }
         else {
-            $modoNotifCount = null;
+            $modoNotifValidationCount = null;
+            $modoNotifReportCount = null;
         }
 
         $gameFrom = $gameRepo->find($gameIdFrom);
@@ -171,7 +176,8 @@ class MediaController extends AbstractController
         }
 
         return $this->render('media/gameMedias.html.twig', [
-            'modoNotifCount' => $modoNotifCount,
+            'modoNotifValidationCount' => $modoNotifValidationCount,
+            'modoNotifReportCount' => $modoNotifReportCount,
             'userNotifCount' => $userNotifCount,
             'formAddMedia' => $form2->createView(),
             'gameMediasDesc' => $gameMediasDesc,
@@ -210,6 +216,7 @@ class MediaController extends AbstractController
         $mediaRepo = $entityManager->getRepository(Media::class);
         $topicRepo = $entityManager->getRepository(Topic::class);
         $reportMotifRepo = $entityManager->getRepository(ReportMotif::class);
+        $reportRepo = $entityManager->getRepository(Report::class);
 
         // Si page vient de notifId, passe la notif en "clicked"
         if (!is_null($notifId)) {
@@ -229,10 +236,13 @@ class MediaController extends AbstractController
             // On compte les Topic et Médias status "waiting"
             $mediasWaitings = count($mediaRepo->findBy(["validated" => "waiting"]));
             $topicsWaitings = count($topicRepo->findBy(["validated" => "waiting"]));
-            $modoNotifCount = $mediasWaitings + $topicsWaitings;
+            $modoNotifValidationCount = $mediasWaitings + $topicsWaitings;
+            // Nombre de cards report (groupée, != nbr reports)
+            $modoNotifReportCount = count($reportRepo->getAllReportsGroupedByOjectIdAndType());
         }
         else {
-            $modoNotifCount = null;
+            $modoNotifValidationCount = null;
+            $modoNotifReportCount = null;
         }
 
         $media = $mediaRepo->find($id);
@@ -331,7 +341,8 @@ class MediaController extends AbstractController
             }
             return $this->render('media/mediaDetail.html.twig', [
                 'reportMotifs' => $reportMotifs,
-                'modoNotifCount' => $modoNotifCount,
+                'modoNotifValidationCount' => $modoNotifValidationCount,
+                'modoNotifReportCount' => $modoNotifReportCount,
                 'userNotifCount' => $userNotifCount,
                 'formAddMediaPost' => $form->createView(),
                 'media' => $media,
@@ -360,6 +371,7 @@ class MediaController extends AbstractController
         $notifRepo = $entityManager->getRepository(Notification::class);
         $mediaRepo = $entityManager->getRepository(Media::class);
         $topicRepo = $entityManager->getRepository(Topic::class);
+        $reportRepo = $entityManager->getRepository(Report::class);
 
         // Onglet notifs Bulle nbr "non-vues" (int si connécté, null sinon)
         $userNotifCount = $this->getUser() ? count($notifRepo->findByUserNotSeen($this->getUser())) : null;
@@ -368,10 +380,13 @@ class MediaController extends AbstractController
             // On compte les Topic et Médias status "waiting"
             $mediasWaitings = count($mediaRepo->findBy(["validated" => "waiting"]));
             $topicsWaitings = count($topicRepo->findBy(["validated" => "waiting"]));
-            $modoNotifCount = $mediasWaitings + $topicsWaitings;
+            $modoNotifValidationCount = $mediasWaitings + $topicsWaitings;
+            // Nombre de cards report (groupée, != nbr reports)
+            $modoNotifReportCount = count($reportRepo->getAllReportsGroupedByOjectIdAndType());
         }
         else {
-            $modoNotifCount = null;
+            $modoNotifValidationCount = null;
+            $modoNotifReportCount = null;
         }
 
         // Tous les médias (max 50 Repo) + count DQL total
@@ -379,7 +394,8 @@ class MediaController extends AbstractController
         $allMediasCount = $mediaRepo->countGlobalMedias();
 
         return $this->render('media/allMediasGlobal.html.twig', [
-            'modoNotifCount' => $modoNotifCount,
+            'modoNotifValidationCount' => $modoNotifValidationCount,
+            'modoNotifReportCount' => $modoNotifReportCount,
             'userNotifCount' => $userNotifCount,
             'allMediasDesc' => $allMediasDesc,
             'allMediasCount' => $allMediasCount,
@@ -620,6 +636,7 @@ class MediaController extends AbstractController
         $notifRepo = $entityManager->getRepository(Notification::class);
         $mediaRepo = $entityManager->getRepository(Media::class);
         $topicRepo = $entityManager->getRepository(Topic::class);
+        $reportRepo = $entityManager->getRepository(Report::class);
 
         // Onglet notifs Bulle nbr "non-vues" (int si connécté, null sinon)
         $userNotifCount = $this->getUser() ? count($notifRepo->findByUserNotSeen($this->getUser())) : null;
@@ -628,17 +645,21 @@ class MediaController extends AbstractController
             // On compte les Topic et Médias status "waiting"
             $mediasWaitings = count($mediaRepo->findBy(["validated" => "waiting"]));
             $topicsWaitings = count($topicRepo->findBy(["validated" => "waiting"]));
-            $modoNotifCount = $mediasWaitings + $topicsWaitings;
+            $modoNotifValidationCount = $mediasWaitings + $topicsWaitings;
+            // Nombre de cards report (groupée, != nbr reports)
+            $modoNotifReportCount = count($reportRepo->getAllReportsGroupedByOjectIdAndType());
         }
         else {
-            $modoNotifCount = null;
+            $modoNotifValidationCount = null;
+            $modoNotifReportCount = null;
         }
 
         $userMediasDesc = $mediaRepo->findBy(['user' => $this->getUser()], ['publish_date' => 'DESC']);
         $userMediasCount = count($userMediasDesc);
 
         return $this->render('user/allMediasUser.html.twig', [
-            'modoNotifCount' => $modoNotifCount,
+            'modoNotifValidationCount' => $modoNotifValidationCount,
+            'modoNotifReportCount' => $modoNotifReportCount,
             'userNotifCount' => $userNotifCount,
             'userMedias' => $userMediasDesc,
             'userMediasCount' => $userMediasCount,

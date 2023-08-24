@@ -26,6 +26,7 @@ class UserController extends AbstractController
         $mediaRepo = $entityManager->getRepository(Media::class);
         $topicRepo = $entityManager->getRepository(Topic::class);
         $notifRepo = $entityManager->getRepository(Notification::class);
+        $reportRepo = $entityManager->getRepository(Report::class);
 
         // Si page vient de notifId, passe la notif en "clicked"
         if (!is_null($notifId)) {
@@ -42,10 +43,13 @@ class UserController extends AbstractController
             // On compte les Topic et Médias status "waiting"
             $mediasWaitings = count($mediaRepo->findBy(["validated" => "waiting"]));
             $topicsWaitings = count($topicRepo->findBy(["validated" => "waiting"]));
-            $modoNotifCount = $mediasWaitings + $topicsWaitings;
+            $modoNotifValidationCount = $mediasWaitings + $topicsWaitings;
+            // Nombre de cards report (groupée, != nbr reports)
+            $modoNotifReportCount = count($reportRepo->getAllReportsGroupedByOjectIdAndType());
         }
         else {
-            $modoNotifCount = null;
+            $modoNotifValidationCount = null;
+            $modoNotifReportCount = null;
         }
 
         if ($this->getUser()) {
@@ -67,7 +71,8 @@ class UserController extends AbstractController
             $userMediasCount = $mediaRepo->countUserMedias($user);
 
             return $this->render('user/profil.html.twig', [
-                'modoNotifCount' => $modoNotifCount,
+                'modoNotifValidationCount' => $modoNotifValidationCount,
+                'modoNotifReportCount' => $modoNotifReportCount,
                 'userNotifCount' => $userNotifCount,
                 'user' => $user,
                 'userRole' => $userRole,

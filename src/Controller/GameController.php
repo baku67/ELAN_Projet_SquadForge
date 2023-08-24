@@ -2,8 +2,6 @@
 
 namespace App\Controller;
 
-use Doctrine\Common\Collections\Collection;
-
 // Imagine: compression et resize Img Uploads (Médias)
 use Imagine\Image\Box;
 use Imagine\Image\ImageInterface;
@@ -22,11 +20,12 @@ use App\Entity\User;
 use App\Entity\Topic;
 use App\Entity\Media;
 use App\Entity\Group;
-use Doctrine\ORM\PersistentCollection;
+use App\Entity\Report;
 
+use Doctrine\Common\Collections\Collection;
+use Doctrine\ORM\PersistentCollection;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
-
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -45,6 +44,7 @@ class GameController extends AbstractController
         $notifRepo = $entityManager->getRepository(Notification::class);
         $mediaRepo = $entityManager->getRepository(Media::class);
         $topicRepo = $entityManager->getRepository(Topic::class);
+        $reportRepo = $entityManager->getRepository(Report::class);
 
         // Onglet notifs Bulle nbr "non-vues" (int si connécté, null sinon)
         $userNotifCount = $this->getUser() ? count($notifRepo->findByUserNotSeen($this->getUser())) : null;
@@ -53,10 +53,13 @@ class GameController extends AbstractController
             // On compte les Topic et Médias status "waiting"
             $mediasWaitings = count($mediaRepo->findBy(["validated" => "waiting"]));
             $topicsWaitings = count($topicRepo->findBy(["validated" => "waiting"]));
-            $modoNotifCount = $mediasWaitings + $topicsWaitings;
+            $modoNotifValidationCount = $mediasWaitings + $topicsWaitings;
+            // Nombre de cards report (groupée, != nbr reports)
+            $modoNotifReportCount = count($reportRepo->getAllReportsGroupedByOjectIdAndType());
         }
         else {
-            $modoNotifCount = null;
+            $modoNotifValidationCount = null;
+            $modoNotifReportCount = null;
         }
 
         // Quand système de notation: trier par note 
@@ -78,7 +81,8 @@ class GameController extends AbstractController
         $brGamesCount = count($brGames);
 
         return $this->render('game/gameList.html.twig', [
-            'modoNotifCount' => $modoNotifCount,
+            'modoNotifValidationCount' => $modoNotifValidationCount,
+            'modoNotifReportCount' => $modoNotifReportCount,
             'userNotifCount' => $userNotifCount,
             'mobaGames' => $mobaGames,
             'mobaGamesCount' => $mobaGamesCount,
@@ -102,6 +106,7 @@ class GameController extends AbstractController
         $censureRepo = $entityManager->getRepository(Censure::class);
         $groupRepo = $entityManager->getRepository(Group::class);
         $notifRepo = $entityManager->getRepository(Notification::class);
+        $reportRepo = $entityManager->getRepository(Report::class);
 
         // Onglet notifs Bulle nbr "non-vues" (int si connécté, null sinon)
         $userNotifCount = $this->getUser() ? count($notifRepo->findByUserNotSeen($this->getUser())) : null;
@@ -110,10 +115,13 @@ class GameController extends AbstractController
             // On compte les Topic et Médias status "waiting"
             $mediasWaitings = count($mediaRepo->findBy(["validated" => "waiting"]));
             $topicsWaitings = count($topicRepo->findBy(["validated" => "waiting"]));
-            $modoNotifCount = $mediasWaitings + $topicsWaitings;
+            $modoNotifValidationCount = $mediasWaitings + $topicsWaitings;
+            // Nombre de cards report (groupée, != nbr reports)
+            $modoNotifReportCount = count($reportRepo->getAllReportsGroupedByOjectIdAndType());
         }
         else {
-            $modoNotifCount = null;
+            $modoNotifValidationCount = null;
+            $modoNotifReportCount = null;
         }
 
         $game = $gamesRepo->find($id);
@@ -358,7 +366,8 @@ class GameController extends AbstractController
         
 
         return $this->render('game/gameDetails.html.twig', [
-            'modoNotifCount' => $modoNotifCount,
+            'modoNotifValidationCount' => $modoNotifValidationCount,
+            'modoNotifReportCount' => $modoNotifReportCount,
             'userNotifCount' => $userNotifCount,
             'formAddTopic' => $form->createView(),
             'formAddMedia' => $form2->createView(),
@@ -395,6 +404,7 @@ class GameController extends AbstractController
         $notifRepo = $entityManager->getRepository(Notification::class);
         $mediaRepo = $entityManager->getRepository(Media::class);
         $topicRepo = $entityManager->getRepository(Topic::class);
+        $reportRepo = $entityManager->getRepository(Report::class);
 
         // Onglet notifs Bulle nbr "non-vues" (int si connécté, null sinon)
         $userNotifCount = $this->getUser() ? count($notifRepo->findByUserNotSeen($this->getUser())) : null;
@@ -403,10 +413,13 @@ class GameController extends AbstractController
             // On compte les Topic et Médias status "waiting"
             $mediasWaitings = count($mediaRepo->findBy(["validated" => "waiting"]));
             $topicsWaitings = count($topicRepo->findBy(["validated" => "waiting"]));
-            $modoNotifCount = $mediasWaitings + $topicsWaitings;
+            $modoNotifValidationCount = $mediasWaitings + $topicsWaitings;
+            // Nombre de cards report (groupée, != nbr reports)
+            $modoNotifReportCount = count($reportRepo->getAllReportsGroupedByOjectIdAndType());
         }
         else {
-            $modoNotifCount = null;
+            $modoNotifValidationCount = null;
+            $modoNotifReportCount = null;
         }
 
         $genreGames = $gamesRepo->findBy(['genre' => $id]);
@@ -415,7 +428,8 @@ class GameController extends AbstractController
         $genreName = $genreRepo->find($id)->getName();
 
         return $this->render('game/genreGameList.html.twig', [
-            'modoNotifCount' => $modoNotifCount,
+            'modoNotifValidationCount' => $modoNotifValidationCount,
+            'modoNotifReportCount' => $modoNotifReportCount,
             'userNotifCount' => $userNotifCount,
             'genreGames' => $genreGames,
             'genreName' => $genreName,

@@ -10,6 +10,7 @@ use App\Entity\Topic;
 use App\Entity\Media;
 use App\Entity\Group;
 use App\Entity\GroupSession;
+use App\Entity\Report;
 
 use Symfony\Component\HttpFoundation\RequestStack;
 use App\Entity\OAuthTwitch;
@@ -92,6 +93,7 @@ class SecurityController extends AbstractController
             $mediaRepo = $entityManager->getRepository(Media::class);
             $topicRepo = $entityManager->getRepository(Topic::class);
             $gameRepo = $entityManager->getRepository(Game::class);
+            $reportRepo = $entityManager->getRepository(Report::class);
 
             $allGames = $gameRepo->findAll();
 
@@ -102,10 +104,13 @@ class SecurityController extends AbstractController
                 // On compte les Topic et Médias status "waiting"
                 $mediasWaitings = count($mediaRepo->findBy(["validated" => "waiting"]));
                 $topicsWaitings = count($topicRepo->findBy(["validated" => "waiting"]));
-                $modoNotifCount = $mediasWaitings + $topicsWaitings;
+                $modoNotifValidationCount = $mediasWaitings + $topicsWaitings;
+                // Nombre de cards report (groupée, != nbr reports)
+                $modoNotifReportCount = count($reportRepo->getAllReportsGroupedByOjectIdAndType());
             }
             else {
-                $modoNotifCount = null;
+                $modoNotifValidationCount = null;
+                $modoNotifReportCount = null;
             }
 
             // Si connecté: raccourcis Games favoris, et listTeams
@@ -133,7 +138,8 @@ class SecurityController extends AbstractController
             
                     
             return $this->render('security/home.html.twig', [
-                'modoNotifCount' => $modoNotifCount,
+                'modoNotifValidationCount' => $modoNotifValidationCount,
+                'modoNotifReportCount' => $modoNotifReportCount,
                 'userNotifCount' => $userNotifCount,
                 'userFav' => $userFav,
                 'allGames' => $allGames,

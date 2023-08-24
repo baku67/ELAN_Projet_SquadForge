@@ -50,10 +50,13 @@ class ModerationController extends AbstractController
                 // On compte les Topic et Médias status "waiting"
                 $mediasWaitings = count($mediaRepo->findBy(["validated" => "waiting"]));
                 $topicsWaitings = count($topicRepo->findBy(["validated" => "waiting"]));
-                $modoNotifCount = $mediasWaitings + $topicsWaitings;
+                $modoNotifValidationCount = $mediasWaitings + $topicsWaitings;
+                // Nombre de cards report (groupée, != nbr reports)
+                $modoNotifReportCount = count($reportRepo->getAllReportsGroupedByOjectIdAndType());
             }
             else {
-                $modoNotifCount = null;
+                $modoNotifValidationCount = null;
+                $modoNotifReportCount = null;
             }
 
             // Récup des reports grouped By object
@@ -107,7 +110,8 @@ class ModerationController extends AbstractController
             }
             return $this->render('moderation/modoDashboard.html.twig', [
                 'reports' => $reports,
-                'modoNotifCount' => $modoNotifCount,
+                'modoNotifValidationCount' => $modoNotifValidationCount,
+                'modoNotifReportCount' => $modoNotifReportCount,
                 'userNotifCount' => $userNotifCount,
                 'formAddCensoredWord' => $form->createView(),
                 'censureWords' => $censureWords,

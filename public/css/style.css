@@ -2184,6 +2184,8 @@ nav {
     transition: all 0.4s;
 }
 .decoBtn {
+    position: relative;
+    bottom: 1px;
     font-size: 0.88em;
     padding: 9px 13px 7px 13px;
     border-left: 1px solid rgba(160, 160, 160, 0.4);
@@ -4180,7 +4182,7 @@ cursor: pointer;
     transition: all 0.3s;
 }
 .notifsNav {
-    padding-right: 3px !important;
+    /* padding-right: 3px !important; */
     color: white;
     transition: all 0.3s;
 }
@@ -4232,6 +4234,27 @@ cursor: pointer;
     line-height: 15px;
     font-weight: 600;
     border: 1px solid rgba(0, 0, 0, 0.4);
+}
+
+.bubleModo1 {
+    top:4px;
+    background-color: #0fa50f;
+    width: 18px;
+    line-height: 13px;
+    font-size: 80%;
+    font-weight: 500;
+
+    border-radius: 3px;
+}
+.bubleModo2 {
+    top:4px;
+    right: -26px;
+    width: 18px;
+    line-height: 13px;
+    font-size: 80%;
+    font-weight: 500;
+
+    border-radius: 3px;
 }
 
 

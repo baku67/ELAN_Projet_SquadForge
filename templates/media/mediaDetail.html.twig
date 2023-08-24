@@ -22,17 +22,37 @@
                 </a>
             {% endif %}
             {% if app.user and "ROLE_MODO" in app.user.roles %}
-                <a href="{{ path('app_moderationDashboard') }}" style="color:{{ game.fontColor }};" class="modoNav">
+            
+                <a href="{{ path('app_moderationDashboard') }}" style="color:{{ game.fontColor }};" id="modoNav" class="modoNav">
                     <div style="position:relative;">
                         <span>Modération</span>
-                        {% if modoNotifCount > 0 %}
-                            <span class="newNotifBubbleCount">{{ modoNotifCount }}</span>
+                        {% if modoNotifValidationCount > 0 %}
+                            <span class="newNotifBubbleCount bubleModo1">{{ modoNotifValidationCount }}</span>
+                        {% endif %}
+                        {% if modoNotifReportCount > 0 %}
+                            <span class="newNotifBubbleCount bubleModo2">{{ modoNotifReportCount }}</span>
                         {% endif %}
                     </div>
                 </a>
+
+                <script>
+                    // Ajout d'espace libre sur l'onglet Nav "Modération" si bulles (car bulles absolutes)
+                    var paddingRightOnglet = 0;
+                    if({{modoNotifValidationCount}} > 0) {
+                        paddingRightOnglet += 17;
+                    }
+                    if({{modoNotifReportCount}} > 0) {
+                        paddingRightOnglet += 17;
+                    }
+                    document.getElementById('modoNav').style.paddingRight = paddingRightOnglet + "px";
+                </script>
+
             {% endif %}
+
         </nav>
+        
         <a href="{{ path('app_game', {'id': game.id }) }}"><h2 class="headerGameTitle" style="border-right:10px solid {{ game.color }}; border-bottom:2px solid {{ game.color }};">{{ game.title }}</h2></a>
+    
     </header>
     
 

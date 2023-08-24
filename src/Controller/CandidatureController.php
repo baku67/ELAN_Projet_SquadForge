@@ -10,6 +10,7 @@ use App\Entity\GroupAnswer;
 use App\Entity\Game;
 use App\Entity\Topic;
 use App\Entity\Media;
+use App\Entity\Report;
 use App\Entity\User;
 use App\Form\CandidatureType;
 use App\Repository\GroupRepository;
@@ -42,6 +43,7 @@ class CandidatureController extends AbstractController
         $notifRepo = $entityManager->getRepository(Notification::class);
         $mediaRepo = $entityManager->getRepository(Media::class);
         $topicRepo = $entityManager->getRepository(Topic::class);
+        $reportRepo = $entityManager->getRepository(Report::class);
 
         // Onglet notifs Bulle nbr "non-vues" (int si connécté, null sinon)
         $userNotifCount = $this->getUser() ? count($notifRepo->findByUserNotSeen($this->getUser())) : null;
@@ -50,10 +52,13 @@ class CandidatureController extends AbstractController
             // On compte les Topic et Médias status "waiting"
             $mediasWaitings = count($mediaRepo->findBy(["validated" => "waiting"]));
             $topicsWaitings = count($topicRepo->findBy(["validated" => "waiting"]));
-            $modoNotifCount = $mediasWaitings + $topicsWaitings;
+            $modoNotifValidationCount = $mediasWaitings + $topicsWaitings;
+            // Nombre de cards report (groupée, != nbr reports)
+            $modoNotifReportCount = count($reportRepo->getAllReportsGroupedByOjectIdAndType());
         }
         else {
-            $modoNotifCount = null;
+            $modoNotifValidationCount = null;
+            $modoNotifReportCount = null;
         }
 
         $group = $groupRepo->find($groupId);
@@ -64,7 +69,8 @@ class CandidatureController extends AbstractController
         if ($this->getUser() == $group->getLeader() ) {
 
             return $this->render('candidature/candidatureList.html.twig', [
-                'modoNotifCount' => $modoNotifCount,
+                'modoNotifValidationCount' => $modoNotifValidationCount,
+                'modoNotifReportCount' => $modoNotifReportCount,
                 'userNotifCount' => $userNotifCount,
                 'candidatures' => $candidatures,
                 'group' => $group,
@@ -94,6 +100,7 @@ class CandidatureController extends AbstractController
         $notifRepo = $entityManager->getRepository(Notification::class);
         $mediaRepo = $entityManager->getRepository(Media::class);
         $topicRepo = $entityManager->getRepository(Topic::class);
+        $reportRepo = $entityManager->getRepository(Report::class);
 
         // Si la candidature-cible de la notif n'existe plus (accpté/refusée/annulée)
         $candidature = $candidatureRepo->find($candidatureId);
@@ -123,10 +130,13 @@ class CandidatureController extends AbstractController
                         // On compte les Topic et Médias status "waiting"
                         $mediasWaitings = count($mediaRepo->findBy(["validated" => "waiting"]));
                         $topicsWaitings = count($topicRepo->findBy(["validated" => "waiting"]));
-                        $modoNotifCount = $mediasWaitings + $topicsWaitings;
+                        $modoNotifValidationCount = $mediasWaitings + $topicsWaitings;
+                        // Nombre de cards report (groupée, != nbr reports)
+                        $modoNotifReportCount = count($reportRepo->getAllReportsGroupedByOjectIdAndType());
                     }
                     else {
-                        $modoNotifCount = null;
+                        $modoNotifValidationCount = null;
+                        $modoNotifReportCount = null;
                     }
 
                     // Tableau assoc Question/Réponse (juste text)
@@ -139,7 +149,8 @@ class CandidatureController extends AbstractController
                     }
 
                     return $this->render('candidature/candidatureDetails.html.twig', [
-                        'modoNotifCount' => $modoNotifCount,
+                        'modoNotifValidationCount' => $modoNotifValidationCount,
+                        'modoNotifReportCount' => $modoNotifReportCount,
                         'userNotifCount' => $userNotifCount,
                         'candidature' => $candidature,
                         'group' => $group,
@@ -273,6 +284,7 @@ class CandidatureController extends AbstractController
         $notifRepo = $entityManager->getRepository(Notification::class);
         $mediaRepo = $entityManager->getRepository(Media::class);
         $topicRepo = $entityManager->getRepository(Topic::class);
+        $reportRepo = $entityManager->getRepository(Report::class);
 
         $group = $groupRepo->find($groupId);
 
@@ -289,10 +301,13 @@ class CandidatureController extends AbstractController
                     // On compte les Topic et Médias status "waiting"
                     $mediasWaitings = count($mediaRepo->findBy(["validated" => "waiting"]));
                     $topicsWaitings = count($topicRepo->findBy(["validated" => "waiting"]));
-                    $modoNotifCount = $mediasWaitings + $topicsWaitings;
+                    $modoNotifValidationCount = $mediasWaitings + $topicsWaitings;
+                    // Nombre de cards report (groupée, != nbr reports)
+                    $modoNotifReportCount = count($reportRepo->getAllReportsGroupedByOjectIdAndType());
                 }
                 else {
-                    $modoNotifCount = null;
+                    $modoNotifValidationCount = null;
+                    $modoNotifReportCount = null;
                 }
 
                 $gameFrom = $group->getGame();
@@ -388,7 +403,8 @@ class CandidatureController extends AbstractController
                         }
 
                         return $this->render('group/groupCandidatureForm.html.twig', [
-                            'modoNotifCount' => $modoNotifCount,
+                            'modoNotifValidationCount' => $modoNotifValidationCount,
+                            'modoNotifReportCount' => $modoNotifReportCount,
                             'userNotifCount' => $userNotifCount,
                             'formCandidature' => $form->createView(),
                             'group' => $group,
