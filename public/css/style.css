@@ -1022,6 +1022,14 @@ header {
 }
 
 
+.addFavIconWrapper {
+    width: 100%;
+    height: 100%;
+    overflow: visible;
+    position: relative;
+}
+
+
 .lp-p1-rightSection {
     height:100%; 
     height:inherit; 
@@ -1593,7 +1601,8 @@ header {
 
 .lp-gameCardTitle {
     position: relative;
-    top: 107%;
+    /* top: 107%; */
+    top: 6%;
     font-weight: bold;
     font-size: 1.5em;
 }

@@ -116,10 +116,12 @@
 
                                                 <div id="lp-page3-slide0{{ index }}" class="lp-gameCard" style="background-image: linear-gradient(rgba(0, 0, 255, 0.05), rgba(249, 123, 44, 0.5)),url('{{ asset("img/games/headerBackground/" ~ game.subBanner )}}'); background-size:cover;">
                                                     
-                                                    {# "+" hover card #}
-                                                    <i id="favArrayPlus{{ index }}" class="fa-solid fa-plus favArrayHeart favArrayPlus"></i>
-                                                    {# Coeur ajouté à l'array fav #}
-                                                    <i id="favArrayHeart{{ index }}" class="fa-solid fa-heart-circle-check favArrayHeart"></i>
+                                                    <div class="addFavIconWrapper">
+                                                        {# "+" hover card #}
+                                                        <i id="favArrayPlus{{ index }}" class="fa-solid fa-plus favArrayHeart favArrayPlus"></i>
+                                                        {# Coeur ajouté à l'array fav #}
+                                                        <i id="favArrayHeart{{ index }}" class="fa-solid fa-heart-circle-check favArrayHeart"></i>
+                                                    </div>
                                                     
                                                     <span id="lp-gameCardTitle{{ index }}" value="{{ game.title }}" class="lp-gameCardTitle">{{ game.title }}</span>
 
