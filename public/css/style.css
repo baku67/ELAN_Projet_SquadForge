@@ -1601,10 +1601,26 @@ header {
 
 .lp-gameCardTitle {
     position: relative;
-    /* top: 107%; */
-    top: 6%;
+    top: 107%;
+    /* top: 6%; */
     font-weight: bold;
     font-size: 1.5em;
+}
+
+.lp-gameCardAddFavTitle {
+    position: relative;
+    top: 6% !important;
+    font-weight: bold;
+    font-size: 1.5em;
+}
+
+#headerReduced_title {
+    display: none;
+}
+
+.logoPng_reduced {
+    width: 164px;
+    height: 34px;
 }
 
 .lp-gameCardTitlePhone {

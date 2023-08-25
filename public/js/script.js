@@ -13,13 +13,15 @@ window.addEventListener('load', function() {
                 if (window.scrollY > 0) {
                     // OULALA horrible
                     document.getElementsByTagName('header')[0].classList.add('headerFixed');
-                    document.getElementById('logoPng').style.width = "41px";
+                    document.getElementById('logoPng').style.width = "49px";
+                    document.getElementById('logoPng').style.padding = "0px";
 
                     document.getElementsByClassName('navLine')[0].style.bottom = "0px";
                 } else {
                     // OULALA horrible
                     document.getElementsByTagName('header')[0].classList.remove('headerFixed');
                     document.getElementById('logoPng').style.width = "169px";
+                    document.getElementById('logoPng').style.padding = "6px";
 
                     document.getElementsByClassName('navLine')[0].style.bottom = "-3px";
                 }
