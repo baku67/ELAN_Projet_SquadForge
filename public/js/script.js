@@ -17,14 +17,18 @@ window.addEventListener('load', function() {
                     document.getElementsByTagName('header')[0].classList.add('headerFixed');
                     document.getElementById('logoPng').style.width = "49px";
                     document.getElementById('logoPng').style.padding = "0px";
-
                     document.getElementsByClassName('navLine')[0].style.bottom = "0px";
+
+                    // Le header passe de relative à Fixed (compensation du mainContent)
+                    document.getElementsByClassName('main')[0].style.paddingTop = "100px";
                 } else {
                     document.getElementsByTagName('header')[0].classList.remove('headerFixed');
                     document.getElementById('logoPng').style.width = "169px";
                     document.getElementById('logoPng').style.padding = "6px";
-
                     document.getElementsByClassName('navLine')[0].style.bottom = "-3px";
+
+                    // Le header passe de relative à Fixed (compensation du mainContent)
+                    document.getElementsByClassName('main')[0].style.paddingTop = "0px";
                 }
             });
 

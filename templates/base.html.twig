@@ -147,10 +147,65 @@
         (tarteaucitron.job = tarteaucitron.job || []).push('googlefonts');
         </script>
 
+        
+        <footer id="footer" style="display:flex; flex-direction:column; position:relative;">
 
-        <footer>
-            
-            <span>SquadForge</span>
+            {% if not app.user %}
+                {# Si pas de User connecté: bandeau CTA et adaptation espacement footer #}
+                <div class="footerRegisterCard">
+                    <span class="footerRegisterText">Rejoignez l'aventure dès maitenant !</span>
+                    <a href="{{ path('app_register') }}" class="btn btn-primary footerRegisterCta">Je m'inscris <i class="fa-solid fa-arrow-right"></i></a>
+                </div>
+                <script>
+                    document.getElementById('footer').style.margin = "55px 0px 0px 0px";
+                    document.getElementById('footer').style.padding = "85px 0px 40px 0px";
+                </script>
+            {% endif %}
+
+            <div style="width:90%; margin:0 auto; display:inline-flex; margin:0px 0px 25px 0px;">
+
+                <div style="width:60%">
+                    <h4 class="footerTitle"><i class="fa-solid fa-link"></i> Liens utiles</h4>
+                    <div style="display:inline-flex; width:100%; justify-content:space-evenly; margin:25px 0; font-family:'K2D', sans-serif; font-size:1.1em;">
+                        <ul class="footerList" style="text-align: left;">
+                            <li><a href="{{ path('app_home') }}">Accueil</a></li>
+                            <li><a href="{{ path('app_login') }}">Se connecter</a></li>
+                            <li><a href="{{ path('app_register') }}">S'enregistrer</a></li>
+                            <li><a href="{{ path('app_showNotifsList') }}">Mes Notifications</a></li>
+                            <li><a href="{{ path('app_user') }}">Mon Compte</a></li>
+                        </ul>
+                        <ul class="footerList" style="text-align: left;">
+                            <li><a href="{{ path('app_allTopicsGlobal') }}">Tous les topics</a></li>
+                            <li><a href="{{ path('app_allMediasGlobal') }}">Tous les médias</a></li>
+                            <li><a href="{{ path('app_games') }}">Tous les jeux</a></li>
+                            {# TODO créer la page afficher toutes les teams publiques (adapter l'onglet: si connecté 'Mes teams', sinon 'teams'?) #}
+                            <li><a href="{{ path('app_userGroups') }}">Toutes les teams</a></li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div style="width:40%; border-left: 1px solid #ffffff2e;">
+                    <h4 class="footerTitle"><i class="fa-solid fa-globe"></i> Contacts et réseaux</h4>
+                    <ul style="display:inline-flex; margin: 25px 0;">
+                        <li><i class="fa-brands fa-facebook"></i></li>
+                        <li><i class="fa-brands fa-instagram"></i></li>
+                        <li><i class="fa-brands fa-discord"></i></li>
+                        <li><i class="fa-brands fa-x-twitter"></i></li>
+                        <li><i class="fa-brands fa-github"></i></li>
+                    </ul>
+                    <div>
+                        <p class="contactMeTxt">Pour me contacter, rendez-vous sur mon <a href="https://www.portfolio.basilek.ovh" target="_blank" class="portfolioLink">PortFolio</a></p>
+                    </div>
+                </div>
+
+            </div>
+
+            <span>
+                <a href="{{ path('app_home') }}">SquadForge</a> - 
+                <a href="{{ path('app_privacy') }}">Conditions d'utilisation</a> - 
+                <a>Règlement du site</a>
+            </span>
+
         </footer>
 
     </body>

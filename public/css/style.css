@@ -32,9 +32,21 @@ span {
     font-family: 'K2D', sans-serif;
 }
 
+
+.footerList {
+    text-align: left;
+}
+.footerList li {
+    transition: all 0.3s;
+}
+.footerList li:hover {
+    text-decoration: underline;
+}
+
 footer {
-    background-color: #f97b2c29;
-    height: 100px;
+    background-color: #f97b2c17;
+    /* height: 100px; */
+    padding: 30px 0;
     text-align: center;
     /* Keep the footer at the bottom */
     margin-top: auto;
@@ -2172,7 +2184,49 @@ nav {
 
 .main {
     width: 85%;
-    margin: 25px auto;
+    margin: 25px auto 45px auto;
+}
+
+.footerRegisterCard {
+    position: absolute;
+    top: -37px;
+    margin: 0 auto;
+    display: inline-flex;
+    /* background-image: linear-gradient(to right top, #f97b2c, #b2970e, #6ba144, #219f7a, #05969d); */
+    background-image: linear-gradient(to right top, var(--primary-color), var(--secondary-color));
+    justify-content: space-between;
+    width: 40%;
+    border-radius: 10px;
+    padding: 20px;
+    left: 50%;
+    border: 1px solid #000000a8;
+    transform: translateX(-50%);
+}
+.footerRegisterCta {
+    margin: 0;
+    border-radius: 100px;
+}
+
+.footerRegisterText {
+    align-self: center;
+}
+
+.contactMeTxt {
+    font-family: 'K2D', sans-serif;
+}
+.portfolioLink {
+    font-family: 'Julius Sans One';
+    font-weight: bold;
+    color: var(--primary-color);
+    transition: all 0.3s;
+}
+.portfolioLink:hover {
+    color: white;
+    letter-spacing: 1px;
+}
+
+.footerTitle {
+    color: var(--primary-color);
 }
 
 .authenticationDiv {
@@ -2447,9 +2501,9 @@ nav {
 
 
 .blinkingSectionTitle {
-    filter: brightness(0);
+    /* filter: brightness(0);
 
-    animation: blinkingSectionTitle 1s 0.1s forwards linear;
+    animation: blinkingSectionTitle 1s 0.1s forwards linear; */
 }
 @keyframes blinkingSectionTitle {
     0% {
@@ -4494,7 +4548,7 @@ cursor: pointer;
     font-size: 2.1em;
     text-align: center;
     width: 100%;
-    margin: 45px auto;
+    margin: 0px auto 45px auto;
 }
 
 .sectionContainer {
