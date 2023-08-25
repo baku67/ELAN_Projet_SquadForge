@@ -1,24 +1,25 @@
 
 window.addEventListener('load', function() {
 
+    // Exécuté partout (landingPage y compris:)
+    // console.log('TESTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT');
+
+
 
     // *************************  Scroll Header fixed + reduced ************************
 
-        // Exécuté partout (landingPage y compris:)
-        // console.log('TESTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT');
-        // if (document.getElementsByTagName('header')[0] !== null) {
+        // Vérif pas landingPage
+        if (document.getElementById('landingPageBool') == null) {
 
             window.addEventListener('scroll', () => {
                 // Vérifiez la position verticale de défilement
                 if (window.scrollY > 0) {
-                    // OULALA horrible
                     document.getElementsByTagName('header')[0].classList.add('headerFixed');
                     document.getElementById('logoPng').style.width = "49px";
                     document.getElementById('logoPng').style.padding = "0px";
 
                     document.getElementsByClassName('navLine')[0].style.bottom = "0px";
                 } else {
-                    // OULALA horrible
                     document.getElementsByTagName('header')[0].classList.remove('headerFixed');
                     document.getElementById('logoPng').style.width = "169px";
                     document.getElementById('logoPng').style.padding = "6px";
@@ -27,9 +28,9 @@ window.addEventListener('load', function() {
                 }
             });
 
-        // }
+        }
 
-    // µµµµµµµµµµµµµµµµµµµµµµµµµµµµµµµµµµµµµµµµµµµµµµµµµµµµµµµµµµµµµµµµµµµµµµµµµµµµµµµµ
+    // **********************************************************************************
 
 
 

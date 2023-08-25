@@ -35,6 +35,19 @@ span {
 footer {
     background-color: #f97b2c29;
     height: 100px;
+    text-align: center;
+    /* Keep the footer at the bottom */
+    margin-top: auto;
+}
+.main {
+    flex: 1;
+}
+body {
+    display: flex;
+    flex-direction: column;
+    margin: 0;
+    padding: 0;
+    min-height: 100vh;
 }
 
 /* LandingPage */

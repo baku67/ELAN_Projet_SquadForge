@@ -10,6 +10,9 @@
     </script>
 
 
+    <span id="landingPageBool" style="display:none" hidden></span>
+
+
     <div id="section1" class="section">
 
         {# Page 1a #}
@@ -447,10 +450,10 @@
             </div>
 
             {# Scroll Btn up (to page 3) #}
-            <div id="lp-scrollBtn4" class="landingPageDownBtn" style="transform: translate(50%, 0) rotate(180deg);">
+            {# <div id="lp-scrollBtn4" class="landingPageDownBtn" style="transform: translate(50%, 0) rotate(180deg);">
                 <i class="fa-solid fa-chevron-down lpdownBtn1"></i>
                 <i class="fa-solid fa-chevron-down lpdownBtn2"></i>
-            </div>
+            </div> #}
 
 
         </div>
@@ -578,10 +581,10 @@
                 const element3 = document.getElementById("lp-page4");
                 element3.scrollIntoView({behavior: "smooth", block: "end", inline: "nearest"});
             });
-            document.getElementById('lp-scrollBtn4').addEventListener('click', function() {
-                const element3 = document.getElementById("lp-page3");
-                element3.scrollIntoView({behavior: "smooth", block: "end", inline: "nearest"});
-            });
+            // document.getElementById('lp-scrollBtn4').addEventListener('click', function() {
+            //     const element3 = document.getElementById("lp-page3");
+            //     element3.scrollIntoView({behavior: "smooth", block: "end", inline: "nearest"});
+            // });
 
             document.getElementById('lp-page4-titleLink').addEventListener('click', gameTitleClick);
             function gameTitleClick() {
