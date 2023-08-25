@@ -9,6 +9,8 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use App\Entity\Media;
 use App\Entity\Topic;
+use App\Entity\Game;
+use App\Entity\Group;
 
 class SitemapController extends AbstractController
 {
@@ -32,8 +34,42 @@ class SitemapController extends AbstractController
         $urls[] = ['loc' => $this->generateUrl('app_register')];
         $urls[] = ['loc' => $this->generateUrl('app_login')];
         $urls[] = ['loc' => $this->generateUrl('app_games')];
+        $urls[] = ['loc' => $this->generateUrl('app_allTopicsGlobal')];
+        $urls[] = ['loc' => $this->generateUrl('app_allMediasGlobal')];
+        $urls[] = ['loc' => $this->generateUrl('app_user')];
+        $urls[] = ['loc' => $this->generateUrl('app_user')];
 
         // On ajoute les URLs dynamiques des articles dans le tableau
+
+        // Jeux:
+        foreach ($this->doctrine->getRepository(Game::class)->findAll() as $article) {
+
+            $urls[] = [
+                'loc' => $this->generateUrl('app_game', [
+                    'id' => $article->getId(),
+                ]),
+                'lastmod' => $article->getPublishDate()->format('Y-m-d'),
+                'title' => $article->getTitle(),
+            ];
+        }
+
+
+        // Groupes (si publics):
+        foreach ($this->doctrine->getRepository(Group::class)->findAll() as $article) {
+
+            if($article->getStatus() == "public") {
+
+                $urls[] = [
+                    'loc' => $this->generateUrl('app_groupDetails', [
+                        'groupId' => $article->getId(),
+                    ]),
+                    'lastmod' => $article->getCreationDate()->format('Y-m-d'),
+                    'title' => $article->getTitle(),
+                ];
+
+            }
+        }
+
         // Médias:
         foreach ($this->doctrine->getRepository(Media::class)->findAll() as $article) {
             $images = [
