@@ -82,6 +82,9 @@ class Game
     #[ORM\Column(name: 'site_logo', length: 255, options: ['default' => "logoSquadForge_v3.png"])]
     private ?string $siteLogo = null;
 
+    #[ORM\Column(nullable: true)]
+    private ?bool $showIcon_searchPage = null;
+
     public function __construct()
     {
         $this->favUsers = new ArrayCollection();
@@ -413,6 +416,18 @@ class Game
     public function setSiteLogo(string $siteLogo): self
     {
         $this->siteLogo = $siteLogo;
+
+        return $this;
+    }
+
+    public function isShowIconSearchPage(): ?bool
+    {
+        return $this->showIcon_searchPage;
+    }
+
+    public function setShowIconSearchPage(?bool $showIcon_searchPage): static
+    {
+        $this->showIcon_searchPage = $showIcon_searchPage;
 
         return $this;
     }
