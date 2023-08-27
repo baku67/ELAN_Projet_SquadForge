@@ -309,7 +309,7 @@ body {
 }
 .footerNetworksList li {
     margin: 0px 14px;
-    font-size: 1.35em;
+    font-size: 1.5em;
     cursor: pointer;
     color: white;
     transition: all 0.2s;
@@ -1798,7 +1798,7 @@ header {
     position:relative; 
     /* margin-right:10px; */
     /* padding: 0; */
-    padding: 0 8px 0 1px !important;
+    padding: 0 4px 0 4px !important;
     padding-top: 7px !important;
 }
 
@@ -2212,7 +2212,7 @@ nav {
 
 .footerRegisterCard {
     position: absolute;
-    top: -37px;
+    top: -56px;
     margin: 0 auto;
     display: inline-flex;
     /* background-image: linear-gradient(to right top, #f97b2c, #b2970e, #6ba144, #219f7a, #05969d); */
@@ -4317,17 +4317,20 @@ cursor: pointer;
 .gamesNav {
     padding-top: 7px;
     padding-bottom: 4px;
+    border-top: 1px solid rgba(0,0,0,0);
     transition: all 0.25s;
 }
 .teamsNav {
     padding-top: 7px;
     padding-bottom: 4px;
+    border-top: 1px solid rgba(0,0,0,0);
     transition: all 0.25s;
 }
 .homeNav {
     padding-top: 7px;
     padding-left: 10px;
     padding-bottom: 4px;
+    border-top: 1px solid rgba(0,0,0,0);
     transition: all 0.25s;
     border-top-left-radius: 3px;
 }
@@ -4336,6 +4339,7 @@ cursor: pointer;
     padding-left: 2px;
     text-transform: uppercase;
     border-left: 1px solid #808080a8;
+    border-top: 1px solid rgba(0,0,0,0);
 
     transition: all 0.25s;
 }
@@ -4343,6 +4347,7 @@ cursor: pointer;
     /* padding-right: 3px !important; */
     color: white;
     transition: all 0.25s;
+    border-top: 1px solid rgba(0,0,0,0);
 }
 
 .gamesNav:hover {
@@ -4350,30 +4355,35 @@ cursor: pointer;
     color: black; */
     color: var(--primary-color);
     background-color: #ffffff17;
+    border-top: 1px solid var(--primary-color);
 }
 .teamsNav:hover {
     /* background-color: white;
     color: black; */
     color: var(--primary-color);
     background-color: #ffffff17;
+    border-top: 1px solid var(--primary-color);
 }
 .homeNav:hover {
     /* background-color: white;
     color: black; */
     color: var(--primary-color);
     background-color: #ffffff17;
+    border-top: 1px solid var(--primary-color);
 }
 .notifsNav:hover {
     /* background-color: white;
     color: black; */
     color: var(--primary-color);
     background-color: #ffffff17;
+    border-top: 1px solid var(--primary-color);
 }
 .modoNav:hover {
     /* background-color: white;
     color: black !important; */
     color: var(--primary-color);
     background-color: #ffffff17;
+    border-top: 1px solid var(--primary-color);
 }
 
 .navActive {

@@ -21,8 +21,14 @@ window.addEventListener('load', function() {
                         document.getElementsByClassName('navLine')[0].style.bottom = "0px";
                     }
 
+                    if(document.getElementById('headerGameTitle') !== null) {
+                        document.getElementById('headerGameTitle').style.borderBottomWidth = "0px";
+                        document.getElementById('headerGameTitle').style.backgroundColor = "#f1f1f100";
+                    }
+
                     // Le header passe de relative à Fixed (compensation du mainContent)
                     document.getElementsByClassName('main')[0].style.paddingTop = "100px";
+
                 } else {
                     document.getElementsByTagName('header')[0].classList.remove('headerFixed');
                     document.getElementById('logoPng').style.width = "169px";
@@ -31,8 +37,14 @@ window.addEventListener('load', function() {
                         document.getElementsByClassName('navLine')[0].style.bottom = "-3px";
                     }
 
+                    if(document.getElementById('headerGameTitle') !== null) {
+                        document.getElementById('headerGameTitle').style.borderBottomWidth = "2px";
+                        document.getElementById('headerGameTitle').style.backgroundColor = "#f1f1f112";
+                    }
+
                     // Le header passe de relative à Fixed (compensation du mainContent)
                     document.getElementsByClassName('main')[0].style.paddingTop = "0px";
+
                 }
             });
 
