@@ -302,6 +302,26 @@ body {
 }
 
 
+.footerNetworksList {
+    display: inline-flex;
+    margin: 25px 0;
+
+}
+.footerNetworksList li {
+    margin: 0px 14px;
+    font-size: 1.35em;
+    cursor: pointer;
+    color: white;
+    transition: all 0.2s;
+}
+.footerNetworksList li .fa-brands {
+    cursor: pointer;
+    transition: all 0.2s;
+}
+.footerNetworksList li :hover {
+    color: var(--primary-color);
+}
+
 .lp-p3-title {
     margin:0 25px; 
     font-size:2em;
@@ -1118,7 +1138,10 @@ header {
 
     background: -moz-linear-gradient(270deg, rgba(249,164,44,1) 0%, rgba(249,123,44,1) 100%);
     background: linear-gradient(270deg, rgba(249,164,44,1) 0%, rgba(249,123,44,1) 100%);
-    background: -webkit-linear-gradient(270deg, rgba(249,164,44,1) 0%, rgba(249,123,44,1) 100%);
+    /* background: -webkit-linear-gradient(270deg, rgba(249,164,44,1) 0%, rgba(249,123,44,1) 100%); */
+
+    background-image: -webkit-linear-gradient(270deg, rgba(249,164,44,0.995) 0%, rgba(249,123,44,0.95) 100%), url(../img/testMotif2.jpg);
+    background-size: cover;
 
     animation: lp-p2-rightSectionAnim 1s 0.6s ease forwards;
 }

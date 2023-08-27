@@ -150,17 +150,31 @@
         
         <footer id="footer" style="display:flex; flex-direction:column; position:relative;">
 
+            {# Si pas de User connecté: bandeau CTA et adaptation espacement footer #}
             {% if not app.user %}
-                {# Si pas de User connecté: bandeau CTA et adaptation espacement footer #}
-                <div class="footerRegisterCard">
+                {# // Si page login ou register, pas de CTA "Je m'inscris" footer #}
+                <div id="footerRegisterCard" class="footerRegisterCard">
                     <span class="footerRegisterText">Rejoignez l'aventure dès maitenant !</span>
                     <a href="{{ path('app_register') }}" class="btn btn-primary footerRegisterCta">Je m'inscris <i class="fa-solid fa-arrow-right"></i></a>
                 </div>
+
                 <script>
-                    document.getElementById('footer').style.margin = "55px 0px 0px 0px";
-                    document.getElementById('footer').style.padding = "85px 0px 40px 0px";
+                        document.getElementById('footer').style.margin = "55px 0px 0px 0px";
+                        document.getElementById('footer').style.padding = "85px 0px 40px 0px";
+
+                    if(document.getElementById('noCtaFooter') !== null) {
+                        document.getElementById('footerRegisterCard').style.display = "none";
+                    }
+                    else {
+                        // Adaptation CSS footer si Cta
+                        
+                    }
                 </script>
+
             {% endif %}
+
+            
+
 
             <div style="width:90%; margin:0 auto; display:inline-flex; margin:0px 0px 25px 0px;">
 
@@ -186,7 +200,7 @@
 
                 <div style="width:40%; border-left: 1px solid #ffffff2e;">
                     <h4 class="footerTitle"><i class="fa-solid fa-globe"></i> Contacts et réseaux</h4>
-                    <ul style="display:inline-flex; margin: 25px 0;">
+                    <ul class="footerNetworksList">
                         <li><i class="fa-brands fa-facebook"></i></li>
                         <li><i class="fa-brands fa-instagram"></i></li>
                         <li><i class="fa-brands fa-discord"></i></li>
