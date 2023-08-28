@@ -115,8 +115,8 @@
                 <a href="{{ path('app_user') }}" class="profil" id="profilBtnNav"><i class="fa-solid fa-user profilIcon"></i>  {{ app.user.pseudo|capitalize }}</a>
                 <a href="{{ path('app_logout') }}" class="decoBtn"><i class="fa-solid fa-power-off"></i></a>
             {% else %}
-                <a href="{{ path('app_login') }}" class="profil" style="border-right:2px solid #80808061">Connexion</a>
-                <a href="{{ path('app_register') }}" class="profil" style="padding:5px 14px 5px 14px; border-bottom-left-radius:0px;">S'inscrire</a>
+                <a href="{{ path('app_login') }}" class="profil" id="loginBtnNav" style="border-right:2px solid #80808061">Connexion</a>
+                <a href="{{ path('app_register') }}" class="profil" id="registerBtnNav" style="border-bottom-left-radius:0px;">S'inscrire</a>
             {% endif %}
         </div>
 
@@ -143,8 +143,8 @@
 
 
         <script type="text/javascript">
-        tarteaucitron.user.googleFonts = 'families';
-        (tarteaucitron.job = tarteaucitron.job || []).push('googlefonts');
+            tarteaucitron.user.googleFonts = 'families';
+            (tarteaucitron.job = tarteaucitron.job || []).push('googlefonts');
         </script>
 
         
@@ -159,15 +159,27 @@
                 </div>
 
                 <script>
-                        document.getElementById('footer').style.margin = "55px 0px 0px 0px";
-                        document.getElementById('footer').style.padding = "85px 0px 10px 0px";
+                    document.getElementById('footer').style.margin = "55px 0px 0px 0px";
+                    document.getElementById('footer').style.padding = "85px 0px 10px 0px";
 
                     if(document.getElementById('noCtaFooter') !== null) {
-                        document.getElementById('footerRegisterCard').style.display = "none";
-                    }
-                    else {
-                        // Adaptation CSS footer si Cta
                         
+                        if(document.getElementById('noCtaFooter').innerText == "register") {
+
+                            // Pas de CTA footer "je m'inscris"
+                            document.getElementById('footerRegisterCard').style.display = "none";
+
+                            // Nav register bouton actif
+                            document.getElementById('registerBtnNav').style.backgroundColor = "var(--primary-color)";
+                            document.getElementById('registerBtnNav').style.color = "black";
+                            document.getElementById('registerBtnNav').style.padding = "6px 14px 7px 17px !important";
+                        }
+                        else if(document.getElementById('noCtaFooter').innerText == "login") {
+                            // Nav login bouton actif
+                            document.getElementById('loginBtnNav').style.backgroundColor = "var(--primary-color)";
+                            document.getElementById('loginBtnNav').style.color = "black";
+                            document.getElementById('loginBtnNav').style.padding = "6px 14px 7px 17px !important";
+                        }
                     }
                 </script>
 
