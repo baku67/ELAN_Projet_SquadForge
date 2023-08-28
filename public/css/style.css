@@ -416,8 +416,8 @@ body {
     height: 91px;
     width: 300px;
     position: absolute;
-    left: -69px;
-    top: -55px;
+    left: -54px;
+    top: -56px;
 }
 .gameSelectedBracketDown-games {
     transform: rotate(180deg) scale(0.8);
@@ -426,7 +426,7 @@ body {
     height: 91px;
     width: 300px;
     position: absolute;
-    left: -42px;
+    left: -57px;
     bottom: -56px;
 }
 
@@ -1667,6 +1667,8 @@ header {
     /* height: 200px;
     width: 170px; */
 
+    clip-path: polygon(12% 0, 100% 0, 88% 100%, 0% 100%);
+
     background-color: grey;
     margin: 0 14px;
     background-position-x: center;
@@ -1732,6 +1734,28 @@ header {
     /* top: 6%; */
     font-weight: bold;
     font-size: 1.5em;
+}
+
+.lp-gameCardTitle-games {
+    /* font-family: 'K2D', sans-serif;
+    position: relative;
+    top: 107%;
+    font-weight: bold;
+    font-size: 1.3em; */
+
+    font-family: 'K2D', sans-serif;
+    position: absolute;
+    width: 100%;
+    font-weight: bold;
+    font-size: 1.3em;
+    /* left: 50%;
+    transform: translate(-38%, 3px); */
+    left: 0;
+
+    display: inline-block;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 .lp-gameCardAddFavTitle {
@@ -2310,7 +2334,7 @@ nav {
 
 .main {
     width: 85%;
-    margin: 25px auto 45px auto;
+    margin: 20px auto 45px auto;
 }
 
 .gamesFilterList {
@@ -2351,9 +2375,10 @@ nav {
 
 .gameFilterIcon {
     color: var(--primary-color);
-    font-size: 1.9em;
+    font-size: 2.2em;
     padding: 8px 7px;
-    margin-right: 8px;
+    margin-right: 16px;
+    transform: translateY(-4px);
 }
 
 .gameFiltersDiv {
@@ -2457,7 +2482,7 @@ nav {
     top: 3px;
 }
 .marginBottomHeaderLine {
-    margin-bottom: 40px;
+    margin-bottom: 15px;
 }
 
 
@@ -2527,7 +2552,7 @@ nav {
     cursor: pointer;
     display: -ms-flexbox;
     display: flex;
-    height: 5em;
+    height: 3.5em;
     -ms-flex-pack: center;
     justify-content: center;
     opacity: 1;
@@ -2535,7 +2560,7 @@ nav {
     position: absolute;
     top: 50%;
     transform: translateY(-50%);
-    width: 5em;
+    width: 3.5em;
     z-index: 1;
 }
 .splide__arrow svg {
@@ -3059,6 +3084,10 @@ nav {
     flex-direction: row;
     width: 100%;
     background-image: linear-gradient(to bottom, #80808030, #67676730, #4f4f4f30, #38383830, #232323);
+
+    border-bottom-left-radius: 9px;
+    /* border-bottom: 1px solid #f97b2c0d; */
+    border-right: 1px solid #f97b2c1f;
 }
 
 
@@ -3079,7 +3108,7 @@ nav {
     justify-content: center;
     width: 100%;
     text-align: center;
-    padding-right: 45px;
+    padding-right: 32px;
 
     border-top: 5px solid var(--background-color);
     border-top-left-radius: 9px;
@@ -3102,7 +3131,7 @@ nav {
     background-image: linear-gradient(to bottom, #f97b2c,#f97b2ceb, #232323eb), url('../img/testMotif2.jpg');
     background-size: cover;
 
-    animation: GamesGenreTitle1 0.3s 0.1s ease-in-out forwards, GamesGenreTitle2 0.4s 0.45s ease-in-out forwards;
+    animation: GamesGenreTitle1 0.2s 0s ease-in-out forwards, GamesGenreTitle2 0.3s 0.25s ease-in-out forwards;
 
 }
 
@@ -3114,14 +3143,14 @@ nav {
 }
 .sectionTitleGames:hover .GamesGenreTitle {
     background-image: linear-gradient(to bottom, #f97b2c,#f97b2ceb, #23232385), url('../img/testMotif2.jpg');
-    transform: translateY(-20px);
+    transform: translateY(-15px);
 }
 
 .sectionTitleGames h3 {
     transition: all 0.37s;
 }
 .sectionTitleGames:hover h3 {
-    transform: translateY(-10px);
+    transform: translateY(-5px);
 }
 /* .sectionTitleGames:hover {
     transform: translateY(10px);
