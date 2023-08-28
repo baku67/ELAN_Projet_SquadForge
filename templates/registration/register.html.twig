@@ -7,9 +7,56 @@
     <span id="noCtaFooter" style="display:none;" hidden></span>
 
 
-    <header>
-        <a href="{{ path('app_home') }}"><img src="{{ asset('img/logoSquadForge_Black_Rogned.png') }}" class="logoPng" id="logoPng" /></a>
+    <header class="globalBanner" style="background: url('{{ asset('img/banner1.jpg') }}' )">
+        <a href="{{ path('app_home') }}"><img src="{{ asset('img/logoSquadForge_v3.png') }}" class="logoPng" id="logoPng" /></a>
+        <nav class="navLine">
+            <a href="{{ path('app_home') }}" class="homeNav"><i class="fa-solid fa-house"></i></a>
+            <a href="{{ path('app_games') }}" class="gamesNav caps">jeux</a>
+            {% if app.user %}
+                <a href="{{ path('app_userGroups') }}" class="teamsNav caps">teams</a>
+                <a href="{{ path('app_showNotifsList') }}" class="notifsNav" style="padding:0;">
+                    <div class="navNotifDiv">
+                        <i class="fa-solid fa-bell notifBell"></i>
+                        {# Bulle newNotifCount si > 0 #}
+                        {% if userNotifCount > 0 %}
+                            <span class="newNotifBubbleCount bubleNotif" id="newNotifBubbleCount">{{ userNotifCount }}</span>
+                        {% endif %}
+                    </div>
+                </a>
+            {% endif %}
+            {% if app.user and "ROLE_MODO" in app.user.roles %}
+            
+                <a href="{{ path('app_moderationDashboard') }}" id="modoNav" class="modoNav">
+                    <div class="modoNavSubDiv">
+                        <span>Modération</span>
+                        {% if modoNotifValidationCount > 0 %}
+                            <span class="newNotifBubbleCount bubleModo1">{{ modoNotifValidationCount }}</span>
+                        {% endif %}
+                        {% if modoNotifReportCount > 0 %}
+                            <span class="newNotifBubbleCount bubleModo2">{{ modoNotifReportCount }}</span>
+                        {% endif %}
+                    </div>
+                </a>
+
+                <script>
+                    // Ajout d'espace libre sur l'onglet Nav "Modération" si bulles (car bulles absolutes)
+                    var paddingRightOnglet = 0;
+                    if({{modoNotifValidationCount}} > 0) {
+                        paddingRightOnglet += 17;
+                    }
+                    if({{modoNotifReportCount}} > 0) {
+                        paddingRightOnglet += 17;
+                    }
+                    document.getElementById('modoNav').style.paddingRight = paddingRightOnglet + "px";
+                </script>
+
+            {% endif %}
+
+        </nav>
+
     </header>
+
+
     <div class="headerUnderline"></div>
 
 
@@ -21,7 +68,7 @@
 
         <h1 style="">Rejoignez la communauté !</h1>
 
-        <div style="display:inline-flex; width:100%; margin-top:30px;">
+        <div style="display:inline-flex; width:100%; margin-top:45px;">
             <div class="registerLeftDiv">
 
                 <div style="width:95%; margin:0 auto; padding:20px 40px; border:2px solid #f97b2c61; background-color: #f97b2c0a; border-radius:7px;">
@@ -32,11 +79,13 @@
                             label: 'Mot de passe'
                         }) }}
                         
-                        {{ form_row(registrationForm.agreeTerms) }}
+                        <div style="margin-top:5px;">
+                            {{ form_row(registrationForm.agreeTerms) }}
+                        </div>
 
-                        <div style="text-align:right;">
+                        <div style="text-align:right; margin-top:20px;">
                             {{ form_row(registrationForm.submit) }}
-                            <span>Déjà un compte? <a href="{{ path('app_login') }}">Se connecter</a></span>
+                            <span>Déjà un compte? <a class="registerConnectionLink" href="{{ path('app_login') }}">Se connecter</a></span>
                         </div>
                     {{ form_end(registrationForm) }}
 
@@ -47,18 +96,18 @@
 
             <div class="registerRightDiv">
 
-                <div style="position:relative; display:flex; width:85%; font-family:'K2D', sans-serif; margin:0 auto;">
-                    <p style="padding-right:35px; font-size:1.2em; margin-block-end:0;">Créé un compte pour personaliser le contenu du site, pour t'exprimer, participer, et rejoindre ou créer une team qui te correspond !</p>
+                <div style="position:relative; display:flex; width:92%; font-family:'K2D', sans-serif; margin:0 auto;">
+                    <p class="registerTextDiv">Créé un compte pour personaliser le contenu du site, pour t'exprimer, participer, et rejoindre ou créer une team qui te correspond !</p>
                     <div class="registerRightShape"></div>
                 </div>
 
-                <div style="display:flex; justify-content:center; margin:40px 0;">
+                <div style="display:flex; justify-content:center; margin:30px 0;">
 
                     <div class="register_restrictionsDiv">
 
                         <span id="registerEmailCriteria" class="registerRestriction">- L'email n'est pas valide</span>
 
-                        <span id="registerTermsCriteria" class="registerRestriction" style="line-height:15px;">- Vous devez accepter les conditions d'utilisation et la politique de confidentialité.</span>
+                        <span id="registerTermsCriteria" class="registerRestriction" style="line-height:17px;">- Vous devez accepter les conditions d'utilisation et la politique de confidentialité.</span>
 
                         <span id="registerPseudoCriteria" class="registerRestriction">.</span>
 

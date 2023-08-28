@@ -6,14 +6,62 @@
 
     {# <span id="noCtaFooter" style="display:none;" hidden></span> #}
 
-    <header>
-            <a href="{{ path('app_home') }}"><img src="{{ asset('img/logoSquadForge_Black_Rogned.png') }}" class="logoPng" id="logoPng" /></a>
+    <header class="globalBanner" style="background: url('{{ asset('img/banner1.jpg') }}' )">
+        <a href="{{ path('app_home') }}"><img src="{{ asset('img/logoSquadForge_v3.png') }}" class="logoPng" id="logoPng" /></a>
+        <nav class="navLine">
+            <a href="{{ path('app_home') }}" class="homeNav"><i class="fa-solid fa-house"></i></a>
+            <a href="{{ path('app_games') }}" class="gamesNav caps">jeux</a>
+            {% if app.user %}
+                <a href="{{ path('app_userGroups') }}" class="teamsNav caps">teams</a>
+                <a href="{{ path('app_showNotifsList') }}" class="notifsNav" style="padding:0;">
+                    <div class="navNotifDiv">
+                        <i class="fa-solid fa-bell notifBell"></i>
+                        {# Bulle newNotifCount si > 0 #}
+                        {% if userNotifCount > 0 %}
+                            <span class="newNotifBubbleCount bubleNotif" id="newNotifBubbleCount">{{ userNotifCount }}</span>
+                        {% endif %}
+                    </div>
+                </a>
+            {% endif %}
+            {% if app.user and "ROLE_MODO" in app.user.roles %}
+            
+                <a href="{{ path('app_moderationDashboard') }}" id="modoNav" class="modoNav">
+                    <div class="modoNavSubDiv">
+                        <span>Modération</span>
+                        {% if modoNotifValidationCount > 0 %}
+                            <span class="newNotifBubbleCount bubleModo1">{{ modoNotifValidationCount }}</span>
+                        {% endif %}
+                        {% if modoNotifReportCount > 0 %}
+                            <span class="newNotifBubbleCount bubleModo2">{{ modoNotifReportCount }}</span>
+                        {% endif %}
+                    </div>
+                </a>
+
+                <script>
+                    // Ajout d'espace libre sur l'onglet Nav "Modération" si bulles (car bulles absolutes)
+                    var paddingRightOnglet = 0;
+                    if({{modoNotifValidationCount}} > 0) {
+                        paddingRightOnglet += 17;
+                    }
+                    if({{modoNotifReportCount}} > 0) {
+                        paddingRightOnglet += 17;
+                    }
+                    document.getElementById('modoNav').style.paddingRight = paddingRightOnglet + "px";
+                </script>
+
+            {% endif %}
+
+        </nav>
+
     </header>
+
     <div class="headerUnderline"></div>
 
     <div class="main">
 
-        <form method="post">
+        <h1 class="h3 mb-3 font-weight-normal" style="text-align:center;">Connexion</h1>
+
+        <form class="loginPageForm" method="post">
             {% if error %}
                 <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
             {% endif %}
@@ -24,11 +72,12 @@
                 </div>
             {% endif %}
 
-            <h1 class="h3 mb-3 font-weight-normal">Please sign in</h1>
-            <label for="inputEmail">Email</label>
-            <input type="email" value="{{ last_username }}" name="email" id="inputEmail" class="form-control" autocomplete="email" required autofocus>
-            <label for="inputPassword">Password</label>
-            <input type="password" name="password" id="inputPassword" class="form-control" autocomplete="current-password" required>
+            <div style="margin-bottom:25px;">
+                <label for="inputEmail">E-mail</label>
+                <input type="email" value="{{ last_username }}" name="email" id="inputEmail" class="form-control" autocomplete="email" required autofocus>
+                <label for="inputPassword">Mot de passe</label>
+                <input type="password" name="password" id="inputPassword" class="form-control" autocomplete="current-password" required>
+            </div>
 
             <input type="hidden" name="_csrf_token"
                 value="{{ csrf_token('authenticate') }}"
@@ -46,7 +95,7 @@
             #}
 
             <button class="btn btn-lg btn-primary" type="submit">
-                Sign in
+                Connexion
             </button>
 
             <a id="lp-loginTwitchBtn" href="{{ linkTwitchOAuth }}" class="twitchWord">Twitch</a>

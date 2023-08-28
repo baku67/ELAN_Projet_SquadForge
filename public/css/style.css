@@ -327,6 +327,7 @@ body {
 }
 
 .lp-p3-title {
+    font-family: 'K2D', sans-serif;
     margin:0 25px; 
     font-size:1.7em;
 }
@@ -757,6 +758,7 @@ header {
 
 
 .landingPageDownBtn {
+    font-family: 'K2D', sans-serif;
     cursor: pointer;
     position: absolute;
     padding: 26px 28px;
@@ -1157,7 +1159,7 @@ header {
     position: absolute;
     right: -1000px;
 
-    border-top-right-radius: 90px;
+    border-top-right-radius: 20px;
     /* border-bottom-right-radius: 7px; */
 
     background: -moz-linear-gradient(270deg, rgba(249,164,44,1) 0%, rgba(249,123,44,1) 100%);
@@ -1178,6 +1180,18 @@ header {
         right: 120px;
         clip-path: polygon(19% 0, 100% 0, 100% 100%, 0% 100%);
     }
+}
+
+
+.registerTextDiv {
+    text-align: center;
+    font-size: 1.2em;
+    margin-block-end: 0;
+    background-image: -webkit-linear-gradient(270deg, rgba(249,164,44,0.995) 0%, rgba(249,123,44,0.95) 100%), url(../img/testMotif2.jpg);
+    background-size: cover;
+    padding: 15px;
+    border-radius: 7px;
+    color: black;
 }
 
 
@@ -1468,7 +1482,7 @@ header {
 .games-container {
     width:100%;
     display: inline-flex;
-    margin: 30px auto;
+    margin: 20px auto 30px auto;
     text-align: center;
     justify-content: center;
     padding: 0 50px;
@@ -1834,11 +1848,15 @@ header {
     margin: 23px auto;
 }
 
+#registration_form_agreeTerms {
+    margin-left: 10px;
+}
+
 .register_restrictionsDiv {
     /* line-height: 15px; */
     /* padding: 10px 15px 0px 15px; */
     border-top: 1px solid grey;
-    padding: 30px 47px 0px 47px;
+    padding: 20px 47px 0px 47px;
     width: fit-content;
     display: inline-flex;
     flex-direction: column;
@@ -1847,7 +1865,7 @@ header {
 .registerLeftDiv {
     font-family: 'K2D', sans-serif;
     width: 70%;
-    margin: 25px;
+    margin: 0px 25px;
 }
 
 .registerRightDiv {
@@ -2256,6 +2274,7 @@ header {
     color: black;
     padding: 3px 29px;
     clip-path: polygon(0% 0, 100% 0, 95% 100%, 0% 100%); */
+    clip-path: polygon(0 0, 100% 0, 98% 100%, 0% 100%);
     color: var(--primary-color);
     background-color: #ffffff0f;
     font-weight: bold;
@@ -2299,8 +2318,14 @@ nav {
     width: 100%;
     font-family: 'K2D', sans-serif;
     padding: 8px 7px;
-    border: 1px solid #808080b0;
     border-radius: 4px;
+
+    border-left: 3px solid var(--primary-color);
+    border-right: 3px solid var(--primary-color);
+    border-top: 0px;
+    border-bottom: 0;
+
+    background-color: #80808030;
 
 }
 .gamesFilterList li {
@@ -2333,7 +2358,7 @@ nav {
 
 .gameFiltersDiv {
     display: inline-flex;
-    margin: 10px auto 0px auto;
+    margin: 20px auto 0px auto;
     left: 50%;
     position: relative;
     transform: translateX(-50%);
@@ -2361,7 +2386,23 @@ nav {
 }
 
 .footerRegisterText {
+    font-family: 'K2D', sans-serif;
     align-self: center;
+}
+
+.loginPageForm {
+    font-family: 'K2D', sans-serif;
+    width: 30%;
+    margin: 40px auto;
+}
+
+.registerConnectionLink {
+    transition: all 0.3s;
+    color: var(--primary-color);
+    text-decoration: underline;
+}
+.registerConnectionLink:hover {
+    color: white;
 }
 
 .contactMeTxt {
@@ -2503,16 +2544,65 @@ nav {
     width: 3.2em;
 }
 
+.splide__arrow--next {
+    transition: all 0.3s;
+}
+.splide__arrow--prev {
+    transition: all 0.3s;
+}
+
+.splide__arrow--next:hover {
+    transform: translate(7px ,-50%);
+}
+.splide__arrow--next svg {
+    transition: all 0.3s;
+}
+.splide__arrow--next:hover svg {
+    stroke: white;
+}
+
+.splide__arrow--prev:hover {
+    transform: translate(-7px ,-50%);
+}
+.splide__arrow--prev svg {
+    transition: all 0.3s;
+}
+.splide__arrow--prev:hover svg {
+    stroke: white;
+}
+
+
+.gamesListIcon {
+    font-size: 3em;
+    color: var(--background-color);
+}
+
 .sectionTitleGames {
-    width: 240px;
+    /* width: 240px; */
+    width:228px;
     /* width: 20%; */
+    clip-path: polygon(0 0, 100% 0, 87% 100%, 0 100%);
 }
 
 .gamesSplideContainer {
     overflow:hidden; 
     width:100%;
     clip-path: polygon(3% 0, 100% 0, 100% 100%, 0% 100%);
-    transform: translateX(-21px);
+    transform: translateX(-15px);
+}
+
+
+.lp-statsDiv span {
+    font-family: 'K2D', sans-serif;
+}
+
+.gamesListClipPathEnd {
+    width: 40px;
+    margin-top: 80px;
+    clip-path: polygon(100% 0, 100% 0, 100% 100%, 0% 100%);
+    background-color: var(--primary-color);
+    border-top-right-radius: 4px;
+    background-image: linear-gradient(to bottom, #f97b2c,#f97b2c, #232323);
 }
 
 .splideListGames {
@@ -2670,6 +2760,7 @@ nav {
 #search-input {
     padding: .375rem .75rem .375rem 2.2rem;
     transition: all 0.3s;
+    border-left: 3px solid var(--primary-color);
 }
 #search-input:hover {
     background-color: #656565;
@@ -2945,7 +3036,21 @@ nav {
 
 }
 
+.seeAll-gamesList {
+    font-family: 'K2D', sans-serif;
+    position: absolute;
+    bottom: 2px;
+    right: 15px;
+    color: var(--primary-color);
+    transition: all 0.3s;
+}
+.seeAll-gamesList:hover {
+    letter-spacing: 1px;
+    color: white;
+}
+
 .splideGames {
+    padding: 0px 0px 35px 0px !important;
     max-width: 100%;
     display: inline-flex;
     flex-direction: row;
@@ -2980,7 +3085,7 @@ nav {
 }
 .GamesGenreTitle {
     position:absolute; 
-    clip-path: polygon(0 0, 100% 0, 87% 100%, 0 100%);
+    /* clip-path: polygon(0 0, 100% 0, 87% 100%, 0 100%); */
     border-top-left-radius: 6px;
     border-bottom-left-radius: 6px;
     /* height:35px; 
@@ -2990,7 +3095,8 @@ nav {
     transform: translateY(-1px);
     z-index:0;
 
-    background-image: linear-gradient(to bottom, #f97b2c,#f97b2c, #232323);
+    background-image: linear-gradient(to bottom, #f97b2c,#f97b2ceb, #232323eb), url('../img/testMotif2.jpg');
+    background-size: cover;
 
     animation: GamesGenreTitle1 0.3s 0.1s ease-in-out forwards, GamesGenreTitle2 0.4s 0.45s ease-in-out forwards;
 
@@ -4904,7 +5010,7 @@ cursor: pointer;
 
 .sectionHomeContainer {
     /* box-shadow: 0 0 0px 0px var(--primary-color); */
-    margin: 50px auto;
+    margin: 30px auto 50px auto;
     padding: 0px 10px 15px 0px;
     border-radius: 6px;
     border-top: 2px solid var(--primary-color);

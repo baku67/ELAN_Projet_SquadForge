@@ -155,7 +155,7 @@
             {# // Filtres par genres: #}
             <div class="gameFiltersDiv">
                 <i class="fa-solid fa-filter gameFilterIcon"></i>
-                <i class="fa-solid fa-filter-circle-xmark gameFilterIcon"></i>
+                {# <i class="fa-solid fa-filter-circle-xmark gameFilterIcon"></i> #}
                 <ul class="gamesFilterList">
                     <li id="gameFilterFps" class="gameFilterActive">FPS</li>
                     <li id="gameFilterBr" class="gameFilterActive">Battle Royal</li>
@@ -241,21 +241,21 @@
 
             {# // Message si aucun genre selectionné #}
             <div id="emptyListDiv" style="display:none;">
-                <span class="emptyListMsg">Choisissez au moins un genre</span>
+                <span class="emptyListMsg">Choisissez au moins un genre pour afficher des jeux</span>
             </div>
 
 
             {# Liste jeux catégorie "FPS" #}
             <div id="splideFps" class="splide sectionHomeContainer splideGames">
 
-                <div class="blinkingSectionTitle sectionTitleGames">
+                <a href="{{ path('app_genreGames', {'id':1}) }}" class="blinkingSectionTitle sectionTitleGames">
                     <div class="GamesGenreTitle"></div>
                     <h3 class="gamesSubTitle noMarginBottom">
-                        <i class="fa-solid fa-gun"></i>
+                        <i class="fa-solid fa-gun gamesListIcon"></i>
                         <span> FPS </span>
                         <span>({{ fpsGamesCount }})</span>
                     </h3>
-                </div>
+                </a>
 
                 {# <div class="lp-page3-containerMaster"> #}
 
@@ -312,6 +312,10 @@
 
                                     {% endfor %}
 
+                                    {# Fausse card (pour espacement final, évite la coupure midCard de la dernière card) #}
+                                    <a class="gameCardLink splide__slide" style="transform:scale(0.9);">
+                                    </a>
+
                                 </div>
 
                                 <div class="lp-phone-slpideTrait2"></div>
@@ -330,20 +334,26 @@
 
                 {# </div> #}
 
+                {# <div class="gamesListClipPathEnd"></div> #}
+
+                <a href="{{ path('app_genreGames', {'id':1}) }}" class="seeAll-gamesList">Voir tout <i class="fa-solid fa-arrow-right"></i></a>
+
             </div>
 
 
             {# Liste jeux catégorie "MOBA" #}
             <div id="splideMoba" class="splide sectionHomeContainer splideGames">
 
-                <div class="blinkingSectionTitle sectionTitleGames">
+                <a href="{{ path('app_genreGames', {'id':4}) }}" class="blinkingSectionTitle sectionTitleGames">
                     <div class="GamesGenreTitle"></div>
                     <h3 class="gamesSubTitle noMarginBottom">
-                        <i class="fa-solid fa-gopuram"></i>
-                        <span> MOBA </span>
-                        <span>({{ mobaGamesCount }})</span>
+                        <i class="fa-solid fa-gopuram gamesListIcon"></i>
+                        <div>
+                            <span> MOBA </span>
+                            <span>({{ mobaGamesCount }})</span>
+                        </div>
                     </h3>
-                </div>
+                </a>
 
                 {# <div class="lp-page3-containerMaster"> #}
 
@@ -400,6 +410,10 @@
 
                                     {% endfor %}
 
+                                    {# Fausse card (pour espacement final, évite la coupure midCard de la dernière card) #}
+                                    <a class="gameCardLink splide__slide" style="transform:scale(0.9);">
+                                    </a>
+
                                 </div>
 
                                 <div class="lp-phone-slpideTrait2"></div>
@@ -418,20 +432,24 @@
 
                 {# </div> #}
 
+                {# <div class="gamesListClipPathEnd"></div> #}
+
+                <a href="{{ path('app_genreGames', {'id':4}) }}" class="seeAll-gamesList">Voir tout <i class="fa-solid fa-arrow-right"></i></a>
+
             </div>
 
 
             {# Liste jeux catégorie "Battle royal"" #}
             <div id="splideBr" class="splide sectionHomeContainer splideGames">
 
-                <div class="blinkingSectionTitle sectionTitleGames">
+                <a href="{{ path('app_genreGames', {'id':3}) }}" class="blinkingSectionTitle sectionTitleGames">
                     <div class="GamesGenreTitle"></div>
                     <h3 class="gamesSubTitle noMarginBottom">
-                        <i class="fa-solid fa-crown"></i>
+                        <i class="fa-solid fa-crown gamesListIcon"></i>
                         <span> Battle royal</span>
                         <span>({{ brGamesCount }})</span>
                     </h3>
-                </div>
+                </a>
 
                 {# <div class="lp-page3-containerMaster"> #}
 
@@ -488,6 +506,10 @@
 
                                     {% endfor %}
 
+                                    {# Fausse card (pour espacement final, évite la coupure midCard de la dernière card) #}
+                                    <a class="gameCardLink splide__slide" style="transform:scale(0.9);">
+                                    </a>
+
                                 </div>
 
                                 <div class="lp-phone-slpideTrait2"></div>
@@ -505,6 +527,10 @@
                     {% endif %}
 
                 {# </div> #}
+
+                {# <div class="gamesListClipPathEnd"></div> #}
+
+                <a href="{{ path('app_genreGames', {'id':3}) }}" class="seeAll-gamesList">Voir tout <i class="fa-solid fa-arrow-right"></i></a>
 
             </div>
 
