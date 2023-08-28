@@ -2028,7 +2028,7 @@ header {
 
 #lp-page4-gameLogo {
     position: absolute;
-    max-height: 80%;
+    max-height: 70%;
     left: 50%;
     top: 50%;
     transform: translate(-50%, -50%);
@@ -2279,7 +2279,7 @@ header {
     background-color: #ffffff0f;
     font-weight: bold;
     padding: 3px 19px;
-    border-left: 2px solid var(--primary-color);
+    border-left: 4px solid var(--primary-color);
 
     width: fit-content;
 }
@@ -2517,6 +2517,7 @@ nav {
 }
 
 .splide__arrow {
+    border: 1px solid #ffffff45 !important;
     align-items: center;
     background: #0006;
     background: rgb(0,0,0);
@@ -2539,9 +2540,9 @@ nav {
 }
 .splide__arrow svg {
     fill: var(--primary-color);
-    height: 3.2em;
+    height: 2.7em;
     stroke: black;
-    width: 3.2em;
+    width: 2.7em;
 }
 
 .splide__arrow--next {
@@ -2552,6 +2553,7 @@ nav {
 }
 
 .splide__arrow--next:hover {
+    border: 1px solid #ffffffaf !important;
     transform: translate(7px ,-50%);
 }
 .splide__arrow--next svg {
@@ -2562,6 +2564,7 @@ nav {
 }
 
 .splide__arrow--prev:hover {
+    border: 1px solid #ffffffaf !important;
     transform: translate(-7px ,-50%);
 }
 .splide__arrow--prev svg {
@@ -3094,6 +3097,7 @@ nav {
     width: 5px;
     transform: translateY(-1px);
     z-index:0;
+    transition: all 0.37s !important;
 
     background-image: linear-gradient(to bottom, #f97b2c,#f97b2ceb, #232323eb), url('../img/testMotif2.jpg');
     background-size: cover;
@@ -3101,6 +3105,28 @@ nav {
     animation: GamesGenreTitle1 0.3s 0.1s ease-in-out forwards, GamesGenreTitle2 0.4s 0.45s ease-in-out forwards;
 
 }
+
+.sectionTitleGames {
+    transition: all 0.37s !important;
+}
+.sectionTitleGames .GamesGenreTitle {
+    transition: all 0.37s !important;
+}
+.sectionTitleGames:hover .GamesGenreTitle {
+    background-image: linear-gradient(to bottom, #f97b2c,#f97b2ceb, #23232385), url('../img/testMotif2.jpg');
+    transform: translateY(-20px);
+}
+
+.sectionTitleGames h3 {
+    transition: all 0.37s;
+}
+.sectionTitleGames:hover h3 {
+    transform: translateY(-10px);
+}
+/* .sectionTitleGames:hover {
+    transform: translateY(10px);
+} */
+
 /* @keyframes GamesGenreTitle1 {
     0% {
         height: 0px;
@@ -3133,6 +3159,7 @@ nav {
         width:189px; 
     }
 }
+
 
 .GamesGenreTitleLong {
     position:absolute; 
