@@ -152,30 +152,172 @@
         
         <div id="gamesLists">
 
+            {# // Filtres par genres: #}
+            <ul class="gamesFilterList">
+                <li id="gameFilterFps" class="gameFilterActive">FPS</li>
+                <li id="gameFilterBr" class="gameFilterActive">Battle Royal</li>
+                <li id="gameFilterMoba" class="gameFilterActive">MOBA</li>
+                <li id="gameFilterArcade" class="gameFilterActive">Arcade</li>
+            </ul>
+
+            <script>
+                document.getElementById('gameFilterFps').addEventListener('click', function() {
+                    if(document.getElementById('gameFilterFps').classList.contains('gameFilterActive')) {
+                        document.getElementById('gameFilterFps').classList.remove('gameFilterActive');
+                        document.getElementById('splideFps').style.display = "none";
+                    }
+                    else {
+                        document.getElementById('gameFilterFps').classList.add('gameFilterActive');
+                        document.getElementById('splideFps').style.display = "block";
+                    }
+                })
+                document.getElementById('gameFilterBr').addEventListener('click', function() {
+                    if(document.getElementById('gameFilterBr').classList.contains('gameFilterActive')) {
+                        document.getElementById('gameFilterBr').classList.remove('gameFilterActive');
+                    }
+                    else {
+                        document.getElementById('gameFilterBr').classList.add('gameFilterActive')
+                    }
+                })
+                document.getElementById('gameFilterMoba').addEventListener('click', function() {
+                    if(document.getElementById('gameFilterMoba').classList.contains('gameFilterActive')) {
+                        document.getElementById('gameFilterMoba').classList.remove('gameFilterActive');
+                    }
+                    else {
+                        document.getElementById('gameFilterMoba').classList.add('gameFilterActive')
+                    }
+                })
+                document.getElementById('gameFilterArcade').addEventListener('click', function() {
+                    if(document.getElementById('gameFilterArcade').classList.contains('gameFilterActive')) {
+                        document.getElementById('gameFilterArcade').classList.remove('gameFilterActive');
+                    }
+                    else {
+                        document.getElementById('gameFilterArcade').classList.add('gameFilterActive')
+                    }
+                })
+            </script>
+
+
             {# Liste jeux catégorie "FPS" #}
-            <h3 class="genreTitle">FPS <span class="gameListCount">({{ fpsGamesCount }})</span></h3>
-            <div class="genreGameList">
-                {% for game in fpsGames %}
-                    <a class="gameCardLink" href="{{ path('app_game', {'id': game.id} )}}" onmouseover="this.style.filter='drop-shadow(0px 0px 6px {{ game.color }})'" onmouseout="this.style.filter='drop-shadow(0px 0px 5px black)'">
-                        <div class="gameCard">
+            <div id="splideFps" class="splide sectionHomeContainer">
 
-                            <div style="position:relative;">
-                                <img src="{{ asset("img/games/logo/" ~ game.logo) }}" class="gameLogo" alt="logo {{ game.title }}"/>
-                                {# Si jeu favorisé par l'utilisateur #}
-                                {% if app.user is not null and game.favUsers is not empty and app.user in game.favUsers %}
-                                    <i class="fa-solid fa-heart gameCardFav"></i>
-                                {% endif %}
-                            </div>
-                            
-                            <div class="gameCardUnderline" style="background-color:{{ game.color }}"></div>
+                <div class="blinkingSectionTitle">
+                    <div class="homeFavGamesTitle" style="background-color:var(--primary-color);"></div>
+                    <h3 class="homeSubTitle noMarginBottom"><i class="fa solid fa-heart"></i> FPS ({{ fpsGamesCount }})</h3>
+                </div>
 
-                            <div class="gameCardInfos">
-                                <p><span>New</span> Topics <span>0</span></p>
-                                <p><span>New</span> Medias <span>0</span></p>
+                <div class="lp-page3-containerMaster">
+
+                    {% if fpsGames|length > 0 %}
+
+                        <div style="overflow:hidden;">
+                    
+                            <div id="lp-page3-container" class="lp-page3-container splide__track"> 
+
+                                <div class="lp-phone-slpideTrait1"></div>
+
+                                <div class="splide__list">
+
+                                    {% set index = 1 %}
+
+                                    {% for game in fpsGames %}
+
+                                        <a  class="gameCardLink splide__slide" href="{{ path('app_game', {'id': game.id} )}}" style="transform:scale(0.9);">
+                                            <div class="lp-page3-slideContainer">
+
+                                                <svg class="gameSelectedBracketUp">
+                                                    <path 
+                                                        id="gameSelectedBracketUpPath{{ index }}"
+                                                        class="gameSelectedBracketUpPath" 
+                                                        d="M 57 82 L 57 58 C 57 53 60 48 66 48 L 67 48 L 266 48 C 274 48 276 51 276 56 L 276 55 L 276 82"
+                                                        {# d="M 57 82 L 57 48 L 66 48 L 267 48 L 276 48 L 276 82" (sharp angles) #}
+                                                        fill-opacity="0"
+                                                        />
+                                                </svg>
+
+                                                <div id="lp-page3-slide0{{ index }}" class="lp-gameCard" style="background-image: linear-gradient(rgba(0, 0, 255, 0.05), rgba(249, 123, 44, 0.5)),url('{{ asset("img/games/headerBackground/" ~ game.subBanner )}}'); background-size:cover;">
+
+                                                    <span id="lp-gameCardTitle{{ index }}" value="{{ game.title }}" class="lp-gameCardTitle">{{ game.title }}</span>
+
+                                                </div>
+
+                                                {# only Phone: #}
+                                                <span value="{{ game.title }}" class="lp-gameCardTitlePhone">{{ game.title }}</span>
+
+                                                <svg class="gameSelectedBracketDown">
+                                                    <path 
+                                                        id="gameSelectedBracketDownPath{{ index }}"
+                                                        class="gameSelectedBracketDownPath" 
+                                                        d="M 57 82 L 57 58 C 57 53 60 48 66 48 L 67 48 L 266 48 C 274 48 276 51 276 56 L 276 55 L 276 82"
+                                                        {# d="M 57 82 L 57 48 L 66 48 L 267 48 L 276 48 L 276 82" (sharp angles) #}
+                                                        fill-opacity="0"
+                                                        />
+                                                </svg>
+
+                                            </div>
+                                        </a>
+
+                                        {% set index = index + 1 %}
+
+                                    {% endfor %}
+
+                                </div>
+
+                                <div class="lp-phone-slpideTrait2"></div>
+
                             </div>
+
                         </div>
-                    </a>
-                {% endfor %}
+
+                    {% else %}
+
+                    <div class="emptyListMsg" style="display:inline-flex; flex-direction:column; width:100%;">
+                        <span>Ajouter des jeux à vos Favoris pour les retrouver ici et filtrer le contenu du site !</span>
+                        <a href="{{ path('app_games') }}" style="text-decoration:underline;"><i class="fa-solid fa-magnifying-glass" style="margin:0 10px;"></i> Parcourir les jeux</a>
+                    </div>
+                         
+                    {% endif %}
+
+                </div>
+
+                {# Splide JS carousel games #}
+                <script>
+                    document.addEventListener("DOMContentLoaded", function() {
+
+                        var isMobile = navigator.userAgent.match(/Android/i)
+                        || navigator.userAgent.match(/webOS/i)
+                        || navigator.userAgent.match(/iPhone/i)
+                        || navigator.userAgent.match(/iPad/i)
+                        || navigator.userAgent.match(/iPod/i)
+                        || navigator.userAgent.match(/BlackBerry/i)
+                        || navigator.userAgent.match(/Windows Phone/i);
+                        
+                        // Slide Scroll vertical sur mobile pas bonne idee car mess avec le scroll page
+                        if (isMobile){
+
+                        var splide = new Splide( '.splide', {
+                                direction : 'ttb',
+                                height: '25rem',
+                                perPage: 4,
+                                pagination: false,
+                            } );
+
+                            splide.mount();
+
+                        } else {
+                            var splide = new Splide( '.splide', {
+                                width: '100%',
+                                perPage: 5,
+
+                            } );
+
+                            splide.mount();
+                        }
+
+                    });
+                </script>
+
+
             </div>
 
 

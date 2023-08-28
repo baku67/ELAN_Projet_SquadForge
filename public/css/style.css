@@ -2229,6 +2229,27 @@ nav {
     margin: 25px auto 45px auto;
 }
 
+.gamesFilterList {
+    display: inline-flex;
+    width: 100%;
+    font-family: 'K2D', sans-serif;
+
+
+}
+.gamesFilterList li {
+    cursor: pointer;
+    border-radius: 2px;
+    margin: 0 10px;
+    padding: 2px 5px;
+    border: 1px solid white;
+    transition: all 0.3s;
+}
+.gameFilterActive {
+    background-color: var(--primary-color);
+    color: black;
+    border: 1px solid black !important;
+}
+
 .footerRegisterCard {
     position: absolute;
     top: -56px;
