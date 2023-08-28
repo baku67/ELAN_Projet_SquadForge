@@ -153,57 +153,62 @@
         <div id="gamesLists">
 
             {# // Filtres par genres: #}
-            <ul class="gamesFilterList">
-                <li id="gameFilterFps" class="gameFilterActive">FPS</li>
-                <li id="gameFilterBr" class="gameFilterActive">Battle Royal</li>
-                <li id="gameFilterMoba" class="gameFilterActive">MOBA</li>
-                <li id="gameFilterArcade" class="gameFilterActive">Arcade</li>
-            </ul>
+            <div class="gameFiltersDiv">
+                <i class="fa-solid fa-filter gameFilterIcon"></i>
+                <i class="fa-solid fa-filter-circle-xmark gameFilterIcon"></i>
+                <ul class="gamesFilterList">
+                    <li id="gameFilterFps" class="gameFilterActive">FPS</li>
+                    <li id="gameFilterBr" class="gameFilterActive">Battle Royal</li>
+                    <li id="gameFilterMoba" class="gameFilterActive">MOBA</li>
+                    <li id="gameFilterArcade" class="">Arcade</li>
+                </ul>
 
-            <script>
-                document.getElementById('gameFilterFps').addEventListener('click', function() {
-                    if(document.getElementById('gameFilterFps').classList.contains('gameFilterActive')) {
-                        document.getElementById('gameFilterFps').classList.remove('gameFilterActive');
-                        document.getElementById('splideFps').style.display = "none";
-                    }
-                    else {
-                        document.getElementById('gameFilterFps').classList.add('gameFilterActive');
-                        document.getElementById('splideFps').style.display = "block";
-                    }
-                })
-                document.getElementById('gameFilterBr').addEventListener('click', function() {
-                    if(document.getElementById('gameFilterBr').classList.contains('gameFilterActive')) {
-                        document.getElementById('gameFilterBr').classList.remove('gameFilterActive');
-                    }
-                    else {
-                        document.getElementById('gameFilterBr').classList.add('gameFilterActive')
-                    }
-                })
-                document.getElementById('gameFilterMoba').addEventListener('click', function() {
-                    if(document.getElementById('gameFilterMoba').classList.contains('gameFilterActive')) {
-                        document.getElementById('gameFilterMoba').classList.remove('gameFilterActive');
-                    }
-                    else {
-                        document.getElementById('gameFilterMoba').classList.add('gameFilterActive')
-                    }
-                })
-                document.getElementById('gameFilterArcade').addEventListener('click', function() {
-                    if(document.getElementById('gameFilterArcade').classList.contains('gameFilterActive')) {
-                        document.getElementById('gameFilterArcade').classList.remove('gameFilterActive');
-                    }
-                    else {
-                        document.getElementById('gameFilterArcade').classList.add('gameFilterActive')
-                    }
-                })
-            </script>
+                <script>
+                    document.getElementById('gameFilterFps').addEventListener('click', function() {
+                        if(document.getElementById('gameFilterFps').classList.contains('gameFilterActive')) {
+                            document.getElementById('gameFilterFps').classList.remove('gameFilterActive');
+                            document.getElementById('splideFps').style.display = "none";
+                        }
+                        else {
+                            document.getElementById('gameFilterFps').classList.add('gameFilterActive');
+                            document.getElementById('splideFps').style.display = "block";
+                        }
+                    })
+                    document.getElementById('gameFilterBr').addEventListener('click', function() {
+                        if(document.getElementById('gameFilterBr').classList.contains('gameFilterActive')) {
+                            document.getElementById('gameFilterBr').classList.remove('gameFilterActive');
+                        }
+                        else {
+                            document.getElementById('gameFilterBr').classList.add('gameFilterActive')
+                        }
+                    })
+                    document.getElementById('gameFilterMoba').addEventListener('click', function() {
+                        if(document.getElementById('gameFilterMoba').classList.contains('gameFilterActive')) {
+                            document.getElementById('gameFilterMoba').classList.remove('gameFilterActive');
+                        }
+                        else {
+                            document.getElementById('gameFilterMoba').classList.add('gameFilterActive')
+                        }
+                    })
+                    document.getElementById('gameFilterArcade').addEventListener('click', function() {
+                        if(document.getElementById('gameFilterArcade').classList.contains('gameFilterActive')) {
+                            document.getElementById('gameFilterArcade').classList.remove('gameFilterActive');
+                        }
+                        else {
+                            document.getElementById('gameFilterArcade').classList.add('gameFilterActive')
+                        }
+                    })
+                </script>
+
+            </div>
 
 
             {# Liste jeux catégorie "FPS" #}
             <div id="splideFps" class="splide sectionHomeContainer">
 
                 <div class="blinkingSectionTitle">
-                    <div class="homeFavGamesTitle" style="background-color:var(--primary-color);"></div>
-                    <h3 class="homeSubTitle noMarginBottom"><i class="fa solid fa-heart"></i> FPS ({{ fpsGamesCount }})</h3>
+                    <div class="GamesGenreTitle" style="background-color:var(--primary-color);"></div>
+                    <h3 class="gamesSubTitle noMarginBottom"><i class="fa-solid fa-gun"></i> FPS ({{ fpsGamesCount }})</h3>
                 </div>
 
                 <div class="lp-page3-containerMaster">
