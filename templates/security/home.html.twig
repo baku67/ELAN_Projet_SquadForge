@@ -100,7 +100,7 @@
                                     {# ici userFav = allGames si aucun fav (backend) #}
                                     {% for game in allGames %}
 
-                                        <a class="gameCardLink splide__slide" style="transform:scale(0.9);">
+                                        <a title="{{ game.title }}" class="gameCardLink splide__slide" style="transform:scale(0.9);">
                                             <span id="noFavSplide_gameId{{ index }}" style="display:none;">{{ game.id }}</span>
                                             <div id="lp-page3-slideContainer{{ index }}" class="lp-page3-slideContainer">
 
@@ -311,7 +311,7 @@
 
                                     {% for game in userFav %}
 
-                                        <a  class="gameCardLink splide__slide" href="{{ path('app_game', {'id': game.id} )}}" style="transform:scale(0.9);">
+                                        <a title="{{ game.title }}" class="gameCardLink splide__slide" href="{{ path('app_game', {'id': game.id} )}}" style="transform:scale(0.9);">
                                             <div class="lp-page3-slideContainer">
 
                                                 <svg class="gameSelectedBracketUp">

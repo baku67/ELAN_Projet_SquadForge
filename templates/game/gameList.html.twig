@@ -164,42 +164,84 @@
                 </ul>
 
                 <script>
+
+                    var filterFpsBool = true;
+                    var filterBrBool = true;
+                    var filterMobaBool = true;
+                    var filterArcadeBool = false;
+
                     document.getElementById('gameFilterFps').addEventListener('click', function() {
                         if(document.getElementById('gameFilterFps').classList.contains('gameFilterActive')) {
                             document.getElementById('gameFilterFps').classList.remove('gameFilterActive');
                             document.getElementById('splideFps').style.display = "none";
+                            filterFpsBool = false;
                         }
                         else {
                             document.getElementById('gameFilterFps').classList.add('gameFilterActive');
                             document.getElementById('splideFps').style.display = "block";
+                            filterFpsBool = true;
                         }
+                        checkNoFilter()
                     })
                     document.getElementById('gameFilterBr').addEventListener('click', function() {
                         if(document.getElementById('gameFilterBr').classList.contains('gameFilterActive')) {
                             document.getElementById('gameFilterBr').classList.remove('gameFilterActive');
+                            document.getElementById('splideBr').style.display = "none";
+                            filterBrBool = false;
                         }
                         else {
-                            document.getElementById('gameFilterBr').classList.add('gameFilterActive')
+                            document.getElementById('gameFilterBr').classList.add('gameFilterActive');
+                            document.getElementById('splideBr').style.display = "block";
+                            filterBrBool = true;
                         }
+                        checkNoFilter()
                     })
                     document.getElementById('gameFilterMoba').addEventListener('click', function() {
                         if(document.getElementById('gameFilterMoba').classList.contains('gameFilterActive')) {
                             document.getElementById('gameFilterMoba').classList.remove('gameFilterActive');
+                            document.getElementById('splideMoba').style.display = "none";
+                            filterMobaBool = false;
                         }
                         else {
-                            document.getElementById('gameFilterMoba').classList.add('gameFilterActive')
+                            document.getElementById('gameFilterMoba').classList.add('gameFilterActive');
+                            document.getElementById('splideMoba').style.display = "block";
+                            filterMobaBool = true;
                         }
+                        checkNoFilter()
                     })
                     document.getElementById('gameFilterArcade').addEventListener('click', function() {
                         if(document.getElementById('gameFilterArcade').classList.contains('gameFilterActive')) {
                             document.getElementById('gameFilterArcade').classList.remove('gameFilterActive');
+                            // document.getElementById('splideArcade').style.display = "none";
+                            filterMobaBool = false;
                         }
                         else {
-                            document.getElementById('gameFilterArcade').classList.add('gameFilterActive')
+                            document.getElementById('gameFilterArcade').classList.add('gameFilterActive');
+                            // document.getElementById('splideArcade').style.display = "block";
+                            filterMobaBool = true;
                         }
+                        checkNoFilter()
                     })
+
+                    function checkNoFilter() {
+                        console.log(filterFpsBool + ", " + filterBrBool + ", " + filterMobaBool + ", " + filterArcadeBool);
+                        if(!filterFpsBool && !filterBrBool && !filterMobaBool && !filterArcadeBool) {
+                            document.getElementById('emptyListDiv').style.display = "block";
+                        }
+                        else {
+                            document.getElementById('emptyListDiv').style.display = "none";
+                        }
+                    }
+                    
                 </script>
 
+            </div>
+
+
+
+            {# // Message si aucun genre selectionné #}
+            <div id="emptyListDiv" style="display:none;">
+                <span class="emptyListMsg">Choisissez au moins un genre</span>
             </div>
 
 
@@ -211,13 +253,13 @@
                     <h3 class="gamesSubTitle noMarginBottom"><i class="fa-solid fa-gun"></i> FPS ({{ fpsGamesCount }})</h3>
                 </div>
 
-                <div class="lp-page3-containerMaster">
+                {# <div class="lp-page3-containerMaster"> #}
 
                     {% if fpsGames|length > 0 %}
 
                         <div style="overflow:hidden;">
                     
-                            <div id="lp-page3-container" class="lp-page3-container splide__track"> 
+                            <div id="games-container" class="games-container splide__track"> 
 
                                 <div class="lp-phone-slpideTrait1"></div>
 
@@ -227,10 +269,10 @@
 
                                     {% for game in fpsGames %}
 
-                                        <a  class="gameCardLink splide__slide" href="{{ path('app_game', {'id': game.id} )}}" style="transform:scale(0.9);">
+                                        <a title="{{ game.title }}" class="gameCardLink splide__slide" href="{{ path('app_game', {'id': game.id} )}}" style="transform:scale(0.9);">
                                             <div class="lp-page3-slideContainer">
 
-                                                <svg class="gameSelectedBracketUp">
+                                                <svg class="gameSelectedBracketUp-games">
                                                     <path 
                                                         id="gameSelectedBracketUpPath{{ index }}"
                                                         class="gameSelectedBracketUpPath" 
@@ -240,7 +282,7 @@
                                                         />
                                                 </svg>
 
-                                                <div id="lp-page3-slide0{{ index }}" class="lp-gameCard" style="background-image: linear-gradient(rgba(0, 0, 255, 0.05), rgba(249, 123, 44, 0.5)),url('{{ asset("img/games/headerBackground/" ~ game.subBanner )}}'); background-size:cover;">
+                                                <div id="lp-page3-slide0{{ index }}" class="games-gameCard" style="background-image: linear-gradient(rgba(0, 0, 255, 0.05), rgba(249, 123, 44, 0.5)),url('{{ asset("img/games/headerBackground/" ~ game.subBanner )}}'); background-size:cover;">
 
                                                     <span id="lp-gameCardTitle{{ index }}" value="{{ game.title }}" class="lp-gameCardTitle">{{ game.title }}</span>
 
@@ -249,7 +291,7 @@
                                                 {# only Phone: #}
                                                 <span value="{{ game.title }}" class="lp-gameCardTitlePhone">{{ game.title }}</span>
 
-                                                <svg class="gameSelectedBracketDown">
+                                                <svg class="gameSelectedBracketDown-games">
                                                     <path 
                                                         id="gameSelectedBracketDownPath{{ index }}"
                                                         class="gameSelectedBracketDownPath" 
@@ -276,135 +318,253 @@
 
                     {% else %}
 
-                    <div class="emptyListMsg" style="display:inline-flex; flex-direction:column; width:100%;">
-                        <span>Ajouter des jeux à vos Favoris pour les retrouver ici et filtrer le contenu du site !</span>
-                        <a href="{{ path('app_games') }}" style="text-decoration:underline;"><i class="fa-solid fa-magnifying-glass" style="margin:0 10px;"></i> Parcourir les jeux</a>
-                    </div>
+                        <div class="emptyListMsg" style="display:inline-flex; flex-direction:column; width:100%;">
+                            <span>Aucun jeu pour l'instant</span>
+                        </div>
                          
                     {% endif %}
 
-                </div>
-
-                {# Splide JS carousel games #}
-                <script>
-                    document.addEventListener("DOMContentLoaded", function() {
-
-                        var isMobile = navigator.userAgent.match(/Android/i)
-                        || navigator.userAgent.match(/webOS/i)
-                        || navigator.userAgent.match(/iPhone/i)
-                        || navigator.userAgent.match(/iPad/i)
-                        || navigator.userAgent.match(/iPod/i)
-                        || navigator.userAgent.match(/BlackBerry/i)
-                        || navigator.userAgent.match(/Windows Phone/i);
-                        
-                        // Slide Scroll vertical sur mobile pas bonne idee car mess avec le scroll page
-                        if (isMobile){
-
-                        var splide = new Splide( '.splide', {
-                                direction : 'ttb',
-                                height: '25rem',
-                                perPage: 4,
-                                pagination: false,
-                            } );
-
-                            splide.mount();
-
-                        } else {
-                            var splide = new Splide( '.splide', {
-                                width: '100%',
-                                perPage: 5,
-
-                            } );
-
-                            splide.mount();
-                        }
-
-                    });
-                </script>
-
+                {# </div> #}
 
             </div>
 
 
             {# Liste jeux catégorie "MOBA" #}
-            <h3 class="genreTitle">MOBA <span class="gameListCount">({{ mobaGamesCount }})</span></h3>
-            <div class="genreGameList">
-                {% for game in mobaGames %}
-                    <a class="gameCardLink" href="{{ path('app_game', {'id': game.id} )}}" onmouseover="this.style.filter='drop-shadow(0px 0px 6px {{ game.color }})'" onmouseout="this.style.filter='drop-shadow(0px 0px 5px black)'">
-                        <div class="gameCard">
+            <div id="splideMoba" class="splide sectionHomeContainer">
 
-                            <div style="position:relative;">
-                                <img src="{{ asset("img/games/logo/" ~ game.logo) }}" class="gameLogo" alt="logo {{ game.title }}"/>
-                                {# Si jeu favorisé par l'utilisateur #}
-                                {% if app.user is not null and game.favUsers is not empty and app.user in game.favUsers %}
-                                    <i class="fa-solid fa-heart gameCardFav"></i>
-                                {% endif %}
-                            </div>
-                            
-                            <div class="gameCardUnderline" style="background-color:{{ game.color }}"></div>
+                <div class="blinkingSectionTitle">
+                    <div class="GamesGenreTitle" style="background-color:var(--primary-color);"></div>
+                    <h3 class="gamesSubTitle noMarginBottom"><i class="fa-solid fa-gopuram"></i> MOBA ({{ mobaGamesCount }})</h3>
+                </div>
 
-                            <div class="gameCardInfos">
-                                <p><span>New</span> Topics <span>0</span></p>
-                                <p><span>New</span> Medias <span>0</span></p>
+                {# <div class="lp-page3-containerMaster"> #}
+
+                    {% if mobaGames|length > 0 %}
+
+                        <div style="overflow:hidden;">
+                    
+                            <div id="games-container" class="games-container splide__track"> 
+
+                                <div class="lp-phone-slpideTrait1"></div>
+
+                                <div class="splide__list">
+
+                                    {% set index = 1 %}
+
+                                    {% for game in mobaGames %}
+
+                                        <a title="{{ game.title }}" class="gameCardLink splide__slide" href="{{ path('app_game', {'id': game.id} )}}" style="transform:scale(0.9);">
+                                            <div class="lp-page3-slideContainer">
+
+                                                <svg class="gameSelectedBracketUp-games">
+                                                    <path 
+                                                        id="gameSelectedBracketUpPath{{ index }}"
+                                                        class="gameSelectedBracketUpPath" 
+                                                        d="M 57 82 L 57 58 C 57 53 60 48 66 48 L 67 48 L 266 48 C 274 48 276 51 276 56 L 276 55 L 276 82"
+                                                        {# d="M 57 82 L 57 48 L 66 48 L 267 48 L 276 48 L 276 82" (sharp angles) #}
+                                                        fill-opacity="0"
+                                                        />
+                                                </svg>
+
+                                                <div id="lp-page3-slide0{{ index }}" class="games-gameCard" style="background-image: linear-gradient(rgba(0, 0, 255, 0.05), rgba(249, 123, 44, 0.5)),url('{{ asset("img/games/headerBackground/" ~ game.subBanner )}}'); background-size:cover;">
+
+                                                    <span id="lp-gameCardTitle{{ index }}" value="{{ game.title }}" class="lp-gameCardTitle">{{ game.title }}</span>
+
+                                                </div>
+
+                                                {# only Phone: #}
+                                                <span value="{{ game.title }}" class="lp-gameCardTitlePhone">{{ game.title }}</span>
+
+                                                <svg class="gameSelectedBracketDown-games">
+                                                    <path 
+                                                        id="gameSelectedBracketDownPath{{ index }}"
+                                                        class="gameSelectedBracketDownPath" 
+                                                        d="M 57 82 L 57 58 C 57 53 60 48 66 48 L 67 48 L 266 48 C 274 48 276 51 276 56 L 276 55 L 276 82"
+                                                        {# d="M 57 82 L 57 48 L 66 48 L 267 48 L 276 48 L 276 82" (sharp angles) #}
+                                                        fill-opacity="0"
+                                                        />
+                                                </svg>
+
+                                            </div>
+                                        </a>
+
+                                        {% set index = index + 1 %}
+
+                                    {% endfor %}
+
+                                </div>
+
+                                <div class="lp-phone-slpideTrait2"></div>
+
                             </div>
+
                         </div>
-                    </a>
-                {% endfor %}
+
+                    {% else %}
+
+                        <div class="emptyListMsg" style="display:inline-flex; flex-direction:column; width:100%;">
+                            <span>Aucun jeu pour l'instant</span>
+                        </div>
+                         
+                    {% endif %}
+
+                {# </div> #}
+
             </div>
 
 
             {# Liste jeux catégorie "Battle royal"" #}
-            <h3 class="genreTitle">Battle Royal <span class="gameListCount">({{ brGamesCount }})</span></h3>
-            <div class="genreGameList">
-                {% for game in battleRoyalGames %}
-                    <a class="gameCardLink" href="{{ path('app_game', {'id': game.id} )}}" onmouseover="this.style.filter='drop-shadow(0px 0px 4px {{ game.color }})'" onmouseout="this.style.filter='drop-shadow(0px 0px 4px black)'">
-                        <div class="gameCard">
+            <div id="splideBr" class="splide sectionHomeContainer">
 
-                            <div style="position:relative;">
-                                <img src="{{ asset("img/games/logo/" ~ game.logo) }}" class="gameLogo" alt="logo {{ game.title }}"/>
-                                {# Si jeu favorisé par l'utilisateur #}
-                                {% if app.user is not null and game.favUsers is not empty and app.user in game.favUsers %}
-                                    <i class="fa-solid fa-heart gameCardFav"></i>
-                                {% endif %}
-                            </div>
+                <div class="blinkingSectionTitle">
+                    <div class="GamesGenreTitleLong" style="background-color:var(--primary-color);"></div>
+                    <h3 class="gamesSubTitle noMarginBottom"><i class="fa-solid fa-crown"></i> Battle royal ({{ brGamesCount }})</h3>
+                </div>
 
-                            <div class="gameCardUnderline" style="background-color:{{ game.color }}"></div>
+                {# <div class="lp-page3-containerMaster"> #}
 
-                                <div class="gameCardInfos">
-                                    <p><span>New</span> Topics <span>0</span></p>
-                                    <p><span>New</span> Medias <span>0</span></p>
+                    {% if battleRoyalGames|length > 0 %}
+
+                        <div style="overflow:hidden;">
+                    
+                            <div id="games-container" class="games-container splide__track"> 
+
+                                <div class="lp-phone-slpideTrait1"></div>
+
+                                <div class="splide__list">
+
+                                    {% set index = 1 %}
+
+                                    {% for game in battleRoyalGames %}
+
+                                        <a title="{{ game.title }}" class="gameCardLink splide__slide" href="{{ path('app_game', {'id': game.id} )}}" style="transform:scale(0.9);">
+                                            <div class="lp-page3-slideContainer">
+
+                                                <svg class="gameSelectedBracketUp-games">
+                                                    <path 
+                                                        id="gameSelectedBracketUpPath{{ index }}"
+                                                        class="gameSelectedBracketUpPath" 
+                                                        d="M 57 82 L 57 58 C 57 53 60 48 66 48 L 67 48 L 266 48 C 274 48 276 51 276 56 L 276 55 L 276 82"
+                                                        {# d="M 57 82 L 57 48 L 66 48 L 267 48 L 276 48 L 276 82" (sharp angles) #}
+                                                        fill-opacity="0"
+                                                        />
+                                                </svg>
+
+                                                <div id="lp-page3-slide0{{ index }}" class="games-gameCard" style="background-image: linear-gradient(rgba(0, 0, 255, 0.05), rgba(249, 123, 44, 0.5)),url('{{ asset("img/games/headerBackground/" ~ game.subBanner )}}'); background-size:cover;">
+
+                                                    <span id="lp-gameCardTitle{{ index }}" value="{{ game.title }}" class="lp-gameCardTitle">{{ game.title }}</span>
+
+                                                </div>
+
+                                                {# only Phone: #}
+                                                <span value="{{ game.title }}" class="lp-gameCardTitlePhone">{{ game.title }}</span>
+
+                                                <svg class="gameSelectedBracketDown-games">
+                                                    <path 
+                                                        id="gameSelectedBracketDownPath{{ index }}"
+                                                        class="gameSelectedBracketDownPath" 
+                                                        d="M 57 82 L 57 58 C 57 53 60 48 66 48 L 67 48 L 266 48 C 274 48 276 51 276 56 L 276 55 L 276 82"
+                                                        {# d="M 57 82 L 57 48 L 66 48 L 267 48 L 276 48 L 276 82" (sharp angles) #}
+                                                        fill-opacity="0"
+                                                        />
+                                                </svg>
+
+                                            </div>
+                                        </a>
+
+                                        {% set index = index + 1 %}
+
+                                    {% endfor %}
+
                                 </div>
-                        </div>
-                    </a>
-                {% endfor %}
-            </div>
 
-            {# Liste jeux catégorie "jeux indépendants" #}
-            <h3 class="genreTitle">Indés <span class="gameListCount">({{ indieGamesCount }})</span></h3>
-            <div class="genreGameList">
-                {% for game in indieGames %}
-                    <a class="gameCardLink" href="{{ path('app_game', {'id': game.id} )}}" onmouseover="this.style.filter='drop-shadow(0px 0px 4px {{ game.color }})'" onmouseout="this.style.filter='drop-shadow(0px 0px 4px black)'">
-                        <div class="gameCard">
+                                <div class="lp-phone-slpideTrait2"></div>
 
-                            <div style="position:relative;">
-                                <img src="{{ asset("img/games/logo/" ~ game.logo) }}" class="gameLogo" alt="logo {{ game.title }}"/>
-                                {# Si jeu favorisé par l'utilisateur #}
-                                {% if app.user is not null and game.favUsers is not empty and app.user in game.favUsers %}
-                                    <i class="fa-solid fa-heart gameCardFav"></i>
-                                {% endif %}
-                            </div>
-
-                            <div class="gameCardUnderline" style="background-color:{{ game.color }}"></div>
-
-                            <div class="gameCardInfos">
-                                <p><span>New</span> Topics <span>0</span></p>
-                                <p><span>New</span> Medias <span>0</span></p>
                             </div>
 
                         </div>
-                    </a>
-                {% endfor %}
+
+                    {% else %}
+
+                        <div class="emptyListMsg" style="display:inline-flex; flex-direction:column; width:100%;">
+                            <span>Aucun jeu pour l'instant</span>
+                        </div>
+                         
+                    {% endif %}
+
+                {# </div> #}
+
             </div>
+
+
+            {# Splide JS carousel games #}
+            <script>
+                document.addEventListener("DOMContentLoaded", function() {
+
+                    var isMobile = navigator.userAgent.match(/Android/i)
+                    || navigator.userAgent.match(/webOS/i)
+                    || navigator.userAgent.match(/iPhone/i)
+                    || navigator.userAgent.match(/iPad/i)
+                    || navigator.userAgent.match(/iPod/i)
+                    || navigator.userAgent.match(/BlackBerry/i)
+                    || navigator.userAgent.match(/Windows Phone/i);
+                    
+                    // Slide Scroll vertical sur mobile pas bonne idee car mess avec le scroll page
+                    if (isMobile){
+
+                        var splideFps = new Splide( '#splideFps', {
+                            direction : 'ttb',
+                            height: '25rem',
+                            perPage: 4,
+                            pagination: false,
+                        } );
+                        splideFps.mount();
+
+                        
+                        var splideMoba = new Splide( '#splideMoba', {
+                            direction : 'ttb',
+                            height: '25rem',
+                            perPage: 4,
+                            pagination: false,
+                        } );
+                        splideMoba.mount();
+
+
+                        var splideBr = new Splide( '#splideBr', {
+                            direction : 'ttb',
+                            height: '25rem',
+                            perPage: 4,
+                            pagination: false,
+                        } );
+                        splideBr.mount();
+
+                    } else {
+
+                        var splideFps = new Splide( '#splideFps', {
+                            width: '100%',
+                            perPage: 8,
+
+                        } );
+                        splideFps.mount();
+
+                        var splideMoba = new Splide( '#splideMoba', {
+                            width: '100%',
+                            perPage: 8,
+
+                        } );
+                        splideMoba.mount();
+
+                        var splideBr = new Splide( '#splideBr', {
+                            width: '100%',
+                            perPage: 8,
+
+                        } );
+                        splideBr.mount();
+                    }
+
+                });
+            </script>
+
         </div>
 
     </div>

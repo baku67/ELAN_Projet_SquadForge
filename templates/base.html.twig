@@ -116,7 +116,7 @@
                 <a href="{{ path('app_logout') }}" class="decoBtn"><i class="fa-solid fa-power-off"></i></a>
             {% else %}
                 <a href="{{ path('app_login') }}" class="profil" style="border-right:2px solid #80808061">Connexion</a>
-                <a href="{{ path('app_register') }}" style="font-size:0.75em; color:white; padding:5px 14px 5px 14px">S'inscrire</a>
+                <a href="{{ path('app_register') }}" class="profil" style="padding:5px 14px 5px 14px; border-bottom-left-radius:0px;">S'inscrire</a>
             {% endif %}
         </div>
 
@@ -155,7 +155,7 @@
                 {# // Si page login ou register, pas de CTA "Je m'inscris" footer #}
                 <div id="footerRegisterCard" class="footerRegisterCard">
                     <span class="footerRegisterText">Rejoignez l'aventure dès maitenant !</span>
-                    <a href="{{ path('app_register') }}" class="btn btn-primary footerRegisterCta">Je m'inscris <i class="fa-solid fa-arrow-right"></i></a>
+                    <a href="{{ path('app_register') }}" class="btn btn-primary footerRegisterCta">Je m'inscris <i class="fa-solid fa-arrow-right arrowCtaFooter"></i></a>
                 </div>
 
                 <script>

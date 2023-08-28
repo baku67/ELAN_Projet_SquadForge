@@ -408,7 +408,26 @@ body {
 }
 
 
-
+.gameSelectedBracketUp-games {
+    transform: scale(0.8);
+    /* z-index: 999; */
+    opacity: 1;
+    height: 91px;
+    width: 300px;
+    position: absolute;
+    left: -69px;
+    top: -55px;
+}
+.gameSelectedBracketDown-games {
+    transform: rotate(180deg) scale(0.8);
+    z-index: -999;
+    opacity: 1;
+    height: 91px;
+    width: 300px;
+    position: absolute;
+    left: -42px;
+    bottom: -56px;
+}
 
 .centeredLogo {
     position: relative;
@@ -1445,6 +1464,21 @@ header {
     width:100%;
 }
 
+
+.games-container {
+    width:100%;
+    display: inline-flex;
+    margin: 30px auto;
+    text-align: center;
+    justify-content: center;
+    padding: 0 50px;
+
+    /* width: 100%; */
+    overflow: visible;
+
+    transition: all 0.5s;
+}
+
 /* Pas bon car se deplace en meme temps que parent ? */
 #lp-page3-list::before {
     /* height: 100%;
@@ -1610,9 +1644,34 @@ header {
     box-shadow:0 0 35px -5px var(--primary-color);
 }
 
-/* .lp-gameCard:hover .favArrayPlus {
-    opacity: 1;
-} */
+
+.games-gameCard {
+    cursor: pointer;
+
+    height: 200px;
+    width: 160px;
+    /* height: 200px;
+    width: 170px; */
+
+    background-color: grey;
+    margin: 0 14px;
+    background-position-x: center;
+
+    border: 1px solid #818181;
+    border-top-left-radius: 6px;
+    border-top-right-radius: 6px;
+    border-bottom-left-radius: 6px;
+    border-bottom-right-radius: 6px;
+
+    transition: all 0.2s ease-out;
+}
+.games-gameCard:hover {
+    /* filter: sepia(1); */
+    /* transform: scale(1.05); */
+    box-shadow:0 0 35px -5px var(--primary-color);
+}
+
+
 
 .favArrayHeart {
     opacity: 0;
@@ -2295,6 +2354,7 @@ nav {
     transform: translateX(-50%);
 }
 .footerRegisterCta {
+    border: 1px solid;
     margin: 0;
     border-radius: 100px;
 }
@@ -2418,7 +2478,7 @@ nav {
     background-color: var(--primary-color);
     color: black;
     /* font-weight: bold; */ 
-    letter-spacing: 1px;
+    /* letter-spacing: 1px; */
 }
 .profil:hover .profilIcon {
     color: black;
@@ -2829,6 +2889,13 @@ nav {
 }
 
 
+#emptyListDiv {
+    display: block;
+    text-align: center;
+    margin: 65px auto;
+}
+
+
 .gamesSubTitle {
     font-size: 1.3em;
     position: relative;
@@ -2869,7 +2936,49 @@ nav {
     }
 }
 
+.GamesGenreTitleLong {
+    position:absolute; 
+    clip-path: polygon(0 0, 100% 0, 91% 100%, 0 100%);
+    border-top-left-radius: 6px;
+    /* height:35px; 
+    width:130px;  */
+    height: 0px;
+    width: 5px;
+    transform: translateY(-1px);
+    z-index:0;
 
+    animation: GamesGenreTitleLong1 0.3s 0.1s ease-in-out forwards, GamesGenreTitleLong2 0.4s 0.45s ease-in-out forwards;
+}
+@keyframes GamesGenreTitleLong1 {
+    0% {
+        height: 0px;
+    }
+    100% {
+        height:41px; 
+    }
+}
+@keyframes GamesGenreTitleLong2 {
+    0% {
+        width: 5px;
+    }
+    100% {
+        width:280px; 
+    }
+}
+
+
+.arrowCtaFooter {
+    transition: all 0.3s;
+}
+.footerRegisterCta:hover .arrowCtaFooter {
+    margin-left: 10px;
+}
+
+.btn:hover {
+    color: var(--bs-btn-hover-color);
+    background-color: var(--background-color);
+    border-color: var(--primary-color);
+}
 
 .gameSubTitle {
     position: relative;
