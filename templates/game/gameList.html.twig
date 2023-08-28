@@ -178,7 +178,7 @@
                         }
                         else {
                             document.getElementById('gameFilterFps').classList.add('gameFilterActive');
-                            document.getElementById('splideFps').style.display = "block";
+                            document.getElementById('splideFps').style.display = "inline-flex";
                             filterFpsBool = true;
                         }
                         checkNoFilter()
@@ -191,7 +191,7 @@
                         }
                         else {
                             document.getElementById('gameFilterBr').classList.add('gameFilterActive');
-                            document.getElementById('splideBr').style.display = "block";
+                            document.getElementById('splideBr').style.display = "inline-flex";
                             filterBrBool = true;
                         }
                         checkNoFilter()
@@ -204,7 +204,7 @@
                         }
                         else {
                             document.getElementById('gameFilterMoba').classList.add('gameFilterActive');
-                            document.getElementById('splideMoba').style.display = "block";
+                            document.getElementById('splideMoba').style.display = "inline-flex";
                             filterMobaBool = true;
                         }
                         checkNoFilter()
@@ -217,7 +217,7 @@
                         }
                         else {
                             document.getElementById('gameFilterArcade').classList.add('gameFilterActive');
-                            // document.getElementById('splideArcade').style.display = "block";
+                            // document.getElementById('splideArcade').style.display = "inline-flex";
                             filterMobaBool = true;
                         }
                         checkNoFilter()
@@ -246,24 +246,28 @@
 
 
             {# Liste jeux catégorie "FPS" #}
-            <div id="splideFps" class="splide sectionHomeContainer">
+            <div id="splideFps" class="splide sectionHomeContainer splideGames">
 
-                <div class="blinkingSectionTitle">
-                    <div class="GamesGenreTitle" style="background-color:var(--primary-color);"></div>
-                    <h3 class="gamesSubTitle noMarginBottom"><i class="fa-solid fa-gun"></i> FPS ({{ fpsGamesCount }})</h3>
+                <div class="blinkingSectionTitle sectionTitleGames">
+                    <div class="GamesGenreTitle"></div>
+                    <h3 class="gamesSubTitle noMarginBottom">
+                        <i class="fa-solid fa-gun"></i>
+                        <span> FPS </span>
+                        <span>({{ fpsGamesCount }})</span>
+                    </h3>
                 </div>
 
                 {# <div class="lp-page3-containerMaster"> #}
 
                     {% if fpsGames|length > 0 %}
 
-                        <div style="overflow:hidden;">
+                        <div class="gamesSplideContainer">
                     
-                            <div id="games-container" class="games-container splide__track"> 
+                            <div class="games-container splide__track"> 
 
                                 <div class="lp-phone-slpideTrait1"></div>
 
-                                <div class="splide__list">
+                                <div class="splide__list splideListGames">
 
                                     {% set index = 1 %}
 
@@ -330,24 +334,28 @@
 
 
             {# Liste jeux catégorie "MOBA" #}
-            <div id="splideMoba" class="splide sectionHomeContainer">
+            <div id="splideMoba" class="splide sectionHomeContainer splideGames">
 
-                <div class="blinkingSectionTitle">
-                    <div class="GamesGenreTitle" style="background-color:var(--primary-color);"></div>
-                    <h3 class="gamesSubTitle noMarginBottom"><i class="fa-solid fa-gopuram"></i> MOBA ({{ mobaGamesCount }})</h3>
+                <div class="blinkingSectionTitle sectionTitleGames">
+                    <div class="GamesGenreTitle"></div>
+                    <h3 class="gamesSubTitle noMarginBottom">
+                        <i class="fa-solid fa-gopuram"></i>
+                        <span> MOBA </span>
+                        <span>({{ mobaGamesCount }})</span>
+                    </h3>
                 </div>
 
                 {# <div class="lp-page3-containerMaster"> #}
 
                     {% if mobaGames|length > 0 %}
 
-                        <div style="overflow:hidden;">
+                        <div class="gamesSplideContainer">
                     
-                            <div id="games-container" class="games-container splide__track"> 
+                            <div class="games-container splide__track"> 
 
                                 <div class="lp-phone-slpideTrait1"></div>
 
-                                <div class="splide__list">
+                                <div class="splide__list splideListGames">
 
                                     {% set index = 1 %}
 
@@ -414,24 +422,28 @@
 
 
             {# Liste jeux catégorie "Battle royal"" #}
-            <div id="splideBr" class="splide sectionHomeContainer">
+            <div id="splideBr" class="splide sectionHomeContainer splideGames">
 
-                <div class="blinkingSectionTitle">
-                    <div class="GamesGenreTitleLong" style="background-color:var(--primary-color);"></div>
-                    <h3 class="gamesSubTitle noMarginBottom"><i class="fa-solid fa-crown"></i> Battle royal ({{ brGamesCount }})</h3>
+                <div class="blinkingSectionTitle sectionTitleGames">
+                    <div class="GamesGenreTitle"></div>
+                    <h3 class="gamesSubTitle noMarginBottom">
+                        <i class="fa-solid fa-crown"></i>
+                        <span> Battle royal</span>
+                        <span>({{ brGamesCount }})</span>
+                    </h3>
                 </div>
 
                 {# <div class="lp-page3-containerMaster"> #}
 
                     {% if battleRoyalGames|length > 0 %}
 
-                        <div style="overflow:hidden;">
+                        <div class="gamesSplideContainer">
                     
-                            <div id="games-container" class="games-container splide__track"> 
+                            <div class="games-container splide__track"> 
 
                                 <div class="lp-phone-slpideTrait1"></div>
 
-                                <div class="splide__list">
+                                <div class="splide__list splideListGames">
 
                                     {% set index = 1 %}
 
@@ -542,21 +554,21 @@
 
                         var splideFps = new Splide( '#splideFps', {
                             width: '100%',
-                            perPage: 8,
+                            perPage: 6,
 
                         } );
                         splideFps.mount();
 
                         var splideMoba = new Splide( '#splideMoba', {
                             width: '100%',
-                            perPage: 8,
+                            perPage: 6,
 
                         } );
                         splideMoba.mount();
 
                         var splideBr = new Splide( '#splideBr', {
                             width: '100%',
-                            perPage: 8,
+                            perPage: 6,
 
                         } );
                         splideBr.mount();

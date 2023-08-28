@@ -28,9 +28,9 @@
     top: 1px;
 }
 
-span {
+/* span {
     font-family: 'K2D', sans-serif;
-}
+} */
 
 
 .footerList {
@@ -1712,6 +1712,7 @@ header {
 }
 
 .lp-gameCardTitle {
+    font-family: 'K2D', sans-serif;
     position: relative;
     top: 107%;
     /* top: 6%; */
@@ -2298,7 +2299,7 @@ nav {
     width: 100%;
     font-family: 'K2D', sans-serif;
     padding: 8px 7px;
-    border: 1px solid var(--primary-color);
+    border: 1px solid #808080b0;
     border-radius: 4px;
 
 }
@@ -2468,10 +2469,54 @@ nav {
     position: relative;
     bottom: 0px;
     font-size: 0.88em;
-    padding: 6px 13px 7px 13px;
+    padding: 8px 13px 5px 13px;
     border-left: 1px solid rgba(160, 160, 160, 0.4);
 
     transition: all 0.4s;
+}
+
+.splide__arrow {
+    align-items: center;
+    background: #0006;
+    background: rgb(0,0,0);
+    background: radial-gradient(circle, rgba(0,0,0,1) 0%, rgba(9,9,121,0) 79%);
+    border: 0;
+    border-radius: 50%;
+    cursor: pointer;
+    display: -ms-flexbox;
+    display: flex;
+    height: 5em;
+    -ms-flex-pack: center;
+    justify-content: center;
+    opacity: 1;
+    padding: 0;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 5em;
+    z-index: 1;
+}
+.splide__arrow svg {
+    fill: var(--primary-color);
+    height: 3.2em;
+    stroke: black;
+    width: 3.2em;
+}
+
+.sectionTitleGames {
+    width: 240px;
+    /* width: 20%; */
+}
+
+.gamesSplideContainer {
+    overflow:hidden; 
+    width:100%;
+    clip-path: polygon(3% 0, 100% 0, 100% 100%, 0% 100%);
+    transform: translateX(-21px);
+}
+
+.splideListGames {
+    padding-left: 55px !important;
 }
 
 .profil:hover {
@@ -2896,8 +2941,22 @@ nav {
 }
 
 
+#splideFps {
+
+}
+
+.splideGames {
+    max-width: 100%;
+    display: inline-flex;
+    flex-direction: row;
+    width: 100%;
+    background-image: linear-gradient(to bottom, #80808030, #67676730, #4f4f4f30, #38383830, #232323);
+}
+
+
 .gamesSubTitle {
-    font-size: 1.3em;
+    font-family: 'Julius Sans One', sans-serif !important;
+    font-size: 1.4em;
     position: relative;
     color: #161515;
     font-weight: bold;
@@ -2905,11 +2964,25 @@ nav {
     width: fit-content;
     z-index: 10;
     letter-spacing: 1px;   
+
+    display: inline-flex;
+    flex-direction: column;
+    height: -webkit-fill-available;
+    justify-content: center;
+    width: 100%;
+    text-align: center;
+    padding-right: 45px;
+
+    border-top: 5px solid var(--background-color);
+    border-top-left-radius: 9px;
+    /* Stylé mais se voit trop quand background gradient gris */
+    /* border-top-right-radius: 40px; */ 
 }
 .GamesGenreTitle {
     position:absolute; 
-    clip-path: polygon(0 0, 100% 0, 91% 100%, 0 100%);
+    clip-path: polygon(0 0, 100% 0, 87% 100%, 0 100%);
     border-top-left-radius: 6px;
+    border-bottom-left-radius: 6px;
     /* height:35px; 
     width:130px;  */
     height: 0px;
@@ -2917,14 +2990,33 @@ nav {
     transform: translateY(-1px);
     z-index:0;
 
+    background-image: linear-gradient(to bottom, #f97b2c,#f97b2c, #232323);
+
     animation: GamesGenreTitle1 0.3s 0.1s ease-in-out forwards, GamesGenreTitle2 0.4s 0.45s ease-in-out forwards;
+
 }
-@keyframes GamesGenreTitle1 {
+/* @keyframes GamesGenreTitle1 {
     0% {
         height: 0px;
     }
     100% {
         height:41px; 
+    }
+}
+@keyframes GamesGenreTitle2 {
+    0% {
+        width: 5px;
+    }
+    100% {
+        width:189px; 
+    }
+} */
+@keyframes GamesGenreTitle1 {
+    0% {
+        height: 0px;
+    }
+    100% {
+        height:280px; 
     }
 }
 @keyframes GamesGenreTitle2 {
