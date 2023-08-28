@@ -264,7 +264,6 @@
                         <h3 class="gamesSubTitle noMarginBottom">
                             <i class="fa-solid fa-gun gamesListIcon"></i>
                             <span> FPS </span>
-                            <span>({{ fpsGamesCount }})</span>
                         </h3>
                     </a>
 
@@ -346,7 +345,7 @@
 
                     {# <div class="gamesListClipPathEnd"></div> #}
 
-                    <a href="{{ path('app_genreGames', {'id':1}) }}" class="seeAll-gamesList">Voir tout <i class="fa-solid fa-arrow-right"></i></a>
+                    <a href="{{ path('app_genreGames', {'id':1}) }}" class="seeAll-gamesList">Voir tout <span>({{ fpsGamesCount }})</span> <i class="fa-solid fa-arrow-right"></i></a>
 
                 </div>
 
@@ -358,10 +357,7 @@
                         <div class="GamesGenreTitle"></div>
                         <h3 class="gamesSubTitle noMarginBottom">
                             <i class="fa-solid fa-gopuram gamesListIcon"></i>
-                            <div>
-                                <span> MOBA </span>
-                                <span>({{ mobaGamesCount }})</span>
-                            </div>
+                            <span> MOBA </span>
                         </h3>
                     </a>
 
@@ -406,7 +402,7 @@
                                                         <path 
                                                             id="gameSelectedBracketDownPath{{ index }}"
                                                             class="gameSelectedBracketDownPath" 
-                                                            d="M 57 82 L 57 58 C 57 53 60 48 66 48 L 67 48 L 266 48 C 274 48 276 51 276 56 L 276 55 L 276 82"
+                                                            d="M 55 80 L 57 56 C 57 53 60 48 66 48 L 67 48 L 254 48 C 258 48 263 50 262 55 L 262 55 L 260 80"
                                                             {# d="M 57 82 L 57 48 L 66 48 L 267 48 L 276 48 L 276 82" (sharp angles) #}
                                                             fill-opacity="0"
                                                             />
@@ -443,7 +439,7 @@
 
                     {# <div class="gamesListClipPathEnd"></div> #}
 
-                    <a href="{{ path('app_genreGames', {'id':4}) }}" class="seeAll-gamesList">Voir tout <i class="fa-solid fa-arrow-right"></i></a>
+                    <a href="{{ path('app_genreGames', {'id':4}) }}" class="seeAll-gamesList">Voir tout <span>({{ mobaGamesCount }})</span> <i class="fa-solid fa-arrow-right"></i></a>
 
                 </div>
 
@@ -456,7 +452,6 @@
                         <h3 class="gamesSubTitle noMarginBottom">
                             <i class="fa-solid fa-crown gamesListIcon"></i>
                             <span> Battle royal</span>
-                            <span>({{ brGamesCount }})</span>
                         </h3>
                     </a>
 
@@ -501,7 +496,7 @@
                                                         <path 
                                                             id="gameSelectedBracketDownPath{{ index }}"
                                                             class="gameSelectedBracketDownPath" 
-                                                            d="M 57 82 L 57 58 C 57 53 60 48 66 48 L 67 48 L 266 48 C 274 48 276 51 276 56 L 276 55 L 276 82"
+                                                            d="M 55 80 L 57 56 C 57 53 60 48 66 48 L 67 48 L 254 48 C 258 48 263 50 262 55 L 262 55 L 260 80"
                                                             {# d="M 57 82 L 57 48 L 66 48 L 267 48 L 276 48 L 276 82" (sharp angles) #}
                                                             fill-opacity="0"
                                                             />
@@ -538,7 +533,7 @@
 
                     {# <div class="gamesListClipPathEnd"></div> #}
 
-                    <a href="{{ path('app_genreGames', {'id':3}) }}" class="seeAll-gamesList">Voir tout <i class="fa-solid fa-arrow-right"></i></a>
+                    <a href="{{ path('app_genreGames', {'id':3}) }}" class="seeAll-gamesList">Voir tout <span>({{ brGamesCount }})</span> <i class="fa-solid fa-arrow-right"></i></a>
 
                 </div>
 
