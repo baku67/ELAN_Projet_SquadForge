@@ -78,10 +78,10 @@
         </p>
 
         
-        <div class="groupHeader" style="background-image: linear-gradient(to right, {{ gameFrom.color }}8c, {{ gameFrom.color }}50, #232323ba, #101010), url('../img/testMotif2.jpg'); background-size:contain; border-bottom:3px solid {{ gameFrom.color }};">
+        <div class="groupHeader" style="background-image: linear-gradient(to right, {{ gameFrom.color }}8c, {{ gameFrom.color }}50, #232323ba, #101010f7), url('../img/testMotif2.jpg'); background-size:contain; border-bottom:3px solid {{ gameFrom.color }};">
 
             <div style="width:60%; position:relative;">
-                <h2 style="color:black; backdrop-filter:blur(32px); width:fit-content; padding:4px 15px;"> <i class="fa-solid fa-users-rays"></i> TEAM</h2>
+                <h2 style="color:black; backdrop-filter:blur(32px); width:fit-content; padding:4px 15px; border-radius:4px; background-color:{{ gameFrom.color }}90; border-top-left-radius:7px;"> <i class="fa-solid fa-users-rays"></i> TEAM</h2>
 
                 <h3 class="groupTitle">{{ group.title }}</h3>
 
@@ -89,6 +89,32 @@
                     <i class="fa-solid fa-quote-left"></i>
                     <span style="font-family:'K2D', sans-serif;">{{ group.description|capitalize }}</span>
                     <i class="fa-solid fa-quote-right"></i>
+
+                    {# // Btn modif description Leader: #}
+                    {% if app.user == group.leader %}
+                        <span id="editDescriptionTeam">
+                            <i class="fa-solid fa-pen-to-square editDescriptionTeam"></i>
+                        </span>
+                    
+                        <dialog class="modalDialog" id="editDescriptionTeamModal">
+                            <form method="post" action="{{ path('app_updateTeamDescription', {'groupId': group.id}) }}">
+                                <p>Modifiez la description de la team:</p>
+
+                                <input type="text" name="newTeamDescription" value="{{ group.description }}" class="form-control">
+
+                                <button type="submit" class="confirmModal">Mettre à jour</button>
+                                <span class="cancelModal" onclick="editDescriptionTeamModal.close()">Annuler</span>                            
+                            </form>
+                        </dialog>
+
+                        <script>
+                            document.getElementById('editDescriptionTeam').addEventListener("click", function() {
+                                document.getElementById('editDescriptionTeamModal').showModal();
+                            })
+                        </script>
+
+
+                    {% endif %}
                 </p>
 
                 <p style="position:absolute; bottom:0; font-family:'K2D', sans-serif; margin-bottom:5px; backdrop-filter:blur(30px); color:black;">Ancienneté: <span>{{ time_diff(group.creationDate) }}</span></p>
@@ -143,6 +169,33 @@
             </div>
 
             <div class="sectionContent">
+
+                {# Modifier le nbr de places (leader) #}
+                {% if app.user == group.leader %}
+                    <span id="editNbrPlacesTeam">
+                        <i class="fa-solid fa-pen-to-square editNbrPlacesTeam"></i>
+                    </span>
+                
+                    <dialog class="modalDialog" id="editNbrPlacesTeamModal">
+                        <form method="post" action="{{ path('app_updateTeamNbrPlaces', {'groupId': group.id}) }}">
+                            <p>Changez le nombre de places disponibles:</p>
+
+                            <input type="number" name="newTeamNbrPlaces" value="{{ group.nbrPlaces }}" class="form-control" min="2" max="10">
+
+                            <button type="submit" class="confirmModal">Mettre à jour</button>
+                            <span class="cancelModal" onclick="editNbrPlacesTeamModal.close()">Annuler</span>                            
+                        </form>
+                    </dialog>
+
+                    <script>
+                        document.getElementById('editNbrPlacesTeam').addEventListener("click", function() {
+                            document.getElementById('editNbrPlacesTeamModal').showModal();
+                        })
+                    </script>
+
+                {% endif %}
+
+
 
                 <ul id="membersList" class="membersList">
 

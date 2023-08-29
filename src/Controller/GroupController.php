@@ -453,7 +453,7 @@ class GroupController extends AbstractController
 
 
 
-    // Leader: Blacklist du group
+    // Leader: Modifier l'image de la team
     #[Route('/updateTeamPic/{groupId}', name: 'app_updateTeamPic')]
     public function updateTeamPic(EntityManagerInterface $entityManager, int $groupId, Request $request, Filesystem $filesystem): Response
     {
@@ -519,6 +519,101 @@ class GroupController extends AbstractController
         return $this->redirectToRoute('app_groupDetails', ['groupId' => $groupId]);
 
     }
+
+
+
+    
+
+    // Leader: Modifier la description de la team
+    #[Route('/updateTeamDescription/{groupId}', name: 'app_updateTeamDescription')]
+    public function updateTeamDescription(EntityManagerInterface $entityManager, int $groupId, Request $request, Filesystem $filesystem): Response
+    {
+
+        // Vérif team existe
+        $group = $entityManager->getRepository(Group::class)->find($groupId);
+        if (!$group) {
+            $this->addFlash('error', 'La team n\'existe pas');
+            return $this->redirectToRoute('app_home');
+        }
+        else {
+
+            // Vérif User connecté et leader de la team
+            if($this->getUser() == $group->getLeader()) {
+
+                $newText = $request->get('newTeamDescription');
+
+                // TODO validation/sanitize:
+                $group->setDescription($newText);
+
+                $entityManager->persist($group);
+                $entityManager->flush();
+
+                $this->addFlash('success', 'La description a bien été mise à jour');
+                return $this->redirectToRoute('app_groupDetails', ['groupId' => $groupId]);
+            }
+            else {
+                $this->addFlash('error', 'Vous devez être connecté et leader pour faire ceci');
+                return $this->redirectToRoute('app_groupDetails', ['groupId' => $groupId]);
+            }
+        }
+    }
+
+
+
+
+
+    // Leader: Modifier le nombre de places de la team (+ vérifications conflits membres)
+    #[Route('/updateTeamNbrPlaces/{groupId}', name: 'app_updateTeamNbrPlaces')]
+    public function updateTeamNbrPlaces(EntityManagerInterface $entityManager, int $groupId, Request $request, Filesystem $filesystem): Response
+    {
+
+        // Vérif team existe
+        $group = $entityManager->getRepository(Group::class)->find($groupId);
+        if (!$group) {
+            $this->addFlash('error', 'La team n\'existe pas');
+            return $this->redirectToRoute('app_home');
+        }
+        else {
+
+            // Vérif User connecté et leader de la team
+            if($this->getUser() == $group->getLeader()) {
+
+                $groupOccupiedPlaces = count($group->getMembers());
+
+                $newNbrPlaces = $request->get('newTeamNbrPlaces');
+
+                // TODO validation/sanitize:
+
+                if($groupOccupiedPlaces < $newNbrPlaces) {
+
+                    if ($newNbrPlaces < 10 || $newNbrPlaces > 1) {
+                        $group->setNbrPlaces($newNbrPlaces);
+
+                        $entityManager->persist($group);
+                        $entityManager->flush();
+
+                        $this->addFlash('success', 'Le nombre de places a été mis à jour');
+                        return $this->redirectToRoute('app_groupDetails', ['groupId' => $groupId]); 
+                    } 
+                    else {
+                        $this->addFlash('error', 'Le nouveau nombre de places doit être compris entre 2 et 10');
+                        return $this->redirectToRoute('app_groupDetails', ['groupId' => $groupId]); 
+                    }   
+                }
+                else {
+                    $this->addFlash('error', 'Le nouveau nombre de places souhaité est inférieur au nombre de places occupés');
+                    return $this->redirectToRoute('app_groupDetails', ['groupId' => $groupId]);
+                }
+
+            }
+            else {
+                $this->addFlash('error', 'Vous devez être connecté et leader pour faire ceci');
+                return $this->redirectToRoute('app_groupDetails', ['groupId' => $groupId]);
+            }
+        }
+    }
+    
+    
     
 
 
