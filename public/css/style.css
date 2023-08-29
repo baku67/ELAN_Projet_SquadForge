@@ -43,6 +43,12 @@
     text-decoration: underline;
 }
 
+/* .gamesListsEmptyMsg {
+    top: 50%;
+    position: relative;
+    transform: translateY(-50%);
+} */
+
 footer {
     border-top: 1px solid var(--primary-color);
     background-color: #f97b2c17;
@@ -416,7 +422,7 @@ body {
     height: 91px;
     width: 300px;
     position: absolute;
-    left: -54px;
+    left: -52px;
     top: -56px;
 }
 .gameSelectedBracketDown-games {
@@ -426,7 +432,7 @@ body {
     height: 91px;
     width: 300px;
     position: absolute;
-    left: -58px;
+    left: -60px;
     bottom: -56px;
 }
 
@@ -582,9 +588,22 @@ body {
 .groupHeader {
     padding: 15px 20px 5px 20px;
     border-radius: 7px;
+    display: inline-flex;
+    width: 100%;
 }
 
 
+.teamImg {
+    min-width: 100%;
+    max-width: 100%;
+    width: 100%;
+    background-size: cover;
+    position: relative;
+    left: 50%;
+    transform: translateX(-50%);
+    padding-bottom: 10px;
+    border-radius: 13px;
+}
 
 
 ul {
@@ -2376,7 +2395,7 @@ nav {
 .gameFilterActive {
     filter: grayscale(0) !important;
     color: black;
-    border: 1px solid black !important;
+    border: 1px solid #000000b0 !important;
 }
 
 .gameFilterIcon {

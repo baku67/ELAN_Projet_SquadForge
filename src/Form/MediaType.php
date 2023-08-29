@@ -63,7 +63,7 @@ class MediaType extends AbstractType
                             'image/jpg',
                             'image/gif',
                         ],
-                        'mimeTypesMessage' => 'Please upload a valid PDF document.',
+                        'mimeTypesMessage' => 'Please upload a valid picture.',
                     ]),
                 ],
             ])

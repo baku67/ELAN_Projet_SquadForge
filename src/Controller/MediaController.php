@@ -96,14 +96,14 @@ class MediaController extends AbstractController
 
                     // Vérification de l'extension (.png, .jpg, .jpeg, .gif)
                     $fileExt = $mediaImg->getClientOriginalExtension();
-                    if ($fileExt != "png" && $fileExt != "jpg" && $fileExt != "jpeg" && $fileExt != "gif") {
+                    if ($fileExt != "png" && $fileExt != "PNG" && $fileExt != "jpg" && $fileExt != "JPG" && $fileExt != "jpeg" && $fileExt != "gif") {
                         $this->addFlash('error', 'Le format "' . $fileExt . '" n\'est pas supporté');
                         return $this->redirectToRoute('app_game', ['id' => $gameFrom->getId()]);
                     }
 
                     // Vérification de la taille du fichier + Vérif que c'est bien un fichier qui est uploadé (pour pouvoir utiliser getSize())
                     // Attention: vérifications Front en amont "maxFileSize" dans "gameDetails.html.twig"
-                    $maxFileSize = 10 * 1024 * 1024; /* (10MB) */
+                    $maxFileSize = 5 * 1024 * 1024; /* (5MB) */
                     if ($mediaImg instanceof UploadedFile && $mediaImg->getSize() > $maxFileSize) {
                         $this->addFlash('error', 'Le fichier est trop volumineux');
                         return $this->redirectToRoute('app_game', ['id' => $gameFrom->getId()]);

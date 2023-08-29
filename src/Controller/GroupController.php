@@ -39,6 +39,14 @@ class GroupController extends AbstractController
     }
 
 
+    private function generateCustomFileName(): string
+    {
+        // Implement your custom logic to generate the file name
+        // For example, you can use a combination of timestamp and a unique identifier
+        return uniqid() . '_' . time();
+    }
+
+
     // Creation Team: Id Game
     #[Route('/createGroup/{gameIdFrom}', name: 'app_createGroup')]
     public function createGroup(EntityManagerInterface $entityManager, int $gameIdFrom, Request $request): Response
@@ -129,6 +137,61 @@ class GroupController extends AbstractController
                             } else {
                                 $group->setRestrictionImgProof(false); 
                             }
+
+
+
+                            // Récupération de l'image de la team
+                            $teamImg = $form->get('imgUrl')->getData();
+
+                            // Vérification de l'extension (.png, .jpg, .jpeg, .gif)
+                            $fileExt = $teamImg->getClientOriginalExtension();
+                            if ($fileExt != "png" && $fileExt != "PNG" && $fileExt != "jpg" && $fileExt != "JPG" && $fileExt != "jpeg" && $fileExt != "gif") {
+                                $this->addFlash('error', 'Le format "' . $fileExt . '" n\'est pas supporté');
+                                return $this->redirectToRoute('app_createGroup', ['gameIdFrom' => $gameFrom->getId()]);
+                            }
+
+                            // Vérification de la taille du fichier + Vérif que c'est bien un fichier qui est uploadé (pour pouvoir utiliser getSize())
+                            // Attention: vérifications Front en amont "maxFileSize" dans "gameDetails.html.twig"
+                            $maxFileSize = 5 * 1024 * 1024; /* (5MB) */
+                            if ($teamImg instanceof UploadedFile && $teamImg->getSize() > $maxFileSize) {
+                                $this->addFlash('error', 'Le fichier est trop volumineux');
+                                return $this->redirectToRoute('app_createGroup', ['gameIdFrom' => $gameFrom->getId()]);
+                            }
+
+                            // Compression et Resize (GIF/PNG ou JPG) avec library "Imagine"
+                            // $imagine = new Imagine();
+
+                            // if (in_array($fileExt, ['gif', 'png'], true)) {
+                            //     $image = $imagine->open($teamImg->getPathname());
+                            //     // $image->resize(new Box(800, 600));
+                            //     $image->save($pathToSave, ['png_compression_level' => 9]);
+                            // }
+                            // else {
+                            //     $image = $imagine->open($teamImg->getPathname());
+                            //     // $image->resize(new Box(800, 600));
+                            //     $image->save($pathToSave, ['jpeg_quality' => 80]);
+                            // }
+
+                            $genImgName = $this->generateCustomFileName() . "." . $fileExt;
+
+                            try {
+                                $teamImg->move(
+                                // $image->move(
+                                    $this->getParameter('upload_directory'),
+                                    $genImgName
+                                );
+                            } catch (FileException $e) {
+                                $this->addFlash('error', 'Il y a eu un problème lors de l\'upload du fichier');
+                                return $this->redirectToRoute('app_createGroup', ['gameIdFrom' => $gameFrom->getId()]);
+                            }
+                            $group->setImgUrl($genImgName);
+
+
+
+
+
+
+
                             
                             // Désactivation vérification nbr de mots etc...
                             // // Récupération du titre
@@ -157,7 +220,7 @@ class GroupController extends AbstractController
                     } 
                 }
                 else {
-                    $this->addFlash('error', 'Vous êtes déjà leader de 2 teams (max)');
+                    $this->addFlash('error', 'Vous êtes déjà leader de 2 teams (max par jeu)');
                     return $this->redirectToRoute('app_createGroup', ['gameIdFrom' => $gameIdFrom]);
                 }
             }
@@ -175,6 +238,7 @@ class GroupController extends AbstractController
         ]);
     }
 
+    
 
     // Liste des Teams (publiques!): Id Game
     #[Route('/groupList/{gameIdFrom}', name: 'app_groupList')]

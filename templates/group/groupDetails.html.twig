@@ -77,21 +77,31 @@
              - {{ group.title }}
         </p>
 
+        {# <div class="groupHeader" style="background-image: linear-gradient(to top, {{ gameFrom.color }}30, var(--background-color)), url('../img/uploads/{{ group.imgUrl }}'); border: 2px solid {{ gameFrom.color }}"> #}
         <div class="groupHeader" style="background-color: {{ gameFrom.color }}30; border: 2px solid {{ gameFrom.color }}">
-            <h2> <i class="fa-solid fa-users-rays"></i> TEAM</h2>
 
-            <br>
-            <h3 class="groupTitle">{{ group.title }}</h3>
+            <div style="width:60%;">
+                <h2> <i class="fa-solid fa-users-rays"></i> TEAM</h2>
 
-            <p class="groupDescription">
-                <i class="fa-solid fa-quote-left"></i>
-                <span style="font-family:'K2D', sans-serif;">{{ group.description|capitalize }}</span>
-                <i class="fa-solid fa-quote-right"></i>
-            </p>
+                <br>
+                <h3 class="groupTitle">{{ group.title }}</h3>
 
-            <br>
+                <p class="groupDescription">
+                    <i class="fa-solid fa-quote-left"></i>
+                    <span style="font-family:'K2D', sans-serif;">{{ group.description|capitalize }}</span>
+                    <i class="fa-solid fa-quote-right"></i>
+                </p>
 
-            <p style="font-family:'K2D', sans-serif;">Ancienneté: <span>{{ time_diff(group.creationDate) }}</span></p>
+                <br>
+
+                <p style="font-family:'K2D', sans-serif;">Ancienneté: <span>{{ time_diff(group.creationDate) }}</span></p>
+        
+            </div>
+
+            <div style="width:40%;">
+                <img src="../img/uploads/{{ group.imgUrl }}" class="teamImg">
+            </div>
+        
         </div>
 
 

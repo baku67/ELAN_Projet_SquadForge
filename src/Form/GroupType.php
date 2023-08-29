@@ -23,7 +23,7 @@ use Symfony\Component\Validator\Constraints\Length;
 use Symfony\Component\Validator\Constraints\Callback;
 use Symfony\Component\Validator\Constraints\NotBlank;
 use Symfony\Component\Validator\Constraints\Range;
-
+use Symfony\Component\Validator\Constraints\File;
 
 class GroupType extends AbstractType
 {
@@ -131,6 +131,24 @@ class GroupType extends AbstractType
                 'required' => false,
                 'attr' => [
                     "class" => "form-check-input"
+                ],
+            ])
+
+            ->add('imgUrl', FileType::class, [
+                'label' => 'Illustration de la team:',
+                'required' => false, 
+                'attr' => ["class" => "form-control"],
+                'constraints' => [
+                    new File([
+                        'maxSize' => '5M', // Maximum file size
+                        'mimeTypes' => [
+                            'image/png', // Allowed image formats
+                            'image/jpeg',
+                            'image/jpg',
+                            'image/gif',
+                        ],
+                        'mimeTypesMessage' => 'Please upload a valid image.',
+                    ]),
                 ],
             ])
 
