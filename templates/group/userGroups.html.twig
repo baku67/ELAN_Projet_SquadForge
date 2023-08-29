@@ -78,14 +78,14 @@
 
             {% for group in groups %}
 
-                <a href="{{ path('app_groupDetails', {'groupId': group.id } ) }}">
-                    <div class="teamCard" style="border-color:{{ group.game.color }}">
+                <a title='"{{ group.title|capitalize }}"' href="{{ path('app_groupDetails', {'groupId': group.id } ) }}">
+                    <div class="teamCard" style="border-color:{{ group.game.color }}60">
 
                         <div class="teamCardTextDiv">
 
                             <span class="teamCardGameTitle" style="background-color:{{ group.game.color }}">{{ group.game.title }}</span>
                             
-                            <p class="ellispsis1 teamCardTitleV2">{{ group.title }}</p>
+                            <p class="ellispsis1 teamCardTitleV2">{{ group.title|capitalize }}</p>
                         
                         </div>
 

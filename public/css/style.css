@@ -56,7 +56,7 @@ footer {
     padding: 30px 0;
     text-align: center;
     /* Keep the footer at the bottom */
-    margin-top: auto;
+    margin-top: 30px;
 }
 .main {
     flex: 1;
@@ -1647,6 +1647,29 @@ header {
 }
 
 
+
+.addFavCardIcon {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 3em;
+    color: var(--primary-color);
+}
+
+
+.addFavCardIcon {
+    transition: all 0.2s;
+}
+.addFavCard:hover .lp-gameCard {
+    opacity: 1 !important;
+    background-color: #313131 !important;
+}
+.addFavCard:hover .addFavCardIcon {
+    font-size: 5em;
+}
+
+
 .my-slider-progress {
     width: 75%;
     margin: 20px auto;
@@ -1758,7 +1781,22 @@ header {
 }
 
 
+
+.gameFavoritedLabel {
+    position: absolute;
+    right: -1px;
+    padding: 1px 8px;
+    top: -1px;
+    background-color: var(--background-color);
+    color: var(--primary-color);
+    border-top-right-radius: 4px;
+    border-bottom-left-radius: 4px;
+    clip-path: polygon(8% 0, 100% 0, 92% 100%, 0% 100%);
+}
+
+
 .games-gameCard {
+    position: relative;
     cursor: pointer;
 
     height: 180px;
@@ -2785,7 +2823,7 @@ nav {
     z-index: 11;
     font-size: 1.6em;
     color: white;
-    bottom: 32px;
+    bottom: 33px;
     right: 0;
     padding-left: 42px;
     padding-right: 16px;
@@ -3684,6 +3722,7 @@ nav {
 }
 
 .teamCardTitleV2 {
+    font-family: 'K2D', sans-serif;
     text-align: center;
     position: relative;
     top: 35px;
@@ -5303,7 +5342,7 @@ cursor: pointer;
 
 .teamCard {
     display: inline-flex;
-    height: 175px;
+    height: 150px;
     background-color: rgb(49 49 49);
     border-radius: 5px;
     margin: 15px;
@@ -5318,12 +5357,13 @@ cursor: pointer;
 }
 
 .teamCardImg {
-    padding: 2px 2px 2px 2px;
+    object-fit: cover;
+    /* padding: 2px 2px 2px 2px; */
     border-top-right-radius: 5px;
     border-bottom-right-radius: 5px;
     /* border-radius: 7px; */
 
-    width: 260px;
+    width: 220px;
     /* height: 200px; */
 
     transition: all 0.3s;
@@ -5349,7 +5389,7 @@ cursor: pointer;
     
     color: black;
 
-    max-width: 192px;
+    max-width: 190px;
     display: inline-block;
     white-space: nowrap;
     overflow: hidden;

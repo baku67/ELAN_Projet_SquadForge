@@ -98,9 +98,9 @@
                     
                         <dialog class="modalDialog" id="editDescriptionTeamModal">
                             <form method="post" action="{{ path('app_updateTeamDescription', {'groupId': group.id}) }}">
-                                <p>Modifiez la description de la team:</p>
+                                <p style="font-size:1.3em;">Modifiez la description de la team:</p>
 
-                                <input type="text" name="newTeamDescription" value="{{ group.description }}" class="form-control">
+                                <textarea rows="5" cols="33" name="newTeamDescription" class="form-control" style="margin-bottom:20px;">{{ group.description }}</textarea>
 
                                 <button type="submit" class="confirmModal">Mettre à jour</button>
                                 <span class="cancelModal" onclick="editDescriptionTeamModal.close()">Annuler</span>                            
@@ -149,7 +149,7 @@
         <dialog class="modalDialog" id="changeTeamPicModal">
             <form method="post" action="{{ path('app_updateTeamPic', {'groupId': group.id}) }}" enctype="multipart/form-data">
             
-                <p>Sélectionnez la nouvelle image:</p>
+                <p style="font-size:1.3em;">Sélectionnez la nouvelle image:</p>
 
                 <input type="file" name="newTeamPic" accept="image/png, image/jpeg">
             
@@ -177,9 +177,9 @@
                 
                     <dialog class="modalDialog" id="editNbrPlacesTeamModal">
                         <form method="post" action="{{ path('app_updateTeamNbrPlaces', {'groupId': group.id}) }}">
-                            <p>Changez le nombre de places disponibles:</p>
+                            <p style="font-size:1.3em;">Changez le nombre de places disponibles:</p>
 
-                            <input type="number" name="newTeamNbrPlaces" value="{{ group.nbrPlaces }}" class="form-control" min="2" max="10">
+                            <input type="number" name="newTeamNbrPlaces" value="{{ group.nbrPlaces }}" class="form-control" style="margin-bottom:20px;" min="2" max="10">
 
                             <button type="submit" class="confirmModal">Mettre à jour</button>
                             <span class="cancelModal" onclick="editNbrPlacesTeamModal.close()">Annuler</span>                            

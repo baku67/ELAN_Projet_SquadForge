@@ -500,12 +500,15 @@ class GroupController extends AbstractController
         
                         } catch (FileException $e) {
                             $this->addFlash('error', 'Une erreur est survenue lors du téléchargement de l\'image.');
+                            return $this->redirectToRoute('app_groupDetails', ['groupId' => $groupId]);
                         }
                     } else {
                         $this->addFlash('error', 'Le format de l\'image n\'est pas pris en charge.');
+                        return $this->redirectToRoute('app_groupDetails', ['groupId' => $groupId]);
                     }
                 } else {
                     $this->addFlash('error', 'Aucune image n\'a été téléchargée.');
+                    return $this->redirectToRoute('app_groupDetails', ['groupId' => $groupId]);
                 }
 
             }

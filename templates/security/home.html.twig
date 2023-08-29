@@ -367,6 +367,18 @@
 
                                     {% endfor %}
 
+                                    {# Card ajout fav (link games) #}
+                                    <a href="{{ path('app_games') }}" class="gameCardLink splide__slide addFavCard" style="transform:scale(0.9); opacity:0.8;">
+                                        <div class="lp-page3-slideContainer">
+                                            <div class="lp-gameCard" style="background-color:#1b1b1b;">
+
+                                                <span class="addFavCardIcon"><i class="fa-solid fa-square-plus"></i></span>
+                                                {# <span class="lp-gameCardTitle">+</span> #}
+
+                                            </div>
+                                        </div>
+                                    </a>
+
                                     {# Fausse dernière card (espacement) #}
                                     <a class="gameCardLink splide__slide" style="transform:scale(0.9); opacity:0;">
                                         <div class="lp-page3-slideContainer">
