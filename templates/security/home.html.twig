@@ -147,6 +147,23 @@
 
                                     {% endfor %}
 
+                                    {# Fausse dernière card (espacement) #}
+                                    <a class="gameCardLink splide__slide" style="transform:scale(0.9); opacity:0;" >
+                                        <div class="lp-page3-slideContainer">
+                                                <div class="lp-gameCard" style="cursor:default; background-image: linear-gradient(rgba(0, 0, 255, 0.05), rgba(249, 123, 44, 0.5)),url('{{ asset("img/games/headerBackground/lolHeaderBg.jpg")}}'); background-size:cover;">
+                                                    
+                                                    <div class="addFavIconWrapper">
+                                                        {# "+" hover card #}
+                                                        <i class="fa-solid fa-plus favArrayHeart favArrayPlus"></i>
+                                                        {# Coeur ajouté à l'array fav #}
+                                                        <i class="fa-solid fa-heart-circle-check favArrayHeart"></i>
+                                                    </div>
+                                                    
+                                                    <span class="lp-gameCardTitle lp-gameCardAddFavTitle"></span>
+                                                </div>   
+                                        </div>
+                                    </a>
+
                                 </div>
 
                                 <div class="lp-phone-slpideTrait2"></div>
@@ -349,6 +366,17 @@
                                         {% set index = index + 1 %}
 
                                     {% endfor %}
+
+                                    {# Fausse dernière card (espacement) #}
+                                    <a class="gameCardLink splide__slide" style="transform:scale(0.9); opacity:0;">
+                                        <div class="lp-page3-slideContainer">
+                                            <div class="lp-gameCard" style="cursor:default;">
+
+                                                <span class="lp-gameCardTitle"></span>
+
+                                            </div>
+                                        </div>
+                                    </a>
 
                                 </div>
 
