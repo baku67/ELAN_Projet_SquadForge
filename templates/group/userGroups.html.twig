@@ -75,12 +75,31 @@
         <h2 class="pageTitle">Teams</h2>
         
         <div class="groupsGrid">
+
             {% for group in groups %}
+
                 <a href="{{ path('app_groupDetails', {'groupId': group.id } ) }}">
-                    <div>
-                        <p>{{ group.title }}</p>
+                    <div class="teamCard" style="border-color:{{ group.game.color }}">
+
+                        <div class="teamCardTextDiv">
+
+                            <span class="teamCardGameTitle" style="background-color:{{ group.game.color }}">{{ group.game.title }}</span>
+                            
+                            <p class="ellispsis1 teamCardTitleV2">{{ group.title }}</p>
+                        
+                        </div>
+
+                        {# <div class="teamCardImgWrapper"> #}
+                            {% if group.imgUrl is not null %}
+                                <img class="teamCardImg" src="./img/uploads/{{ group.imgUrl }}">
+                            {% else %}
+                                <img class="teamCardImg" src="./img/teamDefaultPic.jpg">
+                            {% endif %}
+                        {# </div> #}
+
                     </div>
                 </a>
+                
             {% endfor %}
 
         </div>

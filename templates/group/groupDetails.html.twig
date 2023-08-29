@@ -165,7 +165,6 @@
             <div>
                 <div class="gameInfosSubTitleBg" style="background-color: {{ gameFrom.color }}"></div>
                 <h3 class="gameSubTitle noMarginBottom"><i class="fa-solid fa-user-group"></i> Membres</h3>
-                <span>( {{ group.members|length }}/{{ group.nbrPlaces }} )</span>
             </div>
 
             <div class="sectionContent">
@@ -199,52 +198,57 @@
 
                 <ul id="membersList" class="membersList">
 
-                {# Card Leader (position 1) #}
-                {% if group.leader == app.user %}
-                    {% set leaderPseudo = "Vous" %}
-                {% else %}
-                    {% set leaderPseudo = group.leader.pseudo %}
-                {% endif %}
+                    <li class="nbrPlacesTeam">
+                        <span>{{ group.members|length }}<span>/</span>{{ group.nbrPlaces }}</span>
+                    </li>
 
-                <li class="memberCard leaderCard" style="background-color: {{ gameFrom.color }}">
-                    {{ leaderPseudo|capitalize }}
-                    <span style="text-align:center; color:#ffe039;filter:drop-shadow(2px 4px 6px black);"><i class="fa-solid fa-crown"></i></span>
-                </li>
-                
-
-                {% set indexMember = 0 %}
-                {% for member in members %}
-            
-                    {% if member != group.leader %}
-                    
-                        {# Leader Card #}
-                        {% if member == app.user %}
-                            {% set memberPseudo = "Vous" %}
-                        {% else %}
-                            {% set memberPseudo = member.pseudo|capitalize %}
-                        {% endif %}
-                        
-                        <li class="memberCard" style="background-color: {{ gameFrom.color }}">{{ memberPseudo }}
-                        {% if app.user == group.leader and app.user != member %}    
-                            <span class="kickMemberBtn" onclick="kickMemberModal{{indexMember}}.showModal()">
-                                <i class="fa-solid fa-user-xmark"></i>
-                            </span> 
-
-                            <dialog class="modalDialog" id="kickMemberModal{{indexMember}}">
-                                <p>Êtes-vous sûr de vouloir éjecter {{ member.pseudo|capitalize }} de la team ?</p>
-                                <a class="confirmModal" href="{{ path('app_kickGroupMember',{'memberId': member.id, 'groupId': group.id, 'type':"normal"}) }}">Oui</a>
-                                <a class="confirmModal" href="{{ path('app_kickGroupMember',{'memberId': member.id, 'groupId': group.id, 'type':"blacklisted"}) }}">Oui et blacklister</a>
-                                <span class="cancelModal" onclick="kickMemberModal{{indexMember}}.close()">Annuler</span>
-                            </dialog>
-
-                        {% endif %}
-                        </li>
-                    
+                    {# Card Leader (position 1) #}
+                    {% if group.leader == app.user %}
+                        {% set leaderPseudo = "Vous" %}
+                    {% else %}
+                        {% set leaderPseudo = group.leader.pseudo %}
                     {% endif %}
 
-                    {% set indexMember = indexMember + 1 %}
+                    <li class="memberCard leaderCard" style="background-color: {{ gameFrom.color }}">
+                        {{ leaderPseudo|capitalize }}
+                        <span style="text-align:center; color:#ffe039;filter:drop-shadow(2px 4px 6px black);"><i class="fa-solid fa-crown"></i></span>
+                    </li>
+                    
+
+                    {% set indexMember = 0 %}
+                    {% for member in members %}
+                
+                        {% if member != group.leader %}
                         
-                {% endfor %}
+                            {# Leader Card #}
+                            {% if member == app.user %}
+                                {% set memberPseudo = "Vous" %}
+                            {% else %}
+                                {% set memberPseudo = member.pseudo|capitalize %}
+                            {% endif %}
+                            
+                            <li class="memberCard" style="background-color: {{ gameFrom.color }}">{{ memberPseudo }}
+                            {% if app.user == group.leader and app.user != member %}    
+                                <span class="kickMemberBtn" onclick="kickMemberModal{{indexMember}}.showModal()">
+                                    <i class="fa-solid fa-user-xmark"></i>
+                                </span> 
+
+                                <dialog class="modalDialog" id="kickMemberModal{{indexMember}}">
+                                    <p>Êtes-vous sûr de vouloir éjecter {{ member.pseudo|capitalize }} de la team ?</p>
+                                    <a class="confirmModal" href="{{ path('app_kickGroupMember',{'memberId': member.id, 'groupId': group.id, 'type':"normal"}) }}">Oui</a>
+                                    <a class="confirmModal" href="{{ path('app_kickGroupMember',{'memberId': member.id, 'groupId': group.id, 'type':"blacklisted"}) }}">Oui et blacklister</a>
+                                    <span class="cancelModal" onclick="kickMemberModal{{indexMember}}.close()">Annuler</span>
+                                </dialog>
+
+                            {% endif %}
+                            </li>
+                        
+                        {% endif %}
+
+                        {% set indexMember = indexMember + 1 %}
+                            
+                    {% endfor %}
+
                 </ul>
 
             </div>
@@ -334,7 +338,7 @@
                         <div style="margin-right:35px; border-right:1px solid {{ gameFrom.color }}70">
                             {# Leader: Passer le lead #}
                             {% if members|length > 1 %}
-                                <p style="margin-top:15px; width:auto;">Passer le lead</p>
+                                <p style="margin-top:15px; width:auto;">Passer le leadership</p>
                                 <div class="passLeadLine" style="display:inline-flex; width:100%;">
                                     <form id="switchTeamLeader" action="{{ path('app_switchTeamLeader',{ 'groupId':group.id }) }}" method="post" style="display:inline-flex;">
                                         <select id="memberLeadSelect" class="form-select" name="memberId" style="font-family: 'K2D', sans serif;">
@@ -351,7 +355,7 @@
                                     </form>
                                 </div>
                             {% else %}
-                                <p style="margin-top:15px; width:auto;">Passer le lead</p>
+                                <p style="margin-top:15px; width:auto;">Passer le leadership</p>
                                 <div class="passLeadLine" style="display:inline-flex; width:100%; opacity:0.5;">
                                     <form id="switchTeamLeader" style="display:inline-flex;">
                                         <select disabled id="memberLeadSelect" class="form-select" name="memberId" style="font-style:italic; color:grey; font-family: 'K2D', sans serif;">
@@ -759,17 +763,25 @@
                             <h5>Questions posés</h5> 
                             {# Liste des questions #}
                             <div class="questionsContainer">
-                            {% for question in questions %}
-                                <div class="questionLineList">
-                                    <div style="display:inline-flex; line-height:0;">
-                                        <p>{{ question.text }}</p>
-                                        {% if question.required %}
-                                            <span class="requiredStar"><i class="fa-solid fa-star-of-life"></i></span>
-                                        {% endif %}
+                            {% if questions|length > 0 %}
+                            
+                                {% for question in questions %}
+                                    <div class="questionLineList">
+                                        <div style="display:inline-flex; line-height:0;">
+                                            <p>{{ question.text }}</p>
+                                            {% if question.required %}
+                                                <span class="requiredStar"><i class="fa-solid fa-star-of-life"></i></span>
+                                            {% endif %}
+                                        </div>
+                                        <a class="deleteQuestion" href="{{ path('app_deleteGroupQuestion',{'groupId': group.id, 'questionId': question.id}) }}" class="deleteQuestionBtn"><i class="fa-solid fa-trash"></i></a>
                                     </div>
-                                    <a class="deleteQuestion" href="{{ path('app_deleteGroupQuestion',{'groupId': group.id, 'questionId': question.id}) }}" class="deleteQuestionBtn"><i class="fa-solid fa-trash"></i></a>
-                                </div>
-                            {% endfor %}
+                                {% endfor %}
+
+                            {% else %}
+                                
+                                <span class="emptyListMsg">Aucune question posée pour l'instant</span>
+
+                            {% endif %}
                             </div>
 
                             {# Ajouter une question #}    
