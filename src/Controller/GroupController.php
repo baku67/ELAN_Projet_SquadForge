@@ -27,6 +27,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Filesystem\Filesystem;
 
 class GroupController extends AbstractController
 {
@@ -449,6 +450,76 @@ class GroupController extends AbstractController
             return $this->redirectToRoute('app_showNotifsList');
         }
     }
+
+
+
+    // Leader: Blacklist du group
+    #[Route('/updateTeamPic/{groupId}', name: 'app_updateTeamPic')]
+    public function updateTeamPic(EntityManagerInterface $entityManager, int $groupId, Request $request, Filesystem $filesystem): Response
+    {
+        
+        // Vérif team existe
+        $group = $entityManager->getRepository(Group::class)->find($groupId);
+        if (!$group) {
+            $this->addFlash('error', 'La team n\'existe pas');
+            return $this->redirectToRoute('app_home');
+        }
+        else {
+
+            // Vérif User connecté et leader de la team
+            if($this->getUser() == $group->getLeader()) {
+
+                // Précédente img
+                $previousImageFilename = $group->getImgUrl();
+
+                $file = $request->files->get('newTeamPic');
+
+                if ($file) {
+
+                    $validMimeTypes = ['image/png', 'image/jpeg'];
+                    if (in_array($file->getMimeType(), $validMimeTypes)) {
+                        try {
+                            // Move the uploaded file to a secure location
+                            $newFilename = uniqid().'.'.$file->guessExtension();
+                            $file->move($this->getParameter('upload_directory'), $newFilename);
+        
+                            // Delete the previous file
+                            if ($previousImageFilename) {
+                                $previousFilePath = $this->getParameter('upload_directory').'/'.$previousImageFilename;
+                                if ($filesystem->exists($previousFilePath)) {
+                                    $filesystem->remove($previousFilePath);
+                                }
+                            }
+
+                            // Update the group's image filename in the database
+                            $group->setImgUrl($newFilename);
+                            $entityManager->flush();
+        
+                            $this->addFlash('success', 'L\'image de la team a bien été modifiée');
+                            return $this->redirectToRoute('app_groupDetails', ['groupId' => $groupId]);
+        
+                        } catch (FileException $e) {
+                            $this->addFlash('error', 'Une erreur est survenue lors du téléchargement de l\'image.');
+                        }
+                    } else {
+                        $this->addFlash('error', 'Le format de l\'image n\'est pas pris en charge.');
+                    }
+                } else {
+                    $this->addFlash('error', 'Aucune image n\'a été téléchargée.');
+                }
+
+            }
+            else {
+                $this->addFlash('error', 'Vous devez être connecté et leader pour faire ceci');
+                return $this->redirectToRoute('app_groupDetails', ['groupId' => $groupId]);
+            }
+        }
+        
+        $this->addFlash('error', 'Vous devez être connecté et leader pour faire ceci');
+        return $this->redirectToRoute('app_groupDetails', ['groupId' => $groupId]);
+
+    }
+    
 
 
 

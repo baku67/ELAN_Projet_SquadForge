@@ -604,8 +604,37 @@ body {
     padding-bottom: 10px;
     border-radius: 13px;
 
-    filter: drop-shadow(-13px 10px 7px black) grayscale(1);
+    /* filter: drop-shadow(-13px 10px 7px black) grayscale(1); */
+    filter: drop-shadow(-13px 10px 7px black) grayscale(0);
 }
+
+.hoverTeamImg {
+    cursor: pointer;
+    transition: all 0.3s;
+}
+.hoverTeamImg:hover {
+    opacity: 0.6;
+}
+.teamImgContainerHover:hover .editTeamImgIcon {
+    opacity: 1;
+}
+
+.editTeamImgIcon {
+    /* TODO Embetant: */
+    /* z-index: -10;  */
+    opacity: 0;
+    position: absolute;
+    /* top: 50%; */
+    /* right: 50%; */
+    right: 4px;
+    top: -11px;
+    /* transform: translate(50%, -50%); */
+    font-size: 5em;
+    color: #e5e5e5d3;
+    transition: all 0.3s;
+}
+
+
 
 .teamImgContainer {
     opacity: 0;
@@ -650,7 +679,7 @@ a {
 }
 .breadcrumbs {
     font-family: 'K2D', sans-serif;
-    margin-bottom: 50px;
+    margin-bottom: 30px;
 }
 
 header {
@@ -2350,7 +2379,11 @@ header {
     border-left: 4px solid var(--primary-color);
 
     width: fit-content;
+
+    text-transform: capitalize;
 }
+
+
 
 .filAriane {
     margin-left: 3%;
@@ -5458,6 +5491,7 @@ input:disabled {
     border-radius: 7px;
     background-color: #e6e6e6;
     font-size: 0.8em;
+    border-width: 2px;
 
 }
 
