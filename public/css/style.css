@@ -645,7 +645,8 @@ dialog::backdrop {
     transition: all 0.3s;
 }
 .hoverTeamImg:hover {
-    opacity: 0.7;
+    opacity: 0.8;
+    filter: drop-shadow(-13px 10px 7px black) grayscale(0) sepia(1);
 }
 .teamImgContainerHover:hover .editTeamImgIcon {
     opacity: 1;
@@ -658,10 +659,10 @@ dialog::backdrop {
     position: absolute;
     /* top: 50%; */
     /* right: 50%; */
-    right: 4px;
-    top: -11px;
+    right: 9px;
+    top: -4px;
     /* transform: translate(50%, -50%); */
-    font-size: 5em;
+    font-size: 3.3em;
     color: #e5e5e5d3;
     transition: all 0.3s;
 }
@@ -677,7 +678,7 @@ dialog::backdrop {
 @keyframes perspectiveImg {
     from {
         opacity: 0;
-        transform: perspective(30px) rotateY(148deg) translateX(35px);
+        transform: perspective(150px) rotateY(148deg) translateX(35px);
     }
     to {
         opacity: 1;
@@ -1785,13 +1786,14 @@ header {
 .gameFavoritedLabel {
     position: absolute;
     right: -1px;
-    padding: 1px 8px;
+    padding: 1px 8px 1px 10px;
     top: -1px;
     background-color: var(--background-color);
     color: var(--primary-color);
     border-top-right-radius: 4px;
     border-bottom-left-radius: 4px;
     clip-path: polygon(8% 0, 100% 0, 92% 100%, 0% 100%);
+    border-bottom: 2px solid;
 }
 
 
@@ -2923,7 +2925,7 @@ nav {
     margin: 0 4px;
 }
 
-.groupTitle {
+/* .groupTitle {
     text-align: center;
     padding: 13px 35px;
     background-color: #1c1c1c;
@@ -2931,7 +2933,22 @@ nav {
     margin: 10px auto;
     border-radius: 3px;
     border-bottom: 2px solid black;
-}
+} */
+
+
+.groupTitle {
+    text-align: center;
+    padding: 13px 78px;
+    background-color: #424242;
+    width: fit-content;
+    margin: 25px auto 15px auto;
+    border-radius: 3px;
+    background: rgb(255,70,85);
+    background: -moz-linear-gradient(85deg, rgba(255,70,85,0) 0%, rgba(66,66,66,0.8057598039215687) 20%, rgba(66,66,66,1) 50%, rgba(66,66,66,0.8057598039215687) 80%, rgba(168,68,76,0) 100%);
+    background: -webkit-linear-gradient(85deg, rgba(255,70,85,0) 0%, rgba(66,66,66,0.8057598039215687) 20%, rgba(66,66,66,1) 50%, rgba(66,66,66,0.8057598039215687) 80%, rgba(168,68,76,0) 100%);
+    background: linear-gradient(85deg, rgba(255,70,85,0) 0%, rgba(66,66,66,0.8057598039215687) 20%, rgba(66,66,66,1) 50%, rgba(66,66,66,0.8057598039215687) 80%, rgba(168,68,76,0) 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#ff4655",endColorstr="#a8444c",GradientType=1);}
+
 
 .noMarginBottom {
     margin-bottom: 0;
@@ -4920,6 +4937,7 @@ cursor: pointer;
 
 .leaderCard {
     /* border: 2px solid #ffe039; */
+    padding: 3px 13px;
 }
 
 

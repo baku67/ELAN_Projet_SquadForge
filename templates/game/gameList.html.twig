@@ -399,6 +399,14 @@
                                                     </svg>
 
                                                     <div id="lp-page3-slide0{{ index }}" class="games-gameCard" style="background-image: linear-gradient(rgba(0, 0, 255, 0.05), rgba(249, 123, 44, 0.5)),url('{{ asset("img/games/headerBackground/" ~ game.subBanner )}}'); background-size:cover;">
+                                                    
+                                                        {# Si jeu déjà fav: ptite icone #}
+                                                        {% if game in app.user.favoris %}
+                                                            <span class="gameFavoritedLabel">
+                                                                <i class="fa-solid fa-heart"></i>
+                                                            </span>
+                                                        {% endif %}
+                                                    
                                                     </div>
 
                                                     <span id="lp-gameCardTitle{{ index }}" value="{{ game.title }}" class="lp-gameCardTitle-games">{{ game.title }}</span>
@@ -493,6 +501,14 @@
                                                     </svg>
 
                                                     <div id="lp-page3-slide0{{ index }}" class="games-gameCard" style="background-image: linear-gradient(rgba(0, 0, 255, 0.05), rgba(249, 123, 44, 0.5)),url('{{ asset("img/games/headerBackground/" ~ game.subBanner )}}'); background-size:cover;">
+                                                    
+                                                        {# Si jeu déjà fav: ptite icone #}
+                                                        {% if game in app.user.favoris %}
+                                                            <span class="gameFavoritedLabel">
+                                                                <i class="fa-solid fa-heart"></i>
+                                                            </span>
+                                                        {% endif %}
+
                                                     </div>
 
                                                     <span id="lp-gameCardTitle{{ index }}" value="{{ game.title }}" class="lp-gameCardTitle-games">{{ game.title }}</span>

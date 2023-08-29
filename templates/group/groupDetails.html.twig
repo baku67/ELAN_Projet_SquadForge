@@ -81,9 +81,9 @@
         <div class="groupHeader" style="background-image: linear-gradient(to right, {{ gameFrom.color }}8c, {{ gameFrom.color }}50, #232323ba, #101010f7), url('../img/testMotif2.jpg'); background-size:contain; border-bottom:3px solid {{ gameFrom.color }};">
 
             <div style="width:60%; position:relative;">
-                <h2 style="color:black; backdrop-filter:blur(32px); width:fit-content; padding:4px 15px; border-radius:4px; background-color:{{ gameFrom.color }}90; border-top-left-radius:7px;"> <i class="fa-solid fa-users-rays"></i> TEAM</h2>
+                <h2 style="color:black; backdrop-filter:blur(4px); width:fit-content; padding:4px 15px; border-radius:5px; border:1px solid {{ gameFrom.color }}; border-left: 4px solid var(--background-color); background-color:{{ gameFrom.color }}78; border-top-left-radius:2px; text-transform:uppercase;"> <i class="fa-solid fa-users-rays"></i> Team</h2>
 
-                <h3 class="groupTitle">{{ group.title }}</h3>
+                <h3 class="groupTitle" style="border-top:1px solid {{group.game.color}}; border-bottom:1px solid {{group.game.color}};">{{ group.title }}</h3>
 
                 <p class="groupDescription">
                     <i class="fa-solid fa-quote-left"></i>
@@ -257,9 +257,7 @@
 
 
 
-
-
-        {# Emplacements de membre vides #}
+        {# Emplacements de membre vides (TODO: remplacer par var Twig) #}
         <span id="nbrPlacesGroup" hidden>{{ group.nbrPlaces }}</span>
         <span id="groupColor" hidden>{{ gameFrom.color }}</span>
         <script>
@@ -267,14 +265,12 @@
                 var nbrPlaces = parseInt(document.getElementById("nbrPlacesGroup").textContent);
                 var membresCount = document.getElementById("membersList").childElementCount;
 
-                for (let index = 0; index < (nbrPlaces - membresCount); index++) {
+                for (let index = -1; index < (nbrPlaces - membresCount); index++) {
                     {% if app.user in members %}
-                        console.log("test1");
                         var voidMember = document.createElement("li");
                         voidMember.className = "voidMemberNoClick";
                         voidMember.innerHTML = "<i class='fa-regular fa-circle-user'></i>";
                     {% else %}
-                        console.log("test2");
                         var voidMember = document.createElement("a");
                         voidMember.href = "{{ path('app_showCandidatureForm', {'groupId':group.id}) }}";
                         voidMember.className = "voidMember";
