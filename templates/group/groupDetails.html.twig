@@ -78,12 +78,13 @@
         </p>
 
         {# <div class="groupHeader" style="background-image: linear-gradient(to top, {{ gameFrom.color }}30, var(--background-color)), url('../img/uploads/{{ group.imgUrl }}'); border: 2px solid {{ gameFrom.color }}"> #}
-        <div class="groupHeader" style="background-color: {{ gameFrom.color }}30; border: 2px solid {{ gameFrom.color }}">
+        {# <div class="groupHeader" style="background-color: {{ gameFrom.color }}30; border: 2px solid {{ gameFrom.color }}"> #}
+        {# <div class="groupHeader" style="background-image: linear-gradient(to right, {{ gameFrom.color }}60, var(--background-color)); border: 1px solid {{ gameFrom.color }}"> #}
+        <div class="groupHeader" style="background-image: linear-gradient(to right, {{ gameFrom.color }}8c, {{ gameFrom.color }}50, #232323ba, #101010), url('../img/testMotif2.jpg'); background-size:contain; border-bottom:3px solid {{ gameFrom.color }};">
 
-            <div style="width:60%;">
-                <h2> <i class="fa-solid fa-users-rays"></i> TEAM</h2>
+            <div style="width:60%; position:relative;">
+                <h2 style="color:black; backdrop-filter:blur(32px); width:fit-content; padding:4px 15px;"> <i class="fa-solid fa-users-rays"></i> TEAM</h2>
 
-                <br>
                 <h3 class="groupTitle">{{ group.title }}</h3>
 
                 <p class="groupDescription">
@@ -92,13 +93,11 @@
                     <i class="fa-solid fa-quote-right"></i>
                 </p>
 
-                <br>
-
-                <p style="font-family:'K2D', sans-serif;">Ancienneté: <span>{{ time_diff(group.creationDate) }}</span></p>
+                <p style="position:absolute; bottom:0; font-family:'K2D', sans-serif; margin-bottom:5px; backdrop-filter:blur(30px); color:black;">Ancienneté: <span>{{ time_diff(group.creationDate) }}</span></p>
         
             </div>
 
-            <div style="width:40%;">
+            <div class="teamImgContainer" style="width:40%;">
                 <img src="../img/uploads/{{ group.imgUrl }}" class="teamImg">
             </div>
         
@@ -909,7 +908,7 @@
                     {% if group.members|length == group.NbrPlaces %}
                         <p class="emptyListMsg">Le groupe est plein, vous ne pouvez pas candidater pour l'instant</p>
                     {% else %}
-                        <a href="{{ path('app_showCandidatureForm',{'groupId': group.id}) }}">Candidater</p>
+                        <a href="{{ path('app_showCandidatureForm',{'groupId': group.id}) }}">Candidater</a>
                     {% endif %}
                 {% endif %}
             {% endif %}
