@@ -575,6 +575,7 @@ class GameController extends AbstractController
                 'color' => $game->getColor(),
                 'logo' => $game->getLogo(),
                 'urlGameDetail' => $urlGameDetail,
+                'subBanner' => $game->getSubBanner(),
             ];
         }
         

@@ -1938,6 +1938,17 @@ header {
     font-size: 1.5em;
 }
 
+.lp-gameCardTitleSearch {
+    font-family: 'K2D', sans-serif;
+    position: relative;
+    top: 102%;
+    width: 100%;
+    text-align: center;
+    display: block;
+    font-weight: bold;
+    font-size: 1.5em;
+}
+
 .lp-gameCardTitle-games {
     /* font-family: 'K2D', sans-serif;
     position: relative;
@@ -3052,8 +3063,14 @@ nav {
 #search-title {
     display: none;
 }
+
 #search-results {
     display: inline-flex;
+    margin-top: 40px;
+    flex-flow: wrap;
+}
+#search-results a {
+    margin-top: 55px;
 }
 
 .gameListCount {
