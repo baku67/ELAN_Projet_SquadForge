@@ -11,6 +11,12 @@
     /* --secondary-font: "'K2D', sans-serif"; */
 }
 
+.form-select:focus {
+    border-color: #86b6fe00;
+    outline: 0;
+    box-shadow: 0 0 0 0.25rem rgba(13,110,253,0);
+}
+
 @font-face {
     font-family: 'twitch'; 
     src: url('../fonts/Twitchy.TV.otf') format('opentype'), 
@@ -91,6 +97,7 @@ body {
         font-family: 'K2D', sans-serif;
         margin: 0px auto;
         color: black;
+        border-radius: 3px;
     } 
 
     .addCensureWordBtn {
@@ -2953,10 +2960,21 @@ nav {
 #memberLeadSubmit {
     display: inline-flex;
     margin: 0 !important;
-    padding: 10px;
+    padding: 11px 10px;
+    border-width: 0;
+}
+#memberLeadSubmit {
+    border-radius: 5px;
 }
 #memberLeadSubmit i {
     margin: 0 4px;
+}
+
+#memberLeadSelect {
+    border-bottom-right-radius: 0;
+    border-top-right-radius: 0;
+    position: relative;
+    right: -3px;
 }
 
 /* .groupTitle {
@@ -4825,7 +4843,7 @@ cursor: pointer;
     display: inline-flex;
     justify-content: space-between;
     width: 92%;
-    margin: 0 auto;
+    margin: 15px auto;
 }
 
 
@@ -5444,7 +5462,7 @@ cursor: pointer;
     /* height: 200px; */
 
     position: relative;
-    z-index: 999;
+    z-index: 100;
 
     transition: all 0.3s;
 }
@@ -5466,7 +5484,7 @@ cursor: pointer;
 
 
 .teamCard:hover .teamCardImg {
-    transform: scale(1.1);
+    transform: scale(1.15);
 }
 .teamCard:hover .teamCardTextDiv {
     color: black;
@@ -5518,13 +5536,17 @@ cursor: pointer;
     justify-items: center;
 }
 
+#motifSelect {
+    margin-bottom: 25px;
+}
+
 .teamCard-isActiveLabel {
     position: absolute;
     bottom: 0;
     font-family: 'K2D';
     right: 0;
     font-size: 0.9em;
-    z-index: 9999;
+    z-index: 105;
     border-bottom-right-radius: 0px !important;
     background-color: #00000075;
     padding: 0px 8px;
@@ -5787,21 +5809,21 @@ input:disabled {
 
 .confirmModal, .cancelModal {
     
-    font-family: 'Julius Sans One', sans-serif;
-    font-size: 0.8em;
-    padding: 8px 20px;
+    font-family: 'K2D', sans-serif;
+    font-size: 1em;
+    padding: 6px 20px;
     margin: 0 5px;
     border-radius: 3px;
 
     cursor: pointer;
-    transition: all 0.4s;
+    transition: all 0.3s;
 }
 
 .confirmModal {
     background-color: var(--primary-color);
 }
 .cancelModal {
-    background-color: indianred;
+    background-color: #bdbdbd;
 }
 
 .confirmModal:hover {

@@ -4,19 +4,66 @@
 
 {% block body %}
 
-    {# /!\ Page affichée uniquement si pas d'user connecté #}
-
-    <header class="globalBanner" style="background: url('{{ asset('img/banner1.jpg') }}' )">
+    <header class="gameHeader" style="background: url('{{ asset('img/banner1.jpg') }}' )">
         <a href="{{ path('app_home') }}"><img src="{{ asset('img/logoSquadForge_v3.png') }}" class="logoPng" id="logoPng" /></a>
         <nav class="navLine">
             <a href="{{ path('app_home') }}" class="homeNav"><i class="fa-solid fa-house"></i></a>
-            <a href="{{ path('app_games') }}" class="gamesNav caps">Jeux</a>
-            <a href="{{ path('app_allGroupList') }}" class="gamesNav caps navActive">Teams</a>
-        </nav>
+            <a href="{{ path('app_games') }}" class="gamesNav caps">jeux</a>
+            {% if app.user %}
+                <a href="{{ path('app_userGroups') }}" class="teamsNav caps navActive">teams</a>
+                <a href="{{ path('app_showNotifsList') }}" class="notifsNav" style="padding:0;">
+                    <div class="navNotifDiv">
+                        <i class="fa-solid fa-bell notifBell"></i>
+                        {# Bulle newNotifCount si > 0 #}
+                        {% if userNotifCount > 0 %}
+                            <span class="newNotifBubbleCount bubleNotif" id="newNotifBubbleCount">{{ userNotifCount }}</span>
+                        {% endif %}
+                    </div>
+                </a>
+            {% else %}
+                <a href="{{ path('app_allGroupList') }}" class="teamsNav caps navActive">teams</a>
+            {% endif %}
+            {% if app.user and "ROLE_MODO" in app.user.roles %}
+            
+                <a href="{{ path('app_moderationDashboard') }}" id="modoNav" class="modoNav">
+                    <div class="modoNavSubDiv">
+                        <span>Modération</span>
+                        {% if modoNotifValidationCount > 0 %}
+                            <span class="newNotifBubbleCount bubleModo1">{{ modoNotifValidationCount }}</span>
+                        {% endif %}
+                        {% if modoNotifReportCount > 0 %}
+                            <span class="newNotifBubbleCount bubleModo2">{{ modoNotifReportCount }}</span>
+                        {% endif %}
+                    </div>
+                </a>
 
+                <script>
+                    // Ajout d'espace libre sur l'onglet Nav "Modération" si bulles (car bulles absolutes)
+                    var paddingRightOnglet = 0;
+                    if({{modoNotifValidationCount}} > 0) {
+                        paddingRightOnglet += 17;
+                    }
+                    if({{modoNotifReportCount}} > 0) {
+                        paddingRightOnglet += 17;
+                    }
+                    document.getElementById('modoNav').style.paddingRight = paddingRightOnglet + "px";
+                </script>
+
+            {% endif %}
+
+        
+        </nav>
     </header>
 
-    <div class="headerUnderline"></div>
+    {# HeaderSouligne + Bandeau avertissement muted #}
+    {% if app.user and app.user.muted and time_diff_future(app.user.endDateStatus) != false %}
+        <div class="headerUnderline"></div>
+        <div class="mutedBanner">  
+            <span><i class="fa-solid fa-circle-exclamation mutedBannerIcon"></i>Vous êtes actuellement réduit au silence <span class="muteEndDate">( fin dans <span class="strongNbr">{{ time_diff_future(app.user.endDateStatus) }}</span> )</span></span>
+        </div>
+    {% else %}
+        <div class="headerUnderline marginBottomHeaderLine"></div>
+    {% endif %}
 
 
 
@@ -26,6 +73,9 @@
         <p class="breadcrumbs"><a class="underlineLink" href="{{ path('app_home') }}">Accueil</a> - Teams</p>
 
         <h2 class="pageTitle">Teams</h2>
+        {% if app.user %}
+            <a href="{{ path('app_userGroups') }}">Mes teams</a>
+        {% endif %}
         
         <div class="groupsGrid">
 

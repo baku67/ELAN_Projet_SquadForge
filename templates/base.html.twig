@@ -200,12 +200,12 @@
                             <li><a href="{{ path('app_showNotifsList') }}">Mes Notifications</a></li>
                             <li><a href="{{ path('app_user') }}">Mon Compte</a></li>
                         </ul>
-                        <ul class="footerList" style="text-align: left;">
+                        <ul class="footerList" style="text-align: left; display:inline-flex; flex-direction:column; justify-content:space-between;">
                             <li><a href="{{ path('app_allTopicsGlobal') }}">Tous les topics</a></li>
                             <li><a href="{{ path('app_allMediasGlobal') }}">Tous les médias</a></li>
                             <li><a href="{{ path('app_games') }}">Tous les jeux</a></li>
                             {# TODO créer la page afficher toutes les teams publiques (adapter l'onglet: si connecté 'Mes teams', sinon 'teams'?) #}
-                            <li><a href="{{ path('app_userGroups') }}">Toutes les teams</a></li>
+                            <li><a href="{{ path('app_allGroupList') }}">Toutes les teams</a></li>
                         </ul>
                     </div>
                 </div>

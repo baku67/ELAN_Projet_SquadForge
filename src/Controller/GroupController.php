@@ -246,11 +246,36 @@ class GroupController extends AbstractController
     public function allGroupList(EntityManagerInterface $entityManager, Request $request): Response
     {
 
+        $notifRepo = $entityManager->getRepository(Notification::class);
+        $mediaRepo = $entityManager->getRepository(Media::class);
+        $topicRepo = $entityManager->getRepository(Topic::class);
+        $groupRepo = $entityManager->getRepository(Group::class);
+        $reportRepo = $entityManager->getRepository(Report::class);
+
+        // Onglet notifs Bulle nbr "non-vues" (int si connécté, null sinon)
+        $userNotifCount = $this->getUser() ? count($notifRepo->findByUserNotSeen($this->getUser())) : null;
+        // Si userModo: Bulles nbr éléments en attente de validation (int si modo, null sinon)
+        if($this->getUser() && in_array('ROLE_MODO', $this->getUser()->getRoles())) {
+            // On compte les Topic et Médias status "waiting"
+            $mediasWaitings = count($mediaRepo->findBy(["validated" => "waiting"]));
+            $topicsWaitings = count($topicRepo->findBy(["validated" => "waiting"]));
+            $modoNotifValidationCount = $mediasWaitings + $topicsWaitings;
+            // Nombre de cards report (groupée, != nbr reports)
+            $modoNotifReportCount = count($reportRepo->getAllReportsGroupedByOjectIdAndType());
+        }
+        else {
+            $modoNotifValidationCount = null;
+            $modoNotifReportCount = null;
+        }
+
         // Toutes les teams du jeu (publiques et orderBy)
         $groupRepo = $entityManager->getRepository(Group::class);
         $groups = $groupRepo->findBy(["status" => "public"]); // where "public" ok
 
         return $this->render('group/allGroupList.html.twig', [
+            'modoNotifValidationCount' => $modoNotifValidationCount,
+            'modoNotifReportCount' => $modoNotifReportCount,
+            'userNotifCount' => $userNotifCount,
             'groups' => $groups,
         ]);
         
