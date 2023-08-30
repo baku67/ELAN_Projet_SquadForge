@@ -75,6 +75,9 @@ class Group
     #[ORM\OneToMany(mappedBy: 'team', targetEntity: GroupSession::class, orphanRemoval: true)]
     private Collection $groupSessions;
 
+    // Non mappé: calcul si la team est "active" (= au moins 1 session le mois précédent)
+    private bool $active;
+
     public function __construct()
     {
         $this->members = new ArrayCollection();
@@ -88,6 +91,20 @@ class Group
     {
         return $this->id;
     }
+
+
+    public function isActive(): ?bool
+    {
+        $lastMonth = (new \DateTime())->modify('-1 month');
+    
+        foreach ($this->groupSessions as $groupSession) {
+            if ($groupSession->getDateStart() >= $lastMonth) {
+                return true; 
+            }
+        }
+        return false;
+    }
+
 
     public function getTitle(): ?string
     {

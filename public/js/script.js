@@ -34,7 +34,7 @@ window.addEventListener('load', function() {
                     document.getElementById('logoPng').style.width = "169px";
                     document.getElementById('logoPng').style.padding = "6px";
                     if(document.getElementsByClassName('navLine')[0] !== null) {
-                        document.getElementsByClassName('navLine')[0].style.bottom = "-3px";
+                        document.getElementsByClassName('navLine')[0].style.bottom = "-4px";
                     }
 
                     if(document.getElementById('headerGameTitle') !== null) {

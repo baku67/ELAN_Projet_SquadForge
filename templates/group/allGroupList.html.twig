@@ -31,24 +31,54 @@
 
             {% for group in groups %}
 
-                <a title='"{{ group.title|capitalize }}"' href="{{ path('app_groupDetails', {'groupId': group.id } ) }}">
+                <a title='"{{ group.title|capitalize }}"' href="{{ path('app_groupDetails', {'groupId': group.id } ) }}" style="width:fit-content;position:relative;">
                     <div class="teamCard" style="border-color:{{ group.game.color }}60">
 
                         <div class="teamCardTextDiv">
 
+                            <div class="absoluteBg-teamCard" style="background-color:{{ group.game.color }}"></div>
+
                             <span class="teamCardGameTitle" style="background-color:{{ group.game.color }}">{{ group.game.title }}</span>
                             
-                            <p class="ellispsis1 teamCardTitleV2">{{ group.title|capitalize }}</p>
+                            <p class="teamCardTitleV2">{{ group.title|capitalize }}</p>
+
+                            <div class="teamCard-members">
+                                <i class="fa-solid fa-user-group"></i> 
+                                <span style="position:relative; top:2px;">{{ group.members|length }}/{{ group.nbrPlaces }}</span>
+                            </div>
+
+                            <ul class="teamCard-criterias">
+                                <li>
+                                    {% if group.restriction18 %}
+                                        <img src="{{ asset('img/criteria_18.png') }}" style="filter:invert(0.9);">
+                                    {% else %}
+                                        <img src="{{ asset('img/criteria_18.png') }}" style="opacity:0.9;">
+                                    {% endif %}
+                                </li>
+                                <li>
+                                    {% if group.restrictionMic %}
+                                        <img src="{{ asset('img/criteria_micro.png') }}" style="filter:invert(0.9);">
+                                    {% else %}
+                                        <img src="{{ asset('img/criteria_micro.png') }}" style="opacity:0.9;">
+                                    {% endif %}
+                                </li>
+                            </ul>
                         
                         </div>
 
-                        {# <div class="teamCardImgWrapper"> #}
+                        <div class="teamCardImgWrapper">
                             {% if group.imgUrl is not null %}
                                 <img class="teamCardImg" src="./img/uploads/{{ group.imgUrl }}">
                             {% else %}
                                 <img class="teamCardImg" src="./img/teamDefaultPic.jpg">
                             {% endif %}
-                        {# </div> #}
+
+                            {# Label si team active (= au moins 1 session moi précédent) #}
+                            {% if group.active %}
+                                <span class="teamCard-isActiveLabel">Actif</span>
+                            {% endif %}
+                            
+                        </div>
 
                     </div>
                 </a>
