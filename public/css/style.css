@@ -634,6 +634,14 @@ dialog::backdrop {
     color: #edb017;
     transform: rotate(31deg);
     text-shadow: 0 0 black;
+
+    transition: all 0.3s;
+}
+
+.teamCard-crownLeader:has( + .teamCard:hover) {
+    right: -39px;
+    top: -42px;
+    transform: rotate(31deg) rotateY(180deg);
 }
 
 
@@ -702,7 +710,7 @@ dialog::backdrop {
     }
     to {
         opacity: 1;
-        transform: perspective(532px) rotateY(148deg) translateX(35px);
+        transform: perspective(832px) rotateY(148deg) translateX(35px);
     }
 }
 
@@ -1596,6 +1604,10 @@ header {
 }
 #lp-page3-list {
     width:100%;
+}
+
+.lessMarginTop {
+    margin: 25px auto !important;
 }
 
 
@@ -2831,6 +2843,7 @@ nav {
 
 .gameHeaderInfosContent {
     padding:25px;
+    padding-top: 0px;
 }
 
 .genreGameList {
@@ -2846,7 +2859,7 @@ nav {
     z-index: 11;
     font-size: 1.6em;
     color: white;
-    bottom: 31px;
+    bottom: 32px;
     right: 0;
     padding-left: 42px;
     padding-right: 16px;
@@ -5069,6 +5082,7 @@ cursor: pointer;
 .navActive {
     /* border-bottom: 3px solid var(--primary-color); */
     background-color: var(--primary-color);
+    color: black;
 }
 
 .notifBell {
@@ -5444,6 +5458,13 @@ cursor: pointer;
     transform: translate(-1px, -1px); */
     /* border-left-width: 5px; */
 }
+
+
+
+
+
+
+
 .teamCard:hover .teamCardImg {
     transform: scale(1.1);
 }

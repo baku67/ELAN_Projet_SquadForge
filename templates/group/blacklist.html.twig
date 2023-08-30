@@ -103,6 +103,22 @@
     {% if group.blacklistedUsers|length > 0 %}
         <a href="{{ path('app_emptyBlacklist',{'groupId': group.id}) }}" class="blacklistBtn">Vider</a>
     {% endif %}
+
+
+    {# // Adaptation couleur borderBottom HeaderFixed #}
+    <script>
+        document.getElementsByClassName('profilIcon')[0].style.color = "{{gameFrom.color}}";
+
+        if (document.getElementById('landingPageBool') == null) {
+            window.addEventListener('scroll', () => {
+                if (window.scrollY > 0) {
+                    if(document.getElementsByClassName('headerFixed')[0] !== null) {
+                        document.getElementsByClassName('headerFixed')[0].style.borderColor = "{{gameFrom.color}}";
+                    }
+                }
+            })
+        }
+    </script>
     
 
 

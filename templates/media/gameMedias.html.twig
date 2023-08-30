@@ -295,33 +295,36 @@
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
     {# (JS) Show/Hide form addTopic/addMedia Btn #}
-        <script>
-                document.querySelector('#createMediaBtn').addEventListener('click', function() {
-                    console.log("test");
-                    document.querySelector('#createMediaForm').classList.toggle("notDisplayed");
-                    if (document.getElementById('createMediaForm').classList.contains("notDisplayed")) {
-                        document.querySelector('#createMediaBtn').innerHTML = '<i class="fa-solid fa-plus" style="color:{{ gameFrom.color }}"></i>&nbsp;Poster';
-                    }
-                    else {
-                        document.querySelector('#createMediaBtn').innerHTML = '<i class="fa-solid fa-minus" style="color:{{ gameFrom.color }}"></i>&nbsp;Annuler';
-                    }
-                });
+    <script>
+            document.querySelector('#createMediaBtn').addEventListener('click', function() {
+                console.log("test");
+                document.querySelector('#createMediaForm').classList.toggle("notDisplayed");
+                if (document.getElementById('createMediaForm').classList.contains("notDisplayed")) {
+                    document.querySelector('#createMediaBtn').innerHTML = '<i class="fa-solid fa-plus" style="color:{{ gameFrom.color }}"></i>&nbsp;Poster';
+                }
+                else {
+                    document.querySelector('#createMediaBtn').innerHTML = '<i class="fa-solid fa-minus" style="color:{{ gameFrom.color }}"></i>&nbsp;Annuler';
+                }
+            });
 
-        </script>
+    </script>
+
+
+    {# // Adaptation couleur borderBottom HeaderFixed #}
+    <script>
+        document.getElementsByClassName('profilIcon')[0].style.color = "{{gameFrom.color}}";
+
+        if (document.getElementById('landingPageBool') == null) {
+            window.addEventListener('scroll', () => {
+                if (window.scrollY > 0) {
+                    if(document.getElementsByClassName('headerFixed')[0] !== null) {
+                        document.getElementsByClassName('headerFixed')[0].style.borderColor = "{{gameFrom.color}}";
+                    }
+                }
+            })
+        }
+    </script>
 
 
 {% endblock %}

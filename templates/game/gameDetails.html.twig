@@ -70,14 +70,14 @@
 
 
     {# Fil d'ariane "breadcrumb" #}
-    <ul class="filAriane">
+    <ul class="filAriane" style="margin-left:8%; margin-top:20px;">
         <li class="arianeLink"><a href="{{ path('app_games') }}">Jeux</a></li>
         <span class="filArianeSepa"> - </span>
         <li class="arianeOnPage">{{ game.title }}</li>
     </ul>
 
 
-    <div class="main">
+    <div class="main" style="width:75% !important;">
 
         {# Test Image Background BRUT #}
         <div class="gameHeaderInfos gameSubImgBg" style="background-image: radial-gradient(circle, rgba(255,255,255,0) 0%, rgba(35,35,35,0.995) 69%), url('{{asset("img/games/headerBackground/" ~ game.subBanner)}}'); border-top: 2px solid {{ game.color }};">
@@ -250,23 +250,78 @@
                     <h4 style="text-align:center;margin-top:20px">Vos Teams</h4>
 
                     {% if userGameGroups|length > 0 %}
+
                     <div class="groupListGrid">
+
                         {% for userGameGroup in userGameGroups %}
                             
-                                <a class="groupCard" href="{{ path('app_groupDetails', {'groupId': userGameGroup.id } ) }}" style="border: 1px solid {{ game.color }}">
-                                    <div>
-                                        <h5 style="background-color: {{ game.color }}; padding: 3px 10px 7px 10px;">
-                                            {{ userGameGroup.title }} 
-                                            {# Icon Leader #}
-                                            {% if userGameGroup.leader == app.user %}<i class="fa-solid fa-crown" style="color:#ffe039;"></i>{% endif %}
-                                        </h5>
-                                    
-                                        <span>{{ userGameGroup.members|length }} / {{ userGameGroup.nbrPlaces }}</span>
+                                
+                            <a title='"{{ userGameGroup.title|capitalize }}"' href="{{ path('app_groupDetails', {'groupId': userGameGroup.id } ) }}" style="width:fit-content;position:relative;">
+
+                                {# Couronne si leader: #}
+                                {% if app.user == userGameGroup.leader %}
+                                    <i class="fa-solid fa-crown teamCard-crownLeader"></i>
+                                {% endif %}
+
+                                <div class="teamCard" style="border-color:{{ userGameGroup.game.color }}60">
+
+                                    <div class="teamCardTextDiv">
+
+                                        <div class="absoluteBg-teamCard" style="background-image:linear-gradient(to top, {{userGameGroup.game.color}}d6, {{userGameGroup.game.color}}), url('../img/testMotif2.jpg'); background-size:cover;"></div>
+
+                                        <span class="teamCardGameTitle" style="background-color:{{ userGameGroup.game.color }}">{{ userGameGroup.game.title }}</span>
+                                        
+                                        <p class="teamCardTitleV2">{{ userGameGroup.title|capitalize }}</p>
+
+                                        <div class="teamCard-members">
+                                            <i class="fa-solid fa-user-group"></i> 
+                                            <span style="position:relative; top:2px;">{{ userGameGroup.members|length }}/{{ userGameGroup.nbrPlaces }}</span>
+                                        </div>
+
+                                        <ul class="teamCard-criterias">
+                                            <li>
+                                                {% if userGameGroup.restriction18 %}
+                                                    <img src="{{ asset('img/criteria_18.png') }}" style="filter:invert(0.9);">
+                                                {% else %}
+                                                    <img src="{{ asset('img/criteria_18.png') }}" style="opacity:0.9;">
+                                                {% endif %}
+                                            </li>
+                                            <li>
+                                                {% if userGameGroup.restrictionMic %}
+                                                    <img src="{{ asset('img/criteria_micro.png') }}" style="filter:invert(0.9);">
+                                                {% else %}
+                                                    <img src="{{ asset('img/criteria_micro.png') }}" style="opacity:0.9;">
+                                                {% endif %}
+                                            </li>
+                                        </ul>
+
                                     </div>
-                                </a>
+
+                                    <div class="teamCardImgWrapper">
+
+                                        {% if userGameGroup.imgUrl is not null and imageExists(userGameGroup.imgUrl) %}
+                                            <img class="teamCardImg" src="/img/uploads/{{ userGameGroup.imgUrl }}">
+                                        {% else %}
+                                            <img class="teamCardImg" src="/img/teamDefaultPic.jpg">
+                                        {% endif %}
+
+                                        {# Label si team active (= au moins 1 session moi précédent) #}
+                                        {% if userGameGroup.active %}
+                                            <span class="teamCard-isActiveLabel">Active</span>
+                                        {% endif %}
+
+                                    </div>
+
+                                </div>
+                            </a>
+
+
+                                
 
                         {% endfor %}
+
                     </div>
+
                     {% else %}
                     <p class="emptyListMsg">Vous n'appartenez à aucune team</p>
                     {% endif %}
@@ -667,6 +722,21 @@
         </div>
         
 
+
+    {# // Adaptation couleur borderBottom HeaderFixed #}
+    <script>
+        document.getElementsByClassName('profilIcon')[0].style.color = "{{game.color}}";
+
+        if (document.getElementById('landingPageBool') == null) {
+            window.addEventListener('scroll', () => {
+                if (window.scrollY > 0) {
+                    if(document.getElementsByClassName('headerFixed')[0] !== null) {
+                        document.getElementsByClassName('headerFixed')[0].style.borderColor = "{{game.color}}";
+                    }
+                }
+            })
+        }
+    </script>
 
 
 

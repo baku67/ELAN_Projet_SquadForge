@@ -75,7 +75,7 @@
         {# Fil d'Ariane #}
         <p class="breadcrumbs"><a class="underlineLink" href="{{ path('app_games') }}">Jeux</a> - <a class="underlineLink" href="{{ path('app_game', {'id': gameFrom.id }) }}">{{ gameFrom.title }}</a> - Teams</p>
 
-        <h2 class="pageTitle">Teams</h2>
+        <h2 class="pageTitle">Teams du jeu</h2>
         
         
         <div class="groupsGrid">
@@ -138,11 +138,24 @@
 
         </div>
 
-
-
-
-
     </div>
+
+
+
+    {# // Adaptation couleur borderBottom HeaderFixed #}
+    <script>
+        document.getElementsByClassName('profilIcon')[0].style.color = "{{gameFrom.color}}";
+
+        if (document.getElementById('landingPageBool') == null) {
+            window.addEventListener('scroll', () => {
+                if (window.scrollY > 0) {
+                    if(document.getElementsByClassName('headerFixed')[0] !== null) {
+                        document.getElementsByClassName('headerFixed')[0].style.borderColor = "{{gameFrom.color}}";
+                    }
+                }
+            })
+        }
+    </script>
 
 
 {% endblock %}
