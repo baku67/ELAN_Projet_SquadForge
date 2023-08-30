@@ -75,19 +75,71 @@
         {# Fil d'Ariane #}
         <p class="breadcrumbs"><a class="underlineLink" href="{{ path('app_games') }}">Jeux</a> - <a class="underlineLink" href="{{ path('app_game', {'id': gameFrom.id }) }}">{{ gameFrom.title }}</a> - Teams</p>
 
-        <h2>TEAMS</h2>
+        <h2 class="pageTitle">Teams</h2>
+        
         
         <div class="groupsGrid">
+
             {% for group in groups %}
-                <a href="{{ path('app_groupDetails', {'groupId': group.id } ) }}">
-                    <div>
-                        {% set membersCount = group.members|length %}
-                        <p>{{ group.title }} &nbsp; ( {{ membersCount }} / {{ group.nbrPlaces }} )</p>
+
+                <a title='"{{ group.title|capitalize }}"' href="{{ path('app_groupDetails', {'groupId': group.id } ) }}" style="width:fit-content;position:relative;">
+                    <div class="teamCard" style="border-color:{{ group.game.color }}60">
+
+                        <div class="teamCardTextDiv">
+
+                            <div class="absoluteBg-teamCard" style="background-image:linear-gradient(to top, {{group.game.color}}d6, {{group.game.color}}), url('../img/testMotif2.jpg'); background-size:cover;"></div>
+
+                            <span class="teamCardGameTitle" style="background-color:{{ group.game.color }}">{{ group.game.title }}</span>
+                            
+                            <p class="teamCardTitleV2">{{ group.title|capitalize }}</p>
+
+                            <div class="teamCard-members">
+                                <i class="fa-solid fa-user-group"></i> 
+                                <span style="position:relative; top:2px;">{{ group.members|length }}/{{ group.nbrPlaces }}</span>
+                            </div>
+
+                            <ul class="teamCard-criterias">
+                                <li>
+                                    {% if group.restriction18 %}
+                                        <img src="{{ asset('img/criteria_18.png') }}" style="filter:invert(0.9);">
+                                    {% else %}
+                                        <img src="{{ asset('img/criteria_18.png') }}" style="opacity:0.9;">
+                                    {% endif %}
+                                </li>
+                                <li>
+                                    {% if group.restrictionMic %}
+                                        <img src="{{ asset('img/criteria_micro.png') }}" style="filter:invert(0.9);">
+                                    {% else %}
+                                        <img src="{{ asset('img/criteria_micro.png') }}" style="opacity:0.9;">
+                                    {% endif %}
+                                </li>
+                            </ul>
+                        
+                        </div>
+
+                        <div class="teamCardImgWrapper">
+                            {% if group.imgUrl is not null and imageExists(group.imgUrl) %}
+                                <img class="teamCardImg" src="/img/uploads/{{ group.imgUrl }}">
+                            {% else %}
+                                <img class="teamCardImg" src="/img/teamDefaultPic.jpg">
+                            {% endif %}
+
+                            {# Label si team active (= au moins 1 session moi précédent) #}
+                            {% if group.active %}
+                                <span class="teamCard-isActiveLabel">Active</span>
+                            {% endif %}
+                            
+                        </div>
+
                     </div>
                 </a>
+                
             {% endfor %}
 
         </div>
+
+
+
 
 
     </div>

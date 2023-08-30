@@ -30,8 +30,18 @@ class AppExtension extends AbstractExtension
             new TwigFunction('getUser', [$this, 'getUser']),
             new TwigFunction('getUserFromUsername', [$this, 'getUserFromUsername']),
             new TwigFunction('getUserFollowedChannels', [$this, 'getUserFollowedChannels']),
+            new TwigFunction('imageExists', [$this, 'imageExists']),
         ];
     }
+
+
+    public function imageExists(string $imgUrl): bool
+    {
+        $imgPath = './img/uploads/' . $imgUrl;
+        return file_exists($imgPath);
+    }
+
+
 
     public function calculateTimeDiff($date): string
     {

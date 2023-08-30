@@ -90,7 +90,7 @@
 
                         <div class="teamCardTextDiv">
 
-                            <div class="absoluteBg-teamCard" style="background-color:{{ group.game.color }}"></div>
+                            <div class="absoluteBg-teamCard" style="background-image:linear-gradient(to top, {{group.game.color}}d6, {{group.game.color}}), url('../img/testMotif2.jpg'); background-size:cover;"></div>
 
                             <span class="teamCardGameTitle" style="background-color:{{ group.game.color }}">{{ group.game.title }}</span>
                             
@@ -122,15 +122,15 @@
 
                         <div class="teamCardImgWrapper">
 
-                            {% if group.imgUrl is not null %}
-                                <img class="teamCardImg" src="./img/uploads/{{ group.imgUrl }}">
+                            {% if group.imgUrl is not null and imageExists(group.imgUrl) %}
+                                <img class="teamCardImg" src="/img/uploads/{{ group.imgUrl }}">
                             {% else %}
-                                <img class="teamCardImg" src="./img/teamDefaultPic.jpg">
+                                <img class="teamCardImg" src="/img/teamDefaultPic.jpg">
                             {% endif %}
 
                             {# Label si team active (= au moins 1 session moi précédent) #}
                             {% if group.active %}
-                                <span class="teamCard-isActiveLabel">Actif</span>
+                                <span class="teamCard-isActiveLabel">Active</span>
                             {% endif %}
 
                         </div>

@@ -2781,7 +2781,8 @@ nav {
 
 .sectionTitleGames {
     /* width: 240px; */
-    width:228px;
+    /* width:228px; */
+    width:215px;
     /* width: 20%; */
     clip-path: polygon(0 0, 100% 0, 87% 100%, 0 100%);
 }
@@ -5418,6 +5419,7 @@ cursor: pointer;
     max-width:100%;
     max-height:100%;
     object-fit: cover;
+    min-height: -webkit-fill-available;
 
     /* padding: 2px 2px 2px 2px; */
     border-top-right-radius: 5px;
@@ -5465,7 +5467,7 @@ cursor: pointer;
     transform: translate(-12px, -2px);
     border-top-left-radius: 3px;
     /* transform: translate(-16px, 7px); */
-    
+    left: 15px;
     color: black;
 
     max-width: 250px;
@@ -5483,7 +5485,7 @@ cursor: pointer;
 }
 
 .groupsGrid {
-    width: 85%;
+    width: 85% !important;
     margin: 45px auto;
     /* text-align-last: center; */
     display: grid;
@@ -5505,7 +5507,7 @@ cursor: pointer;
     border-bottom-right-radius: 0px !important;
     background-color: #00000075;
     padding: 0px 8px;
-    border-radius: 10px;
+    border-top-left-radius: 10px;
 }
 
 .teamCard-criterias {

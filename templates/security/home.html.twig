@@ -417,39 +417,77 @@
 
                 <div>
                     <div class="homeUserTeamsTitle" style="background-color:var(--primary-color);"></div>
-                    <h3 class="homeSubTitle noMarginBottom"><i class="fa-solid fa-users-rays"></i> Teams</h3>
+                    <a href="{{ path('app_allGroupList') }}" style="width:fit-content; display:block;">
+                        <h3 class="homeSubTitle noMarginBottom"><i class="fa-solid fa-users-rays"></i> Teams</h3>
+                    </a>
                 </div>
 
-                <div class="sectionHomeContent genreGameList" style="text-align:center; width:100%;">
+                <div class="sectionHomeContent genreGameList groupsGrid" style="text-align:center; width:100%;">
 
                     {% if userTeams|length > 0 %}
                     
                         {% for userTeam in userTeams %}
-                            <!-- <a class="groupCard" href="{{ path('app_groupDetails', {'groupId': userTeam.id } ) }}" style="position:relative; box-shadow: 0 0 2px 1px {{ userTeam.game.color }};">
-                                <div>
-                                    <div>
-                                        <img src="{{ asset('img/games/tinyLogo/' ~ userTeam.game.tinyLogo) }}" class="tinyLogoTeam">
-                                        <h5 class="teamCardTitle" style="background-color: {{ userTeam.game.color }}; color:{{ userTeam.game.fontColor }};">
-                                            {{ userTeam.title }} 
-                                        </h5>
+
+                            <a title='"{{ userTeam.title|capitalize }}"' href="{{ path('app_groupDetails', {'groupId': userTeam.id } ) }}" style="width:fit-content;position:relative;">
+
+                                {# Couronne si leader: #}
+                                {% if app.user == userTeam.leader %}
+                                    <i class="fa-solid fa-crown teamCard-crownLeader"></i>
+                                {% endif %}
+
+                                <div class="teamCard" style="border-color:{{ userTeam.game.color }}60">
+
+                                    <div class="teamCardTextDiv">
+
+                                        <div class="absoluteBg-teamCard" style="background-image:linear-gradient(to top, {{userTeam.game.color}}d6, {{userTeam.game.color}}), url('../img/testMotif2.jpg'); background-size:cover;"></div>
+
+                                        <span class="teamCardGameTitle" style="background-color:{{ userTeam.game.color }}">{{ userTeam.game.title }}</span>
+                                        
+                                        <p class="teamCardTitleV2">{{ userTeam.title|capitalize }}</p>
+
+                                        <div class="teamCard-members">
+                                            <i class="fa-solid fa-user-group"></i> 
+                                            <span style="position:relative; top:2px;">{{ userTeam.members|length }}/{{ userTeam.nbrPlaces }}</span>
+                                        </div>
+
+                                        <ul class="teamCard-criterias">
+                                            <li>
+                                                {% if userTeam.restriction18 %}
+                                                    <img src="{{ asset('img/criteria_18.png') }}" style="filter:invert(0.9);">
+                                                {% else %}
+                                                    <img src="{{ asset('img/criteria_18.png') }}" style="opacity:0.9;">
+                                                {% endif %}
+                                            </li>
+                                            <li>
+                                                {% if userTeam.restrictionMic %}
+                                                    <img src="{{ asset('img/criteria_micro.png') }}" style="filter:invert(0.9);">
+                                                {% else %}
+                                                    <img src="{{ asset('img/criteria_micro.png') }}" style="opacity:0.9;">
+                                                {% endif %}
+                                            </li>
+                                        </ul>
+
                                     </div>
 
-                                    <div class="teamCardSubInfos" style="border-color: {{ userTeam.game.color }};">
-                                        <span>{{ userTeam.members|length }} / {{ userTeam.nbrPlaces }}</span>
-                                        {# Icon Leader #}
-                                        {% if userTeam.leader == app.user %}<i class="fa-solid fa-crown" style="color:#ffe039;"></i>{% endif %}
-                                    </div>
-                                </div>
-                            </a> -->
+                                    <div class="teamCardImgWrapper">
 
-                            <a class="groupCard" href="{{ path('app_groupDetails', {'groupId': userTeam.id } ) }}" style="position:relative;">
-                                <div>
-                                    <img src="{{ asset('img/games/tinyLogo/' ~ userTeam.game.tinyLogo) }}" class="tinyLogoTeam">
-                                    <h5 title="{{ userTeam.title }}" class="teamCardTitle" style="background-color: {{ userTeam.game.color }}; color:{{ userTeam.game.fontColor }};">
-                                        {{ userTeam.title }} 
-                                    </h5>
+                                        {% if userTeam.imgUrl is not null and imageExists(userTeam.imgUrl) %}
+                                            <img class="teamCardImg" src="/img/uploads/{{ userTeam.imgUrl }}">
+                                        {% else %}
+                                            <img class="teamCardImg" src="/img/teamDefaultPic.jpg">
+                                        {% endif %}
+
+                                        {# Label si team active (= au moins 1 session moi précédent) #}
+                                        {% if userTeam.active %}
+                                            <span class="teamCard-isActiveLabel">Active</span>
+                                        {% endif %}
+
+                                    </div>
+
                                 </div>
                             </a>
+
+
                         {% endfor %}
                     
                     {% else %}
