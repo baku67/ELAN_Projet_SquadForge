@@ -239,6 +239,23 @@ class GroupController extends AbstractController
         ]);
     }
 
+
+
+    // Page "Toutes les teams" (Si !user)
+    #[Route('/allGroupList', name: 'app_allGroupList')]
+    public function allGroupList(EntityManagerInterface $entityManager, Request $request): Response
+    {
+
+        // Toutes les teams du jeu (publiques et orderBy)
+        $groupRepo = $entityManager->getRepository(Group::class);
+        $groups = $groupRepo->findBy(["status" => "public"]); // where "public" ok
+
+        return $this->render('group/allGroupList.html.twig', [
+            'groups' => $groups,
+        ]);
+        
+    }
+
     
 
     // Liste des Teams (publiques!): Id Game

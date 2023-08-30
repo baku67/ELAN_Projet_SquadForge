@@ -1,4 +1,3 @@
-DELETE FROM `user`;
 INSERT INTO `user` (`id`, `email`, `roles`, `password`, `is_verified`, `pseudo`, `auto_play_gifs`, `status`, `end_date_status`, `nbr_censures`) VALUES
 	(3, 'basile08@hotmail.fr', '["ROLE_MODO"]', '$2y$13$PFkqOIh3ZRbIx6totl7OE.aHyfWw9YQcb7ZqN.XeBtsr1YR/lZDiK', 1, 'basile', 1, '', '2023-07-22 21:46:56', 20),
 	(7, 'basile09@hotmail.fr', '[]', '$2y$13$VQhOrGgKRQ1rdIoNWVld9eANrYSBAYbuGOCQQ5rHYbMfzBfpv4Sxa', 1, 'basile2', NULL, 'muted', '2023-07-25 05:33:42', 4),
@@ -9,7 +8,6 @@ INSERT INTO `user` (`id`, `email`, `roles`, `password`, `is_verified`, `pseudo`,
 	(99, 'basile00@hotmail.fr', '[]', '$2y$13$Hl7hpUl.gu6iBmHVCaSBo.4jAKqFpt4Z/yXrWKJj1be1kjdPDYEjm', 0, 'basile00', 1, NULL, NULL, 0);
 
 
-DELETE FROM `genre`;
 INSERT INTO `genre` (`id`, `name`) VALUES
 	(1, 'FPS'),
 	(2, 'indie'),
@@ -17,7 +15,7 @@ INSERT INTO `genre` (`id`, `name`) VALUES
 	(4, 'MOBA');
 
 
-DELETE FROM `game`;
+
 INSERT INTO `game` (`id`, `genre_id`, `title`, `editor`, `publish_date`, `description`, `color`, `logo`, `banner`, `font_color`, `tiny_logo`, `sub_banner`, `nbr_places`, `site_logo`) VALUES
 	(1, 1, 'Overwatch', 'Blizzard', '2017-05-01 21:16:23', 'FPS dynamique et efficace', '#ff9b00', 'overwatchLogo.png', 'overwatchBanner.jpg', 'white', 'overwatch1.png', 'overwatchHeaderBg.jpg', 0, 'logoSquadForge_overwatch.png'),
 	(2, 1, 'Call of Duty', 'Activision', '2002-05-01 21:16:54', 'FPS connu ', '#74c814', 'callOfDutyLogo.png', 'codBanner.jpg', 'white', 'cod1.png', 'callofdutyHeaderBg.jpg', 0, 'logoSquadForge_cod.png'),
@@ -30,7 +28,7 @@ INSERT INTO `game` (`id`, `genre_id`, `title`, `editor`, `publish_date`, `descri
 	(9, 4, 'League of Legend', 'Riot Games', '2023-07-04 00:15:46', 'Bah c\'est lol', '#d4af61', 'lolLogo.jpg', 'lolBanner.jpg', 'white', 'lol1.png', 'lolHeaderBg.jpg', 0, 'logoSquadForge_lol.png');
 
 
-DELETE FROM `censure`;
+
 INSERT INTO `censure` (`id`, `user_id`, `creation_date`, `word`) VALUES
 	(1, 3, '2023-05-17 18:04:44', 'pute'),
 	(2, 3, '2023-05-17 18:13:29', 'merde'),
@@ -50,7 +48,7 @@ INSERT INTO `censure` (`id`, `user_id`, `creation_date`, `word`) VALUES
 	(25, 3, '2023-07-03 23:42:12', 'dfvdfv');
 
 
-DELETE FROM `group`;
+
 INSERT INTO `group` (`id`, `leader_id`, `game_id`, `title`, `description`, `nbr_places`, `creation_date`, `restriction_18`, `restriction_lang`, `status`, `img_url`, `restriction_mic`, `candidature_description`, `restriction_img_proof`) VALUES
 	(36, 7, 1, 'La team overwatch', 'fzefzef', 2, '2023-06-21 21:39:31', 0, 'fr', 'hidden', NULL, 0, NULL, 0),
 	(38, 3, 5, 'Team PUBG du dimanche', 'On joue le dimanche aprèm pour le fun', 3, '2023-06-30 01:14:35', 0, 'fr', 'public', NULL, 0, NULL, 1),
@@ -59,14 +57,13 @@ INSERT INTO `group` (`id`, `leader_id`, `game_id`, `title`, `description`, `nbr_
 	(49, 3, 2, 'fzefzefzef', 'zefzefzef', 2, '2023-08-22 14:57:39', 1, NULL, 'public', NULL, 1, NULL, 1);
 
 
-DELETE FROM `group_question`;
+
 INSERT INTO `group_question` (`id`, `groupe_id`, `text`, `required`) VALUES
 	(30, 36, 'Test 1', 1),
 	(36, 38, 'Test', 1),
 	(38, 39, 'Question 1', 1);
 
 
-DELETE FROM `group_session`;
 INSERT INTO `group_session` (`id`, `team_id`, `date_start`, `date_end`, `title`, `comfirm_needed`) VALUES
 	(4, 47, '2023-07-26 20:25:00', '2023-07-26 21:25:00', 'hrhrtyh', 0),
 	(5, 47, '2023-07-27 09:10:00', '2023-07-28 09:10:00', 'ergheg', 1),
@@ -78,7 +75,7 @@ INSERT INTO `group_session` (`id`, `team_id`, `date_start`, `date_end`, `title`,
 	(14, 49, '2023-08-23 15:10:00', '2023-08-23 17:10:00', 'fesfsefs', NULL);
 
 
-DELETE FROM `group_session_dispo`;
+
 INSERT INTO `group_session_dispo` (`id`, `session_id`, `member_id`, `disponibility`) VALUES
 	(3, 4, 3, 'perhaps'),
 	(4, 4, 8, 'dispo'),
@@ -86,7 +83,7 @@ INSERT INTO `group_session_dispo` (`id`, `session_id`, `member_id`, `disponibili
 
 
 
-DELETE FROM `media`;
+
 INSERT INTO `media` (`id`, `title`, `publish_date`, `url`, `status`, `validated`, `user_id`, `game_id`) VALUES
 	(1, 'Regardez donc ce 360° no scope, il doit etre dégouterrrr', '2023-05-09 08:59:47', 'valorant.gif', 'open', 'validated', 3, 4),
 	(2, 'test topic test topic  test topic', '2023-05-09 11:08:54', 'valorant2.gif', 'open', 'validated', 3, 4),
@@ -116,7 +113,7 @@ INSERT INTO `media` (`id`, `title`, `publish_date`, `url`, `status`, `validated`
 	(74, 'test topic test topic  test topic', '2023-07-19 22:35:14', '64b8490234ab6_1689798914.jpg', 'open', 'waiting', 3, 4);
 
 
-DELETE FROM `media_post`;
+
 INSERT INTO `media_post` (`id`, `user_id`, `media_id`, `text`, `publish_date`) VALUES
 	(1, 3, 17, 'Test publiccation de media Post', '2023-05-10 09:17:16'),
 	(2, 3, 3, 'test post media', '2023-05-10 09:26:29'),
@@ -139,13 +136,13 @@ INSERT INTO `media_post` (`id`, `user_id`, `media_id`, `text`, `publish_date`) V
 	(22, 7, 30, 'test', '2023-07-04 01:24:41');
 
 
-DELETE FROM `media_post_like`;
+
 INSERT INTO `media_post_like` (`id`, `user_id`, `media_post_id`, `state`) VALUES
 	(52, 7, 18, 'upvote');
 
 
 
-DELETE FROM `media_upvotes`;
+
 INSERT INTO `media_upvotes` (`media_id`, `user_id`) VALUES
 	(3, 3),
 	(14, 3),
@@ -167,7 +164,6 @@ INSERT INTO `media_upvotes` (`media_id`, `user_id`) VALUES
 	(43, 7);
 
 
-DELETE FROM `membre_group`;
 INSERT INTO `membre_group` (`group_id`, `user_id`) VALUES
 	(36, 7),
 	(38, 3),
@@ -179,7 +175,6 @@ INSERT INTO `membre_group` (`group_id`, `user_id`) VALUES
 	(49, 3);
 
 
-DELETE FROM `notation`;
 INSERT INTO `notation` (`id`, `user_id`, `game_id`, `note`) VALUES
 	(9, 8, 4, 3),
 	(41, 3, 5, 4),
@@ -192,7 +187,6 @@ INSERT INTO `notation` (`id`, `user_id`, `game_id`, `note`) VALUES
 	(53, 3, 4, 4);
 
 
-DELETE FROM `notification`;
 INSERT INTO `notification` (`id`, `user_id`, `text`, `date_creation`, `seen`, `link`, `clicked`, `type`, `type_id`, `type_nbr`) VALUES
 	(408, 7, '<span style=\'font-weight:bold;text-decoration:underline;\'>Valo team numéro One</span>: Le membre "basile" est dispo pour la session "hrhrtyh" qui a lieu le ', '2023-07-26 21:03:23', 1, NULL, 0, NULL, NULL, NULL),
 	(409, 7, '<span style=\'font-weight:bold;text-decoration:underline;\'>Valo team numéro One</span>: Le membre "basile" est dispo pour la session "hrhrtyh" qui a lieu le ', '2023-07-26 21:03:42', 1, 'http://127.0.0.1:8000/groupDetails/47/409', 0, NULL, NULL, NULL),
@@ -276,7 +270,6 @@ INSERT INTO `notification` (`id`, `user_id`, `text`, `date_creation`, `seen`, `l
 	(517, 3, 'Nouvelle candidature de "basileeee" pour votre team "fzefzefzef"', '2023-08-22 15:24:16', 0, 'http://127.0.0.1:8000/candidatureDetails/89/517', 0, NULL, NULL, NULL);
 
 
-DELETE FROM `report_motif`;
 INSERT INTO `report_motif` (`id`, `text`) VALUES
 	(1, 'Harcèlement'),
 	(3, 'Propos injurieux'),
@@ -287,12 +280,11 @@ INSERT INTO `report_motif` (`id`, `text`) VALUES
 
 
 
-DELETE FROM `report`;
 INSERT INTO `report` (`id`, `user_reporter_id`, `object_id`, `object_type`, `creation_date`, `report_motif_id`) VALUES
 	(70, 3, 53, 'topic', '2023-07-19 22:49:29', 3);
 
 
-DELETE FROM `topic`;
+
 INSERT INTO `topic` (`id`, `title`, `publish_date`, `status`, `validated`, `game_id`, `user_id`, `first_msg`) VALUES
 	(1, 'Je sais pa vou mé', '2023-04-03 23:45:48', 'open', 'validated', 2, 3, 'da zadaz zadad az azd azd a azdad az a azd az az azd zd  zadzdaz azdad zd a zd  zd za zaadazd azda ad az zd azdaza za '),
 	(2, 'Bla bla bla blbla', '2023-05-03 18:57:03', 'closed', 'validated', 2, 3, 'da zadaz zadad az azd azd a azdad az a azd az az azd zd  zadzdaz azdad zd a zd  zd za zaadazd azda ad az zd azdaza za '),
@@ -330,7 +322,7 @@ INSERT INTO `topic` (`id`, `title`, `publish_date`, `status`, `validated`, `game
 
 
 
-DELETE FROM `topic_post`;
+
 INSERT INTO `topic_post` (`id`, `user_id`, `topic_id`, `text`, `publish_date`) VALUES
 	(1, 3, 14, 'test message', '2023-05-05 17:36:59'),
 	(3, 3, 14, 'test réponse 2', '2023-05-05 18:24:25'),
@@ -362,7 +354,7 @@ INSERT INTO `topic_post` (`id`, `user_id`, `topic_id`, `text`, `publish_date`) V
 	(30, NULL, 54, 'test post onDelete User', '2023-08-22 16:12:00');
 
 
-DELETE FROM `post_like`;
+
 INSERT INTO `post_like` (`id`, `user_id`, `topic_post_id`, `state`) VALUES
 	(6, 3, 18, 'upvote'),
 	(7, 3, 19, 'upvote'),
@@ -379,7 +371,7 @@ INSERT INTO `post_like` (`id`, `user_id`, `topic_post_id`, `state`) VALUES
 	(68, 7, 7, 'upvote');
 
 
-DELETE FROM `user_game`;
+
 INSERT INTO `user_game` (`user_id`, `game_id`) VALUES
 	(98, 1),
 	(98, 2),
@@ -391,38 +383,39 @@ INSERT INTO `user_game` (`user_id`, `game_id`) VALUES
 	(98, 8),
 	(98, 9);
 
-DELETE FROM `favoris`;
-INSERT INTO `favoris` (`user_id`, `game_id`) VALUES
-	(3, 2),
-	(3, 4),
-	(3, 5),
-	(3, 6),
-	(7, 2),
-	(8, 4);
+-- INSERT INTO `favoris` (`user_id`, `game_id`) VALUES
+-- 	(3, 2),
+-- 	(3, 4),
+-- 	(3, 5),
+-- 	(3, 6),
+-- 	(7, 2),
+-- 	(8, 4);
 
 
 
 -- TABLES FAV:
 -- Listage de la structure de table squadforge. favoris
-CREATE TABLE IF NOT EXISTS `favoris` (
-  `user_id` int NOT NULL,
-  `game_id` int NOT NULL,
-  PRIMARY KEY (`user_id`,`game_id`),
-  KEY `IDX_8933C432A76ED395` (`user_id`),
-  KEY `IDX_8933C432E48FD905` (`game_id`),
-  CONSTRAINT `FK_8933C432A76ED395` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`) ON DELETE CASCADE,
-  CONSTRAINT `FK_8933C432E48FD905` FOREIGN KEY (`game_id`) REFERENCES `game` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- CREATE TABLE IF NOT EXISTS `favoris` (
+--   `user_id` int NOT NULL,
+--   `game_id` int NOT NULL,
+--   PRIMARY KEY (`user_id`,`game_id`),
+--   KEY `IDX_8933C432A76ED395` (`user_id`),
+--   KEY `IDX_8933C432E48FD905` (`game_id`),
+--   CONSTRAINT `FK_8933C432A76ED395` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`) ON DELETE CASCADE,
+--   CONSTRAINT `FK_8933C432E48FD905` FOREIGN KEY (`game_id`) REFERENCES `game` (`id`)
+-- ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- Listage de la structure de table squadforge. user_game
-CREATE TABLE IF NOT EXISTS `user_game` (
-  `user_id` int NOT NULL,
-  `game_id` int NOT NULL,
-  PRIMARY KEY (`user_id`,`game_id`),
-  KEY `IDX_59AA7D45A76ED395` (`user_id`),
-  KEY `IDX_59AA7D45E48FD905` (`game_id`),
-  CONSTRAINT `FK_59AA7D45A76ED395` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`) ON DELETE CASCADE,
-  CONSTRAINT `FK_59AA7D45E48FD905` FOREIGN KEY (`game_id`) REFERENCES `game` (`id`) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- CREATE TABLE IF NOT EXISTS `user_game` (
+--   `user_id` int NOT NULL,
+--   `game_id` int NOT NULL,
+--   PRIMARY KEY (`user_id`,`game_id`),
+--   KEY `IDX_59AA7D45A76ED395` (`user_id`),
+--   KEY `IDX_59AA7D45E48FD905` (`game_id`),
+--   CONSTRAINT `FK_59AA7D45A76ED395` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`) ON DELETE CASCADE,
+--   CONSTRAINT `FK_59AA7D45E48FD905` FOREIGN KEY (`game_id`) REFERENCES `game` (`id`) ON DELETE CASCADE
+-- ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 

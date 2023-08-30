@@ -4,6 +4,7 @@
 
 {% block body %}
 
+    {# /!\ Page affichée uniquement si user connecté #}
 
     <header class="gameHeader" style="background: url('{{ asset('img/banner1.jpg') }}' )">
         <a href="{{ path('app_home') }}"><img src="{{ asset('img/logoSquadForge_v3.png') }}" class="logoPng" id="logoPng" /></a>
@@ -72,7 +73,7 @@
         {# Fil d'Ariane #}
         <p class="breadcrumbs"><a class="underlineLink" href="{{ path('app_user') }}">Profil</a> - Teams</p>
 
-        <h2 class="pageTitle">Teams</h2>
+        <h2 class="pageTitle">Mes Teams</h2>
         
         <div class="groupsGrid">
 

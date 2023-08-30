@@ -2474,7 +2474,7 @@ nav {
     position: absolute;
     z-index: 11;
 
-    bottom: -3px;
+    bottom: -4px;
     right: 0px;
     /* padding-right: 10px; */
     color: white; 
@@ -4973,27 +4973,27 @@ cursor: pointer;
 }
 
 .gamesNav {
-    padding-top: 7px;
+    padding-top: 5px;
     padding-bottom: 4px;
     border-top: 1px solid rgba(0,0,0,0);
     transition: all 0.25s;
 }
 .teamsNav {
-    padding-top: 7px;
+    padding-top: 5px;
     padding-bottom: 4px;
     border-top: 1px solid rgba(0,0,0,0);
     transition: all 0.25s;
 }
 .homeNav {
-    padding-top: 7px;
+    padding-top: 5px;
     padding-left: 10px;
-    padding-bottom: 4px;
+    padding-bottom: 6px;
     border-top: 1px solid rgba(0,0,0,0);
     transition: all 0.25s;
     border-top-left-radius: 3px;
 }
 .modoNav {
-    padding-top: 6px;
+    padding-top: 5px;
     padding-left: 2px;
     text-transform: uppercase;
     border-left: 1px solid #808080a8;

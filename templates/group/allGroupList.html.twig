@@ -1,0 +1,64 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Topics{% endblock %}
+
+{% block body %}
+
+    {# /!\ Page affichée uniquement si pas d'user connecté #}
+
+    <header class="globalBanner" style="background: url('{{ asset('img/banner1.jpg') }}' )">
+        <a href="{{ path('app_home') }}"><img src="{{ asset('img/logoSquadForge_v3.png') }}" class="logoPng" id="logoPng" /></a>
+        <nav class="navLine">
+            <a href="{{ path('app_home') }}" class="homeNav"><i class="fa-solid fa-house"></i></a>
+            <a href="{{ path('app_games') }}" class="gamesNav caps">Jeux</a>
+            <a href="{{ path('app_allGroupList') }}" class="gamesNav caps navActive">Teams</a>
+        </nav>
+
+    </header>
+
+    <div class="headerUnderline"></div>
+
+
+
+    <div class="main">
+
+        {# Fil d'Ariane #}
+        <p class="breadcrumbs"><a class="underlineLink" href="{{ path('app_home') }}">Accueil</a> - Teams</p>
+
+        <h2 class="pageTitle">Teams</h2>
+        
+        <div class="groupsGrid">
+
+            {% for group in groups %}
+
+                <a title='"{{ group.title|capitalize }}"' href="{{ path('app_groupDetails', {'groupId': group.id } ) }}">
+                    <div class="teamCard" style="border-color:{{ group.game.color }}60">
+
+                        <div class="teamCardTextDiv">
+
+                            <span class="teamCardGameTitle" style="background-color:{{ group.game.color }}">{{ group.game.title }}</span>
+                            
+                            <p class="ellispsis1 teamCardTitleV2">{{ group.title|capitalize }}</p>
+                        
+                        </div>
+
+                        {# <div class="teamCardImgWrapper"> #}
+                            {% if group.imgUrl is not null %}
+                                <img class="teamCardImg" src="./img/uploads/{{ group.imgUrl }}">
+                            {% else %}
+                                <img class="teamCardImg" src="./img/teamDefaultPic.jpg">
+                            {% endif %}
+                        {# </div> #}
+
+                    </div>
+                </a>
+                
+            {% endfor %}
+
+        </div>
+
+
+    </div>
+
+
+{% endblock %}

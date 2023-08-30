@@ -20,6 +20,8 @@
                         {% endif %}
                     </div>
                 </a>
+            {% else %}
+                <a href="{{ path('app_allGroupList') }}" class="teamsNav caps">teams</a>
             {% endif %}
             {% if app.user and "ROLE_MODO" in app.user.roles %}
             
@@ -299,7 +301,7 @@
                                                     <div id="lp-page3-slide0{{ index }}" class="games-gameCard" style="background-image: linear-gradient(rgba(0, 0, 255, 0.05), rgba(249, 123, 44, 0.5)),url('{{ asset("img/games/headerBackground/" ~ game.subBanner )}}'); background-size:cover;">
                                                     
                                                         {# Si jeu déjà fav: ptite icone #}
-                                                        {% if game in app.user.favoris %}
+                                                        {% if app.user and game in app.user.favoris %}
                                                             <span class="gameFavoritedLabel">
                                                                 <i class="fa-solid fa-heart"></i>
                                                             </span>
@@ -401,7 +403,7 @@
                                                     <div id="lp-page3-slide0{{ index }}" class="games-gameCard" style="background-image: linear-gradient(rgba(0, 0, 255, 0.05), rgba(249, 123, 44, 0.5)),url('{{ asset("img/games/headerBackground/" ~ game.subBanner )}}'); background-size:cover;">
                                                     
                                                         {# Si jeu déjà fav: ptite icone #}
-                                                        {% if game in app.user.favoris %}
+                                                        {% if app.user and game in app.user.favoris %}
                                                             <span class="gameFavoritedLabel">
                                                                 <i class="fa-solid fa-heart"></i>
                                                             </span>
@@ -503,7 +505,7 @@
                                                     <div id="lp-page3-slide0{{ index }}" class="games-gameCard" style="background-image: linear-gradient(rgba(0, 0, 255, 0.05), rgba(249, 123, 44, 0.5)),url('{{ asset("img/games/headerBackground/" ~ game.subBanner )}}'); background-size:cover;">
                                                     
                                                         {# Si jeu déjà fav: ptite icone #}
-                                                        {% if game in app.user.favoris %}
+                                                        {% if app.user and game in app.user.favoris %}
                                                             <span class="gameFavoritedLabel">
                                                                 <i class="fa-solid fa-heart"></i>
                                                             </span>

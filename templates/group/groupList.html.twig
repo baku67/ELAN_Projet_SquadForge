@@ -21,6 +21,8 @@
                         {% endif %}
                     </div>
                 </a>
+            {% else %}
+                <a href="{{ path('app_allGroupList') }}" class="teamsNav caps">teams</a>
             {% endif %}
             {% if app.user and "ROLE_MODO" in app.user.roles %}
             
