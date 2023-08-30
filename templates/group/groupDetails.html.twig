@@ -755,7 +755,36 @@
 
 
                         <div style="padding-top:20px; border-top:1px solid {{ gameFrom.color }}50;">
-                            <h5>Message de l'offre</h5>
+
+                            <div style="display:inline-flex;">
+                                <h5>Message de l'offre</h5>
+                                <span id="editCandidatureOfferTxt">
+                                    <i class="fa-solid fa-pen-to-square editCandidatureOfferTxt"></i>
+                                </span>
+                            </div>
+
+                            <p style="font-family:'K2D', sans-serif; font-size:1.2em">{{ group.candidatureTxt }}</p>
+
+                            {# Modal change teamPic #}
+                            <dialog class="modalDialog" id="changeCandidatureTxtModal">
+                                <form method="post" action="{{ path('app_updateTeamCandidatureTxt', {'groupId': group.id}) }}" enctype="multipart/form-data">
+                                
+                                    <p style="font-size:1.3em;">Décrivez quel profil de joueur vous recherchez:</p>
+
+                                    <textarea rows="5" cols="33" name="newTeamCandidatureTxt" class="form-control" style="margin-bottom:20px;">{{ group.candidatureTxt }}</textarea>
+                                
+                                    <button type="submit" class="confirmModal">Mettre à jour</button>
+                                    <span class="cancelModal" onclick="changeCandidatureTxtModal.close()">Annuler</span>
+                                </form>
+                            </dialog>
+
+                            <script>
+                                document.getElementById('editCandidatureOfferTxt').addEventListener("click", function() {
+                                    document.getElementById('changeCandidatureTxtModal').showModal();
+                                })
+                            </script>
+
+
                             <p style="font-family:'K2D';">{{ group.candidatureDescription|capitalize }}</p>
 
                             <h5>Questions posés</h5> 

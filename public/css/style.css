@@ -610,6 +610,19 @@ dialog::backdrop {
     color: #494949;
 }
 
+.editCandidatureOfferTxt {
+    position: relative;
+    margin-left: 12px;
+    bottom: 0px;
+    font-size: 1.3em;
+    color: #c7c7c7;
+    transition: all 0.3s;
+}
+.editCandidatureOfferTxt:hover {
+    cursor: pointer;
+    color: #ffffff;
+}
+
 
 .editNbrPlacesTeam {
     position: absolute;
@@ -660,7 +673,8 @@ dialog::backdrop {
 
 
 .teamImg {
-    min-width: 100%;
+    /* BIEN */
+    /* min-width: 100%;
     max-width: 100%;
     max-height: 400px;
     width: 100%;
@@ -668,10 +682,19 @@ dialog::backdrop {
     position: relative;
     left: 50%;
     transform: translateX(-50%);
-    /* padding-bottom: 10px; */
-    border-radius: 13px;
+    border-radius: 6px;
+    filter: drop-shadow(-13px 10px 7px black) grayscale(0); */
 
-    /* filter: drop-shadow(-13px 10px 7px black) grayscale(1); */
+    min-width: 100%; 
+    max-width: 100%;
+    max-height: 528px;
+    /* width: 100%; */
+    background-size: contain;
+    background-position: center;
+    position: relative;
+    left: 50%;
+    transform: translateX(-50%);
+    border-radius: 6px;
     filter: drop-shadow(-13px 10px 7px black) grayscale(0);
 }
 
@@ -708,7 +731,7 @@ dialog::backdrop {
     opacity: 0;
     transform: perspective(30px) rotateY(148deg) translateX(35px);
 
-    animation: perspectiveImg 1s 0.1s ease 1 forwards;
+    animation: perspectiveImg 0.75s 0.1s ease 1 forwards;
 }
 @keyframes perspectiveImg {
     from {
@@ -717,7 +740,7 @@ dialog::backdrop {
     }
     to {
         opacity: 1;
-        transform: perspective(832px) rotateY(148deg) translateX(35px);
+        transform: perspective(1200px) rotateY(148deg) translateX(35px);
     }
 }
 

@@ -144,53 +144,50 @@ class GroupController extends AbstractController
                             // Récupération de l'image de la team
                             $teamImg = $form->get('imgUrl')->getData();
 
-                            // Vérification de l'extension (.png, .jpg, .jpeg, .gif)
-                            $fileExt = $teamImg->getClientOriginalExtension();
-                            if ($fileExt != "png" && $fileExt != "PNG" && $fileExt != "jpg" && $fileExt != "JPG" && $fileExt != "jpeg" && $fileExt != "gif") {
-                                $this->addFlash('error', 'Le format "' . $fileExt . '" n\'est pas supporté');
-                                return $this->redirectToRoute('app_createGroup', ['gameIdFrom' => $gameFrom->getId()]);
+                            if(!is_null($teamImg)) {
+                                // Vérification de l'extension (.png, .jpg, .jpeg, .gif)
+                                $fileExt = $teamImg->getClientOriginalExtension();
+                                if ($fileExt != "png" && $fileExt != "PNG" && $fileExt != "jpg" && $fileExt != "JPG" && $fileExt != "jpeg" && $fileExt != "gif") {
+                                    $this->addFlash('error', 'Le format "' . $fileExt . '" n\'est pas supporté');
+                                    return $this->redirectToRoute('app_createGroup', ['gameIdFrom' => $gameFrom->getId()]);
+                                }
+
+                                // Vérification de la taille du fichier + Vérif que c'est bien un fichier qui est uploadé (pour pouvoir utiliser getSize())
+                                // Attention: vérifications Front en amont "maxFileSize" dans "gameDetails.html.twig"
+                                $maxFileSize = 5 * 1024 * 1024; /* (5MB) */
+                                if ($teamImg instanceof UploadedFile && $teamImg->getSize() > $maxFileSize) {
+                                    $this->addFlash('error', 'Le fichier est trop volumineux');
+                                    return $this->redirectToRoute('app_createGroup', ['gameIdFrom' => $gameFrom->getId()]);
+                                }
+
+                                // Compression et Resize (GIF/PNG ou JPG) avec library "Imagine"
+                                // $imagine = new Imagine();
+
+                                // if (in_array($fileExt, ['gif', 'png'], true)) {
+                                //     $image = $imagine->open($teamImg->getPathname());
+                                //     // $image->resize(new Box(800, 600));
+                                //     $image->save($pathToSave, ['png_compression_level' => 9]);
+                                // }
+                                // else {
+                                //     $image = $imagine->open($teamImg->getPathname());
+                                //     // $image->resize(new Box(800, 600));
+                                //     $image->save($pathToSave, ['jpeg_quality' => 80]);
+                                // }
+
+                                $genImgName = $this->generateCustomFileName() . "." . $fileExt;
+
+                                try {
+                                    $teamImg->move(
+                                    // $image->move(
+                                        $this->getParameter('upload_directory'),
+                                        $genImgName
+                                    );
+                                } catch (FileException $e) {
+                                    $this->addFlash('error', 'Il y a eu un problème lors de l\'upload du fichier');
+                                    return $this->redirectToRoute('app_createGroup', ['gameIdFrom' => $gameFrom->getId()]);
+                                }
+                                $group->setImgUrl($genImgName);
                             }
-
-                            // Vérification de la taille du fichier + Vérif que c'est bien un fichier qui est uploadé (pour pouvoir utiliser getSize())
-                            // Attention: vérifications Front en amont "maxFileSize" dans "gameDetails.html.twig"
-                            $maxFileSize = 5 * 1024 * 1024; /* (5MB) */
-                            if ($teamImg instanceof UploadedFile && $teamImg->getSize() > $maxFileSize) {
-                                $this->addFlash('error', 'Le fichier est trop volumineux');
-                                return $this->redirectToRoute('app_createGroup', ['gameIdFrom' => $gameFrom->getId()]);
-                            }
-
-                            // Compression et Resize (GIF/PNG ou JPG) avec library "Imagine"
-                            // $imagine = new Imagine();
-
-                            // if (in_array($fileExt, ['gif', 'png'], true)) {
-                            //     $image = $imagine->open($teamImg->getPathname());
-                            //     // $image->resize(new Box(800, 600));
-                            //     $image->save($pathToSave, ['png_compression_level' => 9]);
-                            // }
-                            // else {
-                            //     $image = $imagine->open($teamImg->getPathname());
-                            //     // $image->resize(new Box(800, 600));
-                            //     $image->save($pathToSave, ['jpeg_quality' => 80]);
-                            // }
-
-                            $genImgName = $this->generateCustomFileName() . "." . $fileExt;
-
-                            try {
-                                $teamImg->move(
-                                // $image->move(
-                                    $this->getParameter('upload_directory'),
-                                    $genImgName
-                                );
-                            } catch (FileException $e) {
-                                $this->addFlash('error', 'Il y a eu un problème lors de l\'upload du fichier');
-                                return $this->redirectToRoute('app_createGroup', ['gameIdFrom' => $gameFrom->getId()]);
-                            }
-                            $group->setImgUrl($genImgName);
-
-
-
-
-
 
 
                             
@@ -563,6 +560,48 @@ class GroupController extends AbstractController
         $this->addFlash('error', 'Vous devez être connecté et leader pour faire ceci');
         return $this->redirectToRoute('app_groupDetails', ['groupId' => $groupId]);
 
+    }
+
+
+
+
+
+
+
+
+
+    // Leader: Modifier l'image de la team
+    #[Route('/updateTeamCandidatureTxt/{groupId}', name: 'app_updateTeamCandidatureTxt')]
+    public function updateTeamCandidatureTxt(EntityManagerInterface $entityManager, int $groupId, Request $request): Response
+    {
+        
+        // Vérif team existe
+        $group = $entityManager->getRepository(Group::class)->find($groupId);
+        if (!$group) {
+            $this->addFlash('error', 'La team n\'existe pas');
+            return $this->redirectToRoute('app_home');
+        }
+        else {
+
+            // Vérif User connecté et leader de la team
+            if($this->getUser() == $group->getLeader()) {
+
+                $newText = $request->get('newTeamCandidatureTxt');
+
+                // TODO validation/sanitize:
+                $group->setCandidatureTxt($newText);
+
+                $entityManager->persist($group);
+                $entityManager->flush();
+
+                $this->addFlash('success', 'Le texte de candidature a bien été mise à jour');
+                return $this->redirectToRoute('app_groupDetails', ['groupId' => $groupId]);
+            }
+            else {
+                $this->addFlash('error', 'Vous devez être connecté et leader pour faire ceci');
+                return $this->redirectToRoute('app_groupDetails', ['groupId' => $groupId]);
+            }
+        }
     }
 
 

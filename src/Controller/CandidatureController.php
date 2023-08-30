@@ -402,7 +402,7 @@ class CandidatureController extends AbstractController
                             }
                         }
 
-                        return $this->render('group/groupCandidatureForm.html.twig', [
+                        return $this->render('candidature/groupCandidatureForm.html.twig', [
                             'modoNotifValidationCount' => $modoNotifValidationCount,
                             'modoNotifReportCount' => $modoNotifReportCount,
                             'userNotifCount' => $userNotifCount,

@@ -78,6 +78,9 @@ class Group
     // Non mappé: calcul si la team est "active" (= au moins 1 session le mois précédent)
     private bool $active;
 
+    #[ORM\Column(type: Types::TEXT, nullable: true)]
+    private ?string $candidature_txt = null;
+
     public function __construct()
     {
         $this->members = new ArrayCollection();
@@ -396,6 +399,18 @@ class Group
                 $groupSession->setTeam(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getCandidatureTxt(): ?string
+    {
+        return $this->candidature_txt;
+    }
+
+    public function setCandidatureTxt(?string $candidature_txt): static
+    {
+        $this->candidature_txt = $candidature_txt;
 
         return $this;
     }
