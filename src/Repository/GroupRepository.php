@@ -41,6 +41,19 @@ class GroupRepository extends ServiceEntityRepository
         }
     }
 
+    public function findByWithoutMembership($user): array
+    {
+
+        return $this->createQueryBuilder('g')
+            ->where(':user NOT MEMBER OF g.members')
+            ->andwhere('g.status = :status')
+            ->setParameter('user', $user)
+            ->setParameter('status', "public")
+            ->getQuery()
+            ->getResult();
+
+    }
+
 
     
     // TODO: c'est des findBy ?
@@ -59,7 +72,7 @@ class GroupRepository extends ServiceEntityRepository
     }
 
 
-    // Liste des groups dont l'user est memebre/(leader? sépraré)
+    // Liste des groups dont l'user est membre/(leader? sépraré)
     public function findUserGroups(User $user): array
     {   
         // where status = public, game, orderBy

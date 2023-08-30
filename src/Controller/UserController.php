@@ -7,6 +7,7 @@ use App\Entity\User;
 use App\Entity\Game;
 use App\Entity\Topic;
 use App\Entity\Media;
+use App\Entity\Report;
 
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\PersistentCollection;

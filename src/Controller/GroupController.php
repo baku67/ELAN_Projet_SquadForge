@@ -265,9 +265,16 @@ class GroupController extends AbstractController
             $modoNotifReportCount = null;
         }
 
-        // Toutes les teams du jeu (publiques et orderBy)
-        $groupRepo = $entityManager->getRepository(Group::class);
-        $groups = $groupRepo->findBy(["status" => "public"]); // where "public" ok
+        if($this->getUser()) {
+            // Toutes les teams du jeu sauf dont l'user est membre (publiques et orderBy)
+            $groupRepo = $entityManager->getRepository(Group::class);
+            $groups = $groupRepo->findByWithoutMembership($this->getUser()); 
+        }
+        else {
+            // Toutes les teams du jeu (publiques et orderBy)
+            $groupRepo = $entityManager->getRepository(Group::class);
+            $groups = $groupRepo->findBy(["status" => "public"]); 
+        }
 
         return $this->render('group/allGroupList.html.twig', [
             'modoNotifValidationCount' => $modoNotifValidationCount,
