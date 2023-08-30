@@ -36,7 +36,7 @@ class GroupType extends AbstractType
     {
         $builder
             ->add('title', TextType::class, [
-                'label' => 'Titre',
+                'label' => 'Titre *',
                 'required' => true,
                 'attr' => [
                     "class" => "form-control",
@@ -54,6 +54,7 @@ class GroupType extends AbstractType
                 ],
             ])
             ->add('description', TextareaType::class, [
+                'label' => 'Description *',
                 'required' => true,
                 'attr' => [
                     "class" => "form-control",
@@ -71,7 +72,7 @@ class GroupType extends AbstractType
                 ],
             ])
             ->add('nbrPlaces', IntegerType::class, [
-                'label' => "Places",
+                'label' => "Places *",
                 "required" => false,
                 'attr' => [
                     "class" => "form-control nbrPlaceInput",
@@ -105,32 +106,33 @@ class GroupType extends AbstractType
                     "class" => "form-check-input"
                 ],
             ])
-            ->add('restriction_imgProof', CheckboxType::class, [
-                'label' => "Autoriser pièce jointe: ",
-                'required' => false,
-                'attr' => [
-                    "class" => "form-check-input"
-                ],
-            ])
-            ->add('restriction_lang', ChoiceType::class, [
-                'label' => 'Langue',
-                'required' => false,
-                'choices' => [
-                    'French' => 'fr',
-                    'English' => 'en',
-                    'German' => 'ge',
-                ],
-                'placeholder' => '-- Pas de restriction', // Optional: Add a placeholder option
-                'attr' => [
-                    // "value" => "",
-                    "class" => "form-control",
-                ],
-            ])
+            // ->add('restriction_imgProof', CheckboxType::class, [
+            //     'label' => "Autoriser pièce jointe: ",
+            //     'required' => false,
+            //     'attr' => [
+            //         "class" => "form-check-input"
+            //     ],
+            // ])
+            // ->add('restriction_lang', ChoiceType::class, [
+            //     'label' => 'Langue',
+            //     'required' => false,
+            //     'choices' => [
+            //         'French' => 'fr',
+            //         'English' => 'en',
+            //         'German' => 'ge',
+            //     ],
+            //     'placeholder' => '-- Pas de restriction', // Optional: Add a placeholder option
+            //     'attr' => [
+            //         // "value" => "",
+            //         "class" => "form-control",
+            //     ],
+            // ])
             ->add('status', CheckboxType::class, [
                 'label' => "Publique",
                 'required' => false,
                 'attr' => [
-                    "class" => "form-check-input"
+                    "class" => "form-check-input",
+                    "checked" => true,
                 ],
             ])
 

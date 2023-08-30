@@ -1729,7 +1729,7 @@ header {
     background-color: #313131 !important;
 }
 .addFavCard:hover .addFavCardIcon {
-    font-size: 5em;
+    font-size: 4em;
 }
 
 
@@ -1848,12 +1848,13 @@ header {
 .gameFavoritedLabel {
     position: absolute;
     right: -1px;
-    padding: 1px 8px 1px 10px;
+    padding: 1px 8px 1px 11px;
     top: -1px;
+    font-size: 1.1em;
     background-color: var(--background-color);
     color: var(--primary-color);
     border-top-right-radius: 4px;
-    border-bottom-left-radius: 4px;
+    border-bottom-left-radius: 13px;
     clip-path: polygon(8% 0, 100% 0, 92% 100%, 0% 100%);
     border-bottom: 2px solid;
 }
@@ -1951,7 +1952,7 @@ header {
     font-size: 1.3em;
     /* left: 50%;
     transform: translate(-38%, 3px); */
-    left: 10px;
+    left: -12px;
 
     margin-top: 10px;
 
@@ -3336,6 +3337,9 @@ nav {
     border-bottom-left-radius: 9px;
     /* border-bottom: 1px solid #f97b2c0d; */
     border-right: 1px solid #f97b2c1f;
+
+    border-bottom-left-radius: 14px !important;
+    overflow: hidden;
 }
 
 
@@ -3620,7 +3624,7 @@ nav {
         width: 5px;
     }
     to {
-        width:190px; 
+        width:270px; 
     }
 }
 
@@ -4179,9 +4183,10 @@ nav {
 
 
 .form-control {
-    background-color:rgb(75, 75, 75);
+    background-color:rgb(80, 80, 80);
     border: 0px solid;
     font-family: 'K2D', sans-serif;
+    color: #b6b6b6;
 
     transition: all 0.4s;
 }
@@ -4849,8 +4854,8 @@ cursor: pointer;
 }
 
 .formAddGroup {
-    width: 70%;
-    margin: 0 auto;
+    width: 40%;
+    margin: 60px auto 60px 100px;
 }
 
 

@@ -73,10 +73,34 @@
         {# Fil d'Ariane #}
         <p class="breadcrumbs"><a class="underlineLink" href="{{ path('app_games') }}">Jeux</a> - <a class="underlineLink" href="{{ path('app_game', {'id': gameFrom.id }) }}">{{ gameFrom.title }}</a> - Créer une team</p>
 
-        <h2>TEAMS</h2>
+        <h2 class="pageTitle">Créer une team</h2>
 
         <div class="formAddGroup">
             {{ form_start(formAddGroup) }}
+
+                <div style="margin:20px auto;">
+                    {{ form_row(formAddGroup.title) }} 
+                    {{ form_row(formAddGroup.description) }} 
+                </div>
+
+                <div style="margin:20px auto; display:inline-flex; width:100%; justify-content:space-evenly;">
+                    <div>
+                        {{ form_row(formAddGroup.nbrPlaces) }} 
+                    </div>
+                    <div>
+                        {{ form_row(formAddGroup.restriction_18) }} 
+                        {{ form_row(formAddGroup.restriction_mic) }} 
+                        {{ form_row(formAddGroup.status) }} 
+                    </div>
+                </div>
+
+                <div style="margin:20px auto;">
+                    {{ form_row(formAddGroup.imgUrl) }} 
+                </div>
+
+                <div style="text-align:right; margin-top:30px;">
+                    {{ form_row(formAddGroup.submit) }}
+                </div>
 
             {{ form_end(formAddGroup) }}
         </div>
