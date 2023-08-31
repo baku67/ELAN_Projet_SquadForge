@@ -9,7 +9,7 @@
         height: 65vh;
         /* Bidouillage: fix decalage */
         width: 110%;
-        padding-right: 50px;
+        padding-right: 40px;
 
     }
     #lp-page1b {
@@ -74,12 +74,19 @@
     }
 
     .lp-p2a {
-        height: 100vh;
+        height: 50vh;
         display: inline-flex;
         flex-direction: column-reverse;
+        justify-content: space-around;
     }
     .lp-p2b {
-        display: none;
+        margin-top: 30px;
+        height: 40vh;
+        display: inline-flex;
+    }
+
+    .lp-p2-leftSection {
+        width: 100%;
     }
 
     .splide__arrow {
@@ -89,6 +96,18 @@
         padding: 58px 0px 40px 0px;
     }
 
+    .lp-p2-rightSectionTitle {
+        font-family: 'K2D', sans-serif;
+        text-align: center;
+        display: block;
+        position: relative;
+        top: 40%;
+        transform: translate(0px, 0%);
+        margin: 0 auto;
+        width: 100%;
+        font-size: 1.1em;
+    }
+
     .gameSelectedBracketUp {
         /* display:none; */
         display: block;
@@ -96,20 +115,109 @@
 
         height: 89px;
         width: 294px;
-        left: -158px;
-        top: 10px;
+        left: -150px;
+        top: -7px;
+    }
+    .gameSelectedBracketUpPath {
+        transform: scale(0.85) !important;
+        stroke-width: 5px;
     }
     .gameSelectedBracketDown {
         /* display:none; */
         display: block;
         transform: rotate(90deg) scale(0.47);
 
-        left: 63px;
-        bottom: 13px;
+        left: 131px;
+        bottom: -9px;
+    }
+    .gameSelectedBracketDownPath {
+        transform: scale(0.85) !important;
+        stroke-width: 5px;
     }
 
 
+    .lp-page3-slideContainer {
+        transition: all 0.3s;
+    }
+    .lp-page3-slideContainer:hover {
+        margin: 15px 0;
+    }
+
+
+    .lp-searchFiltersDiv {
+        width: 100%;
+    }
+    .filterIcon {
+        font-size: 2.7em;
+        top:10px;
+        opacity: 0.9;
+    }
+    .lp-filtersLabel {
+        opacity: 1;
+    }
+
+    #lp-teamsCardGameSelected {
+        display: none;
+    }
+
+
+    .twitchLogoSvgContainer {
+        position: relative;
+        transform: scale(0.7) !important;
+        width: 100%;
+        height: 20vh;
+        background: radial-gradient(circle, rgba(145,70,255,0.4) 0%, rgba(35,35,35,0) 70%);
+
+        transform: translateX(0px);
+    }
+    .lp-p2a-wrapper {
+        width: 100%;
+    }
+    .lp-p2a-content {
+        top: 0;
+        left: 0px;
+        transform: translateY(0);
+    }
+
+    .twitchPresentation {
+        font-family: 'K2D', sans-serif;
+        font-size: 1.2em;
+        width: 90%;
+        margin: 20px auto;
+    }
+
+    .twitchLoginBtn {
+        padding: 20px 25px 20px 25px;
+        background-color: #9146FF;
+        border-radius: 4px;
+        color: white;
+        font-size: 1em;
+        transition: all 0.4s;
+        -webkit-border-radius: 4px;
+    }
+
+    .twitchSvg2 {
+        z-index: 100;
+        height: 300px;
+        position: absolute;
+        top: 58%;
+        left: 56%;
+        transform: translate(-41%, -43%);
+    }
+
+    /* #logoTwitchEye1 {
+        top: 46%;
+        left: 62%;
+        transform: translate(-62%, -50%);
+    } */
+    #logoTwitchEye2 {
+        top: 46%;
+        left: 62%;
+        transform: translate(-62%, -50%);
+    }
+
     .lp-p2-rightSection {
+        border-radius: 7px;
         width: 100%;
         right: 0;
         bottom: -600px;
@@ -126,6 +234,56 @@
         }
     }
 
+
+    .lp-p2-leftSection-icon1 {
+        color: var(--background-color);
+        z-index: 9999;
+        opacity: 1;
+        font-size: 2.5em;
+        top: 20px;
+        right: 34px;
+        transform: rotate3d(1, 1, 1, 7deg);
+    }
+
+    .lp-p2-leftSection-icon2 {
+        color: var(--background-color);
+        z-index: 9999;
+        opacity: 1;
+        font-size: 2.5em !important;
+        top: 48px;
+        left: 45px;
+        transform: rotate3d(1, 1, 1, 7deg);
+    }
+
+
+    .searchContainer {
+        position: relative;
+        right: 18px;
+
+        width: 85%;
+        margin: 0 auto;
+        right: 0;
+    }
+
+    #lp-page4-separator {
+        height: 1px;
+    }
+
+    .choseGameArrow {
+        font-size: 2.5em;
+    }
+
+    #lp-searchText { 
+        width: -webkit-fill-available;
+}
+
+
+    .lp-p2-leftSectionImg {
+        width: 82%;
+        bottom: 37px;
+        left: 26px;
+    }
+
     .lp-gameCard {
         margin: 0px 0px;
         width: 60%;
@@ -133,7 +291,7 @@
         height: 80px;
         border-top-right-radius: 0px;
         border-bottom-right-radius: 0px;
-
+        border-radius: 2px;
 
     }
 
@@ -150,11 +308,36 @@
 
     .main {
         width: 92%;
+        margin: 20px auto 25px;
+    }
+
+
+    .footerFlexContainer {
+        width:90%; 
+        margin:0 auto; 
+        display:inline-flex; 
+        flex-direction: column;
+        margin:0px auto 25px auto !important;
+    }
+    .footerSection1 {
+        width: 100% !important;
+    }
+    .footerSection2 {
+        border-left: 0px solid !important;
+        border-top: 1px solid var(--primary-color) !important;
+        width: 100% !important;
+        padding-top: 26px;
+    }
+
+    .footerSection1lists {
+        font-size: 1em !important;
     }
 
 
     .splideGames {
         flex-direction: column;
+
+        background-image: linear-gradient(to bottom, #80808070, #67676770, #4f4f4f70, #38383870, #232323);
     }
 
 
@@ -163,9 +346,52 @@
     }
 
     #search-form {
-        width: 90%;
+        width: 95%;
         position: relative;
-        margin: 17px auto;
+        margin: 20px auto 5px auto;
+    }
+
+    .pageTitle {
+        font-size: 1.55em;
+    }
+
+    .sectionHomeContainerGames {
+        margin: 15px auto 25px auto;
+    }
+
+    .sectionTitleGames {
+        width: 100%;
+        clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
+    }
+    .GamesGenreTitle {
+        background-image: linear-gradient(to bottom, #2ce4f96e,#f97b2cc7,#f97b2ceb, #232323eb), url('../img/testMotif2.jpg');
+        animation: GamesGenreTitle1 0.2s 0s ease-in-out forwards, GamesGenreTitle2 0.3s 0.25s ease-in-out forwards;
+    }
+
+    @keyframes GamesGenreTitle1 {
+        0% {
+            height: 0px;
+        }
+        100% {
+            height:280px; 
+        }
+    }
+    @keyframes GamesGenreTitle2 {
+        0% {
+            width: 1%;
+        }
+        100% {
+            width:100%; 
+        }
+    }
+
+    .games-container-phone {
+        overflow: hidden;
+        height: min-content !important;
+    }
+
+    .lp-gameCardTitle-games {
+        display: none;
     }
 
     .gameFiltersDiv {
@@ -182,6 +408,87 @@
         margin: 0;
         border-top-right-radius: 0px;
         border-bottom-right-radius: 0px;
+        border-top-left-radius: 2px;
+        border-bottom-left-radius: 2px;
+
+        height:75px;
+    }
+
+    .gamesSubTitle {
+        border-top-width: 0px;
+    }
+
+    .gamesSplideContainer {
+        transform: translateX(0px);
+
+        border-bottom: 1px solid #656565;
+        border-left: 1px solid black;
+        border-right: 1px solid black;
+
+        clip-path: polygon(0% 0, 100% 0, 100% 100%, 0% 100%);
+    }
+
+    .sectionTitleGames h3 {
+        display: inline-flex;
+        flex-direction: row;
+        align-items: center;
+        padding: 13px 0;
+        justify-content: space-evenly;
+        gap: 0;
+    }
+
+    .gameCardLink {
+        margin: 0 auto;
+    }
+
+    #search-input {
+        height: 3em;
+        padding: 0.42rem 0.75rem 0.42rem 3.2rem;
+    }
+    #searchFormLoupe {
+        top: 14px;
+        left: 18px;
+        font-size: 1.4em;
+    }
+
+    #gameFilterBr, #gameFilterFps, #gameFilterMoba, #gameFilterArcade {
+        text-wrap: nowrap;
+    }
+
+    .gamesFilterList {
+        flex-flow: wrap;
+    }
+
+    .gameFilterIcon {
+        color: #2ce4f9d4;
+        font-size: 2.2em;
+        padding: 5px 5px;
+        margin-right: 0px;
+        transform: translate(-6px, 2px);
+    }
+
+
+    .footerRegisterText {
+        font-size: 1.2em;
+    }
+    .footerRegisterCta {
+        font-size: 1em;
+    }
+
+
+    .pageTitleGames {
+        border-left-width: 0px;
+        font-size: 1.55em;
+        border-radius: 3px;
+        text-align: center;
+        margin: 0 auto;
+        border-bottom: 1px solid;
+        clip-path: polygon(0 0, 100% 0, 100% 100%, 0% 100%);
+    }
+
+
+    .form-control:focus {
+        box-shadow: 0 0 0 0.25rem rgba(13,110,253,0);
     }
 
 
@@ -209,13 +516,17 @@
         margin: 0px auto;
     }
 
+    .headerUnderline {
+        height: 2px;
+    }
+
     .logoPng {
         padding: 0;
         margin: 0;
         margin-top: 3px;
-        width: 100px;
+        width: 100px !important;
 
-        transform: scale(0.95);
+        transform: scale(1);
     }
     .navLine {
         font-size: 0.7em;
@@ -248,11 +559,11 @@
     } 
 
     .navLine * {
-        margin: 0 3px;
+        margin: 0 0px;
     }
 
     nav {
-        padding-right: 4px;
+        padding-right: 0px;
     }
 
     .topicList {
@@ -303,6 +614,12 @@
         right: 15px;
     }
 
+    .gamesListIcon {
+        font-size: 2.5em;
+    }
+    .gamesSubtitleTitle {
+        font-size: 1.3em;
+    }
 
     #loginFormTitle {
         position:relative; 
@@ -339,10 +656,16 @@
     }
 
     .lp-page3-slideContainer {
-        width: 80%;
+        width: 95%;
         display: inline-flex;
         border: 1px solid #80808066;
-        border-radius: 5px;
+        border-radius: 3px;
+
+        height:auto !important;
+    }
+
+    .splideListGames {
+        height: min-content !important;
     }
 
 
@@ -384,8 +707,9 @@
         transform: translateX(0px);
     }
     .landingPageSlogan  {
-        max-width: 92%;
-        font-size: 1em;
+        max-width: 97%;
+        width: 97%;
+        font-size: 0.9em;
         transform: translateX(0px);
         margin: 10px auto 20px auto;
         background: radial-gradient(circle, rgba(247,114,31,0.3) 0%, rgba(35,35,35,0) 100%);
@@ -435,6 +759,7 @@
         flex-direction: column;
     }
     .lp-page4-card {
+        padding: 9px 12px;;
         height: 20vh;
         margin: 5px auto;
         border-radius: 5px;
@@ -454,7 +779,7 @@
     }
 
     #lp-page4-cardTeams, #lp-page4-cardMedias, #lp-page4-cardTopics {
-        width: 80%;
+        width: 90%;
         height: 20vh;
         margin: 5px auto;
 
@@ -465,7 +790,7 @@
     }
 
     #lp-page4-selectedGameTitle {
-        font-size: 1.2em;
+        font-size: 1.3em;
     }
 
     .lp-searchDiv {
@@ -480,6 +805,7 @@
 
     .lp-searchSubDiv {
         flex-direction: column; 
+        width: 100%;
     }
 
 

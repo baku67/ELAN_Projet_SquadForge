@@ -350,9 +350,7 @@
 
             <div class="lp-searchSubDiv">
 
-                
-
-                <div style="margin-top:7px; display:inline-flex; align-items:baseline;">
+                <div class="searchContainer" style="margin-top:7px; display:inline-flex; align-items:baseline;">
                     <span id="cleanSearchBtn"><i class="fa-solid fa-xmark"></i></span>
                     <span id="orSpan">Ou</span>
                     <input id="lp-searchText" type="text" pattern="[a-zA-Z0-9\s\-_]*" placeholder="Recherchez...">
@@ -550,7 +548,7 @@
 
                var splide = new Splide( '.splide', {
                     direction : 'ttb',
-                    height: '25rem',
+                    height: '30rem',
                     perPage: 4,
                     pagination: false,
                 } );
@@ -757,7 +755,22 @@
                         document.getElementById('gameDetailsIcon').style = "block";
                         document.getElementById('orSpan').style.display = "none";
                         document.getElementById('lp-teamsCardGameNotSelected').style.display = "none";
-                        document.getElementById('lp-teamsCardGameSelected').style.display = "block";
+
+                        var isMobile = navigator.userAgent.match(/Android/i)
+                                    || navigator.userAgent.match(/webOS/i)
+                                    || navigator.userAgent.match(/iPhone/i)
+                                    || navigator.userAgent.match(/iPad/i)
+                                    || navigator.userAgent.match(/iPod/i)
+                                    || navigator.userAgent.match(/BlackBerry/i)
+                                    || navigator.userAgent.match(/Windows Phone/i);
+                        
+                        if (isMobile){
+                            document.getElementById('lp-teamsCardGameSelected').style.display = "inline-flex";
+                        }
+                        else {
+                            document.getElementById('lp-teamsCardGameSelected').style.display = "block";
+                        }
+
                         document.getElementById('lp-page4-titleLink').removeEventListener('click', gameTitleClick);
 
                         document.getElementById('lp-page4-titleDiv').style.opacity = "1";

@@ -70,7 +70,7 @@
     <div class="main" style="margin: 20px auto 100px auto;">
 
         <div class="gamesListHeaderLine">
-            <h2 class="pageTitle">Parcourir les jeux</h2>
+            <h2 class="pageTitle pageTitleGames">Parcourir les jeux</h2>
 
             {# Form Search asynchrone (Ajax JS) #}
             <form id="search-form" action="{{ path('app_search') }}" method="GET">
@@ -95,6 +95,7 @@
                         // On cache la liste des jeux pendant la recherche
                         document.querySelector('#gamesLists').style.display = "none";
                         document.querySelector('#search-title').style.display = "block";
+                        document.querySelector('#search-results').style.display = "inline-flex";
 
                         const url = searchForm.getAttribute('action') + '?query=' + encodeURIComponent(query);
                         
@@ -159,6 +160,7 @@
                         xhr.send();
                     } else {
                         document.querySelector('#search-title').style.display = "none";
+                        document.querySelector('#search-results').style.display = "none";
                         document.querySelector('#gamesLists').style.display = "block";
                         searchResults.innerHTML = '';
                     }
@@ -290,7 +292,7 @@
                         <div class="GamesGenreTitle"></div>
                         <h3 class="gamesSubTitle noMarginBottom">
                             <i class="fa-solid fa-gun gamesListIcon"></i>
-                            <span> FPS </span>
+                            <span class="gamesSubtitleTitle"> FPS </span>
                         </h3>
                     </a>
 
@@ -300,7 +302,7 @@
 
                             <div class="gamesSplideContainer">
                         
-                                <div class="games-container splide__track"> 
+                                <div class="games-container games-container-phone splide__track"> 
 
                                     <div class="lp-phone-slpideTrait1"></div>
 
@@ -392,7 +394,7 @@
                         <div class="GamesGenreTitle"></div>
                         <h3 class="gamesSubTitle noMarginBottom">
                             <i class="fa-solid fa-gopuram gamesListIcon"></i>
-                            <span> MOBA </span>
+                            <span class="gamesSubtitleTitle"> MOBA </span>
                         </h3>
                     </a>
 
@@ -402,7 +404,7 @@
 
                             <div class="gamesSplideContainer">
                         
-                                <div class="games-container splide__track"> 
+                                <div class="games-container games-container-phone splide__track"> 
 
                                     <div class="lp-phone-slpideTrait1"></div>
 
@@ -494,7 +496,7 @@
                         <div class="GamesGenreTitle"></div>
                         <h3 class="gamesSubTitle noMarginBottom">
                             <i class="fa-solid fa-crown gamesListIcon"></i>
-                            <span> Battle royal</span>
+                            <span class="gamesSubtitleTitle"> Battle royal</span>
                         </h3>
                     </a>
 
@@ -504,7 +506,7 @@
 
                             <div class="gamesSplideContainer">
                         
-                                <div class="games-container splide__track"> 
+                                <div class="games-container games-container-phone splide__track"> 
 
                                     <div class="lp-phone-slpideTrait1"></div>
 
