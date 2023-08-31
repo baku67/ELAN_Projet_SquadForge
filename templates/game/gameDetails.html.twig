@@ -79,21 +79,68 @@
 
     <div class="main" style="width:75% !important;">
 
-        {# Test Image Background BRUT #}
-        <div class="gameHeaderInfos gameSubImgBg" style="background-image: radial-gradient(circle, rgba(255,255,255,0) 0%, rgba(35,35,35,0.995) 69%), url('{{asset("img/games/headerBackground/" ~ game.subBanner)}}'); border-top: 2px solid {{ game.color }};">
 
-            <div class="gameTitle" style="position:absolute; color:white;">
-                <h2 style="text-shadow: -1px -1px 0 {{ game.color }}, 1px -1px 0 {{ game.color }}, -1px 1px 0 {{ game.color }}, 1px 1px 0 {{ game.color }};">{{ game.title }}</h2>
+
+
+
+        <div class="gameHeaderInfos gameSubImgBg" style="width:100%; border-top: 2px solid {{ game.color }}; display:inline-flex; flex-direction:row; position:relative;">
+
+
+
+
+
+            {# Bandeau gauche: Clip path avec infos #}
+            <div style="width:18%;">
+
+                <div class="gameInfosHeaderTitle" style="background-image: linear-gradient(to right, {{ game.color }}, {{ game.color }}30), url('../img/testMotif1-min.jpg'); background-size:cover;"></div>
+                <h3 class="gameSubTitle noMarginBottom gameSubtitleV2">Infos</h3>
+
+                <div class="gameHeaderInfosContent">
+                    {# GameId et GameColor pour fav asynch (plutot que dans controller ?) #}
+                    <span id="gameId" style="display:none;">{{ game.id }}</span>
+                    <span id="gameColor" style="display:none;">{{ game.color }}</span>
+
+                    {# Infos #}
+                    <div style="font-family:'K2D', sans-serif; display:inline-flex; flex-direction:column; gap:5px;">
+                        <span>Éditeur: {{ game.editor }}</span>
+                        <span>{{ game.publishDate|date('Y') }}</span>
+                        <span>Genre: <a class="underlineLink" href="{{ path('app_genreGames', {'id': game.genre.id }) }}">{{ gameGenre }}</a></span>
+                    </div>
+
+                    {# Form Notation (Ajax) #}
+                    <div class="gameNotationDiv">
+                        <div class="rate">
+                            <input type="radio" id="star5" name="rate" value="5"/>
+                            <label class="starLabel" for="star5" title="text">5 stars</label>
+                            <input type="radio" id="star4" name="rate" value="4" />
+                            <label class="starLabel" for="star4" title="text">4 stars</label>
+                            <input type="radio" id="star3" name="rate" value="3" />
+                            <label class="starLabel" for="star3" title="text">3 stars</label>
+                            <input type="radio" id="star2" name="rate" value="2" />
+                            <label class="starLabel" for="star2" title="text">2 stars</label>
+                            <input type="radio" id="star1" name="rate" value="1" />
+                            <label class="starLabel" for="star1" title="text">1 star</label>
+                        </div>
+                        {% if nbrOfNotations > 1 %}
+                            <span class="gameNotationLine">Moy: <span id="gameRatingMoyValue">{{ averageRating }}</span>/5  (<span id="gameRatingNbrValue">{{ nbrOfNotations }}</span> votes)</span>
+                        {% else %}
+                            <span class="gameNotationLine">Moy: <span id="gameRatingMoyValue">{{ averageRating }}</span>/5  (<span id="gameRatingNbrValue">{{ nbrOfNotations }}</span> vote)</span>
+                        {% endif %}
+                    </div>
+                </div>
+
             </div>
 
 
-            {# Infos du jeu et Btn Favoris #}
-            <div class="marginBottom" style="display:inline-flex; width:100%; justify-content:space-between;">
+            {# BackgroundImage et fav ici? #}
+            <div style="width:82%; position:relative; background-size:cover; background-image: radial-gradient(circle, rgba(255,255,255,0) 0%, rgba(35,35,35,0.995) 69%), url('{{asset("img/games/headerBackground/" ~ game.subBanner)}}');">
 
-                <div>
-                    <div class="gameInfosHeaderTitle" style="background-color:{{ game.color }};"></div>
-                    <h3 class="gameSubTitle noMarginBottom">Infos</h3>
+
+                {# Titre absolute #}
+                <div class="gameTitle" style="position:absolute; color:white; z-index:999;">
+                    <h2 style="text-shadow: -1px -1px 0 {{ game.color }}, 1px -1px 0 {{ game.color }}, -1px 1px 0 {{ game.color }}, 1px 1px 0 {{ game.color }};">{{ game.title }}</h2>
                 </div>
+
 
                 {# Bouton Favoris state (Btn toggle Async) #}
                 {% if app.user %}
@@ -108,20 +155,43 @@
 
             </div>
 
-            <div class="gameHeaderInfosContent">
+        </div>
 
-                {# GameId et GameColor pour fav asynch (plutot que dans controller ?) #}
+
+
+
+        {# **************************** OLD header: #}
+
+        {# <div class="gameHeaderInfos gameSubImgBg" style="background-image: radial-gradient(circle, rgba(255,255,255,0) 0%, rgba(35,35,35,0.995) 69%), url('{{asset("img/games/headerBackground/" ~ game.subBanner)}}'); border-top: 2px solid {{ game.color }};">
+
+            <div class="gameTitle" style="position:absolute; color:white;">
+                <h2 style="text-shadow: -1px -1px 0 {{ game.color }}, 1px -1px 0 {{ game.color }}, -1px 1px 0 {{ game.color }}, 1px 1px 0 {{ game.color }};">{{ game.title }}</h2>
+            </div>
+
+
+            <div class="marginBottom" style="display:inline-flex; width:100%; justify-content:space-between;">
+
+                {% if app.user %}
+                    {% if isFavorited %}
+                        <span id="favGameBtn" class="favButton" style="border-top: 1px solid {{ game.color }}; border-bottom: 1px solid {{ game.color }};"><i style="color:{{ game.color }};" class="fa-solid fa-heart favIcon"></i></span>
+                    {% else %}
+                        <span id="favGameBtn" class="favButton"><i class="fa-regular fa-heart favIcon"></i></span>
+                    {% endif %}
+                {% else %}
+                        <span id="favGameBtn" class="favButton"><i class="fa-regular fa-heart favIcon"></i></span>
+                {% endif %}
+            </div>
+
+            <div class="gameHeaderInfosContent">
                 <span id="gameId" style="display:none;">{{ game.id }}</span>
                 <span id="gameColor" style="display:none;">{{ game.color }}</span>
 
-                {# Infos #}
                 <div style="font-family:'K2D', sans-serif;">
                     <p>Éditeur: {{ game.editor }}</p>
                     <p>{{ game.publishDate|date('Y') }}</p>
                     <p>Genre: <a class="underlineLink" href="{{ path('app_genreGames', {'id': game.genre.id }) }}">{{ gameGenre }}</a></p>
                 </div>
 
-                {# Form Notation (Ajax) #}
                 <div class="gameNotationDiv">
                     <div class="rate">
                         <input type="radio" id="star5" name="rate" value="5"/>
@@ -141,10 +211,23 @@
                         <p class="gameNotationLine">Moy: <span id="gameRatingMoyValue">{{ averageRating }}</span>/5  (<span id="gameRatingNbrValue">{{ nbrOfNotations }}</span> vote)</p>
                     {% endif %}
                 </div>
-
             </div>
 
-        </div>
+        </div> #}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
         {# Notation Game async #}

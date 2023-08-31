@@ -401,7 +401,7 @@ body {
     transition: all 0.4s;
     position: fixed !important;
     width: 100%;
-    z-index: 999;
+    z-index: 9999;
     border-bottom: 3px solid var(--primary-color);
 
     /* background-position: 25% 55% !important; */
@@ -2539,21 +2539,16 @@ header {
 
 
 .pageTitle {
-    /* background-color: var(--primary-color);
-    color: black;
-    padding: 3px 29px;
-    clip-path: polygon(0% 0, 100% 0, 95% 100%, 0% 100%); */
     clip-path: polygon(0 0, 100% 0, 98% 100%, 0% 100%);
     color: var(--primary-color);
     background-color: #ffffff0f;
     font-weight: bold;
     padding: 4px 19px;
-    border-left: 4px solid var(--primary-color);
-
+    /* border-left: 4px solid var(--primary-color); */
+    border-left: 4px solid #2ce4f9d4;
+    
     width: fit-content;
-
     text-transform: capitalize;
-
     font-size: 1.85em;
 }
 
@@ -2925,8 +2920,10 @@ nav {
 
 
 .gameHeaderInfosContent {
-    padding:25px;
-    padding-top: 0px;
+    z-index: 999;
+    position: relative;
+    padding: 25px 20px 20px 20px;
+    color: black;
 }
 
 .genreGameList {
@@ -3563,12 +3560,22 @@ nav {
     position: relative;
     padding: 3px 29px;
     width: fit-content;
-    z-index: 10;
+    z-index: 999;
 
     /* font-weight: bold; */
     color: white;
     letter-spacing: 1px;
-    
+}
+
+.gameSubtitleV2 {
+    padding: 6px 209px 3px 10px;
+    clip-path: polygon(0 0, 100% 0, 95% 100%, 0 100%);
+    background-color: var(--background-color);
+    margin-left: 4px;
+    border-radius: 4px;
+    margin-top: 1px;
+    opacity: 0;
+    animation: fadeIn 0.5s 0.5s ease forwards;
 }
 
 .homeSubTitle {
@@ -3613,18 +3620,34 @@ nav {
 
 .gameInfosHeaderTitle {
     position:absolute; 
-    clip-path: polygon(0 0, 100% 0, 91% 100%, 0 100%);
+    clip-path: polygon(0 0, 100% 0, 66% 100%, 0 100%);
     border-top-left-radius: 6px;
     /* height:35px; 
     width:130px;  */
     height: 0px;
     width: 5px;
     transform: translateY(-1px);
-    z-index:0;
+    z-index:99;
 
     animation: gameInfosHeaderTitle1 0.3s 0.1s ease-in-out forwards, gameInfosHeaderTitle2 0.4s 0.45s ease-in-out forwards;
 }
 @keyframes gameInfosHeaderTitle1 {
+    from {
+        height: 0px;
+    }
+    to {
+        height:268px; 
+    }
+}
+@keyframes gameInfosHeaderTitle2 {
+    from {
+        width: 5px;
+    }
+    to {
+        width:315px; 
+    }
+}
+/* @keyframes gameInfosHeaderTitle1 {
     from {
         height: 0px;
     }
@@ -3639,7 +3662,7 @@ nav {
     to {
         width:160px; 
     }
-}
+} */
 
 .homeFavGamesTitle {
     position:absolute; 
@@ -3942,6 +3965,16 @@ nav {
 .gameNotationDiv {
     display: inline-flex;
     flex-direction: column;
+    background-color: var(--background-color);
+    margin-top: 30px;
+    color: white;
+    position: relative;
+    right: 15px;
+    border-radius: 4px;
+    padding: 0 45px 12px 17px;
+    clip-path: polygon(0 0, 100% 0, 86% 100%, 0 100%);
+    opacity: 0;
+    animation: fadeIn 0.5s 0.8s ease forwards;
 }
 .gameNotationLine {
     text-align: center;
@@ -4079,9 +4112,15 @@ nav {
 
 
 .rate {
-    float: left;
+    /* float: left; */
     height: 46px;
     padding: 0 10px;
+
+    overflow: visible;
+    display: inline-flex;
+    flex-flow: nowrap;
+
+
 }
 .rate:not(:checked) > input {
     position:absolute;
@@ -4251,7 +4290,7 @@ nav {
 
 
 .form-control {
-    background-color:rgb(80, 80, 80);
+    background-color:rgb(60 60 60);
     border: 0px solid;
     font-family: 'K2D', sans-serif;
     color: #b6b6b6;
@@ -4408,7 +4447,11 @@ h1, h2, h3, h4 {
 
     overflow: hidden;
     max-height: 250px;
-    max-width: 530px;
+    max-width: 80%;
+
+    backdrop-filter: blur(3px);
+    border-radius: 7px;
+    z-index: 999;
 }
 .gameTitle h2 {
     font-size: 4.5em;
@@ -5439,106 +5482,16 @@ cursor: pointer;
     /* animation: blinkBoxShadow 0.9s 0.5s forwards linear 1; */
 }
 .sectionHomeContainerGames {
-    /* box-shadow: 0 0 0px 0px var(--primary-color); */
-    margin: 20px auto 50px auto;
+    /* margin: 20px auto 50px auto;
     padding: 0px 10px 15px 0px;
     border-radius: 6px;
-    border-top: 1px solid #2ce4f9a3;
+    border-top: 1px solid #2ce4f9a3; */
 
-    /* animation: blinkBoxShadow 0.9s 0.5s forwards linear 1; */
-}
-/* Effet allumage Néon (à paufiner)*/
-@keyframes blinkBoxShadow {
-    0% {
-        box-shadow: 0 0 0px 0px var(--primary-color);
-    }
-    1% {
-        box-shadow: 0 0 70px -5px var(--primary-color);
-    }
-    2% {
-        box-shadow: 0 0 0px 0px var(--primary-color);
-    }
-    3% {
-        box-shadow: 0 0 70px -5px var(--primary-color);
-    }
-    4% {
-        box-shadow: 0 0 0px 0px var(--primary-color);
-    }
-    5% {
-        box-shadow: 0 0 70px -5px var(--primary-color);
-    }
-    6% {
-        box-shadow: 0 0 0px 0px var(--primary-color);
-    }
-    7% {
-        box-shadow: 0 0 70px -5px var(--primary-color);
-    }
-    8% {
-        box-shadow: 0 0 0px 0px var(--primary-color);
-    }
-    9% {
-        box-shadow: 0 0 70px -5px var(--primary-color);
-    }
-    10% {
-        box-shadow: 0 0 0px 0px var(--primary-color);
-    }
-    11% {
-        box-shadow: 0 0 70px -5px var(--primary-color);
-    }
-    12% {
-        box-shadow: 0 0 0px 0px var(--primary-color);
-    }
-    13% {
-        box-shadow: 0 0 70px -5px var(--primary-color);
-    }
-    14% {
-        box-shadow: 0 0 0px 0px var(--primary-color);
-    }
-    15% {
-        box-shadow: 0 0 70px -5px var(--primary-color);
-    }
-    16% {
-        box-shadow: 0 0 0px 0px var(--primary-color);
-    }
-
-    26% {
-        box-shadow: 0 0 0px 0px var(--primary-color);
-    }
-    27% {
-        box-shadow: 0 0 70px -5px var(--primary-color);
-    }
-    28% {
-        box-shadow: 0 0 0px 0px var(--primary-color);
-    }
-    29% {
-        box-shadow: 0 0 70px -5px var(--primary-color);
-    }
-    30% {
-        box-shadow: 0 0 0px 0px var(--primary-color);
-    }
-
-    60% {
-        box-shadow: 0 0 0px 0px var(--primary-color);
-    }
-    62% {
-        box-shadow: 0 0 70px -5px var(--primary-color);
-    }
-    63% {
-        box-shadow: 0 0 0px 0px var(--primary-color);
-    }
-    65% {
-        box-shadow: 0 0 70px -5px var(--primary-color);
-    }
-    66% {
-        box-shadow: 0 0 0px 0px var(--primary-color);
-    }
-
-    95% {
-        box-shadow: 0 0 0px 0px var(--primary-color);
-    }
-    100% {
-        box-shadow: 0 0 70px -5px var(--primary-color);
-    }
+    box-shadow: 0 0 0px 0px var(--primary-color); 
+    margin: 45px auto 2px auto;
+    padding: 0px 10px 15px 0px;
+    border-radius: 6px;
+    border-top: 2px solid #2ce4f9a3;
 }
 
 
