@@ -27,6 +27,23 @@ use Doctrine\ORM\PersistentCollection;
 
 class SearchController extends AbstractController
 {
+    
+    
+    #[Route('/searchPage', name: 'app_searchPage')]
+    public function searchPage(EntityManagerInterface $entityManager, Request $request): Response
+    {
+
+
+        return $this->render('security/searchPage.html.twig', [
+
+        ]);
+
+    }
+
+
+
+    // !!!!!!!!!! Même route a utilisé pour ajax landingPage et searchPage
+
     #[Route('/searchLandingPage/{textInput}/{gameSelectedId}', name: 'app_searchLandingPage')]
     public function searchLandingPage(EntityManagerInterface $entityManager, string $textInput = null, int $gameSelectedId, Request $request): Response
     {

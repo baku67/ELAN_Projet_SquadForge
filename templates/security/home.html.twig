@@ -23,6 +23,7 @@
             {% else %}
                 <a href="{{ path('app_allGroupList') }}" class="teamsNav caps">teams</a>
             {% endif %}
+            <a href="{{ path('app_searchPage') }}" class="gamesNav caps"><i class="fa-solid fa-magnifying-glass"></i></a>
             {% if app.user and "ROLE_MODO" in app.user.roles %}
             
                 <a href="{{ path('app_moderationDashboard') }}" id="modoNav" class="modoNav">
@@ -751,7 +752,7 @@
             } else {
                 var splide = new Splide( '.splide', {
                     width: '100%',
-                    perPage: 5,
+                    perPage: 6,
 
                 } );
 

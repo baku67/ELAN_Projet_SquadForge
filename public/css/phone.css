@@ -153,6 +153,57 @@
     }
 
 
+    .splideGames {
+        flex-direction: column;
+    }
+
+
+    .gamesListHeaderLine {
+        flex-direction: column;
+    }
+
+    #search-form {
+        width: 90%;
+        position: relative;
+        margin: 17px auto;
+    }
+
+    .gameFiltersDiv {
+        font-size: 0.8em;
+    }
+
+
+    .games-container {
+        padding: 0 5px;
+    }
+
+    .games-gameCard {
+        clip-path: polygon(0% 0, 100% 0, 100% 100%, 0% 100%);
+        margin: 0;
+        border-top-right-radius: 0px;
+        border-bottom-right-radius: 0px;
+    }
+
+
+    .footerRegisterCard {
+        position: absolute;
+        top: -29px;
+        margin: 0 auto;
+        display: inline-flex;
+        /* background-image: linear-gradient(to right top, #f97b2c, #b2970e, #6ba144, #219f7a, #05969d); */
+        background-image: linear-gradient(to right top, var(--primary-color), var(--secondary-color));
+        justify-content: space-between;
+        width: 92%;
+        border-radius: 8px;
+        font-size: 0.75em;
+        padding: 7px 14px;
+        left: 50%;
+        border: 1px solid #000000a8;
+        transform: translateX(-50%);
+        border-bottom: 2px solid black;
+    }
+    
+
     .greetingMsg {
         font-size: 1.4em;
         margin: 0px auto;
