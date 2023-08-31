@@ -59,7 +59,7 @@ class GroupType extends AbstractType
                 'attr' => [
                     "class" => "form-control",
                     'placeholder' => 'Entrez une présentation de la team...',
-                    'rows' => 3
+                    'rows' => 5
                 ],
                 'constraints' => [
                     new NotBlank([

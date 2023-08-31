@@ -762,18 +762,18 @@ dialog::backdrop {
 
 .teamImgContainer {
     opacity: 0;
-    transform: perspective(30px) rotateY(148deg) translateX(35px);
+    transform: perspective(30px) rotateY(328deg) translateX(35px);
 
     animation: perspectiveImg 0.75s 0.1s ease 1 forwards;
 }
 @keyframes perspectiveImg {
     from {
         opacity: 0;
-        transform: perspective(150px) rotateY(148deg) translateX(35px);
+        transform: perspective(150px) rotateY(328deg) translateX(35px);
     }
     to {
         opacity: 1;
-        transform: perspective(1453px) rotateY(148deg) translateX(35px);
+        transform: perspective(1453px) rotateY(328deg) translateX(35px);
     }
 }
 
@@ -4923,7 +4923,7 @@ cursor: pointer;
 
 .formAddGroup {
     width: 40%;
-    margin: 60px auto 60px 100px;
+    margin: 60px 50px 60px 50px;
 }
 
 
