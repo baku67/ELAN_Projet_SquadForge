@@ -92,6 +92,7 @@
 
         <br>
 
+
         {# Mix CandidatureType et GroupQuestion #}
         {{ form_start(formCandidature) }}
 
@@ -133,10 +134,24 @@
                     {% endfor %}
                 </div>
             {% elseif (groupQuestions|length == 0) %}
-                <p class="emptyListMsg" style="margin: 30px auto 50px auto;">Il n'y a aucune question</p>
+                <p class="emptyListMsg" style="margin: 30px auto 35px auto;">Il n'y a aucune question</p>
             {% endif %}
 
-            <div class="gameTeamBtn candidatureSubmitBtn" style="margin:0 auto !important;">
+
+            {# checkbox confirtmation majorité (affiché si critère team) #}
+            {% if group.restriction18 %}
+                <div style="display: inline-flex; align-items: center;">
+                    <span style="margin-right:15px;">Confirmer avoir plus de 18ans:</span>
+                    <label class="toggleAutoPlay">
+                        <input type="checkbox" name="majorityBool" id="toggleVisi">
+                        <span class="slider"></span>
+                    </label>
+                </div>
+            {% endif %}
+
+
+            {# Submit #}
+            <div class="gameTeamBtn candidatureSubmitBtn" style="margin:30px auto 10px auto !important;">
                 {{ form_row(formCandidature.submit, 
                     { 
                         'label': 'Envoyer&nbsp;<i class="fa-solid fa-paper-plane"></i>', 
@@ -150,6 +165,7 @@
             </div>
 
         {{ form_end(formCandidature) }}
+
 
         {# Couleur du bouton adapté au jeu #}
         <span id="gameColor" hidden>{{ gameFrom.color }}</span>

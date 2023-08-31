@@ -357,6 +357,18 @@ class CandidatureController extends AbstractController
 
                                 $candidature = $form->getData();
 
+
+                                // Vérif confirmation majorité si critère group coché:
+                                if($group->isRestriction18()) {
+
+                                    if($request->request->get('majorityBool') == false || is_null($request->request->get('majorityBool'))) {
+
+                                        $this->addFlash('error', 'Vous devez confirmer être majeur pour candidater à cette team');
+                                        return $this->redirectToRoute('app_showCandidatureForm', ['groupId' => $groupId]); 
+                                    }
+                                }
+                                    
+
                                 // Vérif si Texte de candidature répondu (obligatoire) (testé)
                                 if($candidature->getText() == "") {
                                     $this->addFlash('error', 'Vous n\'avez pas rempli votre introduction');
