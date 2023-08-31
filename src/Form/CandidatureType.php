@@ -25,7 +25,7 @@ class CandidatureType extends AbstractType
                 'attr' => [
                     "class" => "form-control",
                     'placeholder' => 'Votre message...',
-                    'rows' => 3,
+                    'rows' => 5,
                 ],
                 'constraints' => [
                     new NotBlank([

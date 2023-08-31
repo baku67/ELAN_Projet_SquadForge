@@ -119,12 +119,12 @@
                     {% endif %}
                 </p>
 
-                <p style="position:absolute; bottom:0; font-family:'K2D', sans-serif; margin-bottom:5px; backdrop-filter:blur(30px); color:black;">Ancienneté: <span>{{ time_diff(group.creationDate) }}</span></p>
+                <p class="teamHeaderAge">Ancienneté: <span>{{ time_diff(group.creationDate) }}</span></p>
         
             </div>
 
             <div id="teamImgContainer" class="teamImgContainer" style="width:40%;">
-                {% if group.imgUrl is not null %}
+                {% if group.imgUrl is not null and imageExists(group.imgUrl) %}
                     <img src="../img/uploads/{{ group.imgUrl }}" id="teamImg" class="teamImg">
                 {% else %}
                     <img src="../img/teamDefaultPic_dark.jpg" id="teamImg" class="teamImg">

@@ -4062,13 +4062,8 @@ nav {
   }
   
   .candidatureSubmitBg {
-    position: absolute;
-    z-index: 3;
-    color: black;
-    width: 240px;
-    height: 181px;
-    transform: translate(-54px, -84px);
-    clip-path: polygon(0% 0, 0 0, 0 100%, 0 100%);
+
+
     transition: all 0.4s;
   }
   
@@ -4972,10 +4967,10 @@ cursor: pointer;
 }
 
 .questionsContainer {
-    display:flex; 
-    flex-direction:column;
-    width: 92%;
-    margin: 20px auto;
+    display: flex;
+    flex-direction: column;
+    /* width: 92%; */
+    margin: 0px auto 30px auto;
 }
 .questionLine {
     font-family: 'K2D', sans-serif;
@@ -5008,6 +5003,19 @@ cursor: pointer;
 
 .deleteQuestionBtn {
     cursor: pointer;
+}
+
+
+.teamHeaderAge {
+    position: absolute;
+    bottom: 0;
+    left: -3px;
+    font-family: 'K2D', sans-serif;
+    margin-bottom: 0px;
+    backdrop-filter: blur(30px);
+    color: black;
+    padding: 1px 6px;
+    border-radius: 5px;
 }
 
 
