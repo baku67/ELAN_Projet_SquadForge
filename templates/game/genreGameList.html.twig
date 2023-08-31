@@ -71,20 +71,40 @@
         <h2 class="pageTitle">Jeux - {{ genreName }}</h2>
 
         <div class="genreGameList">
-            {% for game in genreGames %}
-                <a class="gameCardLink" href="{{ path('app_game', {'id': game.id} )}}">
-                    <div class="gameCard">
-                        <img src="{{ asset("img/games/logo/" ~ game.logo) }}" class="gameLogo" alt="logo {{ game.title }}"/>
-                        <div class="gameCardUnderline" style="background-color:{{ game.color }}"></div>
 
-                            <div class="gameCardInfos">
-                                <p class="gameCardTitle">{{ game.title }}</p>
-                                <p><span>New</span> Topics <span>0</span></p>
-                                <p><span>New</span> Medias <span>0</span></p>
-                            </div>
-                    </div>
-                </a>
+            {% for game in genreGames %}
+
+                                        <a href="/game/{{game.id}}">
+                                            <div title="{{game.title}}" class="lp-page3-slideContainer splide__slide">
+                                                <svg class="gameSelectedBracketUp">
+                                                    <path 
+                                                        id="gameSelectedBracketUpPath{{game.id}}"
+                                                        class="gameSelectedBracketUpPath" 
+                                                        d="M 57 82 L 57 58 C 57 53 60 48 66 48 L 67 48 L 266 48 C 274 48 276 51 276 56 L 276 55 L 276 82"
+                                                        fill-opacity="0"
+                                                        />
+                                                </svg>
+
+                                                <div id="lp-page3-slide0{{game.id}}" class="lp-gameCard" style="background-image: linear-gradient(rgba(0, 0, 255, 0.05), rgba(249, 123, 44, 0.5)),url(' {{ asset('img/games/headerBackground/' ~ game.subBanner) }} '); background-size:cover;">
+
+                                                    <span id="lp-gameCardTitle{{game.id}}" value="{{game.title}}" class="lp-gameCardTitleSearch">{{game.title}}</span>
+
+                                                </div>
+
+                                                <svg class="gameSelectedBracketDown">
+                                                    <path 
+                                                        id="gameSelectedBracketDownPath{{game.id}}"
+                                                        class="gameSelectedBracketDownPath" 
+                                                        d="M 57 82 L 57 58 C 57 53 60 48 66 48 L 67 48 L 266 48 C 274 48 276 51 276 56 L 276 55 L 276 82"
+                                                        fill-opacity="0"
+                                                        />
+                                                </svg>
+
+                                            </div>
+                                        </a>;
+
             {% endfor %}
+
         </div>
 
     </div>
