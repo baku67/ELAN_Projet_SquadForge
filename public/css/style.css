@@ -3457,6 +3457,22 @@ nav {
 
 }
 
+.sectionTeamContent {
+    display:inline-flex; 
+    width:100%; 
+    justify-content:center;
+}
+
+.gameHeaderSection1 {
+    width:18%;
+}
+.gameHeaderSection2 {
+    width:82%; 
+    position:relative; 
+    background-size:cover;
+    border-width: 0px !important;
+}
+
 .sectionTitleGames {
     transition: all 0.37s !important;
 }
@@ -4433,6 +4449,22 @@ h1, h2, h3, h4 {
 .gameHeaderInfos {
     position: relative;
     border-radius: 6px;
+    width:100%; 
+    display:inline-flex; 
+    flex-direction:row; 
+    position:relative;
+
+    
+    background-size:cover; 
+    background-repeat:no-repeat;
+}
+
+
+.gameHeaderInfosTxt {
+    font-family:'K2D', sans-serif; 
+    display:inline-flex; 
+    flex-direction:column; 
+    gap:5px;
 }
 
 .gameTitle {
@@ -4789,11 +4821,7 @@ h1, h2, h3, h4 {
 
 
 
-  .gameHeaderInfos {
 
-    background-size:cover; 
-    background-repeat:no-repeat;
-  }
 
 
 
