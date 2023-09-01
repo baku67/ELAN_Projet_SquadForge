@@ -119,6 +119,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToMany(mappedBy: 'member', targetEntity: GroupSessionDispo::class, orphanRemoval: true)]
     private Collection $groupSessionDispos;
 
+    #[ORM\Column(nullable: true)]
+    private ?int $twitch_id = null;
+
     public function __construct()
     {
         $this->favoris = new ArrayCollection();
@@ -810,6 +813,18 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
                 $groupSessionDispo->setMember(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getTwitchId(): ?int
+    {
+        return $this->twitch_id;
+    }
+
+    public function setTwitchId(?int $twitch_id): static
+    {
+        $this->twitch_id = $twitch_id;
 
         return $this;
     }

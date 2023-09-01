@@ -17,6 +17,7 @@ class OAuthTwitch{
         $this->_client_secret = $client_secret;
         $this->_redirect_uri = $redirect_uri;
         $this->_scope = $scope;
+        
     }
 
     public function get_link_connect(){
@@ -69,7 +70,7 @@ class OAuthTwitch{
         curl_close($ch);
 
         // on decode et on renvoie
-        return json_decode($res);
+        return json_decode($res, true);
     }
 
 

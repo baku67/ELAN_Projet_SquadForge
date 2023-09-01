@@ -4,6 +4,9 @@
 
 {% block body %}
 
+    {# // Twitch user récupéré depuis app_oauthCallback #}
+    {{ dump(twitchUser) }}
+
     {# Erreur access_token lors Refresh #}
     <span>Test token session: {{ testToken }}</span>
     <span>Test $_GET code param: {{ testGetCodeParam }}</span>

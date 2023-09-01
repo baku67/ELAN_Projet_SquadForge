@@ -206,7 +206,7 @@ class SecurityController extends AbstractController
 
 
     #[Route(path: '/oauthCallback', name: 'app_oauthCallback')]
-    public function oauthCallback(Request $request): Response
+    public function oauthCallback(Request $request, EntityManagerInterface $entityManager): Response
     {
         $session = $this->requestStack->getSession();
 
@@ -214,10 +214,21 @@ class SecurityController extends AbstractController
 
         if(!empty($request->query->get('code'))) {
             $code = htmlspecialchars(($request->query->get('code')));
-            $token = $oauth->get_token($code);
+            $token = $oauth->get_token($code, $entityManager);
 
-            // $_SESSION['token'] = $token;
+            $_SESSION['token'] = $token;
             $session->set('token', $token);
+
+
+            $twitchUser = $oauth->get_user();
+            $user = new User();
+            $user->setPseudo("test");
+            $user->setEmail("test");
+            $user->setPassword("test");
+            $user->setNbrCensures(0);
+            // $user->setTwitchId($twitchUser['data'][0]['id']);
+            $entityManager->persist($user);
+            $entityManager->flush();
         }
         else {
             // HS car le code passe par ici (pourtant code bien présent dans l'url callback)
@@ -227,6 +238,7 @@ class SecurityController extends AbstractController
         return $this->render('security/testOAuth.html.twig', [
             'testToken' => $session->get('token'),
             'testGetCodeParam' => $request->query->get('code'),
+            'twitchUser' => $twitchUser,
         ]);
     }
 
