@@ -49,12 +49,22 @@ INSERT INTO `censure` (`id`, `user_id`, `creation_date`, `word`) VALUES
 
 
 
-INSERT INTO `group` (`id`, `leader_id`, `game_id`, `title`, `description`, `nbr_places`, `creation_date`, `restriction_18`, `restriction_lang`, `status`, `img_url`, `restriction_mic`, `candidature_description`, `restriction_img_proof`) VALUES
-	(36, 7, 1, 'La team overwatch', 'fzefzef', 2, '2023-06-21 21:39:31', 0, 'fr', 'hidden', NULL, 0, NULL, 0),
-	(38, 3, 5, 'Team PUBG du dimanche', 'On joue le dimanche aprèm pour le fun', 3, '2023-06-30 01:14:35', 0, 'fr', 'public', NULL, 0, NULL, 1),
-	(39, 3, 6, 'Team lol', 'C\'est la team mdr lol', 5, '2023-07-04 01:03:57', 1, 'en', 'public', NULL, 1, NULL, 1),
-	(47, 7, 4, 'Valo team numéro One', 'Ola', 6, '2023-07-08 06:14:54', 1, NULL, 'public', NULL, 0, NULL, 1),
-	(49, 3, 2, 'fzefzefzef', 'zefzefzef', 2, '2023-08-22 14:57:39', 1, NULL, 'public', NULL, 1, NULL, 1);
+-- INSERT INTO `group` (`id`, `leader_id`, `game_id`, `title`, `description`, `nbr_places`, `creation_date`, `restriction_18`, `restriction_lang`, `status`, `img_url`, `restriction_mic`, `candidature_description`, `restriction_img_proof`) VALUES
+-- 	(36, 7, 1, 'La team overwatch', 'fzefzef', 2, '2023-06-21 21:39:31', 0, 'fr', 'hidden', NULL, 0, NULL, 0),
+-- 	(38, 3, 5, 'Team PUBG du dimanche', 'On joue le dimanche aprèm pour le fun', 3, '2023-06-30 01:14:35', 0, 'fr', 'public', NULL, 0, NULL, 1),
+-- 	(39, 3, 6, 'Team lol', 'C\'est la team mdr lol', 5, '2023-07-04 01:03:57', 1, 'en', 'public', NULL, 1, NULL, 1),
+-- 	(47, 7, 4, 'Valo team numéro One', 'Ola', 6, '2023-07-08 06:14:54', 1, NULL, 'public', NULL, 0, NULL, 1),
+-- 	(49, 3, 2, 'fzefzefzef', 'zefzefzef', 2, '2023-08-22 14:57:39', 1, NULL, 'public', NULL, 1, NULL, 1);
+INSERT INTO `group` (`id`, `leader_id`, `game_id`, `title`, `description`, `nbr_places`, `creation_date`, `restriction_18`, `restriction_lang`, `status`, `img_url`, `restriction_mic`, `candidature_description`, `restriction_img_proof`, `candidature_txt`) VALUES
+	(36, 7, 1, 'La team overwatch', 'fzefzef', 2, '2023-06-21 21:39:31', 0, 'fr', 'hidden', 'test1.jpg', 0, NULL, 0, NULL),
+	(38, 3, 5, 'Team PUBG du dimanche', 'On joue le dimanche aprèm pour le fun', 3, '2023-06-30 01:14:35', 1, 'fr', 'public', 'test2.jpg', 0, NULL, 1, 'Yolo '),
+	(39, 3, 6, 'Team lol', 'C''est la team mdr lol', 5, '2023-07-04 01:03:57', 1, 'en', 'public', 'test3.png', 1, NULL, 1, 'hello\r\n'),
+	(47, 7, 4, 'Valo team numéro One', 'Ola', 6, '2023-07-08 06:14:54', 1, NULL, 'public', 'test4.png', 0, NULL, 1, NULL),
+	(49, 3, 2, 'fzefzefzef', 'zefzefzef', 2, '2023-08-22 14:57:39', 1, NULL, 'public', 'test5.jpg', 1, NULL, 1, NULL),
+	(50, 3, 6, 'fsefse', 'Miaou miaou miaou miaou mioau ', 4, '2023-08-30 20:24:05', 1, 'fr', 'public', 'test6.jpg', 1, NULL, 0, NULL),
+	(51, 7, 2, 'HELOO', 'efsefseqzdqz dqz dqz', 5, '2023-08-30 20:25:48', 1, 'fr', 'public', 'test7.jpg', 1, NULL, 1, 'fsefse'),
+	(52, 3, 4, 'Team Valorant chill', 'Sessions : \r\n - Vendredi 18h-00h\r\n - Samedi 20h-00h', 6, '2023-09-04 00:20:12', 1, NULL, 'public', 'test8.jpg', 1, NULL, 0, NULL),
+	(53, 3, 1, 'Team Overwatch 01', 'TEAM NUMBER ONE, sessions le samedi soir', 5, '2023-09-04 00:50:31', 1, NULL, 'public', 'test9.jpg', 1, NULL, 0, NULL);
 
 
 
@@ -250,7 +260,7 @@ INSERT INTO `notification` (`id`, `user_id`, `text`, `date_creation`, `seen`, `l
 	(470, 7, '<span style=\'font-weight:bold;text-decoration:underline;\'>Valo team numéro One</span>: Le membre "basile" est disponible pour la session "ergheg" qui a lieu le 27/07 à 09:07', '2023-07-27 09:46:59', 0, 'http://127.0.0.1:8000/groupDetails/47/470', 0, NULL, NULL, NULL),
 	(471, 7, '<span style=\'font-weight:bold;text-decoration:underline;\'>Valo team numéro One</span>: Le membre "basile" est peut-être disponible pour la session "sdvsdvdsd" qui a lieu le 30/07 à 09:07', '2023-07-27 09:47:38', 0, 'http://127.0.0.1:8000/groupDetails/47/471', 0, NULL, NULL, NULL),
 	(473, 8, '<span style=\'font-weight:bold;text-decoration:underline;\'>Valo team numéro One</span>: Une session a été annulée "sdvsdvdsd". ', '2023-07-27 10:07:50', 0, 'http://127.0.0.1:8000/groupDetails/47/473', 0, NULL, NULL, NULL),
-	(474, 7, '<span style=\'font-weight:bold;text-decoration:underline;\'>Valo team numéro One</span>: Le membre "basile" n\'est pas disponible pour la session "ergheg" qui a lieu le 27/07 à 09:07', '2023-07-27 10:12:21', 0, 'http://127.0.0.1:8000/groupDetails/47/474', 0, NULL, NULL, NULL),
+	(474, 7, '<span style=\'font-weight:bold;text-decoration:underline;\'>Valo team numéro One</span>: Le membre "basile" n''est pas disponible pour la session "ergheg" qui a lieu le 27/07 à 09:07', '2023-07-27 10:12:21', 0, 'http://127.0.0.1:8000/groupDetails/47/474', 0, NULL, NULL, NULL),
 	(475, 7, '<span style=\'font-weight:bold;text-decoration:underline;\'>Valo team numéro One</span>: Le membre "basile" est disponible pour la session "hrhrtyh" qui a lieu le 26/07 à 08:07', '2023-07-27 10:12:27', 0, 'http://127.0.0.1:8000/groupDetails/47/475', 0, NULL, NULL, NULL),
 	(477, 8, '<span style=\'font-weight:bold;text-decoration:underline;\'>Valo team numéro One</span>: Une session a été planifié "jbgj". ', '2023-07-27 10:17:08', 0, 'http://127.0.0.1:8000/groupDetails/47/477', 0, NULL, NULL, NULL),
 	(478, 7, '<span style=\'font-weight:bold;text-decoration:underline;\'>Valo team numéro One</span>: Le membre "basile" est peut-être disponible pour la session "jbgj" qui a lieu le 29/07 à 10:07', '2023-07-27 10:32:16', 0, 'http://127.0.0.1:8000/groupDetails/47/478', 0, NULL, NULL, NULL),
@@ -307,12 +317,12 @@ INSERT INTO `topic` (`id`, `title`, `publish_date`, `status`, `validated`, `game
 	(22, 'tes tdez dezfdef fezfe ezf e', '2023-05-17 20:48:19', 'open', 'validated', 4, 3, 'fezf'),
 	(23, 'te de de ed de ****', '2023-05-18 01:28:51', 'open', 'validated', 1, 3, 'dezdze'),
 	(24, 'test ajout topic validated 0 default', '2023-05-18 02:13:31', 'open', 'validated', 1, 3, 'dezdezdze'),
-	(26, 'Test ajout topic PUBG (y\'en a que 1?)', '2023-05-18 03:57:48', 'open', 'refused', 5, 3, 'Bizarre'),
+	(26, 'Test ajout topic PUBG (y''en a que 1?)', '2023-05-18 03:57:48', 'open', 'refused', 5, 3, 'Bizarre'),
 	(27, 'Test upload topic validation modo', '2023-05-18 05:33:34', 'open', 'validated', 3, 3, 'Vhj'),
 	(28, 'Test topic New, modo modo', '2023-06-07 01:54:08', 'open', 'validated', 3, 3, 'Jdkdkd'),
-	(29, 'Je créé un Topic (basile08) l\'original', '2023-06-18 06:05:38', 'open', 'refused', 4, 3, 'Voila c\'est mon message voila'),
+	(29, 'Je créé un Topic (basile08) l''original', '2023-06-18 06:05:38', 'open', 'refused', 4, 3, 'Voila c''est mon message voila'),
 	(31, 'Test test test test test', '2023-06-18 22:18:14', 'open', 'validated', 4, 7, 'Test'),
-	(33, 'Test New topic test t\'es', '2023-06-28 01:37:57', 'open', 'validated', 4, 3, 'Test'),
+	(33, 'Test New topic test t''es', '2023-06-28 01:37:57', 'open', 'validated', 4, 3, 'Test'),
 	(34, 'dd ds d d d d', '2023-07-03 18:41:45', 'open', 'waiting', 2, 3, 'J'),
 	(35, 'j j j j j', '2023-07-03 18:42:14', 'open', 'waiting', 2, 3, 'Fe'),
 	(37, 'fer erff refe rfee ref', '2023-07-09 22:16:59', 'open', 'waiting', 4, 3, 'feeferfer'),

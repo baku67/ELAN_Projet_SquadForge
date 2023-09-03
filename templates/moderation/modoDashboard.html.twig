@@ -68,55 +68,63 @@
     <div class="main">
 
 
-        <h2>Espace Modération</h2>
+        <h2 class="pageTitle">Espace Modération</h2>
 
 
         <div class="sectionContainer modoSection" >
 
-            <h3>Topics en attente</h3>
 
-            {% if lastWaitingTopics|length == 0 %}
+            <div>
+                <div class="modoSubTitle1Bg" style="background-color:var(--primary-color);"></div>
+                <h3 class="gameSubtitle test noMarginBottom">Topics en attente</h3>
+            </div>
 
-                <p class="emptyListMsg">Aucun topic en attente de validation</p>
-                
-            {% else %}
 
-                <div class="sectionHomeContent">
-                        
-                    {% for topic in lastWaitingTopics %}
+            <div class="sectionContent">
+                {% if lastWaitingTopics|length == 0 %}
 
-                        <div id="topicCard{{ topic.id }}" class="topicCard" style="border-bottom: 4px solid {{ topic.game.color }}; cursor:pointer;">
-                            <img class="tinyLogo" src="{{ asset('img/games/tinyLogo/' ~ topic.game.tinyLogo) }}" />
-                            <span id="topicTitle{{ topic.id }}" class="topicTitleModo">{{ topic.title|capitalize }}</span>
-                            <div class="topicCardSubInfosModo">
-                                <span class="topicCardAuthorModo">{{ topic.user.pseudo|capitalize }}</span>
-                                <span class="topicCardPublishDate">{{ time_diff(topic.publishDate) }}</span>
+                    <p class="emptyListMsg">Aucun topic en attente de validation</p>
+                    
+                {% else %}
+
+                    <div class="sectionHomeContent">
+                            
+                        {% for topic in lastWaitingTopics %}
+
+                            <div id="topicCard{{ topic.id }}" class="topicCard" style="border-bottom: 4px solid {{ topic.game.color }}; cursor:pointer;">
+                                <img class="tinyLogo" src="{{ asset('img/games/tinyLogo/' ~ topic.game.tinyLogo) }}" />
+                                <span id="topicTitle{{ topic.id }}" class="topicTitleModo">{{ topic.title|capitalize }}</span>
+                                <div class="topicCardSubInfosModo">
+                                    <span class="topicCardAuthorModo">{{ topic.user.pseudo|capitalize }}</span>
+                                    <span class="topicCardPublishDate">{{ time_diff(topic.publishDate) }}</span>
+                                </div>
                             </div>
-                        </div>
-                        <div id="topicSubCard{{ topic.id }}" class="topicSubCard notDisplayed">
-                            <p>{{ topic.firstMsg }}</p>
-                            <div class="mediaApprovalLine">
-                                <a href="{{ path('app_validateTopic', {'id': topic.id}) }}">
-                                    <span class="mediaApproveBtn"><i class="fa-solid fa-check"></i></span>
-                                </a>
-                                <a href="{{ path('app_refuseTopic', {'id': topic.id}) }}">
-                                    <span class="mediaRefuseBtn"><i class="fa-solid fa-xmark"></i></span>
-                                </a>
+                            <div id="topicSubCard{{ topic.id }}" class="topicSubCard notDisplayed">
+                                <p>{{ topic.firstMsg }}</p>
+                                <div class="mediaApprovalLine">
+                                    <a href="{{ path('app_validateTopic', {'id': topic.id}) }}">
+                                        <span class="mediaApproveBtn"><i class="fa-solid fa-check"></i></span>
+                                    </a>
+                                    <a href="{{ path('app_refuseTopic', {'id': topic.id}) }}">
+                                        <span class="mediaRefuseBtn"><i class="fa-solid fa-xmark"></i></span>
+                                    </a>
+                                </div>
+
                             </div>
 
-                        </div>
+                            {# OnClick TopicCard: détails et boutons validation/refus #}
+                            <script>
+                                document.getElementById('topicCard{{ topic.id }}').addEventListener('click', function() {
+                                    document.getElementById('topicSubCard{{ topic.id }}').classList.toggle('notDisplayed');
+                                });
+                            </script>
+                        {% endfor %}
+                    
+                    </div>
 
-                        {# OnClick TopicCard: détails et boutons validation/refus #}
-                        <script>
-                            document.getElementById('topicCard{{ topic.id }}').addEventListener('click', function() {
-                                document.getElementById('topicSubCard{{ topic.id }}').classList.toggle('notDisplayed');
-                            });
-                        </script>
-                    {% endfor %}
-                
-                </div>
+                {% endif %} 
+            </div>
 
-            {% endif %} 
         </div>
 
 

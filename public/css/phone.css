@@ -538,6 +538,10 @@
         flex-direction: column;
     }
 
+    .gameTeamBtn {
+        text-align: center;
+    }
+
     .gameTeamBtn2 {
         clip-path: polygon(0% 0px, 100% 0px, 100% 100%, 0px 100%); 
         position: relative;

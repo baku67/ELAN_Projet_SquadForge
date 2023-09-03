@@ -2776,7 +2776,8 @@ nav {
     top: 3px;
 }
 .marginBottomHeaderLine {
-    margin-bottom: 17px;
+    /* margin-bottom: 17px; */
+    margin-bottom: 35px;
 }
 
 
@@ -3617,6 +3618,12 @@ nav {
     letter-spacing: 1px;
 }
 
+.test {
+    position: relative;
+    z-index: 999;
+    color: black;
+}
+
 .gameSubtitleV2 {
     padding: 6px 209px 3px 10px;
     clip-path: polygon(0 0, 100% 0, 95% 100%, 0 100%);
@@ -3894,6 +3901,38 @@ nav {
     }
     to {
         width:190px; 
+    }
+}
+
+
+.modoSubTitle1Bg {
+
+    position:absolute; 
+    clip-path: polygon(0 0, 100% 0, 91% 100%, 0 100%);
+    border-top-left-radius: 4px;
+    /* height:35px; 
+    width:130px;  */
+    height: 0px;
+    width: 5px;
+    transform: translate(0px, -5px);
+    z-index:0;
+
+    animation: modoSubTitle1Bg1 0.3s 0.1s ease-in-out forwards, modoSubTitle1Bg2 0.4s 0.45s ease-in-out forwards !important;
+}
+@keyframes modoSubTitle1Bg1 {
+    from {
+        height: 0px;
+    }
+    to {
+        height:45px; 
+    }
+}
+@keyframes modoSubTitle1Bg2 {
+    from {
+        width: 5px;
+    }
+    to {
+        width:300px; 
     }
 }
 
@@ -5669,7 +5708,7 @@ cursor: pointer;
     clip-path: polygon(0 0, 100% 0, 89% 100%, 0% 100%);
     padding-right: 25px;
 
-    z-index: 9999;
+    z-index: 9995;
 
     transition: all 0.3s;
 }
@@ -5753,8 +5792,8 @@ cursor: pointer;
 }
 
 .modoSection {
-    border: 1px solid var(--primary-color);
-    padding: 10px 20px 15px 20px;
+    border-top: 1px solid var(--primary-color);
+    padding: 0px 20px 15px 20px;
 }
 
 .modoSectionRed {

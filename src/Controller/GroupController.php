@@ -330,6 +330,7 @@ class GroupController extends AbstractController
 
 
 
+
     // Detail du groupe: Id Group
     #[Route('/groupDetails/{groupId}/{notifId}', name: 'app_groupDetails', defaults: ['notifId' => null])]
     public function groupDetails(EntityManagerInterface $entityManager, int $groupId, int $notifId = null, Request $request): Response
@@ -492,8 +493,14 @@ class GroupController extends AbstractController
             }
         }
         else {
-            $this->addFlash('error', 'La team n\'existe plus');
-            return $this->redirectToRoute('app_showNotifsList');
+            if(is_null($notifId)) {
+                $this->addFlash('error', 'La team n\'existe plus');
+                return $this->redirectToRoute('app_allGroupList');    
+            }
+            else {
+                $this->addFlash('error', 'La team n\'existe plus');
+                return $this->redirectToRoute('app_showNotifsList');    
+            }
         }
     }
 
