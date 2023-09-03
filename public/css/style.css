@@ -390,6 +390,39 @@ body {
 }
 
 
+.containerDiv {
+    display:inline-flex; 
+    width:100%; 
+    margin-top:45px;
+}
+
+#inputPassword:focus ~ #togglePassword {
+    color: black !important;
+}
+#registration_form_plainPassword_first:focus + #togglePassword {
+    color: black !important;
+}
+
+#inputPassword {
+    padding-right: 40px;
+
+}
+
+.showPasswordBtn {
+
+}
+
+#togglePassword {
+    color: rgb(240, 240, 240);
+    cursor: pointer;
+    position: absolute;
+    top: 11px;
+    right: 11px;
+    font-size: 0.9em;
+}
+.togglePasswordRegister {
+    top: 35px !important;
+}
 
 
 .profilIcon {

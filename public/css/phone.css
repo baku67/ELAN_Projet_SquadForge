@@ -780,11 +780,54 @@
         align-self: center;
     }
 
+
+    .registerRightDiv {
+        width: 100%;
+        display: inline-flex;
+        flex-direction: column-reverse;
+    }
+
+    .register_restrictionsDiv {
+        padding: 0px 25px 12px 25px;
+
+        border-top: 0px solid grey;
+        border-bottom: 1px solid grey;
+    }
+
+
+    .loginPageForm {
+        width: 80%;
+
+    }
+
+    .containerDiv {
+        display: inline-flex;
+        width: 100%;
+        flex-direction: column;
+        margin-top: 25px;
+    }
+    .registerLeftDiv {
+        width: 100%;
+        margin: 0px auto 0px auto;
+    }
+    .registerForm {
+        width: 95% !important;
+        margin: 0 auto;
+        padding: 15px 20px !important;
+        border: 2px solid #f97b2c61;
+        background-color: #f97b2c0a;
+        border-radius: 7px;
+    }
+
+
     .lp-page3-slideContainer {
         width: 95%;
         display: inline-flex;
         border: 1px solid #80808066;
         border-radius: 3px;
+
+        backdrop-filter: blur(4px);
+        background-color: #29292994;
 
         height:auto !important;
     }

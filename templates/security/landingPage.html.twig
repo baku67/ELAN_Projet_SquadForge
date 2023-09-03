@@ -87,7 +87,7 @@
                         <p class="lp-p1b-rightSectionTitle">Le <strong>gaming</strong> est meilleur en équipe.<br>Rejoignez-nous pour trouver des <strong>teammates</strong> qui partageront votre passion.</p>
 
                         <div class="lp-p1b-rightSectionLoginDiv">
-                            <div style="display:inline-flex; align-items: baseline; position:relative; bottom:30px">
+                            <div style="display:inline-flex; align-items:baseline; position:relative; bottom:30px; justify-content:center; width:100%;">
                                 <span id="lp-loginBtn" style="font-family:'Julius Sans One', sans-serif; cursor:pointer;">Connexion</span> | <a id="lp-loginTwitchBtn" href="{{ linkTwitchOAuth }}" class="twitchWord">Twitch</a>
                             </div>
                             {# TODO form https://chat.openai.com/share/798e5950-f849-4c0e-91eb-eec2f2c1d929 #}
@@ -110,9 +110,28 @@
                                 })
                                 .catch(error => console.error('Error fetching login form:', error));
 
+
+                            setTimeout(() => {
+                                const togglePassword = document.querySelector('#togglePassword');
+                                const password = document.querySelector('#inputPassword');
+
+                                togglePassword.addEventListener('click', function (e) {
+                                    const type = password.getAttribute('type') === 'password' ? 'text' : 'password';
+                                    password.setAttribute('type', type);
+
+                                    // this.classList.toggle('fa-eye-slash');
+                                    if (type === 'password') {
+                                    this.classList.remove('fa-eye-slash');
+                                    this.classList.add('fa-eye');
+                                    } else {
+                                        this.classList.remove('fa-eye');
+                                        this.classList.add('fa-eye-slash');
+                                    }
+                                });
+
+                            }, 300);
                         });
                 </script>
-
 
         </div>
 

@@ -70,16 +70,19 @@
 
         <h1 style="">Rejoignez la communauté !</h1>
 
-        <div style="display:inline-flex; width:100%; margin-top:45px;">
+        <div class="containerDiv">
             <div class="registerLeftDiv">
 
-                <div style="width:95%; margin:0 auto; padding:20px 40px; border:2px solid #f97b2c61; background-color: #f97b2c0a; border-radius:7px;">
+                <div class="registerForm" style="width:95%; margin:0 auto; padding:20px 40px; border:2px solid #f97b2c61; background-color: #f97b2c0a; border-radius:7px;">
                     {{ form_start(registrationForm) }}
                         {{ form_row(registrationForm.email) }}
                         {{ form_row(registrationForm.pseudo) }}
-                        {{ form_row(registrationForm.plainPassword, {
-                            label: 'Mot de passe'
-                        }) }}
+                        <div style="position:relative;">
+                            {{ form_row(registrationForm.plainPassword, {
+                                label: 'Mot de passe'
+                            }) }}
+                            <i class="far fa-eye togglePasswordRegister" id="togglePassword" style="cursor: pointer;"></i>
+                        </div>
                         
                         <div style="margin-top:5px;">
                             {{ form_row(registrationForm.agreeTerms) }}
@@ -90,16 +93,47 @@
                             <span>Déjà un compte? <a class="registerConnectionLink" href="{{ path('app_login') }}">Se connecter</a></span>
                         </div>
                     {{ form_end(registrationForm) }}
-
                 </div>
 
-                
+                <script>
+                    const togglePassword = document.querySelector('#togglePassword');
+                    const password = document.querySelector('#registration_form_plainPassword_first');
+
+                    togglePassword.addEventListener('click', function (e) {
+                        const type = password.getAttribute('type') === 'password' ? 'text' : 'password';
+                        password.setAttribute('type', type);
+
+                        // this.classList.toggle('fa-eye-slash');
+                        if (type === 'password') {
+                        this.classList.remove('fa-eye-slash');
+                        this.classList.add('fa-eye');
+                        } else {
+                            this.classList.remove('fa-eye');
+                            this.classList.add('fa-eye-slash');
+                        }
+                    });
+
+                    // Style comme formType symfony
+                    // Add a focus event listener to the password input
+                    password.addEventListener('focus', function () {
+                        console.log('test');
+                        // Select and manipulate the togglePassword element when the input is in focus
+                        togglePassword.style.color = 'black'; // Change the color as an example
+                    });
+
+                    // Add a blur event listener to reset the style when the input loses focus
+                    password.addEventListener('blur', function () {
+                        togglePassword.style.color = ''; // Reset the color
+                    });
+                </script>
+
             </div>
+
 
             <div class="registerRightDiv">
 
                 <div style="position:relative; display:flex; width:92%; font-family:'K2D', sans-serif; margin:0 auto;">
-                    <p class="registerTextDiv">Créé un compte pour personaliser le contenu du site, pour t'exprimer, participer, et rejoindre ou créer une team qui te correspond !</p>
+                    <p class="registerTextDiv">Crée un compte pour personaliser le contenu du site, pour t'exprimer, participer, et rejoindre ou créer une team qui te correspond !</p>
                     <div class="registerRightShape"></div>
                 </div>
 

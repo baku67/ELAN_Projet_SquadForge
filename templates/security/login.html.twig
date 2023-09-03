@@ -77,8 +77,11 @@
             <div style="margin-bottom:25px;">
                 <label for="inputEmail">E-mail</label>
                 <input type="email" value="{{ last_username }}" name="email" id="inputEmail" class="form-control" autocomplete="email" required autofocus>
-                <label for="inputPassword">Mot de passe</label>
-                <input type="password" name="password" id="inputPassword" class="form-control" autocomplete="current-password" required>
+                <label for="inputPassword">Mot de passe </label>
+                <div style="position:relative;">
+                    <input type="password" name="password" id="inputPassword" class="form-control" autocomplete="current-password" required>
+                    <i class="far fa-eye" id="togglePassword" style="cursor: pointer;"></i>
+                </div>
             </div>
 
             <input type="hidden" name="_csrf_token"
@@ -106,5 +109,25 @@
         </form>
 
     </div>
+
+
+    <script>
+        const togglePassword = document.querySelector('#togglePassword');
+        const password = document.querySelector('#inputPassword');
+
+        togglePassword.addEventListener('click', function (e) {
+            const type = password.getAttribute('type') === 'password' ? 'text' : 'password';
+            password.setAttribute('type', type);
+
+            // this.classList.toggle('fa-eye-slash');
+            if (type === 'password') {
+            this.classList.remove('fa-eye-slash');
+            this.classList.add('fa-eye');
+            } else {
+                this.classList.remove('fa-eye');
+                this.classList.add('fa-eye-slash');
+            }
+        });
+    </script>
 
 {% endblock %}
