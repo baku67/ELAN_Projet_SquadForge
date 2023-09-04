@@ -373,7 +373,7 @@
                                     {# Card ajout fav (link games) #}
                                     <a href="{{ path('app_games') }}" class="gameCardLink splide__slide addFavCard" style="transform:scale(0.9); opacity:0.8;">
                                         <div class="lp-page3-slideContainer">
-                                            <div class="lp-gameCard" style="margin:0 auto; background-color:#1b1b1b;">
+                                            <div class="lp-gameCard fakeCard" style="margin:0 auto; background-color:#1b1b1b;">
 
                                                 <span class="addFavCardIcon"><i class="fa-solid fa-square-plus"></i></span>
                                                 {# <span class="lp-gameCardTitle">+</span> #}
@@ -593,17 +593,17 @@
                                 {% endif %}
                                     
 
-                                    <div class="mediaCard">
+                                    <div class="mediaCard" style=" background-color:{{ media.game.color }};">
 
                                         {% if app.user and not app.user.autoPlayGifs %}
                                         <a href="{{ path('app_mediaDetail', {'id': media.id}) }}">
                                         {% endif %}
-                                        <div class="mediaCardHeader" title="{{ media.title|capitalize }}" style="border-bottom: 5px solid {{ media.game.color }}">
+                                        <div class="mediaCardHeader" title="{{ media.title|capitalize }}" style="border-bottom: 3px solid {{ media.game.color }};">
                                             <img class="tinyLogo" src="{{ asset('img/games/tinyLogo/' ~ media.game.tinyLogo) }}" />
                                             <span class="mediaTitle">{{ media.title|capitalize }}</span>
                                             {# <span>{{ media.status }}</span>
                                             <span>{{ media.user.pseudo }}</span> #}
-                                            <span class="topicCardPublishDate">{{ time_diff(media.publishDate) }}</span>
+                                            <span class="mediaCardPublishDate">{{ time_diff(media.publishDate) }}</span>
                                         </div>
                                         {% if app.user and not app.user.autoPlayGifs %}
                                         </a>

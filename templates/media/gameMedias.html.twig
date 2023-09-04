@@ -134,12 +134,12 @@
                         {% if app.user and not app.user.autoPlayGifs %}
                         <a href="{{ path('app_mediaDetail', {'id': media.id}) }}">
                         {% endif %}
-                        <div class="mediaCardHeader" style="border-bottom: 4px solid {{ media.game.color }}">
+                        <div class="mediaCardHeader" style="border-bottom: 3px solid {{ media.game.color }}">
                             <img class="tinyLogo" src="{{ asset('img/games/tinyLogo/' ~ media.game.tinyLogo) }}" />
                             <span class="topicTitle">{{ media.title|capitalize }}</span>
                             {# <span>{{ media.status }}</span>
                             <span>{{ media.user.pseudo }}</span> #}
-                            <span class="topicCardPublishDate">{{ time_diff(media.publishDate) }}</span>
+                            <span class="mediaCardPublishDate">{{ time_diff(media.publishDate) }}</span>
                         </div>
                         {% if app.user and not app.user.autoPlayGifs %}
                         </a>

@@ -1883,6 +1883,11 @@ header {
     padding-left: 0px !important;
 }
 
+.fakeCard {
+    position: relative;
+    margin-left: 12px !important;
+
+}
 .lp-gameCard {
     cursor: pointer;
 
@@ -3379,6 +3384,10 @@ nav {
     animation: fadeInRotate 1s 0s ease forwards;
 }
 
+.mediaCardPublishDate {
+    display: none;
+}
+
 .topicCardPublishDate, .notifCardPublishDate {
     font-family: 'K2D', sans-serif;
 }
@@ -3643,7 +3652,7 @@ nav {
     position: relative;
     color: #161515;
     font-weight: bold;
-    padding: 7px 29px;
+    padding: 7px 23px;
     width: fit-content;
     z-index: 10;
     letter-spacing: 1px;   
@@ -3733,7 +3742,7 @@ nav {
 .homeFavGamesTitle {
     position:absolute; 
     clip-path: polygon(0 0, 100% 0, 91% 100%, 0 100%);
-    border-left: 7px solid #2ce4f9d4;
+    border-left: 3px solid #2ce4f9d4;
     border-top-left-radius: 6px;
     /* height:35px; 
     width:130px;  */
@@ -4464,11 +4473,9 @@ nav {
     display:inline-flex; 
     width:100%; 
     justify-content:space-between;
-
-    margin: 1px auto;
-    padding: 10px 15px 10px 53px;
-    background-color: #e7e7e7;
-    color: black;
+    padding: 4px 15px 4px 53px;
+    background-color: #151515;
+    color: white;
 }
 
 
@@ -4498,6 +4505,9 @@ nav {
     background-color: rgba(167, 167, 167,0.8);
     padding: 1px 1px 1px 1px;
     cursor: pointer;
+
+    border-top-left-radius: 3px;
+    border-top-right-radius: 3px;
 
     /* transition: 0.3s; */
 }
@@ -4711,7 +4721,7 @@ h1, h2, h3, h4 {
 
 .mediaCardStatsDiv {
     opacity: 0.8;
-    background-color: #292929;
+    background-color: #151515;
     display: inline-flex;
     width: 100%;
     justify-content: space-evenly;
