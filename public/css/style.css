@@ -111,8 +111,8 @@ body {
         padding: 8px 20px;
         position: relative;
         right: 5px;
-        border-top-left-radius: 0px !important;
-        border-bottom-left-radius: 0px !important;
+        border-top-right-radius: 8px !important;
+        border-bottom-right-radius: 8px !important;
         background-color: #e91e4dd0 !important;
         color: white !important;
         border: 1px solid rgba(255, 255, 255, 0.4) !important;
@@ -3382,7 +3382,7 @@ nav {
 }
 .notifCardPublishDate {
     position: absolute;
-    left: 15px;
+    right: 12px;
     bottom: 5px;
     font-size: 0.6em;
 }
@@ -3622,6 +3622,8 @@ nav {
     position: relative;
     z-index: 999;
     color: black;
+    left: 25px;
+    top: 3px;
 }
 
 .gameSubtitleV2 {
@@ -3721,9 +3723,15 @@ nav {
     }
 } */
 
+.homeTitleIcon {
+    color: #2ce4f9d4;
+    filter: drop-shadow(2px 4px 6px black);
+}
+
 .homeFavGamesTitle {
     position:absolute; 
     clip-path: polygon(0 0, 100% 0, 91% 100%, 0 100%);
+    border-left: 7px solid #2ce4f9d4;
     border-top-left-radius: 6px;
     /* height:35px; 
     width:130px;  */
@@ -3761,6 +3769,8 @@ nav {
     width: 5px;
     transform: translateY(-1px);
     z-index:0;
+
+    border-left: 7px solid #2ce4f9d4;
 
     animation: homeUserTeamsTitle1 0.3s 0.1s ease-in-out forwards, homeUserTeamsTitle2 0.4s 0.45s ease-in-out forwards;
 }
@@ -3909,12 +3919,15 @@ nav {
 
     position:absolute; 
     clip-path: polygon(0 0, 100% 0, 91% 100%, 0 100%);
-    border-top-left-radius: 4px;
+    /* border-top-left-radius: 4px; */
+    border-top-left-radius: 16px;
     /* height:35px; 
     width:130px;  */
     height: 0px;
     width: 5px;
-    transform: translate(0px, -5px);
+    /* transform: translate(0px, -2px); */
+    border-left: 20px;
+    transform: translate(2px, -1px);
     z-index:0;
 
     animation: modoSubTitle1Bg1 0.3s 0.1s ease-in-out forwards, modoSubTitle1Bg2 0.4s 0.45s ease-in-out forwards !important;
@@ -3932,7 +3945,7 @@ nav {
         width: 5px;
     }
     to {
-        width:300px; 
+        width:350px; 
     }
 }
 
@@ -5299,20 +5312,20 @@ cursor: pointer;
 .gamesNav {
     padding-top: 5px;
     padding-bottom: 4px;
-    border-top: 1px solid rgba(0,0,0,0);
+    border-top: 2px solid rgba(0,0,0,0);
     transition: all 0.25s;
 }
 .teamsNav {
     padding-top: 5px;
     padding-bottom: 4px;
-    border-top: 1px solid rgba(0,0,0,0);
+    border-top: 2px solid rgba(0,0,0,0);
     transition: all 0.25s;
 }
 .homeNav {
     padding-top: 5px;
     padding-left: 10px;
     padding-bottom: 6px;
-    border-top: 1px solid rgba(0,0,0,0);
+    border-top: 2px solid rgba(0,0,0,0);
     transition: all 0.25s;
     border-top-left-radius: 3px;
 }
@@ -5321,7 +5334,7 @@ cursor: pointer;
     padding-left: 2px;
     text-transform: uppercase;
     border-left: 1px solid #808080a8;
-    border-top: 1px solid rgba(0,0,0,0);
+    border-top: 2px solid rgba(0,0,0,0);
 
     transition: all 0.25s;
 }
@@ -5329,7 +5342,7 @@ cursor: pointer;
     /* padding-right: 3px !important; */
     color: white;
     transition: all 0.25s;
-    border-top: 1px solid rgba(0,0,0,0);
+    border-top: 2px solid rgba(0,0,0,0);
 }
 
 .gamesNav:hover {
@@ -5337,35 +5350,35 @@ cursor: pointer;
     color: black; */
     color: var(--primary-color);
     background-color: #ffffff17;
-    border-top: 1px solid var(--primary-color);
+    border-top: 2px solid var(--primary-color);
 }
 .teamsNav:hover {
     /* background-color: white;
     color: black; */
     color: var(--primary-color);
     background-color: #ffffff17;
-    border-top: 1px solid var(--primary-color);
+    border-top: 2px solid var(--primary-color);
 }
 .homeNav:hover {
     /* background-color: white;
     color: black; */
     color: var(--primary-color);
     background-color: #ffffff17;
-    border-top: 1px solid var(--primary-color);
+    border-top: 2px solid var(--primary-color);
 }
 .notifsNav:hover {
     /* background-color: white;
     color: black; */
     color: var(--primary-color);
     background-color: #ffffff17;
-    border-top: 1px solid var(--primary-color);
+    border-top: 2px solid var(--primary-color);
 }
 .modoNav:hover {
     /* background-color: white;
     color: black !important; */
     color: var(--primary-color);
     background-color: #ffffff17;
-    border-top: 1px solid var(--primary-color);
+    border-top: 2px solid var(--primary-color);
 }
 
 .navActive {
@@ -5529,6 +5542,10 @@ cursor: pointer;
 
 
 
+.notifCardLine {
+    position:relative; display:flex; width:55%; margin: 0px auto
+}
+
 
 
 
@@ -5558,6 +5575,11 @@ cursor: pointer;
     }
 }
 
+
+.mediaCardModo {
+    max-width: 375px;
+}
+
 .greetingMsg {
     color: var(--primary-color);
     font-weight: bold;
@@ -5568,9 +5590,11 @@ cursor: pointer;
 }
 
 .sectionContainer {
+    border-left: 6px solid var(--primary-color);
     margin: 50px auto;
     padding: 4px 0px 15px 0px;
-    border-radius: 6px;
+    /* border-radius: 6px; */
+    border-radius: 7px;
 }
 
 .sectionHomeContainer {
@@ -5578,7 +5602,9 @@ cursor: pointer;
     margin: 20px auto 50px auto;
     padding: 0px 10px 15px 0px;
     border-radius: 6px;
-    border-top: 2px solid var(--primary-color);
+    border-top: 2px solid #2ce4f9d4;
+
+    background-image: linear-gradient(to bottom, #2ce4f929, var(--background-color));
 
     /* animation: blinkBoxShadow 0.9s 0.5s forwards linear 1; */
 }
@@ -5618,6 +5644,7 @@ cursor: pointer;
 .teamCardTextDiv {
     position: relative;
     padding: 5px 15px;
+    z-index: 999;
 
     transition: all 0.3s;
 }
@@ -5658,6 +5685,9 @@ cursor: pointer;
 }
 .teamCardImgWrapper {
     overflow: hidden;
+
+    z-index: 9;
+    position: relative;
 }
 
 
@@ -5669,8 +5699,24 @@ cursor: pointer;
 
 
 
+.teamCardReflectDiv {
+    position: absolute;
+    height: 200px;
+    background-color: rgba(255, 255, 255, 0.1);
+    position: absolute;
+    height: 200px;
+    top: -32px;
+    left: -95px;
+    z-index: 999;
+    transform: rotate(20deg);
+    width: 38px;
 
+    transition: all 0.4s;
+}
 
+.teamCard:hover .teamCardReflectDiv {
+    left: 300px;
+}
 
 
 .teamCard:hover .teamCardImg {
@@ -5687,13 +5733,15 @@ cursor: pointer;
 
 .teamCard:hover .teamCardGameTitle {
     background-color: var(--background-color) !important;
+    transform: translate(-12px, -2px);
     color: white;
 }
 
 .teamCardGameTitle {
     position: absolute;
     padding: 2px 10px;
-    transform: translate(-12px, -2px);
+    /* transform: translate(-12px, -2px); */
+    transform: translate(-15px, -6px);
     border-top-left-radius: 3px;
     /* transform: translate(-16px, 7px); */
     left: 15px;
@@ -5793,11 +5841,13 @@ cursor: pointer;
 
 .modoSection {
     border-top: 1px solid var(--primary-color);
-    padding: 0px 20px 15px 20px;
+    padding: 0px 20px 15px 0px;
+    border-radius: 16px !important;
 }
 
 .modoSectionRed {
-    border: 2px solid #E91E63 !important;
+    border-top: 1px solid #E91E63 !important;
+    border-left: 6px solid #E91E63 !important;
 }
 
 
@@ -5807,14 +5857,14 @@ cursor: pointer;
     display:inline-flex; 
     flex-direction:column; 
     width:100%;
-    margin: 20px auto;
+    margin: 45px auto 20px auto;
 }
 .reportPreviewBtn {
     border: 1px solid #b2ffdf79;
     background-color: #991e3a1f;
     padding: 5px 10px;
     border-radius: 4px;
-    width: 80%;
+    width: 50%;
     margin: 7px auto;
 
     color: white;
@@ -5826,6 +5876,14 @@ cursor: pointer;
     /* border: 2px solid #b2ffdf79;
     margin: 6px auto; */
 
+}
+
+
+.addCensorSubDiv {
+    position: relative;
+    margin: 15px auto;
+    display: flex;
+    width: 293px;
 }
 
 
@@ -5953,10 +6011,10 @@ input:disabled {
 }
 
 .censuredWordsList {
-    display:inline-flex; 
+    display:flex; 
     flex-direction:column; 
-    width:100%; 
-    margin:20px auto;  
+    width:50%; 
+    margin:50px auto 25px auto;  
     height:245px; 
     overflow:scroll; 
     overflow-x:hidden;

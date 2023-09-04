@@ -76,7 +76,7 @@
 
             <div>
                 <div class="modoSubTitle1Bg" style="background-color:var(--primary-color);"></div>
-                <h3 class="gameSubtitle test noMarginBottom">Topics en attente</h3>
+                <h3 class="gameSubtitle test noMarginBottom"><i class="fa-solid fa-hourglass-half"></i> <strong>Topics</strong> en attente</h3>
             </div>
 
 
@@ -132,7 +132,10 @@
 
         <div class="sectionContainer modoSection" >
 
-            <h3>Médias en attente</h3>
+            <div>
+                <div class="modoSubTitle1Bg" style="background-color:var(--primary-color);"></div>
+                <h3 class="gameSubtitle test noMarginBottom"><i class="fa-solid fa-hourglass-half"></i> <strong>Médias</strong> en attente</h3>
+            </div>
 
             {% if lastWaitingMedias|length == 0 %}
 
@@ -144,24 +147,26 @@
 
                     {% for media in lastWaitingMedias %}
 
-                        <div id="mediaCard{{ media.id }}" class="mediaCard" style="cursor:pointer;">
-                            <div class="mediaCardHeader" style="border-bottom: 4px solid {{ media.game.color }}">
-                                <img class="tinyLogo" src="{{ asset('img/games/tinyLogo/' ~ media.game.tinyLogo) }}" />
-                                <span id="mediaCardTitle{{ media.id }}" class="mediaTitle" style="font-family:'K2D',sans-serif;">{{ media.title|capitalize }}</span>
-                                {# <span id="topicStatusValidate{{ media.id }}">{{ media.validated }}</span> #}
-                                {# <span>{{ media.user.pseudo }}</span> #}
-                                <span class="topicCardPublishDate">{{ time_diff(media.publishDate) }}</span>
+                        <div style="display:inline-block;">
+                            <div id="mediaCard{{ media.id }}" class="mediaCard mediaCardModo" style="cursor:pointer;">
+                                <div class="mediaCardHeader" style="border-bottom: 4px solid {{ media.game.color }}">
+                                    <img class="tinyLogo" src="{{ asset('img/games/tinyLogo/' ~ media.game.tinyLogo) }}" />
+                                    <span id="mediaCardTitle{{ media.id }}" class="mediaTitle" style="font-family:'K2D',sans-serif;">{{ media.title|capitalize }}</span>
+                                    {# <span id="topicStatusValidate{{ media.id }}">{{ media.validated }}</span> #}
+                                    {# <span>{{ media.user.pseudo }}</span> #}
+                                    <span class="topicCardPublishDate">{{ time_diff(media.publishDate) }}</span>
+                                </div>
+                                <img src="{{ asset("img/uploads/" ~ media.url) }}" alt="media" class="mediaImg" />
                             </div>
-                            <img src="{{ asset("img/uploads/" ~ media.url) }}" alt="media" class="mediaImg" />
-                        </div>
 
-                        <div id="mediaSubCard{{ media.id }}" class="mediaApprovalLine notDisplayed">
-                            <a href="{{ path('app_validateMedia', {'id': media.id}) }}">
-                                <span class="mediaApproveBtn"><i class="fa-solid fa-check"></i></span>
-                            </a>
-                            <a href="{{ path('app_refuseMedia', {'id': media.id}) }}">
-                                <span class="mediaRefuseBtn"><i class="fa-solid fa-xmark"></i></span>
-                            </a>
+                            <div id="mediaSubCard{{ media.id }}" class="mediaApprovalLine notDisplayed">
+                                <a href="{{ path('app_validateMedia', {'id': media.id}) }}">
+                                    <span class="mediaApproveBtn"><i class="fa-solid fa-check"></i></span>
+                                </a>
+                                <a href="{{ path('app_refuseMedia', {'id': media.id}) }}">
+                                    <span class="mediaRefuseBtn"><i class="fa-solid fa-xmark"></i></span>
+                                </a>
+                            </div>
                         </div>
 
                         {# OnClick MediaCard: détails et boutons validation/refus #}
@@ -186,7 +191,12 @@
         {# Section Signalements/Reports #}
         {# Ajax apercu on clic #}
         <div class="sectionContainer modoSection modoSectionRed" >
-            <h3>Signalements</h3>
+
+
+            <div>
+                <div class="modoSubTitle1Bg" style="background-color:#E91E63;"></div>
+                <h3 class="gameSubtitle test noMarginBottom"><i class="fa-solid fa-flag"></i> <strong>Signalements</strong></h3>
+            </div>
 
             <div class="reportsDiv">
 
@@ -499,7 +509,10 @@
 
         <div class="sectionContainer modoSection modoSectionRed" >
 
-            <h3>Mots censurés</h3>
+            <div>
+                <div class="modoSubTitle1Bg" style="background-color:#E91E63;"></div>
+                <h3 class="gameSubtitle test noMarginBottom"><i class="fa-solid fa-bug-slash"></i> <strong>Censures</strong></h3>
+            </div>
             
             <div class="censuredWordsList">
                 {% for censureWord in censureWords %}
@@ -516,7 +529,7 @@
             </div>
 
             {{ form_start(formAddCensoredWord) }}
-                <div class="inline" style="position:relative; margin: 5px auto;">
+                <div class="inline addCensorSubDiv">
                     {{ form_widget(formAddCensoredWord.word) }} 
                     {{ form_widget(formAddCensoredWord.submit) }}
                 </div>

@@ -312,7 +312,7 @@
 
                 <div class="blinkingSectionTitle">
                     <div class="homeFavGamesTitle" style="background-color:var(--primary-color);"></div>
-                    <h3 class="homeSubTitle noMarginBottom"><i class="fa solid fa-heart"></i> Jeux Favoris</h3>
+                    <h3 class="homeSubTitle noMarginBottom"><i class="fa solid fa-heart homeTitleIcon"></i> Jeux Favoris</h3>
                 </div>
 
                 <div class="lp-page3-containerMaster">
@@ -419,7 +419,7 @@
                 <div>
                     <div class="homeUserTeamsTitle" style="background-color:var(--primary-color);"></div>
                     <a href="{{ path('app_userGroups') }}" style="width:fit-content; display:block;">
-                        <h3 class="homeSubTitle noMarginBottom"><i class="fa-solid fa-users-rays"></i> Vos teams</h3>
+                        <h3 class="homeSubTitle noMarginBottom"><i class="fa-solid fa-users-rays homeTitleIcon"></i> Vos teams</h3>
                     </a>
                 </div>
 
@@ -482,6 +482,9 @@
                                         {% if userTeam.active %}
                                             <span class="teamCard-isActiveLabel">Active</span>
                                         {% endif %}
+
+                                        {# Div effet reflet onHover card #}
+                                        <div class="teamCardReflectDiv"></div>
 
                                     </div>
 
@@ -752,7 +755,7 @@
             } else {
                 var splide = new Splide( '.splide', {
                     width: '100%',
-                    perPage: 5,
+                    perPage: 6,
 
                 } );
 
