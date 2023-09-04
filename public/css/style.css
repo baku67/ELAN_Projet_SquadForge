@@ -3468,7 +3468,7 @@ nav {
     text-align: center;
     padding-right: 32px;
 
-    border-top: 2px solid var(--background-color);
+    border-top: 0px solid var(--background-color);
     border-top-left-radius: 9px;
     /* Stylé mais se voit trop quand background gradient gris */
     /* border-top-right-radius: 40px; */ 
@@ -3624,8 +3624,8 @@ nav {
     position: relative;
     z-index: 999;
     color: black;
-    left: 25px;
-    top: 3px;
+    left: 15px;
+    top: 7px;
 }
 
 .gameSubtitleV2 {
@@ -3929,7 +3929,7 @@ nav {
     width: 5px;
     /* transform: translate(0px, -2px); */
     border-left: 20px;
-    transform: translate(2px, -1px);
+    transform: translate(0px, 0px);
     z-index:0;
 
     animation: modoSubTitle1Bg1 0.3s 0.1s ease-in-out forwards, modoSubTitle1Bg2 0.4s 0.45s ease-in-out forwards !important;
@@ -4569,7 +4569,7 @@ h1, h2, h3, h4 {
     max-height: 250px;
     max-width: 80%;
 
-    backdrop-filter: blur(3px);
+    backdrop-filter: blur(2px);
     border-radius: 7px;
     z-index: 999;
 }
@@ -5853,12 +5853,10 @@ cursor: pointer;
 }
 
 .modoSection {
-    border-top: 1px solid var(--primary-color);
+    border-top: 1px solid #2ce4f9d4;
     padding: 0px 20px 15px 0px;
     border-radius: 7px !important;
-
-    border-left: 4px solid #2ce4f9d4 !important;
-
+    border-left: 4px solid var(--primary-color);
     background-image: linear-gradient(to bottom, #2ce4f929, var(--background-color));
 }
 
