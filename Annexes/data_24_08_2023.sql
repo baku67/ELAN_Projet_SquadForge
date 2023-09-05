@@ -387,9 +387,7 @@ INSERT INTO `user_game` (`user_id`, `game_id`) VALUES
 	(98, 4),
 	(98, 5),
 	(98, 6),
-	(98, 7),
-	(98, 8),
-	(98, 9);
+	(98, 7);
 
 -- INSERT INTO `favoris` (`user_id`, `game_id`) VALUES
 -- 	(3, 2),
