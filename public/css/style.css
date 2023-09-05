@@ -3706,7 +3706,7 @@ nav {
         height: 0px;
     }
     to {
-        height:268px; 
+        height:283px; 
     }
 }
 @keyframes gameInfosHeaderTitle2 {
@@ -4079,7 +4079,8 @@ nav {
     display: inline-flex;
     flex-direction: column;
     background-color: var(--background-color);
-    margin-top: 30px;
+    margin-top: 28px;
+    top: 17px;
     color: white;
     position: relative;
     right: 15px;
