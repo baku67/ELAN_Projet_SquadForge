@@ -1,5 +1,9 @@
 twig:
     default_path: '%kernel.project_dir%/templates'
+    # exception_controller: null
+    # paths:
+    #     # Chemin vers templates d'erreurs personalisés
+    #     '%kernel.project_dir%/templates': templates
 
 when@test:
     twig:
