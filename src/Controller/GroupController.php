@@ -209,7 +209,7 @@ class GroupController extends AbstractController
                         }
                         else {
                             $this->addFlash('error', 'Pas de vulgarités pour un titre');
-                            return $this->redirectToRoute('app_groupDetails', ['groupId' => $group->getId()]);
+                            return $this->redirectToRoute('app_createGroup', ['gameIdFrom' => $gameIdFrom]);
                         } 
                     }
                     else {

@@ -23,7 +23,8 @@ class Candidature
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
     private ?\DateTimeInterface $creation_date = null;
 
-    #[ORM\ManyToOne(inversedBy: 'candidatures')]
+    #[ORM\ManyToOne(inversedBy: 'candidatures', cascade: ['remove'])]
+    #[ORM\JoinColumn(nullable: false, onDelete: "cascade")]
     private ?Group $groupe = null;
 
     #[ORM\ManyToOne(inversedBy: 'candidatures')]

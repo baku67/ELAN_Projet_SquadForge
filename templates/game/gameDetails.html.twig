@@ -458,8 +458,8 @@
                         <div style="position:relative; margin: 5px auto;">
                             <div class="labelSpan" style="width:100%; display:inline-flex; align-items: center;">
                                 {{ form_label(formAddTopic.title, 'Titre')}}
-                                <p id="charCountMsg" style="color:red;"> (au moins 5 mots)</p>
-                                <span id="vulgarityTopicWarning" style="color:red; font-size:0.72em; display:none; font-family:'K2D',sans-serif;">
+                                <p id="charCountMsg" style="color:#ff1c1c; font-weight:bold;"> (au moins 5 mots)</p>
+                                <span id="vulgarityTopicWarning" style="color:#ff1c1c; font-weight:bold; font-size:0.72em; display:none; font-family:'K2D',sans-serif;">
                                     <i class="fa-solid fa-triangle-exclamation"></i>
                                     &nbsp;Vulgarité
                                 </span>
@@ -498,7 +498,7 @@
                         const wordCount = words.length;
 
                         if(wordCount <= 5) {
-                            charContMsg.style.color = "red";
+                            charContMsg.style.color = "#ff1c1c";
                             document.getElementById('topic_submit').disabled = true;
 
                         }
@@ -595,8 +595,8 @@
                         <div style="position:relative; margin: 5px auto;">
                             <div class="labelSpan" style="width:100%; display:inline-flex; align-items: center;">
                                 {{ form_label(formAddMedia.title, 'Titre')}}
-                                <p id="charCountMsgMedia" style="color:red;"> (au moins 5 mots)</p>
-                                <span id="vulgarityMediaWarning" style="color:red; font-size:0.72em; display:none; font-family:'K2D',sans-serif;">
+                                <p id="charCountMsgMedia" style="color:#ff1c1c; font-weight:bold;"> (au moins 5 mots)</p>
+                                <span id="vulgarityMediaWarning" style="color:#ff1c1c; font-weight:bold;font-size:0.72em; display:none; font-family:'K2D',sans-serif;">
                                     <i class="fa-solid fa-triangle-exclamation"></i>
                                     &nbsp;Vulgarité
                                 </span>
@@ -617,10 +617,11 @@
 
                     <div class="mediaCardPreview">
                         <div id="preview-container">
-                                    <div id="mediaCardHeader">
-                                        <span class="mediaTitle"></span>
-                        
-                                    </div>
+                            Aperçu:
+                            <div id="mediaCardHeader">
+                                <span class="mediaTitle"></span>
+                
+                            </div>
 
                         </div>
                     </div>
@@ -853,7 +854,7 @@
                     fileExtCriteria = true;
                 }
                 else {
-                    document.getElementById('extensionCriteria').style.color = 'red';
+                    document.getElementById('extensionCriteria').style.color = '#ff1c1c';
                     document.getElementById('extensionCriteria').innerHTML = "( .png .jpg .gif .jpeg <i class='fa-solid fa-triangle-exclamation'></i> )";
                     fileExtCriteria = false;        
                 }
@@ -876,7 +877,7 @@
                 const wordCount = words.length;
 
                 if(wordCount <= 5) {
-                    charContMsg2.style.color = "red";
+                    charContMsg2.style.color = "#ff1c1c";
                     textCriteria = false;
                 }
                 else {
@@ -937,16 +938,15 @@
 
 
 
-        {# Script de Warning titres Topic/Media Front (bloqué submit) #} 
-        {# On censure pas mais proc warning (à fix) #}
+        {# Script de Warning titres Topic/Media Front #} 
+        {# On censure pas mais proc warning (bloquand backend) #}
         <script>
 
-            // Traduction Collection Censure en arrayJS des mots
+            // Array mots censurés
             let censuresArray = [];
             {% for censure in censures %}
                 censuresArray.push("{{ censure.word }}");
             {% endfor %}
-            console.log(censuresArray);
 
             // A chaque input, check si il y a vulgarité et censorise
             document.getElementById('topic_title').addEventListener('input', function() {
@@ -954,12 +954,9 @@
                 // Découpe de l'input en array de mot (dans l'ordre)
                 let inputArray = document.getElementById('topic_title').value.split(" ");
 
-                // Si aucun mot censuré (display none du warning) marche
+                // Si aucun mot censuré (display none du warning)
                 const noneCensored = inputArray.every(element => !censuresArray.includes(element.toLowerCase()) || element.startsWith('\\') );
-                console.log('TEST input ARRAY: ' + inputArray);
-                console.log('TEST censore ARRAY: ' + censuresArray);
                 if (noneCensored) {
-                    console.log('proc display:none');
                     document.getElementById('vulgarityTopicWarning').style.display = "none";
                 }
                 else {

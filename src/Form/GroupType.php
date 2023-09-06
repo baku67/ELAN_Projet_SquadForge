@@ -24,6 +24,8 @@ use Symfony\Component\Validator\Constraints\Callback;
 use Symfony\Component\Validator\Constraints\NotBlank;
 use Symfony\Component\Validator\Constraints\Range;
 use Symfony\Component\Validator\Constraints\File;
+use Symfony\Component\Validator\Constraints\Regex;
+
 
 class GroupType extends AbstractType
 {
@@ -50,6 +52,11 @@ class GroupType extends AbstractType
                     new Length([
                         'max' => 1000,
                         'maxMessage' => 'Le titre ne peut pas faire plus de 250 caractères.',
+                    ]),
+                    // Pas de caractères spéciaux
+                    new Regex([
+                        'pattern' => '/^[a-zA-Z0-9-_]+$/',
+                        'message' => 'Votre pseudo ne doit être composé que de lettres, chiffres et "-" ou "_".',
                     ]),
                 ],
             ])

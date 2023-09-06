@@ -36,6 +36,18 @@ class RegistrationController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
 
+            $userRepo = $entityManager->getRepository(User::class);
+
+            // Vérifs pseudo et email unique 
+            if (count($userRepo->findBy(['pseudo' => $form->get('pseudo')->getData()])) > 0) {
+                $this->addFlash('error', 'Le pseudo est déjà utilisé');
+                return $this->redirectToRoute('app_register');
+            }
+            if (count($userRepo->findBy(['email' => $form->get('email')->getData()])) > 0) {
+                $this->addFlash('error', 'L\'email est déjà utilisé');
+                return $this->redirectToRoute('app_register');
+            }
+
             $user->setAutoPlayGifs(true);
             $user->setNbrCensures(0);
 
@@ -84,13 +96,11 @@ class RegistrationController extends AbstractController
             $this->emailVerifier->handleEmailConfirmation($request, $this->getUser());
         } catch (VerifyEmailExceptionInterface $exception) {
             $this->addFlash('verify_email_error', $translator->trans($exception->getReason(), [], 'VerifyEmailBundle'));
-
             return $this->redirectToRoute('app_register');
         }
 
         // @TODO Change the redirect on success and handle or remove the flash message in your templates
         $this->addFlash('success', 'Your email address has been verified.');
-
         return $this->redirectToRoute('app_home');
     }
 }

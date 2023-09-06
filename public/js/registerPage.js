@@ -24,16 +24,17 @@ window.onload = function() {
             emailValid = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/.test(inputEmail);
 
             if(emailValid) {
+                document.getElementById('registerEmailCriteria').textContent = "L'email est valide";
                 document.getElementById('registerEmailCriteria').style.color = 'green';
             }
             else {
+                document.getElementById('registerEmailCriteria').textContent = "L'email n'est pas valide";
                 document.getElementById('registerEmailCriteria').style.color = 'red';
             }
         }
         else {
-            
+            document.getElementById('registerEmailCriteria').textContent = "L'email n'est pas valide";
             document.getElementById('registerEmailCriteria').style.color = 'red';
-
         }
 
         checkIfAllCriterias();
@@ -74,7 +75,7 @@ window.onload = function() {
                 let searchTimer;
 
                 function delayedSearch() {
-                    // Clear any previously set timer
+                    // Nettoie le timer (debouncing lors de la frappe)
                     clearTimeout(searchTimer);
                     searchTimer = setTimeout(() => {
                         fetch('/checkPseudoAvailable/' + inputPseudo, {
@@ -86,7 +87,6 @@ window.onload = function() {
                         .then(response => response.json())
                         .then(data => {
                             if (data.success) {
-
                                 if(data.pseudoAvailable) {
                                     pseudoValid = true;
                                     document.getElementById('registerPseudoCriteria').style.color = "green";
@@ -97,13 +97,10 @@ window.onload = function() {
                                     document.getElementById('registerPseudoCriteria').style.color = "red";
                                     document.getElementById('registerPseudoCriteria').textContent = "- Le pseudo est déjà utilisé";
                                 }
-
-
                             } else {
                                 window.FlashMessage.error('Il y a eu un problème avec le chargment du contenu');
                             }
                         })
-
                     }, 250);
 
                 }
@@ -234,19 +231,12 @@ window.onload = function() {
 
 
 
-
-
-
     // Fonction de vérification des critères pour activer le bouton submit
     function checkIfAllCriterias() {
         if(emailValid && pseudoValid && termsAccepted && passwordsMatches && nbrCharResult && nbrMinResult && nbrMajResult && nbrNumResult && nbrSpecialResult) {
-            console.log("proc bouton clickjable");
             document.getElementById('registration_form_submit').disabled = false;
-
-
         }
         else {
-            console.log("bouton non clickjable");
             document.getElementById('registration_form_submit').disabled = true;
         }
     }

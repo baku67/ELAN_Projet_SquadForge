@@ -46,7 +46,7 @@ class TopicType extends AbstractType
                         'message' => 'Le titre ne peut pas être vide.',
                     ]),
                     new Length([
-                        'max' => 1000,
+                        'max' => 250,
                         'maxMessage' => 'Le titre ne peut pas faire plus de 250 caractères.',
                     ]),
                 ],
@@ -88,10 +88,10 @@ class TopicType extends AbstractType
 
     public function validateTextInput($value, ExecutionContextInterface $context)
     {
-        // Extract words from the entity collection
+        // Extraction des mots (array) depuis collection Censures
         $words = $this->extractWordsFromCollection();
 
-        // Convert the text input value to lowercase for case-insensitive comparison
+        // Conversion de l'input en lowerCase pour comparaison non sensible à la casse
         $lowercaseValue = strtolower($value);
 
         foreach ($words as $word) {
@@ -103,9 +103,6 @@ class TopicType extends AbstractType
         }
     }
 
-
-
-
     private function extractWordsFromCollection(): array
     {
         $censureCollection = $this->censureRepository->findAll();
@@ -116,7 +113,6 @@ class TopicType extends AbstractType
                 $words[] = $item->getWord();
             }
         }
-
         return $words;
     }
 }

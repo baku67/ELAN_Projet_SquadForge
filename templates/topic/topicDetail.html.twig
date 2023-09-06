@@ -209,13 +209,11 @@
 
             {# Script de censure Front add TopicPost #}
             <script>
-
                 // Traduction Collection Censure en arrayJS des mots
                 let censuresArray = [];
                 {% for censure in censures %}
                     censuresArray.push("{{ censure.word }}");
                 {% endfor %}
-                console.log(censuresArray);
 
                 // A chaque input, check si il y a vulgarité et censorise
                 document.getElementById('topic_post_text').addEventListener('input', function() {
@@ -224,15 +222,11 @@
                     let inputArray = document.getElementById('topic_post_text').value.split(" ");
 
                     // Génération de la censure selon la longueur du mot
-                    // const replacementValue = "ù^$*@";
                     function censorWordGen(wordLength) {
-
-                        // const characters = ['ù', '^', '-', '$', '&', '@', '*', 'µ', '!', '#']
                         let censure = "";
                         for (var i = 0; i < wordLength; i++) {
                             censure = censure + "*";
                         }
-
                         return censure;
                     }
 

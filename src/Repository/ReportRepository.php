@@ -58,17 +58,15 @@ class ReportRepository extends ServiceEntityRepository
     public function getNbrReportsPerMotif(string $objectType, int $objectId): array {
         
         $motifs = $this->reportMotifRepo->findAll();
-
         $nbrReportsPerMotif = [];
 
         foreach ($motifs as $motif) {
 
             $nbr = $this->createQueryBuilder('r')
-            ->select('COUNT(r) as nbrReports') // Inclure toutes les colonnes non agrégées
+            ->select('COUNT(r) as nbrReports')
             ->where('r.reportMotif = :motif')
             ->setParameter('motif', $motif)
 
-            // ->groupBy('r.objectId', 'r.objectType') 
             ->andWhere('r.objectType = :objectType')
             ->setParameter('objectType', $objectType)
             ->andWhere('r.objectId = :objectId')
@@ -83,7 +81,6 @@ class ReportRepository extends ServiceEntityRepository
             }
 
         }
-
         return $nbrReportsPerMotif;
     }
 

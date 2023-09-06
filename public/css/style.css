@@ -3781,7 +3781,7 @@ nav {
     transform: translateY(-1px);
     z-index:0;
 
-    border-left: 7px solid #2ce4f9d4;
+    border-left: 3px solid #2ce4f9d4;
 
     animation: homeUserTeamsTitle1 0.3s 0.1s ease-in-out forwards, homeUserTeamsTitle2 0.4s 0.45s ease-in-out forwards;
 }
@@ -4499,7 +4499,8 @@ nav {
     font-family: 'K2D', sans-serif;
     margin: 0 10px;
     font-size: 0.72em;
-    color: red;
+    font-weight: bold;
+    color: #ff1c1c;
 }
 
 .mediaCard {
