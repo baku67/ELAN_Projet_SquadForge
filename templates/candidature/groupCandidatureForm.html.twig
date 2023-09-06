@@ -256,7 +256,9 @@
 
     {# // Adaptation couleur borderBottom HeaderFixed #}
     <script>
-        document.getElementsByClassName('profilIcon')[0].style.color = "{{gameFrom.color}}";
+        {% if app.user %}
+             document.getElementsByClassName('profilIcon')[0].style.color = "{{gameFrom.color}}";
+        {% endif %}
 
         if (document.getElementById('landingPageBool') == null) {
             window.addEventListener('scroll', () => {
