@@ -282,14 +282,14 @@ class SecurityController extends AbstractController
 
 
     
-    // Suppression de compte par l'User
+    // TODO: Changement de mots de passe 
     #[Route(path: '/changePassword', name: 'app_changePassword')]
     public function changePassword(EntityManagerInterface $entityManager): Response
     {
 
-        
 
-        $this->addFlash('success', 'Mot de passe modifié');
+
+        $this->addFlash('error', 'Fonctionalité à venir');
         return $this->redirectToRoute('app_user');
 
     }

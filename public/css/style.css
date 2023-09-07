@@ -962,6 +962,35 @@ header {
 }
 
 
+#tarteaucitronManager {
+    transition: all 0.3s;
+    animation: cookieAnim 8s 0s ease-in-out forwards infinite;
+}
+@keyframes cookieAnim {
+    0% {
+        transform: rotate(0deg);
+    }
+    25% {
+        transform: rotate(10deg);
+    }
+    50% {
+        transform: rotate(0deg);
+    }
+    75% {
+        transform: rotate(10deg);
+    }
+    100% {
+        transform: rotate(0deg);
+    }
+}
+
+#tarteaucitronManager img {
+    transition: all 0.3s;
+}
+#tarteaucitronManager:hover img {
+    transform: scale(1.25);
+}
+
 #lp-page1a {
     opacity: 0;
     animation: lp-page1a-fadeIn 0.7s 1.2s ease forwards;
