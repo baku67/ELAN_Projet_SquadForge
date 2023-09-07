@@ -287,6 +287,8 @@ class SecurityController extends AbstractController
     public function changePassword(EntityManagerInterface $entityManager): Response
     {
 
+        
+
         $this->addFlash('success', 'Mot de passe modifié');
         return $this->redirectToRoute('app_user');
 

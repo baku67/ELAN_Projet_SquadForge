@@ -74,7 +74,11 @@
         {# Fil d'Ariane #}
         <p class="breadcrumbs"><a class="underlineLink" href="{{ path('app_games') }}">Jeux</a> - <a class="underlineLink" href="{{ path('app_game', {'id': gameFrom.id }) }}">{{ gameFrom.title }}</a> - Topics</p>
 
-        <h2>TOPICS</h2>
+        {# <h2 class="pageTitle">Topics</h2> #}
+        <h3 class="gameSubTitle noMarginBottom" style="background-color:{{ gameFrom.color }}">
+            Topics
+            <span class="gameListCount">&nbsp;({{ gameTopicsCount }})</span>
+        </h3>
 
         {# Boutons toggle entrer list des topicsGlobaux et ceux du jeu #}
         <div style="display:inline-flex; width:100%; justify-content:center;">
