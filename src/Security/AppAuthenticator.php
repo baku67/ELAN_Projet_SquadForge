@@ -14,6 +14,8 @@ use Symfony\Component\Security\Http\Authenticator\Passport\Badge\UserBadge;
 use Symfony\Component\Security\Http\Authenticator\Passport\Credentials\PasswordCredentials;
 use Symfony\Component\Security\Http\Authenticator\Passport\Passport;
 use Symfony\Component\Security\Http\Util\TargetPathTrait;
+use Symfony\Component\Security\Core\Exception\CustomUserMessageAuthenticationException;
+use App\Repository\UserRepository;
 
 class AppAuthenticator extends AbstractLoginFormAuthenticator
 {
@@ -21,15 +23,21 @@ class AppAuthenticator extends AbstractLoginFormAuthenticator
 
     public const LOGIN_ROUTE = 'app_login';
 
-    public function __construct(private UrlGeneratorInterface $urlGenerator)
+    public function __construct(private UrlGeneratorInterface $urlGenerator, UserRepository $userRepository)
     {
+        $this->userRepository = $userRepository;
     }
 
     public function authenticate(Request $request): Passport
     {
         $email = $request->request->get('email', '');
+        $user = $this->userRepository->findOneBy(['email' => $email]);
 
         $request->getSession()->set(Security::LAST_USERNAME, $email);
+
+        if( !$user || !$user->isVerified()) {
+            throw new CustomUserMessageAuthenticationException('Vous devez valider le mail de confirmation pour pouvoir vous connecter');
+        }
 
         return new Passport(
             new UserBadge($email),

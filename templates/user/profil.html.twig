@@ -75,53 +75,66 @@
 
         <h2 class="pageTitle">Profil</h2>
 
-        <h3>Infos</h3>
-        <p>{{ user.pseudo|capitalize }}</p>
-        <p>Email: {{ user.email }}</p>
+        <div class="sectionHomeContainer">
 
-        {# Suppression de compte (+modal comfirmation): (privacy: garde donnéees 2 mois) #}
-        <span id="deleteSelfAccount" onclick="deleteAccountModal.showModal()">Supprimer le compte</span>
+            <div class="blinkingSectionTitle">
+                <div class="homeFavGamesTitle" style="background-color:var(--primary-color);"></div>
+                <h3 class="homeSubTitle noMarginBottom">Infos</h3>
+            </div>
 
-        <dialog class="modalDialog" id="deleteAccountModal">
-            <p>Êtes-vous sûr de vouloir supprimer votre compte ?</p>
-            <a class="confirmModal" href="{{ path('app_deleteSelfAccount') }}">Oui</a>
-            <span class="cancelModal" onclick="deleteAccountModal.close()">Annuler</span>
-        </dialog>
+            <div class="lp-page3-containerMaster" style="padding-left:15px;">
+                <p>Pseudo: <span style="font-family:'K2D';">{{ user.pseudo|capitalize }}</span></p>
+                <p>Email: <span style="font-family:'K2D';">{{ user.email }}</span></p>
 
-        
-        {% if not user.isVerified %}
-        <p style="color:red;">Votre email est toujours en attente de validation, vérifiez votre boîte mail pour pouvoir profiter de toutes les fonctionalités</p>
-        {% endif %}
-        
+                {% if userRole[0] == "ROLE_USER" %}
+                    <p>Rôle:<span class="roleUserData">Utilisateur</span></p>
+                {% elseif userRole[0] == "ROLE_MODO" %}
+                    <p>Rôle:<a href="{{ path('app_moderationDashboard') }}" class="roleUserData">Modérateur</a></p>
+                {% elseif userRole[0] == "ROLE_ADMIN" %}
+                    <p>Rôle:<span class="roleUserData">Administrateur</span></p>
+                {% endif %}
 
+                <dialog class="modalDialog" id="deleteAccountModal">
+                    <p>Êtes-vous sûr de vouloir supprimer votre compte ?</p>
+                    <a class="confirmModal" href="{{ path('app_deleteSelfAccount') }}">Oui</a>
+                    <span class="cancelModal" onclick="deleteAccountModal.close()">Annuler</span>
+                </dialog>
 
-        {% if userRole[0] == "ROLE_USER" %}
-            <p>Rôle:<span class="roleUserData">Utilisateur</span></p>
-        {% elseif userRole[0] == "ROLE_MODO" %}
-            <p>Rôle:<span class="roleUserData">Modérateur</span></p>
-        {% elseif userRole[0] == "ROLE_ADMIN" %}
-            <p>Rôle:<span class="roleUserData">Administrateur</span></p>
-        {% endif %}
+                {% if not user.isVerified %}
+                <p style="color:red;">Votre email est toujours en attente de validation, vérifiez votre boîte mail pour pouvoir profiter de toutes les fonctionalités</p>
+                {% endif %}
 
+                {# Toggle Lecture automatique des Gifs #}
+                {% if app.user.autoPlayGifs %}
+                    {% set checked = "checked" %}
+                    {% set value = "true" %}
+                {% else %}
+                    {% set checked = "" %}
+                    {% set value = "false" %}
+                {% endif %}
+                
+                <div style="display:inline-flex; width:100%;">
+                    <p style="margin-right:10px;">Lecture automatique des Gifs: </p>
+                    <form id="toggleAutoplayForm" action="{{ path('app_toggleAutoplayGifs') }}" method="post">
+                        <label class="toggleAutoPlay">
+                            <input type="checkbox" value="{{ value }}" {{ checked }} name="autoPlay" id="autoPlay">
+                            <span class="slider"></span>
+                        </label>
+                    </form>
+                </div>
 
-        
-        {# Toggle Lecture automatique des Gifs #}
-        {% if app.user.autoPlayGifs %}
-            {% set checked = "checked" %}
-            {% set value = "true" %}
-        {% else %}
-            {% set checked = "" %}
-            {% set value = "false" %}
-        {% endif %}
-        
-        <div style="display:inline-flex; width:100%;">
-            <p style="margin-right:10px;">Lecture automatique des Gifs: </p>
-            <form id="toggleAutoplayForm" action="{{ path('app_toggleAutoplayGifs') }}" method="post">
-                <label class="toggleAutoPlay">
-                    <input type="checkbox" value="{{ value }}" {{ checked }} name="autoPlay" id="autoPlay">
-                    <span class="slider"></span>
-                </label>
-            </form>
+                <div>
+                    <span>Changer de mot de passe</span>
+                    <div>
+                        <form>
+                        </form>
+                    </div>
+                </div>
+
+                {# Suppression de compte (+modal comfirmation): (privacy: garde donnéees 2 mois) #}
+                <span id="deleteSelfAccount" onclick="deleteAccountModal.showModal()">Supprimer le compte</span>
+
+            </div>
         </div>
 
         {# Asynch app_toggleAutoplayGifs (Erreur JS promise #}
@@ -151,168 +164,187 @@
         </script>
         
 
+        <div class="sectionHomeContainer">
 
-        <h3>Topics publiés <span class="gameListCount">({{ userTopicsCount }})</span></h3>
-        <div class="listContainer topicList marginTop">
-        
-            {% for topic in userTopics %}
-                <a href="{{ path('app_topicDetail', {'id': topic.id}) }}">
-                    <div class="topicCard" style="border-bottom: 4px solid {{ topic.game.color }}">
-                        <img class="tinyLogo" src="{{ asset('img/games/tinyLogo/' ~ topic.game.tinyLogo) }}" />
-                        <span class="topicTitle">{{ topic.title|capitalize }}</span>
-                        <div class="topicCardSubInfos">
-                            {# <span>{{ topic.status }}</span> #}
-                            <span>{{ topic.validated }}</span>
-                            <span class="topicCardPublishDate">{{ time_diff(topic.publishDate) }}</span>
-                            {% if topic.topicPostsCount == 0 %}
-                                <span style="opacity:0.5;">{{ topic.topicPostsCount }} <i class="fa-solid fa-message" style="color:grey;"></i></span>
-                            {% else %}
-                                <span>{{ topic.topicPostsCount }} <i class="fa-solid fa-message" style="color:{{ topic.game.color }}"></i></span>
-                            {% endif %}
+            <div class="blinkingSectionTitle">
+                <div class="homeFavGamesTitle" style="background-color:var(--primary-color);"></div>
+                <h3 class="homeSubTitle noMarginBottom">Topics publiés <span class="gameListCount">({{ userTopicsCount }})</span></h3>
+            </div>
+
+            <div class="listContainer topicList marginTop lp-page3-containerMaster" style="margin-top:20px; margin-bottom:20px;">
+            
+                {% for topic in userTopics %}
+                    <a href="{{ path('app_topicDetail', {'id': topic.id}) }}">
+                        <div class="topicCard" style="border-bottom: 4px solid {{ topic.game.color }}">
+                            <img class="tinyLogo" src="{{ asset('img/games/tinyLogo/' ~ topic.game.tinyLogo) }}" />
+                            <span class="topicTitle">{{ topic.title|capitalize }}</span>
+                            <div class="topicCardSubInfos">
+                                {# <span>{{ topic.status }}</span> #}
+                                <span>{{ topic.validated }}</span>
+                                <span class="topicCardPublishDate">{{ time_diff(topic.publishDate) }}</span>
+                                {% if topic.topicPostsCount == 0 %}
+                                    <span style="opacity:0.5;">{{ topic.topicPostsCount }} <i class="fa-solid fa-message" style="color:grey;"></i></span>
+                                {% else %}
+                                    <span>{{ topic.topicPostsCount }} <i class="fa-solid fa-message" style="color:{{ topic.game.color }}"></i></span>
+                                {% endif %}
+                            </div>
                         </div>
-                    </div>
-                </a>
-            {% endfor %}
+                    </a>
+                {% endfor %}
 
-            <span class="seeAllRedirect">
-                <a href="{{ path('app_allTopicsUser') }}">Tout voir  <i class="fa-solid fa-chevron-right"></i></a>
-            </span>
+                <span class="seeAllRedirect">
+                    <a href="{{ path('app_allTopicsUser') }}">Tout voir  <i class="fa-solid fa-chevron-right"></i></a>
+                </span>
+
+            </div>
 
         </div>
 
         
 
-        <h3>Médias publiés <span class="gameListCount">({{ userMediasCount }})</span></h3>
+        <div class="sectionHomeContainer">
 
-        <div class="masonry-grid">
-        
-            {% for media in userMedias %}
+            <div class="blinkingSectionTitle">
+                <div class="homeFavGamesTitle" style="background-color:var(--primary-color);"></div>
+                <h3 class="homeSubTitle noMarginBottom">Médias publiés <span class="gameListCount">({{ userMediasCount }})</span></h3>
+            </div>
 
-                <div class="grid-item" style="height:fit-content;">
-
-                     {# TODO: ici check si type = Img ou Gif pour savoir si Gifffer ou pas #}
-                    {% if app.user.autoPlayGifs %}
-                    <a href="{{ path('app_mediaDetail', {'id': media.id}) }}">
-                    {% endif %}
-
-                        <div class="mediaCard">
-
-                            {% if not app.user.autoPlayGifs %}
-                            <a href="{{ path('app_mediaDetail', {'id': media.id}) }}">
-                            {% endif %}
-                            <div class="mediaCardHeader" style="border-bottom: 3px solid {{ media.game.color }}">
-                                <img class="tinyLogo" src="{{ asset('img/games/tinyLogo/' ~ media.game.tinyLogo) }}" />
-                                <span class="mediaTitle">{{ media.title|capitalize }}</span>
-                                {# <span>{{ media.validated }}</span> #}
-                                {# <span>{{ media.status }}</span> #}
-                                <span class="mediaCardPublishDate">{{ time_diff(media.publishDate) }}</span>
-                            </div>
-                            {% if not app.user.autoPlayGifs %}
-                            </a>
-                            {% endif %}
-
-                            {# Gif autoplay=false si paramètre user #}
-                            {% if not app.user.autoPlayGifs %}
-                                <img data-gifffer="{{ asset("img/uploads/" ~ media.url) }}" data-gifffer-alt="media" class="mediaImg" />
-                            {% else %}
-                                <img src="{{ asset("img/uploads/" ~ media.url) }}" alt="media" class="mediaImg" />
-                            {% endif %}
-
-                        </div>
-
-                    {% if app.user.autoPlayGifs %}
-                    </a>
-                    {% endif %}
-
-
-                    {% if media.validated == "validated" %}
-
-                    
-                        {# Upvote/downvote média + score + nbrPosts #}
-                        <div class="mediaCardStatsDiv">
-
-                            {# Upvote/downvote média + score + nbrPosts #}
-                            {# Pas opti: bloucle sur tous les likes du post pour savoir si liké (boucle dans boucle) #}
-                            {% set liked = "" %}
-                            
-                            {% if app.user %}
-
-                                {% for upvote in media.UserUpvote %}
-
-                                    {% if upvote == app.user %}
-                                        {% set liked = "upBtnLiked" %}
-                                    {% endif %}
-
-                                {% endfor %}
-                            {% endif %}
-
-                            <div class="inline">
-                                <i mediaId={{ media.id }} class="likeMedia fa-regular fa-circle-up {{ liked }}"></i>
-                                {# <i class="fa-regular fa-circle-down"></i> #}
-                                <span id="countLikesMedia{{ media.id }}" value="{{ media.upvoteCount }}"> {{ media.upvoteCount }} </span>
-                            </div>
-                        
-                            {% if media.mediaPostsCount == 0 %}
-                                <a href="{{ path('app_mediaDetail', {'id':media.id}) }}">
-                                    <span style="opacity:0.5;">{{ media.mediaPostsCount }} 
-                                        <i class="fa-solid fa-message" style="color:grey;"></i>
-                                    </span>
-                                </a>
-                            {% else %}
-                                <a href="{{ path('app_mediaDetail', {'id':media.id}) }}">
-                                    <span>{{ media.mediaPostsCount }} 
-                                        <i class="fa-solid fa-message" style="color:var(--primary-color)"></i>
-                                    </span>
-                                </a>
-                            {% endif %}
-
-                        </div>
-
-                    {% elseif media.validated == "waiting" %}
-                        
-                        <p class="waitingMediaLabel">En attente...</p>
-
-                    {% elseif media.validated == "refused" %}
-
-                        <p class="refusedMediaLabel">Refusé</p>
-
-                    {% endif %}
-
-
-                    <br>
-                    {# <div style="width:100%; margin: 0 auto; height:3px; background-color: {{ media.game.color }}; opacity:0.5;"></div> #}
-                    <br>
-
-                </div>
-
-            {% endfor %}
-
-            <span class="seeAllRedirect">
-                <a href="{{ path('app_allMediasUser') }}">Tout voir  <i class="fa-solid fa-chevron-right"></i></a>
-            </span>
-
+            <div class="masonry-grid lp-page3-containerMaster">
             
-            {# Masonry JS Medias (permet de rendre responsive entre autre) #}
-            <script src="https://unpkg.com/masonry-layout@4/dist/masonry.pkgd.min.js"></script>
-            {# imagesLoaded JS #}
-            <script src="https://unpkg.com/imagesloaded@5/imagesloaded.pkgd.min.js"></script>
+                {% for media in userMedias %}
 
-            <script>
-                $(document).ready(function() {
-                    var $gridItems = $('.grid-item');
-                    
-                    $gridItems.imagesLoaded(function() {
-                        setTimeout(function() {
-                            console.log('imagesLoaded');
-                            $('.masonry-grid').masonry({
-                                itemSelector: '.grid-item',
-                                columnWidth: '.grid-item',
-                                gutter: 15, // Adjust the gutter size as needed
-                            });
-                        }, 500) 
+                    <div class="grid-item" style="height:fit-content;">
+
+                        {# TODO: ici check si type = Img ou Gif pour savoir si Gifffer ou pas #}
+                        {% if app.user.autoPlayGifs %}
+                        <a href="{{ path('app_mediaDetail', {'id': media.id}) }}">
+                        {% endif %}
+
+                            <div class="mediaCard">
+
+                                {% if not app.user.autoPlayGifs %}
+                                <a href="{{ path('app_mediaDetail', {'id': media.id}) }}">
+                                {% endif %}
+                                <div class="mediaCardHeader" style="border-bottom: 3px solid {{ media.game.color }}">
+                                    <img class="tinyLogo" src="{{ asset('img/games/tinyLogo/' ~ media.game.tinyLogo) }}" />
+                                    <span class="mediaTitle">{{ media.title|capitalize }}</span>
+                                    {# <span>{{ media.validated }}</span> #}
+                                    {# <span>{{ media.status }}</span> #}
+                                    <span class="mediaCardPublishDate">{{ time_diff(media.publishDate) }}</span>
+                                </div>
+                                {% if not app.user.autoPlayGifs %}
+                                </a>
+                                {% endif %}
+
+                                {# Gif autoplay=false si paramètre user #}
+                                {% if not app.user.autoPlayGifs %}
+                                    <img data-gifffer="{{ asset("img/uploads/" ~ media.url) }}" data-gifffer-alt="media" class="mediaImg" />
+                                {% else %}
+                                    <img src="{{ asset("img/uploads/" ~ media.url) }}" alt="media" class="mediaImg" />
+                                {% endif %}
+
+                            </div>
+
+                        {% if app.user.autoPlayGifs %}
+                        </a>
+                        {% endif %}
+
+
+                        {% if media.validated == "validated" %}
+
+                        
+                            {# Upvote/downvote média + score + nbrPosts #}
+                            <div class="mediaCardStatsDiv">
+
+                                {# Upvote/downvote média + score + nbrPosts #}
+                                {# Pas opti: bloucle sur tous les likes du post pour savoir si liké (boucle dans boucle) #}
+                                {% set liked = "" %}
+                                
+                                {% if app.user %}
+
+                                    {% for upvote in media.UserUpvote %}
+
+                                        {% if upvote == app.user %}
+                                            {% set liked = "upBtnLiked" %}
+                                        {% endif %}
+
+                                    {% endfor %}
+                                {% endif %}
+
+                                <div class="inline">
+                                    <i mediaId={{ media.id }} class="likeMedia fa-regular fa-circle-up {{ liked }}"></i>
+                                    {# <i class="fa-regular fa-circle-down"></i> #}
+                                    <span id="countLikesMedia{{ media.id }}" value="{{ media.upvoteCount }}"> {{ media.upvoteCount }} </span>
+                                </div>
+                            
+                                {% if media.mediaPostsCount == 0 %}
+                                    <a href="{{ path('app_mediaDetail', {'id':media.id}) }}">
+                                        <span style="opacity:0.5;">{{ media.mediaPostsCount }} 
+                                            <i class="fa-solid fa-message" style="color:grey;"></i>
+                                        </span>
+                                    </a>
+                                {% else %}
+                                    <a href="{{ path('app_mediaDetail', {'id':media.id}) }}">
+                                        <span>{{ media.mediaPostsCount }} 
+                                            <i class="fa-solid fa-message" style="color:var(--primary-color)"></i>
+                                        </span>
+                                    </a>
+                                {% endif %}
+
+                            </div>
+
+                        {% elseif media.validated == "waiting" %}
+                            
+                            <p class="waitingMediaLabel"><i class="fa-solid fa-hourglass"></i> En attente...</p>
+
+                        {% elseif media.validated == "refused" %}
+
+                            <p class="refusedMediaLabel"><i class="fa-solid fa-ban"></i> Refusé</p>
+
+                        {% endif %}
+
+
+                        <br>
+                        {# <div style="width:100%; margin: 0 auto; height:3px; background-color: {{ media.game.color }}; opacity:0.5;"></div> #}
+                        <br>
+
+                    </div>
+
+                {% endfor %}
+
+                <span class="seeAllRedirect">
+                    <a href="{{ path('app_allMediasUser') }}">Tout voir  <i class="fa-solid fa-chevron-right"></i></a>
+                </span>
+
+
+                <script>
+                    document.getElementsByClassName('profilIcon')[0].style.color = "black";
+                </script>
+
+                
+                {# Masonry JS Medias (permet de rendre responsive entre autre) #}
+                <script src="https://unpkg.com/masonry-layout@4/dist/masonry.pkgd.min.js"></script>
+                {# imagesLoaded JS #}
+                <script src="https://unpkg.com/imagesloaded@5/imagesloaded.pkgd.min.js"></script>
+
+                <script>
+                    $(document).ready(function() {
+                        var $gridItems = $('.grid-item');
+                        
+                        $gridItems.imagesLoaded(function() {
+                            setTimeout(function() {
+                                console.log('imagesLoaded');
+                                $('.masonry-grid').masonry({
+                                    itemSelector: '.grid-item',
+                                    columnWidth: '.grid-item',
+                                    gutter: 15, // Adjust the gutter size as needed
+                                });
+                            }, 500) 
+                        });
                     });
-                });
-            </script>
+                </script>
+
+            </div>
 
         </div>
 

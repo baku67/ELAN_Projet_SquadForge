@@ -3345,10 +3345,16 @@ nav {
 }
 
 .roleUserData {
+    font-family: 'K2D', sans-serif;
     margin-left: 10px;
-    padding: 3px 7px;
+    padding: 2px 7px 4px 7px;
     border: 1px solid;
     border-radius: 5px;
+    background-color: var(--background-color);
+    border-color: var(--primary-color);
+
+    position: relative;
+    bottom: 2px;
 }
 
 .topicCard, .topicCardGlobal {
@@ -4675,7 +4681,7 @@ h1, h2, h3, h4 {
     text-align: center;
     padding: 18px;
     font-weight: bold;
-    background-color: #404040;
+    background-color: #151515;
     color: #d34242;
     font-size: 1.3em;
 
@@ -4691,7 +4697,7 @@ h1, h2, h3, h4 {
     text-align: center;
     padding: 18px;
     font-weight: bold;
-    background-color: #404040;
+    background-color: #151515;
     color: #b8a229;
     font-size: 1.3em;
 
@@ -4702,6 +4708,24 @@ h1, h2, h3, h4 {
     border-bottom-left-radius: 5px;
     border-bottom-right-radius: 5px;
 }
+
+
+
+#deleteSelfAccount {
+    cursor: pointer;
+    font-family: 'K2D', sans-serif;
+    background-color: #d11313;
+    padding: 4px 15px 7px 15px;
+    border-radius: 5px;
+
+    transition: all 0.3s;
+}
+#deleteSelfAccount:hover {
+    background-color: #d11313b7;
+
+}
+
+
 
 
 /* Media Grid  */
