@@ -281,6 +281,18 @@ class SecurityController extends AbstractController
 
 
 
+    
+    // Suppression de compte par l'User
+    #[Route(path: '/changePassword', name: 'app_changePassword')]
+    public function changePassword(EntityManagerInterface $entityManager): Response
+    {
+
+        $this->addFlash('success', 'Mot de passe modifié');
+        return $this->redirectToRoute('app_user');
+
+    }
+
+
     // Suppression de compte par l'User
     #[Route(path: '/deleteSelfAccount', name: 'app_deleteSelfAccount')]
     public function deleteSelfAccount(EntityManagerInterface $entityManager, TokenStorageInterface $tokenStorage): Response

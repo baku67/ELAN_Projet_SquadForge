@@ -412,8 +412,26 @@ body {
 
 }
 
+
+
+.passwordFloatingBublle {
+    position: absolute;
+    background-color: var(--background-color);
+    padding: 3px 10px;
+    border-radius: 7px;
+    border: 1px solid #ffffff78;
+    transition: all 0.3s;
+
+    z-index: -99;
+    opacity: 0;
+}
+.showFloatingBuble {
+    z-index: 99;
+    opacity: 1;
+}
+
 #togglePassword {
-    color: rgb(240, 240, 240);
+    color: rgb(183 183 183);
     cursor: pointer;
     position: absolute;
     top: 11px;
@@ -423,7 +441,9 @@ body {
 .togglePasswordRegister {
     top: 35px !important;
 }
-
+.togglePasswordProfil {
+    top: 12px !important;
+}
 
 .profilIcon {
     color: var(--primary-color);
@@ -5650,7 +5670,6 @@ cursor: pointer;
     padding: 0px 10px 15px 0px;
     border-radius: 6px;
     border-top: 2px solid #2ce4f9d4;
-
     background-image: linear-gradient(to bottom, #2ce4f929, var(--background-color));
 
     /* animation: blinkBoxShadow 0.9s 0.5s forwards linear 1; */
@@ -5668,6 +5687,41 @@ cursor: pointer;
     border-top: 2px solid #2ce4f9a3;
 
     background-image: linear-gradient(to bottom, #2ce4f929, var(--background-color));
+}
+
+.inlineFlex {
+    display: inline-flex;
+    width: 100%;
+}
+
+#changePasswordForm {
+    opacity: 0;
+    transition: all 0.3s;
+}
+.greyedInput {
+    filter: opacity(0.5) brightness(0.5);
+
+}
+.opacityNul {
+    opacity: 1 !important;
+}
+
+#changePasswordForm label {
+    text-align: left;
+}
+
+#showPasswordChangeForm {
+    width: fit-content;
+    display: block;
+    margin: 0px auto 15px auto;
+    background-color: var(--primary-color);
+    padding: 4px 15px 7px 15px;
+    border-radius: 5px;
+    transition: all 0.3s;
+    cursor: pointer;
+    color: var(--background-color);
+    border: 1px solid var(--background-color);
+    border-bottom: 2px solid;
 }
 
 
