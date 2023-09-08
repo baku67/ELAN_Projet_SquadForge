@@ -5,7 +5,7 @@
 {% block body %}
 
     <header class="gameHeader" style="background: url('{{ asset('img/games/banner/' ~ game.banner ) }}' )">
-        <a href="{{ path('app_home') }}"><img src="{{ asset('img/games/headerSiteLogo/' ~ game.siteLogo ) }}" class="logoPng" id="logoPng" /></a>
+        <a href="{{ path('app_home') }}"><img src="{{ asset('img/games/headerSiteLogo/' ~ game.siteLogo ) }}" class="logoPng" id="logoPng" alt='topless bearded dwarf forging a sword above "SquadForge" title' /></a>
         <nav class="navLine">
             <a href="{{ path('app_home') }}" class="homeNav"><i class="fa-solid fa-house"></i></a>
             <a href="{{ path('app_games') }}" class="gamesNav caps navActive" style="background-color: {{ game.color }}">jeux</a>
@@ -81,13 +81,9 @@
     </ul>
 
 
-    <div class="main">
+    <main class="main mainMediaDetail">
 
-        
-
-
-        <div class="mainMediaDetail">
-
+        <section>
 
             <div class="mediaDetailTitle">
 
@@ -191,9 +187,10 @@
 
             </div>
 
+        </section>
 
 
-            
+        <section>
 
             <h4 style="font-weight:bold; color:{{game.color}}; margin-top: 40px;">Commentaires ({{ media.mediaPostsCount }})</h4>
 
@@ -299,7 +296,7 @@
                         
 
 
-                        <div class="mediaPost {{ postAuthorClass }}">
+                        <article class="mediaPost {{ postAuthorClass }}">
                             
                             {# Post text et auteur + reportBtn #}
                             <div class="postContent">
@@ -387,11 +384,25 @@
 
                                 {# Score calc #}
                                 {% if app.user != post.user %}
-                                    {% if post.score < 0 %}
-                                        <span id="mediaPostScore{{ post.id }}" style="text-align:center; color:red; font-weight:900;">{{ post.score }}</span>
+
+                                    {% if post.text == "Le commentaire a été supprimé" %}
+
+                                        {% if post.score < 0 %}
+                                            <span class="verticalCenter" id="mediaPostScore{{ post.id }}" style="text-align:center; color:red; font-weight:900;">{{ post.score }}</span>
+                                        {% else %}
+                                            <span class="verticalCenter" id="mediaPostScore{{ post.id }}" style="text-align:center; font-weight:900;">{{ post.score }}</span>
+                                        {% endif %}
+
                                     {% else %}
-                                        <span id="mediaPostScore{{ post.id }}" style="text-align:center; font-weight:900;">{{ post.score }}</span>
+                                        
+                                        {% if post.score < 0 %}
+                                            <span id="mediaPostScore{{ post.id }}" style="text-align:center; color:red; font-weight:900;">{{ post.score }}</span>
+                                        {% else %}
+                                            <span id="mediaPostScore{{ post.id }}" style="text-align:center; font-weight:900;">{{ post.score }}</span>
+                                        {% endif %}
+
                                     {% endif %}
+
                                 {% else %}
                                     {% if post.score < 0 %}
                                         <span class="verticalCenter" id="mediaPostScore{{ post.id }}" style="text-align:center; color:red; font-weight:900;">{{ post.score }}</span>
@@ -411,7 +422,7 @@
 
                             </div>
 
-                        </div>
+                        </article>
 
                         {% set index = index + 1 %}
 
@@ -419,12 +430,11 @@
 
                 {% endif %}
 
-                
             </div>
 
-        </div>
+        </section>
 
-    </div>
+    </main>
 
 
     {# // Adaptation couleur borderBottom HeaderFixed #}

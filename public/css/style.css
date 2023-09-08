@@ -4190,14 +4190,52 @@ nav {
     justify-content: space-between;
     width:100%; 
     align-items: baseline;
-    margin: 50px 0 45px 0;
+    margin: 5px 0 45px 0;
 }
 
 
+#tarteaucitronRoot button#tarteaucitronBack {
+    background: #000 !important;
+}
+div#tarteaucitronServices {
+    box-shadow: 0 40px 60px #552800 !important;
+    font-family: 'K2D' !important;
+    border-radius: 5px !important;
+}
+#tarteaucitron .tarteaucitronBorder {
+    background-color: var(--background-color) !important;
+    color: white !important;
+}
+
+#tarteaucitron #tarteaucitronClosePanel {
+    background-color: var(--primary-color) !important;
+    border-radius: 4px !important;
+    padding: 8px 7px !important;
+    top: -10px !important;
+}
+#tarteaucitron #tarteaucitronPrivacyUrlDialog {
+    background-color: var(--primary-color) !important;
+    color: white !important;
+    border-radius: 4px !important;
+}
+#tarteaucitron #tarteaucitronServices .tarteaucitronTitle button {
+    background-color: var(--primary-color) !important;
+}
+
+#tarteaucitron #tarteaucitronServices .tarteaucitronLine .tarteaucitronName * {
+    color: white !important;
+}
+#tarteaucitron #tarteaucitronServices_mandatory .tarteaucitronH3 {
+    color: white !important;
+}
+#tarteaucitron .tarteaucitronH3 {
+    color: white !important;
+}
 
 .postAuthor {
-    /* background-color: rgb(108 100 48) !important; */
+    background-color: #4d382b !important;
     border-left: 5px solid var(--primary-color);
+
 }
 
 
@@ -4514,9 +4552,9 @@ nav {
 
  
 .mainMediaDetail {
-    width: 75%;
+    width: 50%;
     max-width: 75%;
-    margin: 30px auto 15px auto;
+    margin: 30px auto 50px auto;
 }
 
 .mediaDetailImg {
@@ -5273,6 +5311,7 @@ cursor: pointer;
 .verticalCenter {
     position: relative;
     top: 50%;
+    right: 5px;
     transform: translateY(-50%);
 }
 

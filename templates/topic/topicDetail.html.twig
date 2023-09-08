@@ -5,7 +5,7 @@
 {% block body %}
 
     <header class="gameHeader" style="background: url('{{ asset('img/games/banner/' ~ game.banner ) }}' )">
-        <a href="{{ path('app_home') }}"><img src="{{ asset('img/games/headerSiteLogo/' ~ game.siteLogo ) }}" class="logoPng" id="logoPng" /></a>
+        <a href="{{ path('app_home') }}"><img src="{{ asset('img/games/headerSiteLogo/' ~ game.siteLogo ) }}" class="logoPng" id="logoPng" alt='topless bearded dwarf forging a sword above "SquadForge" title' /></a>
         <nav class="navLine">
             <a href="{{ path('app_home') }}" class="homeNav"><i class="fa-solid fa-house"></i></a>
             <a href="{{ path('app_games') }}" class="gamesNav caps navActive" style="background-color: {{ game.color }}">jeux</a>
@@ -80,317 +80,339 @@
     </ul>
 
 
-    <div class="main">
+    <main class="main">
 
-        <div style="display:inline-flex;">
-            <h2 style="font-weight:bold; color:{{game.color}}">Topic</h2>
-            {# TODO: status ouvert/fermé par auteur ou modo/admin (hardCoded pour l'instant) #}
-            {% if topic.status == "closed" %}
-                <span class="topicStatus topicClosed">fermé</span>
-            {% elseif topic.status == "open" %}
-                <span class="topicStatus topicOpen">ouvert</span>
-            {% endif %}
-        </div>
+        <section>
 
-        <div class="listContainer">
-            <p style="color: {{ topic.game.color }}">{{ topic.title|capitalize }}</p>
-            <div class="topicFirstMsg">{{ topic.firstMsg }}</div>
-            <div style="display:inline-flex; justify-content:space-between; width:100%; font-family:'K2D', sans-serif; font-size:90%; opacity:0.8;">
-                {% if app.user == topic.user %}
-                    <span>par vous</span>
-                {% else  %}
-                    {% if topic.user %}
-                        <span>par {{ topic.user.pseudo|capitalize }}</span>
-                    {% else %}
-                        <span class="emptyListMsg">L'auteur n'existe plus</span>
-                    {% endif %}
-                    
-                    
+            <div style="display:inline-flex;">
+                <h2 style="font-weight:bold; color:{{game.color}}">Topic</h2>
+                {# TODO: status ouvert/fermé par auteur ou modo/admin (hardCoded pour l'instant) #}
+                {% if topic.status == "closed" %}
+                    <span class="topicStatus topicClosed">fermé</span>
+                {% elseif topic.status == "open" %}
+                    <span class="topicStatus topicOpen">ouvert</span>
                 {% endif %}
-                <span>{{ time_diff(topic.publishDate) }}</span>
             </div>
-            {# <p>Intro</p> #}
-        </div>
 
-        {# Si auteur du topic: Btn fermer/ouvrir le topic (A voir: si fermer par Admin, pas possible de rouvrir en tant qu'author) #}
-        {% if app.user == topic.user %}
+            <div class="listContainer">
+                <p style="color: {{ topic.game.color }}">{{ topic.title|capitalize }}</p>
+                <div class="topicFirstMsg">{{ topic.firstMsg }}</div>
+                <div style="display:inline-flex; justify-content:space-between; width:100%; font-family:'K2D', sans-serif; font-size:90%; opacity:0.8;">
+                    {% if app.user == topic.user %}
+                        <span>par vous</span>
+                    {% else  %}
+                        {% if topic.user %}
+                            <span>par {{ topic.user.pseudo|capitalize }}</span>
+                        {% else %}
+                            <span class="emptyListMsg">L'auteur n'existe plus</span>
+                        {% endif %}
+                        
+                        
+                    {% endif %}
+                    <span>{{ time_diff(topic.publishDate) }}</span>
+                </div>
+                {# <p>Intro</p> #}
+            </div>
 
-            {% if topic.status == "closed" %}
-                <p style="font-family: 'K2D';"><a href="{{ path('app_openTopic', {'id': topic.id}) }}"><span style="color:#00ffaf;">Rouvrir le topic</span></a></p>
-            {% elseif topic.status == "open" %}
-                <p style="font-family: 'K2D';"><a href="{{ path('app_closeTopic', {'id': topic.id}) }}"><span style="color:#ff004c;">Fermer le topic</span></a></p>
+            {# Si auteur du topic: Btn fermer/ouvrir le topic (A voir: si fermer par Admin, pas possible de rouvrir en tant qu'author) #}
+            {% if app.user == topic.user %}
+
+                {% if topic.status == "closed" %}
+                    <p style="font-family: 'K2D';"><a href="{{ path('app_openTopic', {'id': topic.id}) }}"><span style="color:#00ffaf;">Rouvrir le topic</span></a></p>
+                {% elseif topic.status == "open" %}
+                    <p style="font-family: 'K2D';"><a href="{{ path('app_closeTopic', {'id': topic.id}) }}"><span style="color:#ff004c;">Fermer le topic</span></a></p>
+                {% endif %}
+                
             {% endif %}
-            
-        {% endif %}
 
+            {# Report + Modal raison report #}
+            {% if app.user %}
+        
+                <span onclick="reportModal.showModal()" class="reportBtn" style="font-size:1.3em;"><i class="fa-regular fa-flag"></i> Signaler</span>
 
-        {# Report + Modal raison report #}
-        {% if app.user %}
-    
-            <span onclick="reportModal.showModal()" class="reportBtn" style="font-size:1.3em;"><i class="fa-regular fa-flag"></i> Signaler</span>
+                <dialog class="modalDialog" id="reportModal">
+                    <p>Pour quelles raisons ce post ne vous convient-il pas ?</p>
+                    <select id="motifSelect" class="form-select" style="font-family: 'K2D', sans serif;">
+                        <option value="0">-- Sélectionnez un motif...</option>
+                        {% for motif in reportMotifs %}
+                            <option value="{{ motif.id }}">
+                                {{ motif.text }}
+                            </option>
+                        {% endfor %}
+                    </select>
+                    <a id="confirmReportModal" class="confirmModal" href="{{ path('app_reportObject',{'objectType':"media", 'objectId':topic.id, 'reporterId':app.user.id, 'reportMotifId':0})}}">Envoyer</a>
+                    <span class="cancelModal" onclick="reportModal.close()">Annuler</span>
+                </dialog>
 
-            <dialog class="modalDialog" id="reportModal">
-                <p>Pour quelles raisons ce post ne vous convient-il pas ?</p>
-                <select id="motifSelect" class="form-select" style="font-family: 'K2D', sans serif;">
-                    <option value="0">-- Sélectionnez un motif...</option>
-                    {% for motif in reportMotifs %}
-                        <option value="{{ motif.id }}">
-                            {{ motif.text }}
-                        </option>
-                    {% endfor %}
-                </select>
-                <a id="confirmReportModal" class="confirmModal" href="{{ path('app_reportObject',{'objectType':"media", 'objectId':topic.id, 'reporterId':app.user.id, 'reportMotifId':0})}}">Envoyer</a>
-                <span class="cancelModal" onclick="reportModal.close()">Annuler</span>
-            </dialog>
+            {% else %}
+                <a href="{{ path('app_login') }}" class="reportBtn">Signaler</a>
+            {% endif %}
 
-        {% else %}
-            <a href="{{ path('app_login') }}" class="reportBtn">Signaler</a>
-        {% endif %}
+            {# JS changement du param route reportMotif.id en fonction du select #}
+            {% if app.user %}
+                <script>
+                    const motifSelect = document.getElementById('motifSelect');
+                    const envoyerLink = document.getElementById('confirmReportModal');
 
-        {# JS changement du param route reportMotif.id en fonction du select #}
-        {% if app.user %}
-            <script>
-                const motifSelect = document.getElementById('motifSelect');
-                const envoyerLink = document.getElementById('confirmReportModal');
+                    motifSelect.addEventListener('change', function() {
+                        const selectedMotifId = motifSelect.value;
+                        const href = "/app_reportObject/topic/" + {{topic.id}} + "/" + {{app.user.id}} + "/" +  selectedMotifId;
+                        envoyerLink.setAttribute('href', href);
+                    });
+                </script>
+            {% endif %}
 
-                motifSelect.addEventListener('change', function() {
-                    const selectedMotifId = motifSelect.value;
-                    const href = "/app_reportObject/topic/" + {{topic.id}} + "/" + {{app.user.id}} + "/" +  selectedMotifId;
-                    envoyerLink.setAttribute('href', href);
-                });
-            </script>
-        {% endif %}
+        </section>
         
 
+        <section>
+
+            <h4 style="font-weight:bold; color:{{game.color}}; margin-top: 40px;">Commentaires ({{ topic.topicPostsCount }})</h4>
+
+            {# Messages triés par nbr d'upvote et sinon par publishDate (récent en haut) [différent d'un chat] #}
+            <div class="listContainer">
 
 
-        <h4 style="font-weight:bold; color:{{game.color}}; margin-top: 40px;">Commentaires ({{ topic.topicPostsCount }})</h4>
+                {# form de publication de post sur le topic #}
+                {% if topic.status == "open" %}
 
-        {# Messages triés par nbr d'upvote et sinon par publishDate (récent en haut) [différent d'un chat] #}
-        <div class="listContainer">
+                    {% if app.user %}
 
+                        {% if app.user.muted %}
 
-            {# form de publication de post sur le topic #}
-            {% if topic.status == "open" %}
+                            <p class="emptyListMsg"><i class="fa-solid fa-triangle-exclamation warning"></i>Vous avez été réduit au silence par la modération</p>
+                    
+                        {% else %}
 
-                {% if app.user %}
+                            {{ form_start(formAddTopicPost) }}
+                                <div class="inline" style="position:relative; margin: 5px auto;">
+                                    {{ form_widget(formAddTopicPost.text) }} 
+                                    {{ form_widget(formAddTopicPost.submit) }}
+                                </div>
+                                
+                            {{ form_end(formAddTopicPost) }}
+                            <script>
+                                document.querySelector('#topic_post_submit').style.color = "{{ topic.game.color }}";
+                            </script>
 
-                    {% if app.user.muted %}
+                        {% endif %}
 
-                        <p class="emptyListMsg"><i class="fa-solid fa-triangle-exclamation warning"></i>Vous avez été réduit au silence par la modération</p>
-                
                     {% else %}
 
-                        {{ form_start(formAddTopicPost) }}
-                            <div class="inline" style="position:relative; margin: 5px auto;">
-                                {{ form_widget(formAddTopicPost.text) }} 
-                                {{ form_widget(formAddTopicPost.submit) }}
-                            </div>
-                            
-                        {{ form_end(formAddTopicPost) }}
-                        <script>
-                            document.querySelector('#topic_post_submit').style.color = "{{ topic.game.color }}";
-                        </script>
+                        <p class="emptyListMsg"><i class="fa-solid fa-triangle-exclamation warning"></i>Vous devez être <a href="{{ path('app_login') }}" style="text-decoration:underline;">connecté</a> pour commenter</p>
 
                     {% endif %}
 
-                {% else %}
-
-                    <p class="emptyListMsg"><i class="fa-solid fa-triangle-exclamation warning"></i>Vous devez être <a href="{{ path('app_login') }}" style="text-decoration:underline;">connecté</a> pour commenter</p>
+                {% elseif topic.status == "closed" %}
+                    
+                    <p class="emptyListMsg"><i class="fa-solid fa-triangle-exclamation warning"></i>Le topic a été fermé</p>
 
                 {% endif %}
 
-            {% elseif topic.status == "closed" %}
-                
-                <p class="emptyListMsg"><i class="fa-solid fa-triangle-exclamation warning"></i>Le topic a été fermé</p>
 
-            {% endif %}
+                {# Script de censure Front add TopicPost #}
+                <script>
+                    // Traduction Collection Censure en arrayJS des mots
+                    let censuresArray = [];
+                    {% for censure in censures %}
+                        censuresArray.push("{{ censure.word }}");
+                    {% endfor %}
 
-
-            {# Script de censure Front add TopicPost #}
-            <script>
-                // Traduction Collection Censure en arrayJS des mots
-                let censuresArray = [];
-                {% for censure in censures %}
-                    censuresArray.push("{{ censure.word }}");
-                {% endfor %}
-
-                // A chaque input, check si il y a vulgarité et censorise
-                document.getElementById('topic_post_text').addEventListener('input', function() {
-                
-                    // Découpe de l'input en array de mot (dans l'ordre)
-                    let inputArray = document.getElementById('topic_post_text').value.split(" ");
-
-                    // Génération de la censure selon la longueur du mot
-                    function censorWordGen(wordLength) {
-                        let censure = "";
-                        for (var i = 0; i < wordLength; i++) {
-                            censure = censure + "*";
-                        }
-                        return censure;
-                    }
-
-                    // Replace de la vulgarité par "*****" selon length
-                    const replacedArray = inputArray.map(element =>
-                    censuresArray.includes(element.toLowerCase()) ? censorWordGen(element.length) : element
-                    );
-                    document.getElementById('topic_post_text').value = replacedArray.join(' ');
-                    console.log(replacedArray);
-                })
-            </script>
-
-
-            <div style="width:60%; margin:10px auto; height:1px; background-color:{{ topic.game.color }}"></div>
-
-
-
-            {# Liste des posts (à trier selon nbr Upvotes + date dans le Repo) #}
-            {% if topicPosts is empty %}
-                <p class="emptyListMsg">Aucun commentaire. Soyez le premier à commenter !</p>
-            {% else %}
-
-                {% set index = 0 %}
-                {% for post in topicPosts %}
-
-                    {% if app.user == post.user %}
-                        {% set postAuthorClass = "postAuthor" %}
-                    {% else %}
-                        {% set postAuthorClass = "" %}
-                    {% endif %}
+                    // A chaque input, check si il y a vulgarité et censorise
+                    document.getElementById('topic_post_text').addEventListener('input', function() {
                     
+                        // Découpe de l'input en array de mot (dans l'ordre)
+                        let inputArray = document.getElementById('topic_post_text').value.split(" ");
+
+                        // Génération de la censure selon la longueur du mot
+                        function censorWordGen(wordLength) {
+                            let censure = "";
+                            for (var i = 0; i < wordLength; i++) {
+                                censure = censure + "*";
+                            }
+                            return censure;
+                        }
+
+                        // Replace de la vulgarité par "*****" selon length
+                        const replacedArray = inputArray.map(element =>
+                        censuresArray.includes(element.toLowerCase()) ? censorWordGen(element.length) : element
+                        );
+                        document.getElementById('topic_post_text').value = replacedArray.join(' ');
+                        console.log(replacedArray);
+                    })
+                </script>
 
 
-                    <div class="topicPost {{ postAuthorClass }}">
+                <div style="width:60%; margin:10px auto; height:1px; background-color:{{ topic.game.color }}"></div>
+
+
+
+                {# Liste des posts (à trier selon nbr Upvotes + date dans le Repo) #}
+                {% if topicPosts is empty %}
+                    <p class="emptyListMsg">Aucun commentaire. Soyez le premier à commenter !</p>
+                {% else %}
+
+                    {% set index = 0 %}
+                    {% for post in topicPosts %}
+
+                        {% if app.user == post.user %}
+                            {% set postAuthorClass = "postAuthor" %}
+                        {% else %}
+                            {% set postAuthorClass = "" %}
+                        {% endif %}
                         
-                        {# Post text et auteur + reportBtn #}
-                        <div class="postContent">
 
-                            {% if post.text == "Le commentaire a été supprimé" %}
-                                <p class="postText emptyListMsg">{{ post.text }}</p>
-                            {% else %}
-                                <p class="postText">{{ post.text }}</p>
-                            {% endif %}
+                        <article class="topicPost {{ postAuthorClass }}">
+                            
+                            {# Post text et auteur + reportBtn #}
+                            <div class="postContent">
 
-                            <div>
-                                {% if post.user == app.user %}
-                                    <span class="postAuthorUser postSelf">Vous</span>
+                                {% if post.text == "Le commentaire a été supprimé" %}
+                                    <p class="postText emptyListMsg">{{ post.text }}</p>
                                 {% else %}
-                                    {% if post.user %}
-                                        <span class="postAuthorUser">{{ post.user.pseudo|capitalize }}</span>
-                                    {% else %}
-                                        <span class="postAuthorUser emptyListMsg">L'utilisateur n'existe plus</span>
-                                    {% endif %}
-                                    
-                                    <span class="postPublishDate">{{ time_diff(post.publishDate) }}</span>
-                                    {% if post.text != "Le commentaire a été supprimé" %}
-                                        {% if app.user %}
-                                        
-                                            <span onclick="reportModalPost{{ index }}.showModal()" class="reportPostBtn">Signaler</span>
-
-                                            <dialog class="modalDialog" id="reportModalPost{{ index }}">
-                                                <p>Pour quelles raisons ce post ne vous convient-il pas ?</p>
-                                                <select id="motifSelect{{ index }}" class="form-select" style="font-family: 'K2D', sans serif;">
-                                                    <option value="0">-- Sélectionnez un motif...</option>
-                                                    {% for motif in reportMotifs %}
-                                                        <option value="{{ motif.id }}">
-                                                            {{ motif.text }}
-                                                        </option>
-                                                    {% endfor %}
-                                                </select>
-                                                <a id="confirmReportModal{{ index }}" class="confirmModal" href="{{ path('app_reportObject',{'objectType':"topicPost", 'objectId':post.id, 'reporterId':app.user.id, 'reportMotifId':0})}}">Envoyer</a>
-                                                <span class="cancelModal" onclick="reportModalPost{{ index }}.close()">Annuler</span>
-                                            </dialog>
-
-                                            {# JS changement du param route reportMotif.id en fonction du select |||| index du post #} 
-                                            {% if app.user %}
-                                                <script>
-                                                    let motifSelectPost{{index}} = document.getElementById('motifSelect{{ index }}');
-                                                    let envoyerLinkPost{{index}} = document.getElementById('confirmReportModal' + {{ index }});
-
-                                                    motifSelectPost{{index}}.addEventListener('change', function() {
-                                                        let selectedMotifId = document.getElementById('motifSelect' + {{ index }}).value;
-                                                        let href = "/app_reportObject/topicPost/" + {{post.id}} + "/" + {{app.user.id}} + "/" +  selectedMotifId;
-                                                        envoyerLinkPost{{index}}.setAttribute('href', href);
-                                                    });
-                                                </script>
-                                            {% endif %}
-
-                                        {% else %}
-                                            
-                                            <a href="{{ path('app_login') }}" class="reportPostBtn">Signaler</a>
-
-                                        {% endif %}
-                                    {% endif %}
-
+                                    <p class="postText">{{ post.text }}</p>
                                 {% endif %}
+
+                                <div>
+                                    {% if post.user == app.user %}
+                                        <span class="postAuthorUser postSelf">Vous</span>
+                                    {% else %}
+                                        {% if post.user %}
+                                            <span class="postAuthorUser">{{ post.user.pseudo|capitalize }}</span>
+                                        {% else %}
+                                            <span class="postAuthorUser emptyListMsg">L'utilisateur n'existe plus</span>
+                                        {% endif %}
+                                        
+                                        <span class="postPublishDate">{{ time_diff(post.publishDate) }}</span>
+                                        {% if post.text != "Le commentaire a été supprimé" %}
+                                            {% if app.user %}
+                                            
+                                                <span onclick="reportModalPost{{ index }}.showModal()" class="reportPostBtn">Signaler</span>
+
+                                                <dialog class="modalDialog" id="reportModalPost{{ index }}">
+                                                    <p>Pour quelles raisons ce post ne vous convient-il pas ?</p>
+                                                    <select id="motifSelect{{ index }}" class="form-select" style="font-family: 'K2D', sans serif;">
+                                                        <option value="0">-- Sélectionnez un motif...</option>
+                                                        {% for motif in reportMotifs %}
+                                                            <option value="{{ motif.id }}">
+                                                                {{ motif.text }}
+                                                            </option>
+                                                        {% endfor %}
+                                                    </select>
+                                                    <a id="confirmReportModal{{ index }}" class="confirmModal" href="{{ path('app_reportObject',{'objectType':"topicPost", 'objectId':post.id, 'reporterId':app.user.id, 'reportMotifId':0})}}">Envoyer</a>
+                                                    <span class="cancelModal" onclick="reportModalPost{{ index }}.close()">Annuler</span>
+                                                </dialog>
+
+                                                {# JS changement du param route reportMotif.id en fonction du select |||| index du post #} 
+                                                {% if app.user %}
+                                                    <script>
+                                                        let motifSelectPost{{index}} = document.getElementById('motifSelect{{ index }}');
+                                                        let envoyerLinkPost{{index}} = document.getElementById('confirmReportModal' + {{ index }});
+
+                                                        motifSelectPost{{index}}.addEventListener('change', function() {
+                                                            let selectedMotifId = document.getElementById('motifSelect' + {{ index }}).value;
+                                                            let href = "/app_reportObject/topicPost/" + {{post.id}} + "/" + {{app.user.id}} + "/" +  selectedMotifId;
+                                                            envoyerLinkPost{{index}}.setAttribute('href', href);
+                                                        });
+                                                    </script>
+                                                {% endif %}
+
+                                            {% else %}
+                                                
+                                                <a href="{{ path('app_login') }}" class="reportPostBtn">Signaler</a>
+
+                                            {% endif %}
+                                        {% endif %}
+
+                                    {% endif %}
+                                </div>
+
                             </div>
 
-                        </div>
+                            {# Post upvote/downvote #}
+                            <div style="display:inline-flex; flex-direction:column;">
 
-                        {# Post upvote/downvote #}
-                        <div style="display:inline-flex; flex-direction:column;">
+                                {# Pas opti: bloucle sur tous les likes du post pour savoir si liké #}
+                                {% set isUpvoted = false %}
+                                {% set isDownvoted = false %}
+                                {% for like in post.postLikes %}
+                                    {% if like.user == app.user and like.topicPost.id == post.id %}
+                                        {% if like.state == "upvote" %}
+                                            {% set isUpvoted = true %}
+                                        {% elseif like.state == "downvote" %}
+                                            {% set isDownvoted = true %}
+                                        {% endif %}
+                                    {% endif %}
+                                {% endfor %}
 
-                            {# Pas opti: bloucle sur tous les likes du post pour savoir si liké #}
-                            {% set isUpvoted = false %}
-                            {% set isDownvoted = false %}
-                            {% for like in post.postLikes %}
-                                {% if like.user == app.user and like.topicPost.id == post.id %}
-                                    {% if like.state == "upvote" %}
-                                        {% set isUpvoted = true %}
-                                    {% elseif like.state == "downvote" %}
-                                        {% set isDownvoted = true %}
+                                {# Upvote/Downvote que si pas auteur, et si commentaire pas censuré -> A REFAIRE: complique le CSS  #}
+                                {# Upvote Asynch #}
+                                {% if app.user != post.user %}
+                                    {% if post.text != "Le commentaire a été supprimé" %}
+                                    
+                                        {% if isUpvoted %}
+                                            <span class="upTopicPostBtn" postId="{{ post.id }}" id="up{{ post.id }}"><i class="fa-solid fa-caret-up" style="color:{{ topic.game.color }}"></i></span>
+                                        {% else %}
+                                            <span class="upTopicPostBtn" postId="{{ post.id }}" id="up{{ post.id }}"><i class="fa-solid fa-caret-up"></i></span>
+                                        {% endif %}
+
                                     {% endif %}
                                 {% endif %}
-                            {% endfor %}
 
-                            {# Upvote/Downvote que si pas auteur, et si commentaire pas censuré -> A REFAIRE: complique le CSS  #}
-                            {# Upvote Asynch #}
-                            {% if app.user != post.user and post.text != "Le commentaire a été supprimé" %}
-                                {% if isUpvoted %}
-                                    <span class="upTopicPostBtn" postId="{{ post.id }}" id="up{{ post.id }}"><i class="fa-solid fa-caret-up" style="color:{{ topic.game.color }}"></i></span>
+                                {# Score calc #}
+                                {% if app.user != post.user %}
+
+                                    {% if post.text == "Le commentaire a été supprimé" %}
+
+                                        {% if post.score < 0 %}
+                                            <span class="verticalCenter" id="topicPostScore{{ post.id }}" style="text-align:center; color:red; font-weight:900;">{{ post.score }}</span>
+                                        {% else %}
+                                            <span class="verticalCenter" id="topicPostScore{{ post.id }}" style="text-align:center; font-weight:900;">{{ post.score }}</span>
+                                        {% endif %}
+
+                                    {% else %}
+                                        
+                                        {% if post.score < 0 %}
+                                            <span id="topicPostScore{{ post.id }}" style="text-align:center; color:red; font-weight:900;">{{ post.score }}</span>
+                                        {% else %}
+                                            <span id="topicPostScore{{ post.id }}" style="text-align:center; font-weight:900;">{{ post.score }}</span>
+                                        {% endif %}
+
+                                    {% endif %}
+
                                 {% else %}
-                                    <span class="upTopicPostBtn" postId="{{ post.id }}" id="up{{ post.id }}"><i class="fa-solid fa-caret-up"></i></span>
+                                    {% if post.score < 0 %}
+                                        <span class="verticalCenter" id="topicPostScore{{ post.id }}" style="text-align:center; color:red; font-weight:900;">{{ post.score }}</span>
+                                    {% else %}
+                                        <span class="verticalCenter" id="topicPostScore{{ post.id }}" style="text-align:center; font-weight:900;">{{ post.score }}</span>
+                                    {% endif %}
                                 {% endif %}
-                            {% endif %}
-
-                            {# Score calc #}
-                            {% if app.user != post.user %}
-                                {% if post.score < 0 %}
-                                    <span id="topicPostScore{{ post.id }}" style="text-align:center; color:red; font-weight:900;">{{ post.score }}</span>
-                                {% else %}
-                                    <span id="topicPostScore{{ post.id }}" style="text-align:center; font-weight:900;">{{ post.score }}</span>
+                                    
+                                {# Down #}
+                                {% if app.user != post.user and post.text != "Le commentaire a été supprimé" %}
+                                    {% if isDownvoted %}
+                                        <span class="downTopicPostBtn" postId="{{ post.id }}" id="down{{ post.id }}"><i class="fa-solid fa-caret-down" style="color:{{ topic.game.color }}"></i></span>
+                                    {% else %}
+                                        <span class="downTopicPostBtn" postId="{{ post.id }}" id="down{{ post.id }}"><i class="fa-solid fa-caret-down"></i></span>
+                                    {% endif %}
                                 {% endif %}
-                            {% else %}
-                                {% if post.score < 0 %}
-                                    <span class="verticalCenter" id="topicPostScore{{ post.id }}" style="text-align:center; color:red; font-weight:900;">{{ post.score }}</span>
-                                {% else %}
-                                    <span class="verticalCenter" id="topicPostScore{{ post.id }}" style="text-align:center; font-weight:900;">{{ post.score }}</span>
-                                {% endif %}
-                            {% endif %}
-                                
-                            {# Down #}
-                            {% if app.user != post.user and post.text != "Le commentaire a été supprimé" %}
-                                {% if isDownvoted %}
-                                    <span class="downTopicPostBtn" postId="{{ post.id }}" id="down{{ post.id }}"><i class="fa-solid fa-caret-down" style="color:{{ topic.game.color }}"></i></span>
-                                {% else %}
-                                    <span class="downTopicPostBtn" postId="{{ post.id }}" id="down{{ post.id }}"><i class="fa-solid fa-caret-down"></i></span>
-                                {% endif %}
-                            {% endif %}
 
-                        </div>
+                            </div>
 
-                    </div>
+                        </article>
 
-                    {% set index = index + 1 %}
+                        {% set index = index + 1 %}
 
-                {% endfor %}
+                    {% endfor %}
 
-            {% endif %}
+                {% endif %}
 
-            
-        </div>
+            </div>
 
-    </div>
+        </section>
+
+    </main>
+
 
     {# // Adaptation couleur borderBottom HeaderFixed #}
     <script>
