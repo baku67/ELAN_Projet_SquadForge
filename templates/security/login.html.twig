@@ -7,7 +7,7 @@
     <span id="noCtaFooter" style="display:none;" hidden>login</span>
 
     <header class="globalBanner" style="background: url('{{ asset('img/banner1.jpg') }}' )">
-        <a href="{{ path('app_home') }}"><img src="{{ asset('img/logoSquadForge_v3.png') }}" class="logoPng" id="logoPng" /></a>
+        <a href="{{ path('app_home') }}"><img src="{{ asset('img/logoSquadForge_v3.png') }}" class="logoPng" id="logoPng" alt='topless bearded dwarf forging a sword above SquadForge title' /></a>
         <nav class="navLine">
             <a href="{{ path('app_home') }}" class="homeNav"><i class="fa-solid fa-house"></i></a>
             <a href="{{ path('app_games') }}" class="gamesNav caps">jeux</a>
@@ -59,7 +59,7 @@
 
     <div class="headerUnderline"></div>
 
-    <div class="main">
+    <main class="main">
 
         <h1 class="h3 mb-3 font-weight-normal" style="text-align:center;">Connexion</h1>
 
@@ -88,16 +88,13 @@
                 value="{{ csrf_token('authenticate') }}"
             >
 
-            {#     
-                Uncomment this section and add a remember_me option below your firewall to activate remember me functionality.
-                See https://symfony.com/doc/current/security/remember_me.html
+            {# Remember me: #}
+            <div class="checkbox mb-3">
+                <label>
+                    <input type="checkbox" name="_remember_me"> Remember me
+                </label>
+            </div>
 
-                <div class="checkbox mb-3">
-                    <label>
-                        <input type="checkbox" name="_remember_me"> Remember me
-                    </label>
-                </div>
-            #}
 
             <button class="btn btn-lg btn-primary" type="submit">
                 Connexion
@@ -108,7 +105,7 @@
             <a href="{{ path('app_register') }}">S'inscrire</a>
         </form>
 
-    </div>
+    </main>
 
 
     <script>

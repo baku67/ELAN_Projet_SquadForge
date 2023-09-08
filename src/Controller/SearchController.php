@@ -88,7 +88,7 @@ class SearchController extends AbstractController
             if($topicsFilter == "true") {
                 $topicRepo = $entityManager->getRepository(Topic::class);
                 $queryTopics = $topicRepo->createQueryBuilder('t')
-                ->select('t', 'g.color, g.tinyLogo')
+                ->select('t', 'g.title, g.color, g.tinyLogo')
                 ->leftJoin('t.game', 'g')
                 ->where('t.title LIKE :searchText')
                 ->setParameter('searchText', "%$textInput%");
@@ -110,7 +110,7 @@ class SearchController extends AbstractController
             if($mediasFilter == "true") {
                 $mediaRepo = $entityManager->getRepository(Media::class);
                 $queryMedia = $mediaRepo->createQueryBuilder('m')
-                ->select('m', 'g.color, g.tinyLogo')
+                ->select('m', 'g.title, g.color, g.tinyLogo')
                 ->leftJoin('m.game', 'g')
                 ->where('m.title LIKE :searchText')
                 ->setParameter('searchText', "%$textInput%");
@@ -132,7 +132,7 @@ class SearchController extends AbstractController
             if($teamsFilter == "true") {
                 $groupRepo = $entityManager->getRepository(Group::class);
                 $queryGroups = $groupRepo->createQueryBuilder('g')
-                ->select('g', 'game.color, game.tinyLogo')
+                ->select('g', 'game.title, game.color, game.tinyLogo')
                 ->leftJoin('g.game', 'game')
                 ->where('g.title LIKE :searchText')
                 ->setParameter('searchText', "%$textInput%");

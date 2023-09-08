@@ -4,9 +4,8 @@
 
 {% block body %}
 
-
     <header class="globalBanner" style="background: url('{{ asset('img/banner1.jpg') }}' )">
-        <a href="{{ path('app_home') }}"><img src="{{ asset('img/logoSquadForge_v3.png') }}" class="logoPng" id="logoPng" /></a>
+        <a href="{{ path('app_home') }}"><img src="{{ asset('img/logoSquadForge_v3.png') }}" class="logoPng" id="logoPng" alt='topless bearded dwarf forging a sword above "SquadForge" title' /></a>
         <nav class="navLine">
             <a href="{{ path('app_home') }}" class="homeNav navActive"><i class="fa-solid fa-house"></i></a>
             <a href="{{ path('app_games') }}" class="gamesNav caps">jeux</a>
@@ -51,9 +50,7 @@
                 </script>
 
             {% endif %}
-
         </nav>
-
     </header>
     
     {# HeaderSouligne + Bandeau avertissement muted #}
@@ -67,39 +64,45 @@
     {% endif %}
 
 
-
-    <div class="main">
+    <main class="main">
 
         {# Fil d'Ariane #}
         <p class="breadcrumbs"><a href="{{ path('app_home') }}" class="underlineLink">Home</a> - Topics</p>
 
-        <h2 class="pageTitle">Tous les Topics <span class="gameListCount">({{ allTopicsCount }})</span></h2>
+        <section>
 
-        <div>
-            <span id="toggleNewSort">New</span>
-            <span id="toggleHotSort">Hot</span>
-        </div>
+            <header>
 
-        <div class="listContainer topicList marginTop">
-            {% for topic in allTopicsDesc|sort((a, b) => b.getTopicPostsCount() - a.getTopicPostsCount()) %}
-                <a class="topicCardLink" href="{{ path('app_topicDetail', {'id': topic.id}) }}">
-                    <div class="topicCard" style="border-bottom: 4px solid {{ topic.game.color }}">
-                        <img class="tinyLogo" src="{{ asset('img/games/tinyLogo/' ~ topic.game.tinyLogo) }}" />
-                        <span class="topicTitle">{{ topic.title|capitalize }}</span>
-                        <div class="topicCardSubInfos">
-                            {# <span>{{ topic.status }}</span>
-                            <span class="topicCardAuthor">{{ topic.user.pseudo }}</span> #}
-                            <span class="topicCardPublishDate">{{ time_diff(topic.publishDate) }}</span>
-                            {% if topic.topicPostsCount == 0 %}
-                                <span style="opacity:0.5;">{{ topic.topicPostsCount }} <i class="fa-solid fa-message" style="color:grey;"></i></span>
-                            {% else %}
-                                <span><span class="topicPostCount">{{ topic.topicPostsCount }}</span> <i class="fa-solid fa-message" style="color:{{ topic.game.color }}"></i></span>
-                            {% endif %}
-                        </div>
-                    </div>
-                </a>
-            {% endfor %}
-        </div>
+                <h2 class="pageTitle">Tous les Topics <span class="gameListCount">({{ allTopicsCount }})</span></h2>
+                <div>
+                    <span id="toggleNewSort">New</span>
+                    <span id="toggleHotSort">Hot</span>
+                </div>
+
+            </header>
+
+            <div class="listContainer topicList marginTop">
+                {% for topic in allTopicsDesc|sort((a, b) => b.getTopicPostsCount() - a.getTopicPostsCount()) %}
+                    <a class="topicCardLink" href="{{ path('app_topicDetail', {'id': topic.id}) }}">
+                        <article class="topicCard" style="border-bottom: 4px solid {{ topic.game.color }}">
+                            <img class="tinyLogo" src="{{ asset('img/games/tinyLogo/' ~ topic.game.tinyLogo) }}" alt="logo du jeu {{ topic.game.title }}" />
+                            <span class="topicTitle">{{ topic.title|capitalize }}</span>
+                            <div class="topicCardSubInfos">
+                                {# <span>{{ topic.status }}</span>
+                                <span class="topicCardAuthor">{{ topic.user.pseudo }}</span> #}
+                                <span class="topicCardPublishDate">{{ time_diff(topic.publishDate) }}</span>
+                                {% if topic.topicPostsCount == 0 %}
+                                    <span style="opacity:0.5;">{{ topic.topicPostsCount }} <i class="fa-solid fa-message" style="color:grey;"></i></span>
+                                {% else %}
+                                    <span><span class="topicPostCount">{{ topic.topicPostsCount }}</span> <i class="fa-solid fa-message" style="color:{{ topic.game.color }}"></i></span>
+                                {% endif %}
+                            </div>
+                        </article>
+                    </a>
+                {% endfor %}
+            </div>
+
+        </section>
 
 
         <script>
