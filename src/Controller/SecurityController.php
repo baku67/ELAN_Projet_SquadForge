@@ -43,7 +43,7 @@ class SecurityController extends AbstractController
 
             if ($this->getUser()->isVerified()) {
                 $_SESSION["error"] = "Your account is not verified.";
-                return $this->render('security/frerfzfeqzeq.html.twig');
+                return $this->render('security/home.html.twig');
                 // throw new CustomUserMessageAuthenticationException('Your account is not verified.');
             }
             else {
