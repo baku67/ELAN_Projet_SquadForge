@@ -5,7 +5,8 @@
 {% block body %}
 
     <header class="globalBanner" style="background: url('{{ asset('img/banner1.jpg') }}' )">
-        <a href="{{ path('app_home') }}"><img src="{{ asset('img/logoSquadForge_v3.png') }}" class="logoPng" id="logoPng" /></a>
+
+        <a href="{{ path('app_home') }}"><img src="{{ asset('img/logoSquadForge_v3.png') }}" class="logoPng" id="logoPng" alt='topless bearded dwarf forging a sword above "SquadForge" title'/></a>
         <nav class="navLine">
             <a href="{{ path('app_home') }}" class="homeNav navActive"><i class="fa-solid fa-house"></i></a>
             <a href="{{ path('app_games') }}" class="gamesNav caps">jeux</a>
@@ -23,6 +24,7 @@
             {% else %}
                 <a href="{{ path('app_allGroupList') }}" class="teamsNav caps">teams</a>
             {% endif %}
+
             <a href="{{ path('app_searchPage') }}" class="gamesNav caps"><i class="fa-solid fa-magnifying-glass"></i></a>
             {% if app.user and "ROLE_MODO" in app.user.roles %}
             
@@ -56,6 +58,7 @@
    
     </header>
     
+
     {# HeaderSouligne + Bandeau avertissement muted #}
     {% if app.user and app.user.muted and time_diff_future(app.user.endDateStatus) != false %}
         <div class="headerUnderline"></div>
@@ -67,26 +70,23 @@
     {% endif %}
     
 
-
-    <div class="main">
+    <main class="main">
 
         {% if app.user %}
-        
             <p class="greetingMsg">Welcome back, <span style="color:white;">{{ app.user.pseudo|capitalize }}</span> !</p>
-
         {% endif %}
 
-        
         {% if app.user %}
-
 
             {# *** Si aucun Fav (après /register par exemple), carrousel games avec select ajax addFav #}
             {# Selection onClick card (ajout de l'id du jeu dans un tableau qui sera passer au controller lors du click Valider) #}
             {% if userFav|length == 0 %}
 
-                <div class="splide splideAddFavs">
+                <section class="splide splideAddFavs">
 
-                    <h2 id="carousel-heading" class="addArrayFav_title">Commencez par ajouter vos jeux favoris :</h2>
+                    <header>
+                        <h2 id="carousel-heading" class="addArrayFav_title">Commencez par ajouter vos jeux favoris :</h2>
+                    </header>
 
                     <div class="lp-page3-containerMaster">
 
@@ -103,8 +103,10 @@
                                     {# ici userFav = allGames si aucun fav (backend) #}
                                     {% for game in allGames %}
 
-                                        <a title="{{ game.title }}" class="gameCardLink splide__slide" style="transform:scale(0.9);">
+                                        <article title="{{ game.title }}" class="gameCardLink splide__slide" style="transform:scale(0.9);">
+
                                             <span id="noFavSplide_gameId{{ index }}" style="display:none;">{{ game.id }}</span>
+
                                             <div id="lp-page3-slideContainer{{ index }}" class="lp-page3-slideContainer">
 
                                                 <svg class="gameSelectedBracketUp">
@@ -144,28 +146,29 @@
                                                 </svg>
 
                                             </div>
-                                        </a>
+
+                                        </article>
 
                                         {% set index = index + 1 %}
 
                                     {% endfor %}
 
                                     {# Fausse dernière card (espacement) #}
-                                    <a class="gameCardLink splide__slide" style="transform:scale(0.9); opacity:0;" >
+                                    <div class="gameCardLink splide__slide" style="transform:scale(0.9); opacity:0;" >
                                         <div class="lp-page3-slideContainer">
-                                                <div class="lp-gameCard" style="cursor:default; background-image: linear-gradient(rgba(0, 0, 255, 0.05), rgba(249, 123, 44, 0.5)),url('{{ asset("img/games/headerBackground/lolHeaderBg.jpg")}}'); background-size:cover;">
-                                                    
-                                                    <div class="addFavIconWrapper">
-                                                        {# "+" hover card #}
-                                                        <i class="fa-solid fa-plus favArrayHeart favArrayPlus"></i>
-                                                        {# Coeur ajouté à l'array fav #}
-                                                        <i class="fa-solid fa-heart-circle-check favArrayHeart"></i>
-                                                    </div>
-                                                    
-                                                    <span class="lp-gameCardTitle lp-gameCardAddFavTitle"></span>
-                                                </div>   
+                                            <div class="lp-gameCard" style="cursor:default; background-image: linear-gradient(rgba(0, 0, 255, 0.05), rgba(249, 123, 44, 0.5)),url('{{ asset("img/games/headerBackground/lolHeaderBg.jpg")}}'); background-size:cover;">
+                                                
+                                                <div class="addFavIconWrapper">
+                                                    {# "+" hover card #}
+                                                    <i class="fa-solid fa-plus favArrayHeart favArrayPlus"></i>
+                                                    {# Coeur ajouté à l'array fav #}
+                                                    <i class="fa-solid fa-heart-circle-check favArrayHeart"></i>
+                                                </div>
+                                                <span class="lp-gameCardTitle lp-gameCardAddFavTitle"></span>
+
+                                            </div>   
                                         </div>
-                                    </a>
+                                    </div>
 
                                 </div>
 
@@ -181,16 +184,14 @@
                         <button id="addArrayFavBtn" class="btn btn-primary addArrayFavBtn" disabled>Ajouter</button>
                     </div>
 
+
                     <script>
 
-                        // Lors click sur un jeu: ajout de l'id à l'array de jeu à ajouter au favoris
+                        // Lors click sur un jeu: ajout de l'id à l'array du jeu à ajouter aux favoris
                         window.onload = function() {
 
                             {% set index = 1 %}
-
                             var favArray = [];
-
-
 
                             {% for game in allGames %}
 
@@ -270,9 +271,6 @@
                             {% endfor %}
 
 
-
-
-
                             // Envoi de l'array nouveau Favoris (ajax):
                             document.getElementById('addArrayFavBtn').addEventListener("click", function() {
 
@@ -299,21 +297,17 @@
 
                     </script>
 
-                </div>
+                </article>
 
             {% endif %}
                 
-
-
-
-
             {# Raccourcis Jeux favoris si logged in #}
-            <div class="splide sectionHomeContainer">
+            <section class="splide sectionHomeContainer">
 
-                <div class="blinkingSectionTitle">
+                <header class="blinkingSectionTitle">
                     <div class="homeFavGamesTitle" style="background-color:var(--primary-color);"></div>
                     <h3 class="homeSubTitle noMarginBottom"><i class="fa solid fa-heart homeTitleIcon"></i> Jeux Favoris</h3>
-                </div>
+                </header>
 
                 <div class="lp-page3-containerMaster">
 
@@ -331,40 +325,42 @@
 
                                     {% for game in userFav %}
 
-                                        <a title="{{ game.title }}" class="gameCardLink splide__slide" href="{{ path('app_game', {'id': game.id} )}}" style="transform:scale(0.9);">
-                                            <div class="lp-page3-slideContainer">
+                                        <article>
+                                            <a title="{{ game.title }}" class="gameCardLink splide__slide" href="{{ path('app_game', {'id': game.id} )}}" style="transform:scale(0.9);">
+                                                <div class="lp-page3-slideContainer">
 
-                                                <svg class="gameSelectedBracketUp">
-                                                    <path 
-                                                        id="gameSelectedBracketUpPath{{ index }}"
-                                                        class="gameSelectedBracketUpPath" 
-                                                        d="M 57 82 L 57 58 C 57 53 60 48 66 48 L 67 48 L 266 48 C 274 48 276 51 276 56 L 276 55 L 276 82"
-                                                        {# d="M 57 82 L 57 48 L 66 48 L 267 48 L 276 48 L 276 82" (sharp angles) #}
-                                                        fill-opacity="0"
-                                                        />
-                                                </svg>
+                                                    <svg class="gameSelectedBracketUp">
+                                                        <path 
+                                                            id="gameSelectedBracketUpPath{{ index }}"
+                                                            class="gameSelectedBracketUpPath" 
+                                                            d="M 57 82 L 57 58 C 57 53 60 48 66 48 L 67 48 L 266 48 C 274 48 276 51 276 56 L 276 55 L 276 82"
+                                                            {# d="M 57 82 L 57 48 L 66 48 L 267 48 L 276 48 L 276 82" (sharp angles) #}
+                                                            fill-opacity="0"
+                                                            />
+                                                    </svg>
 
-                                                <div id="lp-page3-slide0{{ index }}" class="lp-gameCard" style="background-image: linear-gradient(rgba(0, 0, 255, 0.05), rgba(249, 123, 44, 0.5)),url('{{ asset("img/games/headerBackground/" ~ game.subBanner )}}'); background-size:cover;">
+                                                    <div id="lp-page3-slide0{{ index }}" class="lp-gameCard" style="background-image: linear-gradient(rgba(0, 0, 255, 0.05), rgba(249, 123, 44, 0.5)),url('{{ asset("img/games/headerBackground/" ~ game.subBanner )}}'); background-size:cover;">
 
-                                                    <span id="lp-gameCardTitle{{ index }}" value="{{ game.title }}" class="lp-gameCardTitle">{{ game.title }}</span>
+                                                        <span id="lp-gameCardTitle{{ index }}" value="{{ game.title }}" class="lp-gameCardTitle">{{ game.title }}</span>
+
+                                                    </div>
+
+                                                    {# only Phone: #}
+                                                    <span value="{{ game.title }}" class="lp-gameCardTitlePhone">{{ game.title }}</span>
+
+                                                    <svg class="gameSelectedBracketDown">
+                                                        <path 
+                                                            id="gameSelectedBracketDownPath{{ index }}"
+                                                            class="gameSelectedBracketDownPath" 
+                                                            d="M 57 82 L 57 58 C 57 53 60 48 66 48 L 67 48 L 266 48 C 274 48 276 51 276 56 L 276 55 L 276 82"
+                                                            {# d="M 57 82 L 57 48 L 66 48 L 267 48 L 276 48 L 276 82" (sharp angles) #}
+                                                            fill-opacity="0"
+                                                            />
+                                                    </svg>
 
                                                 </div>
-
-                                                {# only Phone: #}
-                                                <span value="{{ game.title }}" class="lp-gameCardTitlePhone">{{ game.title }}</span>
-
-                                                <svg class="gameSelectedBracketDown">
-                                                    <path 
-                                                        id="gameSelectedBracketDownPath{{ index }}"
-                                                        class="gameSelectedBracketDownPath" 
-                                                        d="M 57 82 L 57 58 C 57 53 60 48 66 48 L 67 48 L 266 48 C 274 48 276 51 276 56 L 276 55 L 276 82"
-                                                        {# d="M 57 82 L 57 48 L 66 48 L 267 48 L 276 48 L 276 82" (sharp angles) #}
-                                                        fill-opacity="0"
-                                                        />
-                                                </svg>
-
-                                            </div>
-                                        </a>
+                                            </a>
+                                        </article>
 
                                         {% set index = index + 1 %}
 
@@ -403,7 +399,7 @@
 
                     {% else %}
 
-                    <div class="emptyListMsg" style="display:inline-flex; flex-direction:column; width:100%;">
+                    <div class="emptyListMsg sectionHomeContent" style="display:inline-flex; flex-direction:column; width:100%;">
                         <span>Ajouter des jeux à vos Favoris pour les retrouver ici et filtrer le contenu du site !</span>
                         <a href="{{ path('app_games') }}" style="text-decoration:underline;"><i class="fa-solid fa-magnifying-glass" style="margin:0 10px;"></i> Parcourir les jeux</a>
                     </div>
@@ -411,17 +407,17 @@
                     {% endif %}
 
                 </div>
-            </div>
+            </section>
 
             {# Raccourcis Teams si logged in #}
-            <div class="sectionHomeContainer">
+            <section class="sectionHomeContainer">
 
-                <div>
+                <header>
                     <div class="homeUserTeamsTitle" style="background-color:var(--primary-color);"></div>
                     <a href="{{ path('app_userGroups') }}" style="width:fit-content; display:block;">
                         <h3 class="homeSubTitle noMarginBottom"><i class="fa-solid fa-users-rays homeTitleIcon"></i> Vos teams</h3>
                     </a>
-                </div>
+                </header>
 
                 <div class="sectionHomeContent genreGameList groupsGrid" style="text-align:center; width:100%;">
 
@@ -429,74 +425,75 @@
                     
                         {% for userTeam in userTeams %}
 
-                            <a title='"{{ userTeam.title|capitalize }}"' href="{{ path('app_groupDetails', {'groupId': userTeam.id } ) }}" style="width:fit-content;position:relative;">
+                            <article>
+                                <a title='"{{ userTeam.title|capitalize }}"' href="{{ path('app_groupDetails', {'groupId': userTeam.id } ) }}" style="width:fit-content;position:relative;">
 
-                                {# Couronne si leader: #}
-                                {% if app.user == userTeam.leader %}
-                                    <i class="fa-solid fa-crown teamCard-crownLeader"></i>
-                                {% endif %}
+                                    {# Couronne si leader: #}
+                                    {% if app.user == userTeam.leader %}
+                                        <i class="fa-solid fa-crown teamCard-crownLeader"></i>
+                                    {% endif %}
 
-                                <div class="teamCard" style="border-color:{{ userTeam.game.color }}60">
+                                    <div class="teamCard" style="border-color:{{ userTeam.game.color }}60">
 
-                                    <div class="teamCardTextDiv">
+                                        <div class="teamCardTextDiv">
 
-                                        <div class="absoluteBg-teamCard" style="background-image:linear-gradient(to top, {{userTeam.game.color}}d6, {{userTeam.game.color}}), url('../img/testMotif2.jpg'); background-size:cover;"></div>
+                                            <div class="absoluteBg-teamCard" style="background-image:linear-gradient(to top, {{userTeam.game.color}}d6, {{userTeam.game.color}}), url('../img/testMotif2.jpg'); background-size:cover;"></div>
 
-                                        <span class="teamCardGameTitle" style="background-color:{{ userTeam.game.color }}">{{ userTeam.game.title }}</span>
-                                        
-                                        <p class="teamCardTitleV2">{{ userTeam.title|capitalize }}</p>
+                                            <span class="teamCardGameTitle" style="background-color:{{ userTeam.game.color }}">{{ userTeam.game.title }}</span>
+                                            
+                                            <p class="teamCardTitleV2">{{ userTeam.title|capitalize }}</p>
 
-                                        <div class="teamCard-members">
-                                            <i class="fa-solid fa-user-group"></i> 
-                                            <span style="position:relative; top:2px;">{{ userTeam.members|length }}/{{ userTeam.nbrPlaces }}</span>
+                                            <div class="teamCard-members">
+                                                <i class="fa-solid fa-user-group"></i> 
+                                                <span style="position:relative; top:2px;">{{ userTeam.members|length }}/{{ userTeam.nbrPlaces }}</span>
+                                            </div>
+
+                                            <ul class="teamCard-criterias">
+                                                <li>
+                                                    {% if userTeam.restriction18 %}
+                                                        <img src="{{ asset('img/criteria_18.png') }}" style="filter:invert(0.9);">
+                                                    {% else %}
+                                                        <img src="{{ asset('img/criteria_18.png') }}" style="opacity:0.9;">
+                                                    {% endif %}
+                                                </li>
+                                                <li>
+                                                    {% if userTeam.restrictionMic %}
+                                                        <img src="{{ asset('img/criteria_micro.png') }}" style="filter:invert(0.9);">
+                                                    {% else %}
+                                                        <img src="{{ asset('img/criteria_micro.png') }}" style="opacity:0.9;">
+                                                    {% endif %}
+                                                </li>
+                                            </ul>
+
                                         </div>
 
-                                        <ul class="teamCard-criterias">
-                                            <li>
-                                                {% if userTeam.restriction18 %}
-                                                    <img src="{{ asset('img/criteria_18.png') }}" style="filter:invert(0.9);">
-                                                {% else %}
-                                                    <img src="{{ asset('img/criteria_18.png') }}" style="opacity:0.9;">
-                                                {% endif %}
-                                            </li>
-                                            <li>
-                                                {% if userTeam.restrictionMic %}
-                                                    <img src="{{ asset('img/criteria_micro.png') }}" style="filter:invert(0.9);">
-                                                {% else %}
-                                                    <img src="{{ asset('img/criteria_micro.png') }}" style="opacity:0.9;">
-                                                {% endif %}
-                                            </li>
-                                        </ul>
+                                        <div class="teamCardImgWrapper">
+
+                                            {% if userTeam.imgUrl is not null and imageExists(userTeam.imgUrl) %}
+                                                <img class="teamCardImg" src="/img/uploads/{{ userTeam.imgUrl }}">
+                                            {% else %}
+                                                <img class="teamCardImg" src="/img/teamDefaultPic.jpg">
+                                            {% endif %}
+
+                                            {# Label si team active (= au moins 1 session moi précédent) #}
+                                            {% if userTeam.active %}
+                                                <span class="teamCard-isActiveLabel">Active</span>
+                                            {% endif %}
+
+                                            {# Div effet reflet onHover card #}
+                                            <div class="teamCardReflectDiv"></div>
+
+                                        </div>
 
                                     </div>
-
-                                    <div class="teamCardImgWrapper">
-
-                                        {% if userTeam.imgUrl is not null and imageExists(userTeam.imgUrl) %}
-                                            <img class="teamCardImg" src="/img/uploads/{{ userTeam.imgUrl }}">
-                                        {% else %}
-                                            <img class="teamCardImg" src="/img/teamDefaultPic.jpg">
-                                        {% endif %}
-
-                                        {# Label si team active (= au moins 1 session moi précédent) #}
-                                        {% if userTeam.active %}
-                                            <span class="teamCard-isActiveLabel">Active</span>
-                                        {% endif %}
-
-                                        {# Div effet reflet onHover card #}
-                                        <div class="teamCardReflectDiv"></div>
-
-                                    </div>
-
-                                </div>
-                            </a>
-
+                                </a>
+                            </article>
 
                         {% endfor %}
                     
                     {% else %}
                         
-                        <div class="emptyListMsg" style="display:inline-flex; flex-direction:column; width:100%;">
+                        <div class="emptyListMsg sectionHomeContent" style="display:inline-flex; flex-direction:column; width:100%;">
                             <span>Rejoignez des teams pour y accéder directement ici !</span>
                             <a href="{{ path('app_games') }}" style="text-decoration:underline;"><i class="fa-solid fa-magnifying-glass" style="margin:0 10px;"></i>Parcourir les teams</a>
                         </div>
@@ -504,7 +501,7 @@
                     {% endif %}
 
                 </div>
-            </div>
+            </section>
         {% endif %}
         
 
@@ -514,38 +511,40 @@
         {# {% if userFav|length > 0 %} #}
         
             {# Les 5 derniers Topics (jeux favoris) #}
-            <div class="sectionHomeContainer">
+            <section class="sectionHomeContainer">
 
-                <div>
+                <header>
                     <div class="homeTopicsTitle" style="background-color:var(--primary-color);"></div>
                     <a href="{{ path('app_allTopicsGlobal') }}" style="height:fit-content; width:fit-content; display:block;">
                         <h3 class="homeSubTitle noMarginBottom">
                             Derniers Topics
                         </h3>
                     </a>
-                </div>
+                </header>
 
                 <div class="sectionHomeContent topicList marginTop">
 
                     {% if lastTopics|length > 0 %}
                     
                         {% for topic in lastTopics %}
-                            <a href="{{ path('app_topicDetail', {'id': topic.id}) }}">
-                                <div title="{{ topic.title|capitalize }}" class="topicCard" style="border-bottom: 4px solid {{ topic.game.color }}">
-                                    <img class="tinyLogo" src="{{ asset('img/games/tinyLogo/' ~ topic.game.tinyLogo) }}" />
-                                    <span class="topicTitle">{{ topic.title|capitalize }}</span>
-                                    <div class="topicCardSubInfos">
-                                        {# <span>{{ topic.status }}</span>
-                                        <span class="topicCardAuthor">{{ topic.user.pseudo }}</span> #}
-                                        <span class="topicCardPublishDate">{{ time_diff(topic.publishDate) }}</span>
-                                        {% if topic.topicPostsCount == 0 %}
-                                            <span style="opacity:0.5;">{{ topic.topicPostsCount }} <i class="fa-solid fa-message" style="color:grey;"></i></span>
-                                        {% else %}
-                                            <span>{{ topic.topicPostsCount }} <i class="fa-solid fa-message" style="color:var(--primary-color)"></i></span>
-                                        {% endif %}
+                            <article>
+                                <a href="{{ path('app_topicDetail', {'id': topic.id}) }}">
+                                    <div title="{{ topic.title|capitalize }}" class="topicCard" style="border-bottom: 4px solid {{ topic.game.color }}">
+                                        <img class="tinyLogo" src="{{ asset('img/games/tinyLogo/' ~ topic.game.tinyLogo) }}" />
+                                        <span class="topicTitle">{{ topic.title|capitalize }}</span>
+                                        <div class="topicCardSubInfos">
+                                            {# <span>{{ topic.status }}</span>
+                                            <span class="topicCardAuthor">{{ topic.user.pseudo }}</span> #}
+                                            <span class="topicCardPublishDate">{{ time_diff(topic.publishDate) }}</span>
+                                            {% if topic.topicPostsCount == 0 %}
+                                                <span style="opacity:0.5;">{{ topic.topicPostsCount }} <i class="fa-solid fa-message" style="color:grey;"></i></span>
+                                            {% else %}
+                                                <span>{{ topic.topicPostsCount }} <i class="fa-solid fa-message" style="color:var(--primary-color)"></i></span>
+                                            {% endif %}
+                                        </div>
                                     </div>
-                                </div>
-                            </a>
+                                </a>
+                            </article>
                         {% endfor %}
 
                         <span class="seeAllRedirect">
@@ -563,22 +562,22 @@
 
                 </div>
 
-            </div>
+            </section>
 
 
 
 
             {# Derniers médias (tout jeux confondus) #}
-            <div class="sectionHomeContainer">
+            <section class="sectionHomeContainer">
 
-                <div style="display:inline-flex;">
+                <header style="display:inline-flex;">
                     <div class="homeMediasTitle" style="background-color:var(--primary-color);"></div>
                     <a href=" {{ path('app_allMediasGlobal') }}">
                         <h3 class="homeSubTitle noMarginBottom">
                             Médias
                         </h3>
                     </a>
-                </div>
+                </header>
 
                 {% if lastMedias|length > 0 %}
                 
@@ -586,7 +585,7 @@
 
                         {% for media in lastMedias %}
 
-                            <div class="grid-item" style="height:fit-content;">
+                            <article class="grid-item" style="height:fit-content;">
 
                                 {% if app.user and app.user.autoPlayGifs or not app.user %}
                                 <a href="{{ path('app_mediaDetail', {'id': media.id}) }}">
@@ -598,13 +597,11 @@
                                         {% if app.user and not app.user.autoPlayGifs %}
                                         <a href="{{ path('app_mediaDetail', {'id': media.id}) }}">
                                         {% endif %}
-                                        <div class="mediaCardHeader" title="{{ media.title|capitalize }}" style="border-bottom: 3px solid {{ media.game.color }};">
+                                        <header class="mediaCardHeader" title="{{ media.title|capitalize }}" style="border-bottom: 3px solid {{ media.game.color }};">
                                             <img class="tinyLogo" src="{{ asset('img/games/tinyLogo/' ~ media.game.tinyLogo) }}" />
                                             <span class="mediaTitle">{{ media.title|capitalize }}</span>
-                                            {# <span>{{ media.status }}</span>
-                                            <span>{{ media.user.pseudo }}</span> #}
                                             <span class="mediaCardPublishDate">{{ time_diff(media.publishDate) }}</span>
-                                        </div>
+                                        </header>
                                         {% if app.user and not app.user.autoPlayGifs %}
                                         </a>
                                         {% endif %}
@@ -648,7 +645,6 @@
                                     
                                     <div class="inline">
                                         <i mediaId={{ media.id }} class="likeMedia fa-regular fa-circle-up {{ liked }}"></i>
-                                        {# <i class="fa-regular fa-circle-down"></i> #}
                                         <span id="countLikesMedia{{ media.id }}" value="{{ media.upvoteCount }}"> {{ media.upvoteCount }} </span>
                                     </div>
                                 
@@ -668,7 +664,7 @@
 
                                 </div>
 
-                            </div>
+                            </article>
 
                         {% endfor %}
 
@@ -705,26 +701,16 @@
 
                 {% else %}
 
-                    <div class="emptyListMsg" style="display:inline-flex; flex-direction:column; width:100%;">
+                    <div class="emptyListMsg sectionHomeContent" style="display:inline-flex; flex-direction:column; width:100%;">
                         <span>Ajoutez des jeux à vos favoris pour retrouver ici leurs derniers médias !</span>
                         <a href="{{ path('app_allMediasGlobal') }}" style="text-decoration:underline;"><i class="fa-solid fa-magnifying-glass" style="margin:0 10px;"></i>Parcourir tous les médias</a>
                     </div>
 
                 {% endif %}
 
-            </div>
+            </section>
 
-        {# {% else %}
-            
-            <div class="emptyListMsg" style="display:inline-flex; flex-direction:column; width:100%;">
-                <span>Ajoutez des jeux à vos favoris pour retrouver ici les derniers posts et médias !</span>
-                <a href="{{ path('app_games') }}" style="text-decoration:underline;"><i class="fa-solid fa-magnifying-glass" style="margin:0 10px;"></i>Parcourir les jeux</a>
-            </div>
-
-        {% endif %} #}
-
-
-    </div>
+    </main>
 
 
 
@@ -755,7 +741,7 @@
             } else {
                 var splide = new Splide( '.splide', {
                     width: '100%',
-                    perPage: 6,
+                    perPage: 5,
 
                 } );
 
