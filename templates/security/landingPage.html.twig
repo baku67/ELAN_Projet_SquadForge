@@ -1,7 +1,5 @@
 {% extends 'base.html.twig' %}
-
 {% block title %}SquadForge - Find mates for gaming{% endblock %}
-
 
 {% block body %}
 
@@ -9,20 +7,19 @@
         document.getElementById('authenticationDiv').style.display = "none";
     </script>
 
-
+    {# hidden indication quelle page #}
     <span id="landingPageBool" style="display:none" hidden></span>
 
 
-    <div id="section1" class="section">
+    <section id="section1" class="section">
 
         {# Page 1a #}
-        <header id="lp-page1a" class="globalBannerLandingPage" style="background: url('{{ asset('img/banner.jpg') }}');">
+        <div id="lp-page1a" class="globalBannerLandingPage" style="background: url('{{ asset('img/banner.jpg') }}');">
             
             <a href="{{ path('app_home') }}" class="centeredLogo">
                 <img src="{{ asset('img/logoSquadForge_v3.png') }}" class="logoPng centeredLogoImg" />
             </a>
 
-            
             <h2 class="landingPageSlogan">Forge your squad, Rule the game !</h2>
 
             <div class="lp-statsDiv">
@@ -65,83 +62,69 @@
                 </div>
             </div>
 
-            {# éclair #}
-            {# <div class="lightning">ECLAIR</div> #}
-
-            {# trait design (phone only) #}
-            {# <div id="lp-phone-line"></div> #}
-
-        </header>
+        </div>
 
 
         {# Page 1b #}
         <div id="lp-page1b">
 
-            {# Partie 1 (50vh) de la page 2 #}
+            <div class="lp-p1-rightSection">
+                {# Conteneur dynamique (form login) #}
+                <div id="lp-p1b-div" class="lp-p1b-div" >
 
-                <div class="lp-p1-rightSection">
-                    
-                    {# Conteneur dynamique #}
-                    <div id="lp-p1b-div" class="lp-p1b-div" >
+                    <p class="lp-p1b-rightSectionTitle">Le <strong>gaming</strong> est meilleur en équipe.<br>Rejoignez-nous pour trouver des <strong>teammates</strong> qui partageront votre passion.</p>
 
-                        <p class="lp-p1b-rightSectionTitle">Le <strong>gaming</strong> est meilleur en équipe.<br>Rejoignez-nous pour trouver des <strong>teammates</strong> qui partageront votre passion.</p>
-
-                        <div class="lp-p1b-rightSectionLoginDiv">
-                            <div style="display:inline-flex; align-items:baseline; position:relative; bottom:30px; justify-content:center; width:100%;">
-                                <span id="lp-loginBtn" style="font-family:'Julius Sans One', sans-serif; cursor:pointer;">Connexion</span> | <a id="lp-loginTwitchBtn" href="{{ linkTwitchOAuth }}" class="twitchWord">Twitch</a>
-                            </div>
-                            {# TODO form https://chat.openai.com/share/798e5950-f849-4c0e-91eb-eec2f2c1d929 #}
-                            <a id="lp-registerBtn" href="{{ path('app_register')}}" >Inscription</a>
+                    <div class="lp-p1b-rightSectionLoginDiv">
+                        <div style="display:inline-flex; align-items:baseline; position:relative; bottom:30px; justify-content:center; width:100%;">
+                            <span id="lp-loginBtn" style="font-family:'Julius Sans One', sans-serif; cursor:pointer;">Connexion</span> | <a id="lp-loginTwitchBtn" href="{{ linkTwitchOAuth }}" class="twitchWord">Twitch</a>
                         </div>
-
+                        {# TODO form https://chat.openai.com/share/798e5950-f849-4c0e-91eb-eec2f2c1d929 #}
+                        <a id="lp-registerBtn" href="{{ path('app_register')}}" >Inscription</a>
                     </div>
 
                 </div>
+            </div>
 
-                {# Affichage forms login/signUp dans le header #}
-                <script>
-                        document.getElementById("lp-loginBtn").addEventListener("click", function() {
+            {# JS Affichage forms login/signUp dans le header #}
+            <script>
+                document.getElementById("lp-loginBtn").addEventListener("click", function() {
 
-                            const loginFormContainer = document.getElementById('lp-p1b-div');
-                            fetch('/getLoginForm')
-                                .then(response => response.text())
-                                .then(html => {
-                                    loginFormContainer.innerHTML = html;
-                                })
-                                .catch(error => console.error('Error fetching login form:', error));
+                    const loginFormContainer = document.getElementById('lp-p1b-div');
+                    fetch('/getLoginForm')
+                        .then(response => response.text())
+                        .then(html => {
+                            loginFormContainer.innerHTML = html;
+                        })
+                        .catch(error => console.error('Error fetching login form:', error));
 
+                    setTimeout(() => {
+                        const togglePassword = document.querySelector('#togglePassword');
+                        const password = document.querySelector('#inputPassword');
 
-                            setTimeout(() => {
-                                const togglePassword = document.querySelector('#togglePassword');
-                                const password = document.querySelector('#inputPassword');
+                        togglePassword.addEventListener('click', function (e) {
+                            const type = password.getAttribute('type') === 'password' ? 'text' : 'password';
+                            password.setAttribute('type', type);
 
-                                togglePassword.addEventListener('click', function (e) {
-                                    const type = password.getAttribute('type') === 'password' ? 'text' : 'password';
-                                    password.setAttribute('type', type);
-
-                                    // this.classList.toggle('fa-eye-slash');
-                                    if (type === 'password') {
-                                    this.classList.remove('fa-eye-slash');
-                                    this.classList.add('fa-eye');
-                                    } else {
-                                        this.classList.remove('fa-eye');
-                                        this.classList.add('fa-eye-slash');
-                                    }
-                                });
-
-                            }, 300);
+                            if (type === 'password') {
+                            this.classList.remove('fa-eye-slash');
+                            this.classList.add('fa-eye');
+                            } else {
+                                this.classList.remove('fa-eye');
+                                this.classList.add('fa-eye-slash');
+                            }
                         });
-                </script>
+
+                    }, 300);
+                });
+            </script>
 
         </div>
-
 
         {# Scroll Btn #}
         <div id="lp-scrollBtn" class="landingPageDownBtn">
             <i class="fa-solid fa-chevron-down lpdownBtn1"></i>
             <i class="fa-solid fa-chevron-down lpdownBtn2"></i>
         </div>
-
 
         {# SVG coin haut-droite #}
         <svg class="topRightEdgeSvg">
@@ -152,29 +135,19 @@
                 />
         </svg>
 
-        {# <svg class="bottomLeftEdgeSvg">
-            <path 
-                id="bottomLeftEdgeSvgPath"
-                d="M 14 14 L 14 86 L 124 86"
-                fill-opacity="0"
-                />
-        </svg> #}
-
+        {# Forme coin haut-gauche #}
         <div id="lp-p1-topLeftSquare">
         </div>
 
-
-        {# <div class="headerUnderline marginBottomHeaderLine"></div> #}
-
-
-    </div>
+    </section>
 
 
 
-    {# Page 2 #}
-    <div id="lp-page2" class="section" style="opacity:0; height:100vh; position:relative;">
+    {# Page 2 (Twitch et Mockup) #}
+    <section id="lp-page2" class="section" style="opacity:0; height:100vh; position:relative;">
 
         <div class="lp-p2a">
+
             <div class="lp-p2a-wrapper">
                 <div class="lp-p2a-content">
                     <p class="twitchPresentation">Associez votre compte <strong>Twitch</strong> pour partager votre contenu plus facilement etc ... </p>
@@ -204,7 +177,6 @@
                 {# logo yeux #}
                 <div id="logoTwitchEye1"></div>
                 <div id="logoTwitchEye2"></div>
-
             </div>
 
         </div>
@@ -213,27 +185,16 @@
         <div class="lp-p2b">
 
             <div class="lp-p2-leftSection">
-                {# TODO Serait mieux avec couches de zindex (Mockup passe par dessus sectionRight#}
-                {# TODO anim slide/fadeIn droite/gauche#}
                 <img src="{{ asset('img/landingPageMockup_noBg.png') }}" class="lp-p2-leftSectionImg">
-
-                {# WIP absolute icons #}
                 <i class="fa-solid fa-comments lp-p2-icons lp-p2-leftSection-icon1"></i>
                 <i class="fa-solid fa-face-grin-squint-tears lp-p2-icons lp-p2-leftSection-icon2" style="font-size:8em;"></i>
-                {# <i class="fa-solid fa-gamepad lp-p2-icons lp-p2-leftSection-icon2"></i> #}
-                {# <i class="fa-solid fa-headset lp-p2-icons lp-p2-leftSection-icon3" style="font-size:5em"></i> #}
-                
-                {# <i class="fa-solid fa-people-group lp-p2-icons lp-p2-leftSection-icon2"></i> #}
             </div>
 
             <div class="lp-p2-rightSection">
-                
                 <span class="lp-p2-rightSectionTitle">Emmenez SquadForge avec vous !<br>Restez connecté et informé à propos de vos univers favoris. <strong>Partagez</strong> avec vos teammates, publiez votre <strong>contenu</strong>, rejoingez ou créez une <strong>team</strong>, et plus encore !</span>
-
             </div>
 
         </div>
-
 
         {# Scroll Btn #}
         <div id="lp-scrollBtn2" class="landingPageDownBtn">
@@ -241,14 +202,12 @@
             <i class="fa-solid fa-chevron-down lpdownBtn2"></i>
         </div>
 
-    </div>
+    </section>
 
 
-
-
-    {# Page 3 #}
+    {# Page 3: carousel jeux #}
     {# TODO orderBy nbr de publications #}
-    <div id="lp-page3" class="section" aria-labelledby="carousel-heading">
+    <section id="lp-page3" class="section" aria-labelledby="carousel-heading">
         
         {# Splide container #}
         <div class="splide">
@@ -263,17 +222,14 @@
 
                 <div id="lp-page3-container" class="lp-page3-container splide__track"> 
 
-
                     <div class="lp-phone-slpideTrait1"></div>
-
 
                     <div class="splide__list">
 
                         {% set index = 1 %}
-
                         {% for game in games %}
 
-                            <div title="{{ game.title }}" class="lp-page3-slideContainer splide__slide">
+                            <article title="{{ game.title }}" class="lp-page3-slideContainer splide__slide">
 
                                 <svg class="gameSelectedBracketUp">
                                     <path 
@@ -286,9 +242,7 @@
                                 </svg>
 
                                 <div id="lp-page3-slide0{{ index }}" class="lp-gameCard" style="background-image: linear-gradient(rgba(0, 0, 255, 0.05), rgba(249, 123, 44, 0.5)),url('{{ asset("img/games/headerBackground/" ~ game.subBanner )}}'); background-size:cover;">
-
                                     <span id="lp-gameCardTitle{{ index }}" value="{{ game.title }}" class="lp-gameCardTitle">{{ game.title }}</span>
-
                                 </div>
 
                                 {# only Phone: #}
@@ -304,12 +258,11 @@
                                         />
                                 </svg>
 
-                            </div>
+                            </article>
 
                             {% set index = index + 1 %}
 
                         {% endfor %}
-
 
                         {# Fausse dernière card (espacement) #}
                         <div class="lp-page3-slideContainer splide__slide" style="opacity:0;">
@@ -318,36 +271,30 @@
                             </div>
                         </div>
 
-
                     </div>
 
                     <div class="lp-phone-slpideTrait2"></div>
 
-                    
                 </div>
-
             </div>
-
+        </div>
+            
+        {# Scroll Btn #}
+        <div id="lp-scrollBtn3" class="landingPageDownBtn" style="display:inline-flex; flex-direction:row; gap:25px; transform: translate(50%, 8%); align-items:center; padding:30px 30px;">
+            <span style="opacity:0.8; color:#bcbcbc; font-size:0.9em;">Passer</span>
+            <div style="display:inline-flex; flex-direction:column;">
+                <i class="fa-solid fa-chevron-down lpdownBtn1"></i>
+                <i class="fa-solid fa-chevron-down lpdownBtn2"></i>
+            </div>
         </div>
 
-        {# TODO Fleche de transition page3 -> page4 si game selected  #}
-            
-            {# Scroll Btn #}
-            <div id="lp-scrollBtn3" class="landingPageDownBtn" style="display:inline-flex; flex-direction:row; gap:25px; transform: translate(50%, 8%); align-items:center; padding:30px 30px;">
-                <span style="opacity:0.8; color:#bcbcbc; font-size:0.9em;">Passer</span>
-                <div style="display:inline-flex; flex-direction:column;">
-                    <i class="fa-solid fa-chevron-down lpdownBtn1"></i>
-                    <i class="fa-solid fa-chevron-down lpdownBtn2"></i>
-                </div>
-            </div>
-
-    </div>
+    </section>
 
 
 
 
     {# Page 4 (Contenus associé au jeu sélectionné) #}
-    <div id="lp-page4" class ="lp-page4 section">
+    <section id="lp-page4" class ="lp-page4 section">
 
         <a id="lp-page4-titleLink">
             <div id="lp-page4-titleDivWrapper" class="lp-page4-titleDivWrapper" style="display:inline-flex;width:100%;justify-content:center;gap:55px;">
@@ -365,7 +312,7 @@
 
 
         {# Recherche Async #}
-        <div class="lp-searchDiv">
+        <section class="lp-searchDiv">
 
             <div class="lp-searchSubDiv">
 
@@ -393,17 +340,17 @@
 
             </div>
 
-        </div>
+        </section>
 
 
-        <div id="lp-page4-container" class="lp-page4-container"> 
+        <section id="lp-page4-container" class="lp-page4-container"> 
 
             {# Cards si recherche input vide #}
-            <div class="lp-page4-card lp-page4-cardTeam" id="lp-page4-cardTeams" style="cursor:default;">
+            <article class="lp-page4-card lp-page4-cardTeam" id="lp-page4-cardTeams" style="cursor:default;">
                 <div id="lp-teamsCardGameSelected" style="display:none;">
                     <h3 class="lp-page4-cardTitle">Teams</h3>
                     <div class="lp-page4-teamsCardContent">
-                        <img src="{{ asset('img/teamCardImg.png') }}" class="lp-page4-teamsCardImg">
+                        <img src="{{ asset('img/teamCardImg.png') }}" class="lp-page4-teamsCardImg" alt="teams card illustration">
                         <a id="lp-page4-cardTeams-seek">
                             <span class="lp-page4-cardTeams-btn">Rejoindre une team</span>
                         </a>
@@ -415,24 +362,24 @@
                 <div id="lp-teamsCardGameNotSelected">
                     <h3 class="lp-page4-cardTitle">Teams</h3>
                     <div class="lp-page4-teamsCardContent">
-                        <img src="{{ asset('img/teamCardImg.png') }}" class="lp-page4-teamsCardImg">
+                        <img src="{{ asset('img/teamCardImg.png') }}" class="lp-page4-teamsCardImg" alt="teams card illustration">
                         <span class="emptyListMsg">Veuillez commencer par sélectionner un jeu</span>
                     </div>
                 </div>
-            </div>
+            </article>
 
             <a href="{{ path('app_allTopicsGlobal') }}" id="lp-page4-cardTopics">
-                <div class="lp-page4-card lp-page4-cardTopics">
+                <article class="lp-page4-card lp-page4-cardTopics">
                     <h3 class="lp-page4-cardTitle">Topics</h3>
-                    <img src="{{ asset('img/landingPageTopics_v2.png') }}" class="lp-page4-img">
-                </div>
+                    <img src="{{ asset('img/landingPageTopics_v2.png') }}" class="lp-page4-img" alt="topics card illustration">
+                </article>
             </a>
 
             <a href="{{ path('app_allMediasGlobal') }}" id="lp-page4-cardMedias">
-                <div class="lp-page4-card lp-page4-cardMedias">
+                <article class="lp-page4-card lp-page4-cardMedias">
                     <h3 class="lp-page4-cardTitle">Médias</h3>
-                <img src="{{ asset('img/landingPageMedias_v2.png') }}" class="lp-page4-img">
-                </div>
+                    <img src="{{ asset('img/landingPageMedias_v2.png') }}" class="lp-page4-img" alt="medias card illustration">
+                </article>
             </a>
 
             {# Resultats de la recherche #}
@@ -444,33 +391,33 @@
 
                 <div style="display: inline-flex; width:100%; justify-content:space-evenly; margin-top:40px;">
 
-                    <div id="lp-searchGamesDiv" class="lp-searchResultDiv">
+                    <section id="lp-searchGamesDiv" class="lp-searchResultDiv">
                         <h4 class="lp-searchResultDivTitle"><a href='{{ path('app_games') }}'>Jeux</a></h4>
                         <ul id="lp-searchResultGamesList" class="lp-searchResultList">
                             {# contenu ajouté ajax #}
                         </ul>
-                    </div>
+                    </section>
 
-                    <div id="lp-searchTeamsDiv" class="lp-searchResultDiv" style="display:none;">
+                    <section id="lp-searchTeamsDiv" class="lp-searchResultDiv" style="display:none;">
                         <h4 class="lp-searchResultDivTitle"><a id="lp-searchResultTeamsDivTitle-link">Teams</a></h4>
                         <ul id="lp-searchResultTeamsList" class="lp-searchResultList">
                             {# contenu ajouté ajax #}
                         </ul>
-                    </div>
+                    </section>
 
-                    <div id="lp-searchTopicsDiv" class="lp-searchResultDiv">
+                    <section id="lp-searchTopicsDiv" class="lp-searchResultDiv">
                         <h4 class="lp-searchResultDivTitle"><a id="lp-searchResultTopicsDivTitle-link" href='{{ path('app_allTopicsGlobal') }}'>Topics</a></h4>
                         <ul id="lp-searchResultTopicsList" class="lp-searchResultList">
                             {# contenu ajouté ajax #}
                         </ul>
-                    </div>
+                    </section>
 
-                    <div id="lp-searchMediasDiv" class="lp-searchResultDiv">
+                    <section id="lp-searchMediasDiv" class="lp-searchResultDiv">
                         <h4 class="lp-searchResultDivTitle"><a id="lp-searchResultMediasDivTitle-link" href='{{ path('app_allMediasGlobal') }}'>Medias</a></h4>
                         <ul id="lp-searchResultMediasList" class="lp-searchResultList">
                             {# contenu ajouté ajax #}
                         </ul>
-                    </div>
+                    </section>
 
                 </div>
             </div>
@@ -481,12 +428,9 @@
                 <i class="fa-solid fa-chevron-down lpdownBtn2"></i>
             </div> #}
 
+        </section>
 
-        </div>
-
-
-
-    </div>
+    </section>
 
 
 
@@ -564,27 +508,20 @@
             
             // Slide Scroll vertical sur mobile pas bonne idee car mess avec le scroll page
             if (isMobile){
-
                var splide = new Splide( '.splide', {
                     direction : 'ttb',
                     height: '30rem',
                     perPage: 4,
                     pagination: false,
                 } );
-
                 splide.mount();
-
             } else {
-                    
                 var splide = new Splide( '.splide', {
                     width: '100%',
                     perPage: 6,
                 } );
-
                 splide.mount();
-
             }
-
         });
     </script>
 
@@ -593,8 +530,6 @@
     <script>
         window.onload = function() {
 
-
-        
             document.getElementById('lp-scrollBtn').addEventListener('click', function() {
                 const element = document.getElementById("lp-page2");
                 element.scrollIntoView({behavior: "smooth", block: "end", inline: "nearest"});
@@ -618,12 +553,8 @@
                 element5.scrollIntoView({behavior: "smooth", block: "end", inline: "nearest"});
             }
         
-
-
             var gameSelected = false;
-
             var gameSelectedId = 0;
-
 
             // toggle des filtres actifs searchBar (Styles + values pour ajax)
             document.querySelectorAll('.lp-filterBtn').forEach((element) => {
@@ -715,8 +646,7 @@
             });
 
             
-                
-
+            
             // {# OnSelect game: scroll page 4 (détails) + anims #}
             {% set index = 1 %}
 
@@ -838,7 +768,6 @@
                         setTimeout(() => {
                             document.getElementById('lp-page4').scrollIntoView({behavior: "smooth", block: "end", inline: "nearest"});
                         }, 350);
-
 
 
                         // Btn suppression du filtre gameSelected:
@@ -1101,7 +1030,6 @@
                 }
 
             }) 
-
 
         }
 
