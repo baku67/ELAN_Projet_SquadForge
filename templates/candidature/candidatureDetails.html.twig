@@ -4,9 +4,8 @@
 
 {% block body %}
 
-
     <header class="gameHeader" style="background: url('{{ asset('img/games/banner/' ~ gameFrom.banner ) }}' )">
-        <a href="{{ path('app_home') }}"><img src="{{ asset('img/games/headerSiteLogo/' ~ gameFrom.siteLogo ) }}" class="logoPng" id="logoPng" /></a>
+        <a href="{{ path('app_home') }}"><img src="{{ asset('img/games/headerSiteLogo/' ~ gameFrom.siteLogo ) }}" class="logoPng" id="logoPng" alt='topless bearded dwarf forging a sword above "SquadForge" title' /></a>
         <nav class="navLine">
             <a href="{{ path('app_home') }}" class="homeNav"><i class="fa-solid fa-house"></i></a>
             <a href="{{ path('app_games') }}" class="gamesNav caps">jeux</a>
@@ -67,7 +66,7 @@
 
 
 
-    <div class="main">
+    <main class="main">
 
         {# Fil d'Ariane #}
         <p class="breadcrumbs">
@@ -77,8 +76,6 @@
              - <a class="underlineLink" href="{{ path('app_groupDetails', {'groupId': group.id }) }}">{{ group.title }}</a>
              - Candidature
         </p>
-
-        
 
         <br>
 
@@ -138,7 +135,7 @@
 
         
         
-    </div>
+    </main>
 
 
     {# // Adaptation couleur borderBottom HeaderFixed #}

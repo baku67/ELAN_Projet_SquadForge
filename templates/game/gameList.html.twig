@@ -5,7 +5,7 @@
 {% block body %}
 
     <header class="globalBanner" style="background: url('{{ asset('img/banner1.jpg') }}' )">
-        <a href="{{ path('app_home') }}"><img src="{{ asset('img/logoSquadForge_v3.png') }}" class="logoPng" id="logoPng" /></a>
+        <a href="{{ path('app_home') }}"><img src="{{ asset('img/logoSquadForge_v3.png') }}" class="logoPng" id="logoPng" alt='topless bearded dwarf forging a sword above "SquadForge" title' /></a>
         <nav class="navLine">
             <a href="{{ path('app_home') }}" class="homeNav"><i class="fa-solid fa-house"></i></a>
             <a href="{{ path('app_games') }}" class="gamesNav caps navActive">jeux</a>
@@ -67,9 +67,9 @@
 
 
 
-    <div class="main" style="margin: 20px auto 100px auto;">
+    <main class="main" style="margin: 20px auto 100px auto;">
 
-        <div class="gamesListHeaderLine">
+        <section class="gamesListHeaderLine">
             <h2 class="pageTitle pageTitleGames">Parcourir les jeux</h2>
 
             {# Form Search asynchrone (Ajax JS) #}
@@ -77,7 +77,7 @@
                 <input type="text" id="search-input" name="query" class="form-control" placeholder="Rechercher...">
                 <i id="searchFormLoupe" class="fa-solid fa-magnifying-glass"></i>
             </form>
-        </div>
+        </section>
 
         <script>
             window.onload = function() {
@@ -169,12 +169,12 @@
         </script>
 
 
-        <div>
+        <section>
             <h3 id="search-title">Résultats de recherche <span id="searchResultCount" class="gameListCount"></span></h3>
 
             <div id="search-results">
             </div>
-        </div>
+        </section>
 
 
 
@@ -182,7 +182,7 @@
         <div id="gamesLists">
 
             {# // Filtres par genres: #}
-            <div class="gameFiltersDiv">
+            <section class="gameFiltersDiv">
                 <i class="fa-solid fa-filter gameFilterIcon"></i>
                 {# <i class="fa-solid fa-filter-circle-xmark gameFilterIcon"></i> #}
                 <ul class="gamesFilterList">
@@ -274,7 +274,7 @@
                     
                 </script>
 
-            </div>
+            </section>
 
 
 
@@ -286,7 +286,7 @@
             <div id="listSections">
 
                 {# Liste jeux catégorie "FPS" #}
-                <div id="splideFps" class="splide sectionHomeContainerGames splideGames">
+                <section id="splideFps" class="splide sectionHomeContainerGames splideGames">
 
                     <a href="{{ path('app_genreGames', {'id':1}) }}" class="blinkingSectionTitle sectionTitleGames">
                         <div class="GamesGenreTitle"></div>
@@ -313,7 +313,7 @@
                                         {% for game in fpsGames %}
 
                                             <a title="{{ game.title }}" class="gameCardLink splide__slide" href="{{ path('app_game', {'id': game.id} )}}" style="transform:scale(0.9);">
-                                                <div class="lp-page3-slideContainer">
+                                                <article class="lp-page3-slideContainer">
 
                                                     <svg class="gameSelectedBracketUp-games">
                                                         <path 
@@ -351,7 +351,7 @@
                                                             />
                                                     </svg>
 
-                                                </div>
+                                                </article>
                                             </a>
 
                                             {% set index = index + 1 %}
@@ -384,11 +384,11 @@
 
                     <a href="{{ path('app_genreGames', {'id':1}) }}" class="seeAll-gamesList">Voir tout <span>({{ fpsGamesCount }})</span> <i class="fa-solid fa-arrow-right"></i></a>
 
-                </div>
+                </section>
 
 
                 {# Liste jeux catégorie "MOBA" #}
-                <div id="splideMoba" class="splide sectionHomeContainerGames splideGames">
+                <section id="splideMoba" class="splide sectionHomeContainerGames splideGames">
 
                     <a href="{{ path('app_genreGames', {'id':4}) }}" class="blinkingSectionTitle sectionTitleGames">
                         <div class="GamesGenreTitle"></div>
@@ -415,7 +415,7 @@
                                         {% for game in mobaGames %}
 
                                             <a title="{{ game.title }}" class="gameCardLink splide__slide" href="{{ path('app_game', {'id': game.id} )}}" style="transform:scale(0.9);">
-                                                <div class="lp-page3-slideContainer">
+                                                <article class="lp-page3-slideContainer">
 
                                                     <svg class="gameSelectedBracketUp-games">
                                                         <path 
@@ -453,7 +453,7 @@
                                                             />
                                                     </svg>
 
-                                                </div>
+                                                </article>
                                             </a>
 
                                             {% set index = index + 1 %}
@@ -486,11 +486,11 @@
 
                     <a href="{{ path('app_genreGames', {'id':4}) }}" class="seeAll-gamesList">Voir tout <span>({{ mobaGamesCount }})</span> <i class="fa-solid fa-arrow-right"></i></a>
 
-                </div>
+                </section>
 
 
                 {# Liste jeux catégorie "Battle royal"" #}
-                <div id="splideBr" class="splide sectionHomeContainerGames splideGames">
+                <section id="splideBr" class="splide sectionHomeContainerGames splideGames">
 
                     <a href="{{ path('app_genreGames', {'id':3}) }}" class="blinkingSectionTitle sectionTitleGames">
                         <div class="GamesGenreTitle"></div>
@@ -517,7 +517,7 @@
                                         {% for game in battleRoyalGames %}
 
                                             <a title="{{ game.title }}" class="gameCardLink splide__slide" href="{{ path('app_game', {'id': game.id} )}}" style="transform:scale(0.9);">
-                                                <div class="lp-page3-slideContainer">
+                                                <article class="lp-page3-slideContainer">
 
                                                     <svg class="gameSelectedBracketUp-games">
                                                         <path 
@@ -555,7 +555,7 @@
                                                             />
                                                     </svg>
 
-                                                </div>
+                                                </article>
                                             </a>
 
                                             {% set index = index + 1 %}
@@ -588,7 +588,7 @@
 
                     <a href="{{ path('app_genreGames', {'id':3}) }}" class="seeAll-gamesList">Voir tout <span>({{ brGamesCount }})</span> <i class="fa-solid fa-arrow-right"></i></a>
 
-                </div>
+                </section>
 
 
                 {# Splide JS carousel games #}
@@ -658,11 +658,12 @@
 
                     });
                 </script>
+
             </div>
 
         </div>
 
-    </div>
+    </main>
 
 
 {% endblock %}

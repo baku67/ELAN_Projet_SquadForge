@@ -7,7 +7,7 @@
 {% block body %}
 
     <header class="gameHeader" style="background: url('{{ asset('img/banner1.jpg') }}' )">
-        <a href="{{ path('app_home') }}"><img src="{{ asset('img/logoSquadForge_v3.png') }}" class="logoPng" id="logoPng" /></a>
+        <a href="{{ path('app_home') }}"><img src="{{ asset('img/logoSquadForge_v3.png') }}" class="logoPng" id="logoPng" alt='topless bearded dwarf forging a sword above "SquadForge" title' /></a>
         <nav class="navLine">
             <a href="{{ path('app_home') }}" class="homeNav"><i class="fa-solid fa-house"></i></a>
             <a href="{{ path('app_games') }}" class="gamesNav caps">jeux</a>
@@ -69,7 +69,7 @@
 
 
 
-    <div class="main">
+    <main class="main">
 
         {# Fil d'Ariane #}
         <p class="breadcrumbs"><a class="underlineLink" href="{{ path('app_home') }}">Accueil</a> - Teams</p>
@@ -79,12 +79,12 @@
             <a href="{{ path('app_userGroups') }}">Mes teams</a>
         {% endif %}
         
-        <div class="groupsGrid">
+        <section class="groupsGrid">
 
             {% for group in groups %}
 
                 <a title='"{{ group.title|capitalize }}"' href="{{ path('app_groupDetails', {'groupId': group.id } ) }}" style="width:fit-content;position:relative;">
-                    <div class="teamCard" style="border-color:{{ group.game.color }}60">
+                    <article class="teamCard" style="border-color:{{ group.game.color }}60">
 
                         <div class="teamCardTextDiv">
 
@@ -102,16 +102,16 @@
                             <ul class="teamCard-criterias">
                                 <li>
                                     {% if group.restriction18 %}
-                                        <img src="{{ asset('img/criteria_18.png') }}" style="filter:invert(0.9);">
+                                        <img src="{{ asset('img/criteria_18.png') }}" style="filter:invert(0.9);" alt="symbole interdit au moins de 18 ans">
                                     {% else %}
-                                        <img src="{{ asset('img/criteria_18.png') }}" style="opacity:0.9;">
+                                        <img src="{{ asset('img/criteria_18.png') }}" style="opacity:0.9;" alt="symbole interdit au moins de 18 ans">
                                     {% endif %}
                                 </li>
                                 <li>
                                     {% if group.restrictionMic %}
-                                        <img src="{{ asset('img/criteria_micro.png') }}" style="filter:invert(0.9);">
+                                        <img src="{{ asset('img/criteria_micro.png') }}" style="filter:invert(0.9);" alt="symbole microphone">
                                     {% else %}
-                                        <img src="{{ asset('img/criteria_micro.png') }}" style="opacity:0.9;">
+                                        <img src="{{ asset('img/criteria_micro.png') }}" style="opacity:0.9;" alt="symbole microphone">
                                     {% endif %}
                                 </li>
                             </ul>
@@ -120,9 +120,9 @@
 
                         <div class="teamCardImgWrapper">
                             {% if group.imgUrl is not null and imageExists(group.imgUrl) %}
-                                <img class="teamCardImg" src="/img/uploads/{{ group.imgUrl }}">
+                                <img class="teamCardImg" src="/img/uploads/{{ group.imgUrl }}" alt="image de la team">
                             {% else %}
-                                <img class="teamCardImg" src="/img/teamDefaultPic.jpg">
+                                <img class="teamCardImg" src="/img/teamDefaultPic.jpg" alt="image de team par defaut">
                             {% endif %}
 
                             {# Label si team active (= au moins 1 session moi précédent) #}
@@ -136,15 +136,14 @@
                             
                         </div>
 
-                    </div>
+                    </article>
                 </a>
                 
             {% endfor %}
 
-        </div>
+        </section>
 
-
-    </div>
+    </main>
 
 
 {% endblock %}

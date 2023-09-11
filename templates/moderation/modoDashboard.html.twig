@@ -5,7 +5,7 @@
 {% block body %}
     
     <header class="globalBanner" style="background: url('{{ asset('img/banner1.jpg') }}' )">
-        <a href="{{ path('app_home') }}"><img src="{{ asset('img/logoSquadForge_v3.png') }}" class="logoPng" id="logoPng"/></a>
+        <a href="{{ path('app_home') }}"><img src="{{ asset('img/logoSquadForge_v3.png') }}" class="logoPng" id="logoPng" alt='topless bearded dwarf forging a sword above "SquadForge" title' /></a>
         <nav class="navLine">
             <a href="{{ path('app_home') }}" class="homeNav"><i class="fa-solid fa-house"></i></a>
             <a href="{{ path('app_games') }}" class="gamesNav caps">jeux</a>
@@ -64,21 +64,16 @@
     {% endif %}
 
 
-
-    <div class="main">
-
+    <main class="main">
 
         <h2 class="pageTitle">Espace Modération</h2>
 
-
-        <div class="sectionContainer modoSection" >
-
+        <section class="sectionContainer modoSection">
 
             <div>
                 <div class="modoSubTitle1Bg" style="background-color:var(--primary-color);"></div>
                 <h3 class="gameSubtitle test noMarginBottom"><i class="fa-solid fa-hourglass-half"></i> <strong>Topics</strong> en attente</h3>
             </div>
-
 
             <div class="sectionContent">
                 {% if lastWaitingTopics|length == 0 %}
@@ -91,26 +86,30 @@
                             
                         {% for topic in lastWaitingTopics %}
 
-                            <div id="topicCard{{ topic.id }}" class="topicCard" style="border-bottom: 4px solid {{ topic.game.color }}; cursor:pointer;">
-                                <img class="tinyLogo" src="{{ asset('img/games/tinyLogo/' ~ topic.game.tinyLogo) }}" />
-                                <span id="topicTitle{{ topic.id }}" class="topicTitleModo">{{ topic.title|capitalize }}</span>
-                                <div class="topicCardSubInfosModo">
-                                    <span class="topicCardAuthorModo">{{ topic.user.pseudo|capitalize }}</span>
-                                    <span class="topicCardPublishDate">{{ time_diff(topic.publishDate) }}</span>
+                            <article>
+
+                                <div id="topicCard{{ topic.id }}" class="topicCard" style="border-bottom: 4px solid {{ topic.game.color }}; cursor:pointer;">
+                                    <img class="tinyLogo" src="{{ asset('img/games/tinyLogo/' ~ topic.game.tinyLogo) }}" />
+                                    <span id="topicTitle{{ topic.id }}" class="topicTitleModo">{{ topic.title|capitalize }}</span>
+                                    <div class="topicCardSubInfosModo">
+                                        <span class="topicCardAuthorModo">{{ topic.user.pseudo|capitalize }}</span>
+                                        <span class="topicCardPublishDate">{{ time_diff(topic.publishDate) }}</span>
+                                    </div>
                                 </div>
-                            </div>
-                            <div id="topicSubCard{{ topic.id }}" class="topicSubCard notDisplayed">
-                                <p>{{ topic.firstMsg }}</p>
-                                <div class="mediaApprovalLine">
-                                    <a href="{{ path('app_validateTopic', {'id': topic.id}) }}">
-                                        <span class="mediaApproveBtn"><i class="fa-solid fa-check"></i></span>
-                                    </a>
-                                    <a href="{{ path('app_refuseTopic', {'id': topic.id}) }}">
-                                        <span class="mediaRefuseBtn"><i class="fa-solid fa-xmark"></i></span>
-                                    </a>
+                                
+                                <div id="topicSubCard{{ topic.id }}" class="topicSubCard notDisplayed">
+                                    <p>{{ topic.firstMsg }}</p>
+                                    <div class="mediaApprovalLine">
+                                        <a href="{{ path('app_validateTopic', {'id': topic.id}) }}">
+                                            <span class="mediaApproveBtn"><i class="fa-solid fa-check"></i></span>
+                                        </a>
+                                        <a href="{{ path('app_refuseTopic', {'id': topic.id}) }}">
+                                            <span class="mediaRefuseBtn"><i class="fa-solid fa-xmark"></i></span>
+                                        </a>
+                                    </div>
                                 </div>
 
-                            </div>
+                            </article>
 
                             {# OnClick TopicCard: détails et boutons validation/refus #}
                             <script>
@@ -125,12 +124,12 @@
                 {% endif %} 
             </div>
 
-        </div>
+        </section>
 
 
 
 
-        <div class="sectionContainer modoSection" >
+        <section class="sectionContainer modoSection">
 
             <div>
                 <div class="modoSubTitle1Bg" style="background-color:var(--primary-color);"></div>
@@ -147,7 +146,8 @@
 
                     {% for media in lastWaitingMedias %}
 
-                        <div style="display:inline-block;">
+                        <article style="display:inline-block;">
+
                             <div id="mediaCard{{ media.id }}" class="mediaCard mediaCardModo" style="cursor:pointer;">
                                 <div class="mediaCardHeader" style="border-bottom: 3px solid {{ media.game.color }}">
                                     <img class="tinyLogo" src="{{ asset('img/games/tinyLogo/' ~ media.game.tinyLogo) }}" />
@@ -167,7 +167,8 @@
                                     <span class="mediaRefuseBtn"><i class="fa-solid fa-xmark"></i></span>
                                 </a>
                             </div>
-                        </div>
+
+                        </article>
 
                         {# OnClick MediaCard: détails et boutons validation/refus #}
                         <script>
@@ -182,7 +183,7 @@
                     {% endfor %}
                 </div>
             {% endif %}
-        </div>
+        </section>
 
 
 
@@ -190,15 +191,14 @@
 
         {# Section Signalements/Reports #}
         {# Ajax apercu on clic #}
-        <div class="sectionContainer modoSection modoSectionRed" >
-
+        <section class="sectionContainer modoSection modoSectionRed">
 
             <div>
                 <div class="modoSubTitle1Bg" style="background-color:#E91E63;"></div>
                 <h3 class="gameSubtitle test noMarginBottom"><i class="fa-solid fa-flag"></i> <strong>Signalements</strong></h3>
             </div>
 
-            <div class="reportsDiv">
+            <article class="reportsDiv">
 
                 {% if reports|length > 0 %}
                 
@@ -288,11 +288,6 @@
                                             <input type="submit" value="Censurer le {{ objectType }}" class="censureBtn"></input>
                                         </form>
 
-                                        {# Toggle mute/ban modes #}
-                                        <script>
-
-                                        </script>
-
                                     </div>
                                 </div>
                             </div>
@@ -306,196 +301,196 @@
                     <p class="emptyListMsg">Aucun signalement en attente</p>
                     
                 {% endif %}
-            </div>
+            </article>
 
-        </div>
+        </section>
 
 
 
         {# Ajax Preview cible reportCard + btn décisions #}
         <script>
 
-                {% set index = 0 %}
-                {% for report in reports %}
+            {% set index = 0 %}
+            {% for report in reports %}
 
-                    // DateFinSentence minimum et defaut = aujourd'hui (backend:TODO)
-                    var now = new Date();
-                    var timezoneOffset = now.getTimezoneOffset() * 60000; 
-                    var today = new Date(now - timezoneOffset).toISOString().split('T')[0];
-                    var tomorrow = new Date(now.getTime() + 86400000);
-                    var tomorrowFormatted = tomorrow.toISOString().split('T')[0];
+                // DateFinSentence minimum et defaut = aujourd'hui (backend:TODO)
+                var now = new Date();
+                var timezoneOffset = now.getTimezoneOffset() * 60000; 
+                var today = new Date(now - timezoneOffset).toISOString().split('T')[0];
+                var tomorrow = new Date(now.getTime() + 86400000);
+                var tomorrowFormatted = tomorrow.toISOString().split('T')[0];
 
-                    document.getElementById('inputPunishEndDate{{ index }}').value = tomorrowFormatted;
-                    document.getElementById('inputPunishEndDate{{ index }}').setAttribute("min", tomorrowFormatted);
+                document.getElementById('inputPunishEndDate{{ index }}').value = tomorrowFormatted;
+                document.getElementById('inputPunishEndDate{{ index }}').setAttribute("min", tomorrowFormatted);
 
-                    // Toggle Affichage du détail de l'objet signalé (+ boutons décisions)
-                    document.getElementById('reportPreviewBtn{{ index }}').addEventListener('click', function() {
+                // Toggle Affichage du détail de l'objet signalé (+ boutons décisions)
+                document.getElementById('reportPreviewBtn{{ index }}').addEventListener('click', function() {
 
-                        document.getElementById('preview{{ index }}').classList.toggle('notDisplayed');
-                        document.getElementById('reportPreviewFactice{{ index }}').classList.toggle('notDisplayed');
+                    document.getElementById('preview{{ index }}').classList.toggle('notDisplayed');
+                    document.getElementById('reportPreviewFactice{{ index }}').classList.toggle('notDisplayed');
 
-                        // Marche mais pb à cause du "innerHTML +=" dans responseAjax
-                        // document.querySelectorAll('.nbrReportsDetail{{ index}}').forEach(element => {
-                        //     element.classList.toggle('notDisplayed');
-                        // });
+                    // Marche mais pb à cause du "innerHTML +=" dans responseAjax
+                    // document.querySelectorAll('.nbrReportsDetail{{ index}}').forEach(element => {
+                    //     element.classList.toggle('notDisplayed');
+                    // });
 
-                        if(!document.getElementById('preview{{ index }}').classList.contains('notDisplayed')) {
+                    if(!document.getElementById('preview{{ index }}').classList.contains('notDisplayed')) {
 
-                            // (Z-index inputDainputPunishEndDate marche pas) Fix:
-                            document.getElementById('clickableContainer{{ index }}').addEventListener('click', function(event) {
-                                event.stopPropagation();
-                            });
+                        // (Z-index inputDainputPunishEndDate marche pas) Fix:
+                        document.getElementById('clickableContainer{{ index }}').addEventListener('click', function(event) {
+                            event.stopPropagation();
+                        });
 
-                            // Toggle du mode Ban/Mute
-                            document.getElementById('toggleMute{{ index }}').addEventListener('click', function() {
-                                document.getElementById('sentenceType{{ index }}').value = "mute";
-                                document.getElementById('inputPunishEndDateLabel{{ index }}').innerText = "Fin du mute: ";
-                                document.getElementById('sentenceEndDateDiv{{ index }}').style.display = 'block';
-                                document.getElementById('inputPunishEndDate{{ index }}').disabled = false;
+                        // Toggle du mode Ban/Mute
+                        document.getElementById('toggleMute{{ index }}').addEventListener('click', function() {
+                            document.getElementById('sentenceType{{ index }}').value = "mute";
+                            document.getElementById('inputPunishEndDateLabel{{ index }}').innerText = "Fin du mute: ";
+                            document.getElementById('sentenceEndDateDiv{{ index }}').style.display = 'block';
+                            document.getElementById('inputPunishEndDate{{ index }}').disabled = false;
 
-                                document.getElementById('toggleNoPunish{{ index }}').classList.remove('sentenceActif');
-                                document.getElementById('toggleBan{{ index }}').classList.remove('sentenceActif');
-                                document.getElementById('toggleMute{{ index }}').classList.add('sentenceActif');
-                            });
-                            document.getElementById('toggleBan{{ index }}').addEventListener('click', function() {
-                                document.getElementById('sentenceType{{ index }}').value = "ban";
-                                document.getElementById('inputPunishEndDateLabel{{ index }}').innerText = "Fin du ban: ";
-                                document.getElementById('sentenceEndDateDiv{{ index }}').style.display = 'block';
-                                document.getElementById('inputPunishEndDate{{ index }}').disabled = false;
+                            document.getElementById('toggleNoPunish{{ index }}').classList.remove('sentenceActif');
+                            document.getElementById('toggleBan{{ index }}').classList.remove('sentenceActif');
+                            document.getElementById('toggleMute{{ index }}').classList.add('sentenceActif');
+                        });
+                        document.getElementById('toggleBan{{ index }}').addEventListener('click', function() {
+                            document.getElementById('sentenceType{{ index }}').value = "ban";
+                            document.getElementById('inputPunishEndDateLabel{{ index }}').innerText = "Fin du ban: ";
+                            document.getElementById('sentenceEndDateDiv{{ index }}').style.display = 'block';
+                            document.getElementById('inputPunishEndDate{{ index }}').disabled = false;
 
-                                document.getElementById('toggleNoPunish{{ index }}').classList.remove('sentenceActif');
-                                document.getElementById('toggleBan{{ index }}').classList.add('sentenceActif');
-                                document.getElementById('toggleMute{{ index }}').classList.remove('sentenceActif');
-                            });
-                            document.getElementById('toggleNoPunish{{ index }}').addEventListener('click', function() {
-                                document.getElementById('sentenceType{{ index }}').value = "void";
-                                document.getElementById('inputPunishEndDateLabel{{ index }}').innerText = "Aucune pénalité";
-                                document.getElementById('inputPunishEndDate{{ index }}').disabled = true;
+                            document.getElementById('toggleNoPunish{{ index }}').classList.remove('sentenceActif');
+                            document.getElementById('toggleBan{{ index }}').classList.add('sentenceActif');
+                            document.getElementById('toggleMute{{ index }}').classList.remove('sentenceActif');
+                        });
+                        document.getElementById('toggleNoPunish{{ index }}').addEventListener('click', function() {
+                            document.getElementById('sentenceType{{ index }}').value = "void";
+                            document.getElementById('inputPunishEndDateLabel{{ index }}').innerText = "Aucune pénalité";
+                            document.getElementById('inputPunishEndDate{{ index }}').disabled = true;
 
-                                document.getElementById('toggleNoPunish{{ index }}').classList.add('sentenceActif');
-                                document.getElementById('toggleBan{{ index }}').classList.remove('sentenceActif');
-                                document.getElementById('toggleMute{{ index }}').classList.remove('sentenceActif');
-                            });
-
-
-                            // Récup des id et type de l'objet
-                            var objectType = document.getElementById('reportPreviewType{{ index }}').getAttribute('value');
-                            var objectId = document.getElementById('reportPreviewId{{ index }}').getAttribute('value');
-
-                            // Ajax:
-                            $.ajax({
-                                url: '/reportDetails/' + objectType + '/' + objectId,
-                                type: 'GET',
-                                success: function(response) {
-
-                                    // Détails des reports (par motif)
-                                    document.getElementById('reportPreviewHeader{{ index }}').innerHTML += "(";
-
-                                    Object.entries(response.nbrReportsPerMotifArray).forEach(([key, value]) => {
-                                        document.getElementById('reportPreviewHeader{{ index }}').innerHTML += "<span class='nbrReportsDetail{{ index }}' style='margin: 0 5px;'>" + `${key}:` + "<span class='strongNbr'> " + `${value}` + "</span></span>";
-                                    });
-
-                                    document.getElementById('reportPreviewHeader{{ index }}').innerHTML += ")";
+                            document.getElementById('toggleNoPunish{{ index }}').classList.add('sentenceActif');
+                            document.getElementById('toggleBan{{ index }}').classList.remove('sentenceActif');
+                            document.getElementById('toggleMute{{ index }}').classList.remove('sentenceActif');
+                        });
 
 
-                                    switch (response.objectType) {
-                                        case "media":
-                                            document.getElementById('detailText{{ index }}').innerHTML = "<i class='fa-solid fa-quote-left reportQuote'></i>" + response.object["title"] + "<i class='fa-solid fa-quote-right reportQuote'></i>";
-                                            document.getElementById('detailPublishDate{{ index }}').innerText = publishDateDelay(response.object["date"]["date"]);
-                                            // document.getElementById('detailGame{{ index }}').innerText = response.object["game"];
-                                            document.getElementById('detailObjectAuthor{{ index }}').innerHTML = "par " + response.object["author"] + " (Censures: " + "<span class='strongNbr'>" + response.object["authorNbrCensures"] + "</span>)";
-                                            document.getElementById('detailImg{{ index }}').src = "/img/uploads/" + response.object["img"];
-                                            break;
+                        // Récup des id et type de l'objet
+                        var objectType = document.getElementById('reportPreviewType{{ index }}').getAttribute('value');
+                        var objectId = document.getElementById('reportPreviewId{{ index }}').getAttribute('value');
 
-                                        case "topic":
-                                            document.getElementById('detailText{{ index }}').innerHTML = "<i class='fa-solid fa-quote-left reportQuote'></i>" + response.object["title"] + "<i class='fa-solid fa-quote-right reportQuote'></i>";
-                                            document.getElementById('detailPublishDate{{ index }}').innerText = publishDateDelay(response.object["date"]["date"]);
-                                            // document.getElementById('detailGame{{ index }}').innerText = response.object["game"];
-                                            document.getElementById('detailObjectAuthor{{ index }}').innerHTML = "par " + response.object["author"] + " (Censures: " + "<span class='strongNbr'>" + response.object["authorNbrCensures"] + "</span>)";
-                                            break;
+                        // Ajax:
+                        $.ajax({
+                            url: '/reportDetails/' + objectType + '/' + objectId,
+                            type: 'GET',
+                            success: function(response) {
 
-                                        case "topicPost":
-                                            document.getElementById('detailText{{ index }}').innerHTML = "<i class='fa-solid fa-quote-left reportQuote'></i>" + response.object["title"] + "<i class='fa-solid fa-quote-right reportQuote'></i>";
-                                            document.getElementById('detailPublishDate{{ index }}').innerText = publishDateDelay(response.object["date"]["date"]);
-                                            // document.getElementById('detailGame{{ index }}').innerText = response.object["game"];
-                                            document.getElementById('detailObjectAuthor{{ index }}').innerHTML = "par " + response.object["author"] + " (Censures: " + "<span class='strongNbr'>" + response.object["authorNbrCensures"] + "</span>)";
-                                            break;
+                                // Détails des reports (par motif)
+                                document.getElementById('reportPreviewHeader{{ index }}').innerHTML += "(";
 
-                                        case "mediaPost":
-                                            document.getElementById('detailText{{ index }}').innerText = response.object["title"];
-                                            document.getElementById('detailPublishDate{{ index }}').innerText = publishDateDelay(response.object["date"]["date"]);
-                                            // document.getElementById('detailGame{{ index }}').innerText = response.object["game"];
-                                            document.getElementById('detailObjectAuthor{{ index }}').innerHTML = "par " + response.object["author"] + " (Censures: " + "<span class='strongNbr'>" + response.object["authorNbrCensures"] + "</span>)";
-                                            break;
-                                    
-                                        default:
-                                            break;
-                                    }
+                                Object.entries(response.nbrReportsPerMotifArray).forEach(([key, value]) => {
+                                    document.getElementById('reportPreviewHeader{{ index }}').innerHTML += "<span class='nbrReportsDetail{{ index }}' style='margin: 0 5px;'>" + `${key}:` + "<span class='strongNbr'> " + `${value}` + "</span></span>";
+                                });
 
-                                    // Récupération du status Author si actif (today < endDateStatus)
-                                    if(response.authorStatus == "muted" && response.authorDateEndStatus > today) {
-                                        document.getElementById("authorStatus{{ index }}").innerHTML = "<span style='position:relative; top:5px;'>Status: <span class='strongNbr'>muted</span> (" + futureEndDateStatus(response.authorDateEndStatus.date) + ")</span>";
-                                    }
-                                    else if(response.authorStatus == "banned" && response.authorDateEndStatus > today)  {
-                                        document.getElementById("authorStatus{{ index }}").innerHTML = "<span style='position:relative; top:5px;'>Status: <span class='strongNbr'>banned</span> (" + futureEndDateStatus(response.authorDateEndStatus.date) + ")</span>";
-                                    }
+                                document.getElementById('reportPreviewHeader{{ index }}').innerHTML += ")";
+
+
+                                switch (response.objectType) {
+                                    case "media":
+                                        document.getElementById('detailText{{ index }}').innerHTML = "<i class='fa-solid fa-quote-left reportQuote'></i>" + response.object["title"] + "<i class='fa-solid fa-quote-right reportQuote'></i>";
+                                        document.getElementById('detailPublishDate{{ index }}').innerText = publishDateDelay(response.object["date"]["date"]);
+                                        // document.getElementById('detailGame{{ index }}').innerText = response.object["game"];
+                                        document.getElementById('detailObjectAuthor{{ index }}').innerHTML = "par " + response.object["author"] + " (Censures: " + "<span class='strongNbr'>" + response.object["authorNbrCensures"] + "</span>)";
+                                        document.getElementById('detailImg{{ index }}').src = "/img/uploads/" + response.object["img"];
+                                        break;
+
+                                    case "topic":
+                                        document.getElementById('detailText{{ index }}').innerHTML = "<i class='fa-solid fa-quote-left reportQuote'></i>" + response.object["title"] + "<i class='fa-solid fa-quote-right reportQuote'></i>";
+                                        document.getElementById('detailPublishDate{{ index }}').innerText = publishDateDelay(response.object["date"]["date"]);
+                                        // document.getElementById('detailGame{{ index }}').innerText = response.object["game"];
+                                        document.getElementById('detailObjectAuthor{{ index }}').innerHTML = "par " + response.object["author"] + " (Censures: " + "<span class='strongNbr'>" + response.object["authorNbrCensures"] + "</span>)";
+                                        break;
+
+                                    case "topicPost":
+                                        document.getElementById('detailText{{ index }}').innerHTML = "<i class='fa-solid fa-quote-left reportQuote'></i>" + response.object["title"] + "<i class='fa-solid fa-quote-right reportQuote'></i>";
+                                        document.getElementById('detailPublishDate{{ index }}').innerText = publishDateDelay(response.object["date"]["date"]);
+                                        // document.getElementById('detailGame{{ index }}').innerText = response.object["game"];
+                                        document.getElementById('detailObjectAuthor{{ index }}').innerHTML = "par " + response.object["author"] + " (Censures: " + "<span class='strongNbr'>" + response.object["authorNbrCensures"] + "</span>)";
+                                        break;
+
+                                    case "mediaPost":
+                                        document.getElementById('detailText{{ index }}').innerText = response.object["title"];
+                                        document.getElementById('detailPublishDate{{ index }}').innerText = publishDateDelay(response.object["date"]["date"]);
+                                        // document.getElementById('detailGame{{ index }}').innerText = response.object["game"];
+                                        document.getElementById('detailObjectAuthor{{ index }}').innerHTML = "par " + response.object["author"] + " (Censures: " + "<span class='strongNbr'>" + response.object["authorNbrCensures"] + "</span>)";
+                                        break;
                                 
-                                },
-                                error: function(xhr, status, error) {
-                                    window.FlashMessage.error('Erreur lors du chargement du signalement');
+                                    default:
+                                        break;
                                 }
-                            });
 
-                        }
+                                // Récupération du status Author si actif (today < endDateStatus)
+                                if(response.authorStatus == "muted" && response.authorDateEndStatus > today) {
+                                    document.getElementById("authorStatus{{ index }}").innerHTML = "<span style='position:relative; top:5px;'>Status: <span class='strongNbr'>muted</span> (" + futureEndDateStatus(response.authorDateEndStatus.date) + ")</span>";
+                                }
+                                else if(response.authorStatus == "banned" && response.authorDateEndStatus > today)  {
+                                    document.getElementById("authorStatus{{ index }}").innerHTML = "<span style='position:relative; top:5px;'>Status: <span class='strongNbr'>banned</span> (" + futureEndDateStatus(response.authorDateEndStatus.date) + ")</span>";
+                                }
+                            
+                            },
+                            error: function(xhr, status, error) {
+                                window.FlashMessage.error('Erreur lors du chargement du signalement');
+                            }
+                        });
 
-
-                    });
-                    {% set index = index + 1 %}
-                {% endfor %}
-
-
-                // Transfo simmple dates -> il y a ...
-                function publishDateDelay(dateSqlToCompare) {
-
-                    var dateActuelle = new Date();
-                    var dateComparaison = new Date(dateSqlToCompare);
-                    var difference = dateActuelle - dateComparaison;
-                    // milisecondes -> jour
-                    var differenceEnJours = Math.floor(difference / (1000 * 60 * 60 * 24));
-
-                    var phrase;
-                    if (differenceEnJours === 0) {
-                        phrase = "publié aujourd'hui";
-                    } else if (differenceEnJours === 1) {
-                        phrase = "publié hier";
-                    } else {
-                        phrase = "publié il y a " + differenceEnJours + " jours";
                     }
 
-                    return phrase;
+
+                });
+                {% set index = index + 1 %}
+            {% endfor %}
+
+
+            // Transfo simmple dates -> il y a ...
+            function publishDateDelay(dateSqlToCompare) {
+
+                var dateActuelle = new Date();
+                var dateComparaison = new Date(dateSqlToCompare);
+                var difference = dateActuelle - dateComparaison;
+                // milisecondes -> jour
+                var differenceEnJours = Math.floor(difference / (1000 * 60 * 60 * 24));
+
+                var phrase;
+                if (differenceEnJours === 0) {
+                    phrase = "publié aujourd'hui";
+                } else if (differenceEnJours === 1) {
+                    phrase = "publié hier";
+                } else {
+                    phrase = "publié il y a " + differenceEnJours + " jours";
                 }
 
+                return phrase;
+            }
 
-                // Transfo simmple dates -> nbr de jours restants
-                function futureEndDateStatus(dateSqlToCompare) {
 
-                    var dateActuelle = new Date();
-                    var dateComparaison = new Date(dateSqlToCompare);
-                    var difference =  dateComparaison - dateActuelle;
-                    // milisecondes -> jour
-                    var differenceEnJours = Math.floor(difference / (1000 * 60 * 60 * 24));
+            // Transfo simmple dates -> nbr de jours restants
+            function futureEndDateStatus(dateSqlToCompare) {
 
-                    var phrase;
-                    if (differenceEnJours === 0) {
-                        phrase = "Fin aujourd'hui";
-                    } else if (differenceEnJours === 1) {
-                        phrase = "Fin demain";
-                    } else {
-                        phrase = "Fin dans " + differenceEnJours + " jours";
-                    }
+                var dateActuelle = new Date();
+                var dateComparaison = new Date(dateSqlToCompare);
+                var difference =  dateComparaison - dateActuelle;
+                // milisecondes -> jour
+                var differenceEnJours = Math.floor(difference / (1000 * 60 * 60 * 24));
 
-                    return phrase;
+                var phrase;
+                if (differenceEnJours === 0) {
+                    phrase = "Fin aujourd'hui";
+                } else if (differenceEnJours === 1) {
+                    phrase = "Fin demain";
+                } else {
+                    phrase = "Fin dans " + differenceEnJours + " jours";
                 }
+
+                return phrase;
+            }
 
         </script>
 
@@ -503,11 +498,7 @@
 
 
 
-
-
-
-
-        <div class="sectionContainer modoSection modoSectionRed" >
+        <section class="sectionContainer modoSection modoSectionRed">
 
             <div>
                 <div class="modoSubTitle1Bg" style="background-color:#E91E63;"></div>
@@ -516,16 +507,15 @@
             
             <div class="censuredWordsList">
                 {% for censureWord in censureWords %}
-                    <div style="display:inline-flex; justify-content:space-around; padding: 5px 0; border-bottom:1px solid rgba(255,255,255,0.2);">
+                    <article style="display:inline-flex; justify-content:space-around; padding: 5px 0; border-bottom:1px solid rgba(255,255,255,0.2);">
                         <span style="width:100px; font-family:'K2D', sans-serif;">"{{ censureWord.word }}"</span>
                         <span style="width:100px;">{{ time_diff(censureWord.creationDate) }}</span>
                         <pspan style="width:100px;">par {{ censureWord.user.pseudo|capitalize }}</span>
                         <a href="{{ path('app_deleteCensure', {'id': censureWord.id }) }}">
                             <i class="fa-solid fa-xmark"></i>
                         </a>
-                    </div>
+                    </article>
                 {% endfor %}
-
             </div>
 
             {{ form_start(formAddCensoredWord) }}
@@ -535,21 +525,9 @@
                 </div>
             {{ form_end(formAddCensoredWord) }}
 
-        </div>
+        </section>
 
 
-
-        
-
-        
-
-
-
-
-
-
-
-
-    </div>
+    </main>
 
 {% endblock %}

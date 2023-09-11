@@ -6,7 +6,7 @@
 
 
     <header class="gameHeader" style="background: url('{{ asset('img/games/banner/' ~ gameFrom.banner ) }}' )">
-        <a href="{{ path('app_home') }}"><img src="{{ asset('img/games/headerSiteLogo/' ~ gameFrom.siteLogo ) }}" class="logoPng" id="logoPng" /></a>
+        <a href="{{ path('app_home') }}"><img src="{{ asset('img/games/headerSiteLogo/' ~ gameFrom.siteLogo ) }}" class="logoPng" id="logoPng" alt='topless bearded dwarf forging a sword above "SquadForge" title' /></a>
         <nav class="navLine">
             <a href="{{ path('app_home') }}" class="homeNav"><i class="fa-solid fa-house"></i></a>
             <a href="{{ path('app_games') }}" class="gamesNav caps">jeux</a>
@@ -68,7 +68,7 @@
 
 
 
-    <div class="main">
+    <main class="main">
 
         {# Fil d'Ariane #}
         <p class="breadcrumbs">
@@ -80,10 +80,7 @@
         </p>
 
 
-    
-
-
-        <div class="groupHeader" style="background-image: linear-gradient(to right, {{ gameFrom.color }}8c, {{ gameFrom.color }}50, #232323ba, #101010f7), url('../img/testMotif2.jpg'); background-size:contain; border-bottom:3px solid {{ gameFrom.color }};">
+        <section class="groupHeader" style="background-image: linear-gradient(to right, {{ gameFrom.color }}8c, {{ gameFrom.color }}50, #232323ba, #101010f7), url('../img/testMotif2.jpg'); background-size:contain; border-bottom:3px solid {{ gameFrom.color }};">
 
             <div style="width:60%; position:relative;">
                 <h2 style="color:black; backdrop-filter:blur(4px); width:fit-content; padding:4px 15px; border-radius:5px; border:1px solid {{ gameFrom.color }}; border-left: 4px solid var(--background-color); background-color:{{ gameFrom.color }}78; border-top-left-radius:2px; text-transform:uppercase;"> <i class="fa-solid fa-users-rays"></i> Team</h2>
@@ -128,9 +125,9 @@
 
             <div id="teamImgContainer" class="teamImgContainer" style="width:40%;">
                 {% if group.imgUrl is not null and imageExists(group.imgUrl) %}
-                    <img src="../img/uploads/{{ group.imgUrl }}" id="teamImg" class="teamImg">
+                    <img src="../img/uploads/{{ group.imgUrl }}" id="teamImg" class="teamImg" alt="image de la team">
                 {% else %}
-                    <img src="../img/teamDefaultPic_dark.jpg" id="teamImg" class="teamImg">
+                    <img src="../img/teamDefaultPic_dark.jpg" id="teamImg" class="teamImg" alt="image de team par defaut">
                 {% endif %}
 
                 {# Modification de l'img si leader: #}
@@ -148,100 +145,97 @@
                 
             </div>
         
-        </div>
+        </section>
+
+
+        <section>
+
+            <h2 class="pageTitle" style="margin: 45px auto 15px auto;">Candidature</h2>
+
+            <div style="width:85%; margin:0 auto;">
+
+                {# Description de l'offre du leader #}
+                <p>Message du leader: <span style="font-family:'K2D', sans-serif">"{{ group.candidatureTxt }}"</span></p>
 
 
 
 
+                {# Mix CandidatureType et GroupQuestion #}
+                {{ form_start(formCandidature) }}
 
+                    <h5>{{ form_label(formCandidature.text)}}</h5>
+                    {{ form_widget(formCandidature.text) }} 
 
+                    {# Pour chaque question: afficher un fomulaire GroupRéponseType (comment link l'entité Réponse à groupQuestion) #}
+                    {% if (groupQuestions is not null) and (groupQuestions|length > 0) %}
 
+                        <h5 style="margin-top:30px;">Questions</h5>
 
-        <h2 class="pageTitle" style="margin: 45px auto 15px auto;">Candidature</h2>
+                        <div class="questionsContainer">
 
-        <div style="width:85%; margin:0 auto;">
+                            {% set index = 0 %}
 
-            {# Description de l'offre du leader #}
-            <p>Message du leader: <span style="font-family:'K2D', sans-serif">"{{ group.candidatureTxt }}"</span></p>
+                            {% for question in groupQuestions %}
 
+                                {% if question.isRequired %}
+                                    {% set required = "required" %}
+                                {% else %}
+                                    {% set required = "" %}
+                                {% endif %}
 
-
-
-            {# Mix CandidatureType et GroupQuestion #}
-            {{ form_start(formCandidature) }}
-
-                <h5>{{ form_label(formCandidature.text)}}</h5>
-                {{ form_widget(formCandidature.text) }} 
-
-                {# Pour chaque question: afficher un fomulaire GroupRéponseType (comment link l'entité Réponse à groupQuestion) #}
-                {% if (groupQuestions is not null) and (groupQuestions|length > 0) %}
-
-                    <h5 style="margin-top:30px;">Questions</h5>
-
-                    <div class="questionsContainer">
-
-                        {% set index = 0 %}
-
-                        {% for question in groupQuestions %}
-
-                            {% if question.isRequired %}
-                                {% set required = "required" %}
-                            {% else %}
-                                {% set required = "" %}
-                            {% endif %}
-
-                            {% set index = index + 1 %}
-                            
-                            <div class="questionAndAnswer">
-                                <div class="questionLine">
-                                    <label for="question{{ question.id }}" style="font-family:'K2D', sans-serif;">{{ question.text|capitalize }}</label>
-                                    {% if question.required %}
-                                        <span class="requiredStar">
-                                            <i class="fa-solid fa-star-of-life"></i>
-                                        </span>
-                                    {% endif %}
-                                </div>
+                                {% set index = index + 1 %}
                                 
-                                <input {{ required }} type="text" id="answer{{ index }}" name="answer{{ index }}" placeholder="Entrez votre réponse..." class="form-control" />
-                            </div>
+                                <div class="questionAndAnswer">
+                                    <div class="questionLine">
+                                        <label for="question{{ question.id }}" style="font-family:'K2D', sans-serif;">{{ question.text|capitalize }}</label>
+                                        {% if question.required %}
+                                            <span class="requiredStar">
+                                                <i class="fa-solid fa-star-of-life"></i>
+                                            </span>
+                                        {% endif %}
+                                    </div>
+                                    
+                                    <input {{ required }} type="text" id="answer{{ index }}" name="answer{{ index }}" placeholder="Entrez votre réponse..." class="form-control" />
+                                </div>
 
-                        {% endfor %}
+                            {% endfor %}
+                        </div>
+                    {% elseif (groupQuestions|length == 0) %}
+                        <p class="emptyListMsg" style="margin: 30px auto 35px auto;">Il n'y a aucune question</p>
+                    {% endif %}
+
+
+                    {# checkbox confirtmation majorité (affiché si critère team) #}
+                    {% if group.restriction18 %}
+                        <div style="display: inline-flex; align-items: center; margin-bottom:25px;">
+                            <span style="margin-right:15px;">Confirmer avoir plus de 18ans:</span>
+                            <label class="toggleAutoPlay">
+                                <input type="checkbox" name="majorityBool" id="majorityBool">
+                                <span class="slider"></span>
+                            </label>
+                        </div>
+                    {% endif %}
+
+
+                    {# Submit #}
+                    <div style="text-align:center;" style="margin:30px auto 10px auto !important;">
+                        {{ form_row(formCandidature.submit, 
+                            { 
+                                'label': '<span style="z-index:9999;">Envoyer&nbsp;<i class="fa-solid fa-paper-plane"></i></span>', 
+                                'label_html' : true, 
+                                'id': 'candidatureSubmitBg',
+                                'attr': { 
+                                    'class': 'btn btn-primary',
+                                } 
+                            }) 
+                        }}
                     </div>
-                {% elseif (groupQuestions|length == 0) %}
-                    <p class="emptyListMsg" style="margin: 30px auto 35px auto;">Il n'y a aucune question</p>
-                {% endif %}
 
+                {{ form_end(formCandidature) }}
 
-                {# checkbox confirtmation majorité (affiché si critère team) #}
-                {% if group.restriction18 %}
-                    <div style="display: inline-flex; align-items: center; margin-bottom:25px;">
-                        <span style="margin-right:15px;">Confirmer avoir plus de 18ans:</span>
-                        <label class="toggleAutoPlay">
-                            <input type="checkbox" name="majorityBool" id="majorityBool">
-                            <span class="slider"></span>
-                        </label>
-                    </div>
-                {% endif %}
+            </div>
 
-
-                {# Submit #}
-                <div style="text-align:center;" style="margin:30px auto 10px auto !important;">
-                    {{ form_row(formCandidature.submit, 
-                        { 
-                            'label': '<span style="z-index:9999;">Envoyer&nbsp;<i class="fa-solid fa-paper-plane"></i></span>', 
-                            'label_html' : true, 
-                            'id': 'candidatureSubmitBg',
-                            'attr': { 
-                                'class': 'btn btn-primary',
-                            } 
-                        }) 
-                    }}
-                </div>
-
-            {{ form_end(formCandidature) }}
-
-        </div>
-
+        </section>
 
         {# Couleur du bouton adapté au jeu #}
         <span id="gameColor" hidden>{{ gameFrom.color }}</span>
@@ -251,7 +245,7 @@
             }
         </script>
         
-    </div>
+    </main>
 
 
     {# // Adaptation couleur borderBottom HeaderFixed #}

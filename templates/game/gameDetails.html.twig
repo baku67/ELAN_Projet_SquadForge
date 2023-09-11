@@ -5,7 +5,7 @@
 {% block body %}
 
     <header class="gameHeader" style="background: url('{{ asset('img/games/banner/' ~ game.banner ) }}' )">
-        <a href="{{ path('app_home') }}"><img src="{{ asset('img/games/headerSiteLogo/' ~ game.siteLogo) }}" class="logoPng" id="logoPng" /></a>
+        <a href="{{ path('app_home') }}"><img src="{{ asset('img/games/headerSiteLogo/' ~ game.siteLogo) }}" class="logoPng" id="logoPng" alt='topless bearded dwarf forging a sword above "SquadForge" title' /></a>
         <nav class="navLine">
             <a href="{{ path('app_home') }}" class="homeNav"><i class="fa-solid fa-house"></i></a>
             <a href="{{ path('app_games') }}" class="gamesNav caps navActive" style="background-color: {{ game.color }}">jeux</a>
@@ -77,10 +77,10 @@
     </ul>
 
 
-    <div class="main mainGameDetail" style="width:75%;">
+    <main class="main mainGameDetail" style="width:75%;">
 
 
-        <div class="gameHeaderInfos gameSubImgBg" style="border-top: 2px solid {{ game.color }};">
+        <section class="gameHeaderInfos gameSubImgBg" style="border-top: 2px solid {{ game.color }};">
 
 
             {# Bandeau gauche: Clip path avec infos #}
@@ -149,77 +149,7 @@
 
             </div>
 
-        </div>
-
-
-
-
-        {# **************************** OLD header: #}
-
-        {# <div class="gameHeaderInfos gameSubImgBg" style="background-image: radial-gradient(circle, rgba(255,255,255,0) 0%, rgba(35,35,35,0.995) 69%), url('{{asset("img/games/headerBackground/" ~ game.subBanner)}}'); border-top: 2px solid {{ game.color }};">
-
-            <div class="gameTitle" style="position:absolute; color:white;">
-                <h2 style="text-shadow: -1px -1px 0 {{ game.color }}, 1px -1px 0 {{ game.color }}, -1px 1px 0 {{ game.color }}, 1px 1px 0 {{ game.color }};">{{ game.title }}</h2>
-            </div>
-
-
-            <div class="marginBottom" style="display:inline-flex; width:100%; justify-content:space-between;">
-
-                {% if app.user %}
-                    {% if isFavorited %}
-                        <span id="favGameBtn" class="favButton" style="border-top: 1px solid {{ game.color }}; border-bottom: 1px solid {{ game.color }};"><i style="color:{{ game.color }};" class="fa-solid fa-heart favIcon"></i></span>
-                    {% else %}
-                        <span id="favGameBtn" class="favButton"><i class="fa-regular fa-heart favIcon"></i></span>
-                    {% endif %}
-                {% else %}
-                        <span id="favGameBtn" class="favButton"><i class="fa-regular fa-heart favIcon"></i></span>
-                {% endif %}
-            </div>
-
-            <div class="gameHeaderInfosContent">
-                <span id="gameId" style="display:none;">{{ game.id }}</span>
-                <span id="gameColor" style="display:none;">{{ game.color }}</span>
-
-                <div style="font-family:'K2D', sans-serif;">
-                    <p>Éditeur: {{ game.editor }}</p>
-                    <p>{{ game.publishDate|date('Y') }}</p>
-                    <p>Genre: <a class="underlineLink" href="{{ path('app_genreGames', {'id': game.genre.id }) }}">{{ gameGenre }}</a></p>
-                </div>
-
-                <div class="gameNotationDiv">
-                    <div class="rate">
-                        <input type="radio" id="star5" name="rate" value="5"/>
-                        <label class="starLabel" for="star5" title="text">5 stars</label>
-                        <input type="radio" id="star4" name="rate" value="4" />
-                        <label class="starLabel" for="star4" title="text">4 stars</label>
-                        <input type="radio" id="star3" name="rate" value="3" />
-                        <label class="starLabel" for="star3" title="text">3 stars</label>
-                        <input type="radio" id="star2" name="rate" value="2" />
-                        <label class="starLabel" for="star2" title="text">2 stars</label>
-                        <input type="radio" id="star1" name="rate" value="1" />
-                        <label class="starLabel" for="star1" title="text">1 star</label>
-                    </div>
-                    {% if nbrOfNotations > 1 %}
-                        <p class="gameNotationLine">Moy: <span id="gameRatingMoyValue">{{ averageRating }}</span>/5  (<span id="gameRatingNbrValue">{{ nbrOfNotations }}</span> votes)</p>
-                    {% else %}
-                        <p class="gameNotationLine">Moy: <span id="gameRatingMoyValue">{{ averageRating }}</span>/5  (<span id="gameRatingNbrValue">{{ nbrOfNotations }}</span> vote)</p>
-                    {% endif %}
-                </div>
-            </div>
-
-        </div> #}
-
-
-
-
-
-
-
-
-
-
-
-
+        </section>
 
 
 
@@ -289,7 +219,7 @@
 
 
         {# Section Groupe #}
-        <div class="sectionContainer sectionContainerGameDetail" style="border: 1px solid {{ game.color }}50; border-top:2px solid {{ game.color }}; border-left:1px solid {{ game.color }};">
+        <section class="sectionContainer sectionContainerGameDetail" style="border: 1px solid {{ game.color }}50; border-top:2px solid {{ game.color }}; border-left:1px solid {{ game.color }};">
             <div>
                 <div class="gameTopicsSubTitleBg" style="background-color:{{ game.color }};"></div>
                 <h3 class="gameSubTitle noMarginBottom">Teams</h3>
@@ -416,13 +346,13 @@
             
             </div>
             
-        </div> 
+        </section> 
 
 
 
 
         {# Ligne "Topics" + Bouton "+Créer" #}
-        <div class="sectionContainer sectionContainerGameDetail" style="border: 1px solid {{ game.color }}50; border-top:2px solid {{ game.color }}; border-left:1px solid {{ game.color }};">
+        <section class="sectionContainer sectionContainerGameDetail" style="border: 1px solid {{ game.color }}50; border-top:2px solid {{ game.color }}; border-left:1px solid {{ game.color }};">
         
             <div style="display:inline-flex; width:100%; justify-content:space-between;">
                 <a href="{{ path('app_allTopics', {'gameIdFrom': game.id}) }}">
@@ -550,14 +480,14 @@
 
             </div>
 
-        </div>
+        </section>
 
 
 
 
 
         {# Section Média #}
-        <div class="sectionContainer sectionContainerGameDetail" style="border: 1px solid {{ game.color }}50; border-top:2px solid {{ game.color }}; border-left:1px solid {{ game.color }};">
+        <section class="sectionContainer sectionContainerGameDetail" style="border: 1px solid {{ game.color }}50; border-top:2px solid {{ game.color }}; border-left:1px solid {{ game.color }};">
         
             <div style="display:inline-flex; width:100%; justify-content:space-between;">
                 
@@ -620,15 +550,10 @@
                             Aperçu:
                             <div id="mediaCardHeader">
                                 <span class="mediaTitle"></span>
-                
                             </div>
-
                         </div>
                     </div>
                     
-
-
-
                 </div>
 
 
@@ -674,7 +599,7 @@
 
                         {% for media in gameMedias %}
 
-                            <div class="grid-item" style="height:fit-content;">
+                            <article class="grid-item" style="height:fit-content;">
 
                                 {% if app.user and app.user.autoPlayGifs %}
                                 <a href="{{ path('app_mediaDetail', {'id': media.id}) }}">
@@ -753,7 +678,7 @@
 
                                 </div>
 
-                            </div>
+                            </article>
 
                         {% endfor %}
 
@@ -763,8 +688,6 @@
                     <span class="seeAllRedirect">
                         <a href="{{ path('app_allMedias', {'gameIdFrom': game.id}) }}">Tout voir  <i class="fa-solid fa-chevron-right"></i></a>
                     </span>
-
-                </div>
 
                 {% else %}
                     
@@ -799,26 +722,26 @@
 
             </div>
 
-        </div>
+        </section>
         
 
 
-    {# // Adaptation couleur borderBottom HeaderFixed #}
-    <script>
-        {% if app.user %}
-             document.getElementsByClassName('profilIcon')[0].style.color = "{{game.color}}";
-        {% endif %}
-        
-        if (document.getElementById('landingPageBool') == null) {
-            window.addEventListener('scroll', () => {
-                if (window.scrollY > 0) {
-                    if(document.getElementsByClassName('headerFixed')[0] !== null) {
-                        document.getElementsByClassName('headerFixed')[0].style.borderColor = "{{game.color}}";
+        {# // Adaptation couleur borderBottom HeaderFixed #}
+        <script>
+            {% if app.user %}
+                document.getElementsByClassName('profilIcon')[0].style.color = "{{game.color}}";
+            {% endif %}
+            
+            if (document.getElementById('landingPageBool') == null) {
+                window.addEventListener('scroll', () => {
+                    if (window.scrollY > 0) {
+                        if(document.getElementsByClassName('headerFixed')[0] !== null) {
+                            document.getElementsByClassName('headerFixed')[0].style.borderColor = "{{game.color}}";
+                        }
                     }
-                }
-            })
-        }
-    </script>
+                })
+            }
+        </script>
 
 
 
@@ -988,16 +911,12 @@
 
         </script>
 
+    </main>
 
-
-
-    </div>
 
     <script>
         window.onload = function() {
-
             document.getElementById('authenticationDiv').style.color = "white";
-
         }
     </script>
 

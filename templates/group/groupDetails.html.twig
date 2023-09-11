@@ -5,7 +5,7 @@
 {% block body %}
 
     <header class="gameHeader" style="background: url('{{ asset('img/games/banner/' ~ gameFrom.banner ) }}' )">
-        <a href="{{ path('app_home') }}"><img src="{{ asset('img/games/headerSiteLogo/' ~ gameFrom.siteLogo ) }}" class="logoPng" id="logoPng" /></a>
+        <a href="{{ path('app_home') }}"><img src="{{ asset('img/games/headerSiteLogo/' ~ gameFrom.siteLogo ) }}" class="logoPng" id="logoPng" alt='topless bearded dwarf forging a sword above "SquadForge" title' /></a>
         <nav class="navLine">
             <a href="{{ path('app_home') }}" class="homeNav"><i class="fa-solid fa-house"></i></a>
             <a href="{{ path('app_games') }}" class="gamesNav caps">jeux</a>
@@ -69,7 +69,7 @@
 
 
 
-    <div class="main">
+    <main class="main">
 
         {# Fil d'Ariane #}
         <p class="breadcrumbs">
@@ -80,7 +80,7 @@
         </p>
 
         
-        <div class="groupHeader" style="background-image: linear-gradient(to right, {{ gameFrom.color }}8c, {{ gameFrom.color }}50, #232323ba, #101010f7), url('../img/testMotif2.jpg'); background-size:contain; border-bottom:3px solid {{ gameFrom.color }};">
+        <section class="groupHeader" style="background-image: linear-gradient(to right, {{ gameFrom.color }}8c, {{ gameFrom.color }}50, #232323ba, #101010f7), url('../img/testMotif2.jpg'); background-size:contain; border-bottom:3px solid {{ gameFrom.color }};">
 
             <div style="width:60%; position:relative;">
                 <h2 style="color:black; backdrop-filter:blur(4px); width:fit-content; padding:4px 15px; border-radius:5px; border:1px solid {{ gameFrom.color }}; border-left: 4px solid var(--background-color); background-color:{{ gameFrom.color }}78; border-top-left-radius:2px; text-transform:uppercase;"> <i class="fa-solid fa-users-rays"></i> Team</h2>
@@ -125,9 +125,9 @@
 
             <div id="teamImgContainer" class="teamImgContainer" style="width:40%;">
                 {% if group.imgUrl is not null and imageExists(group.imgUrl) %}
-                    <img src="../img/uploads/{{ group.imgUrl }}" id="teamImg" class="teamImg">
+                    <img src="../img/uploads/{{ group.imgUrl }}" id="teamImg" class="teamImg" alt="image de la team">
                 {% else %}
-                    <img src="../img/teamDefaultPic_dark.jpg" id="teamImg" class="teamImg">
+                    <img src="../img/teamDefaultPic_dark.jpg" id="teamImg" class="teamImg" alt="image de team par defaut">
                 {% endif %}
 
                 {# Modification de l'img si leader: #}
@@ -145,7 +145,7 @@
                 
             </div>
         
-        </div>
+        </section>
 
         {# Modal change teamPic #}
         <dialog class="modalDialog" id="changeTeamPicModal">
@@ -162,7 +162,7 @@
 
 
         {# Liste des membres du groupe #}
-        <div class="sectionContainer teamSectionContainer" style="border: 1px solid {{ gameFrom.color }}50; border-top:2px solid {{ gameFrom.color }}; border-left:1px solid {{ gameFrom.color }};">
+        <section class="sectionContainer teamSectionContainer" style="border: 1px solid {{ gameFrom.color }}50; border-top:2px solid {{ gameFrom.color }}; border-left:1px solid {{ gameFrom.color }};">
 
             <div>
                 <div class="gameInfosSubTitleBg" style="background-color: {{ gameFrom.color }}"></div>
@@ -255,7 +255,7 @@
 
             </div>
 
-        </div>
+        </section>
 
 
 
@@ -324,12 +324,12 @@
                 {% endif %}
 
 
-                <div class="sectionContainer teamSectionContainer" style="border: 1px solid {{ gameFrom.color }}50; border-top:2px solid {{ gameFrom.color }}; border-left:1px solid {{ gameFrom.color }};">
+                <section class="sectionContainer teamSectionContainer" style="border: 1px solid {{ gameFrom.color }}50; border-top:2px solid {{ gameFrom.color }}; border-left:1px solid {{ gameFrom.color }};">
 
-                    <div>
+                    <header>
                         <div class="gameInfosSubTitleBgParam" style="background-color: {{ gameFrom.color }}"></div>
                         <h3 class="gameSubTitle noMarginBottom"><i class="fa-solid fa-users-gear"></i> Paramètres</h3>
-                    </div>
+                    </header>
 
                     <div class="sectionContent sectionTeamParam">
 
@@ -539,14 +539,15 @@
 
                         </div>
 
-                </div>
+                    </div>
 
+                </section>
 
 
 
 
                 {# Planification des sessions (FullCalendar JS) #}
-                <div class="sectionContainer teamSectionContainer" style="border: 1px solid {{ gameFrom.color }}50; border-top:2px solid {{ gameFrom.color }}; border-left:1px solid {{ gameFrom.color }};">
+                <section class="sectionContainer teamSectionContainer" style="border: 1px solid {{ gameFrom.color }}50; border-top:2px solid {{ gameFrom.color }}; border-left:1px solid {{ gameFrom.color }};">
     
                     <div>
                         <div class="gameInfosSubTitleBg" style="background-color: {{ gameFrom.color }}"></div>
@@ -730,15 +731,12 @@
                         });
                     </script>
 
-                </div>
+                </section>
 
                                         
 
-
-
-
                 {# Customisation des candidature #}
-                <div class="sectionContainer teamSectionContainer" style="border: 1px solid {{ gameFrom.color }}50; border-top:2px solid {{ gameFrom.color }}; border-left:1px solid {{ gameFrom.color }};">
+                <section class="sectionContainer teamSectionContainer" style="border: 1px solid {{ gameFrom.color }}50; border-top:2px solid {{ gameFrom.color }}; border-left:1px solid {{ gameFrom.color }};">
                     
                     <div>
                         <div class="gameInfosSubTitleBg" style="background-color: {{ gameFrom.color }}"></div>
@@ -988,9 +986,8 @@
 
                     {% endif %}
 
-                </div>
+                </section>
 
-            </div>
 
 
             {# Quitter le groupe + modal #}
@@ -1036,7 +1033,7 @@
 
         {% endif %}
         
-    </div>
+    </main>
 
 
     {# // Adaptation couleur borderBottom HeaderFixed #}

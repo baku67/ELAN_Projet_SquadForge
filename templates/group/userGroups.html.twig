@@ -5,7 +5,7 @@
 {% block body %}
 
     <header class="gameHeader" style="background: url('{{ asset('img/banner1.jpg') }}' )">
-        <a href="{{ path('app_home') }}"><img src="{{ asset('img/logoSquadForge_v3.png') }}" class="logoPng" id="logoPng" /></a>
+        <a href="{{ path('app_home') }}"><img src="{{ asset('img/logoSquadForge_v3.png') }}" class="logoPng" id="logoPng" alt='topless bearded dwarf forging a sword above "SquadForge" title' /></a>
         <nav class="navLine">
             <a href="{{ path('app_home') }}" class="homeNav"><i class="fa-solid fa-house"></i></a>
             <a href="{{ path('app_games') }}" class="gamesNav caps">jeux</a>
@@ -49,9 +49,10 @@
 
             {% endif %}
 
-        
         </nav>
+
     </header>
+
 
     {# HeaderSouligne + Bandeau avertissement muted #}
     {% if app.user and app.user.muted and time_diff_future(app.user.endDateStatus) != false %}
@@ -65,87 +66,89 @@
 
 
 
-
-    <div class="main">
+    <main class="main">
 
         {# Fil d'Ariane #}
         <p class="breadcrumbs"><a class="underlineLink" href="{{ path('app_user') }}">Profil</a> - Teams</p>
 
-        <h2 class="pageTitle">Mes Teams</h2>
-        <a href="{{ path('app_allGroupList') }}">Voir toutes</a>
-        
-        <div class="groupsGrid">
+        <section>
 
-            {% for group in groups %}
+            <h2 class="pageTitle">Mes Teams</h2>
+            <a href="{{ path('app_allGroupList') }}">Voir toutes</a>
+            
+            <div class="groupsGrid">
 
-                <a title='"{{ group.title|capitalize }}"' href="{{ path('app_groupDetails', {'groupId': group.id } ) }}" style="width:fit-content;position:relative;">
+                {% for group in groups %}
 
-                    {# Couronne si leader: #}
-                    {% if app.user == group.leader %}
-                        <i class="fa-solid fa-crown teamCard-crownLeader"></i>
-                    {% endif %}
+                    <a title='"{{ group.title|capitalize }}"' href="{{ path('app_groupDetails', {'groupId': group.id } ) }}" style="width:fit-content;position:relative;">
 
-                    <div class="teamCard" style="border-color:{{ group.game.color }}60">
+                        {# Couronne si leader: #}
+                        {% if app.user == group.leader %}
+                            <i class="fa-solid fa-crown teamCard-crownLeader"></i>
+                        {% endif %}
 
-                        <div class="teamCardTextDiv">
+                        <article class="teamCard" style="border-color:{{ group.game.color }}60">
 
-                            <div class="absoluteBg-teamCard" style="background-image:linear-gradient(to top, {{group.game.color}}d6, {{group.game.color}}), url('../img/testMotif2.jpg'); background-size:cover;"></div>
+                            <div class="teamCardTextDiv">
 
-                            <span class="teamCardGameTitle" style="background-color:{{ group.game.color }}">{{ group.game.title }}</span>
-                            
-                            <p class="teamCardTitleV2">{{ group.title|capitalize }}</p>
+                                <div class="absoluteBg-teamCard" style="background-image:linear-gradient(to top, {{group.game.color}}d6, {{group.game.color}}), url('../img/testMotif2.jpg'); background-size:cover;"></div>
 
-                            <div class="teamCard-members">
-                                <i class="fa-solid fa-user-group"></i> 
-                                <span style="position:relative; top:2px;">{{ group.members|length }}/{{ group.nbrPlaces }}</span>
+                                <span class="teamCardGameTitle" style="background-color:{{ group.game.color }}">{{ group.game.title }}</span>
+                                
+                                <p class="teamCardTitleV2">{{ group.title|capitalize }}</p>
+
+                                <div class="teamCard-members">
+                                    <i class="fa-solid fa-user-group"></i> 
+                                    <span style="position:relative; top:2px;">{{ group.members|length }}/{{ group.nbrPlaces }}</span>
+                                </div>
+
+                                <ul class="teamCard-criterias">
+                                    <li>
+                                        {% if group.restriction18 %}
+                                            <img src="{{ asset('img/criteria_18.png') }}" style="filter:invert(0.9);" alt="symbole interdit au moins de 18 ans">
+                                        {% else %}
+                                            <img src="{{ asset('img/criteria_18.png') }}" style="opacity:0.9;" alt="symbole interdit au moins de 18 ans">
+                                        {% endif %}
+                                    </li>
+                                    <li>
+                                        {% if group.restrictionMic %}
+                                            <img src="{{ asset('img/criteria_micro.png') }}" style="filter:invert(0.9);" alt="symbole microphone">
+                                        {% else %}
+                                            <img src="{{ asset('img/criteria_micro.png') }}" style="opacity:0.9;" alt="symbole microphone">
+                                        {% endif %}
+                                    </li>
+                                </ul>
+
                             </div>
 
-                            <ul class="teamCard-criterias">
-                                <li>
-                                    {% if group.restriction18 %}
-                                        <img src="{{ asset('img/criteria_18.png') }}" style="filter:invert(0.9);">
-                                    {% else %}
-                                        <img src="{{ asset('img/criteria_18.png') }}" style="opacity:0.9;">
-                                    {% endif %}
-                                </li>
-                                <li>
-                                    {% if group.restrictionMic %}
-                                        <img src="{{ asset('img/criteria_micro.png') }}" style="filter:invert(0.9);">
-                                    {% else %}
-                                        <img src="{{ asset('img/criteria_micro.png') }}" style="opacity:0.9;">
-                                    {% endif %}
-                                </li>
-                            </ul>
+                            <div class="teamCardImgWrapper">
 
-                        </div>
+                                {% if group.imgUrl is not null and imageExists(group.imgUrl) %}
+                                    <img class="teamCardImg" src="/img/uploads/{{ group.imgUrl }}" alt="image de la team">
+                                {% else %}
+                                    <img class="teamCardImg" src="/img/teamDefaultPic.jpg" alt="image de team par defaut">
+                                {% endif %}
 
-                        <div class="teamCardImgWrapper">
+                                {# Label si team active (= au moins 1 session moi précédent) #}
+                                {% if group.active %}
+                                    <span class="teamCard-isActiveLabel">Active</span>
+                                {% endif %}
 
-                            {% if group.imgUrl is not null and imageExists(group.imgUrl) %}
-                                <img class="teamCardImg" src="/img/uploads/{{ group.imgUrl }}">
-                            {% else %}
-                                <img class="teamCardImg" src="/img/teamDefaultPic.jpg">
-                            {% endif %}
+                                {# Div effet reflet onHover card #}
+                                <div class="teamCardReflectDiv"></div>
 
-                            {# Label si team active (= au moins 1 session moi précédent) #}
-                            {% if group.active %}
-                                <span class="teamCard-isActiveLabel">Active</span>
-                            {% endif %}
+                            </div>
 
-                            {# Div effet reflet onHover card #}
-                            <div class="teamCardReflectDiv"></div>
+                        </article>
+                    </a>
+                    
+                {% endfor %}
 
-                        </div>
+            </div>
 
-                    </div>
-                </a>
-                
-            {% endfor %}
+        </section>
 
-        </div>
-
-
-    </div>
+    </main>
 
 
 {% endblock %}

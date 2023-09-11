@@ -5,7 +5,7 @@
 {% block body %}
 
     <header class="globalBanner" style="background: url('{{ asset('img/banner1.jpg') }}' )">
-        <a href="{{ path('app_home') }}"><img src="{{ asset('img/logoSquadForge_v3.png') }}" class="logoPng" id="logoPng" /></a>
+        <a href="{{ path('app_home') }}"><img src="{{ asset('img/logoSquadForge_v3.png') }}" class="logoPng" id="logoPng" alt='topless bearded dwarf forging a sword above "SquadForge" title' /></a>
         <nav class="navLine">
             <a href="{{ path('app_home') }}" class="homeNav"><i class="fa-solid fa-house"></i></a>
             <a href="{{ path('app_games') }}" class="gamesNav caps">jeux</a>
@@ -55,6 +55,7 @@
 
     </header>
     
+
     {# HeaderSouligne + Bandeau avertissement muted #}
     {% if app.user and app.user.muted and time_diff_future(app.user.endDateStatus) != false %}
         <div class="headerUnderline"></div>
@@ -66,48 +67,53 @@
     {% endif %}
 
 
-    <div class="main">
 
-        <h2 class="pageTitle">Jeux - {{ genreName }}</h2>
+    <main class="main">
 
-        <div class="genreGameList">
+        <section>
 
-            {% for game in genreGames %}
+            <h2 class="pageTitle">Jeux - {{ genreName }}</h2>
 
-                                        <a href="/game/{{game.id}}">
-                                            <div title="{{game.title}}" class="lp-page3-slideContainer splide__slide">
-                                                <svg class="gameSelectedBracketUp">
-                                                    <path 
-                                                        id="gameSelectedBracketUpPath{{game.id}}"
-                                                        class="gameSelectedBracketUpPath" 
-                                                        d="M 57 82 L 57 58 C 57 53 60 48 66 48 L 67 48 L 266 48 C 274 48 276 51 276 56 L 276 55 L 276 82"
-                                                        fill-opacity="0"
-                                                        />
-                                                </svg>
+            <div class="genreGameList">
 
-                                                <div id="lp-page3-slide0{{game.id}}" class="lp-gameCard" style="background-image: linear-gradient(rgba(0, 0, 255, 0.05), rgba(249, 123, 44, 0.5)),url(' {{ asset('img/games/headerBackground/' ~ game.subBanner) }} '); background-size:cover;">
+                {% for game in genreGames %}
 
-                                                    <span id="lp-gameCardTitle{{game.id}}" value="{{game.title}}" class="lp-gameCardTitleSearch">{{game.title}}</span>
+                    <a href="/game/{{game.id}}">
+                        <article title="{{game.title}}" class="lp-page3-slideContainer splide__slide">
+                            <svg class="gameSelectedBracketUp">
+                                <path 
+                                    id="gameSelectedBracketUpPath{{game.id}}"
+                                    class="gameSelectedBracketUpPath" 
+                                    d="M 57 82 L 57 58 C 57 53 60 48 66 48 L 67 48 L 266 48 C 274 48 276 51 276 56 L 276 55 L 276 82"
+                                    fill-opacity="0"
+                                    />
+                            </svg>
 
-                                                </div>
+                            <div id="lp-page3-slide0{{game.id}}" class="lp-gameCard" style="background-image: linear-gradient(rgba(0, 0, 255, 0.05), rgba(249, 123, 44, 0.5)),url(' {{ asset('img/games/headerBackground/' ~ game.subBanner) }} '); background-size:cover;">
 
-                                                <svg class="gameSelectedBracketDown">
-                                                    <path 
-                                                        id="gameSelectedBracketDownPath{{game.id}}"
-                                                        class="gameSelectedBracketDownPath" 
-                                                        d="M 57 82 L 57 58 C 57 53 60 48 66 48 L 67 48 L 266 48 C 274 48 276 51 276 56 L 276 55 L 276 82"
-                                                        fill-opacity="0"
-                                                        />
-                                                </svg>
+                                <span id="lp-gameCardTitle{{game.id}}" value="{{game.title}}" class="lp-gameCardTitleSearch">{{game.title}}</span>
 
-                                            </div>
-                                        </a>;
+                            </div>
 
-            {% endfor %}
+                            <svg class="gameSelectedBracketDown">
+                                <path 
+                                    id="gameSelectedBracketDownPath{{game.id}}"
+                                    class="gameSelectedBracketDownPath" 
+                                    d="M 57 82 L 57 58 C 57 53 60 48 66 48 L 67 48 L 266 48 C 274 48 276 51 276 56 L 276 55 L 276 82"
+                                    fill-opacity="0"
+                                    />
+                            </svg>
 
-        </div>
+                        </article>
+                    </a>;
 
-    </div>
+                {% endfor %}
+
+            </div>
+
+        </section>
+
+    </main>
 
 
 {% endblock %}

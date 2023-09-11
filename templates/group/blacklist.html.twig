@@ -6,7 +6,7 @@
 
 
     <header class="gameHeader" style="background: url('{{ asset('img/games/banner/' ~ gameFrom.banner ) }}' )">
-        <a href="{{ path('app_home') }}"><img src="{{ asset('img/games/headerSiteLogo/' ~ gameFrom.siteLogo ) }}" class="logoPng" id="logoPng" /></a>
+        <a href="{{ path('app_home') }}"><img src="{{ asset('img/games/headerSiteLogo/' ~ gameFrom.siteLogo ) }}" class="logoPng" id="logoPng" alt='topless bearded dwarf forging a sword above "SquadForge" title' /></a>
         <nav class="navLine">
             <a href="{{ path('app_home') }}" class="homeNav"><i class="fa-solid fa-house"></i></a>
             <a href="{{ path('app_games') }}" class="gamesNav caps">jeux</a>
@@ -67,8 +67,7 @@
     {% endif %}
 
 
-
-    <div class="main">
+    <main class="main">
 
         {# Fil d'Ariane #}
         <p class="breadcrumbs">
@@ -85,26 +84,30 @@
 
         <br>
 
-        <h2>Blacklist</h2>
+        <section>
 
-        <br>
+            <h2 class="pageTitle">Blacklist</h2>
 
-        {% for blacklistedUser in group.blacklistedUsers %}
-            <div>
-                <span>{{ blacklistedUser.pseudo|capitalize }}</span>
-                <a href="{{ path('app_removeFromBlacklist',{'groupId':group.id,'userId':blacklistedUser.id}) }}"><i class="fa-solid fa-trash"></i></a>
-            </div>
-        {% endfor %}
+            <br>
+
+            {% for blacklistedUser in group.blacklistedUsers %}
+                <article>
+                    <span>{{ blacklistedUser.pseudo|capitalize }}</span>
+                    <a href="{{ path('app_removeFromBlacklist',{'groupId':group.id,'userId':blacklistedUser.id}) }}"><i class="fa-solid fa-trash"></i></a>
+                </article>
+            {% endfor %}
+
+            <br>
+
+            {% if group.blacklistedUsers|length > 0 %}
+                <a href="{{ path('app_emptyBlacklist',{'groupId': group.id}) }}" class="blacklistBtn">Vider</a>
+            {% endif %}
+
+        </section>
         
-    </div>
+    </main>
 
-    <br>
-
-    {% if group.blacklistedUsers|length > 0 %}
-        <a href="{{ path('app_emptyBlacklist',{'groupId': group.id}) }}" class="blacklistBtn">Vider</a>
-    {% endif %}
-
-
+    
     {# // Adaptation couleur borderBottom HeaderFixed #}
     <script>
         {% if app.user %}
@@ -122,7 +125,5 @@
         }
     </script>
     
-
-
 
 {% endblock %}

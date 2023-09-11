@@ -8,7 +8,7 @@
 
 
     <header class="globalBanner" style="background: url('{{ asset('img/banner1.jpg') }}' )">
-        <a href="{{ path('app_home') }}"><img src="{{ asset('img/logoSquadForge_v3.png') }}" class="logoPng" id="logoPng" /></a>
+        <a href="{{ path('app_home') }}"><img src="{{ asset('img/logoSquadForge_v3.png') }}" class="logoPng" id="logoPng" alt='topless bearded dwarf forging a sword above "SquadForge" title' /></a>
         <nav class="navLine">
             <a href="{{ path('app_home') }}" class="homeNav"><i class="fa-solid fa-house"></i></a>
             <a href="{{ path('app_games') }}" class="gamesNav caps">jeux</a>
@@ -62,7 +62,7 @@
     <div class="headerUnderline"></div>
 
 
-    <div class="main">
+    <main class="main">
 
         {% for flash_error in app.flashes('verify_email_error') %}
             <div class="alert alert-danger danger" role="alert">{{ flash_error }}</div>
@@ -71,7 +71,8 @@
         <h1 style="">Rejoignez la communauté !</h1>
 
         <div class="containerDiv">
-            <div class="registerLeftDiv">
+
+            <section class="registerLeftDiv">
 
                 <div class="registerForm" style="width:95%; margin:0 auto; padding:20px 40px; border:2px solid #f97b2c61; background-color: #f97b2c0a; border-radius:7px;">
                     {{ form_start(registrationForm) }}
@@ -127,10 +128,10 @@
                     });
                 </script>
 
-            </div>
+            </section>
 
 
-            <div class="registerRightDiv">
+            <section class="registerRightDiv">
 
                 <div style="position:relative; display:flex; width:92%; font-family:'K2D', sans-serif; margin:0 auto;">
                     <p class="registerTextDiv">Crée un compte pour personaliser le contenu du site, pour t'exprimer, participer, et rejoindre ou créer une team qui te correspond !</p>
@@ -162,11 +163,11 @@
 
                 </div>
 
-            </div>
+            </section>
 
         </div>
 
-    </div>
+    </main>
 
     {% block javascripts %}
         <script src="{{ asset('js/registerPage.js') }}"></script>
