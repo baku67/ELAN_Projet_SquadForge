@@ -14,7 +14,6 @@
                 <a href="{{ path('app_showNotifsList') }}" class="notifsNav" style="padding:0;">
                     <div class="navNotifDiv">
                         <i class="fa-solid fa-bell notifBell"></i>
-                        {# Bulle newNotifCount si > 0 #}
                         {% if userNotifCount > 0 %}
                             <span class="newNotifBubbleCount bubleNotif" id="newNotifBubbleCount">{{ userNotifCount }}</span>
                         {% endif %}

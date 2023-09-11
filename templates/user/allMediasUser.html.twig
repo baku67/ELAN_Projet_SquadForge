@@ -5,21 +5,23 @@
 {% block body %}
 
 
-    <header>
-        <a href="{{ path('app_home') }}"><img src="{{ asset('img/logoSquadForge_Black_Rogned.png') }}" class="logoPng" id="logoPng" /></a>
+    <header class="globalBanner" style="background: url('{{ asset('img/banner1.jpg') }}' )">
+        <a href="{{ path('app_home') }}"><img src="{{ asset('img/logoSquadForge_v3.png') }}" class="logoPng" id="logoPng" alt='topless bearded dwarf forging a sword above "SquadForge" title' /></a>
         <nav class="navLine">
-            <a href="{{ path('app_games') }}">Jeux</a>
+            <a href="{{ path('app_home') }}" class="homeNav navActive"><i class="fa-solid fa-house"></i></a>
+            <a href="{{ path('app_games') }}" class="gamesNav caps">jeux</a>
             {% if app.user %}
-                <a href="{{ path('app_userGroups') }}" style="color:white;">TEAMS</a>
-                <a href="{{ path('app_showNotifsList') }}">
+                <a href="{{ path('app_userGroups') }}" class="teamsNav caps">teams</a>
+                <a href="{{ path('app_showNotifsList') }}" class="notifsNav" style="padding:0;">
                     <div class="navNotifDiv">
                         <i class="fa-solid fa-bell notifBell"></i>
-                        {# Bulle newNotifCount si > 0#}
                         {% if userNotifCount > 0 %}
                             <span class="newNotifBubbleCount bubleNotif" id="newNotifBubbleCount">{{ userNotifCount }}</span>
                         {% endif %}
                     </div>
                 </a>
+            {% else %}
+                <a href="{{ path('app_allGroupList') }}" class="teamsNav caps">teams</a>
             {% endif %}
             {% if app.user and "ROLE_MODO" in app.user.roles %}
             
@@ -64,32 +66,28 @@
     {% endif %}
 
 
-
-    <div class="main">
+    <main class="main">
 
         {# Fil d'Ariane #}
         <p class="breadcrumbs"><a class="underlineLink" href="{{ path('app_user') }}">Mon espace</a> - Mes Médias</p>
 
         <h2 class="pageTitle">Médias publiés <span class="gameListCount">({{ userMediasCount }})</span></h2>
 
-        <div class="listContainer topicList marginTop">
+        <section class="listContainer topicList marginTop">
 
             {% for media in userMedias %}
-
 
                 {% if app.user and app.user.autoPlayGifs %}
                 <a href="{{ path('app_mediaDetail', {'id': media.id}) }}">
                 {% endif %}
                     
-
-                    <div class="mediaCard">
-
+                    <article class="mediaCard">
 
                         {% if app.user and not app.user.autoPlayGifs %}
                         <a href="{{ path('app_mediaDetail', {'id': media.id}) }}">
                         {% endif %}
                         <div class="mediaCardHeader" style="border-bottom: 3px solid {{ media.game.color }}">
-                            <img class="tinyLogo" src="{{ asset('img/games/tinyLogo/' ~ media.game.tinyLogo) }}" />
+                            <img class="tinyLogo" src="{{ asset('img/games/tinyLogo/' ~ media.game.tinyLogo) }}" alt="logo du jeu {{ media.game.title }}" />
                             <span class="mediaTitle">{{ media.title|capitalize }}</span>
                             {# <span>{{ media.status }}</span>
                             <span>{{ media.user.pseudo }}</span> #}
@@ -110,7 +108,7 @@
                             <img src="{{ asset("img/uploads/" ~ media.url) }}" alt="media" class="mediaImg" />
                         {% endif %}
                         
-                    </div>
+                    </article>
 
                 {% if app.user and app.user.autoPlayGifs %}
                 </a>
@@ -136,23 +134,19 @@
                     <p id="countLikesMedia{{ media.id }}" value="{{ media.upvoteCount }}"> {{ media.upvoteCount }} </p>
                 </div>
 
-                
                 {% if media.mediaPostsCount == 0 %}
                     <span style="opacity:0.5;">{{ media.mediaPostsCount }} <i class="fa-solid fa-message" style="color:grey;"></i></span>
                 {% else %}
                     <span>{{ media.mediaPostsCount }} <i class="fa-solid fa-message" style="color:var(--primary-color)"></i></span>
                 {% endif %}
 
-
                 <br>
                 <div style="width:30%; margin: 0 auto; height:1px; background-color: {{ media.game.color }}; opacity:0.5;"></div>
                 <br>
             {% endfor %}
 
-        </div>
+        </section>
 
-        
-    </div>
-
+    </main>
 
 {% endblock %}

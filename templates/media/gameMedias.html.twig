@@ -6,7 +6,7 @@
 
 
     <header class="gameHeader" style="background: url('{{ asset('img/games/banner/' ~ gameFrom.banner ) }}' )">
-        <a href="{{ path('app_home') }}"><img src="{{ asset('img/games/headerSiteLogo/' ~ gameFrom.siteLogo ) }}" class="logoPng" id="logoPng" /></a>
+        <a href="{{ path('app_home') }}"><img src="{{ asset('img/games/headerSiteLogo/' ~ gameFrom.siteLogo ) }}" class="logoPng" id="logoPng" alt='topless bearded dwarf forging a sword above "SquadForge" title' /></a>
         <nav class="navLine">
             <a href="{{ path('app_home') }}" class="homeNav"><i class="fa-solid fa-house"></i></a>
             <a href="{{ path('app_games') }}" class="gamesNav caps navActive" style="background-color: {{ gameFrom.color }}">jeux</a>
@@ -69,30 +69,27 @@
     {% endif %}
 
 
-
-    <div class="main">
+    <main class="main">
 
         {# Fil d'Ariane #}
         <p class="breadcrumbs"><a class="underlineLink" href="{{ path('app_games') }}">Jeux</a> - <a class="underlineLink" href="{{ path('app_game', {'id': gameFrom.id }) }}">{{ gameFrom.title }}</a> - Médias</p>
 
-        <div class="marginTop" style="display:inline-flex; width:100%; justify-content:space-between;">
+        <section class="marginTop" style="display:inline-flex; width:100%; justify-content:space-between;">
             <h3 class="gameSubTitle noMarginBottom" style="background-color:{{ gameFrom.color }}">
                 Médias
                 <span class="gameListCount">&nbsp;({{ gameMediasCount }})</span>
             </h3>
-                
-            {# <a id="createTopicBtn" href="{{ path('app_addGameTopic', {'id': game.id }) }}" class="createButton" style="border-top: 1px solid {{ game.color }}; border-bottom: 1px solid {{ game.color }};"><i class="fa-solid fa-plus" style="color:{{ game.color }}"></i>&nbsp;Créer</a> #}
-            
+                            
             {% if app.user %}
                 <span id="createMediaBtn" class="createButton" style="border-top: 1px solid {{ gameFrom.color }}; border-bottom: 1px solid {{ gameFrom.color }};"><i class="fa-solid fa-plus" style="color:{{ gameFrom.color }}"></i>&nbsp;Créer</span>
             {% else %}
                 <a href="{{ path('app_login') }}"><span class="createButton" style="border-top: 1px solid {{ gameFrom.color }}; border-bottom: 1px solid {{ gameFrom.color }};"><i class="fa-solid fa-plus" style="color:{{ gameFrom.color }}"></i>&nbsp;Créer</span></a>
             {% endif %}
-        </div>
+        </section>
 
 
         {# Form d'ajout caché Media, proc JS bouton #}
-        <div id="createMediaForm" class="notDisplayed"> 
+        <section id="createMediaForm" class="notDisplayed"> 
 
             {{ form_start(formAddMedia) }}
 
@@ -115,11 +112,11 @@
                 {{ form_widget(formAddMedia._token) }}
             {{ form_end(formAddMedia) }}
             
-        </div>
+        </section>
 
 
         {# Liste Médias du jeu  #}
-        <div class="listContainer marginTop mediaList">
+        <section class="listContainer marginTop mediaList">
 
             {% for media in gameMediasDesc %}
 
@@ -127,18 +124,14 @@
                 <a href="{{ path('app_mediaDetail', {'id': media.id}) }}">
                 {% endif %}
                     
-
-                    <div class="mediaCard">
-
+                    <article class="mediaCard">
 
                         {% if app.user and not app.user.autoPlayGifs %}
                         <a href="{{ path('app_mediaDetail', {'id': media.id}) }}">
                         {% endif %}
                         <div class="mediaCardHeader" style="border-bottom: 3px solid {{ media.game.color }}">
-                            <img class="tinyLogo" src="{{ asset('img/games/tinyLogo/' ~ media.game.tinyLogo) }}" />
+                            <img class="tinyLogo" src="{{ asset('img/games/tinyLogo/' ~ media.game.tinyLogo) }}" alt="logo du jeu {{ media.game.title }}" />
                             <span class="topicTitle">{{ media.title|capitalize }}</span>
-                            {# <span>{{ media.status }}</span>
-                            <span>{{ media.user.pseudo }}</span> #}
                             <span class="mediaCardPublishDate">{{ time_diff(media.publishDate) }}</span>
                         </div>
                         {% if app.user and not app.user.autoPlayGifs %}
@@ -156,13 +149,11 @@
                             <img src="{{ asset("img/uploads/" ~ media.url) }}" alt="media" class="mediaImg" />
                         {% endif %}
                         
-                    </div>
+                    </article>
 
                 {% if app.user and app.user.autoPlayGifs %}
                 </a>
                 {% endif %}
-
-
 
 
                 {# Upvote/downvote média + score + nbrPosts #}
@@ -191,14 +182,13 @@
                     <span>{{ media.mediaPostsCount }} <i class="fa-solid fa-message" style="color:var(--primary-color)"></i></span>
                 {% endif %}
 
-
                 <br>
                 <div style="width:30%; margin: 0 auto; height:1px; background-color: {{ media.game.color }}; opacity:0.5;"></div>
                 <br>
             {% endfor %}
-        </div>
+        </section>
 
-    </div>
+    </main>
 
 
 

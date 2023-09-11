@@ -6,7 +6,7 @@
 
 
     <header class="globalBanner" style="background: url('{{ asset('img/banner1.jpg') }}' )">
-        <a href="{{ path('app_home') }}"><img src="{{ asset('img/logoSquadForge_v3.png') }}" class="logoPng" id="logoPng" /></a>
+        <a href="{{ path('app_home') }}"><img src="{{ asset('img/logoSquadForge_v3.png') }}" class="logoPng" id="logoPng" alt='topless bearded dwarf forging a sword above "SquadForge" title' /></a>
         <nav class="navLine">
             <a href="{{ path('app_home') }}" class="homeNav navActive"><i class="fa-solid fa-house"></i></a>
             <a href="{{ path('app_games') }}" class="gamesNav caps">jeux</a>
@@ -56,6 +56,7 @@
 
     </header>
     
+
     {# HeaderSouligne + Bandeau avertissement muted #}
     {% if app.user and app.user.muted and time_diff_future(app.user.endDateStatus) != false %}
         <div class="headerUnderline"></div>
@@ -68,14 +69,14 @@
 
 
 
-    <div class="main">
+    <main class="main">
 
         {# Fil d'Ariane #}
         <p class="breadcrumbs"><a href="{{ path('app_home') }}" class="underlineLink">Home</a> - Médias</p>
 
         <h2 class="pageTitle">Tous les Médias <span class="gameListCount">({{ allMediasCount }})</span></h2>
 
-        <div class="listContainer marginTop mediaList">
+        <section class="listContainer marginTop mediaList">
 
             {% for media in allMediasDesc %}
 
@@ -83,18 +84,14 @@
                 <a href="{{ path('app_mediaDetail', {'id': media.id}) }}">
                 {% endif %}
                     
-
-                    <div class="mediaCard">
-
+                    <article class="mediaCard">
 
                         {% if app.user and not app.user.autoPlayGifs %}
                         <a href="{{ path('app_mediaDetail', {'id': media.id}) }}">
                         {% endif %}
                         <div class="mediaCardHeader" style="border-bottom: 3px solid {{ media.game.color }}">
-                            <img class="tinyLogo" src="{{ asset('img/games/tinyLogo/' ~ media.game.tinyLogo) }}" />
+                            <img class="tinyLogo" src="{{ asset('img/games/tinyLogo/' ~ media.game.tinyLogo) }}" alt="logo du jeu {{ media.game.title }}" />
                             <span class="mediaTitle">{{ media.title|capitalize }}</span>
-                            {# <span>{{ media.status }}</span>
-                            <span>{{ media.user.pseudo }}</span> #}
                             <span class="mediaCardPublishDate">{{ time_diff(media.publishDate) }}</span>
                         </div>
                         {% if app.user and not app.user.autoPlayGifs %}
@@ -114,7 +111,7 @@
                         </a>
                         {% endif %}
                         
-                    </div>
+                    </article>
 
                 {% if app.user and app.user.autoPlayGifs %}
                 </a>
@@ -152,10 +149,10 @@
                 <div style="width:30%; margin: 0 auto; height:1px; background-color: {{ media.game.color }}; opacity:0.5;"></div>
                 <br>
             {% endfor %}
-        </div>
 
+        </section>
         
-    </div>
+    </main>
 
 
 {% endblock %}

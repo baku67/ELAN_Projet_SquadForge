@@ -508,205 +508,205 @@
         {# Si aucun fav: les topics/medias listes sont vident (TODO: global dans ce cas)  #}
         {# {% if userFav|length > 0 %} #}
         
-            {# Les 5 derniers Topics (jeux favoris) #}
-            <section class="sectionHomeContainer">
+        {# Les 5 derniers Topics (jeux favoris) #}
+        <section class="sectionHomeContainer">
 
-                <header>
-                    <div class="homeTopicsTitle" style="background-color:var(--primary-color);"></div>
-                    <a href="{{ path('app_allTopicsGlobal') }}" style="height:fit-content; width:fit-content; display:block;">
-                        <h3 class="homeSubTitle noMarginBottom">
-                            Derniers Topics
-                        </h3>
-                    </a>
-                </header>
+            <header>
+                <div class="homeTopicsTitle" style="background-color:var(--primary-color);"></div>
+                <a href="{{ path('app_allTopicsGlobal') }}" style="height:fit-content; width:fit-content; display:block;">
+                    <h3 class="homeSubTitle noMarginBottom">
+                        Derniers Topics
+                    </h3>
+                </a>
+            </header>
 
-                <div class="sectionHomeContent topicList marginTop">
+            <div class="sectionHomeContent topicList marginTop">
 
-                    {% if lastTopics|length > 0 %}
-                    
-                        {% for topic in lastTopics %}
-                            <article>
-                                <a href="{{ path('app_topicDetail', {'id': topic.id}) }}">
-                                    <div title="{{ topic.title|capitalize }}" class="topicCard" style="border-bottom: 4px solid {{ topic.game.color }}">
-                                        <img class="tinyLogo" src="{{ asset('img/games/tinyLogo/' ~ topic.game.tinyLogo) }}" />
-                                        <span class="topicTitle">{{ topic.title|capitalize }}</span>
-                                        <div class="topicCardSubInfos">
-                                            {# <span>{{ topic.status }}</span>
-                                            <span class="topicCardAuthor">{{ topic.user.pseudo }}</span> #}
-                                            <span class="topicCardPublishDate">{{ time_diff(topic.publishDate) }}</span>
-                                            {% if topic.topicPostsCount == 0 %}
-                                                <span style="opacity:0.5;">{{ topic.topicPostsCount }} <i class="fa-solid fa-message" style="color:grey;"></i></span>
-                                            {% else %}
-                                                <span>{{ topic.topicPostsCount }} <i class="fa-solid fa-message" style="color:var(--primary-color)"></i></span>
-                                            {% endif %}
-                                        </div>
-                                    </div>
-                                </a>
-                            </article>
-                        {% endfor %}
-
-                        <span class="seeAllRedirect">
-                            <a href="{{ path('app_allTopicsGlobal') }}">Tout voir  <i class="fa-solid fa-chevron-right"></i></a>
-                        </span>
-
-                    {% else %}
-                        
-                        <div class="emptyListMsg" style="display:inline-flex; flex-direction:column; width:100%;">
-                            <span>Ajoutez des jeux à vos favoris pour retrouver ici leurs derniers topics !</span>
-                            <a href="{{ path('app_allTopicsGlobal') }}" style="text-decoration:underline;"><i class="fa-solid fa-magnifying-glass" style="margin:0 10px;"></i>Parcourir tous les topics</a>
-                        </div>
-
-                    {% endif %}
-
-                </div>
-
-            </section>
-
-
-
-
-            {# Derniers médias (tout jeux confondus) #}
-            <section class="sectionHomeContainer">
-
-                <header style="display:inline-flex;">
-                    <div class="homeMediasTitle" style="background-color:var(--primary-color);"></div>
-                    <a href=" {{ path('app_allMediasGlobal') }}">
-                        <h3 class="homeSubTitle noMarginBottom">
-                            Médias
-                        </h3>
-                    </a>
-                </header>
-
-                {% if lastMedias|length > 0 %}
+                {% if lastTopics|length > 0 %}
                 
-                    <div class="sectionHomeContent masonry-grid">
-
-                        {% for media in lastMedias %}
-
-                            <article class="grid-item" style="height:fit-content;">
-
-                                {% if app.user and app.user.autoPlayGifs or not app.user %}
-                                <a href="{{ path('app_mediaDetail', {'id': media.id}) }}">
-                                {% endif %}
-                                    
-
-                                    <div class="mediaCard" style=" background-color:{{ media.game.color }};">
-
-                                        {% if app.user and not app.user.autoPlayGifs %}
-                                        <a href="{{ path('app_mediaDetail', {'id': media.id}) }}">
-                                        {% endif %}
-                                        <header class="mediaCardHeader" title="{{ media.title|capitalize }}" style="border-bottom: 3px solid {{ media.game.color }};">
-                                            <img class="tinyLogo" src="{{ asset('img/games/tinyLogo/' ~ media.game.tinyLogo) }}" />
-                                            <span class="mediaTitle">{{ media.title|capitalize }}</span>
-                                            <span class="mediaCardPublishDate">{{ time_diff(media.publishDate) }}</span>
-                                        </header>
-                                        {% if app.user and not app.user.autoPlayGifs %}
-                                        </a>
-                                        {% endif %}
-
-                                        {# Gif autoplay=false si paramètre user #}
-                                        {% if app.user %}
-                                            {% if not app.user.autoPlayGifs %}
-                                                <img data-gifffer="{{ asset("img/uploads/" ~ media.url) }}" data-gifffer-alt="media" class="mediaImg" />
-                                            {% else %}
-                                                <img src="{{ asset("img/uploads/" ~ media.url) }}" alt="media" class="mediaImg" />
-                                            {% endif %}
+                    {% for topic in lastTopics %}
+                        <article>
+                            <a href="{{ path('app_topicDetail', {'id': topic.id}) }}">
+                                <div title="{{ topic.title|capitalize }}" class="topicCard" style="border-bottom: 4px solid {{ topic.game.color }}">
+                                    <img class="tinyLogo" src="{{ asset('img/games/tinyLogo/' ~ topic.game.tinyLogo) }}" />
+                                    <span class="topicTitle">{{ topic.title|capitalize }}</span>
+                                    <div class="topicCardSubInfos">
+                                        {# <span>{{ topic.status }}</span>
+                                        <span class="topicCardAuthor">{{ topic.user.pseudo }}</span> #}
+                                        <span class="topicCardPublishDate">{{ time_diff(topic.publishDate) }}</span>
+                                        {% if topic.topicPostsCount == 0 %}
+                                            <span style="opacity:0.5;">{{ topic.topicPostsCount }} <i class="fa-solid fa-message" style="color:grey;"></i></span>
                                         {% else %}
-                                            <img src="{{ asset("img/uploads/" ~ media.url) }}" alt="media" class="mediaImg" />
+                                            <span>{{ topic.topicPostsCount }} <i class="fa-solid fa-message" style="color:var(--primary-color)"></i></span>
                                         {% endif %}
-                                        
                                     </div>
-
-                                {% if app.user and app.user.autoPlayGifs or not app.user %}
-                                </a>
-                                {% endif %}
-
-
-                                {# Upvote/downvote média + score + nbrPosts #}
-                                <div class="mediaCardStatsDiv">
-
-                                    {# Pas opti: bloucle sur tous les likes du post pour savoir si liké (boucle dans boucle) #}
-                                    {% set liked = "" %}
-
-                                    {% if app.user %}
-
-                                        {% for upvote in media.UserUpvote %}
-
-                                            {% if upvote == app.user %}
-                                                {% set liked = "upBtnLiked" %}
-                                            {% endif %}
-
-                                        {% endfor %}
-                                        
-                                    {% endif %}
-
-                                    
-                                    <div class="inline">
-                                        <i mediaId={{ media.id }} class="likeMedia fa-regular fa-circle-up {{ liked }}"></i>
-                                        <span id="countLikesMedia{{ media.id }}" value="{{ media.upvoteCount }}"> {{ media.upvoteCount }} </span>
-                                    </div>
-                                
-                                    {% if media.mediaPostsCount == 0 %}
-                                        <a href="{{ path('app_mediaDetail', {'id':media.id}) }}">
-                                            <span style="opacity:0.5;">{{ media.mediaPostsCount }} 
-                                                <i class="fa-solid fa-message" style="color:grey;"></i>
-                                            </span>
-                                        </a>
-                                    {% else %}
-                                        <a href="{{ path('app_mediaDetail', {'id':media.id}) }}">
-                                            <span>{{ media.mediaPostsCount }} 
-                                                <i class="fa-solid fa-message" style="color:var(--primary-color)"></i>
-                                            </span>
-                                        </a>
-                                    {% endif %}
-
                                 </div>
-
-                            </article>
-
-                        {% endfor %}
-
-                    </div>
-
-
+                            </a>
+                        </article>
+                    {% endfor %}
 
                     <span class="seeAllRedirect">
-                        <a href="{{ path('app_allMediasGlobal') }}">Tout voir  <i class="fa-solid fa-chevron-right"></i></a>
+                        <a href="{{ path('app_allTopicsGlobal') }}">Tout voir  <i class="fa-solid fa-chevron-right"></i></a>
                     </span>
 
-
-                    {# Masonry JS Medias (permet de rendre responsive entre autre) #}
-                    <script src="https://unpkg.com/masonry-layout@4/dist/masonry.pkgd.min.js"></script>
-                    {# imagesLoaded JS #}
-                    <script src="https://unpkg.com/imagesloaded@5/imagesloaded.pkgd.min.js"></script>
-                    
-                    <script>
-                        $(document).ready(function() {
-                            var $gridItems = $('.grid-item');
-                            
-                            $gridItems.imagesLoaded(function() {
-                                setTimeout(function() {
-                                    console.log('imagesLoaded');
-                                    $('.masonry-grid').masonry({
-                                        itemSelector: '.grid-item',
-                                        columnWidth: '.grid-item',
-                                        gutter: 15, // Adjust the gutter size as needed
-                                    });
-                                }, 500) 
-                            });
-                        });
-                    </script>
-
                 {% else %}
-
-                    <div class="emptyListMsg sectionHomeContent" style="display:inline-flex; flex-direction:column; width:100%;">
-                        <span>Ajoutez des jeux à vos favoris pour retrouver ici leurs derniers médias !</span>
-                        <a href="{{ path('app_allMediasGlobal') }}" style="text-decoration:underline;"><i class="fa-solid fa-magnifying-glass" style="margin:0 10px;"></i>Parcourir tous les médias</a>
+                    
+                    <div class="emptyListMsg" style="display:inline-flex; flex-direction:column; width:100%;">
+                        <span>Ajoutez des jeux à vos favoris pour retrouver ici leurs derniers topics !</span>
+                        <a href="{{ path('app_allTopicsGlobal') }}" style="text-decoration:underline;"><i class="fa-solid fa-magnifying-glass" style="margin:0 10px;"></i>Parcourir tous les topics</a>
                     </div>
 
                 {% endif %}
 
-            </section>
+            </div>
+
+        </section>
+
+
+
+
+        {# Derniers médias (tout jeux confondus) #}
+        <section class="sectionHomeContainer">
+
+            <header style="display:inline-flex;">
+                <div class="homeMediasTitle" style="background-color:var(--primary-color);"></div>
+                <a href=" {{ path('app_allMediasGlobal') }}">
+                    <h3 class="homeSubTitle noMarginBottom">
+                        Médias
+                    </h3>
+                </a>
+            </header>
+
+            {% if lastMedias|length > 0 %}
+            
+                <div class="sectionHomeContent masonry-grid">
+
+                    {% for media in lastMedias %}
+
+                        <article class="grid-item" style="height:fit-content;">
+
+                            {% if app.user and app.user.autoPlayGifs or not app.user %}
+                            <a href="{{ path('app_mediaDetail', {'id': media.id}) }}">
+                            {% endif %}
+                                
+
+                                <div class="mediaCard" style=" background-color:{{ media.game.color }};">
+
+                                    {% if app.user and not app.user.autoPlayGifs %}
+                                    <a href="{{ path('app_mediaDetail', {'id': media.id}) }}">
+                                    {% endif %}
+                                    <header class="mediaCardHeader" title="{{ media.title|capitalize }}" style="border-bottom: 3px solid {{ media.game.color }};">
+                                        <img class="tinyLogo" src="{{ asset('img/games/tinyLogo/' ~ media.game.tinyLogo) }}" />
+                                        <span class="mediaTitle">{{ media.title|capitalize }}</span>
+                                        <span class="mediaCardPublishDate">{{ time_diff(media.publishDate) }}</span>
+                                    </header>
+                                    {% if app.user and not app.user.autoPlayGifs %}
+                                    </a>
+                                    {% endif %}
+
+                                    {# Gif autoplay=false si paramètre user #}
+                                    {% if app.user %}
+                                        {% if not app.user.autoPlayGifs %}
+                                            <img data-gifffer="{{ asset("img/uploads/" ~ media.url) }}" data-gifffer-alt="media" class="mediaImg" />
+                                        {% else %}
+                                            <img src="{{ asset("img/uploads/" ~ media.url) }}" alt="media" class="mediaImg" />
+                                        {% endif %}
+                                    {% else %}
+                                        <img src="{{ asset("img/uploads/" ~ media.url) }}" alt="media" class="mediaImg" />
+                                    {% endif %}
+                                    
+                                </div>
+
+                            {% if app.user and app.user.autoPlayGifs or not app.user %}
+                            </a>
+                            {% endif %}
+
+
+                            {# Upvote/downvote média + score + nbrPosts #}
+                            <div class="mediaCardStatsDiv">
+
+                                {# Pas opti: bloucle sur tous les likes du post pour savoir si liké (boucle dans boucle) #}
+                                {% set liked = "" %}
+
+                                {% if app.user %}
+
+                                    {% for upvote in media.UserUpvote %}
+
+                                        {% if upvote == app.user %}
+                                            {% set liked = "upBtnLiked" %}
+                                        {% endif %}
+
+                                    {% endfor %}
+                                    
+                                {% endif %}
+
+                                
+                                <div class="inline">
+                                    <i mediaId={{ media.id }} class="likeMedia fa-regular fa-circle-up {{ liked }}"></i>
+                                    <span id="countLikesMedia{{ media.id }}" value="{{ media.upvoteCount }}"> {{ media.upvoteCount }} </span>
+                                </div>
+                            
+                                {% if media.mediaPostsCount == 0 %}
+                                    <a href="{{ path('app_mediaDetail', {'id':media.id}) }}">
+                                        <span style="opacity:0.5;">{{ media.mediaPostsCount }} 
+                                            <i class="fa-solid fa-message" style="color:grey;"></i>
+                                        </span>
+                                    </a>
+                                {% else %}
+                                    <a href="{{ path('app_mediaDetail', {'id':media.id}) }}">
+                                        <span>{{ media.mediaPostsCount }} 
+                                            <i class="fa-solid fa-message" style="color:var(--primary-color)"></i>
+                                        </span>
+                                    </a>
+                                {% endif %}
+
+                            </div>
+
+                        </article>
+
+                    {% endfor %}
+
+                </div>
+
+
+
+                <span class="seeAllRedirect">
+                    <a href="{{ path('app_allMediasGlobal') }}">Tout voir  <i class="fa-solid fa-chevron-right"></i></a>
+                </span>
+
+
+                {# Masonry JS Medias (permet de rendre responsive entre autre) #}
+                <script src="https://unpkg.com/masonry-layout@4/dist/masonry.pkgd.min.js"></script>
+                {# imagesLoaded JS #}
+                <script src="https://unpkg.com/imagesloaded@5/imagesloaded.pkgd.min.js"></script>
+                
+                <script>
+                    $(document).ready(function() {
+                        var $gridItems = $('.grid-item');
+                        
+                        $gridItems.imagesLoaded(function() {
+                            setTimeout(function() {
+                                console.log('imagesLoaded');
+                                $('.masonry-grid').masonry({
+                                    itemSelector: '.grid-item',
+                                    columnWidth: '.grid-item',
+                                    gutter: 15, // Adjust the gutter size as needed
+                                });
+                            }, 500) 
+                        });
+                    });
+                </script>
+
+            {% else %}
+
+                <div class="emptyListMsg sectionHomeContent" style="display:inline-flex; flex-direction:column; width:100%;">
+                    <span>Ajoutez des jeux à vos favoris pour retrouver ici leurs derniers médias !</span>
+                    <a href="{{ path('app_allMediasGlobal') }}" style="text-decoration:underline;"><i class="fa-solid fa-magnifying-glass" style="margin:0 10px;"></i>Parcourir tous les médias</a>
+                </div>
+
+            {% endif %}
+
+        </section>
 
     </main>
 

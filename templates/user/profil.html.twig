@@ -11,7 +11,7 @@
 
     
     <header class="globalBanner" style="background: url('{{ asset('img/banner1.jpg') }}' )">
-        <a href="{{ path('app_home') }}"><img src="{{ asset('img/logoSquadForge_v3.png') }}" class="logoPng" id="logoPng" /></a>
+        <a href="{{ path('app_home') }}"><img src="{{ asset('img/logoSquadForge_v3.png') }}" class="logoPng" id="logoPng" alt='topless bearded dwarf forging a sword above "SquadForge" title' /></a>
         <nav class="navLine">
             <a href="{{ path('app_home') }}" class="homeNav"><i class="fa-solid fa-house"></i></a>
             <a href="{{ path('app_games') }}" class="gamesNav caps">jeux</a>
@@ -20,7 +20,6 @@
                 <a href="{{ path('app_showNotifsList') }}" class="notifsNav" style="padding:0;">
                     <div class="navNotifDiv">
                         <i class="fa-solid fa-bell notifBell"></i>
-                        {# Bulle newNotifCount si > 0 #}
                         {% if userNotifCount > 0 %}
                             <span class="newNotifBubbleCount bubleNotif" id="newNotifBubbleCount">{{ userNotifCount }}</span>
                         {% endif %}
@@ -71,11 +70,11 @@
 
 
 
-    <div class="main">
+    <main class="main">
 
         <h2 class="pageTitle">Profil</h2>
 
-        <div class="sectionHomeContainer inlineFlex">
+        <section class="sectionHomeContainer inlineFlex">
 
             <div style="width:60%;">
                 <div class="blinkingSectionTitle">
@@ -220,7 +219,7 @@
                 })
             </script>
 
-        </div>
+        </section>
 
         {# Asynch app_toggleAutoplayGifs (Erreur JS promise #}
         <script>
@@ -249,19 +248,22 @@
         </script>
         
 
-        <div class="sectionHomeContainer">
+        <section class="sectionHomeContainer">
 
             <div class="blinkingSectionTitle">
-                <div class="homeFavGamesTitle" style="background-color:var(--primary-color);"></div>
-                <h3 class="homeSubTitle noMarginBottom">Topics publiés <span class="gameListCount">({{ userTopicsCount }})</span></h3>
+                <a href="{{ path('app_allTopicsUser') }}" style="display:block; width:fit-content;">
+                    <div class="homeFavGamesTitle" style="background-color:var(--primary-color);"></div>
+                    <h3 class="homeSubTitle noMarginBottom">Topics publiés <span class="gameListCount">({{ userTopicsCount }})</span></h3>
+                </a>
             </div>
 
             <div class="listContainer topicList marginTop lp-page3-containerMaster" style="margin-top:20px; margin-bottom:20px;">
             
                 {% for topic in userTopics %}
+
                     <a href="{{ path('app_topicDetail', {'id': topic.id}) }}">
-                        <div class="topicCard" style="border-bottom: 4px solid {{ topic.game.color }}">
-                            <img class="tinyLogo" src="{{ asset('img/games/tinyLogo/' ~ topic.game.tinyLogo) }}" />
+                        <article class="topicCard" style="border-bottom: 4px solid {{ topic.game.color }}">
+                            <img class="tinyLogo" src="{{ asset('img/games/tinyLogo/' ~ topic.game.tinyLogo) }}" alt="logo du jeu {{ topic.game.title }}" />
                             <span class="topicTitle">{{ topic.title|capitalize }}</span>
                             <div class="topicCardSubInfos">
                                 {# <span>{{ topic.status }}</span> #}
@@ -273,8 +275,9 @@
                                     <span>{{ topic.topicPostsCount }} <i class="fa-solid fa-message" style="color:{{ topic.game.color }}"></i></span>
                                 {% endif %}
                             </div>
-                        </div>
+                        </article>
                     </a>
+
                 {% endfor %}
 
                 <span class="seeAllRedirect">
@@ -283,15 +286,17 @@
 
             </div>
 
-        </div>
+        </section>
 
         
 
-        <div class="sectionHomeContainer">
+        <section class="sectionHomeContainer">
 
             <div class="blinkingSectionTitle">
-                <div class="homeFavGamesTitle" style="background-color:var(--primary-color);"></div>
-                <h3 class="homeSubTitle noMarginBottom">Médias publiés <span class="gameListCount">({{ userMediasCount }})</span></h3>
+                <a href="{{ path('app_allMediasUser') }}" style="display:block; width:fit-content;">
+                    <div class="homeFavGamesTitle" style="background-color:var(--primary-color);"></div>
+                    <h3 class="homeSubTitle noMarginBottom">Médias publiés <span class="gameListCount">({{ userMediasCount }})</span></h3>
+                </a>
             </div>
 
             <div class="masonry-grid lp-page3-containerMaster">
@@ -305,16 +310,14 @@
                         <a href="{{ path('app_mediaDetail', {'id': media.id}) }}">
                         {% endif %}
 
-                            <div class="mediaCard">
+                            <article class="mediaCard">
 
                                 {% if not app.user.autoPlayGifs %}
                                 <a href="{{ path('app_mediaDetail', {'id': media.id}) }}">
                                 {% endif %}
                                 <div class="mediaCardHeader" style="border-bottom: 3px solid {{ media.game.color }}">
-                                    <img class="tinyLogo" src="{{ asset('img/games/tinyLogo/' ~ media.game.tinyLogo) }}" />
+                                    <img class="tinyLogo" src="{{ asset('img/games/tinyLogo/' ~ media.game.tinyLogo) }}" alt="logo du jeu {{ media.game.title }}" />
                                     <span class="mediaTitle">{{ media.title|capitalize }}</span>
-                                    {# <span>{{ media.validated }}</span> #}
-                                    {# <span>{{ media.status }}</span> #}
                                     <span class="mediaCardPublishDate">{{ time_diff(media.publishDate) }}</span>
                                 </div>
                                 {% if not app.user.autoPlayGifs %}
@@ -328,7 +331,7 @@
                                     <img src="{{ asset("img/uploads/" ~ media.url) }}" alt="media" class="mediaImg" />
                                 {% endif %}
 
-                            </div>
+                            </article>
 
                         {% if app.user.autoPlayGifs %}
                         </a>
@@ -337,7 +340,6 @@
 
                         {% if media.validated == "validated" %}
 
-                        
                             {# Upvote/downvote média + score + nbrPosts #}
                             <div class="mediaCardStatsDiv">
 
@@ -388,11 +390,6 @@
 
                         {% endif %}
 
-
-                        <br>
-                        {# <div style="width:100%; margin: 0 auto; height:3px; background-color: {{ media.game.color }}; opacity:0.5;"></div> #}
-                        <br>
-
                     </div>
 
                 {% endfor %}
@@ -431,8 +428,8 @@
                 <a href="{{ path('app_allMediasUser') }}">Tout voir  <i class="fa-solid fa-chevron-right"></i></a>
             </span>
 
-        </div>
+        </section>
 
-    </div>
+    </main>
 
 {% endblock %}

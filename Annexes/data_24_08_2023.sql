@@ -47,12 +47,6 @@ INSERT INTO `censure` (`id`, `user_id`, `creation_date`, `word`) VALUES
 
 
 
--- INSERT INTO `group` (`id`, `leader_id`, `game_id`, `title`, `description`, `nbr_places`, `creation_date`, `restriction_18`, `restriction_lang`, `status`, `img_url`, `restriction_mic`, `candidature_description`, `restriction_img_proof`) VALUES
--- 	(36, 7, 1, 'La team overwatch', 'fzefzef', 2, '2023-06-21 21:39:31', 0, 'fr', 'hidden', NULL, 0, NULL, 0),
--- 	(38, 3, 5, 'Team PUBG du dimanche', 'On joue le dimanche aprèm pour le fun', 3, '2023-06-30 01:14:35', 0, 'fr', 'public', NULL, 0, NULL, 1),
--- 	(39, 3, 6, 'Team lol', 'C''est la team mdr lol', 5, '2023-07-04 01:03:57', 1, 'en', 'public', NULL, 1, NULL, 1),
--- 	(47, 7, 4, 'Valo team numéro One', 'Ola', 6, '2023-07-08 06:14:54', 1, NULL, 'public', NULL, 0, NULL, 1),
--- 	(49, 3, 2, 'fzefzefzef', 'zefzefzef', 2, '2023-08-22 14:57:39', 1, NULL, 'public', NULL, 1, NULL, 1);
 INSERT INTO `group` (`id`, `leader_id`, `game_id`, `title`, `description`, `nbr_places`, `creation_date`, `restriction_18`, `restriction_lang`, `status`, `img_url`, `restriction_mic`, `candidature_description`, `restriction_img_proof`, `candidature_txt`) VALUES
 	(36, 7, 1, 'La team overwatch', 'fzefzef', 2, '2023-06-21 21:39:31', 0, 'fr', 'hidden', 'test1.jpg', 0, NULL, 0, NULL),
 	(38, 3, 5, 'Team PUBG du dimanche', 'On joue le dimanche aprèm pour le fun', 3, '2023-06-30 01:14:35', 1, 'fr', 'public', 'test2.jpg', 0, NULL, 1, 'Yolo '),
@@ -387,41 +381,7 @@ INSERT INTO `user_game` (`user_id`, `game_id`) VALUES
 	(98, 4),
 	(98, 5),
 	(98, 6),
-	(98, 7);
+	(98, 10);
 
--- INSERT INTO `favoris` (`user_id`, `game_id`) VALUES
--- 	(3, 2),
--- 	(3, 4),
--- 	(3, 5),
--- 	(3, 6),
--- 	(7, 2),
--- 	(8, 4);
-
-
-
--- TABLES FAV:
--- Listage de la structure de table squadforge. favoris
-
--- CREATE TABLE IF NOT EXISTS `favoris` (
---   `user_id` int NOT NULL,
---   `game_id` int NOT NULL,
---   PRIMARY KEY (`user_id`,`game_id`),
---   KEY `IDX_8933C432A76ED395` (`user_id`),
---   KEY `IDX_8933C432E48FD905` (`game_id`),
---   CONSTRAINT `FK_8933C432A76ED395` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`) ON DELETE CASCADE,
---   CONSTRAINT `FK_8933C432E48FD905` FOREIGN KEY (`game_id`) REFERENCES `game` (`id`)
--- ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
--- Listage de la structure de table squadforge. user_game
-
--- CREATE TABLE IF NOT EXISTS `user_game` (
---   `user_id` int NOT NULL,
---   `game_id` int NOT NULL,
---   PRIMARY KEY (`user_id`,`game_id`),
---   KEY `IDX_59AA7D45A76ED395` (`user_id`),
---   KEY `IDX_59AA7D45E48FD905` (`game_id`),
---   CONSTRAINT `FK_59AA7D45A76ED395` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`) ON DELETE CASCADE,
---   CONSTRAINT `FK_59AA7D45E48FD905` FOREIGN KEY (`game_id`) REFERENCES `game` (`id`) ON DELETE CASCADE
--- ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 

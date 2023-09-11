@@ -5,7 +5,7 @@
 {% block body %} 
 
     <header class="globalBanner" style="background: url('{{ asset('img/banner1.jpg') }}' )">
-        <a href="{{ path('app_home') }}"><img src="{{ asset('img/logoSquadForge_v3.png') }}" class="logoPng" id="logoPng" /></a>
+        <a href="{{ path('app_home') }}"><img src="{{ asset('img/logoSquadForge_v3.png') }}" class="logoPng" id="logoPng" alt='topless bearded dwarf forging a sword above "SquadForge" title' /></a>
         <nav class="navLine">
             <a href="{{ path('app_home') }}" class="homeNav"><i class="fa-solid fa-house"></i></a>
             <a href="{{ path('app_games') }}" class="gamesNav caps">jeux</a>
@@ -65,7 +65,7 @@
 
 
 
-    <div class="main">
+    <main class="main">
 
         <h2 class="pageTitle">Notifications</h2>
 
@@ -75,7 +75,7 @@
 
         {% if notifs|length > 0 %}
 
-            <div class="notifListButtons" id="notifListButtons">
+            <section class="notifListButtons" id="notifListButtons">
 
                 {% if theresNotSeen %}
                     {# // Ajax bouton: passer toutes les notifs en "vue" #}
@@ -89,7 +89,7 @@
                     <i class="fa-solid fa-xmark cleanNotifsBtn"></i>
                 </a>
 
-            </div>
+            </section>
 
 
         {% else %}
@@ -101,7 +101,7 @@
         
         
         {# Liste des notifs #}
-        <div class="notifsContainer">
+        <section class="notifsContainer">
 
             {# Le link delete dans le link notif mess-up le link global #}
             {% for notif in notifs %}
@@ -109,7 +109,7 @@
                 <div class="notifCardLine">
 
                     <a class="notifCard" href="{{ notif.link }}">
-                        <div>
+                        <article>
                             <div style="display:inline-flex;width:100%; justify-content:space-between;">
                                 <p style="margin-bottom:0;margin-right:12px;">
                                     {# State clicked de la notif #}
@@ -118,35 +118,21 @@
                                     {% endif %}
                                     <span id="notifText">{{ notif.text|raw }}</span>
                                 </p>
-
                             </div>
                             <span class="notifCardPublishDate ">{{ time_diff(notif.dateCreation) }}</span>
-                        </div>
+                        </article>
                     </a>
-
+                    
                     <a class="deleteSingleNotif" href="{{ path('app_deleteNotif',{'notifId': notif.id}) }}">
                         <i class="fa-solid fa-xmark"></i>
                     </a>
 
                 </div>
 
-
             {% endfor %}
 
-        </div>
+        </section>
 
-
-
-
-
-
-
-
-
-        
-
-        
-
-    </div>
+    </main>
 
 {% endblock %}

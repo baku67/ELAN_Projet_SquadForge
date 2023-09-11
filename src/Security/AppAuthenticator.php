@@ -56,9 +56,9 @@ class AppAuthenticator extends AbstractLoginFormAuthenticator
 
         
         // For example:
-        $route = $request->headers->get('referer'); 
-        return new RedirectResponse($route);
-        // return new RedirectResponse($this->urlGenerator->generate('app_home'));
+        // $route = $request->headers->get('referer'); 
+        // return new RedirectResponse($route);
+        return new RedirectResponse($this->urlGenerator->generate('app_home'));
         throw new \Exception('TODO: provide a valid redirect inside '.__FILE__);
     }
 

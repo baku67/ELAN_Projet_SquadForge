@@ -5,21 +5,23 @@
 {% block body %}
 
 
-    <header>
-        <a href="{{ path('app_home') }}"><img src="{{ asset('img/logoSquadForge_Black_Rogned.png') }}" class="logoPng" id="logoPng" /></a>
+    <header class="globalBanner" style="background: url('{{ asset('img/banner1.jpg') }}' )">
+        <a href="{{ path('app_home') }}"><img src="{{ asset('img/logoSquadForge_v3.png') }}" class="logoPng" id="logoPng" alt='topless bearded dwarf forging a sword above "SquadForge" title' /></a>
         <nav class="navLine">
-            <a href="{{ path('app_games') }}">Jeux</a>
+            <a href="{{ path('app_home') }}" class="homeNav navActive"><i class="fa-solid fa-house"></i></a>
+            <a href="{{ path('app_games') }}" class="gamesNav caps">jeux</a>
             {% if app.user %}
-                <a href="{{ path('app_userGroups') }}" style="color:white;">TEAMS</a>
-                <a href="{{ path('app_showNotifsList') }}">
+                <a href="{{ path('app_userGroups') }}" class="teamsNav caps">teams</a>
+                <a href="{{ path('app_showNotifsList') }}" class="notifsNav" style="padding:0;">
                     <div class="navNotifDiv">
                         <i class="fa-solid fa-bell notifBell"></i>
-                        {# Bulle newNotifCount si > 0#}
                         {% if userNotifCount > 0 %}
                             <span class="newNotifBubbleCount bubleNotif" id="newNotifBubbleCount">{{ userNotifCount }}</span>
                         {% endif %}
                     </div>
                 </a>
+            {% else %}
+                <a href="{{ path('app_allGroupList') }}" class="teamsNav caps">teams</a>
             {% endif %}
             {% if app.user and "ROLE_MODO" in app.user.roles %}
             
@@ -65,18 +67,20 @@
 
 
 
-    <div class="main">
+    <main class="main">
 
         {# Fil d'Ariane #}
         <p class="breadcrumbs"><a class="underlineLink" href="{{ path('app_user') }}">Mon espace</a> - Mes Topics</p>
 
         <h2 class="pageTitle">Topics publiés <span class="gameListCount">({{ userTopicsCount }})</span></h2>
 
-        <div class="listContainer topicList marginTop">
+        <section class="listContainer topicList marginTop">
+
             {% for topic in userTopics %}
+
                 <a href="{{ path('app_topicDetail', {'id': topic.id}) }}">
-                    <div class="topicCard" style="border-bottom: 4px solid {{ topic.game.color }}">
-                        <img class="tinyLogo" src="{{ asset('img/games/tinyLogo/' ~ topic.game.tinyLogo) }}" />
+                    <article class="topicCard" style="border-bottom: 4px solid {{ topic.game.color }}">
+                        <img class="tinyLogo" src="{{ asset('img/games/tinyLogo/' ~ topic.game.tinyLogo) }}" alt="logo du jeu {{ topic.game.title }}" />
                         <span class="topicTitle">{{ topic.title|capitalize }}</span>
                         <div class="topicCardSubInfos">
                             {# <span>{{ topic.status }}</span>
@@ -87,13 +91,13 @@
                                 <span>{{ topic.topicPostsCount }} <i class="fa-solid fa-message" style="color:{{ topic.game.color }}"></i></span>
                             {% endif %}
                         </div>
-                    </div>
+                    </article>
                 </a>
+
             {% endfor %}
-        </div>
 
-        
-    </div>
-
+        </section>
+  
+    </main>
 
 {% endblock %}
