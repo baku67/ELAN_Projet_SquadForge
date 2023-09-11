@@ -1,6 +1,9 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Jeux {% endblock %}
+{% block title %}Jeux - {{ genreName }}{% endblock %}
+{% block meta_description %}
+    Parcourez la liste des jeux de type {{ genreName }}
+{% endblock %}
 
 {% block body %}
 

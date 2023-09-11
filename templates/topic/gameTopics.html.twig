@@ -1,6 +1,8 @@
 {% extends 'base.html.twig' %}
-
-{% block title %}Topics{% endblock %}
+{% block title %}Topics du jeu {{ gameFrom.title }}{% endblock %}
+{% block meta_description %}
+    Parcourez les topics du jeu {{ gameFrom.title }}
+{% endblock %}
 
 {% block body %}
 

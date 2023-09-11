@@ -1,6 +1,8 @@
 {% extends 'base.html.twig' %}
-
-{% block title %}Médias{% endblock %}
+{% block title %}Médias - {{ gameFrom.title }}{% endblock %}
+{% block meta_description %}
+    Parcourez la liste des médias du jeu {{ gameFrom.title }}
+{% endblock %}
 
 {% block body %}
 

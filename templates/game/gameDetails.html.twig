@@ -1,6 +1,9 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Tous les jeux{% endblock %}
+{% block title %}Page {{ game.title }}{% endblock %}
+{% block meta_description %}
+    Détail du jeu {{ game.title }}
+{% endblock %}
 
 {% block body %}
 
