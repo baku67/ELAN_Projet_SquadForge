@@ -6,7 +6,7 @@
 
 
     <header class="globalBanner" style="background: url('{{ asset('img/banner1.jpg') }}' )">
-        <a href="{{ path('app_home') }}"><img src="{{ asset('img/logoSquadForge_v3.png') }}" class="logoPng" id="logoPng" alt='topless bearded dwarf forging a sword above "SquadForge" title' /></a>
+        <a href="{{ path('app_home') }}"><img src="{{ asset('img/logoSquadForge_v3.png') }}" class="logoPng" id="logoPng" alt='bearded dwarf forging a sword above "SquadForge" title' /></a>
         <nav class="navLine">
             <a href="{{ path('app_home') }}" class="homeNav navActive"><i class="fa-solid fa-house"></i></a>
             <a href="{{ path('app_games') }}" class="gamesNav caps">jeux</a>
@@ -69,81 +69,89 @@
     <main class="main">
 
         {# Fil d'Ariane #}
-        <p class="breadcrumbs"><a class="underlineLink" href="{{ path('app_user') }}">Mon espace</a> - Mes Médias</p>
+        <p class="breadcrumbs">
+            <a class="underlineLink" href="{{ path('app_user') }}">Mon espace</a>
+            <i class="fa-solid fa-angle-right arianeArrow"></i>
+            <span>Mes Médias<span>
+        </p>
 
-        <h2 class="pageTitle">Médias publiés <span class="gameListCount">({{ userMediasCount }})</span></h2>
+        <section>
 
-        <section class="listContainer topicList marginTop">
+            <h2 class="pageTitle">Médias publiés <span class="gameListCount">({{ userMediasCount }})</span></h2>
 
-            {% for media in userMedias %}
+            <div class="listContainer topicList listMarginTop">
 
-                {% if app.user and app.user.autoPlayGifs %}
-                <a href="{{ path('app_mediaDetail', {'id': media.id}) }}">
-                {% endif %}
-                    
-                    <article class="mediaCard">
+                {% for media in userMedias %}
 
-                        {% if app.user and not app.user.autoPlayGifs %}
-                        <a href="{{ path('app_mediaDetail', {'id': media.id}) }}">
-                        {% endif %}
-                        <div class="mediaCardHeader" style="border-bottom: 3px solid {{ media.game.color }}">
-                            <img class="tinyLogo" src="{{ asset('img/games/tinyLogo/' ~ media.game.tinyLogo) }}" alt="logo du jeu {{ media.game.title }}" />
-                            <span class="mediaTitle">{{ media.title|capitalize }}</span>
-                            {# <span>{{ media.status }}</span>
-                            <span>{{ media.user.pseudo }}</span> #}
-                            <span class="mediaCardPublishDate">{{ time_diff(media.publishDate) }}</span>
-                        </div>
-                        {% if app.user and not app.user.autoPlayGifs %}
-                        </a>
-                        {% endif %}
+                    {% if app.user and app.user.autoPlayGifs %}
+                    <a href="{{ path('app_mediaDetail', {'id': media.id}) }}">
+                    {% endif %}
+                        
+                        <article class="mediaCard">
 
-                        {# Gif autoplay=false si paramètre user #}
-                        {% if app.user %}
-                            {% if not app.user.autoPlayGifs %}
-                                <img data-gifffer="{{ asset("img/uploads/" ~ media.url) }}" data-gifffer-alt="media" class="mediaImg" />
+                            {% if app.user and not app.user.autoPlayGifs %}
+                            <a href="{{ path('app_mediaDetail', {'id': media.id}) }}">
+                            {% endif %}
+                            <div class="mediaCardHeader" style="border-bottom: 3px solid {{ media.game.color }}">
+                                <img class="tinyLogo" src="{{ asset('img/games/tinyLogo/' ~ media.game.tinyLogo) }}" alt="logo du jeu {{ media.game.title }}" />
+                                <span class="mediaTitle">{{ media.title|capitalize }}</span>
+                                {# <span>{{ media.status }}</span>
+                                <span>{{ media.user.pseudo }}</span> #}
+                                <span class="mediaCardPublishDate">{{ time_diff(media.publishDate) }}</span>
+                            </div>
+                            {% if app.user and not app.user.autoPlayGifs %}
+                            </a>
+                            {% endif %}
+
+                            {# Gif autoplay=false si paramètre user #}
+                            {% if app.user %}
+                                {% if not app.user.autoPlayGifs %}
+                                    <img data-gifffer="{{ asset("img/uploads/" ~ media.url) }}" data-gifffer-alt="media" class="mediaImg" />
+                                {% else %}
+                                    <img src="{{ asset("img/uploads/" ~ media.url) }}" alt="media" class="mediaImg" />
+                                {% endif %}
                             {% else %}
                                 <img src="{{ asset("img/uploads/" ~ media.url) }}" alt="media" class="mediaImg" />
                             {% endif %}
-                        {% else %}
-                            <img src="{{ asset("img/uploads/" ~ media.url) }}" alt="media" class="mediaImg" />
-                        {% endif %}
-                        
-                    </article>
+                            
+                        </article>
 
-                {% if app.user and app.user.autoPlayGifs %}
-                </a>
-                {% endif %}
+                    {% if app.user and app.user.autoPlayGifs %}
+                    </a>
+                    {% endif %}
 
-                {# Upvote/downvote média + score + nbrPosts #}
-                {# Pas opti: bloucle sur tous les likes du post pour savoir si liké (boucle dans boucle) #}
-                {% set liked = "" %}
-                
-                {% if app.user %}
+                    {# Upvote/downvote média + score + nbrPosts #}
+                    {# Pas opti: bloucle sur tous les likes du post pour savoir si liké (boucle dans boucle) #}
+                    {% set liked = "" %}
+                    
+                    {% if app.user %}
 
-                    {% for upvote in media.UserUpvote %}
+                        {% for upvote in media.UserUpvote %}
 
-                        {% if upvote == app.user %}
-                            {% set liked = "upBtnLiked" %}
-                        {% endif %}
+                            {% if upvote == app.user %}
+                                {% set liked = "upBtnLiked" %}
+                            {% endif %}
 
-                    {% endfor %}
-                {% endif %}
-                <div class="inline">
-                    <i mediaId={{ media.id }} class="likeMedia fa-regular fa-circle-up {{ liked }}"></i>
-                    {# <i class="fa-regular fa-circle-down"></i> #}
-                    <p id="countLikesMedia{{ media.id }}" value="{{ media.upvoteCount }}"> {{ media.upvoteCount }} </p>
-                </div>
+                        {% endfor %}
+                    {% endif %}
+                    <div class="inline">
+                        <i mediaId={{ media.id }} class="likeMedia fa-regular fa-circle-up {{ liked }}"></i>
+                        {# <i class="fa-regular fa-circle-down"></i> #}
+                        <p id="countLikesMedia{{ media.id }}" value="{{ media.upvoteCount }}"> {{ media.upvoteCount }} </p>
+                    </div>
 
-                {% if media.mediaPostsCount == 0 %}
-                    <span style="opacity:0.5;">{{ media.mediaPostsCount }} <i class="fa-solid fa-message" style="color:grey;"></i></span>
-                {% else %}
-                    <span>{{ media.mediaPostsCount }} <i class="fa-solid fa-message" style="color:var(--primary-color)"></i></span>
-                {% endif %}
+                    {% if media.mediaPostsCount == 0 %}
+                        <span style="opacity:0.5;">{{ media.mediaPostsCount }} <i class="fa-solid fa-message" style="color:grey;"></i></span>
+                    {% else %}
+                        <span>{{ media.mediaPostsCount }} <i class="fa-solid fa-message" style="color:var(--primary-color)"></i></span>
+                    {% endif %}
 
-                <br>
-                <div style="width:30%; margin: 0 auto; height:1px; background-color: {{ media.game.color }}; opacity:0.5;"></div>
-                <br>
-            {% endfor %}
+                    <br>
+                    <div style="width:30%; margin: 0 auto; height:1px; background-color: {{ media.game.color }}; opacity:0.5;"></div>
+                    <br>
+                {% endfor %}
+
+            </div>
 
         </section>
 

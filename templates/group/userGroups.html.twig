@@ -5,7 +5,7 @@
 {% block body %}
 
     <header class="gameHeader" style="background: url('{{ asset('img/banner1.jpg') }}' )">
-        <a href="{{ path('app_home') }}"><img src="{{ asset('img/logoSquadForge_v3.png') }}" class="logoPng" id="logoPng" alt='topless bearded dwarf forging a sword above "SquadForge" title' /></a>
+        <a href="{{ path('app_home') }}"><img src="{{ asset('img/logoSquadForge_v3.png') }}" class="logoPng" id="logoPng" alt='bearded dwarf forging a sword above "SquadForge" title' /></a>
         <nav class="navLine">
             <a href="{{ path('app_home') }}" class="homeNav"><i class="fa-solid fa-house"></i></a>
             <a href="{{ path('app_games') }}" class="gamesNav caps">jeux</a>
@@ -69,7 +69,11 @@
     <main class="main">
 
         {# Fil d'Ariane #}
-        <p class="breadcrumbs"><a class="underlineLink" href="{{ path('app_user') }}">Profil</a> - Teams</p>
+        <p class="breadcrumbs">
+            <a class="underlineLink" href="{{ path('app_user') }}">Profil</a>
+            <i class="fa-solid fa-angle-right arianeArrow"></i>
+            <span>Teams</span>
+        </p>
 
         <section>
 

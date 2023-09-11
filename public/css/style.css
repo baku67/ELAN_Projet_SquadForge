@@ -64,6 +64,13 @@ header {
     box-shadow: rgba(0, 0, 0, 0.56) 0px 22px 70px 4px;
 }
 
+
+.arianeArrow {
+    color: var(--primary-color);
+    align-self: center;
+    margin: 0 10px;
+}
+
 footer {
     border-top: 1px solid var(--primary-color);
     background-color: #f97b2c17;
@@ -851,16 +858,31 @@ a {
 .marginTop {
     margin-top: 30px;
 }
+.listMarginTop {
+    margin-top: 30px !important;
+}
 .marginBottom {
     margin-bottom: 20px;
 }
 
 .underlineLink {
     text-decoration: underline;
+    text-underline-offset: 1px;
+    transition: all 0.3s;
+}
+.underlineLink:hover {
+    color: var(--primary-color);
+    text-underline-offset: 5px;
+    text-decoration-thickness: 3px;
 }
 .breadcrumbs {
     font-family: 'K2D', sans-serif;
-    margin-bottom: 30px;
+    margin-bottom: 20px;
+
+    width: fit-content;
+    padding: 3px 10px;
+    background-color: #8080801f;
+    border-radius: 5px;
 }
 
 header {
@@ -2650,6 +2672,11 @@ header {
     margin-left: 3%;
     display: inline-flex;
     font-family: 'K2D', sans-serif;
+
+    width: fit-content;
+    padding: 3px 10px;
+    background-color: #8080801f;
+    border-radius: 5px;
 }
 .filArianeSepa {
     margin: 0 5px;
