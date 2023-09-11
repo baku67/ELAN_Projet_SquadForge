@@ -867,7 +867,7 @@ a {
 
 .underlineLink {
     text-decoration: underline;
-    text-underline-offset: 1px;
+    text-underline-offset: 2px;
     transition: all 0.3s;
 }
 .underlineLink:hover {
@@ -2684,6 +2684,25 @@ header {
 .arianeLink {
     text-decoration: underline;
     text-underline-offset: 2px;
+    transition: all 0.3s;
+}
+.arianeLink:hover {
+    color: var(--primary-color);
+    text-underline-offset: 5px;
+    text-decoration-thickness: 3px;
+}
+
+.teamCardNbrCandidature {
+    font-family: 'K2D', sans-serif;
+    position: absolute;
+    bottom: 30px;
+    left: -1px;
+    padding: 0px 19px 0px 7px;
+    background-color: #2ce4f9d4;
+    color: black;
+    clip-path: polygon(0 0, 100% 0, 94% 100%, 0% 100%);
+    border: 1px solid black;
+    
 }
 
 nav {
@@ -4239,10 +4258,11 @@ div#tarteaucitronServices {
     border-radius: 4px !important;
     padding: 8px 7px !important;
     top: -10px !important;
+    color: black !important;
 }
 #tarteaucitron #tarteaucitronPrivacyUrlDialog {
     background-color: var(--primary-color) !important;
-    color: white !important;
+    color: black !important;
     border-radius: 4px !important;
 }
 #tarteaucitron #tarteaucitronServices .tarteaucitronTitle button {

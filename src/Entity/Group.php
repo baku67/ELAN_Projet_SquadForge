@@ -68,6 +68,8 @@ class Group
     #[ORM\OneToMany(mappedBy: 'groupe', targetEntity: Candidature::class)]
     private Collection $candidatures;
 
+    private int $nbrCandidatures;
+
     #[ORM\ManyToMany(targetEntity: User::class, inversedBy: 'groupsWhereBlackisted')]
     #[ORM\JoinTable(name: 'group_blacklist')]
     private Collection $blacklistedUsers;
@@ -347,6 +349,11 @@ class Group
         }
 
         return $this;
+    }
+
+    public function getNbrCandidatures(): int 
+    {
+        return count($this->candidatures);
     }
 
     /**
