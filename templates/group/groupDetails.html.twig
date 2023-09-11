@@ -405,7 +405,10 @@
 
                                     {# Asynch toggleGroupVisibility #}
                                     <div style="display:inline-flex;">
-                                        <p style="margin-right: 15px;">Privé</p>
+                                        <div style="display:inline-flex;">
+                                            <i class="fa-solid fa-eye" style="position:relative; margin-right:9px; top:4px;"></i>
+                                            <p style="margin-right: 15px;">Privé</p>
+                                        </div>
                                         <form id="toggleGroupVisibilityForm" action="{{ path('app_toggleGroupVisibility',{ 'groupId':group.id }) }}" method="post">
                                             <label class="toggleAutoPlay">
                                                 <input type="checkbox" {{ visibilityState }} name="autoPlay" id="toggleVisi">
@@ -439,7 +442,10 @@
 
                                     {# Asynch toggleRestriction18 #}
                                     <div style="display:inline-flex;">
-                                        <p style="margin-right:15px;">Majorité obligatoire</p>
+                                        <div style="display:inline-flex;">
+                                            <img src="/img/criteria_18.png" style="filter:invert(0.9); width:20px; height:20px; margin-right:7px;" alt="icone interdit au mineurs">
+                                            <p style="margin-right:15px;">Majorité obligatoire</p>
+                                        </div>
                                         <form id="toggleGroupRestriction18Form" action="{{ path('app_toggleGroupRestriction18',{ 'groupId':group.id }) }}" method="post">
                                             <label class="toggleAutoPlay">
                                                 <input type="checkbox" {{ restriction18State }} name="autoPlay" id="toggleVisi">
@@ -472,7 +478,10 @@
 
                                     {# Asynch toggleRestrictionMic #}
                                     <div style="display:inline-flex;">
-                                        <p style="margin-right:15px;">Micro obligatoire</p>
+                                        <div style="display:inline-flex;">
+                                            <img src="/img/criteria_micro.png" style="filter:invert(0.9); width:20px; height:20px; margin-right:7px;" alt="icone microphone">
+                                            <p style="margin-right:15px;"> Micro obligatoire</p>
+                                        </div>
                                         <form id="toggleGroupRestrictionMicForm" action="{{ path('app_toggleGroupRestrictionMic',{ 'groupId':group.id }) }}" method="post">
                                             <label class="toggleAutoPlay">
                                                 <input type="checkbox" {{ restrictionMicState }} name="autoPlay" id="toggleVisi">
@@ -504,7 +513,7 @@
                                     </script>
 
                                     {# Asynch toggleRestrictionImgProof (Autoriser l'upload d'une image pour prouver un Lvl par exemple, à accompagner d'une description du screen attendu) #}
-                                    <div style="display:inline-flex;">
+                                    {# <div style="display:inline-flex;">
                                         <p style="margin-right:15px;">Autoriser pièce jointe</p>
                                         <form id="toggleRestrictionImgProof" action="{{ path('app_toggleRestrictionImgProof',{ 'groupId':group.id }) }}" method="post">
                                             <label class="toggleAutoPlay">
@@ -534,7 +543,7 @@
                                                 }
                                             });
                                         });
-                                    </script>
+                                    </script> #}
 
                                 </div>
 

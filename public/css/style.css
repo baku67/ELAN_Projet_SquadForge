@@ -123,7 +123,7 @@ body {
         right: 5px;
         border-top-right-radius: 8px !important;
         border-bottom-right-radius: 8px !important;
-        background-color: #e91e4dd0 !important;
+        background-color: #e91e4d !important;
         color: white !important;
         border: 1px solid rgba(255, 255, 255, 0.4) !important;
         border-left: 0px !important;
@@ -131,7 +131,7 @@ body {
         transition: all 0.3s;
     }
     .addCensureWordBtn:hover {
-        background-color: #9e0327d0 !important;
+        background-color: #e91e4d !important;
     }
 
     .form-select {
@@ -2778,7 +2778,7 @@ nav {
 
 .gameFiltersDiv {
     display: inline-flex;
-    margin: 3px auto 0px auto;
+    margin: 20px auto 0px auto;
     left: 50%;
     position: relative;
     transform: translateX(-50%);
@@ -2882,7 +2882,7 @@ nav {
 }
 .marginBottomHeaderLine {
     /* margin-bottom: 17px; */
-    margin-bottom: 35px;
+    margin-bottom: 20px;
 }
 
 
@@ -4010,6 +4010,7 @@ nav {
     width: 5px;
     transform: translate(0px, -5px);
     z-index:0;
+    background-image: linear-gradient(to right, #ff4655, #ff46558c);
 
     animation: gameTopicsSubTitleBg1 0.3s 0.1s ease-in-out forwards, gameTopicsSubTitleBg2 0.4s 0.45s ease-in-out forwards;
 }

@@ -288,16 +288,16 @@
                                         <ul class="teamCard-criterias">
                                             <li>
                                                 {% if userGameGroup.restriction18 %}
-                                                    <img src="{{ asset('img/criteria_18.png') }}" style="filter:invert(0.9);">
+                                                    <img src="{{ asset('img/criteria_18.png') }}" style="filter:invert(0.9);" alt="icone interdit aux mineurs">
                                                 {% else %}
-                                                    <img src="{{ asset('img/criteria_18.png') }}" style="opacity:0.9;">
+                                                    <img src="{{ asset('img/criteria_18.png') }}" style="opacity:0.9;" alt="icone interdit aux mineurs">
                                                 {% endif %}
                                             </li>
                                             <li>
                                                 {% if userGameGroup.restrictionMic %}
-                                                    <img src="{{ asset('img/criteria_micro.png') }}" style="filter:invert(0.9);">
+                                                    <img src="{{ asset('img/criteria_micro.png') }}" style="filter:invert(0.9);" alt="icone microphone">
                                                 {% else %}
-                                                    <img src="{{ asset('img/criteria_micro.png') }}" style="opacity:0.9;">
+                                                    <img src="{{ asset('img/criteria_micro.png') }}" style="opacity:0.9;" alt="icone microphone">
                                                 {% endif %}
                                             </li>
                                         </ul>
@@ -307,9 +307,9 @@
                                     <div class="teamCardImgWrapper">
 
                                         {% if userGameGroup.imgUrl is not null and imageExists(userGameGroup.imgUrl) %}
-                                            <img class="teamCardImg" src="/img/uploads/{{ userGameGroup.imgUrl }}">
+                                            <img class="teamCardImg" src="/img/uploads/{{ userGameGroup.imgUrl }}" alt="image de la team">
                                         {% else %}
-                                            <img class="teamCardImg" src="/img/teamDefaultPic.jpg">
+                                            <img class="teamCardImg" src="/img/teamDefaultPic.jpg" alt="image team par defaut">
                                         {% endif %}
 
                                         {# Label si team active (= au moins 1 session moi précédent) #}
@@ -450,7 +450,7 @@
                             <a href="{{ path('app_topicDetail', {'id': topic.id}) }}">
                                 {# Faire une div BG absolute pour chaque card avec clipPath anim onmouseover #}
                                 <div class="topicCard" style="border-bottom: 4px solid {{ game.color }}" onmouseover="" onmouseout="">
-                                    <img class="tinyLogo" src="{{ asset('img/games/tinyLogo/' ~ topic.game.tinyLogo) }}" />
+                                    <img class="tinyLogo" src="{{ asset('img/games/tinyLogo/' ~ topic.game.tinyLogo) }}" alt="logo du jeu {{ topic.game.title }}" />
                                     <span class="topicTitle">{{ topic.title|capitalize }}</span>
                                     <div class="topicCardSubInfos">
                                         {# <span>{{ topic.status }}</span>
@@ -613,7 +613,7 @@
                                         <a href="{{ path('app_mediaDetail', {'id': media.id}) }}">
                                         {% endif %}
                                         <div class="mediaCardHeader" style="border-bottom: 3px solid {{ game.color }}">
-                                            <img class="tinyLogo" src="{{ asset('img/games/tinyLogo/' ~ media.game.tinyLogo) }}" />
+                                            <img class="tinyLogo" src="{{ asset('img/games/tinyLogo/' ~ media.game.tinyLogo) }}" alt="logo du jeu {{ media.game.title }}" />
                                             <span class="mediaTitle">{{ media.title|capitalize }}</span>
                                             {# <span>{{ media.status }}</span>
                                             <span>{{ media.user.pseudo }}</span> #}
@@ -626,12 +626,12 @@
                                         {# Gif autoplay=false si paramètre user #}
                                         {% if app.user %}
                                             {% if not app.user.autoPlayGifs %}
-                                                <img data-gifffer="{{ asset("img/uploads/" ~ media.url) }}" data-gifffer-alt="media" class="mediaImg" />
+                                                <img data-gifffer="{{ asset("img/uploads/" ~ media.url) }}" data-gifffer-alt="media" class="mediaImg" alt="media publié" />
                                             {% else %}
-                                                <img src="{{ asset("img/uploads/" ~ media.url) }}" alt="media" class="mediaImg" />
+                                                <img src="{{ asset("img/uploads/" ~ media.url) }}" alt="media" class="mediaImg" alt="media publié" />
                                             {% endif %}
                                         {% else %}
-                                            <img src="{{ asset("img/uploads/" ~ media.url) }}" alt="media" class="mediaImg" />
+                                            <img src="{{ asset("img/uploads/" ~ media.url) }}" alt="media" class="mediaImg" alt="media publié" />
                                         {% endif %}
                                         
                                     </div>
