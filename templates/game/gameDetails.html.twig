@@ -101,7 +101,7 @@
                     <div class="gameHeaderInfosTxt">
                         <span>Éditeur: {{ game.editor }}</span>
                         <span>{{ game.publishDate|date('Y') }}</span>
-                        <span>Genre: <a class="underlineLink" href="{{ path('app_genreGames', {'id': game.genre.id }) }}">{{ gameGenre }}</a></span>
+                        <span>Genre: <a class="underlineLink" href="{{ path('app_genreGames', {'slug': game.genre.slug }) }}">{{ gameGenre }}</a></span>
                     </div>
 
                     {# Form Notation (Ajax) #}
@@ -177,8 +177,8 @@
                 {% if app.user %}
 
                     const rating = event.target.value;
-                    const slug = {{ game.slug }};
-                    fetch('/updateNotation/' + slug + '/' + rating, {
+                    const id = {{ game.id }};
+                    fetch('/updateNotation/' + id + '/' + rating, {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json'

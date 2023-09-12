@@ -396,9 +396,9 @@ class GameController extends AbstractController
     }
 
 
-    // Liste des jeux d'un genre (idGenre)
-    #[Route('/genreGames/{id}', name: 'app_genreGames')]
-    public function getGenreGames(EntityManagerInterface $entityManager, int $id): Response
+    // Liste des jeux d'un genre (slugGenre)
+    #[Route('/genreGames/{slug}', name: 'app_genreGames')]
+    public function getGenreGames(EntityManagerInterface $entityManager, string $slug): Response
     {
         $gamesRepo = $entityManager->getRepository(Game::class);
         $notifRepo = $entityManager->getRepository(Notification::class);
@@ -422,10 +422,13 @@ class GameController extends AbstractController
             $modoNotifReportCount = null;
         }
 
-        $genreGames = $gamesRepo->findBy(['genre' => $id]);
-
         $genreRepo = $entityManager->getRepository(Genre::class);
-        $genreName = $genreRepo->find($id)->getName();
+
+        $genreId = $genreRepo->findOneBy(['slug' => $slug])->getId();
+
+        $genreGames = $gamesRepo->findBy(['genre' => $genreId]);
+
+        $genreName = $genreRepo->findOneBy(['slug' => $slug])->getName();
 
         return $this->render('game/genreGameList.html.twig', [
             'modoNotifValidationCount' => $modoNotifValidationCount,
@@ -439,8 +442,8 @@ class GameController extends AbstractController
 
 
     // MaJ notation d'un (idGame) (rating) ASYNC
-    #[Route('/updateNotation/{slug}/{rating}', name: 'app_updateNotation')]
-    public function updateGameUserNotation(EntityManagerInterface $entityManager, string $slug, int $rating, UrlGeneratorInterface $router, Request $request): Response
+    #[Route('/updateNotation/{id}/{rating}', name: 'app_updateNotation')]
+    public function updateGameUserNotation(EntityManagerInterface $entityManager, int $id, int $rating, UrlGeneratorInterface $router, Request $request): Response
     {
 
         if( $this->getUser() ) {
@@ -448,7 +451,7 @@ class GameController extends AbstractController
             $gameRepo = $entityManager->getRepository(Game::class);
 
             $user = $this->getUser();
-            $game = $gameRepo->findOneBy(['slug' => $slug]);
+            $game = $gameRepo->find($id);
 
             $notationRepo = $entityManager->getRepository(Notation::class);
             $notation = $notationRepo->findOneBy(['user' => $user, 'game' => $game]);

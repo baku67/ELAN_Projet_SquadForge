@@ -6,6 +6,7 @@ use App\Repository\GenreRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Gedmo\Mapping\Annotation\Slug;
 
 #[ORM\Entity(repositoryClass: GenreRepository::class)]
 class Genre
@@ -20,6 +21,10 @@ class Genre
 
     #[ORM\OneToMany(mappedBy: 'genre', targetEntity: Game::class)]
     private Collection $games;
+
+    #[ORM\Column(length: 100, unique: true)]
+    #[Slug(fields: ['name'])]
+    private ?string $slug = null;
 
     public function __construct()
     {
@@ -69,6 +74,18 @@ class Genre
                 $game->setGenre(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getSlug(): ?string
+    {
+        return $this->slug;
+    }
+
+    public function setSlug(string $slug): static
+    {
+        $this->slug = $slug;
 
         return $this;
     }
