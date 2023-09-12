@@ -508,7 +508,7 @@ class TopicController extends AbstractController
 
     // Fermeture de topic par author (id: idTopic)  (voir pour asynch ajax ?)
     #[Route('/closeTopic/{slug}', name: 'app_closeTopic')]
-    public function closeTopicPost(EntityManagerInterface $entityManager, string $slug, Request $request): Response
+    public function closeTopic(EntityManagerInterface $entityManager, string $slug, Request $request): Response
     {
         $topicRepo = $entityManager->getRepository(Topic::class);
 
@@ -533,7 +533,7 @@ class TopicController extends AbstractController
 
     // Réouverture du topic par author (id: idTopic)  (voir pour asynch ajax ?)
     #[Route('/openTopic/{slug}', name: 'app_openTopic')]
-    public function openTopicPost(EntityManagerInterface $entityManager, string $slug, Request $request): Response
+    public function openTopic(EntityManagerInterface $entityManager, string $slug, Request $request): Response
     {
         $topicRepo = $entityManager->getRepository(Topic::class);
 

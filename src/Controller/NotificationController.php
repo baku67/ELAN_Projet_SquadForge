@@ -717,6 +717,68 @@ class NotificationController extends AbstractController
 
 
 
+    public function notifLockedTopic(?User $author, Topic $topic): bool 
+    {
+        // handle utilisateur supprimé
+        if($author) {
+
+            $notification = new Notification();
+
+            $notification->setText("Votre topic \"" . $topic->getTitle() . "\" a été vérouillé par la modération");
+
+            $notification->setDateCreation(new \DateTime());
+            $notification->setUser($author);
+            $notification->setClicked(false);
+
+            $this->entityManager->persist($notification);
+            $this->entityManager->flush();
+
+            // Lien notif (format localhost pour test mais marche en prod normalement):
+            $link = $this->urlGenerator->generate('app_topicDetail', ['slug' => $topic->getSlug(), 'notifId' => $notification->getId()], UrlGeneratorInterface::ABSOLUTE_URL);
+            $notification->setLink($link); 
+            $this->entityManager->persist($notification);
+            $this->entityManager->flush();
+
+            return true;
+
+        } else {
+            return false;
+        }
+    }
+
+
+    public function notifUnlockedTopic(?User $author, Topic $topic): bool 
+    {
+        // handle utilisateur supprimé
+        if($author) {
+
+            $notification = new Notification();
+
+            $notification->setText("Votre topic \"" . $topic->getTitle() . "\" a été déverrouillé par la modération");
+
+            $notification->setDateCreation(new \DateTime());
+            $notification->setUser($author);
+            $notification->setClicked(false);
+
+            $this->entityManager->persist($notification);
+            $this->entityManager->flush();
+
+            // Lien notif (format localhost pour test mais marche en prod normalement):
+            $link = $this->urlGenerator->generate('app_topicDetail', ['slug' => $topic->getSlug(), 'notifId' => $notification->getId()], UrlGeneratorInterface::ABSOLUTE_URL);
+            $notification->setLink($link); 
+            $this->entityManager->persist($notification);
+            $this->entityManager->flush();
+
+            return true;
+
+        } else {
+            return false;
+        }
+    }
+
+
+
+
 
     // *************** Notifs de likes simples (non groupés, TODO) ****************
 

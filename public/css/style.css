@@ -4987,7 +4987,8 @@ h1, h2, h3, h4 {
 .warning {
     position: relative;
     z-index: -10;
-    opacity: 0.2;
+    color: #ff004c !important;
+    opacity: 0.6;
     font-size: 2em;
     transform: translate(-6px, 7px);
     line-height: 0;

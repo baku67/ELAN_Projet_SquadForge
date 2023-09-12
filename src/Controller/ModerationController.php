@@ -236,6 +236,7 @@ class ModerationController extends AbstractController
     }
 
 
+
     // ReportCard: "Innocenter" Suppression des reports d'un objet
     #[Route('/removeReports/{objectType}/{objectId}', name: 'app_removeReports')]
     public function removeReports(EntityManagerInterface $entityManager, string $objectType, int $objectId, Request $request): Response
@@ -475,9 +476,6 @@ class ModerationController extends AbstractController
 
 
 
-
-
-
     // id: idCensure
     #[Route('/deleteCensure/{id}', name: 'app_deleteCensure')]
     public function deleteCensure(EntityManagerInterface $entityManager, int $id, Request $request): Response
@@ -499,6 +497,7 @@ class ModerationController extends AbstractController
         }
 
     }
+
 
 
     // id: Media à valider
@@ -561,64 +560,118 @@ class ModerationController extends AbstractController
 
 
 
+    // id: Topic à valider
+    #[Route('/validateTopic/{slug}', name: 'app_validateTopic')]
+    public function validateTopic(EntityManagerInterface $entityManager, string $slug, Request $request): Response
+    {
+        if ( $this->getUser() && in_array('ROLE_MODO', $this->getUser()->getRoles()) ) {
 
+            $topicRepo = $entityManager->getRepository(Topic::class);
+            $topic = $topicRepo->findOneBy(['slug' => $slug]);
+            
+            // Date publish mise à jour à la validation
+            $topic->setPublishDate(new \DateTime());
+            $topic->setValidated("validated");
 
-        // id: Topic à valider
-        #[Route('/validateTopic/{slug}', name: 'app_validateTopic')]
-        public function validateTopic(EntityManagerInterface $entityManager, string $slug, Request $request): Response
-        {
-            if ( $this->getUser() && in_array('ROLE_MODO', $this->getUser()->getRoles()) ) {
-    
-                $topicRepo = $entityManager->getRepository(Topic::class);
-                $topic = $topicRepo->findOneBy(['slug' => $slug]);
-                
-                // Date publish mise à jour à la validation
-                $topic->setPublishDate(new \DateTime());
-                $topic->setValidated("validated");
+            // Notification à l'auteur
+            $this->notifController->notifValidatedTopic($topic->getUser(), $topic);
 
-                // Notification à l'auteur
-                $this->notifController->notifValidatedTopic($topic->getUser(), $topic);
+            $entityManager->persist($topic);
+            $entityManager->flush();
 
-                $entityManager->persist($topic);
-                $entityManager->flush();
-    
-                $this->addFlash('success', 'Le topic a été validé');
-                return $this->redirectToRoute('app_moderationDashboard');
+            $this->addFlash('success', 'Le topic a été validé');
+            return $this->redirectToRoute('app_moderationDashboard');
 
-            }
-            else {
-                $this->addFlash('error', 'Vous devez être modérateur pour valider un topic');
-                return $this->redirectToRoute('app_login');
-            }
         }
-    
-    
-    
-        // id: Topic à refuser
-        #[Route('/refuseTopic/{slug}', name: 'app_refuseTopic')]
-        public function refuseTopic(EntityManagerInterface $entityManager, string $slug, Request $request): Response
-        {
-            if ( $this->getUser() && in_array('ROLE_MODO', $this->getUser()->getRoles()) ) {
-    
-                $topicRepo = $entityManager->getRepository(Topic::class);
-                $topic = $topicRepo->findOneBy(['slug' => $slug]);
-                
-                $topic->setValidated("refused");
-
-                // Notification à l'auteur
-                $this->notifController->notifRefusedTopic($topic->getUser(), $topic);
-
-                $entityManager->persist($topic);
-                $entityManager->flush();
-    
-                $this->addFlash('success', 'Le topic a été refusé');
-                return $this->redirectToRoute('app_moderationDashboard');
-    
-            }
-            else {
-                $this->addFlash('error', 'Vous devez être modérateur pour refuser un topic');
-                return $this->redirectToRoute('app_login');
-            }
+        else {
+            $this->addFlash('error', 'Vous devez être modérateur pour valider un topic');
+            return $this->redirectToRoute('app_login');
         }
+    }
+    
+    
+    
+    // id: Topic à refuser
+    #[Route('/refuseTopic/{slug}', name: 'app_refuseTopic')]
+    public function refuseTopic(EntityManagerInterface $entityManager, string $slug, Request $request): Response
+    {
+        if ( $this->getUser() && in_array('ROLE_MODO', $this->getUser()->getRoles()) ) {
+
+            $topicRepo = $entityManager->getRepository(Topic::class);
+            $topic = $topicRepo->findOneBy(['slug' => $slug]);
+            
+            $topic->setValidated("refused");
+
+            // Notification à l'auteur
+            $this->notifController->notifRefusedTopic($topic->getUser(), $topic);
+
+            $entityManager->persist($topic);
+            $entityManager->flush();
+
+            $this->addFlash('success', 'Le topic a été refusé');
+            return $this->redirectToRoute('app_moderationDashboard');
+
+        }
+        else {
+            $this->addFlash('error', 'Vous devez être modérateur pour refuser un topic');
+            return $this->redirectToRoute('app_login');
+        }
+    }
+
+
+    // Verrouillage du topic par un modérateur
+    #[Route('/lockTopic/{slug}', name: 'app_lockTopic')]
+    public function lockTopic(EntityManagerInterface $entityManager, string $slug, Request $request): Response
+    {
+        $topicRepo = $entityManager->getRepository(Topic::class);
+
+        $topic = $topicRepo->findOneBy(['slug' => $slug]);
+
+        // Vérif si user est bien modo
+        if ( $this->getUser() && in_array('ROLE_MODO', $this->getUser()->getRoles()) ) {
+
+            $topic->setStatus("closedModo");
+            $entityManager->flush();
+
+            // Notification à l'auteur
+            $this->notifController->notifLockedTopic($topic->getUser(), $topic);
+
+            $this->addFlash('success', 'Le topic a bien été verrouillé');
+            return $this->redirectToRoute('app_topicDetail', ['slug' => $slug]); 
+        }
+        else {
+            $this->addFlash('error', 'Vous devez être modérateur pour vérouiller un topic');
+            return $this->redirectToRoute('app_topicDetail', ['slug' => $slug]); 
+        }
+    }
+
+
+
+    // Déverrouillage du topic par un modérateur
+    #[Route('/unlockTopic/{slug}', name: 'app_unlockTopic')]
+    public function unlockTopic(EntityManagerInterface $entityManager, string $slug, Request $request): Response
+    {
+        $topicRepo = $entityManager->getRepository(Topic::class);
+
+        $topic = $topicRepo->findOneBy(['slug' => $slug]);
+
+        // Vérif si user est bien modo
+        if ( $this->getUser() && in_array('ROLE_MODO', $this->getUser()->getRoles()) ) {
+
+            $topic->setStatus("open");
+            $entityManager->flush();
+
+            // Notification à l'auteur
+            $this->notifController->notifUnlockedTopic($topic->getUser(), $topic);
+
+            $this->addFlash('success', 'Le topic a bien été déverrouillé et rouvert');
+            return $this->redirectToRoute('app_topicDetail', ['slug' => $slug]); 
+        }
+        else {
+            $this->addFlash('error', 'Vous devez être modérateur pour vérouiller un topic');
+            return $this->redirectToRoute('app_topicDetail', ['slug' => $slug]); 
+        }
+    }
+    
     
 }

@@ -94,6 +94,8 @@
                     <span class="topicStatus topicClosed">fermé</span>
                 {% elseif topic.status == "open" %}
                     <span class="topicStatus topicOpen">ouvert</span>
+                {% elseif topic.status == "closedModo" %}
+                    <span class="topicStatus topicClosed">Vérrouillé</span>
                 {% endif %}
             </div>
 
@@ -117,16 +119,27 @@
                 {# <p>Intro</p> #}
             </div>
 
-            {# Si auteur du topic: Btn fermer/ouvrir le topic (A voir: si fermer par Admin, pas possible de rouvrir en tant qu'author) #}
-            {% if app.user == topic.user %}
 
+            {# Si modo: peut verrrouiller le topic (supérieur à fermer), si auteur: peut jsute fermer le topic 
+            (le modo ne peut pas rouvrir un topic fermé simplement par l'auteur) #}
+            {% if "ROLE_MODO" in app.user.roles %}
+                {% if topic.status == "closed" %}
+                    <p style="font-family: 'K2D';"><a href="{{ path('app_lockTopic', {'slug': topic.slug}) }}"><span style="color:#ff004c;">Vérouiller le topic (modo)</span></a></p>
+                {% elseif topic.status == "closedModo" %}
+                    <p style="font-family: 'K2D';"><a href="{{ path('app_unlockTopic', {'slug': topic.slug}) }}"><span style="color:#00ffaf;">Déverrouiller le topic (modo)</span></a></p>
+                {% elseif topic.status == "open" %}
+                    <p style="font-family: 'K2D';"><a href="{{ path('app_lockTopic', {'slug': topic.slug}) }}"><span style="color:#ff004c;">Vérouiller le topic (modo)</span></a></p>
+                {% endif %}
+            {% elseif app.user == topic.user and "ROLE_MODO" not in app.user.roles %}
                 {% if topic.status == "closed" %}
                     <p style="font-family: 'K2D';"><a href="{{ path('app_openTopic', {'slug': topic.slug}) }}"><span style="color:#00ffaf;">Rouvrir le topic</span></a></p>
+                {% elseif topic.status == "closedModo" %}
+                    <p class="emptyListMsg">Le topic a été vérouillé par la modération, vous ne pouvez pas le rouvrir</p>
                 {% elseif topic.status == "open" %}
                     <p style="font-family: 'K2D';"><a href="{{ path('app_closeTopic', {'slug': topic.slug}) }}"><span style="color:#ff004c;">Fermer le topic</span></a></p>
                 {% endif %}
-                
             {% endif %}
+
 
             {# Report + Modal raison report #}
             {% if app.user %}
@@ -208,7 +221,12 @@
 
                 {% elseif topic.status == "closed" %}
                     
-                    <p class="emptyListMsg"><i class="fa-solid fa-triangle-exclamation warning"></i>Le topic a été fermé</p>
+                    <p class="emptyListMsg"><i class="fa-solid fa-triangle-exclamation warning"></i>Le topic a été fermé par l'auteur</p>
+
+
+                {% elseif topic.status == "closedModo" %}
+                    
+                    <p class="emptyListMsg"><i class="fa-solid fa-triangle-exclamation warning"></i>Le topic a été vérouillé par la modération</p>
 
                 {% endif %}
 
