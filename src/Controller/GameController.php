@@ -97,8 +97,8 @@ class GameController extends AbstractController
 
 
     // Détail d'un jeu (idGame)
-    #[Route('/game/{id}', name: 'app_game')]
-    public function getGameDetails(EntityManagerInterface $entityManager, int $id, Request $request): Response
+    #[Route('/game/{slug}', name: 'app_game')]
+    public function getGameDetails(EntityManagerInterface $entityManager, string $slug, Request $request): Response
     {
         $gamesRepo = $entityManager->getRepository(Game::class);
         $topicRepo = $entityManager->getRepository(Topic::class);
@@ -124,7 +124,7 @@ class GameController extends AbstractController
             $modoNotifReportCount = null;
         }
 
-        $game = $gamesRepo->find($id);
+        $game = $gamesRepo->findOneBy(['slug' => $slug]);
 
         if( !is_null($game) ) {
 
@@ -213,23 +213,23 @@ class GameController extends AbstractController
                                 $entityManager->flush();
 
                                 $this->addFlash('success', 'Le topic a été envoyé pour validation');
-                                return $this->redirectToRoute('app_game', ['id' => $game->getId()]);
+                                return $this->redirectToRoute('app_game', ['slug' => $game->getSlug()]);
 
                             } else {
                                 
                                 $this->addFlash('error', 'Le titre doit faire au minimum 5 mots !');
-                                return $this->redirectToRoute('app_game', ['id' => $game->getId()]);
+                                return $this->redirectToRoute('app_game', ['slug' => $game->getSlug()]);
                             }
 
                         } 
                         else {
                             $this->addFlash('error', 'Les données envoyées ne sont pas valides');
-                            return $this->redirectToRoute('app_game', ['id' => $game->getId()]);
+                            return $this->redirectToRoute('app_game', ['slug' => $game->getSlug()]);
                         }   
                     }
                     else {
                         $this->addFlash('error', 'Vous êtes actuellement réduit au silence (ou bannis), et ne pouvez rien publier');
-                        return $this->redirectToRoute('app_game', ['id' => $game->getId()]);
+                        return $this->redirectToRoute('app_game', ['slug' => $game->getSlug()]);
                     }
                 }
                 else {
@@ -286,7 +286,7 @@ class GameController extends AbstractController
                         $fileExt = $mediaImg->getClientOriginalExtension();
                         if ($fileExt != "png" && $fileExt != "jpg" && $fileExt != "jpeg" && $fileExt != "gif") {
                             $this->addFlash('error', 'Le format "' . $fileExt . '" n\'est pas supporté');
-                            return $this->redirectToRoute('app_game', ['id' => $game->getId()]);
+                            return $this->redirectToRoute('app_game', ['slug' => $game->getSlug()]);
                         }
 
                         // Vérification de la taille du fichier + Vérif que c'est bien un fichier qui est uploadé (pour pouvoir utiliser getSize())
@@ -294,7 +294,7 @@ class GameController extends AbstractController
                         $maxFileSize = 10 * 1024 * 1024; /* (10MB) */
                         if ($mediaImg instanceof UploadedFile && $mediaImg->getSize() > $maxFileSize) {
                             $this->addFlash('error', 'Le fichier est trop volumineux');
-                            return $this->redirectToRoute('app_game', ['id' => $game->getId()]);
+                            return $this->redirectToRoute('app_game', ['slug' => $game->getSlug()]);
                         }
 
                         // Compression et Resize (GIF/PNG ou JPG) avec library "Imagine"
@@ -322,7 +322,7 @@ class GameController extends AbstractController
                             );
                         } catch (FileException $e) {
                             $this->addFlash('error', 'Il y a eu un problème lors de l\'upload du fichier');
-                            return $this->redirectToRoute('app_game', ['id' => $game->getId()]);
+                            return $this->redirectToRoute('app_game', ['slug' => $game->getSlug()]);
                         }
                         $media->setUrl($genImgName);
 
@@ -339,23 +339,23 @@ class GameController extends AbstractController
                             $entityManager->flush();
 
                             $this->addFlash('success', 'Le média a bien été envoyé pour validation');
-                            return $this->redirectToRoute('app_game', ['id' => $game->getId()]);
+                            return $this->redirectToRoute('app_game', ['slug' => $game->getSlug()]);
 
                         } else {
                             
                             $this->addFlash('error', 'Le titre doit faire au minimum 5 mots !');
-                            return $this->redirectToRoute('app_game', ['id' => $game->getId()]);
+                            return $this->redirectToRoute('app_game', ['slug' => $game->getSlug()]);
                         }
 
                     } 
                     else {
                         $this->addFlash('error', 'Les données envoyées ne sont pas valides');
-                        return $this->redirectToRoute('app_game', ['id' => $game->getId()]);
+                        return $this->redirectToRoute('app_game', ['slug' => $game->getSlug()]);
                     }   
                 } 
                 else {
                     $this->addFlash('error', 'Vous êtes actuellement réduit au silence (ou bannis), et ne pouvez rien publier');
-                    return $this->redirectToRoute('app_game', ['id' => $game->getId()]);
+                    return $this->redirectToRoute('app_game', ['slug' => $game->getSlug()]);
                 }
             }
             else {
@@ -439,8 +439,8 @@ class GameController extends AbstractController
 
 
     // MaJ notation d'un (idGame) (rating) ASYNC
-    #[Route('/updateNotation/{id}/{rating}', name: 'app_updateNotation')]
-    public function updateGameUserNotation(EntityManagerInterface $entityManager, int $id, int $rating, UrlGeneratorInterface $router, Request $request): Response
+    #[Route('/updateNotation/{slug}/{rating}', name: 'app_updateNotation')]
+    public function updateGameUserNotation(EntityManagerInterface $entityManager, string $slug, int $rating, UrlGeneratorInterface $router, Request $request): Response
     {
 
         if( $this->getUser() ) {
@@ -448,7 +448,7 @@ class GameController extends AbstractController
             $gameRepo = $entityManager->getRepository(Game::class);
 
             $user = $this->getUser();
-            $game = $gameRepo->find($id);
+            $game = $gameRepo->findOneBy(['slug' => $slug]);
 
             $notationRepo = $entityManager->getRepository(Notation::class);
             $notation = $notationRepo->findOneBy(['user' => $user, 'game' => $game]);
@@ -562,7 +562,7 @@ class GameController extends AbstractController
         $results = [];
         foreach ($games as $game) {
             // Génération de la route gameDetail associée à chaque jeu trouvé
-            $urlGameDetail = $router->generate('app_game', ["id" => $game->getId()]);
+            $urlGameDetail = $router->generate('app_game', ["slug" => $game->getSlug()]);
 
             $results[] = [
                 'id' => $game->getId(),

@@ -99,6 +99,7 @@ window.addEventListener('load', function() {
 
     
 
+    
     // Asynch toggle Game Favori
     if (document.getElementById('gameId') != null) {
 

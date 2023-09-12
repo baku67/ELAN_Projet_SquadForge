@@ -56,7 +56,7 @@
 
         </nav>
 
-        <a href="{{ path('app_game', {'id': game.id }) }}"><h2 id="headerGameTitle" class="headerGameTitle" style="border-right:10px solid {{ game.color }}; border-bottom:2px solid {{ game.color }};">{{ game.title }}</h2></a>
+        <a href="{{ path('app_game', {'slug': game.slug }) }}"><h2 id="headerGameTitle" class="headerGameTitle" style="border-right:10px solid {{ game.color }}; border-bottom:2px solid {{ game.color }};">{{ game.title }}</h2></a>
     
     </header>
 
@@ -75,7 +75,7 @@
     <ul class="filAriane">
         <li class="arianeLink"><a href="{{ path('app_games') }}">Jeux</a></li>
         <i class="fa-solid fa-angle-right arianeArrow"></i>
-        <li class="arianeLink"><a href="{{ path('app_game', {'id': game.id}) }}">{{ game.title }}</a></li>
+        <li class="arianeLink"><a href="{{ path('app_game', {'slug': game.slug}) }}">{{ game.title }}</a></li>
         <i class="fa-solid fa-angle-right arianeArrow"></i>
         <li class="arianeLink"><a href="{{ path('app_allTopics', {'gameIdFrom': game.id}) }}">Topics</a></li>
         <i class="fa-solid fa-angle-right arianeArrow"></i>

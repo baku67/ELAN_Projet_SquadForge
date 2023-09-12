@@ -276,7 +276,7 @@ class TopicController extends AbstractController
                                     // } else {
                                         
                                     //     $this->addFlash('error', 'Le titre doit faire au minimum 5 mots !');
-                                    //     return $this->redirectToRoute('app_game', ['id' => $game->getId()]);
+                                    //     return $this->redirectToRoute('app_game', ['slug' => $game->getSlug()]);
                                     // }
                                 } 
                                 else {

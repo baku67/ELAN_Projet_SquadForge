@@ -54,7 +54,7 @@
             {% endif %}
         </nav>
 
-        <a href="{{ path('app_game', {'id': gameFrom.id }) }}"><h2 id="headerGameTitle" class="headerGameTitle" style="border-right:10px solid {{ gameFrom.color }}; border-bottom:2px solid {{ gameFrom.color }};">{{ gameFrom.title }}</h2></a>
+        <a href="{{ path('app_game', {'slug': gameFrom.slug }) }}"><h2 id="headerGameTitle" class="headerGameTitle" style="border-right:10px solid {{ gameFrom.color }}; border-bottom:2px solid {{ gameFrom.color }};">{{ gameFrom.title }}</h2></a>
     
     </header>
 
@@ -76,7 +76,7 @@
         <p class="breadcrumbs">
             <a class="underlineLink" href="{{ path('app_games') }}">Jeux</a>
             <i class="fa-solid fa-angle-right arianeArrow"></i>
-            <a class="underlineLink" href="{{ path('app_game', {'id': gameFrom.id }) }}">{{ gameFrom.title }}</a>
+            <a class="underlineLink" href="{{ path('app_game', {'slug': gameFrom.slug }) }}">{{ gameFrom.title }}</a>
             <i class="fa-solid fa-angle-right arianeArrow"></i>
             <a class="underlineLink" href="{{ path('app_groupList', {'gameIdFrom': gameFrom.id }) }}">Teams</a>
             <i class="fa-solid fa-angle-right arianeArrow"></i>

@@ -56,7 +56,7 @@
 
         </nav>
 
-        <a href="{{ path('app_game', {'id': game.id }) }}"><h2 id="headerGameTitle" class="headerGameTitle" style="border-right:10px solid {{ game.color }}; border-bottom:2px solid {{ game.color }};">{{ game.title }}</h2></a>
+        <a href="{{ path('app_game', {'slug': game.slug }) }}"><h2 id="headerGameTitle" class="headerGameTitle" style="border-right:10px solid {{ game.color }}; border-bottom:2px solid {{ game.color }};">{{ game.title }}</h2></a>
     
     </header>
 
@@ -177,8 +177,8 @@
                 {% if app.user %}
 
                     const rating = event.target.value;
-                    const id = {{ game.id }};
-                    fetch('/updateNotation/' + id + '/' + rating, {
+                    const slug = {{ game.slug }};
+                    fetch('/updateNotation/' + slug + '/' + rating, {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json'

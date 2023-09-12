@@ -55,7 +55,7 @@
 
         </nav>
 
-        <a href="{{ path('app_game', {'id': gameFrom.id }) }}"><h2 id="headerGameTitle" class="headerGameTitle" style="border-right:10px solid {{ gameFrom.color }}; border-bottom:2px solid {{ gameFrom.color }};">{{ gameFrom.title }}</h2></a>
+        <a href="{{ path('app_game', {'slug': gameFrom.slug }) }}"><h2 id="headerGameTitle" class="headerGameTitle" style="border-right:10px solid {{ gameFrom.color }}; border-bottom:2px solid {{ gameFrom.color }};">{{ gameFrom.title }}</h2></a>
     
     </header>
 
@@ -77,7 +77,7 @@
         <p class="breadcrumbs">
             <a class="underlineLink" href="{{ path('app_games') }}">Jeux</a>
             <i class="fa-solid fa-angle-right arianeArrow"></i>
-            <a class="underlineLink" href="{{ path('app_game', {'id': gameFrom.id }) }}">{{ gameFrom.title }}</a>
+            <a class="underlineLink" href="{{ path('app_game', {'slug': gameFrom.slug }) }}">{{ gameFrom.title }}</a>
             <i class="fa-solid fa-angle-right arianeArrow"></i>
             <a class="underlineLink" href="{{ path('app_groupList', {'gameIdFrom': gameFrom.id }) }}">Teams</a>
             <i class="fa-solid fa-angle-right arianeArrow"></i>
@@ -302,7 +302,7 @@
 
                 <p style="font-family:'K2D', sans-serif;">Section visible seulement pour le leader :</p>
 
-                <span id="groupSlug" hidden>{{ group.slug }}</span>
+                <span id="groupId" hidden>{{ group.id }}</span>
                 {# Toggle Visibilité du group #}
                 {% if group.status == "public" %}
                     {% set visibilityState = "checked" %}
@@ -411,7 +411,7 @@
                                             <i class="fa-solid fa-eye" style="position:relative; margin-right:9px; top:4px;"></i>
                                             <p style="margin-right: 15px;">Privé</p>
                                         </div>
-                                        <form id="toggleGroupVisibilityForm" action="{{ path('app_toggleGroupVisibility',{ 'groupSlug':group.slug }) }}" method="post">
+                                        <form id="toggleGroupVisibilityForm" action="{{ path('app_toggleGroupVisibility',{ 'groupId':group.id }) }}" method="post">
                                             <label class="toggleAutoPlay">
                                                 <input type="checkbox" {{ visibilityState }} name="autoPlay" id="toggleVisi">
                                                 <span class="slider"></span>
@@ -425,8 +425,8 @@
                                             
                                             event.preventDefault(); // Empêche la soumission normale du formulaire
 
-                                            const groupSlug = parseInt(document.getElementById("groupSlug").textContent);
-                                            fetch('/toggleGroupVisibility/' + groupSlug, {
+                                            const groupId = parseInt(document.getElementById("groupId").textContent);
+                                            fetch('/toggleGroupVisibility/' + groupId, {
                                             method: 'POST',
                                             headers: {
                                                 'Content-Type': 'application/json'
@@ -448,7 +448,7 @@
                                             <img src="/img/criteria_18.png" style="filter:invert(0.9); width:20px; height:20px; margin-right:7px;" alt="icone interdit au mineurs">
                                             <p style="margin-right:15px;">Majorité obligatoire</p>
                                         </div>
-                                        <form id="toggleGroupRestriction18Form" action="{{ path('app_toggleGroupRestriction18',{ 'groupSlug':group.slug }) }}" method="post">
+                                        <form id="toggleGroupRestriction18Form" action="{{ path('app_toggleGroupRestriction18',{ 'groupId':group.id }) }}" method="post">
                                             <label class="toggleAutoPlay">
                                                 <input type="checkbox" {{ restriction18State }} name="autoPlay" id="toggleVisi">
                                                 <span class="slider"></span>
@@ -461,8 +461,8 @@
                                             
                                             event.preventDefault(); // Empêche la soumission normale du formulaire
 
-                                            const groupSlug = parseInt(document.getElementById("groupSlug").textContent);
-                                            fetch('/toggleGroupRestriction18/' + groupSlug, {
+                                            const groupId = parseInt(document.getElementById("groupId").textContent);
+                                            fetch('/toggleGroupRestriction18/' + groupId, {
                                             method: 'POST',
                                             headers: {
                                                 'Content-Type': 'application/json'
@@ -484,7 +484,7 @@
                                             <img src="/img/criteria_micro.png" style="filter:invert(0.9); width:20px; height:20px; margin-right:7px;" alt="icone microphone">
                                             <p style="margin-right:15px;"> Micro obligatoire</p>
                                         </div>
-                                        <form id="toggleGroupRestrictionMicForm" action="{{ path('app_toggleGroupRestrictionMic',{ 'groupSlug':group.slug }) }}" method="post">
+                                        <form id="toggleGroupRestrictionMicForm" action="{{ path('app_toggleGroupRestrictionMic',{ 'groupId':group.id }) }}" method="post">
                                             <label class="toggleAutoPlay">
                                                 <input type="checkbox" {{ restrictionMicState }} name="autoPlay" id="toggleVisi">
                                                 <span class="slider"></span>
@@ -497,8 +497,8 @@
                                             
                                             event.preventDefault(); // Empêche la soumission normale du formulaire
 
-                                            const groupSlug = parseInt(document.getElementById("groupSlug").textContent);
-                                            fetch('/toggleGroupRestrictionMic/' + groupSlug, {
+                                            const groupId = parseInt(document.getElementById("groupId").textContent);
+                                            fetch('/toggleGroupRestrictionMic/' + groupId, {
                                             method: 'POST',
                                             headers: {
                                                 'Content-Type': 'application/json'
@@ -530,8 +530,8 @@
                                             
                                             event.preventDefault(); // Empêche la soumission normale du formulaire
 
-                                            const groupSlug = parseInt(document.getElementById("groupSlug").textContent);
-                                            fetch('/toggleRestrictionImgProof/' + groupSlug, {
+                                            const groupId = parseInt(document.getElementById("groupId").textContent);
+                                            fetch('/toggleRestrictionImgProof/' + groupId, {
                                             method: 'POST',
                                             headers: {
                                                 'Content-Type': 'application/json'

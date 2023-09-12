@@ -46,7 +46,7 @@ class SitemapController extends AbstractController
 
             $urls[] = [
                 'loc' => $this->generateUrl('app_game', [
-                    'id' => $article->getId(),
+                    'slug' => $article->getSlug(),
                 ]),
                 'lastmod' => $article->getPublishDate()->format('Y-m-d'),
                 'title' => $article->getTitle(),

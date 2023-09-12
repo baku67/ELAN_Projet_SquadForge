@@ -98,13 +98,13 @@ class MediaController extends AbstractController
                     $fileExt = $mediaImg->getClientOriginalExtension();
                     if ($fileExt != "png" && $fileExt != "PNG" && $fileExt != "jpg" && $fileExt != "JPG" && $fileExt != "jpeg" && $fileExt != "gif") {
                         $this->addFlash('error', 'Le format "' . $fileExt . '" n\'est pas supporté');
-                        return $this->redirectToRoute('app_game', ['id' => $gameFrom->getId()]);
+                        return $this->redirectToRoute('app_game', ['slug' => $gameFrom->getSlug()]);
                     }
                     // Vérification de la taille du fichier + Vérif que c'est bien un fichier qui est uploadé (pour pouvoir utiliser getSize())
                     $maxFileSize = 5 * 1024 * 1024; /* (5MB) */
                     if ($mediaImg instanceof UploadedFile && $mediaImg->getSize() > $maxFileSize) {
                         $this->addFlash('error', 'Le fichier est trop volumineux');
-                        return $this->redirectToRoute('app_game', ['id' => $gameFrom->getId()]);
+                        return $this->redirectToRoute('app_game', ['slug' => $gameFrom->getSlug()]);
                     }
 
                     // Compression et Resize (GIF/PNG ou JPG) avec library "Imagine"
@@ -131,7 +131,7 @@ class MediaController extends AbstractController
                         );
                     } catch (FileException $e) {
                         $this->addFlash('error', 'Il y a eu un problème lors de l\'upload du fichier');
-                        return $this->redirectToRoute('app_game', ['id' => $gameFrom->getId()]);
+                        return $this->redirectToRoute('app_game', ['slug' => $gameFrom->getSlug()]);
                     }
                     $media->setUrl($genImgName);
 
@@ -147,17 +147,17 @@ class MediaController extends AbstractController
                         $entityManager->flush();
 
                         $this->addFlash('success', 'Le média a bien été envoyé pour validation');
-                        return $this->redirectToRoute('app_game', ['id' => $gameFrom->getId()]);
+                        return $this->redirectToRoute('app_game', ['slug' => $gameFrom->getSlug()]);
 
                     } else {
                         
                         $this->addFlash('error', 'Le titre doit faire au minimum 5 mots !');
-                        return $this->redirectToRoute('app_game', ['id' => $gameFrom->getId()]);
+                        return $this->redirectToRoute('app_game', ['slug' => $gameFrom->getSlug()]);
                     }
                 } 
                 else {
                     $this->addFlash('error', 'Pas de vulgarités pour un titre');
-                    return $this->redirectToRoute('app_game', ['id' => $gameFrom->getId()]);
+                    return $this->redirectToRoute('app_game', ['slug' => $gameFrom->getSlug()]);
                 }   
             }
             else {
@@ -309,7 +309,7 @@ class MediaController extends AbstractController
                                     // } else {
                                         
                                     //     $this->addFlash('error', 'Le titre doit faire au minimum 5 mots !');
-                                    //     return $this->redirectToRoute('app_game', ['id' => $game->getId()]);
+                                    //     return $this->redirectToRoute('app_game', ['slug' => $game->getSlug()]);
                                     // }
                                 } 
                                 else {

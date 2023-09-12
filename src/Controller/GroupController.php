@@ -912,11 +912,11 @@ class GroupController extends AbstractController
 
     
     // Ajax Asynch toggleGroupVisibility (A fixer! juste inversion bool BDD pour l'instant)
-    #[Route('/toggleGroupVisibility/{groupSlug}', name: 'app_toggleGroupVisibility')]
-    public function toggleGroupVisibility(EntityManagerInterface $entityManager, string $groupSlug, Request $request): Response
+    #[Route('/toggleGroupVisibility/{groupId}', name: 'app_toggleGroupVisibility')]
+    public function toggleGroupVisibility(EntityManagerInterface $entityManager, int $groupId, Request $request): Response
     {
         $groupRepo = $entityManager->getRepository(Group::class);
-        $group = $groupRepo->findOneBy(['slug' => $groupSlug]);
+        $group = $groupRepo->find($groupId);
 
         // check si user = leader 
         if ($group->getLeader() == $this->getUser() ) {
@@ -943,11 +943,11 @@ class GroupController extends AbstractController
 
     
     // Ajax Asynch toggleGroupRestriction18 (A fixer! juste inversion bool BDD pour l'instant)
-    #[Route('/toggleGroupRestriction18/{groupSlug}', name: 'app_toggleGroupRestriction18')]
-    public function toggleGroupRestriction18(EntityManagerInterface $entityManager, string $groupSlug, Request $request): Response
+    #[Route('/toggleGroupRestriction18/{groupId}', name: 'app_toggleGroupRestriction18')]
+    public function toggleGroupRestriction18(EntityManagerInterface $entityManager, int $groupId, Request $request): Response
     {
         $groupRepo = $entityManager->getRepository(Group::class);
-        $group = $groupRepo->findOneBy(['slug' => $groupSlug]);
+        $group = $groupRepo->find($groupId);
 
         // check si user = leader 
         if ($group->getLeader() == $this->getUser() ) {
@@ -974,11 +974,11 @@ class GroupController extends AbstractController
 
 
     // Ajax Asynch toggleGroupRestrictionMic (A fixer! juste inversion bool BDD pour l'instant)
-    #[Route('/toggleGroupRestrictionMic/{groupSlug}', name: 'app_toggleGroupRestrictionMic')]
-    public function toggleGroupRestrictionMic(EntityManagerInterface $entityManager, string $groupSlug, Request $request): Response
+    #[Route('/toggleGroupRestrictionMic/{groupId}', name: 'app_toggleGroupRestrictionMic')]
+    public function toggleGroupRestrictionMic(EntityManagerInterface $entityManager, int $groupId, Request $request): Response
     {
         $groupRepo = $entityManager->getRepository(Group::class);
-        $group = $groupRepo->findOneBy(['slug' => $groupSlug]);
+        $group = $groupRepo->find($groupId);
 
         // check si user = leader 
         if ($group->getLeader() == $this->getUser() ) {
@@ -1004,11 +1004,11 @@ class GroupController extends AbstractController
 
 
     // Ajax Asynch toggleRestrictionImgProof (A fixer! juste inversion bool BDD pour l'instant)
-    #[Route('/toggleRestrictionImgProof/{groupSlug}', name: 'app_toggleRestrictionImgProof')]
-    public function toggleRestrictionImgProof(EntityManagerInterface $entityManager, string $groupSlug, Request $request): Response
+    #[Route('/toggleRestrictionImgProof/{groupId}', name: 'app_toggleRestrictionImgProof')]
+    public function toggleRestrictionImgProof(EntityManagerInterface $entityManager, int $groupId, Request $request): Response
     {
         $groupRepo = $entityManager->getRepository(Group::class);
-        $group = $groupRepo->findOneBy(['slug' => $groupSlug]);
+        $group = $groupRepo->find(['slug' => $groupId]);
 
         // check si user = leader 
         if ($group->getLeader() == $this->getUser() ) {

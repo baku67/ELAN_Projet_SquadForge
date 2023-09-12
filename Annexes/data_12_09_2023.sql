@@ -16,14 +16,14 @@ INSERT INTO `genre` (`id`, `name`) VALUES
 
 
 
-INSERT INTO `game` (`id`, `genre_id`, `title`, `editor`, `publish_date`, `description`, `color`, `logo`, `banner`, `font_color`, `tiny_logo`, `sub_banner`, `nbr_places`, `site_logo`, `show_icon_search_page`) VALUES
-	(1, 1, 'Overwatch', 'Blizzard', '2017-05-01 21:16:23', 'FPS dynamique et efficace', '#ff9b00', 'overwatchLogo.png', 'overwatchBanner.jpg', 'white', 'overwatch1.png', 'overwatchHeaderBg.jpg', 0, 'logoSquadForge_overwatch.png', 1),
-	(2, 1, 'Call of Duty', 'Activision', '2002-05-01 21:16:54', 'FPS connu ', '#74c814', 'callOfDutyLogo.png', 'codBanner.jpg', 'white', 'cod1.png', 'callofdutyHeaderBg.jpg', 0, 'logoSquadForge_cod.png', 0),
-	(3, 2, 'Isaac', 'Edmund McMillen', '2003-05-01 23:59:12', 'Oulah', '#e24f37', 'isaacLogo.jpg', 'isaacBanner.jpg', 'white', 'isaac1.png', 'overwatchHeaderBg.jpg', 0, 'logoSquadForge_White_Rogned.png', 0),
-	(4, 1, 'Valorant', 'Riot Games', '2021-05-02 01:41:56', 'Fps mélange entre Overwatch et Counter Strike', '#ff4655', 'valorantLogo.png', 'valorantBanner.jpg', 'white', 'valorant1.png', 'valorantHeaderBg.jpg', 0, 'logoSquadForge_valorant.png', 1),
-	(5, 3, 'PUBG', 'Krafton', '2016-05-02 02:52:53', 'Battle royal pas ouf', '#ffd632', 'pubgLogo.jpeg', 'pubgBanner.jpg', 'white', 'pubg1.png', 'pubgHeaderBg.jpg', 0, 'logoSquadForge_pubg.png', 0),
-	(6, 4, 'League of Legend', 'Riot Games', '2023-07-04 00:15:46', 'Bah c''est lol', '#d4af61', 'lolLogo.jpg', 'lolBanner.jpg', 'white', 'lol1.png', 'lolHeaderBg.jpg', 0, 'logoSquadForge_lol.png', 1),
-	(10, 4, 'Dota 2', 'Valve', '2013-09-04 14:43:13', 'Description jeu', '#ae3018', '', 'dota2Banner.png', 'white', 'dota1.png', 'dota2HeaderBg.png', 0, 'logoSquadForge_dota2.png', 1);
+INSERT INTO `game` (`id`, `genre_id`, `title`, `editor`, `publish_date`, `description`, `color`, `logo`, `banner`, `font_color`, `tiny_logo`, `sub_banner`, `nbr_places`, `site_logo`, `show_icon_search_page`, `slug`) VALUES
+	(1, 1, 'Overwatch', 'Blizzard', '2017-05-01 21:16:23', 'FPS dynamique et efficace', '#ff9b00', 'overwatchLogo.png', 'overwatchBanner.jpg', 'white', 'overwatch1.png', 'overwatchHeaderBg.jpg', 0, 'logoSquadForge_overwatch.png', 1, 'overwatch'),
+	(2, 1, 'Call of Duty', 'Activision', '2002-05-01 21:16:54', 'FPS connu ', '#74c814', 'callOfDutyLogo.png', 'codBanner.jpg', 'white', 'cod1.png', 'callofdutyHeaderBg.jpg', 0, 'logoSquadForge_cod.png', 0, 'call-of-duty'),
+	(3, 2, 'Isaac', 'Edmund McMillen', '2003-05-01 23:59:12', 'Oulah', '#e24f37', 'isaacLogo.jpg', 'isaacBanner.jpg', 'white', 'isaac1.png', 'overwatchHeaderBg.jpg', 0, 'logoSquadForge_White_Rogned.png', 0, 'isaac'),
+	(4, 1, 'Valorant', 'Riot Games', '2021-05-02 01:41:56', 'Fps mélange entre Overwatch et Counter Strike', '#ff4655', 'valorantLogo.png', 'valorantBanner.jpg', 'white', 'valorant1.png', 'valorantHeaderBg.jpg', 0, 'logoSquadForge_valorant.png', 1, 'valorant'),
+	(5, 3, 'PUBG', 'Krafton', '2016-05-02 02:52:53', 'Battle royal pas ouf', '#ffd632', 'pubgLogo.jpeg', 'pubgBanner.jpg', 'white', 'pubg1.png', 'pubgHeaderBg.jpg', 0, 'logoSquadForge_pubg.png', 0, 'pubg'),
+	(6, 4, 'League of Legend', 'Riot Games', '2023-07-04 00:15:46', 'Bah c''est lol', '#d4af61', 'lolLogo.jpg', 'lolBanner.jpg', 'white', 'lol1.png', 'lolHeaderBg.jpg', 0, 'logoSquadForge_lol.png', 1, 'league-of-legend'),
+	(10, 4, 'Dota 2', 'Valve', '2013-09-04 14:43:13', 'Description jeu', '#ae3018', '', 'dota2Banner.png', 'white', 'dota1.png', 'dota2HeaderBg.png', 0, 'logoSquadForge_dota2.png', 1, 'dota-2');
 
 
 
@@ -299,28 +299,28 @@ INSERT INTO `topic` (`id`, `title`, `publish_date`, `status`, `validated`, `game
 	(10, 'Overwatch2', '2023-05-04 22:31:18', 'open', 'validated', 4, 3, 'da zadaz zadad az azd azd a azdad az a azd az az azd zd  zadzdaz azdad zd a zd  zd za zaadazd azda ad az zd azdaza za ', 'slug8'),
 	(11, 'Hg BJ non nbb bb', '2023-05-04 23:54:43', 'open', 'validated', 4, 3, 'da zadaz zadad az azd azd a azdad az a azd az az azd zd  zadzdaz azdad zd a zd  zd za zaadazd azda ad az zd azdaza za ', 'slug9'),
 	(12, 'dz zd zd dz dz', '2023-05-05 01:20:15', 'open', 'validated', 2, 3, 'da zadaz zadad az azd azd a azdad az a azd az az azd zd  zadzdaz azdad zd a zd  zd za zaadazd azda ad az zd azdaza za ', 'slug10'),
-	(13, 'zz zz zz zz zz', '2023-05-05 01:30:23', 'closed', 'validated', 2, 3, 'test nouveau 1er message'),
-	(14, '1er topic pubg battle royal', '2023-05-05 01:56:39', 'open', 'validated', 5, 3, 'Test premier message pubg'),
-	(15, 'Test topic en plus pour passer à 6 Topics', '2023-05-05 15:14:42', 'open', 'validated', 2, 3, 'dzd azad z'),
-	(16, 'Au moins 5 mots Isaac test', '2023-05-06 00:59:28', 'open', 'validated', 3, 3, 'Nwnwn'),
-	(17, 'A a a a a', '2023-05-06 01:00:07', 'open', 'validated', 3, 3, 'Jwn'),
-	(20, 'merde merde merde merde merde', '2023-05-17 20:29:21', 'open', 'validated', 4, 3, 'dze'),
-	(21, 'Test topic formType dez dze', '2023-05-17 20:44:33', 'open', 'validated', 4, 3, 'zedz'),
-	(22, 'tes tdez dezfdef fezfe ezf e', '2023-05-17 20:48:19', 'open', 'validated', 4, 3, 'fezf'),
-	(23, 'te de de ed de ****', '2023-05-18 01:28:51', 'open', 'validated', 1, 3, 'dezdze'),
-	(24, 'test ajout topic validated 0 default', '2023-05-18 02:13:31', 'open', 'validated', 1, 3, 'dezdezdze'),
-	(26, 'Test ajout topic PUBG (y''en a que 1?)', '2023-05-18 03:57:48', 'open', 'refused', 5, 3, 'Bizarre'),
-	(27, 'Test upload topic validation modo', '2023-05-18 05:33:34', 'open', 'validated', 3, 3, 'Vhj'),
-	(28, 'Test topic New, modo modo', '2023-06-07 01:54:08', 'open', 'validated', 3, 3, 'Jdkdkd'),
-	(29, 'Je créé un Topic (basile08) l''original', '2023-06-18 06:05:38', 'open', 'refused', 4, 3, 'Voila c''est mon message voila'),
-	(31, 'Test test test test test', '2023-06-18 22:18:14', 'open', 'validated', 4, 7, 'Test'),
-	(33, 'Test New topic test t''es', '2023-06-28 01:37:57', 'open', 'validated', 4, 3, 'Test'),
-	(34, 'dd ds d d d d', '2023-07-03 18:41:45', 'open', 'waiting', 2, 3, 'J'),
-	(35, 'j j j j j', '2023-07-03 18:42:14', 'open', 'waiting', 2, 3, 'Fe'),
-	(37, 'fer erff refe rfee ref', '2023-07-09 22:16:59', 'open', 'waiting', 4, 3, 'feeferfer'),
-	(38, 'test topic League of Legend 5', '2023-07-17 18:55:46', 'open', 'waiting', 6, 3, 'description topic tmtc'),
-	(53, 'dqzdqz s sd sdf sdf s', '2023-07-19 22:42:53', 'open', 'validated', 4, 3, 'dzdqzdqd'),
-	(54, 'test npouveau topic basile 11 test delete User', '2023-08-22 14:34:20', 'open', 'validated', 2, NULL, 'dbgfdbdf');
+	(13, 'zz zz zz zz zz', '2023-05-05 01:30:23', 'closed', 'validated', 2, 3, 'test nouveau 1er message' , 'slug11'),
+	(14, '1er topic pubg battle royal', '2023-05-05 01:56:39', 'open', 'validated', 5, 3, 'Test premier message pubg', 'slug12'),
+	(15, 'Test topic en plus pour passer à 6 Topics', '2023-05-05 15:14:42', 'open', 'validated', 2, 3, 'dzd azad z', 'slug13'),
+	(16, 'Au moins 5 mots Isaac test', '2023-05-06 00:59:28', 'open', 'validated', 3, 3, 'Nwnwn', 'slug14'),
+	(17, 'A a a a a', '2023-05-06 01:00:07', 'open', 'validated', 3, 3, 'Jwn', 'slug15'),
+	(20, 'merde merde merde merde merde', '2023-05-17 20:29:21', 'open', 'validated', 4, 3, 'dze', 'slug16'),
+	(21, 'Test topic formType dez dze', '2023-05-17 20:44:33', 'open', 'validated', 4, 3, 'zedz', 'slug17'),
+	(22, 'tes tdez dezfdef fezfe ezf e', '2023-05-17 20:48:19', 'open', 'validated', 4, 3, 'fezf', 'slug18'),
+	(23, 'te de de ed de ****', '2023-05-18 01:28:51', 'open', 'validated', 1, 3, 'dezdze', 'slug19'),
+	(24, 'test ajout topic validated 0 default', '2023-05-18 02:13:31', 'open', 'validated', 1, 3, 'dezdezdze', 'slug20'),
+	(26, 'Test ajout topic PUBG (y''en a que 1?)', '2023-05-18 03:57:48', 'open', 'refused', 5, 3, 'Bizarre', 'slug21'),
+	(27, 'Test upload topic validation modo', '2023-05-18 05:33:34', 'open', 'validated', 3, 3, 'Vhj', 'slug22'),
+	(28, 'Test topic New, modo modo', '2023-06-07 01:54:08', 'open', 'validated', 3, 3, 'Jdkdkd', 'slug23'),
+	(29, 'Je créé un Topic (basile08) l''original', '2023-06-18 06:05:38', 'open', 'refused', 4, 3, 'Voila c''est mon message voila', 'slug24'),
+	(31, 'Test test test test test', '2023-06-18 22:18:14', 'open', 'validated', 4, 7, 'Test', 'slug25'),
+	(33, 'Test New topic test t''es', '2023-06-28 01:37:57', 'open', 'validated', 4, 3, 'Test', 'slug26'),
+	(34, 'dd ds d d d d', '2023-07-03 18:41:45', 'open', 'waiting', 2, 3, 'J', 'slug27'),
+	(35, 'j j j j j', '2023-07-03 18:42:14', 'open', 'waiting', 2, 3, 'Fe', 'slug28'),
+	(37, 'fer erff refe rfee ref', '2023-07-09 22:16:59', 'open', 'waiting', 4, 3, 'feeferfer', 'slug29'),
+	(38, 'test topic League of Legend 5', '2023-07-17 18:55:46', 'open', 'waiting', 6, 3, 'description topic tmtc', 'slug30'),
+	(53, 'dqzdqz s sd sdf sdf s', '2023-07-19 22:42:53', 'open', 'validated', 4, 3, 'dzdqzdqd', 'slug31'),
+	(54, 'test npouveau topic basile 11 test delete User', '2023-08-22 14:34:20', 'open', 'validated', 2, NULL, 'dbgfdbdf', 'slug32');
 
 
 
