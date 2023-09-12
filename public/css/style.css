@@ -3725,13 +3725,19 @@ nav {
 
 .gameSubTitle {
     position: relative;
-    padding: 3px 29px;
+    padding: 3px 18px;
     width: fit-content;
     z-index: 999;
 
     /* font-weight: bold; */
     color: white;
     letter-spacing: 1px;
+}
+
+#questionsContainer {
+    padding: 5px 5px 25px 5px;
+    background-color: #8080802b;
+    border-radius: 7px;
 }
 
 .test {
@@ -3840,8 +3846,9 @@ nav {
 } */
 
 .homeTitleIcon {
-    color: #2ce4f9d4;
-    filter: drop-shadow(2px 4px 6px black);
+    /* color: #2ce4f9d4; */
+    /* filter: drop-shadow(2px 4px 6px black); */
+    color: whitesmoke;
 }
 
 .homeFavGamesTitle {
