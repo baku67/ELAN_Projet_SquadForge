@@ -48,12 +48,12 @@ class SessionController extends AbstractController
             $sessionRepo->remove($session, true);
             
             $this->addFlash('success', 'Session annulée avec succès');
-            return $this->redirectToRoute('app_groupDetails', ['groupId' => $session->getTeam()->getId()]);
+            return $this->redirectToRoute('app_groupDetails', ['groupSlug' => $session->getTeam()->getSlug()]);
 
         }
         else {
             $this->addFlash('error', 'Vous devez être le leader de la team pour gérer les sessions');
-            return $this->redirectToRoute('app_groupDetails', ['groupId' => $session->getTeam()->getId()]);
+            return $this->redirectToRoute('app_groupDetails', ['groupSlug' => $session->getTeam()->getSlug()]);
         }
 
     }
@@ -94,7 +94,7 @@ class SessionController extends AbstractController
                 $entityManager->persist($sessionDispo);
                 $entityManager->flush();
                 
-                // return $this->redirectToRoute('app_groupDetails', ['groupId' => $session->getTeam()->getId()]);
+                // return $this->redirectToRoute('app_groupDetails', ['groupSlug' => $session->getTeam()->getSlug()]);
                 return new JsonResponse(['success' => true]); 
 
             // }

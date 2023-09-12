@@ -50,14 +50,14 @@ class GroupType extends AbstractType
                         'message' => 'Le titre ne peut pas être vide.',
                     ]),
                     new Length([
-                        'max' => 1000,
+                        'max' => 250,
                         'maxMessage' => 'Le titre ne peut pas faire plus de 250 caractères.',
                     ]),
-                    // Pas de caractères spéciaux
-                    new Regex([
-                        'pattern' => '/^[a-zA-Z0-9-_]+$/',
-                        'message' => 'Votre pseudo ne doit être composé que de lettres, chiffres et "-" ou "_".',
-                    ]),
+                    // Pas de caractères spéciaux (HS bloquant)
+                    // new Regex([
+                    //     'pattern' => '/^[a-zA-Z0-9-_]+$/',
+                    //     'message' => 'Le titre ne doit être composé que de lettres, chiffres et "-" ou "_".',
+                    // ]),
                 ],
             ])
             ->add('description', TextareaType::class, [
@@ -74,7 +74,7 @@ class GroupType extends AbstractType
                     ]),
                     new Length([
                         'max' => 1000,
-                        'maxMessage' => 'Le description ne peut pas faire plus de 2500 caractères.',
+                        'maxMessage' => 'Le description ne peut pas faire plus de 1000 caractères.',
                     ]),
                 ],
             ])
@@ -83,7 +83,7 @@ class GroupType extends AbstractType
                 "required" => false,
                 'attr' => [
                     "class" => "form-control nbrPlaceInput",
-                    'placeholder' => '2',
+                    'placeholder' => '3',
                     'value' => '3',
                     'min' => '2',
                     // TODO: A adapter selon jeu:
@@ -94,7 +94,7 @@ class GroupType extends AbstractType
                     new Range([
                         'min' => 2,
                         'max' => 6,
-                        'minMessage' => 'Le minimum de places est de 2}.',
+                        'minMessage' => 'Le minimum de places est de 2.',
                         'maxMessage' => 'Le nombre de place ne peut pas excéder 6.',
                     ]),
                 ],

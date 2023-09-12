@@ -205,7 +205,7 @@ class NotificationController extends AbstractController
                 $this->entityManager->persist($notification);
                 $this->entityManager->flush();
 
-                $link = $this->urlGenerator->generate('app_groupDetails', ['groupId' => $group->getId(), 'notifId' => $notification->getId()], UrlGeneratorInterface::ABSOLUTE_URL);
+                $link = $this->urlGenerator->generate('app_groupDetails', ['groupSlug' => $group->getSlug(), 'notifId' => $notification->getId()], UrlGeneratorInterface::ABSOLUTE_URL);
                 $notification->setLink($link);        
         
                 $this->entityManager->persist($notification);
@@ -242,7 +242,7 @@ class NotificationController extends AbstractController
                 $this->entityManager->persist($notification);
                 $this->entityManager->flush();
 
-                $link = $this->urlGenerator->generate('app_groupDetails', ['groupId' => $group->getId(), 'notifId' => $notification->getId()], UrlGeneratorInterface::ABSOLUTE_URL);
+                $link = $this->urlGenerator->generate('app_groupDetails', ['groupSlug' => $group->getSlug(), 'notifId' => $notification->getId()], UrlGeneratorInterface::ABSOLUTE_URL);
                 $notification->setLink($link);        
         
                 $this->entityManager->persist($notification);
@@ -292,7 +292,7 @@ class NotificationController extends AbstractController
         $this->entityManager->persist($notification);
         $this->entityManager->flush();
 
-        $link = $this->urlGenerator->generate('app_groupDetails', ['groupId' => $sessionDispo->getSession()->getTeam()->getId(), 'notifId' => $notification->getId()], UrlGeneratorInterface::ABSOLUTE_URL);
+        $link = $this->urlGenerator->generate('app_groupDetails', ['groupSlug' => $sessionDispo->getSession()->getTeam()->getSlug(), 'notifId' => $notification->getId()], UrlGeneratorInterface::ABSOLUTE_URL);
         $notification->setLink($link);        
 
         $this->entityManager->persist($notification);
@@ -425,7 +425,7 @@ class NotificationController extends AbstractController
         $this->entityManager->flush();
 
         // Lien notif post-add pour récup l'id notif et l'injecter dans la route pour state "clicked":
-        $link = $this->urlGenerator->generate('app_groupDetails', ['groupId' => $group->getId(), 'notifId' => $notification->getId()], UrlGeneratorInterface::ABSOLUTE_URL);
+        $link = $this->urlGenerator->generate('app_groupDetails', ['groupSlug' => $group->getSlug(), 'notifId' => $notification->getId()], UrlGeneratorInterface::ABSOLUTE_URL);
         $notification->setLink($link);
 
         $this->entityManager->persist($notification);
@@ -455,7 +455,7 @@ class NotificationController extends AbstractController
                 $this->entityManager->flush();
                 
                 // Lien notif post-add pour récup l'id notif et l'injecter dans la route pour state "clicked":
-                $link = $this->urlGenerator->generate('app_groupDetails', ['groupId' => $group->getId(), 'notifId' => $notification->getId()], UrlGeneratorInterface::ABSOLUTE_URL);
+                $link = $this->urlGenerator->generate('app_groupDetails', ['groupSlug' => $group->getSlug(), 'notifId' => $notification->getId()], UrlGeneratorInterface::ABSOLUTE_URL);
                 $notification->setLink($link);
                 $this->entityManager->persist($notification);  
                 $this->entityManager->flush();
@@ -480,7 +480,7 @@ class NotificationController extends AbstractController
         $this->entityManager->flush();
 
         // Lien notif post-add pour récup l'id notif et l'injecter dans la route pour state "clicked":
-        $link = $this->urlGenerator->generate('app_groupDetails', ['groupId' => $group->getId(), 'notifId' => $notification->getId()], UrlGeneratorInterface::ABSOLUTE_URL);
+        $link = $this->urlGenerator->generate('app_groupDetails', ['groupSlug' => $group->getSlug(), 'notifId' => $notification->getId()], UrlGeneratorInterface::ABSOLUTE_URL);
         $notification->setLink($link);
             
         // Notifs aux autres membres (nouveau leader exclus)
@@ -501,7 +501,7 @@ class NotificationController extends AbstractController
                 $this->entityManager->flush();
 
                 // Lien notif post-add pour récup l'id notif et l'injecter dans la route pour state "clicked":
-                $link = $this->urlGenerator->generate('app_groupDetails', ['groupId' => $group->getId(), 'notifId' => $notification2->getId()], UrlGeneratorInterface::ABSOLUTE_URL);
+                $link = $this->urlGenerator->generate('app_groupDetails', ['groupSlug' => $group->getSlug(), 'notifId' => $notification2->getId()], UrlGeneratorInterface::ABSOLUTE_URL);
                 $notification2->setLink($link);
                 $this->entityManager->persist($notification2);
                 $this->entityManager->flush();                    
@@ -532,7 +532,7 @@ class NotificationController extends AbstractController
             $this->entityManager->flush();
 
             // Lien notif post-add pour récup l'id notif et l'injecter dans la route pour state "clicked":
-            $link = $this->urlGenerator->generate('app_groupDetails', ['groupId' => $group->getId(), 'notifId' => $notification->getId()], UrlGeneratorInterface::ABSOLUTE_URL);
+            $link = $this->urlGenerator->generate('app_groupDetails', ['groupSlug' => $group->getSlug(), 'notifId' => $notification->getId()], UrlGeneratorInterface::ABSOLUTE_URL);
             $notification->setLink($link);
             $this->entityManager->persist($notification);
             $this->entityManager->flush();
@@ -558,7 +558,7 @@ class NotificationController extends AbstractController
         $this->entityManager->flush();
 
         // Lien notif post-add pour récup l'id notif et l'injecter dans la route pour state "clicked":
-        $link = $this->urlGenerator->generate('app_groupDetails', ['groupId' => $group->getId(), 'notifId' => $notification->getId()], UrlGeneratorInterface::ABSOLUTE_URL);
+        $link = $this->urlGenerator->generate('app_groupDetails', ['groupSlug' => $group->getSlug(), 'notifId' => $notification->getId()], UrlGeneratorInterface::ABSOLUTE_URL);
         $notification->setLink($link);
         $this->entityManager->persist($notification);
         $this->entityManager->flush();

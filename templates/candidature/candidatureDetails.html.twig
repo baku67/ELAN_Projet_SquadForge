@@ -80,7 +80,7 @@
             <i class="fa-solid fa-angle-right arianeArrow"></i>
             <a class="underlineLink" href="{{ path('app_groupList', {'gameIdFrom': gameFrom.id }) }}">Teams</a>
             <i class="fa-solid fa-angle-right arianeArrow"></i>
-            <a class="underlineLink" href="{{ path('app_groupDetails', {'groupId': group.id }) }}">{{ group.title }}</a>
+            <a class="underlineLink" href="{{ path('app_groupDetails', {'groupSlug': group.slug }) }}">{{ group.title }}</a>
             <i class="fa-solid fa-angle-right arianeArrow"></i>
             <span>Candidature</span>
         </p>

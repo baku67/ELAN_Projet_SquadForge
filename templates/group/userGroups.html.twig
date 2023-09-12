@@ -86,7 +86,7 @@
 
                 {% for group in groups %}
 
-                    <a title='"{{ group.title|capitalize }}"' href="{{ path('app_groupDetails', {'groupId': group.id } ) }}" style="width:fit-content;position:relative;">
+                    <a title='"{{ group.title|capitalize }}"' href="{{ path('app_groupDetails', {'groupSlug': group.slug } ) }}" style="width:fit-content;position:relative;">
 
                         {# Couronne si leader: #}
                         {% if app.user == group.leader %}

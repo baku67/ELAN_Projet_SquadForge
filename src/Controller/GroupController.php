@@ -205,7 +205,7 @@ class GroupController extends AbstractController
                             $entityManager->flush();
 
                             $this->addFlash('success', 'Le groupe a bien été créé');
-                            return $this->redirectToRoute('app_groupDetails', ['groupId' => $group->getId()]);
+                            return $this->redirectToRoute('app_groupDetails', ['groupSlug' => $group->getSlug()]);
                         }
                         else {
                             $this->addFlash('error', 'Pas de vulgarités pour un titre');
@@ -332,8 +332,8 @@ class GroupController extends AbstractController
 
 
     // Detail du groupe: Id Group
-    #[Route('/groupDetails/{groupId}/{notifId}', name: 'app_groupDetails', defaults: ['notifId' => null])]
-    public function groupDetails(EntityManagerInterface $entityManager, int $groupId, int $notifId = null, Request $request): Response
+    #[Route('/groupDetails/{groupSlug}/{notifId}', name: 'app_groupDetails', defaults: ['notifId' => null])]
+    public function groupDetails(EntityManagerInterface $entityManager, string $groupSlug, int $notifId = null, Request $request): Response
     {
         $groupRepo = $entityManager->getRepository(Group::class);
         $notifRepo = $entityManager->getRepository(Notification::class);
@@ -342,7 +342,7 @@ class GroupController extends AbstractController
         $reportRepo = $entityManager->getRepository(Report::class);
 
         // Si le group-cible de la notif n'existe plus
-        $group = $groupRepo->find($groupId);
+        $group = $groupRepo->findOneBy(['slug' => $groupSlug]);
         if(!is_null($group)) {
 
             // Si page vient de notifId, passe la notif en "clicked"
@@ -452,16 +452,16 @@ class GroupController extends AbstractController
                                     $this->notifController->notifMembersNewSession($group, $session);
             
                                     $this->addFlash('success', 'La session a bien été ajouté');
-                                    return $this->redirectToRoute('app_groupDetails', ['groupId' => $group->getId()]);
+                                    return $this->redirectToRoute('app_groupDetails', ['groupSlug' => $group->getSlug()]);
 
                                 } else {
                                     $this->addFlash('error', 'Vous devez donner un titre à la session');
-                                    return $this->redirectToRoute('app_groupDetails', ['groupId' => $group->getId()]);
+                                    return $this->redirectToRoute('app_groupDetails', ['groupSlug' => $group->getSlug()]);
                                 }
                             }
                             else {
                                 $this->addFlash('error', 'Les dates de session ne sont pas valides');
-                                return $this->redirectToRoute('app_groupDetails', ['groupId' => $group->getId()]);
+                                return $this->redirectToRoute('app_groupDetails', ['groupSlug' => $group->getSlug()]);
                             }
 
                         }
@@ -507,12 +507,12 @@ class GroupController extends AbstractController
 
 
     // Leader: Modifier l'image de la team
-    #[Route('/updateTeamPic/{groupId}', name: 'app_updateTeamPic')]
-    public function updateTeamPic(EntityManagerInterface $entityManager, int $groupId, Request $request, Filesystem $filesystem): Response
+    #[Route('/updateTeamPic/{groupSlug}', name: 'app_updateTeamPic')]
+    public function updateTeamPic(EntityManagerInterface $entityManager, string $groupSlug, Request $request, Filesystem $filesystem): Response
     {
         
         // Vérif team existe
-        $group = $entityManager->getRepository(Group::class)->find($groupId);
+        $group = $entityManager->getRepository(Group::class)->findOneBy(['slug' => $groupSlug]);
         if (!$group) {
             $this->addFlash('error', 'La team n\'existe pas');
             return $this->redirectToRoute('app_home');
@@ -549,30 +549,30 @@ class GroupController extends AbstractController
                             $entityManager->flush();
         
                             $this->addFlash('success', 'L\'image de la team a bien été modifiée');
-                            return $this->redirectToRoute('app_groupDetails', ['groupId' => $groupId]);
+                            return $this->redirectToRoute('app_groupDetails', ['groupSlug' => $groupSlug]);
         
                         } catch (FileException $e) {
                             $this->addFlash('error', 'Une erreur est survenue lors du téléchargement de l\'image.');
-                            return $this->redirectToRoute('app_groupDetails', ['groupId' => $groupId]);
+                            return $this->redirectToRoute('app_groupDetails', ['groupSlug' => $groupSlug]);
                         }
                     } else {
                         $this->addFlash('error', 'Le format de l\'image n\'est pas pris en charge.');
-                        return $this->redirectToRoute('app_groupDetails', ['groupId' => $groupId]);
+                        return $this->redirectToRoute('app_groupDetails', ['groupSlug' => $groupSlug]);
                     }
                 } else {
                     $this->addFlash('error', 'Aucune image n\'a été téléchargée.');
-                    return $this->redirectToRoute('app_groupDetails', ['groupId' => $groupId]);
+                    return $this->redirectToRoute('app_groupDetails', ['groupSlug' => $groupSlug]);
                 }
 
             }
             else {
                 $this->addFlash('error', 'Vous devez être connecté et leader pour faire ceci');
-                return $this->redirectToRoute('app_groupDetails', ['groupId' => $groupId]);
+                return $this->redirectToRoute('app_groupDetails', ['groupSlug' => $groupSlug]);
             }
         }
         
         $this->addFlash('error', 'Vous devez être connecté et leader pour faire ceci');
-        return $this->redirectToRoute('app_groupDetails', ['groupId' => $groupId]);
+        return $this->redirectToRoute('app_groupDetails', ['groupSlug' => $groupSlug]);
 
     }
 
@@ -585,12 +585,12 @@ class GroupController extends AbstractController
 
 
     // Leader: Modifier l'image de la team
-    #[Route('/updateTeamCandidatureTxt/{groupId}', name: 'app_updateTeamCandidatureTxt')]
-    public function updateTeamCandidatureTxt(EntityManagerInterface $entityManager, int $groupId, Request $request): Response
+    #[Route('/updateTeamCandidatureTxt/{groupSlug}', name: 'app_updateTeamCandidatureTxt')]
+    public function updateTeamCandidatureTxt(EntityManagerInterface $entityManager, string $groupSlug, Request $request): Response
     {
         
         // Vérif team existe
-        $group = $entityManager->getRepository(Group::class)->find($groupId);
+        $group = $entityManager->getRepository(Group::class)->findOneBy(['slug' => $groupSlug]);
         if (!$group) {
             $this->addFlash('error', 'La team n\'existe pas');
             return $this->redirectToRoute('app_home');
@@ -609,11 +609,11 @@ class GroupController extends AbstractController
                 $entityManager->flush();
 
                 $this->addFlash('success', 'Le texte de candidature a bien été mise à jour');
-                return $this->redirectToRoute('app_groupDetails', ['groupId' => $groupId]);
+                return $this->redirectToRoute('app_groupDetails', ['groupSlug' => $groupSlug]);
             }
             else {
                 $this->addFlash('error', 'Vous devez être connecté et leader pour faire ceci');
-                return $this->redirectToRoute('app_groupDetails', ['groupId' => $groupId]);
+                return $this->redirectToRoute('app_groupDetails', ['groupSlug' => $groupSlug]);
             }
         }
     }
@@ -623,12 +623,12 @@ class GroupController extends AbstractController
     
 
     // Leader: Modifier la description de la team
-    #[Route('/updateTeamDescription/{groupId}', name: 'app_updateTeamDescription')]
-    public function updateTeamDescription(EntityManagerInterface $entityManager, int $groupId, Request $request, Filesystem $filesystem): Response
+    #[Route('/updateTeamDescription/{groupSlug}', name: 'app_updateTeamDescription')]
+    public function updateTeamDescription(EntityManagerInterface $entityManager, string $groupSlug, Request $request, Filesystem $filesystem): Response
     {
 
         // Vérif team existe
-        $group = $entityManager->getRepository(Group::class)->find($groupId);
+        $group = $entityManager->getRepository(Group::class)->findOneBy(['slug' => $groupSlug]);
         if (!$group) {
             $this->addFlash('error', 'La team n\'existe pas');
             return $this->redirectToRoute('app_home');
@@ -647,11 +647,11 @@ class GroupController extends AbstractController
                 $entityManager->flush();
 
                 $this->addFlash('success', 'La description a bien été mise à jour');
-                return $this->redirectToRoute('app_groupDetails', ['groupId' => $groupId]);
+                return $this->redirectToRoute('app_groupDetails', ['groupSlug' => $groupSlug]);
             }
             else {
                 $this->addFlash('error', 'Vous devez être connecté et leader pour faire ceci');
-                return $this->redirectToRoute('app_groupDetails', ['groupId' => $groupId]);
+                return $this->redirectToRoute('app_groupDetails', ['groupSlug' => $groupSlug]);
             }
         }
     }
@@ -661,12 +661,12 @@ class GroupController extends AbstractController
 
 
     // Leader: Modifier le nombre de places de la team (+ vérifications conflits membres)
-    #[Route('/updateTeamNbrPlaces/{groupId}', name: 'app_updateTeamNbrPlaces')]
-    public function updateTeamNbrPlaces(EntityManagerInterface $entityManager, int $groupId, Request $request, Filesystem $filesystem): Response
+    #[Route('/updateTeamNbrPlaces/{groupSlug}', name: 'app_updateTeamNbrPlaces')]
+    public function updateTeamNbrPlaces(EntityManagerInterface $entityManager, string $groupSlug, Request $request, Filesystem $filesystem): Response
     {
 
         // Vérif team existe
-        $group = $entityManager->getRepository(Group::class)->find($groupId);
+        $group = $entityManager->getRepository(Group::class)->findOneBy(['slug' => $groupSlug]);
         if (!$group) {
             $this->addFlash('error', 'La team n\'existe pas');
             return $this->redirectToRoute('app_home');
@@ -691,22 +691,22 @@ class GroupController extends AbstractController
                         $entityManager->flush();
 
                         $this->addFlash('success', 'Le nombre de places a été mis à jour');
-                        return $this->redirectToRoute('app_groupDetails', ['groupId' => $groupId]); 
+                        return $this->redirectToRoute('app_groupDetails', ['groupSlug' => $groupSlug]); 
                     } 
                     else {
                         $this->addFlash('error', 'Le nouveau nombre de places doit être compris entre 2 et 10');
-                        return $this->redirectToRoute('app_groupDetails', ['groupId' => $groupId]); 
+                        return $this->redirectToRoute('app_groupDetails', ['groupSlug' => $groupSlug]); 
                     }   
                 }
                 else {
                     $this->addFlash('error', 'Le nouveau nombre de places souhaité est inférieur au nombre de places occupés');
-                    return $this->redirectToRoute('app_groupDetails', ['groupId' => $groupId]);
+                    return $this->redirectToRoute('app_groupDetails', ['groupSlug' => $groupSlug]);
                 }
 
             }
             else {
                 $this->addFlash('error', 'Vous devez être connecté et leader pour faire ceci');
-                return $this->redirectToRoute('app_groupDetails', ['groupId' => $groupId]);
+                return $this->redirectToRoute('app_groupDetails', ['groupSlug' => $groupSlug]);
             }
         }
     }
@@ -717,8 +717,8 @@ class GroupController extends AbstractController
 
 
     // Leader: Blacklist du group
-    #[Route('/groupBlacklist/{groupId}', name: 'app_groupBlacklist')]
-    public function groupBlacklist(EntityManagerInterface $entityManager, int $groupId, Request $request): Response
+    #[Route('/groupBlacklist/{groupSlug}', name: 'app_groupBlacklist')]
+    public function groupBlacklist(EntityManagerInterface $entityManager, string $groupSlug, Request $request): Response
     {
         $groupRepo = $entityManager->getRepository(Group::class);
         $notifRepo = $entityManager->getRepository(Notification::class);
@@ -742,7 +742,7 @@ class GroupController extends AbstractController
             $modoNotifReportCount = null;
         }
 
-        $group = $groupRepo->find($groupId);
+        $group = $groupRepo->findOneBy(['slug' => $groupSlug]);
         $game = $group->getGame();
         
         // Vérif si leader
@@ -762,13 +762,15 @@ class GroupController extends AbstractController
         }
     }
 
+
+
     // Suppr User de la BlackList
-    #[Route('/removeFromBlacklist/{groupId}/{userId}', name: 'app_removeFromBlacklist')]
-    public function removeFromBlacklist(EntityManagerInterface $entityManager, int $groupId, int $userId, Request $request): Response
+    #[Route('/removeFromBlacklist/{groupSlug}/{userId}', name: 'app_removeFromBlacklist')]
+    public function removeFromBlacklist(EntityManagerInterface $entityManager, string $groupSlug, int $userId, Request $request): Response
     {
         $groupRepo = $entityManager->getRepository(Group::class);
         $userRepo = $entityManager->getRepository(User::class);
-        $group = $groupRepo->find($groupId);
+        $group = $groupRepo->findOneBy(['slug' => $groupSlug]);
         $targetedUser = $userRepo->find($userId);
         
         // Vérif si leader
@@ -779,7 +781,7 @@ class GroupController extends AbstractController
             $entityManager->flush();
 
             $this->addFlash('success', 'Vous avez retiré ' . $targetedUser->getPseudo() . ' de la blacklist');
-            return $this->redirectToRoute('app_groupBlacklist', ['groupId' => $group->getId()]);
+            return $this->redirectToRoute('app_groupBlacklist', ['groupSlug' => $group->getSlug()]);
         }
         else {
             $this->addFlash('error', 'Vous devez être le leader pour faire ceci');
@@ -789,11 +791,11 @@ class GroupController extends AbstractController
 
 
     
-    #[Route('/emptyBlacklist/{groupId}', name: 'app_emptyBlacklist')]
-    public function emptyBlacklist(EntityManagerInterface $entityManager, int $groupId, Request $request): Response
+    #[Route('/emptyBlacklist/{groupSlug}', name: 'app_emptyBlacklist')]
+    public function emptyBlacklist(EntityManagerInterface $entityManager, string $groupSlug, Request $request): Response
     {
         $groupRepo = $entityManager->getRepository(Group::class);
-        $group = $groupRepo->find($groupId);
+        $group = $groupRepo->findOneBy(['slug' => $groupSlug]);
         
         // Vérif si leader
         if ($group->getLeader() == $this->getUser()) {
@@ -805,7 +807,7 @@ class GroupController extends AbstractController
             $entityManager->flush();
 
             $this->addFlash('success', 'Vous avez nettoyé la blacklist');
-            return $this->redirectToRoute('app_groupBlacklist', ['groupId' => $group->getId()]);
+            return $this->redirectToRoute('app_groupBlacklist', ['groupSlug' => $group->getSlug()]);
         }
         else {
             $this->addFlash('error', 'Vous devez être le leader pour faire ceci');
@@ -857,12 +859,12 @@ class GroupController extends AbstractController
 
 
     // Quitter le groupe (userConnected) (Id Group) 
-    #[Route('/leaveGroup/{groupId}', name: 'app_leaveGroup')]
-    public function leaveGroup(EntityManagerInterface $entityManager, int $groupId, Request $request): Response
+    #[Route('/leaveGroup/{groupSlug}', name: 'app_leaveGroup')]
+    public function leaveGroup(EntityManagerInterface $entityManager, string $groupSlug, Request $request): Response
     {
         // Retire le membre du groupe
         $groupRepo = $entityManager->getRepository(Group::class);
-        $group = $groupRepo->find($groupId);
+        $group = $groupRepo->findOneBy(['slug' => $groupSlug]);
         $game = $group->getGame();
         $group->removeMember($this->getUser());
 
@@ -894,7 +896,7 @@ class GroupController extends AbstractController
 
                 $entityManager->flush(); 
 
-                return $this->redirectToRoute('app_groupDetails', ['groupId' => $group->getId()]);
+                return $this->redirectToRoute('app_groupDetails', ['groupSlug' => $group->getSlug()]);
             }
         // Si apprès le leave, aucun membre: suppr le groupe
         } 
@@ -910,11 +912,11 @@ class GroupController extends AbstractController
 
     
     // Ajax Asynch toggleGroupVisibility (A fixer! juste inversion bool BDD pour l'instant)
-    #[Route('/toggleGroupVisibility/{groupId}', name: 'app_toggleGroupVisibility')]
-    public function toggleGroupVisibility(EntityManagerInterface $entityManager, int $groupId, Request $request): Response
+    #[Route('/toggleGroupVisibility/{groupSlug}', name: 'app_toggleGroupVisibility')]
+    public function toggleGroupVisibility(EntityManagerInterface $entityManager, string $groupSlug, Request $request): Response
     {
         $groupRepo = $entityManager->getRepository(Group::class);
-        $group = $groupRepo->find($groupId);
+        $group = $groupRepo->findOneBy(['slug' => $groupSlug]);
 
         // check si user = leader 
         if ($group->getLeader() == $this->getUser() ) {
@@ -941,11 +943,11 @@ class GroupController extends AbstractController
 
     
     // Ajax Asynch toggleGroupRestriction18 (A fixer! juste inversion bool BDD pour l'instant)
-    #[Route('/toggleGroupRestriction18/{groupId}', name: 'app_toggleGroupRestriction18')]
-    public function toggleGroupRestriction18(EntityManagerInterface $entityManager, int $groupId, Request $request): Response
+    #[Route('/toggleGroupRestriction18/{groupSlug}', name: 'app_toggleGroupRestriction18')]
+    public function toggleGroupRestriction18(EntityManagerInterface $entityManager, string $groupSlug, Request $request): Response
     {
         $groupRepo = $entityManager->getRepository(Group::class);
-        $group = $groupRepo->find($groupId);
+        $group = $groupRepo->findOneBy(['slug' => $groupSlug]);
 
         // check si user = leader 
         if ($group->getLeader() == $this->getUser() ) {
@@ -972,11 +974,11 @@ class GroupController extends AbstractController
 
 
     // Ajax Asynch toggleGroupRestrictionMic (A fixer! juste inversion bool BDD pour l'instant)
-    #[Route('/toggleGroupRestrictionMic/{groupId}', name: 'app_toggleGroupRestrictionMic')]
-    public function toggleGroupRestrictionMic(EntityManagerInterface $entityManager, int $groupId, Request $request): Response
+    #[Route('/toggleGroupRestrictionMic/{groupSlug}', name: 'app_toggleGroupRestrictionMic')]
+    public function toggleGroupRestrictionMic(EntityManagerInterface $entityManager, string $groupSlug, Request $request): Response
     {
         $groupRepo = $entityManager->getRepository(Group::class);
-        $group = $groupRepo->find($groupId);
+        $group = $groupRepo->findOneBy(['slug' => $groupSlug]);
 
         // check si user = leader 
         if ($group->getLeader() == $this->getUser() ) {
@@ -1002,11 +1004,11 @@ class GroupController extends AbstractController
 
 
     // Ajax Asynch toggleRestrictionImgProof (A fixer! juste inversion bool BDD pour l'instant)
-    #[Route('/toggleRestrictionImgProof/{groupId}', name: 'app_toggleRestrictionImgProof')]
-    public function toggleRestrictionImgProof(EntityManagerInterface $entityManager, int $groupId, Request $request): Response
+    #[Route('/toggleRestrictionImgProof/{groupSlug}', name: 'app_toggleRestrictionImgProof')]
+    public function toggleRestrictionImgProof(EntityManagerInterface $entityManager, string $groupSlug, Request $request): Response
     {
         $groupRepo = $entityManager->getRepository(Group::class);
-        $group = $groupRepo->find($groupId);
+        $group = $groupRepo->findOneBy(['slug' => $groupSlug]);
 
         // check si user = leader 
         if ($group->getLeader() == $this->getUser() ) {
@@ -1033,18 +1035,18 @@ class GroupController extends AbstractController
 
 
     // Leader: passe le lead a un membre (select)
-    #[Route('/switchTeamLeader/{groupId}', name: 'app_switchTeamLeader')]
-    public function switchTeamLeader(EntityManagerInterface $entityManager, int $groupId, Request $request): Response
+    #[Route('/switchTeamLeader/{groupSlug}', name: 'app_switchTeamLeader')]
+    public function switchTeamLeader(EntityManagerInterface $entityManager, string $groupSlug, Request $request): Response
     {
         $groupRepo = $entityManager->getRepository(Group::class);
-        $group = $groupRepo->find($groupId);
+        $group = $groupRepo->findOneBy(['slug' => $groupSlug]);
 
         // check si user = leader 
         if ($group->getLeader() == $this->getUser() ) {
 
             if(($request->request->get('memberId') == "")) {
                 $this->addFlash('error', 'Vous n"avez pas choisi de membre');
-                return $this->redirectToRoute('app_groupDetails', ['groupId' => $groupId]); 
+                return $this->redirectToRoute('app_groupDetails', ['groupSlug' => $groupSlug]); 
             }
 
             $memberId = $request->request->get('memberId');
@@ -1062,28 +1064,28 @@ class GroupController extends AbstractController
                 $this->notifController->notifNewLeader($userTarget, $group);
 
                 $this->addFlash('success', 'Vous avez nommé ' . $userTarget->getPseudo() . ' leader de la team');
-                return $this->redirectToRoute('app_groupDetails', ['groupId' => $groupId]);
+                return $this->redirectToRoute('app_groupDetails', ['groupSlug' => $groupSlug]);
             }
             else {
                 $this->addFlash('error', 'L\'utilisateur doit être membre pour être promu');
-                return $this->redirectToRoute('app_groupDetails', ['groupId' => $groupId]); 
+                return $this->redirectToRoute('app_groupDetails', ['groupSlug' => $groupSlug]); 
             }
             
         }
         else {
             $this->addFlash('error', 'Vous devez être leader du groupe pour passer le lead');
-            return $this->redirectToRoute('app_groupDetails', ['groupId' => $groupId]); 
+            return $this->redirectToRoute('app_groupDetails', ['groupSlug' => $groupSlug]); 
         }
     }
 
 
 
     // // Leader: ajouter une question candidature
-    #[Route('/addGroupQuestion/{groupId}', name: 'app_addGroupQuestion')]
-    public function addGroupQuestion(EntityManagerInterface $entityManager, int $groupId, Request $request): Response
+    #[Route('/addGroupQuestion/{groupSlug}', name: 'app_addGroupQuestion')]
+    public function addGroupQuestion(EntityManagerInterface $entityManager, string $groupSlug, Request $request): Response
     {
         $groupRepo = $entityManager->getRepository(Group::class);
-        $group = $groupRepo->find($groupId);
+        $group = $groupRepo->findOneBy(['slug' => $groupSlug]);
         $groupQuestion = $entityManager->getRepository(GroupQuestion::class);
         $groupQuestionCount = count($groupQuestion->findBy(["groupe" => $group]));
 
@@ -1113,39 +1115,39 @@ class GroupController extends AbstractController
                         $entityManager->flush();
         
                         $this->addFlash('success', 'La question a été ajouté');
-                        return $this->redirectToRoute('app_groupDetails', ['groupId' => $groupId]);
+                        return $this->redirectToRoute('app_groupDetails', ['groupSlug' => $groupSlug]);
                     }
                     else {
                         $this->addFlash('error', 'Vous devez entrer une question');
-                        return $this->redirectToRoute('app_groupDetails', ['groupId' => $groupId]); 
+                        return $this->redirectToRoute('app_groupDetails', ['groupSlug' => $groupSlug]); 
                     }
                     
                 }
                 else {
                     $this->addFlash('error', 'Vous devez être leader du groupe pour ajouter une question');
-                    return $this->redirectToRoute('app_groupDetails', ['groupId' => $groupId]); 
+                    return $this->redirectToRoute('app_groupDetails', ['groupSlug' => $groupSlug]); 
                 }
             }
             else {
                 $this->addFlash('error', 'La question ne peut être vide');
-                return $this->redirectToRoute('app_groupDetails', ['groupId' => $groupId]); 
+                return $this->redirectToRoute('app_groupDetails', ['groupSlug' => $groupSlug]); 
             }
     
         }
         else {
             $this->addFlash('error', 'Vous avez atteint la limite de question autorisée');
-            return $this->redirectToRoute('app_groupDetails', ['groupId' => $groupId]); 
+            return $this->redirectToRoute('app_groupDetails', ['groupSlug' => $groupSlug]); 
         }
     }
 
     
 
     // // Leader: surrpimer une question candidature
-    #[Route('/deleteGroupQuestion/{groupId}/{questionId}', name: 'app_deleteGroupQuestion')]
-    public function deleteGroupQuestion(EntityManagerInterface $entityManager, int $groupId, int $questionId, Request $request): Response
+    #[Route('/deleteGroupQuestion/{groupSlug}/{questionId}', name: 'app_deleteGroupQuestion')]
+    public function deleteGroupQuestion(EntityManagerInterface $entityManager, string $groupSlug, int $questionId, Request $request): Response
     {
         $groupRepo = $entityManager->getRepository(Group::class);
-        $group = $groupRepo->find($groupId);
+        $group = $groupRepo->findOneBy(['slug' => $groupSlug]);
         $groupQuestionRepo = $entityManager->getRepository(GroupQuestion::class);
 
         $groupQuestion = $groupQuestionRepo->find($questionId);
@@ -1157,23 +1159,23 @@ class GroupController extends AbstractController
             $entityManager->flush();
 
             $this->addFlash('success', 'La question a été supprimé');
-            return $this->redirectToRoute('app_groupDetails', ['groupId' => $groupId]);
+            return $this->redirectToRoute('app_groupDetails', ['groupSlug' => $groupSlug]);
             
         }
         else {
             $this->addFlash('error', 'Vous devez être leader du groupe pour supprimer une question');
-            return $this->redirectToRoute('app_groupDetails', ['groupId' => $groupId]); 
+            return $this->redirectToRoute('app_groupDetails', ['groupSlug' => $groupSlug]); 
         }
     }
 
 
     
     // Leader: Kick un membre du groupe
-    #[Route('/kickGroupMember/{memberId}/{groupId}/{type}', name: 'app_kickGroupMember')]
-    public function kickGroupMember(EntityManagerInterface $entityManager, int $memberId, int $groupId, string $type, Request $request): Response
+    #[Route('/kickGroupMember/{memberId}/{groupSlug}/{type}', name: 'app_kickGroupMember')]
+    public function kickGroupMember(EntityManagerInterface $entityManager, int $memberId, string $groupSlug, string $type, Request $request): Response
     {
         $groupRepo = $entityManager->getRepository(Group::class);
-        $group = $groupRepo->find($groupId);
+        $group = $groupRepo->findOneBy(['slug' => $groupSlug]);
 
         $userRepo = $entityManager->getRepository(User::class);
         $userKicked = $userRepo->find($memberId);
@@ -1184,7 +1186,7 @@ class GroupController extends AbstractController
             // Controle leader != kickedUser
             if($userKicked == $this->getUser()) {
                 $this->addFlash('error', 'Vous ne pouvez pas vous expulser de votre groupe, vous devez le quitter');
-                return $this->redirectToRoute('app_groupDetails', ['groupId' => $groupId]);
+                return $this->redirectToRoute('app_groupDetails', ['groupSlug' => $groupSlug]);
             }
 
             $group->removeMember($userKicked);
@@ -1201,11 +1203,11 @@ class GroupController extends AbstractController
             // Déplacé dans notifKickedFromGroup() "$this->notifController->notifMemberLeave($group, $userKicked);"
 
             $this->addFlash('success', 'Vous avez expulser ' . $userKicked->getPseudo() . ' de la team');
-            return $this->redirectToRoute('app_groupDetails', ['groupId' => $groupId]);
+            return $this->redirectToRoute('app_groupDetails', ['groupSlug' => $groupSlug]);
         }
         else {
             $this->addFlash('error', 'Vous devez être leader du groupe pour expluser un membre');
-            return $this->redirectToRoute('app_groupDetails', ['groupId' => $groupId]); 
+            return $this->redirectToRoute('app_groupDetails', ['groupSlug' => $groupSlug]); 
         }
     }
 

@@ -266,7 +266,7 @@
                         {% for userGameGroup in userGameGroups %}
                             
                                 
-                            <a title='"{{ userGameGroup.title|capitalize }}"' href="{{ path('app_groupDetails', {'groupId': userGameGroup.id } ) }}" style="width:fit-content;position:relative;">
+                            <a title='"{{ userGameGroup.title|capitalize }}"' href="{{ path('app_groupDetails', {'groupSlug': userGameGroup.slug } ) }}" style="width:fit-content;position:relative;">
 
                                 {# Couronne si leader: #}
                                 {% if app.user == userGameGroup.leader %}

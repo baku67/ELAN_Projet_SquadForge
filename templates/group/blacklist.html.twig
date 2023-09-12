@@ -79,7 +79,7 @@
             <i class="fa-solid fa-angle-right arianeArrow"></i>
             <a class="underlineLink" href="{{ path('app_groupList', {'gameIdFrom': gameFrom.id }) }}">Teams</a>
             <i class="fa-solid fa-angle-right arianeArrow"></i>
-            <a class="underlineLink" href="{{ path('app_groupDetails', {'groupId': group.id }) }}">{{ group.title }}</a>
+            <a class="underlineLink" href="{{ path('app_groupDetails', {'groupSlug': group.slug }) }}">{{ group.title }}</a>
             <i class="fa-solid fa-angle-right arianeArrow"></i>
             <span>Blacklist</span>
         </p>
@@ -99,14 +99,14 @@
             {% for blacklistedUser in group.blacklistedUsers %}
                 <article>
                     <span>{{ blacklistedUser.pseudo|capitalize }}</span>
-                    <a href="{{ path('app_removeFromBlacklist',{'groupId':group.id,'userId':blacklistedUser.id}) }}"><i class="fa-solid fa-trash"></i></a>
+                    <a href="{{ path('app_removeFromBlacklist',{'groupSlug':group.slug, 'userId':blacklistedUser.id}) }}"><i class="fa-solid fa-trash"></i></a>
                 </article>
             {% endfor %}
 
             <br>
 
             {% if group.blacklistedUsers|length > 0 %}
-                <a href="{{ path('app_emptyBlacklist',{'groupId': group.id}) }}" class="blacklistBtn">Vider</a>
+                <a href="{{ path('app_emptyBlacklist',{'groupSlug': group.slug}) }}" class="blacklistBtn">Vider</a>
             {% endif %}
 
         </section>

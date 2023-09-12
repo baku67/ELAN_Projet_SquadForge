@@ -47,16 +47,16 @@ INSERT INTO `censure` (`id`, `user_id`, `creation_date`, `word`) VALUES
 
 
 
-INSERT INTO `group` (`id`, `leader_id`, `game_id`, `title`, `description`, `nbr_places`, `creation_date`, `restriction_18`, `restriction_lang`, `status`, `img_url`, `restriction_mic`, `candidature_description`, `restriction_img_proof`, `candidature_txt`) VALUES
-	(36, 7, 1, 'La team overwatch', 'fzefzef', 2, '2023-06-21 21:39:31', 0, 'fr', 'hidden', 'test1.jpg', 0, NULL, 0, NULL),
-	(38, 3, 5, 'Team PUBG du dimanche', 'On joue le dimanche aprèm pour le fun', 3, '2023-06-30 01:14:35', 1, 'fr', 'public', 'test2.jpg', 0, NULL, 1, 'Yolo '),
-	(39, 3, 6, 'Team lol', 'C''est la team mdr lol', 5, '2023-07-04 01:03:57', 1, 'en', 'public', 'test3.png', 1, NULL, 1, 'hello\r\n'),
-	(47, 7, 4, 'Valo team numéro One', 'Ola', 6, '2023-07-08 06:14:54', 1, NULL, 'public', 'test4.png', 0, NULL, 1, NULL),
-	(49, 3, 2, 'fzefzefzef', 'zefzefzef', 2, '2023-08-22 14:57:39', 1, NULL, 'public', 'test5.jpg', 1, NULL, 1, NULL),
-	(50, 3, 6, 'fsefse', 'Miaou miaou miaou miaou mioau ', 4, '2023-08-30 20:24:05', 1, 'fr', 'public', 'test6.jpg', 1, NULL, 0, NULL),
-	(51, 7, 2, 'HELOO', 'efsefseqzdqz dqz dqz', 5, '2023-08-30 20:25:48', 1, 'fr', 'public', 'test7.jpg', 1, NULL, 1, 'fsefse'),
-	(52, 3, 4, 'Team Valorant chill', 'Sessions : \r\n - Vendredi 18h-00h\r\n - Samedi 20h-00h', 6, '2023-09-04 00:20:12', 1, NULL, 'public', 'test8.jpg', 1, NULL, 0, NULL),
-	(53, 3, 1, 'Team Overwatch 01', 'TEAM NUMBER ONE, sessions le samedi soir', 5, '2023-09-04 00:50:31', 1, NULL, 'public', 'test9.jpg', 1, NULL, 0, NULL);
+INSERT INTO `group` (`id`, `leader_id`, `game_id`, `title`, `description`, `nbr_places`, `creation_date`, `restriction_18`, `restriction_lang`, `status`, `img_url`, `restriction_mic`, `candidature_description`, `restriction_img_proof`, `candidature_txt`, `slug`) VALUES
+	(36, 7, 1, 'La team overwatch', 'fzefzef', 2, '2023-06-21 21:39:31', 0, 'fr', 'hidden', 'test1.jpg', 0, NULL, 0, NULL, 'test slug1'),
+	(38, 3, 5, 'Team PUBG du dimanche', 'On joue le dimanche aprèm pour le fun', 3, '2023-06-30 01:14:35', 1, 'fr', 'public', 'test2.jpg', 0, NULL, 1, 'Yolo ', 'test slug2'),
+	(39, 3, 6, 'Team lol', 'C''est la team mdr lol', 5, '2023-07-04 01:03:57', 1, 'en', 'public', 'test3.png', 1, NULL, 1, 'hello\r\n', 'test slug3'),
+	(47, 7, 4, 'Valo team numéro One', 'Ola', 6, '2023-07-08 06:14:54', 1, NULL, 'public', 'test4.png', 0, NULL, 1, NULL, 'test slug4'),
+	(49, 3, 2, 'fzefzefzef', 'zefzefzef', 2, '2023-08-22 14:57:39', 1, NULL, 'public', 'test5.jpg', 1, NULL, 1, NULL, 'test slug5'),
+	(50, 3, 6, 'fsefse', 'Miaou miaou miaou miaou mioau ', 4, '2023-08-30 20:24:05', 1, 'fr', 'public', 'test6.jpg', 1, NULL, 0, NULL, 'test slug6'),
+	(51, 7, 2, 'HELOO', 'efsefseqzdqz dqz dqz', 5, '2023-08-30 20:25:48', 1, 'fr', 'public', 'test7.jpg', 1, NULL, 1, 'fsefse', 'test slug7'),
+	(52, 3, 4, 'Team Valorant chill', 'Sessions : \r\n - Vendredi 18h-00h\r\n - Samedi 20h-00h', 6, '2023-09-04 00:20:12', 1, NULL, 'public', 'test8.jpg', 1, NULL, 0, NULL, 'test slug8'),
+	(53, 3, 1, 'Team Overwatch 01', 'TEAM NUMBER ONE, sessions le samedi soir', 5, '2023-09-04 00:50:31', 1, NULL, 'public', 'test9.jpg', 1, NULL, 0, NULL, 'test slug9');
 
 
 

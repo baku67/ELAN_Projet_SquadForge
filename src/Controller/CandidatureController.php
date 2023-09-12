@@ -36,8 +36,8 @@ class CandidatureController extends AbstractController
 
 
     // Affiche de la liste des candidature d'un groupe (leader)
-    #[Route('/candidatureList/{groupId}', name: 'app_candidatureList')]
-    public function candidatureList(EntityManagerInterface $entityManager, int $groupId, Request $request): Response
+    #[Route('/candidatureList/{groupSlug}', name: 'app_candidatureList')]
+    public function candidatureList(EntityManagerInterface $entityManager, string $groupSlug, Request $request): Response
     {
         $groupRepo = $entityManager->getRepository(Group::class);
         $notifRepo = $entityManager->getRepository(Notification::class);
@@ -61,7 +61,7 @@ class CandidatureController extends AbstractController
             $modoNotifReportCount = null;
         }
 
-        $group = $groupRepo->find($groupId);
+        $group = $groupRepo->findOneBy(['slug' => $groupSlug]);
         $gameFrom = $group->getGame();
         $candidatures = $group->getCandidatures();
 
@@ -80,7 +80,7 @@ class CandidatureController extends AbstractController
         }
         else {
             $this->addFlash('error', 'Vous devez être le leader pour accéder à cette page');
-            return $this->redirectToRoute('app_groupDetails', ['groupId' => $group->getId()]);
+            return $this->redirectToRoute('app_groupDetails', ['groupSlug' => $group->getSlug()]);
         }
 
         
@@ -160,11 +160,11 @@ class CandidatureController extends AbstractController
                 }
                 else {
                     $this->addFlash('error', 'Vous devez être le leader pour accéder à cette page');
-                    return $this->redirectToRoute('app_groupDetails', ['groupId' => $group->getId()]);
+                    return $this->redirectToRoute('app_groupDetails', ['groupSlug' => $group->getSlug()]);
                 }
             } else {
                 $this->addFlash('error', 'Vous devez être connecté pour accéder à cette page');
-                return $this->redirectToRoute('app_groupDetails', ['groupId' => $group->getId()]);
+                return $this->redirectToRoute('app_groupDetails', ['groupSlug' => $group->getSlug()]);
             }
         } 
         else {
@@ -191,11 +191,11 @@ class CandidatureController extends AbstractController
             $entityManager->flush();
 
             $this->addFlash('success', 'Candidature annulée');
-            return $this->redirectToRoute('app_groupDetails', ['groupId' => $group->getId()]);
+            return $this->redirectToRoute('app_groupDetails', ['groupSlug' => $group->getSlug()]);
         }
         else {
             $this->addFlash('error', 'Vous devez être l\'auteur de la candidature pour l\'annuler');
-            return $this->redirectToRoute('app_groupDetails', ['groupId' => $group->getId()]);
+            return $this->redirectToRoute('app_groupDetails', ['groupSlug' => $group->getSlug()]);
         }
     }
 
@@ -215,7 +215,7 @@ class CandidatureController extends AbstractController
             // Vérif si groupe plein
             if ($group->getNbrPlaces() <= count($group->getMembers())) {
                 $this->addFlash('error', 'Le groupe est plein');
-                return $this->redirectToRoute('app_groupDetails', ['groupId' => $group->getId()]);
+                return $this->redirectToRoute('app_groupDetails', ['groupSlug' => $group->getSlug()]);
             }
             else {
                 $userToAdd = $candidature->getUser();
@@ -231,12 +231,12 @@ class CandidatureController extends AbstractController
 
 
                 $this->addFlash('success', $candidature->getUser()->getPseudo() . ' a rejoint la team');
-                return $this->redirectToRoute('app_groupDetails', ['groupId' => $group->getId()]);
+                return $this->redirectToRoute('app_groupDetails', ['groupSlug' => $group->getSlug()]);
             }
         }
         else {
             $this->addFlash('error', 'Vous devez être l\'auteur de la candidature pour l\'annuler');
-            return $this->redirectToRoute('app_groupDetails', ['groupId' => $group->getId()]);
+            return $this->redirectToRoute('app_groupDetails', ['groupSlug' => $group->getSlug()]);
         }
     }
 
@@ -266,19 +266,19 @@ class CandidatureController extends AbstractController
             $this->notifController->notifUpdateCandidature("reject", $candidature->getUser(), $group);
 
             $this->addFlash('success', 'Vous avez refusé la candidature de ' . $candidature->getUser()->getPseudo());
-            return $this->redirectToRoute('app_groupDetails', ['groupId' => $group->getId()]);
+            return $this->redirectToRoute('app_groupDetails', ['groupSlug' => $group->getSlug()]);
             
         }
         else {
             $this->addFlash('error', 'Vous devez être leader de la team pour refuser un candidat');
-            return $this->redirectToRoute('app_groupDetails', ['groupId' => $group->getId()]);
+            return $this->redirectToRoute('app_groupDetails', ['groupSlug' => $group->getSlug()]);
         }
     }
 
 
     // Affichage de la page de candidature (form)
-    #[Route('/showCandidatureForm/{groupId}', name: 'app_showCandidatureForm')]
-    public function showCandidatureForm(EntityManagerInterface $entityManager, int $groupId, Request $request): Response
+    #[Route('/showCandidatureForm/{groupSlug}', name: 'app_showCandidatureForm')]
+    public function showCandidatureForm(EntityManagerInterface $entityManager, string $groupSlug, Request $request): Response
     {
         $groupRepo = $entityManager->getRepository(Group::class);
         $notifRepo = $entityManager->getRepository(Notification::class);
@@ -286,7 +286,7 @@ class CandidatureController extends AbstractController
         $topicRepo = $entityManager->getRepository(Topic::class);
         $reportRepo = $entityManager->getRepository(Report::class);
 
-        $group = $groupRepo->find($groupId);
+        $group = $groupRepo->findOneBy(['slug' => $groupSlug]);
 
         // Check si groupe plein
         if(count($group->getMembers()) < $group->getNbrPlaces()) {
@@ -339,7 +339,7 @@ class CandidatureController extends AbstractController
                     $isBlacklisted = $result['count'] > 0;
                     if ($isBlacklisted) {
                         $this->addFlash('error', 'Vous ne pouvez plus candidater pour cette team');
-                        return $this->redirectToRoute('app_groupDetails', ['groupId' => $groupId]); 
+                        return $this->redirectToRoute('app_groupDetails', ['groupSlug' => $groupSlug]); 
                     }
 
                     // check si candidature existe deja 
@@ -364,7 +364,7 @@ class CandidatureController extends AbstractController
                                     if($request->request->get('majorityBool') == false || is_null($request->request->get('majorityBool'))) {
 
                                         $this->addFlash('error', 'Vous devez confirmer être majeur pour candidater à cette team');
-                                        return $this->redirectToRoute('app_showCandidatureForm', ['groupId' => $groupId]); 
+                                        return $this->redirectToRoute('app_showCandidatureForm', ['groupSlug' => $groupSlug]); 
                                     }
                                 }
                                     
@@ -372,7 +372,7 @@ class CandidatureController extends AbstractController
                                 // Vérif si Texte de candidature répondu (obligatoire) (testé)
                                 if($candidature->getText() == "") {
                                     $this->addFlash('error', 'Vous n\'avez pas rempli votre introduction');
-                                    return $this->redirectToRoute('app_showCandidatureForm', ['groupId' => $groupId]); 
+                                    return $this->redirectToRoute('app_showCandidatureForm', ['groupSlug' => $groupSlug]); 
                                 }
 
                                 // Associez chaque GroupAnswer à chaque GroupQuestion (candidature form)
@@ -385,7 +385,7 @@ class CandidatureController extends AbstractController
                                     // Vérif si questions obligatoires répondues (testé)
                                     if ($groupQuestion->isRequired() && $request->request->get('answer' . $index) == "" ) {
                                         $this->addFlash('error', 'Vous n\'avez pas répondu à toutes les questions obligatoires');
-                                        return $this->redirectToRoute('app_showCandidatureForm', ['groupId' => $groupId]); 
+                                        return $this->redirectToRoute('app_showCandidatureForm', ['groupSlug' => $groupSlug]); 
                                     }
                                     
                                     $answer = new GroupAnswer;
@@ -410,7 +410,7 @@ class CandidatureController extends AbstractController
                                 $this->notifController->notifNewCandidature($group->getLeader(), $candidature);
 
                                 $this->addFlash('success', 'Votre candidature a bien été envoyée');
-                                return $this->redirectToRoute('app_groupDetails', ['groupId' => $groupId]); 
+                                return $this->redirectToRoute('app_groupDetails', ['groupSlug' => $groupSlug]); 
                             }
                         }
 
@@ -427,22 +427,22 @@ class CandidatureController extends AbstractController
                     }
                     else {
                         $this->addFlash('error', 'Vous avez déjà candidaté à cette team');
-                        return $this->redirectToRoute('app_groupDetails', ['groupId' => $groupId]);
+                        return $this->redirectToRoute('app_groupDetails', ['groupSlug' => $groupSlug]);
                     }
                 }
                 else {
                     $this->addFlash('error', 'Vous êtes déjà membre de cette team ou n\'êtes pas connecté');
-                    return $this->redirectToRoute('app_groupDetails', ['groupId' => $groupId]);
+                    return $this->redirectToRoute('app_groupDetails', ['groupSlug' => $groupSlug]);
                 }
             }
             else {
                 $this->addFlash('error', 'La team n\'est pas publique');
-                return $this->redirectToRoute('app_groupDetails', ['groupId' => $groupId]);
+                return $this->redirectToRoute('app_groupDetails', ['groupSlug' => $groupSlug]);
             }
         }
         else {
             $this->addFlash('error', 'La team est pleine');
-            return $this->redirectToRoute('app_groupDetails', ['groupId' => $groupId]);
+            return $this->redirectToRoute('app_groupDetails', ['groupSlug' => $groupSlug]);
         }
     }
 }

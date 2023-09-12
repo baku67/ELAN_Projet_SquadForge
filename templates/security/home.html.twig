@@ -427,7 +427,7 @@
                         {% for userTeam in userTeams %}
 
                             <article>
-                                <a title='"{{ userTeam.title|capitalize }}"' href="{{ path('app_groupDetails', {'groupId': userTeam.id } ) }}" style="width:fit-content;position:relative;">
+                                <a title='"{{ userTeam.title|capitalize }}"' href="{{ path('app_groupDetails', {'groupSlug': userTeam.slug } ) }}" style="width:fit-content;position:relative;">
 
                                     {# Couronne si leader: #}
                                     {% if app.user == userTeam.leader %}
