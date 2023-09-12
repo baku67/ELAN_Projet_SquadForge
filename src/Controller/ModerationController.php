@@ -668,10 +668,70 @@ class ModerationController extends AbstractController
             return $this->redirectToRoute('app_topicDetail', ['slug' => $slug]); 
         }
         else {
-            $this->addFlash('error', 'Vous devez être modérateur pour vérouiller un topic');
+            $this->addFlash('error', 'Vous devez être modérateur pour dévérouiller un topic');
             return $this->redirectToRoute('app_topicDetail', ['slug' => $slug]); 
         }
     }
+
+
+
+
+
+
+    // Verrouillage du média par un modérateur
+    #[Route('/lockMedia/{slug}', name: 'app_lockMedia')]
+    public function lockMedia(EntityManagerInterface $entityManager, string $slug, Request $request): Response
+    {
+        $mediaRepo = $entityManager->getRepository(Media::class);
+
+        $media = $mediaRepo->findOneBy(['slug' => $slug]);
+
+        // Vérif si user est bien modo
+        if ( $this->getUser() && in_array('ROLE_MODO', $this->getUser()->getRoles()) ) {
+
+            $media->setStatus("closedModo");
+            $entityManager->flush();
+
+            // Notification à l'auteur
+            $this->notifController->notifLockedMedia($media->getUser(), $media);
+
+            $this->addFlash('success', 'Le média a bien été verrouillé');
+            return $this->redirectToRoute('app_mediaDetail', ['slug' => $slug]); 
+        }
+        else {
+            $this->addFlash('error', 'Vous devez être modérateur pour vérouiller un média');
+            return $this->redirectToRoute('app_mediaDetail', ['slug' => $slug]); 
+        }
+    }
+
+
+
+    // Déverrouillage du topic par un modérateur
+    #[Route('/unlockMedia/{slug}', name: 'app_unlockMedia')]
+    public function unlockMedia(EntityManagerInterface $entityManager, string $slug, Request $request): Response
+    {
+        $mediaRepo = $entityManager->getRepository(Media::class);
+
+        $media = $mediaRepo->findOneBy(['slug' => $slug]);
+
+        // Vérif si user est bien modo
+        if ( $this->getUser() && in_array('ROLE_MODO', $this->getUser()->getRoles()) ) {
+
+            $media->setStatus("open");
+            $entityManager->flush();
+
+            // Notification à l'auteur
+            $this->notifController->notifUnlockedMedia($media->getUser(), $media);
+
+            $this->addFlash('success', 'Le média a bien été déverrouillé');
+            return $this->redirectToRoute('app_mediaDetail', ['slug' => $slug]); 
+        }
+        else {
+            $this->addFlash('error', 'Vous devez être modérateur pour dévérouiller un média');
+            return $this->redirectToRoute('app_mediaDetail', ['slug' => $slug]); 
+        }
+    }
+    
     
     
 }

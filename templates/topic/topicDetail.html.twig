@@ -144,7 +144,9 @@
             {# Report + Modal raison report #}
             {% if app.user %}
         
-                <span onclick="reportModal.showModal()" class="reportBtn" style="font-size:1.3em;"><i class="fa-regular fa-flag"></i> Signaler</span>
+                {% if app.user != topic.user %}
+                    <span onclick="reportModal.showModal()" class="reportBtn" style="font-size:1.3em;"><i class="fa-regular fa-flag"></i> Signaler</span>
+                {% endif %}
 
                 <dialog class="modalDialog" id="reportModal">
                     <p>Pour quelles raisons ce post ne vous convient-il pas ?</p>

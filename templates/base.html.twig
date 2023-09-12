@@ -3,7 +3,8 @@
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1" />
-        <link rel="icon" type="image/jpg" href="{{ asset('img/favicon.ico') }}" />
+        <link rel="icon" type="image/x-icon" href="{{ asset('img/favicon_black.ico') }}" id="favicon_light_theme">
+        <link rel="icon" type="image/x-icon" href="{{ asset('img/favicon.ico') }}" id="favicon_dark_theme">
         {# META description SEO #} 
         <title>{% block title %}Bienvenue!{% endblock %}</title>
         <meta name="description" content="{% block meta_description %}Créez ou rejoignez une team amateur ou esportive ! Partagez votre contenu ou du gameplay, et plus encore ...{% endblock %}">
@@ -103,6 +104,26 @@
             // (tarteaucitron.job = tarteaucitron.job || []).push('twitch');
             // tarteaucitron.user.googleFonts = 'families';
             // (tarteaucitron.job = tarteaucitron.job || []).push('googlefonts');
+        </script>
+
+        {# Détection mode sombre/clair navigateur et adaptation favicon: #}
+        <script>
+            matcher = window.matchMedia('(prefers-color-scheme: dark)');
+            matcher.addListener(onUpdate);
+            onUpdate();
+
+            lightSchemeIcon = document.querySelector('link#favicon_light_theme');
+            darkSchemeIcon = document.querySelector('link#favicon_dark_theme');
+
+            function onUpdate() {
+            if (matcher.matches) {
+                lightSchemeIcon.remove();
+                document.head.append(darkSchemeIcon);
+            } else {
+                document.head.append(lightSchemeIcon);
+                darkSchemeIcon.remove();
+            }
+            }
         </script>
     </head>
 

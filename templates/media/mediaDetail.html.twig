@@ -96,6 +96,8 @@
                     <span class="topicStatus topicClosed">fermé</span>
                 {% elseif media.status == "open" %}
                     <span class="topicStatus topicOpen">ouvert</span>
+                {% elseif media.status == "closedModo" %}
+                    <span class="topicStatus topicClosed">Vérrouillé</span>
                 {% endif %}
 
             </div>
@@ -116,15 +118,24 @@
 
             </div>
 
-            {# Si auteur du topic: Btn fermer/ouvrir le topic (A voir: si fermer par Admin, pas possible de rouvrir en tant qu'author) #}
-            {% if app.user == media.user %}
-
+            {# Si modo: peut verrrouiller le media (supérieur à fermer), si auteur: peut jsute fermer le media 
+            (le modo ne peut pas rouvrir un media fermé simplement par l'auteur) #}
+            {% if "ROLE_MODO" in app.user.roles %}
+                {% if media.status == "closed" %}
+                    <p style="font-family: 'K2D';"><a href="{{ path('app_lockMedia', {'slug': media.slug}) }}"><span style="color:#ff004c;">Vérouiller le média (modo)</span></a></p>
+                {% elseif media.status == "closedModo" %}
+                    <p style="font-family: 'K2D';"><a href="{{ path('app_unlockMedia', {'slug': media.slug}) }}"><span style="color:#00ffaf;">Déverrouiller le média (modo)</span></a></p>
+                {% elseif media.status == "open" %}
+                    <p style="font-family: 'K2D';"><a href="{{ path('app_lockMedia', {'slug': media.slug}) }}"><span style="color:#ff004c;">Vérouiller le média (modo)</span></a></p>
+                {% endif %}
+            {% elseif app.user == media.user and "ROLE_MODO" not in app.user.roles %}
                 {% if media.status == "closed" %}
                     <p style="font-family: 'K2D';"><a href="{{ path('app_openMedia', {'slug': media.slug}) }}"><span style="color:#00ffaf;">Rouvrir le média</span></a></p>
+                {% elseif media.status == "closedModo" %}
+                    <p class="emptyListMsg">Le média a été vérouillé par la modération, vous ne pouvez pas le rouvrir</p>
                 {% elseif media.status == "open" %}
                     <p style="font-family: 'K2D';"><a href="{{ path('app_closeMedia', {'slug': media.slug}) }}"><span style="color:#ff004c;">Fermer le média</span></a></p>
                 {% endif %}
-                
             {% endif %}
 
 
@@ -154,7 +165,9 @@
                 {# Report + Modal raison report #}
                 {% if app.user %}
             
-                    <span onclick="reportModal.showModal()" class="reportBtn">Signaler</span>
+                    {% if app.user != media.user %}
+                        <span onclick="reportModal.showModal()" class="reportBtn">Signaler</span>
+                    {% endif %}
 
                     <dialog class="modalDialog" id="reportModal">
                         <p style="font-size:1.3em;">Pour quelles raisons ce post ne vous convient-il pas ?</p>
@@ -232,7 +245,12 @@
 
                 {% elseif media.status == "closed" %}
                     
-                    <p class="emptyListMsg"><i class="fa-solid fa-triangle-exclamation warning"></i>Le média a été fermé</p>
+                    <p class="emptyListMsg"><i class="fa-solid fa-triangle-exclamation warning"></i>Le média a été fermé par l'auteur</p>
+
+
+                {% elseif media.status == "closedModo" %}
+                    
+                    <p class="emptyListMsg"><i class="fa-solid fa-triangle-exclamation warning"></i>Le média a été vérouillé par la modération</p>
 
                 {% endif %}
 
