@@ -87,13 +87,13 @@
             {% for media in allMediasDesc %}
 
                 {% if app.user and app.user.autoPlayGifs %}
-                <a href="{{ path('app_mediaDetail', {'id': media.id}) }}">
+                <a href="{{ path('app_mediaDetail', {'slug': media.slug}) }}">
                 {% endif %}
                     
                     <article class="mediaCard">
 
                         {% if app.user and not app.user.autoPlayGifs %}
-                        <a href="{{ path('app_mediaDetail', {'id': media.id}) }}">
+                        <a href="{{ path('app_mediaDetail', {'slug': media.slug}) }}">
                         {% endif %}
                         <div class="mediaCardHeader" style="border-bottom: 3px solid {{ media.game.color }}">
                             <img class="tinyLogo" src="{{ asset('img/games/tinyLogo/' ~ media.game.tinyLogo) }}" alt="logo du jeu {{ media.game.title }}" />
@@ -112,7 +112,7 @@
                                 <img src="{{ asset("img/uploads/" ~ media.url) }}" alt="media" class="mediaImg" />
                             {% endif %}
                         {% else %}
-                        <a href="{{ path('app_mediaDetail', {'id': media.id}) }}">
+                        <a href="{{ path('app_mediaDetail', {'slug': media.slug}) }}">
                             <img src="{{ asset("img/uploads/" ~ media.url) }}" alt="media" class="mediaImg" />
                         </a>
                         {% endif %}

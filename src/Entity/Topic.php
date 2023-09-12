@@ -52,7 +52,7 @@ class Topic
     // Non mappé
     private $topicPostsCount;
 
-    #[ORM\Column(length: 200)]
+    #[ORM\Column(length: 200, unique: true)]
     #[Slug(fields: ['title'])]
     private ?string $slug = null;
 

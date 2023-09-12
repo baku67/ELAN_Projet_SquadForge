@@ -120,9 +120,9 @@
             {% if app.user == media.user %}
 
                 {% if media.status == "closed" %}
-                    <p style="font-family: 'K2D';"><a href="{{ path('app_openMedia', {'id': media.id}) }}"><span style="color:#00ffaf;">Rouvrir le média</span></a></p>
+                    <p style="font-family: 'K2D';"><a href="{{ path('app_openMedia', {'slug': media.slug}) }}"><span style="color:#00ffaf;">Rouvrir le média</span></a></p>
                 {% elseif media.status == "open" %}
-                    <p style="font-family: 'K2D';"><a href="{{ path('app_closeMedia', {'id': media.id}) }}"><span style="color:#ff004c;">Fermer le média</span></a></p>
+                    <p style="font-family: 'K2D';"><a href="{{ path('app_closeMedia', {'slug': media.slug}) }}"><span style="color:#ff004c;">Fermer le média</span></a></p>
                 {% endif %}
                 
             {% endif %}

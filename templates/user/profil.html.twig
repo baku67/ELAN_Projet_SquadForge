@@ -310,13 +310,13 @@
 
                         {# TODO: ici check si type = Img ou Gif pour savoir si Gifffer ou pas #}
                         {% if app.user.autoPlayGifs %}
-                        <a href="{{ path('app_mediaDetail', {'id': media.id}) }}">
+                        <a href="{{ path('app_mediaDetail', {'slug': media.slug}) }}">
                         {% endif %}
 
                             <article class="mediaCard">
 
                                 {% if not app.user.autoPlayGifs %}
-                                <a href="{{ path('app_mediaDetail', {'id': media.id}) }}">
+                                <a href="{{ path('app_mediaDetail', {'slug': media.slug}) }}">
                                 {% endif %}
                                 <div class="mediaCardHeader" style="border-bottom: 3px solid {{ media.game.color }}">
                                     <img class="tinyLogo" src="{{ asset('img/games/tinyLogo/' ~ media.game.tinyLogo) }}" alt="logo du jeu {{ media.game.title }}" />
@@ -368,13 +368,13 @@
                                 </div>
                             
                                 {% if media.mediaPostsCount == 0 %}
-                                    <a href="{{ path('app_mediaDetail', {'id':media.id}) }}">
+                                    <a href="{{ path('app_mediaDetail', {'slug':media.slug}) }}">
                                         <span style="opacity:0.5;">{{ media.mediaPostsCount }} 
                                             <i class="fa-solid fa-message" style="color:grey;"></i>
                                         </span>
                                     </a>
                                 {% else %}
-                                    <a href="{{ path('app_mediaDetail', {'id':media.id}) }}">
+                                    <a href="{{ path('app_mediaDetail', {'slug':media.slug}) }}">
                                         <span>{{ media.mediaPostsCount }} 
                                             <i class="fa-solid fa-message" style="color:var(--primary-color)"></i>
                                         </span>

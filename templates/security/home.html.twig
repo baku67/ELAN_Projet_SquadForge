@@ -589,14 +589,14 @@
                         <article class="grid-item" style="height:fit-content;">
 
                             {% if app.user and app.user.autoPlayGifs or not app.user %}
-                            <a href="{{ path('app_mediaDetail', {'id': media.id}) }}">
+                            <a href="{{ path('app_mediaDetail', {'slug': media.slug}) }}">
                             {% endif %}
                                 
 
                                 <div class="mediaCard" style=" background-color:{{ media.game.color }};">
 
                                     {% if app.user and not app.user.autoPlayGifs %}
-                                    <a href="{{ path('app_mediaDetail', {'id': media.id}) }}">
+                                    <a href="{{ path('app_mediaDetail', {'slug': media.slug}) }}">
                                     {% endif %}
                                     <header class="mediaCardHeader" title="{{ media.title|capitalize }}" style="border-bottom: 3px solid {{ media.game.color }};">
                                         <img class="tinyLogo" src="{{ asset('img/games/tinyLogo/' ~ media.game.tinyLogo) }}" />
@@ -650,13 +650,13 @@
                                 </div>
                             
                                 {% if media.mediaPostsCount == 0 %}
-                                    <a href="{{ path('app_mediaDetail', {'id':media.id}) }}">
+                                    <a href="{{ path('app_mediaDetail', {'slug':media.slug}) }}">
                                         <span style="opacity:0.5;">{{ media.mediaPostsCount }} 
                                             <i class="fa-solid fa-message" style="color:grey;"></i>
                                         </span>
                                     </a>
                                 {% else %}
-                                    <a href="{{ path('app_mediaDetail', {'id':media.id}) }}">
+                                    <a href="{{ path('app_mediaDetail', {'slug':media.slug}) }}">
                                         <span>{{ media.mediaPostsCount }} 
                                             <i class="fa-solid fa-message" style="color:var(--primary-color)"></i>
                                         </span>

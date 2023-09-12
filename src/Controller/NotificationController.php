@@ -615,7 +615,7 @@ class NotificationController extends AbstractController
             $this->entityManager->flush();
 
             // Lien notif post-add pour récup l'id notif et l'injecter dans la route pour state "clicked":
-            $link = $this->urlGenerator->generate('app_mediaDetail', ['id' => $media->getId(), 'notifId' => $notification->getId()], UrlGeneratorInterface::ABSOLUTE_URL);
+            $link = $this->urlGenerator->generate('app_mediaDetail', ['slug' => $media->getSlug(), 'notifId' => $notification->getId()], UrlGeneratorInterface::ABSOLUTE_URL);
             $notification->setLink($link); 
             $this->entityManager->persist($notification);
             $this->entityManager->flush();
@@ -766,7 +766,7 @@ class NotificationController extends AbstractController
                 $this->entityManager->flush();
 
                 // Lien notif (format localhost pour test mais marche en prod normalement):
-                $link = $this->urlGenerator->generate('app_mediaDetail', ['id' => $media->getId(),'notifId' => $notification->getId()], UrlGeneratorInterface::ABSOLUTE_URL);
+                $link = $this->urlGenerator->generate('app_mediaDetail', ['slug' => $media->getSlug(),'notifId' => $notification->getId()], UrlGeneratorInterface::ABSOLUTE_URL);
                 $notification->setLink($link); 
                 $this->entityManager->persist($notification);
                 $this->entityManager->flush();
@@ -881,7 +881,7 @@ class NotificationController extends AbstractController
                 $media = $mediaPost->getMedia();
 
                 // Lien notif 
-                $link = $this->urlGenerator->generate('app_mediaDetail', ['id' => $media->getId(),'notifId' => $notification->getId()], UrlGeneratorInterface::ABSOLUTE_URL);
+                $link = $this->urlGenerator->generate('app_mediaDetail', ['slug' => $media->getSlug(),'notifId' => $notification->getId()], UrlGeneratorInterface::ABSOLUTE_URL);
                 $notification->setLink($link); 
                 $this->entityManager->persist($notification);
                 $this->entityManager->flush();
@@ -986,7 +986,7 @@ class NotificationController extends AbstractController
     //         $media = $mediaPost->getMedia();
 
     //         // Lien notif 
-    //         $link = $this->urlGenerator->generate('app_mediaDetail', ['id' => $media->getId(),'notifId' => $notification->getId()], UrlGeneratorInterface::ABSOLUTE_URL);
+    //         $link = $this->urlGenerator->generate('app_mediaDetail', ['slug' => $media->getSlug(),'notifId' => $notification->getId()], UrlGeneratorInterface::ABSOLUTE_URL);
     //         $notification->setLink($link); 
     //         $this->entityManager->persist($notification);
     //         $this->entityManager->flush();

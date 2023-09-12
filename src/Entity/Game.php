@@ -86,7 +86,7 @@ class Game
     #[ORM\Column(nullable: true)]
     private ?bool $showIcon_searchPage = null;
 
-    #[ORM\Column(length: 100)]
+    #[ORM\Column(length: 100, unique: true)]
     #[Slug(fields: ['title'])]
     private ?string $slug = null;
 

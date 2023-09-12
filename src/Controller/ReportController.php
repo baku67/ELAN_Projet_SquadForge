@@ -84,7 +84,7 @@ class ReportController extends AbstractController
                     switch ($objectType) {
                         case 'media':
                             $this->addFlash('success', 'Votre signalement a été envoyé à la modération');
-                            return $this->redirectToRoute('app_mediaDetail', ['id' => $object->getId()]);
+                            return $this->redirectToRoute('app_mediaDetail', ['slug' => $object->getSlug()]);
                             break;
                         case 'topic':
                             $this->addFlash('success', 'Votre signalement a été envoyé à la modération');
@@ -96,7 +96,7 @@ class ReportController extends AbstractController
                             break;
                         case 'mediaPost':
                             $this->addFlash('success', 'Votre signalement a été envoyé à la modération');
-                            return $this->redirectToRoute('app_mediaDetail', ['id' => $object->getMedia()->getId()]);
+                            return $this->redirectToRoute('app_mediaDetail', ['slug' => $object->getMedia()->getSlug()]);
                             break;
                     }
                 }
@@ -104,7 +104,7 @@ class ReportController extends AbstractController
                     switch ($objectType) {
                         case 'media':
                             $this->addFlash('error', 'Vous avez déjà signalé ce contenu');
-                            return $this->redirectToRoute('app_mediaDetail', ['id' => $object->getId()]);
+                            return $this->redirectToRoute('app_mediaDetail', ['slug' => $object->getSlug()]);
                             break;
                         case 'topic':
                             $this->addFlash('error', 'Vous avez déjà signalé ce contenu');
@@ -116,7 +116,7 @@ class ReportController extends AbstractController
                             break;
                         case 'mediaPost':
                             $this->addFlash('error', 'Vous avez déjà signalé ce commentaire');
-                            return $this->redirectToRoute('app_mediaDetail', ['id' => $object->getMedia()->getId()]);
+                            return $this->redirectToRoute('app_mediaDetail', ['slug' => $object->getMedia()->getSlug()]);
                             break;
                     }
                 }
@@ -126,7 +126,7 @@ class ReportController extends AbstractController
             switch ($objectType) {
                 case 'media':
                     $this->addFlash('error', 'Vous devez vous connecter pour signaler un contenu');
-                    return $this->redirectToRoute('app_mediaDetail', ['id' => $object->getId()]);
+                    return $this->redirectToRoute('app_mediaDetail', ['slug' => $object->getSlug()]);
                     break;
                 case 'topic':
                     $this->addFlash('error', 'Vous devez vous connecter pour signaler un contenu');
@@ -138,7 +138,7 @@ class ReportController extends AbstractController
                     break;
                 case 'mediaPost':
                     $this->addFlash('error', 'Vous devez vous connecter pour signaler un commentaire');
-                    return $this->redirectToRoute('app_mediaDetail', ['id' => $object->getMedia()->getId()]);
+                    return $this->redirectToRoute('app_mediaDetail', ['slug' => $object->getMedia()->getSlug()]);
                     break;
             }
         }

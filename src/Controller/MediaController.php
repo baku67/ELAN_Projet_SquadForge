@@ -188,8 +188,6 @@ class MediaController extends AbstractController
 
 
 
-
-
     private function generateCustomFileName(): string
     {
         // Implement your custom logic to generate the file name
@@ -200,14 +198,9 @@ class MediaController extends AbstractController
 
 
 
-
-
-
-
-
-    // Médias Details (id: idMedia) + Form PostMedia
-    #[Route('/mediaDetail/{id}/{notifId}', name: 'app_mediaDetail', defaults: ['notifId' => null])]
-    public function getMediaDetail(EntityManagerInterface $entityManager, Request $request, int $id, int $notifId = null): Response
+    // Médias Details (slug: slugMedia) + Form PostMedia
+    #[Route('/mediaDetail/{slug}/{notifId}', name: 'app_mediaDetail', defaults: ['notifId' => null])]
+    public function getMediaDetail(EntityManagerInterface $entityManager, Request $request, string $slug, int $notifId = null): Response
     {
         $mediaRepo = $entityManager->getRepository(Media::class);
         $notifRepo = $entityManager->getRepository(Notification::class);
@@ -243,7 +236,7 @@ class MediaController extends AbstractController
             $modoNotifReportCount = null;
         }
 
-        $media = $mediaRepo->find($id);
+        $media = $mediaRepo->findOneBy(['slug' => $slug]);
 
         if (!is_null($media) && $media->getValidated() == "validated") {
 
@@ -305,7 +298,7 @@ class MediaController extends AbstractController
                                         $entityManager->flush();
                 
                                         $this->addFlash('success', 'Le post a bien été publié');
-                                        return $this->redirectToRoute('app_mediaDetail', ['id' => $media->getId()]);
+                                        return $this->redirectToRoute('app_mediaDetail', ['slug' => $media->getSlug()]);
                                     // } else {
                                         
                                     //     $this->addFlash('error', 'Le titre doit faire au minimum 5 mots !');
@@ -314,22 +307,22 @@ class MediaController extends AbstractController
                                 } 
                                 else {
                                     $this->addFlash('error', 'Les données envoyées ne sont pas valides');
-                                    return $this->redirectToRoute('app_mediaDetail', ['id' => $media->getId()]);
+                                    return $this->redirectToRoute('app_mediaDetail', ['slug' => $media->getSlug()]);
                                 }   
                             }
                             else {
                                 $this->addFlash('error', 'Le commentaire ne peut pas être vide');
-                                return $this->redirectToRoute('app_mediaDetail', ['id' => $media->getId()]);
+                                return $this->redirectToRoute('app_mediaDetail', ['slug' => $media->getSlug()]);
                             }
                         }
                         else {
                             $this->addFlash('error', 'Le media a été fermé, vous ne pouvez plus le commenter.');
-                            return $this->redirectToRoute('app_mediaDetail', ['id' => $media->getId()]);
+                            return $this->redirectToRoute('app_mediaDetail', ['slug' => $media->getSlug()]);
                         }
                     }
                     else {
                         $this->addFlash('error', 'Vous êtes actuellement réduit au silence (ou bannis), et ne pouvez rien publier');
-                        return $this->redirectToRoute('app_mediaDetail', ['id' => $media->getId()]);
+                        return $this->redirectToRoute('app_mediaDetail', ['slug' => $media->getSlug()]);
                     }
                 }
                 else {
@@ -354,9 +347,6 @@ class MediaController extends AbstractController
             return $this->redirectToRoute('app_home');
         }
     }
-
-
-
 
 
 
@@ -399,7 +389,6 @@ class MediaController extends AbstractController
             'allMediasCount' => $allMediasCount,
         ]);
     }
-
 
 
 
@@ -452,9 +441,6 @@ class MediaController extends AbstractController
             return new JsonResponse(['success' => false]);
         }
     }
-
-
-
 
 
 
@@ -542,6 +528,8 @@ class MediaController extends AbstractController
             return new JsonResponse(['success' => false, 'case' => 'logIn']);
         }
     }
+
+
 
 
     // Asynch Downvote/unDownvote de mediaPost par user (id: idMediaPost)
@@ -668,13 +656,13 @@ class MediaController extends AbstractController
 
 
 
-    // Fermeture de Média par author (id: idMédia)  
-    #[Route('/closeMedia/{id}', name: 'app_closeMedia')]
-    public function closeMedia(EntityManagerInterface $entityManager, int $id, Request $request): Response
+    // Fermeture de Média par author (slug: slugMédia)  
+    #[Route('/closeMedia/{slug}', name: 'app_closeMedia')]
+    public function closeMedia(EntityManagerInterface $entityManager, string $slug, Request $request): Response
     {
         $mediaRepo = $entityManager->getRepository(Media::class);
 
-        $media = $mediaRepo->find($id);
+        $media = $mediaRepo->findOneBy(['slug' => $slug]);
 
         // Vérif si user est bien l'auteur du média
         if ($this->getUser() == $media->getUser()) {
@@ -683,23 +671,23 @@ class MediaController extends AbstractController
             $entityManager->flush();
 
             $this->addFlash('success', 'Le média a bien été fermé');
-            return $this->redirectToRoute('app_mediaDetail', ['id' => $id]); 
+            return $this->redirectToRoute('app_mediaDetail', ['slug' => $slug]); 
         }
         else {
             $this->addFlash('error', 'Vous devez être l\'auteur du média ou admin pour pouvoir le fermer');
-            return $this->redirectToRoute('app_mediaDetail', ['id' => $id]); 
+            return $this->redirectToRoute('app_mediaDetail', ['slug' => $slug]); 
         }
     }
     
 
 
-    // Réouverture du Média par author (id: idMedia)  
-    #[Route('/openMedia/{id}', name: 'app_openMedia')]
-    public function openMedia(EntityManagerInterface $entityManager, int $id, Request $request): Response
+    // Réouverture du Média par author (slug: slugMédia)  
+    #[Route('/openMedia/{slug}', name: 'app_openMedia')]
+    public function openMedia(EntityManagerInterface $entityManager, string $slug, Request $request): Response
     {
         $mediaRepo = $entityManager->getRepository(Media::class);
 
-        $media = $mediaRepo->find($id);
+        $media = $mediaRepo->findOneBy(['slug' => $slug]);
 
         // Vérif si user est bien l'auteur du media
         if ($this->getUser() == $media->getUser()) {
@@ -708,11 +696,11 @@ class MediaController extends AbstractController
             $entityManager->flush();
 
             $this->addFlash('success', 'Le media a bien été rouvert');
-            return $this->redirectToRoute('app_mediaDetail', ['id' => $id]); 
+            return $this->redirectToRoute('app_mediaDetail', ['slug' => $slug]); 
         }
         else {
             $this->addFlash('error', 'Vous devez être l\'auteur du media ou admin pour pouvoir le rouvrir');
-            return $this->redirectToRoute('app_mediaDetail', ['id' => $id]); 
+            return $this->redirectToRoute('app_mediaDetail', ['slug' => $slug]); 
         }
     }
     

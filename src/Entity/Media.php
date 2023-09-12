@@ -7,6 +7,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Gedmo\Mapping\Annotation\Slug;
 
 #[ORM\Entity(repositoryClass: MediaRepository::class)]
 class Media
@@ -43,6 +44,10 @@ class Media
     #[ORM\JoinTable(name: 'media_upvotes')]
     #[ORM\ManyToMany(targetEntity: User::class)]
     private Collection $userUpvote;
+
+    #[ORM\Column(length: 255, unique: true)]
+    #[Slug(fields: ['title'])]
+    private ?string $slug = null;
 
     public function __construct()
     {
@@ -210,6 +215,18 @@ class Media
     public function removeUserUpvote(User $userUpvote): self
     {
         $this->userUpvote->removeElement($userUpvote);
+
+        return $this;
+    }
+
+    public function getSlug(): ?string
+    {
+        return $this->slug;
+    }
+
+    public function setSlug(string $slug): static
+    {
+        $this->slug = $slug;
 
         return $this;
     }
