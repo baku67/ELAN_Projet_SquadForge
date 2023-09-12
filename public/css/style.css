@@ -4010,7 +4010,7 @@ nav {
     width: 5px;
     transform: translate(0px, -5px);
     z-index:0;
-    background-image: linear-gradient(to right, #ff4655, #ff46558c);
+    /* background-image: linear-gradient(to right, #ff4655, #ff46558c); */
 
     animation: gameTopicsSubTitleBg1 0.3s 0.1s ease-in-out forwards, gameTopicsSubTitleBg2 0.4s 0.45s ease-in-out forwards;
 }

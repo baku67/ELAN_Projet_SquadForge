@@ -102,10 +102,10 @@
                                 <div id="topicSubCard{{ topic.id }}" class="topicSubCard notDisplayed">
                                     <p>{{ topic.firstMsg }}</p>
                                     <div class="mediaApprovalLine">
-                                        <a href="{{ path('app_validateTopic', {'id': topic.id}) }}">
+                                        <a href="{{ path('app_validateTopic', {'slug': topic.slug}) }}">
                                             <span class="mediaApproveBtn"><i class="fa-solid fa-check"></i></span>
                                         </a>
-                                        <a href="{{ path('app_refuseTopic', {'id': topic.id}) }}">
+                                        <a href="{{ path('app_refuseTopic', {'slug': topic.slug}) }}">
                                             <span class="mediaRefuseBtn"><i class="fa-solid fa-xmark"></i></span>
                                         </a>
                                     </div>

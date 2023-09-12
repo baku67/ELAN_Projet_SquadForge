@@ -121,9 +121,9 @@
             {% if app.user == topic.user %}
 
                 {% if topic.status == "closed" %}
-                    <p style="font-family: 'K2D';"><a href="{{ path('app_openTopic', {'id': topic.id}) }}"><span style="color:#00ffaf;">Rouvrir le topic</span></a></p>
+                    <p style="font-family: 'K2D';"><a href="{{ path('app_openTopic', {'slug': topic.slug}) }}"><span style="color:#00ffaf;">Rouvrir le topic</span></a></p>
                 {% elseif topic.status == "open" %}
-                    <p style="font-family: 'K2D';"><a href="{{ path('app_closeTopic', {'id': topic.id}) }}"><span style="color:#ff004c;">Fermer le topic</span></a></p>
+                    <p style="font-family: 'K2D';"><a href="{{ path('app_closeTopic', {'slug': topic.slug}) }}"><span style="color:#ff004c;">Fermer le topic</span></a></p>
                 {% endif %}
                 
             {% endif %}

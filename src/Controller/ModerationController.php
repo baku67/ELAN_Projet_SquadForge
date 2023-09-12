@@ -564,13 +564,13 @@ class ModerationController extends AbstractController
 
 
         // id: Topic à valider
-        #[Route('/validateTopic/{id}', name: 'app_validateTopic')]
-        public function validateTopic(EntityManagerInterface $entityManager, int $id, Request $request): Response
+        #[Route('/validateTopic/{slug}', name: 'app_validateTopic')]
+        public function validateTopic(EntityManagerInterface $entityManager, string $slug, Request $request): Response
         {
             if ( $this->getUser() && in_array('ROLE_MODO', $this->getUser()->getRoles()) ) {
     
                 $topicRepo = $entityManager->getRepository(Topic::class);
-                $topic = $topicRepo->find($id);
+                $topic = $topicRepo->findOneBy(['slug' => $slug]);
                 
                 // Date publish mise à jour à la validation
                 $topic->setPublishDate(new \DateTime());
@@ -595,13 +595,13 @@ class ModerationController extends AbstractController
     
     
         // id: Topic à refuser
-        #[Route('/refuseTopic/{id}', name: 'app_refuseTopic')]
-        public function refuseTopic(EntityManagerInterface $entityManager, int $id, Request $request): Response
+        #[Route('/refuseTopic/{slug}', name: 'app_refuseTopic')]
+        public function refuseTopic(EntityManagerInterface $entityManager, string $slug, Request $request): Response
         {
             if ( $this->getUser() && in_array('ROLE_MODO', $this->getUser()->getRoles()) ) {
     
                 $topicRepo = $entityManager->getRepository(Topic::class);
-                $topic = $topicRepo->find($id);
+                $topic = $topicRepo->findOneBy(['slug' => $slug]);
                 
                 $topic->setValidated("refused");
 

@@ -177,8 +177,8 @@ class TopicController extends AbstractController
 
 
     // Topic Details (id: idTopic) + Form TopicPost
-    #[Route('/topicDetail/{id}/{notifId}', name: 'app_topicDetail', defaults: ['notifId' => null])]
-    public function getTopicDetail(EntityManagerInterface $entityManager, Request $request, int $id, int $notifId = null): Response
+    #[Route('/topicDetail/{slug}/{notifId}', name: 'app_topicDetail', defaults: ['notifId' => null])]
+    public function getTopicDetail(EntityManagerInterface $entityManager, Request $request, string $slug, int $notifId = null): Response
     {
         $censureRepo = $entityManager->getRepository(Censure::class);
         $topicRepo = $entityManager->getRepository(Topic::class);
@@ -214,7 +214,7 @@ class TopicController extends AbstractController
             $modoNotifReportCount = null;
         }
 
-        $topic = $topicRepo->find($id);
+        $topic = $topicRepo->findOneBy(['slug' => $slug]);
 
         if (!is_null($topic) && $topic->getValidated() == "validated") {
 
@@ -272,7 +272,7 @@ class TopicController extends AbstractController
                                     $entityManager->flush();
             
                                     $this->addFlash('success', 'Le post a bien été publié');
-                                    return $this->redirectToRoute('app_topicDetail', ['id' => $topic->getId()]);
+                                    return $this->redirectToRoute('app_topicDetail', ['slug' => $topic->getSlug()]);
                                     // } else {
                                         
                                     //     $this->addFlash('error', 'Le titre doit faire au minimum 5 mots !');
@@ -281,22 +281,22 @@ class TopicController extends AbstractController
                                 } 
                                 else {
                                     $this->addFlash('error', 'Pas de vulgarités pour un titre');
-                                    return $this->redirectToRoute('app_topicDetail', ['id' => $topic->getId()]);
+                                    return $this->redirectToRoute('app_topicDetail', ['slug' => $topic->getSlug()]);
                                 }   
                             }
                             else {
                                 $this->addFlash('error', 'Le commentaire ne peut pas être vide');
-                                return $this->redirectToRoute('app_topicDetail', ['id' => $topic->getId()]);
+                                return $this->redirectToRoute('app_topicDetail', ['slug' => $topic->getSlug()]);
                             }
                         }
                         else {
                             $this->addFlash('error', 'Le topic a été fermé, vous ne pouvez plus le commenter.');
-                            return $this->redirectToRoute('app_topicDetail', ['id' => $topic->getId()]);
+                            return $this->redirectToRoute('app_topicDetail', ['slug' => $topic->getSlug()]);
                         }
                     }
                     else {
                         $this->addFlash('error', 'Vous êtes actuellement réduit au silence (ou bannis), et ne pouvez rien publier');
-                        return $this->redirectToRoute('app_mediaDetail', ['id' => $media->getId()]);
+                        return $this->redirectToRoute('app_topicDetail', ['slug' => $media->getSlug()]);
                     }
                 }
                 else {
@@ -507,12 +507,12 @@ class TopicController extends AbstractController
 
 
     // Fermeture de topic par author (id: idTopic)  (voir pour asynch ajax ?)
-    #[Route('/closeTopic/{id}', name: 'app_closeTopic')]
-    public function closeTopicPost(EntityManagerInterface $entityManager, int $id, Request $request): Response
+    #[Route('/closeTopic/{slug}', name: 'app_closeTopic')]
+    public function closeTopicPost(EntityManagerInterface $entityManager, string $slug, Request $request): Response
     {
         $topicRepo = $entityManager->getRepository(Topic::class);
 
-        $topic = $topicRepo->find($id);
+        $topic = $topicRepo->findOneBy(['slug' => $slug]);
 
         // Vérif si user est bien l'auteur du topic
         if ($this->getUser() == $topic->getUser()) {
@@ -521,23 +521,23 @@ class TopicController extends AbstractController
             $entityManager->flush();
 
             $this->addFlash('success', 'Le topic a bien été fermé');
-            return $this->redirectToRoute('app_topicDetail', ['id' => $id]); 
+            return $this->redirectToRoute('app_topicDetail', ['slug' => $slug]); 
         }
         else {
             $this->addFlash('error', 'Vous devez être l\'auteur du topic ou admin pour pouvoir le fermer');
-            return $this->redirectToRoute('app_topicDetail', ['id' => $id]); 
+            return $this->redirectToRoute('app_topicDetail', ['slug' => $slug]); 
         }
     }
 
 
 
     // Réouverture du topic par author (id: idTopic)  (voir pour asynch ajax ?)
-    #[Route('/openTopic/{id}', name: 'app_openTopic')]
-    public function openTopicPost(EntityManagerInterface $entityManager, int $id, Request $request): Response
+    #[Route('/openTopic/{slug}', name: 'app_openTopic')]
+    public function openTopicPost(EntityManagerInterface $entityManager, string $slug, Request $request): Response
     {
         $topicRepo = $entityManager->getRepository(Topic::class);
 
-        $topic = $topicRepo->find($id);
+        $topic = $topicRepo->findOneBy(['slug' => $slug]);
 
         // Vérif si user est bien l'auteur du topic
         if ($this->getUser() == $topic->getUser()) {
@@ -546,11 +546,11 @@ class TopicController extends AbstractController
             $entityManager->flush();
 
             $this->addFlash('success', 'Le topic a bien été rouvert');
-            return $this->redirectToRoute('app_topicDetail', ['id' => $id]); 
+            return $this->redirectToRoute('app_topicDetail', ['slug' => $slug]); 
         }
         else {
             $this->addFlash('error', 'Vous devez être l\'auteur du topic ou admin pour pouvoir le rouvrir');
-            return $this->redirectToRoute('app_topicDetail', ['id' => $id]); 
+            return $this->redirectToRoute('app_topicDetail', ['slug' => $slug]); 
         }
     }
 

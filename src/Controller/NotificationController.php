@@ -674,7 +674,7 @@ class NotificationController extends AbstractController
             $this->entityManager->flush();
 
             // Lien notif (format localhost pour test mais marche en prod normalement):
-            $link = $this->urlGenerator->generate('app_topicDetail', ['id' => $topic->getId(), 'notifId' => $notification->getId()], UrlGeneratorInterface::ABSOLUTE_URL);
+            $link = $this->urlGenerator->generate('app_topicDetail', ['slug' => $topic->getSlug(), 'notifId' => $notification->getId()], UrlGeneratorInterface::ABSOLUTE_URL);
             $notification->setLink($link); 
             $this->entityManager->persist($notification);
             $this->entityManager->flush();
@@ -1047,7 +1047,7 @@ class NotificationController extends AbstractController
                 $topic = $topicPost->getTopic();
 
                 // Lien notif 
-                $link = $this->urlGenerator->generate('app_topicDetail', ['id' => $topic->getId(),'notifId' => $notification->getId()], UrlGeneratorInterface::ABSOLUTE_URL);
+                $link = $this->urlGenerator->generate('app_topicDetail', ['slug' => $topic->getSlug(),'notifId' => $notification->getId()], UrlGeneratorInterface::ABSOLUTE_URL);
                 $notification->setLink($link); 
                 $this->entityManager->persist($notification);
                 $this->entityManager->flush();

@@ -99,7 +99,7 @@
             {# Liste topics globaux  #}
             <section id="allTopicsDiv" class="listContainer topicList marginTop" style="display:none;">
                 {% for topic in allTopicsDesc %}
-                    <a href="{{ path('app_topicDetail', {'id': topic.id}) }}">
+                    <a href="{{ path('app_topicDetail', {'slug': topic.slug}) }}">
                         <article class="topicCardGlobal" style="border-bottom: 4px solid {{ topic.game.color }}">
                             <img class="tinyLogo" src="{{ asset('img/games/tinyLogo/' ~ topic.game.tinyLogo) }}" alt="logo du jeu {{ topic.game.title }}" />
                             <span class="topicTitle">{{ topic.title|capitalize }}</span>
@@ -121,7 +121,7 @@
             {# Liste topics du jeu  #}
             <section id="listContainer" class="listContainer topicList marginTop">
                 {% for topic in gameTopicsDesc %}
-                    <a href="{{ path('app_topicDetail', {'id': topic.id}) }}">
+                    <a href="{{ path('app_topicDetail', {'slug': topic.slug}) }}">
                         <article class="topicCardGlobal" style="border-bottom: 4px solid {{ topic.game.color }}">
                             <img class="tinyLogo" src="{{ asset('img/games/tinyLogo/' ~ topic.game.tinyLogo) }}" alt="logo du jeu {{ topic.game.title }}" />
                             <span class="topicTitle">{{ topic.title|capitalize }}</span>

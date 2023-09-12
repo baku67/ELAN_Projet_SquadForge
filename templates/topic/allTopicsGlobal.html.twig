@@ -89,7 +89,7 @@
 
             <div class="listContainer topicList marginTop">
                 {% for topic in allTopicsDesc|sort((a, b) => b.getTopicPostsCount() - a.getTopicPostsCount()) %}
-                    <a class="topicCardLink" href="{{ path('app_topicDetail', {'id': topic.id}) }}">
+                    <a class="topicCardLink" href="{{ path('app_topicDetail', {'slug': topic.slug}) }}">
                         <article class="topicCard" style="border-bottom: 4px solid {{ topic.game.color }}">
                             <img class="tinyLogo" src="{{ asset('img/games/tinyLogo/' ~ topic.game.tinyLogo) }}" alt="logo du jeu {{ topic.game.title }}" />
                             <span class="topicTitle">{{ topic.title|capitalize }}</span>

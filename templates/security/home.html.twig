@@ -529,7 +529,7 @@
                 
                     {% for topic in lastTopics %}
                         <article>
-                            <a href="{{ path('app_topicDetail', {'id': topic.id}) }}">
+                            <a href="{{ path('app_topicDetail', {'slug': topic.slug}) }}">
                                 <div title="{{ topic.title|capitalize }}" class="topicCard" style="border-bottom: 4px solid {{ topic.game.color }}">
                                     <img class="tinyLogo" src="{{ asset('img/games/tinyLogo/' ~ topic.game.tinyLogo) }}" />
                                     <span class="topicTitle">{{ topic.title|capitalize }}</span>

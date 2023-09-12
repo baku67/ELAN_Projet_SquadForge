@@ -91,7 +91,7 @@ class SitemapController extends AbstractController
 
             $urls[] = [
                 'loc' => $this->generateUrl('app_topicDetail', [
-                    'id' => $article->getId(),
+                    'slug' => $article->getSlug(),
                 ]),
                 'lastmod' => $article->getPublishDate()->format('Y-m-d'),
                 'title' => $article->getTitle(),

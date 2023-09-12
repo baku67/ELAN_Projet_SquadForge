@@ -88,11 +88,11 @@ class ReportController extends AbstractController
                             break;
                         case 'topic':
                             $this->addFlash('success', 'Votre signalement a été envoyé à la modération');
-                            return $this->redirectToRoute('app_topicDetail', ['id' => $object->getId()]);
+                            return $this->redirectToRoute('app_topicDetail', ['slug' => $object->getSlug()]);
                             break;
                         case 'topicPost':
                             $this->addFlash('success', 'Votre signalement a été envoyé à la modération');
-                            return $this->redirectToRoute('app_topicDetail', ['id' => $object->getTopic()->getId()]);
+                            return $this->redirectToRoute('app_topicDetail', ['slug' => $object->getTopic()->getSlug()]);
                             break;
                         case 'mediaPost':
                             $this->addFlash('success', 'Votre signalement a été envoyé à la modération');
@@ -108,11 +108,11 @@ class ReportController extends AbstractController
                             break;
                         case 'topic':
                             $this->addFlash('error', 'Vous avez déjà signalé ce contenu');
-                            return $this->redirectToRoute('app_topicDetail', ['id' => $object->getId()]);
+                            return $this->redirectToRoute('app_topicDetail', ['slug' => $object->getSlug()]);
                             break;
                         case 'topicPost':
                             $this->addFlash('error', 'Vous avez déjà signalé ce commentaire');
-                            return $this->redirectToRoute('app_topicDetail', ['id' => $object->getTopic()->getId()]);
+                            return $this->redirectToRoute('app_topicDetail', ['slug' => $object->getTopic()->getSlug()]);
                             break;
                         case 'mediaPost':
                             $this->addFlash('error', 'Vous avez déjà signalé ce commentaire');
@@ -130,11 +130,11 @@ class ReportController extends AbstractController
                     break;
                 case 'topic':
                     $this->addFlash('error', 'Vous devez vous connecter pour signaler un contenu');
-                    return $this->redirectToRoute('app_topicDetail', ['id' => $object->getId()]);
+                    return $this->redirectToRoute('app_topicDetail', ['slug' => $object->getSlug()]);
                     break;
                 case 'topicPost':
                     $this->addFlash('error', 'Vous devez vous connecter pour signaler un commentaire');
-                    return $this->redirectToRoute('app_topicDetail', ['id' => $object->getTopic()->getId()]);
+                    return $this->redirectToRoute('app_topicDetail', ['slug' => $object->getTopic()->getSlug()]);
                     break;
                 case 'mediaPost':
                     $this->addFlash('error', 'Vous devez vous connecter pour signaler un commentaire');

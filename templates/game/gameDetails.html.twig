@@ -450,7 +450,7 @@
                     <div class="listContainer topicList marginTop">
 
                         {% for topic in gameTopics %}
-                            <a href="{{ path('app_topicDetail', {'id': topic.id}) }}">
+                            <a href="{{ path('app_topicDetail', {'slug': topic.slug}) }}">
                                 {# Faire une div BG absolute pour chaque card avec clipPath anim onmouseover #}
                                 <div class="topicCard" style="border-bottom: 4px solid {{ game.color }}" onmouseover="" onmouseout="">
                                     <img class="tinyLogo" src="{{ asset('img/games/tinyLogo/' ~ topic.game.tinyLogo) }}" alt="logo du jeu {{ topic.game.title }}" />
