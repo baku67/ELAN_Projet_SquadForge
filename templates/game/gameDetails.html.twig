@@ -561,7 +561,7 @@
                     {{ form_end(formAddMedia) }}
 
                     {# Apercu du média à publier #}
-                    <div id="preview-container" style="max-width: 340px;">
+                    <div id="preview-container" style="max-width: 350px; margin: 25px auto;">
                         <div class="previewMediaCard">
                             <div id="mediaCardHeader">
                                 {# Contenyu ajouté JS #}
@@ -574,7 +574,7 @@
 
                 {# Script aperçu media upload #}
                 <script>
-                    // Sélectionnez votre élément d'entrée de type fichier (input file)
+                    // Sélectionnez votre élément d'entrée de type fichier (input file) trest
                     const input = document.getElementById('media_url');
 
                     // Ajoutez un écouteur d'événements "change" sur l'élément d'entrée
@@ -597,12 +597,34 @@
                                 // Ajoutez l'image prévisualisée à un élément de votre choix dans le DOM
                                 const previewContainer = document.getElementById('mediaCardHeader');
                                 previewContainer.innerHTML = '';
+                                document.getElementById('mediaCardHeader').style.borderWidth = "1px";
                                 previewContainer.prepend(img);
 
+                                const previewMediaCardHeader = document.createElement('div');
+                                previewMediaCardHeader.classList.add('mediaCardHeader');
+                                previewMediaCardHeader.style.borderBottom = "3px solid {{ game.color }}";
+                                previewMediaCardHeader.style.borderTopLeftRadius = "3px";
+                                previewMediaCardHeader.style.borderTopRightRadius = "3px";
+
+                                const previewMediaCardLogo = document.createElement('img');
+                                previewMediaCardLogo.classList.add('tinyLogo');
+                                previewMediaCardLogo.src = "../img/games/tinyLogo/{{ game.tinyLogo }}";
+                                previewMediaCardHeader.prepend(previewMediaCardLogo);
+
                                 const previewMediaTitle = document.createElement('span');
+                                previewMediaTitle.id = 'mediaTitle';
                                 previewMediaTitle.classList.add('mediaTitle');
+                                previewMediaTitle.style.height = "25px";
                                 previewMediaTitle.textContent = document.getElementById('media_title').value;
-                                previewContainer.append(previewMediaTitle);
+                                previewMediaCardHeader.append(previewMediaTitle);
+
+                                const previewMediaDummySubSection = document.createElement('div');
+                                previewMediaDummySubSection.classList.add('mediaCardStatsDiv');
+                                previewMediaDummySubSection.innerHTML = '<div class="inline"><i class="likeMedia fa-regular fa-circle-up"></i><span value="0"> 0 </span></div><span style="opacity:0.5;">0 <i class="fa-solid fa-message" style="color:grey;"></i></span>'
+
+                                previewContainer.prepend(previewMediaCardHeader);
+
+                                previewContainer.append(previewMediaDummySubSection);
                             };
 
                             // Lisez le contenu du fichier en tant que données URL
@@ -617,6 +639,14 @@
                             previewContainer.append(notValidFileMsg);
                         }
                     });
+
+                    // Mise à jour du titre preview à l'input
+                    const inputTitle = document.getElementById('media_title');
+                    inputTitle.addEventListener('input', function() {
+                        if (document.getElementById('mediaTitle') !== null) {
+                            document.getElementById('mediaTitle').innerText = inputTitle.value;
+                        }
+                    })
 
                 </script>
 

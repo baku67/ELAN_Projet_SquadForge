@@ -4176,6 +4176,19 @@ nav {
 
 }
 
+#mediaCardHeader {
+    color: whitesmoke;
+    border: 0px solid whitesmoke;
+    border-radius: 4px;
+
+}
+
+.previewMediaCard {
+    color: whitesmoke;
+    border: 0px solid whitesmoke;
+    border-radius: 4px;
+}
+
 #createMediaForm {
     width: 70%;
     margin: 5px auto 25px auto;
@@ -4939,7 +4952,7 @@ h1, h2, h3, h4 {
 
 
 .mediaCardStatsDiv {
-    opacity: 0.8;
+    opacity: 1;
     background-color: #151515;
     display: inline-flex;
     width: 100%;
