@@ -176,7 +176,8 @@ body {
     text-align: center;
     padding: 10px 10px 10px 10px;
     margin-bottom: 25px;
-    background-color: #ffffff14;
+    background-color: #0000004a;
+    border: 1px solid #80808033;
     border-radius: 6px;
 }
 
@@ -250,6 +251,11 @@ body {
     font-size: 0.8em;
     opacity: 0.7;
     margin: 0 5px 2px 5px;
+}
+
+
+.fc .fc-scrollgrid-section-body table, .fc .fc-scrollgrid-section-footer table {
+    background-color: #0000004a;
 }
 
 
@@ -720,26 +726,31 @@ dialog::backdrop {
     margin-left: 12px;
     bottom: 0px;
     font-size: 1.3em;
-    color: #c7c7c7;
+    color: #edb01790;
     transition: all 0.3s;
 }
 .editCandidatureOfferTxt:hover {
     cursor: pointer;
-    color: #ffffff;
+    color: #edb017;
 }
 
+.requiredQuestionLabel {
+    border-left: 1px solid #80808040;
+    padding-left: 10px;
+    margin-left: 10px;
+}
 
 .editNbrPlacesTeam {
     position: absolute;
     right: 13px;
     bottom: 0px;
     font-size: 1.3em;
-    color: #c7c7c7;
+    color: #edb01790;
     transition: all 0.3s;
 }
 .editNbrPlacesTeam:hover {
     cursor: pointer;
-    color: #ffffff;
+    color: #edb017;
 }
 
 .groupHeader {
@@ -815,17 +826,12 @@ dialog::backdrop {
 }
 
 .editTeamImgIcon {
-    /* TODO Embetant: */
-    /* z-index: -10;  */
     opacity: 0;
     position: absolute;
-    /* top: 50%; */
-    /* right: 50%; */
     right: 9px;
     top: -4px;
-    /* transform: translate(50%, -50%); */
     font-size: 3.3em;
-    color: #e5e5e5d3;
+    color: #edb01790;
     transition: all 0.3s;
 }
 
@@ -3744,7 +3750,7 @@ nav {
 
 #questionsContainer {
     padding: 5px 5px 25px 5px;
-    background-color: #8080802b;
+    background-color: #0000004a;
     border-radius: 7px;
 }
 
@@ -5252,11 +5258,16 @@ cursor: pointer;
 .membersList {
     display: inline-flex;
     width: 100%;
-    margin: 30px auto;
+    margin: 13px auto 0px auto;
     justify-content: center;
+
+    background-color: #0000004a;
+    width: fit-content;
+    padding: 22px 31px;
+    border-radius: 5px;
 }
 .membersList a, .membersList li {
-    margin: 0 15px;
+    margin: 0 9px;
 }
 
 .memberCard {
@@ -5390,20 +5401,29 @@ cursor: pointer;
 }
 .questionLineList {
     position: relative;
-    background-color: #404040;
+    background-color: #0000004a;
+    border-radius: 5px;
     font-family: 'K2D', sans-serif;
     justify-content: space-between;
-    margin-top: 1px;
+    margin-top: 4px;
     padding: 10px 10px 7px 10px;
 }
 .requiredStar {
     color: #b43a3a;
-    font-size: 0.7em;
+    font-size: 0.5em;
     margin-left: 5px;
     position: relative;
-    bottom: 4px;
+    bottom: 10px;
 }
 
+.hiringTxt {
+    font-family: 'K2D', sans-serif;
+    font-size: 1.2em;
+    background-color: #0000004a;
+    width: fit-content;
+    padding: 5px;
+    border-radius: 5px;
+}
 
 .questionAndAnswer {
     margin: 2px auto;
@@ -5459,6 +5479,21 @@ cursor: pointer;
     display:flex; 
     flex-direction:column;
     margin: 10px auto 0px auto;
+
+    border: 1px solid #80808033;
+    background-color: #0000004a;
+    padding: 17px 10px 6px 18px;
+    border-radius: 8px;
+    border: 1px solid #80808040;
+}
+
+.passLeadDiv {
+    background-color: #0000004a;
+    padding: 9px 5px 19px 15px;
+    margin-right: 40px;
+    border-radius: 8px;
+    border: 1px solid #80808040;
+    margin-top: 8px;
 }
 
 
@@ -5473,7 +5508,11 @@ cursor: pointer;
     width: fit-content;
     background-color: rgb(56 56 56);
 
-    margin-top: 35px;
+    border-color: grey;
+    opacity: 0.7;
+    border-width: 1px;
+    cursor: default;
+    margin: 29px auto 5px auto;
 
     transition: all 0.4s;
 }
@@ -5923,6 +5962,9 @@ cursor: pointer;
 .nbrPlacesTeam {
     align-self: center;
     font-size: 1.8em;
+
+    margin-right: 25px !important;
+    margin-left: 9px !important;
 }
 
 
@@ -6109,6 +6151,7 @@ cursor: pointer;
     position: relative;
     padding: 20px 35px 20px 35px;
     opacity: 0;
+    /* display: flex; */
 
     animation: fadeInSection 0.4s 0.3s forwards ease;
 }
