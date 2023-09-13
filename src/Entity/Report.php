@@ -30,9 +30,21 @@ class Report
     #[ORM\JoinColumn(nullable: false)]
     private ?ReportMotif $reportMotif = null;
 
+    
+    public function __toString() {
+        return $this->id;
+    }
+
     public function getId(): ?int
     {
         return $this->id;
+    }
+    // Fix EasyAdmin:
+    public function setId(int $id): self
+    {
+        $this->id = $id;
+
+        return $this;
     }
 
     public function getUserReporter(): ?User

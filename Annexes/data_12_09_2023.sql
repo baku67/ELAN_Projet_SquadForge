@@ -1,5 +1,5 @@
 INSERT INTO `user` (`id`, `email`, `roles`, `password`, `is_verified`, `pseudo`, `auto_play_gifs`, `status`, `end_date_status`, `nbr_censures`) VALUES
-	(3, 'basile08@hotmail.fr', '["ROLE_MODO"]', '$2y$13$PFkqOIh3ZRbIx6totl7OE.aHyfWw9YQcb7ZqN.XeBtsr1YR/lZDiK', 1, 'basile', 1, '', '2023-07-22 21:46:56', 20),
+	(3, 'basile08@hotmail.fr', '["ROLE_MODO", "ROLE_ADMIN"]', '$2y$13$PFkqOIh3ZRbIx6totl7OE.aHyfWw9YQcb7ZqN.XeBtsr1YR/lZDiK', 1, 'basile', 1, '', '2023-07-22 21:46:56', 20),
 	(7, 'basile09@hotmail.fr', '[]', '$2y$13$VQhOrGgKRQ1rdIoNWVld9eANrYSBAYbuGOCQQ5rHYbMfzBfpv4Sxa', 1, 'basile2', NULL, 'muted', '2023-07-25 05:33:42', 4),
 	(8, 'basile10@hotmail.fr', '[]', '$2y$13$aQvLMfshYRre.ij4LrLkiO9prlAoISs8gqAItt.aC976djlHg5FdK', 1, 'basile3', 1, NULL, NULL, 0),
 	(95, 'basile100@hotmail.fr', '[]', '$2y$13$JxJQQGHr6.N.eXLLAQ1PVufgrkOEQ6ux76wEii1CpMa1/SgdU94We', 1, 'basile100', 1, NULL, NULL, 0),

@@ -38,9 +38,21 @@ class MediaPost
         $this->mediaPostLikes = new ArrayCollection();
     }
 
+    
+    public function __toString() {
+        return $this->text;
+    }
+
     public function getId(): ?int
     {
         return $this->id;
+    }
+    // Fix EasyAdmin:
+    public function setId(int $id): self
+    {
+        $this->id = $id;
+
+        return $this;
     }
 
     public function getText(): ?string

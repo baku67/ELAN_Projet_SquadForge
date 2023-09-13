@@ -23,9 +23,21 @@ class MediaPostLike
     #[ORM\ManyToOne(inversedBy: 'mediaPostLikes')]
     private ?MediaPost $mediaPost = null;
 
+    
+    public function __toString() {
+        return $this->state;
+    }
+
     public function getId(): ?int
     {
         return $this->id;
+    }
+    // Fix EasyAdmin:
+    public function setId(int $id): self
+    {
+        $this->id = $id;
+
+        return $this;
     }
 
     public function getState(): ?string

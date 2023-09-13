@@ -143,9 +143,21 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         $this->groupSessionDispos = new ArrayCollection();
     }
 
+    
+    public function __toString() {
+        return $this->pseudo;
+    }
+
     public function getId(): ?int
     {
         return $this->id;
+    }
+    // Fix EasyAdmin:
+    public function setId(int $id): self
+    {
+        $this->id = $id;
+
+        return $this;
     }
 
     // Check si User banned ou Muted
