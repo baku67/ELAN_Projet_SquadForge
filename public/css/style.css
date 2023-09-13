@@ -246,6 +246,13 @@ body {
     animation: fadeIn 0.6s 0s ease forwards;
 }
 
+.quoteTxt {
+    font-size: 0.8em;
+    opacity: 0.7;
+    margin: 0 5px 2px 5px;
+}
+
+
 
 .lp-phone-slpideTrait1 {
     display: none;

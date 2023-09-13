@@ -40,7 +40,8 @@ class DashboardController extends AbstractDashboardController
 
 
     // #[IsGranted('ROLE_ADMIN')]
-    #[Route('/admin/{_locale}', name: 'admin')]
+    #[Route('/admin', name: 'admin')]
+    // #[Route('/admin/{_locale}', name: 'admin')]
     public function index(): Response
     {
 
@@ -78,6 +79,7 @@ class DashboardController extends AbstractDashboardController
     {
         yield MenuItem::linkToDashboard('Tableau de bord', 'fa fa-dashboard');
         yield MenuItem::linkToCrud('Jeux', 'fa-solid fa-gamepad', Game::class);
+        yield MenuItem::linkToCrud('Teams', 'fa-solid fa-people-group', Group::class);
         yield MenuItem::linkToCrud('Genre', 'fa-solid fa-puzzle-piece', Genre::class);
         yield MenuItem::linkToCrud('Candidatures', 'fa-solid fa-clipboard-user', Candidature::class);
         yield MenuItem::linkToCrud('Censures', 'fa-solid fa-virus-slash', Censure::class);

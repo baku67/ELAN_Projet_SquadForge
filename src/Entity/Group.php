@@ -60,9 +60,6 @@ class Group
     #[ORM\OneToMany(mappedBy: 'groupe', targetEntity: GroupQuestion::class, cascade: ['remove'])]
     private Collection $groupQuestions;
 
-    #[ORM\Column(type: Types::TEXT, nullable: true)]
-    private ?string $candidature_description = null;
-
     #[ORM\Column]
     private ?bool $restriction_imgProof = null;
 
@@ -314,17 +311,6 @@ class Group
         return $this;
     }
 
-    public function getCandidatureDescription(): ?string
-    {
-        return $this->candidature_description;
-    }
-
-    public function setCandidatureDescription(?string $candidature_description): self
-    {
-        $this->candidature_description = $candidature_description;
-
-        return $this;
-    }
 
     public function isRestrictionImgProof(): ?bool
     {

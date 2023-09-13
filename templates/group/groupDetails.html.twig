@@ -591,7 +591,7 @@
 
 
                     <div id="addSessionBtn" style="text-align:center;">
-                        <button class="btn btn-primary"><i class="fa-solid fa-plus"></i> Ajouter une session</button>
+                        <button class="btn btn-primary"><i class="fa-solid fa-calendar-plus"></i> Ajouter une session</button>
                     </div>
 
                     <div id="addSessionForm" class="notDisplayed">
@@ -760,9 +760,9 @@
                     <div class="sectionContent">
 
                         {% if candidatureCount == 0 %}
-                            <span class="candidaturesListBtn" style="border-color: grey; opacity:0.7; border-width:1px; cursor:default;"><i class="fa-regular fa-clock"></i> En attente ({{ candidatureCount }})</span>
+                            <span class="candidaturesListBtn" style="border-color: grey; opacity:0.7; border-width:1px; cursor:default;"><i class="fa-regular fa-clock"></i> Candidatures en attente ({{ candidatureCount }})</span>
                         {% else %}
-                            <a href="{{ path('app_candidatureList',{'groupSlug':group.slug}) }}" class="candidaturesListBtn" style="border-color: {{ gameFrom.color }}", onmouseover="this.style.backgroundColor = '{{ gameFrom.color }}';" onmouseout="this.style.backgroundColor = 'rgb(56 56 56)';"><i class="fa-regular fa-clock"></i> En attente <span class="bulleWaitingCandidature" style="background-color:{{gameFrom.color}}">{{ candidatureCount }}</span></a>
+                            <a href="{{ path('app_candidatureList',{'groupSlug':group.slug}) }}" class="candidaturesListBtn" style="border-color: {{ gameFrom.color }}", onmouseover="this.style.backgroundColor = '{{ gameFrom.color }}';" onmouseout="this.style.backgroundColor = 'rgb(56 56 56)';"><i class="fa-regular fa-clock"></i> Candidatures en attente <span class="bulleWaitingCandidature" style="background-color:{{gameFrom.color}}">{{ candidatureCount }}</span></a>
                         {% endif %}
 
 
@@ -775,7 +775,7 @@
                                 </span>
                             </div>
 
-                            <p style="font-family:'K2D', sans-serif; font-size:1.2em">{{ group.candidatureTxt }}</p>
+                            <p style="font-family:'K2D', sans-serif; font-size:1.2em"><i class="fa-solid fa-angles-left quoteTxt"></i>{{ group.candidatureTxt|capitalize }}<i class="fa-solid fa-angles-right quoteTxt"></i></p>
 
                             {# Modal change teamPic #}
                             <dialog class="modalDialog" id="changeCandidatureTxtModal">
@@ -796,10 +796,10 @@
                                 })
                             </script>
 
+                            {# <div></divW #}
 
-                            <p style="font-family:'K2D';">{{ group.candidatureDescription|capitalize }}</p>
 
-                            <h5>Questions posés</h5> 
+                            <h5 style="border-top:1px solid #ffffff36; padding-top:18px;">Questions posés</h5> 
                             {# Liste des questions #}
                             <div class="questionsContainer">
                             {% if questions|length > 0 %}

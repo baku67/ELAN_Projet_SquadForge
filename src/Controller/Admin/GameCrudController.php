@@ -5,6 +5,8 @@ namespace App\Controller\Admin;
 use App\Entity\Game;
 use App\Form\RegistrationFormType;
 use App\Form\TopicType;
+use App\Form\MediaType;
+use App\Form\GroupType;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
 use Symfony\Component\Form\FormTypeInterface;
 
@@ -50,10 +52,12 @@ class GameCrudController extends AbstractCrudController
             SlugField::new('slug')->setTargetFieldName('title')->setLabel('Slug (basé sur le titre)'),
             DateTimeField::new('publish_date')->setLabel('Date de sortie du jeu'),
 
-            // CollectionField::new('favUsers')->setEntryType(RegistrationFormType::class),
-            CollectionField::new('favUsers')->setEntryIsComplex()->setLabel('Utilisateurs ayant favorisé'),
-            CollectionField::new('topics')->setEntryType(TopicType::class)->setLabel('Topics liés au jeu'),
-            // ...
+            // *** Collections liées au jeu (page details only):
+            // CollectionField::new('gameGroups')->setEntryType(GroupType::class)->setLabel('Teams liées au jeu')->hideOnIndex(),
+            CollectionField::new('topics')->setEntryType(TopicType::class)->setLabel('Topics liés au jeu')->hideOnIndex(),
+            // CollectionField::new('media')->setEntryType(MediaType::class)->setLabel('Médias liés au jeu')->hideOnIndex(),
+            CollectionField::new('favUsers')->setEntryIsComplex()->setLabel('Utilisateurs ayant favorisé')->hideOnIndex(),
+            CollectionField::new('notations')->setLabel('Notations du jeu')->hideOnIndex(), // TODO: Chart.js
         ];
     }
     
