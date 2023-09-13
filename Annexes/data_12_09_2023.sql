@@ -17,12 +17,12 @@ INSERT INTO `genre` (`id`, `name`, `slug`) VALUES
 
 
 INSERT INTO `game` (`id`, `genre_id`, `title`, `editor`, `publish_date`, `description`, `color`, `logo`, `banner`, `font_color`, `tiny_logo`, `sub_banner`, `nbr_places`, `site_logo`, `show_icon_search_page`, `slug`) VALUES
-	(1, 1, 'Overwatch', 'Blizzard', '2017-05-01 21:16:23', 'FPS dynamique et efficace', '#ff9b00', 'overwatchLogo.png', 'overwatchBanner.jpg', 'white', 'overwatch1.png', 'overwatchHeaderBg.jpg', 0, 'logoSquadForge_overwatch.png', 1, 'overwatch'),
-	(2, 1, 'Call of Duty', 'Activision', '2002-05-01 21:16:54', 'FPS connu ', '#74c814', 'callOfDutyLogo.png', 'codBanner.jpg', 'white', 'cod1.png', 'callofdutyHeaderBg.jpg', 0, 'logoSquadForge_cod.png', 0, 'call-of-duty'),
+	(1, 1, 'Overwatch', 'Blizzard', '2017-05-01 21:16:23', 'FPS dynamique et efficace', '#ff9b00', 'overwatchLogo.png', 'overwatchBanner.jpg', '#141414', 'overwatch1.png', 'overwatchHeaderBg.jpg', 0, 'logoSquadForge_overwatch.png', 1, 'overwatch'),
+	(2, 1, 'Call of Duty', 'Activision', '2002-05-01 21:16:54', 'FPS connu ', '#74c814', 'callOfDutyLogo.png', 'codBanner.jpg', '#141414', 'cod1.png', 'callofdutyHeaderBg.jpg', 0, 'logoSquadForge_cod.png', 0, 'call-of-duty'),
 	(3, 2, 'Isaac', 'Edmund McMillen', '2003-05-01 23:59:12', 'Oulah', '#e24f37', 'isaacLogo.jpg', 'isaacBanner.jpg', 'white', 'isaac1.png', 'overwatchHeaderBg.jpg', 0, 'logoSquadForge_White_Rogned.png', 0, 'isaac'),
-	(4, 1, 'Valorant', 'Riot Games', '2021-05-02 01:41:56', 'Fps mélange entre Overwatch et Counter Strike', '#ff4655', 'valorantLogo.png', 'valorantBanner.jpg', 'white', 'valorant1.png', 'valorantHeaderBg.jpg', 0, 'logoSquadForge_valorant.png', 1, 'valorant'),
-	(5, 3, 'PUBG', 'Krafton', '2016-05-02 02:52:53', 'Battle royal pas ouf', '#ffd632', 'pubgLogo.jpeg', 'pubgBanner.jpg', 'white', 'pubg1.png', 'pubgHeaderBg.jpg', 0, 'logoSquadForge_pubg.png', 0, 'pubg'),
-	(6, 4, 'League of Legend', 'Riot Games', '2023-07-04 00:15:46', 'Bah c''est lol', '#d4af61', 'lolLogo.jpg', 'lolBanner.jpg', 'white', 'lol1.png', 'lolHeaderBg.jpg', 0, 'logoSquadForge_lol.png', 1, 'league-of-legend'),
+	(4, 1, 'Valorant', 'Riot Games', '2021-05-02 01:41:56', 'Fps mélange entre Overwatch et Counter Strike', '#ff4655', 'valorantLogo.png', 'valorantBanner.jpg', '#141414', 'valorant1.png', 'valorantHeaderBg.jpg', 0, 'logoSquadForge_valorant.png', 1, 'valorant'),
+	(5, 3, 'PUBG', 'Krafton', '2016-05-02 02:52:53', 'Battle royal pas ouf', '#ffd632', 'pubgLogo.jpeg', 'pubgBanner.jpg', '#141414', 'pubg1.png', 'pubgHeaderBg.jpg', 0, 'logoSquadForge_pubg.png', 0, 'pubg'),
+	(6, 4, 'League of Legend', 'Riot Games', '2023-07-04 00:15:46', 'Bah c''est lol', '#d4af61', 'lolLogo.jpg', 'lolBanner.jpg', '#141414', 'lol1.png', 'lolHeaderBg.jpg', 0, 'logoSquadForge_lol.png', 1, 'league-of-legend'),
 	(10, 4, 'Dota 2', 'Valve', '2013-09-04 14:43:13', 'Description jeu', '#ae3018', '', 'dota2Banner.png', 'white', 'dota1.png', 'dota2HeaderBg.png', 0, 'logoSquadForge_dota2.png', 1, 'dota-2');
 
 
@@ -90,7 +90,7 @@ INSERT INTO `media` (`id`, `title`, `publish_date`, `url`, `status`, `validated`
 	(1, 'Regardez donc ce 360° no scope, il doit etre dégouterrrr', '2023-05-09 08:59:47', 'valorant.gif', 'open', 'validated', 3, 4, 'regardez-donc-ce-360°-no-scope,-il-doit-etre-degouterrrr'),
 	(2, 'test topic test topic  test topic', '2023-05-09 11:08:54', 'valorant2.gif', 'open', 'validated', 3, 4, 'test-topic-test-topic--test-topic'),
 	(3, 'test ajout media sans img', '2023-05-09 11:11:23', 'valorant3.gif', 'open', 'validated', 3, 4, 'test-ajout-media-sans-img'),
-	(13,-'Test upload Gif Overwatch Test', '2023-05-10 01:54:11', 'overwatch2.gif', 'open', 'validated', 3, 1, 'test-upload-gif-overwatch-Test'),
+	(13, 'Test upload Gif Overwatch Test', '2023-05-10 01:54:11', 'overwatch2.gif', 'open', 'validated', 3, 1, 'test-upload-gif-overwatch-Test'),
 	(14, 'Test upload gif2 Overwatch Pog', '2023-05-10 01:56:42', 'overwatch.gif', 'open', 'validated', 3, 1, 'test-upload-gif2-overwatch-Pog'),
 	(15, 'test upload Gif Call of Duty', '2023-05-10 02:00:56', 'cod2.gif', 'open', 'validated', 3, 2, 'test-upload-gif-call-of-duty'),
 	(16, 'Test upload meme Call of', '2023-05-10 02:02:12', 'cod.gif', 'open', 'validated', 3, 2, 'test-upload-meme-call-of'),

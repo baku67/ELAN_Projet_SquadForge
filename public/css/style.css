@@ -3732,6 +3732,7 @@ nav {
     /* font-weight: bold; */
     color: white;
     letter-spacing: 1px;
+    transition: all 0.3s;
 }
 
 #questionsContainer {
@@ -4018,6 +4019,7 @@ nav {
     transform: translate(0px, -5px);
     z-index:0;
     /* background-image: linear-gradient(to right, #ff4655, #ff46558c); */
+    transition: all 0.3s;
 
     animation: gameTopicsSubTitleBg1 0.3s 0.1s ease-in-out forwards, gameTopicsSubTitleBg2 0.4s 0.45s ease-in-out forwards;
 }
@@ -4026,7 +4028,7 @@ nav {
         height: 0px;
     }
     to {
-        height:45px; 
+        height:47px; 
     }
 }
 @keyframes gameTopicsSubTitleBg2 {
@@ -4034,9 +4036,23 @@ nav {
         width: 5px;
     }
     to {
-        width:190px; 
+        width:205px; 
     }
 }
+.gameTopicsSubTitleBg:hover {
+    filter: saturate(0.3);
+    /* transform: translate(3px, -1px); */
+}
+
+
+.gameTopicsSubTitleBg:has( + .gameSubTitle:hover) {
+    filter: saturate(0.3);
+    /* transform: translate(3px, -1px); */
+}
+
+
+
+
 
 
 .modoSubTitle1Bg {
@@ -4162,14 +4178,23 @@ nav {
 
 #createMediaForm {
     width: 70%;
-    margin: 40px auto;
+    margin: 5px auto 25px auto;
+    padding: 20px;
+    background-color: #0000006b;
+    border-radius: 7px;
 }
 
 #createTopicForm {
     width: 70%;
-    margin: 40px auto;
+    margin: 5px auto 25px auto;
+    padding: 20px;
+    background-color: #0000006b;
+    border-radius: 7px;
 }
 
+.opac {
+    opacity: 1 !important;
+}
 
 .gameCardFav {
     position: absolute;
@@ -4319,11 +4344,29 @@ div#tarteaucitronServices {
     color: white;
     cursor: pointer;
     overflow: hidden;
+
+    border-top: 2px solid;
+    border-bottom: 2px solid;
+
     transition: all 0.4s;
   }
   
   .gameTeamBtn:hover {
     color: black;
+  }
+
+
+  .gameTopicList {
+    padding: 25px 25px !important;
+    width: 85% !important;
+  }
+
+  .userGameTeamsContainer {
+    padding-top: 12px;
+    margin-top: 20px;
+    padding-bottom: 11px;
+    background-color: #00000042;
+    border-radius: 8px;
   }
   
   
@@ -4645,13 +4688,13 @@ div#tarteaucitronServices {
 #charCountMsgMedia, #charCountMsg {
     font-family: 'K2D', sans-serif;
     margin: 0 6px;
-    font-size: 0.72em;
+    font-size: 0.92em;
 }
 
 .fileUploadCriteria {
     font-family: 'K2D', sans-serif;
     margin: 0 10px;
-    font-size: 0.72em;
+    font-size: 0.92em;
     font-weight: bold;
     color: #ff1c1c;
 }

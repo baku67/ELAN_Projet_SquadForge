@@ -28,7 +28,7 @@
             {% endif %}
             {% if app.user and "ROLE_MODO" in app.user.roles %}
             
-                <a href="{{ path('app_moderationDashboard') }}" style="color:{{ game.fontColor }};" id="modoNav" class="modoNav">
+                <a href="{{ path('app_moderationDashboard') }}" id="modoNav" class="modoNav">
                     <div class="modoNavSubDiv">
                         <span>Modération</span>
                         {% if modoNotifValidationCount > 0 %}
@@ -226,8 +226,8 @@
             
             <a href="{{ path('app_groupList',{'gameIdFrom': game.id}) }}">
                 <div>
-                    <div class="gameTopicsSubTitleBg" style="background-color:{{ game.color }};"></div>
-                    <h3 class="gameSubTitle noMarginBottom">
+                    <div class="gameTopicsSubTitleBg" style="background-image: linear-gradient(to right, {{ game.color }}, #ffffffd9);"></div>
+                    <h3 class="gameSubTitle noMarginBottom" style="color:{{ game.fontColor }}">
                         <i class="fa-solid fa-users-between-lines"></i> Teams
                     </h3>
                 </div>
@@ -237,21 +237,21 @@
 
                 <div class="sectionTeamContent">
                     <a href="{{ path('app_groupList', {'gameIdFrom': game.id}) }}">
-                        <div class="gameTeamBtn gameTeamBtn1" onmouseover="this.style.backgroundColor = '{{ game.color }}';" onmouseout="this.style.backgroundColor = 'rgb(69 69 69)';">
+                        <div class="gameTeamBtn gameTeamBtn1" style="border-color:{{ game.color }}" onmouseover="this.style.backgroundColor = '{{ game.color }}';" onmouseout="this.style.backgroundColor = 'rgb(69 69 69)';">
                             <div class="teamBtnBg" style="background-color: {{ game.color }}"></div>
                             <span style="position:relative; z-index:10;">Rejoindre une Team ({{ nbrOfTeams }})</span>
                         </div>
                     </a>
                     {% if app.user %}
                     <a href="{{ path('app_createGroup', {'gameIdFrom': game.id}) }}">
-                        <div class="gameTeamBtn gameTeamBtn2" onmouseover="this.style.backgroundColor = '{{ game.color }}';" onmouseout="this.style.backgroundColor = 'rgb(69 69 69)';">
+                        <div class="gameTeamBtn gameTeamBtn2" style="border-color:{{ game.color }}" onmouseover="this.style.backgroundColor = '{{ game.color }}';" onmouseout="this.style.backgroundColor = 'rgb(69 69 69)';">
                             <div class="teamBtnBg" style="background-color: {{ game.color }}"></div>
                             <span style="position:relative; z-index:10;">Créer une Team</span>
                         </div>
                     </a>
                     {% else %}
                     <a href="{{ path('app_login') }}">
-                        <div class="gameTeamBtn gameTeamBtn2" onmouseover="this.style.backgroundColor = '{{ game.color }}';" onmouseout="this.style.backgroundColor = 'rgb(69 69 69)';">
+                        <div class="gameTeamBtn gameTeamBtn2" style="border-color:{{ game.color }}" onmouseover="this.style.backgroundColor = '{{ game.color }}';" onmouseout="this.style.backgroundColor = 'rgb(69 69 69)';">
                             <div class="teamBtnBg" style="background-color: {{ game.color }}"></div>
                             <span style="position:relative; z-index:10;">Créer une Team</span>
                         </div>
@@ -261,88 +261,92 @@
 
 
                 {% if app.user %}
+
+                    <div class="userGameTeamsContainer">
                 
-                    <h4 style="text-align:center;margin-top:20px">Vos Teams</h4>
+                        <h4 style="text-align:center;">Vos Teams</h4>
 
-                    {% if userGameGroups|length > 0 %}
+                        {% if userGameGroups|length > 0 %}
 
-                    <div class="groupListGrid">
+                        <div class="groupListGrid">
 
-                        {% for userGameGroup in userGameGroups %}
-                            
+                            {% for userGameGroup in userGameGroups %}
                                 
-                            <a title='"{{ userGameGroup.title|capitalize }}"' href="{{ path('app_groupDetails', {'groupSlug': userGameGroup.slug } ) }}" style="width:fit-content;position:relative;">
+                                    
+                                <a title='"{{ userGameGroup.title|capitalize }}"' href="{{ path('app_groupDetails', {'groupSlug': userGameGroup.slug } ) }}" style="width:fit-content;position:relative;">
 
-                                {# Couronne si leader: #}
-                                {% if app.user == userGameGroup.leader %}
-                                    <i class="fa-solid fa-crown teamCard-crownLeader"></i>
-                                {% endif %}
+                                    {# Couronne si leader: #}
+                                    {% if app.user == userGameGroup.leader %}
+                                        <i class="fa-solid fa-crown teamCard-crownLeader"></i>
+                                    {% endif %}
 
-                                <div class="teamCard" style="border-color:{{ userGameGroup.game.color }}60">
+                                    <div class="teamCard" style="border-color:{{ userGameGroup.game.color }}60">
 
-                                    <div class="teamCardTextDiv">
+                                        <div class="teamCardTextDiv">
 
-                                        <div class="absoluteBg-teamCard" style="background-image:linear-gradient(to top, {{userGameGroup.game.color}}d6, {{userGameGroup.game.color}}), url('../img/testMotif2.jpg'); background-size:cover;"></div>
+                                            <div class="absoluteBg-teamCard" style="background-image:linear-gradient(to top, {{userGameGroup.game.color}}d6, {{userGameGroup.game.color}}), url('../img/testMotif2.jpg'); background-size:cover;"></div>
 
-                                        <span class="teamCardGameTitle" style="background-color:{{ userGameGroup.game.color }}">{{ userGameGroup.game.title }}</span>
-                                        
-                                        <p class="teamCardTitleV2">{{ userGameGroup.title|capitalize }}</p>
+                                            <span class="teamCardGameTitle" style="background-color:{{ userGameGroup.game.color }}">{{ userGameGroup.game.title }}</span>
+                                            
+                                            <p class="teamCardTitleV2">{{ userGameGroup.title|capitalize }}</p>
 
-                                        <div class="teamCard-members">
-                                            <i class="fa-solid fa-user-group"></i> 
-                                            <span style="position:relative; top:2px;">{{ userGameGroup.members|length }}/{{ userGameGroup.nbrPlaces }}</span>
+                                            <div class="teamCard-members">
+                                                <i class="fa-solid fa-user-group"></i> 
+                                                <span style="position:relative; top:2px;">{{ userGameGroup.members|length }}/{{ userGameGroup.nbrPlaces }}</span>
+                                            </div>
+
+                                            <ul class="teamCard-criterias">
+                                                <li>
+                                                    {% if userGameGroup.restriction18 %}
+                                                        <img src="{{ asset('img/criteria_18.png') }}" style="filter:invert(0.9);" alt="icone interdit aux mineurs">
+                                                    {% else %}
+                                                        <img src="{{ asset('img/criteria_18.png') }}" style="opacity:0.9;" alt="icone interdit aux mineurs">
+                                                    {% endif %}
+                                                </li>
+                                                <li>
+                                                    {% if userGameGroup.restrictionMic %}
+                                                        <img src="{{ asset('img/criteria_micro.png') }}" style="filter:invert(0.9);" alt="icone microphone">
+                                                    {% else %}
+                                                        <img src="{{ asset('img/criteria_micro.png') }}" style="opacity:0.9;" alt="icone microphone">
+                                                    {% endif %}
+                                                </li>
+                                            </ul>
+
                                         </div>
 
-                                        <ul class="teamCard-criterias">
-                                            <li>
-                                                {% if userGameGroup.restriction18 %}
-                                                    <img src="{{ asset('img/criteria_18.png') }}" style="filter:invert(0.9);" alt="icone interdit aux mineurs">
-                                                {% else %}
-                                                    <img src="{{ asset('img/criteria_18.png') }}" style="opacity:0.9;" alt="icone interdit aux mineurs">
-                                                {% endif %}
-                                            </li>
-                                            <li>
-                                                {% if userGameGroup.restrictionMic %}
-                                                    <img src="{{ asset('img/criteria_micro.png') }}" style="filter:invert(0.9);" alt="icone microphone">
-                                                {% else %}
-                                                    <img src="{{ asset('img/criteria_micro.png') }}" style="opacity:0.9;" alt="icone microphone">
-                                                {% endif %}
-                                            </li>
-                                        </ul>
+                                        <div class="teamCardImgWrapper">
+
+                                            {% if userGameGroup.imgUrl is not null and imageExists(userGameGroup.imgUrl) %}
+                                                <img class="teamCardImg" src="/img/uploads/{{ userGameGroup.imgUrl }}" alt="image de la team">
+                                            {% else %}
+                                                <img class="teamCardImg" src="/img/teamDefaultPic.jpg" alt="image team par defaut">
+                                            {% endif %}
+
+                                            {# Label si team active (= au moins 1 session moi précédent) #}
+                                            {% if userGameGroup.active %}
+                                                <span class="teamCard-isActiveLabel">Active</span>
+                                            {% endif %}
+
+                                            {# Div effet reflet onHover card #}
+                                            <div class="teamCardReflectDiv"></div>
+
+                                        </div>
 
                                     </div>
-
-                                    <div class="teamCardImgWrapper">
-
-                                        {% if userGameGroup.imgUrl is not null and imageExists(userGameGroup.imgUrl) %}
-                                            <img class="teamCardImg" src="/img/uploads/{{ userGameGroup.imgUrl }}" alt="image de la team">
-                                        {% else %}
-                                            <img class="teamCardImg" src="/img/teamDefaultPic.jpg" alt="image team par defaut">
-                                        {% endif %}
-
-                                        {# Label si team active (= au moins 1 session moi précédent) #}
-                                        {% if userGameGroup.active %}
-                                            <span class="teamCard-isActiveLabel">Active</span>
-                                        {% endif %}
-
-                                        {# Div effet reflet onHover card #}
-                                        <div class="teamCardReflectDiv"></div>
-
-                                    </div>
-
-                                </div>
-                            </a>
+                                </a>
 
 
-                                
+                                    
 
-                        {% endfor %}
+                            {% endfor %}
+
+                        </div>
+
+                        {% else %}
+                        <p class="emptyListMsg">Vous n'appartenez à aucune team</p>
+                        {% endif %}
 
                     </div>
-
-                    {% else %}
-                    <p class="emptyListMsg">Vous n'appartenez à aucune team</p>
-                    {% endif %}
 
                 {% else %}
 
@@ -365,19 +369,18 @@
             <div style="display:inline-flex; width:100%; justify-content:space-between;">
                 <a href="{{ path('app_allTopics', {'gameIdFrom': game.id}) }}">
                     <div>
-                        <div class="gameTopicsSubTitleBg" style="background-color:{{ game.color }};"></div>
-                        <h3 class="gameSubTitle noMarginBottom">
+                        <div class="gameTopicsSubTitleBg" style="background-image: linear-gradient(to right, {{ game.color }}, #ffffffd9);"></div>
+                        <h3 class="gameSubTitle noMarginBottom" style="color:{{ game.fontColor }}">
                             <i class="fa-solid fa-comment-dots"></i> Topics
-                            <span class="gameListCount">&nbsp;({{ gameTopicsCount }})</span>
+                            {# <span class="gameListCount">&nbsp;({{ gameTopicsCount }})</span> #}
                         </h3>
                     </div>
                 </a>  
-                {# <a id="createTopicBtn" href="{{ path('app_addGameTopic', {'id': game.id }) }}" class="createButton" style="border-top: 1px solid {{ game.color }}; border-bottom: 1px solid {{ game.color }};"><i class="fa-solid fa-plus" style="color:{{ game.color }}"></i>&nbsp;Créer</a> #}
                 
                 {% if app.user %}
-                    <span id="createTopicBtn" class="createButton" style="border-top: 1px solid {{ game.color }}; border-bottom: 2px solid {{ game.color }};" onmouseover="this.style.backgroundColor = '{{ game.color }}';" onmouseout="this.style.backgroundColor = 'rgb(69 69 69)';"><i class="fa-solid fa-plus" style="color:{{ game.color }}"></i>&nbsp;Créer</span>
+                    <span id="createTopicBtn" class="createButton" style="border-top: 1px solid {{ game.color }}; border-bottom: 2px solid {{ game.color }};" onmouseover="this.style.backgroundColor = '{{ game.color }}';" onmouseout="this.style.backgroundColor = 'rgba(255, 255, 255, 0.05)';"><i class="fa-solid fa-plus" style="color:{{ game.color }}"></i>&nbsp;Créer</span>
                 {% else %}
-                    <a href="{{ path('app_login') }}" class="linkFixPosition"><span class="createButton" style="border-top: 1px solid {{ game.color }}; border-bottom: 2px solid {{ game.color }};" onmouseover="this.style.backgroundColor = '{{ game.color }}';" onmouseout="this.style.backgroundColor = 'rgb(69 69 69)';"><i class="fa-solid fa-plus" style="color:{{ game.color }}"></i>&nbsp;Créer</span></a>
+                    <a href="{{ path('app_login') }}" class="linkFixPosition"><span class="createButton" style="border-top: 1px solid {{ game.color }}; border-bottom: 2px solid {{ game.color }};" onmouseover="this.style.backgroundColor = '{{ game.color }}';" onmouseout="this.style.backgroundColor = 'rgba(255, 255, 255, 0.05)';"><i class="fa-solid fa-plus" style="color:{{ game.color }}"></i>&nbsp;Créer</span></a>
                 {% endif %}
                 
             </div>
@@ -397,7 +400,7 @@
                             <div class="labelSpan" style="width:100%; display:inline-flex; align-items: center;">
                                 {{ form_label(formAddTopic.title, 'Titre')}}
                                 <p id="charCountMsg" style="color:#ff1c1c; font-weight:bold;"> (au moins 5 mots)</p>
-                                <span id="vulgarityTopicWarning" style="color:#ff1c1c; font-weight:bold; font-size:0.72em; display:none; font-family:'K2D',sans-serif;">
+                                <span id="vulgarityTopicWarning" style="color:#ff1c1c; font-weight:bold; font-size:0.92em; display:none; font-family:'K2D',sans-serif;">
                                     <i class="fa-solid fa-triangle-exclamation"></i>
                                     &nbsp;Vulgarité
                                 </span>
@@ -429,22 +432,29 @@
 
                     textInput.addEventListener("input", function() {
 
-                        console.log("inputText" + textInput.value);
-
                         let text = textInput.value;
-                        const words = text.split(" ");
-                        const wordCount = words.length;
 
-                        if(wordCount <= 5) {
-                            charContMsg.style.color = "#ff1c1c";
-                            document.getElementById('topic_submit').disabled = true;
+                        const countWords = (text) => {
+                            const words = text.split(' ');
 
-                        }
-                        else {
-                            charContMsg.style.color = "#00be00";
-                            document.getElementById('topic_submit').disabled = false;
+                            let count = 0;
+                            for (let i = 0; i < words.length; i++) {
+                                if (words[i] !== '') {
+                                    count++;
+                                    if(count < 5) {
+                                        charContMsg.style.color = "#ff1c1c";
+                                        document.getElementById('topic_submit').disabled = true;
+                                    }
+                                    else {
+                                        charContMsg.style.color = "#00be00";
+                                        document.getElementById('topic_submit').disabled = false;
+                                    }
+                                }
+                            }
+                            return count;
+                        };
 
-                        }
+                        countWords(text);
 
                     })
                 </script>
@@ -452,7 +462,7 @@
                 {# Liste des Topics #}
                 {% if gameTopics|length > 0 %}
 
-                    <div class="listContainer topicList marginTop">
+                    <div class="listContainer topicList marginTop gameTopicList">
 
                         {% for topic in gameTopics %}
                             <a href="{{ path('app_topicDetail', {'slug': topic.slug}) }}">
@@ -501,18 +511,16 @@
                 
                 <a href=" {{ path('app_allMedias', {'gameIdFrom': game.id}) }}">
                     <div>
-                        <div class="gameTopicsSubTitleBg" style="background-color:{{ game.color }};"></div>
-                        <h3 class="gameSubTitle noMarginBottom">
+                        <div class="gameTopicsSubTitleBg" style="background-image: linear-gradient(to right, {{ game.color }}, #ffffffd9);"></div>
+                        <h3 class="gameSubTitle noMarginBottom" style="color:{{ game.fontColor }}">
                             <i class="fa-solid fa-photo-film"></i> Medias
-                            <span class="gameListCount">&nbsp;({{ gameMediasCount }})</span>
+                            {# <span class="gameListCount">&nbsp;({{ gameMediasCount }})</span> #}
                         </h3>
                     </div>
                 </a>
-                    
-                {# <a id="createTopicBtn" href="{{ path('app_addGameTopic', {'id': game.id }) }}" class="createButton" style="border-top: 1px solid {{ game.color }}; border-bottom: 1px solid {{ game.color }};"><i class="fa-solid fa-plus" style="color:{{ game.color }}"></i>&nbsp;Créer</a> #}
-                
+                                    
                 {% if app.user %}
-                    <span id="createMediaBtn" class="createButton" style="border-top: 1px solid {{ game.color }}; border-bottom: 2px solid {{ game.color }};" onmouseover="this.style.backgroundColor = '{{ game.color }}';" onmouseout="this.style.backgroundColor = 'rgb(69 69 69)';"><i class="fa-solid fa-plus" style="color:{{ game.color }}"></i>&nbsp;Créer</span>
+                    <span id="createMediaBtn" class="createButton" style="border-top: 1px solid {{ game.color }}; border-bottom: 2px solid {{ game.color }};" onmouseover="this.style.backgroundColor = '{{ game.color }}';" onmouseout="this.style.backgroundColor = 'rgba(255, 255, 255, 0.05)';"><i class="fa-solid fa-plus" style="color:{{ game.color }}"></i>&nbsp;Créer</span>
                 {% else %}
                     <a href="{{ path('app_login') }}" class="linkFixPosition"><span class="createButton" style="border-top: 1px solid {{ game.color }}; border-bottom: 2px solid {{ game.color }};" onmouseover="this.style.backgroundColor = '{{ game.color }}';" onmouseout="this.style.backgroundColor = 'rgb(69 69 69)';"><i class="fa-solid fa-plus" style="color:{{ game.color }}"></i>&nbsp;Créer</span></a>
                 {% endif %}
@@ -534,7 +542,7 @@
                             <div class="labelSpan" style="width:100%; display:inline-flex; align-items: center;">
                                 {{ form_label(formAddMedia.title, 'Titre')}}
                                 <p id="charCountMsgMedia" style="color:#ff1c1c; font-weight:bold;"> (au moins 5 mots)</p>
-                                <span id="vulgarityMediaWarning" style="color:#ff1c1c; font-weight:bold;font-size:0.72em; display:none; font-family:'K2D',sans-serif;">
+                                <span id="vulgarityMediaWarning" style="color:#ff1c1c; font-weight:bold;font-size:0.92em; display:none; font-family:'K2D',sans-serif;">
                                     <i class="fa-solid fa-triangle-exclamation"></i>
                                     &nbsp;Vulgarité
                                 </span>
@@ -552,12 +560,11 @@
                         {{ form_widget(formAddMedia._token) }}
                     {{ form_end(formAddMedia) }}
 
-
-                    <div class="mediaCardPreview">
-                        <div id="preview-container">
-                            Aperçu:
+                    {# Apercu du média à publier #}
+                    <div id="preview-container" style="max-width: 340px;">
+                        <div class="previewMediaCard">
                             <div id="mediaCardHeader">
-                                <span class="mediaTitle"></span>
+                                {# Contenyu ajouté JS #}
                             </div>
                         </div>
                     </div>
@@ -575,7 +582,8 @@
                         // Obtenez le fichier sélectionné
                         const file = e.target.files[0];
 
-                        if (file) {
+                        if (file && (file.name.split('.').pop() == "png" || file.name.split('.').pop() == "jpg" || file.name.split('.').pop() == "gif" || file.name.split('.').pop() == "jpeg")) {
+
                             // Créez un objet FileReader
                             const reader = new FileReader();
 
@@ -590,10 +598,23 @@
                                 const previewContainer = document.getElementById('mediaCardHeader');
                                 previewContainer.innerHTML = '';
                                 previewContainer.prepend(img);
+
+                                const previewMediaTitle = document.createElement('span');
+                                previewMediaTitle.classList.add('mediaTitle');
+                                previewMediaTitle.textContent = document.getElementById('media_title').value;
+                                previewContainer.append(previewMediaTitle);
                             };
 
                             // Lisez le contenu du fichier en tant que données URL
                             reader.readAsDataURL(file);
+                        }
+                        else {
+                            const previewContainer = document.getElementById('mediaCardHeader');
+                            previewContainer.innerHTML = '';
+                            const notValidFileMsg = document.createElement('span');
+                            notValidFileMsg.classList.add('emptyListMsg');
+                            notValidFileMsg.textContent = "Le fichier uploadé n'a pas une extension valide";
+                            previewContainer.append(notValidFileMsg);
                         }
                     });
 
@@ -799,25 +820,41 @@
 
 
             {# Script vérif Front 5 mots minimum #}
-
             let charContMsg2 = document.querySelector("#charCountMsgMedia");
             let textInput2 = document.querySelector('#media_title');
 
             textInput2.addEventListener("input", function() {
 
                 let text = textInput2.value;
-                const words = text.split(" ");
-                const wordCount = words.length;
 
-                if(wordCount <= 5) {
-                    charContMsg2.style.color = "#ff1c1c";
-                    textCriteria = false;
-                }
-                else {
-                    charContMsg2.style.color = "#00be00";
-                    textCriteria = true;
-                }
+                const countWords = (text) => {
+                    const words = text.split(' ');
+
+                    let count = 0;
+                    for (let i = 0; i < words.length; i++) {
+                        if (words[i] !== '') {
+                            count++;
+                            if(count < 5) {
+                                charContMsg2.style.color = "#ff1c1c";
+                                textCriteria = false;
+                            }
+                            else {
+                                charContMsg2.style.color = "#00be00";
+                                textCriteria = true;
+                            }
+                        }
+                    }
+                    return count;
+                };
+
+                countWords(text);
+
             })
+
+
+
+
+
 
 
             // disable du bouton submit si les critères ne sont pas remplis
