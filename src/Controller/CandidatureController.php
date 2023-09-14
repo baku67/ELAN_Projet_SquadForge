@@ -168,6 +168,11 @@ class CandidatureController extends AbstractController
             }
         } 
         else {
+
+            $notifFrom = $notifRepo->find($notifId);
+            $entityManager->remove($notifFrom);
+            $entityManager->flush();
+
             $this->addFlash('error', 'La candidature n\'existe plus');
             return $this->redirectToRoute('app_showNotifsList');
         }

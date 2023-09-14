@@ -493,14 +493,14 @@ class GroupController extends AbstractController
             }
         }
         else {
-            if(is_null($notifId)) {
-                $this->addFlash('error', 'La team n\'existe plus');
-                return $this->redirectToRoute('app_allGroupList');    
-            }
-            else {
-                $this->addFlash('error', 'La team n\'existe plus');
-                return $this->redirectToRoute('app_showNotifsList');    
-            }
+
+            $notifFrom = $notifRepo->find($notifId);
+            $entityManager->remove($notifFrom);
+            $entityManager->flush();
+
+            $this->addFlash('error', 'La team n\'existe plus');
+            return $this->redirectToRoute('app_showNotifsList');    
+
         }
     }
 

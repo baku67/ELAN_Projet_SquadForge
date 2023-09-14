@@ -112,7 +112,7 @@ body {
     .btn-primary {
         font-family: 'K2D', sans-serif;
         margin: 0px auto;
-        color: black;
+        color: var(--background-color);
         border-radius: 3px;
     } 
 
@@ -174,8 +174,9 @@ body {
 
 .planningInfos {
     text-align: center;
-    padding: 10px 10px 10px 10px;
-    margin-bottom: 25px;
+    width: fit-content;
+    padding: 13px 35px 13px 35px;
+    margin: 6px auto 25px auto;
     background-color: #0000004a;
     border: 1px solid #80808033;
     border-radius: 6px;
@@ -830,7 +831,7 @@ dialog::backdrop {
     position: absolute;
     right: 9px;
     top: -4px;
-    font-size: 3.3em;
+    font-size: 2em;
     color: #edb01790;
     transition: all 0.3s;
 }
@@ -5465,7 +5466,7 @@ cursor: pointer;
     margin: 25px auto;
     display: block;
     width: fit-content;
-    background-color: rgb(56 56 56);
+    background-color: #0000004a;
 
     transition: all 0.4s;
 }
@@ -5830,6 +5831,11 @@ cursor: pointer;
 
 .unclickedNotifSpot {
     color: var(--primary-color);
+
+    margin-right: 10px;
+    font-size: 0.7em;
+    position: relative;
+    bottom: 1px;
 }
 
 
