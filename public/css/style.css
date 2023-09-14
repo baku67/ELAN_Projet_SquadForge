@@ -17,6 +17,10 @@
     box-shadow: 0 0 0 0.25rem rgba(13,110,253,0);
 }
 
+.form-control:focus {
+    color: white !important;
+}
+
 @font-face {
     font-family: 'twitch'; 
     src: url('../fonts/Twitchy.TV.otf') format('opentype'), 
@@ -2758,7 +2762,7 @@ nav {
     border-top: 0px;
     border-bottom: 0;
 
-    background-color: #80808030;
+    background-color: #2ce4f929;
 
 }
 .gamesFilterList li {
@@ -2855,6 +2859,7 @@ nav {
 .portfolioLink:hover {
     color: white;
     letter-spacing: 1px;
+    color: #2ce4f9;
 }
 
 .footerTitle {
@@ -3139,7 +3144,7 @@ nav {
     float: right; /* temporaire */
 
     padding: 12px 20px 12px 24px;
-    background-color: rgb(255 255 255 / 5%);
+    background-color: #2ce4f912;
     border-top: 1px solid rgb(255 255 255 / 20%);
     border-bottom: 1px solid rgb(255 255 255 / 20%);
     /* clip-path: polygon(14% 0, 100% 0, 86% 100%, 0% 100%); */
@@ -3155,7 +3160,7 @@ nav {
 }
 
 .favButton:hover {
-    background-color: #f1f1f12a;
+    background-color: #2ce4f929;
 }
 
 
@@ -3252,6 +3257,7 @@ nav {
     padding: .42rem .75rem .42rem 2.5rem;
     transition: all 0.3s;
     border-left: 3px solid #2ce4f9d4;
+    background-color: #2ce4f929;
 }
 #search-input:hover {
     background-color: #656565;
@@ -3753,6 +3759,7 @@ nav {
     padding: 5px 5px 25px 5px;
     background-color: #0000004a;
     border-radius: 7px;
+    border: 1px solid #80808040;
 }
 
 .test {
@@ -3766,7 +3773,8 @@ nav {
 .gameSubtitleV2 {
     padding: 6px 209px 3px 10px;
     clip-path: polygon(0 0, 100% 0, 95% 100%, 0 100%);
-    background-color: var(--background-color);
+    /* background-color: var(--background-color); */
+    background-color: #0d3c42;
     margin-left: 4px;
     border-radius: 4px;
     margin-top: 1px;
@@ -4243,9 +4251,11 @@ nav {
 .gameNotationDiv {
     display: inline-flex;
     flex-direction: column;
-    background-color: var(--background-color);
+    /* background-color: var(--background-color); */
+    background-color: #0d3c42;
     margin-top: 28px;
-    top: 17px;
+    border-top: 5px solid var(--background-color);
+    top: 12px;
     color: white;
     position: relative;
     right: 15px;
@@ -5372,17 +5382,19 @@ cursor: pointer;
 
 .deleteQuestion {
     position: absolute;
-    right: 1px;
+    right: 0px;
     bottom: 1px;
-    padding: 10px 20px;
-    border-radius: 3px;
+    color: #c54646;
+    padding: 8px 20px;
+    border-top-right-radius: 3px;
+    border-bottom-right-radius: 3px;
     transition: all 0.4s;
 }
 .deleteQuestion  i {
     transition: all 0.4s;
 }
 .deleteQuestion:hover {
-    background-color: grey;
+    background-color: #c54646;
 }
 .deleteQuestion:hover i {
     color: rgb(255, 255, 255);
@@ -5409,6 +5421,7 @@ cursor: pointer;
     justify-content: space-between;
     margin-top: 4px;
     padding: 10px 10px 7px 10px;
+    border: 1px solid #80808040;
 }
 .requiredStar {
     color: #b43a3a;
@@ -5425,6 +5438,7 @@ cursor: pointer;
     width: fit-content;
     padding: 5px;
     border-radius: 5px;
+    border: 1px solid #80808040;
 }
 
 .questionAndAnswer {

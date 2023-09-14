@@ -7,13 +7,13 @@
 {% block body %}
 
     <header class="gameHeader" style="background: url('{{ asset('img/games/banner/' ~ gameFrom.banner ) }}' )">
-        <a href="{{ path('app_home') }}"><img src="{{ asset('img/games/headerSiteLogo/' ~ gameFrom.siteLogo ) }}" class="logoPng" id="logoPng" alt='bearded dwarf forging a sword above "SquadForge" title' /></a>
+        <a href="{{ path('app_home') }}"><img src="{{ asset('img/games/headerSiteLogo/' ~ gameFrom.siteLogo) }}" class="logoPng" id="logoPng" alt='bearded dwarf forging a sword above "SquadForge" title' /></a>
         <nav class="navLine">
-            <a href="{{ path('app_home') }}" class="homeNav"><i class="fa-solid fa-house"></i></a>
-            <a href="{{ path('app_games') }}" class="gamesNav caps">jeux</a>
+            <a href="{{ path('app_home') }}" class="homeNav" onmouseover="this.style.borderTop = '2px solid {{ gameFrom.color }}'; this.style.color = '{{ gameFrom.color }}';" onmouseout="this.style.borderTop = '2px solid rgba(0,0,0,0)'; this.style.color = 'white';"><i class="fa-solid fa-house"></i></a>
+            <a href="{{ path('app_games') }}" class="gamesNav caps" onmouseover="this.style.borderTop = '2px solid {{ gameFrom.color }}'; this.style.color = '{{ gameFrom.color }}';" onmouseout="this.style.borderTop = '2px solid rgba(0,0,0,0)'; this.style.color = 'white';">jeux</a>
             {% if app.user %}
-                <a href="{{ path('app_userGroups') }}" class="teamsNav caps navActive" style="background-color: {{ gameFrom.color }}">teams</a>
-                <a href="{{ path('app_showNotifsList') }}" class="notifsNav" style="padding:0;">
+                <a href="{{ path('app_userGroups') }}" class="teamsNav caps navActive" style="background-color: {{ gameFrom.color }}" onmouseover="this.style.borderTop = '2px solid {{ gameFrom.color }}'; this.style.color = 'white';" onmouseout="this.style.borderTop = '2px solid rgba(0,0,0,0)'; this.style.color = 'black';">teams</a>
+                <a href="{{ path('app_showNotifsList') }}" class="notifsNav" style="padding:0;" onmouseover="this.style.borderTop = '2px solid {{ gameFrom.color }}'; this.style.color = '{{ gameFrom.color }}';" onmouseout="this.style.borderTop = '2px solid rgba(0,0,0,0)'; this.style.color = 'white';">
                     <div class="navNotifDiv">
                         <i class="fa-solid fa-bell notifBell"></i>
                         {# Bulle newNotifCount si > 0 #}
@@ -23,11 +23,11 @@
                     </div>
                 </a>
             {% else %}
-                <a href="{{ path('app_allGroupList') }}" class="teamsNav caps">teams</a>
+                <a href="{{ path('app_allGroupList') }}" class="teamsNav caps" onmouseover="this.style.borderTop = '2px solid {{ gameFrom.color }}'; this.style.color = '{{ gameFrom.color }}';" onmouseout="this.style.borderTop = '2px solid rgba(0,0,0,0)'; this.style.color = 'white';">teams</a>
             {% endif %}
             {% if app.user and "ROLE_MODO" in app.user.roles %}
             
-                <a href="{{ path('app_moderationDashboard') }}" style="color:white;" id="modoNav" class="modoNav">
+                <a href="{{ path('app_moderationDashboard') }}" id="modoNav" class="modoNav" onmouseover="this.style.borderTop = '2px solid {{ gameFrom.color }}'; this.style.color = '{{ gameFrom.color }}';" onmouseout="this.style.borderTop = '2px solid rgba(0,0,0,0)'; this.style.color = 'white';">
                     <div class="modoNavSubDiv">
                         <span>Modération</span>
                         {% if modoNotifValidationCount > 0 %}
@@ -59,6 +59,7 @@
     
     </header>
 
+
     {# HeaderSouligne + Bandeau avertissement muted #}
     {% if app.user and app.user.muted and time_diff_future(app.user.endDateStatus) != false %}
         <div class="headerUnderline" style="background-color: {{ gameFrom.color }}"></div>
@@ -71,19 +72,21 @@
 
 
 
+    {# Fil d'Ariane #}
+    <p class="breadcrumbs" style="margin-left:8%; margin-top:20px;">
+        <a class="underlineLink" href="{{ path('app_games') }}">Jeux</a>
+        <i class="fa-solid fa-angle-right arianeArrow" style="color:{{ gameFrom.color }}"></i>
+        <a class="underlineLink" href="{{ path('app_game', {'slug': gameFrom.slug }) }}">{{ gameFrom.title }}</a>
+        <i class="fa-solid fa-angle-right arianeArrow" style="color:{{ gameFrom.color }}"></i>
+        <a class="underlineLink" href="{{ path('app_groupList', {'gameIdFrom': gameFrom.id }) }}">Teams</a>
+        <i class="fa-solid fa-angle-right arianeArrow" style="color:{{ gameFrom.color }}"></i>
+        <span>{{ group.title }}</span>
+    </p>
+
+
+
+
     <main class="main">
-
-        {# Fil d'Ariane #}
-        <p class="breadcrumbs">
-            <a class="underlineLink" href="{{ path('app_games') }}">Jeux</a>
-            <i class="fa-solid fa-angle-right arianeArrow"></i>
-            <a class="underlineLink" href="{{ path('app_game', {'slug': gameFrom.slug }) }}">{{ gameFrom.title }}</a>
-            <i class="fa-solid fa-angle-right arianeArrow"></i>
-            <a class="underlineLink" href="{{ path('app_groupList', {'gameIdFrom': gameFrom.id }) }}">Teams</a>
-            <i class="fa-solid fa-angle-right arianeArrow"></i>
-            <span>{{ group.title }}</span>
-        </p>
-
         
         <section class="groupHeader" style="background-image: linear-gradient(to right, {{ gameFrom.color }}8c, {{ gameFrom.color }}50, #232323ba, #101010f7), url('../img/testMotif2.jpg'); background-size:contain; border-bottom:3px solid {{ gameFrom.color }};">
 

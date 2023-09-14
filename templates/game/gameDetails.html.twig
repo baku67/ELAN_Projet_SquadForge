@@ -75,7 +75,7 @@
     {# Fil d'ariane "breadcrumb" #}
     <ul class="filAriane" style="margin-left:8%; margin-top:20px;">
         <li class="arianeLink"><a href="{{ path('app_games') }}">Jeux</a></li>
-        <i class="fa-solid fa-angle-right arianeArrow"></i>
+        <i class="fa-solid fa-angle-right arianeArrow" style="color:{{ game.color }}"></i>
         <li class="arianeOnPage">{{ game.title }}</li>
     </ul>
 

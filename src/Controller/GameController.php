@@ -567,6 +567,7 @@ class GameController extends AbstractController
             // Génération de la route gameDetail associée à chaque jeu trouvé
             $urlGameDetail = $router->generate('app_game', ["slug" => $game->getSlug()]);
 
+            // TODO: sérialization plus propre 
             $results[] = [
                 'id' => $game->getId(),
                 'title' => $game->getTitle(),
@@ -579,6 +580,7 @@ class GameController extends AbstractController
                 'logo' => $game->getLogo(),
                 'urlGameDetail' => $urlGameDetail,
                 'subBanner' => $game->getSubBanner(),
+                'slug' => $game->getSlug(),
             ];
         }
         
