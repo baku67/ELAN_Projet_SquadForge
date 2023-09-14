@@ -38,11 +38,16 @@ class GroupCrudController extends AbstractCrudController
             BooleanField::new('restriction_18')->setLabel('Majorité requise'),
             BooleanField::new('restriction_mic')->setLabel('Micro requis'),
             TextField::new('status')->setLabel('Visibilité ("hidden"/"public")'),
-            ImageField::new('imgUrl')->setLabel('Image de la Team'),
+            ImageField::new('imgUrl')->setLabel('Image de la Team')->setUploadDir('public\img\uploads'),
             TextEditorField::new('candidature_txt')->setLabel('Texte de recrutement'),
-
-
+            SlugField::new('slug')->setTargetFieldName('title')->setLabel('Slug (basé sur le nom)'),
             DateTimeField::new('creation_date')->hideOnForm(),
+
+            CollectionField::new('members')->setLabel('Membres')->hideOnIndex()->setEntryIsComplex(),
+            CollectionField::new('groupQuestions')->setLabel('Questions')->hideOnIndex()->setEntryIsComplex(),
+            CollectionField::new('candidatures')->setLabel('Candidatures')->hideOnIndex()->setEntryIsComplex(),
+            CollectionField::new('groupSessions')->setLabel('Sessions')->hideOnIndex()->setEntryIsComplex(),
+            CollectionField::new('blacklistedUsers')->setLabel('Utilisateurs blacklistés')->hideOnIndex()->setEntryIsComplex(),
 
         ];
     }

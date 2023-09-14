@@ -30,6 +30,9 @@ class CandidatureCrudController extends AbstractCrudController
             TextEditorField::new('text')->setLabel('Motivation'),
             TextField::new('status')->setLabel('Statut ("pending" ou vide)'),
             DateTimeField::new('creation_date')->setLabel('Date de candidature')->hideOnForm(),
+        
+            CollectionField::new('groupAnswers')->setLabel('Réponses aux questions')->hideOnIndex()->setEntryIsComplex(),
+
         ];
     }
     

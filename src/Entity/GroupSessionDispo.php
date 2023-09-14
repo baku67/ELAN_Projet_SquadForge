@@ -26,7 +26,7 @@ class GroupSessionDispo
 
     
     public function __toString() {
-        return $this->id;
+        return $this->disponibility;
     }
 
     public function getId(): ?int

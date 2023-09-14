@@ -2,7 +2,7 @@
 
 namespace App\Controller\Admin;
 
-use App\Entity\Genre;
+use App\Entity\GroupSession;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
 
 use EasyCorp\Bundle\EasyAdminBundle\Field\IdField;
@@ -18,11 +18,11 @@ use EasyCorp\Bundle\EasyAdminBundle\Field\BooleanField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\SlugField;
 
 
-class GenreCrudController extends AbstractCrudController
+class GroupSessionCrudController extends AbstractCrudController
 {
     public static function getEntityFqcn(): string
     {
-        return Genre::class;
+        return GroupSession::class;
     }
 
     
@@ -30,11 +30,13 @@ class GenreCrudController extends AbstractCrudController
     {
         return [
             IdField::new('id')->hideOnForm(),
-            TextField::new('name')->setLabel('Nom'),
-            SlugField::new('slug')->setTargetFieldName('name')->setLabel('Slug (basé sur le nom)'),
-        
-            CollectionField::new('games')->setLabel('Jeux de ce genre')->hideOnIndex()->setEntryIsComplex(),
+            AssociationField::new('team')->setLabel('Team'),
+            TextField::new('title')->setLabel('Intitulé de la session'),
+            DateTimeField::new('dateStart')->setLabel('Début de la session'),
+            DateTimeField::new('dateStart')->setLabel('Fin de la session'),
+            BooleanField::new('comfirmNeeded')->setLabel('Confirmation des membres requise'),
 
+            CollectionField::new('groupSessionDispos')->hideOnIndex()->setLabel('Disponibilité des membres')->setEntryIsComplex(),
         ];
     }
     
