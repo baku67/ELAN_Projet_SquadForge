@@ -3093,12 +3093,12 @@ nav {
     z-index: 11;
     font-size: 1.6em;
     color: white;
-    bottom: 32px;
+    bottom: 41px;
     right: 0;
     padding-left: 42px;
     padding-right: 16px;
-    padding-top: 11px;
-    padding-bottom: 9px;
+    padding-top: 4px;
+    padding-bottom: 2px;
     clip-path: polygon(100% 0, 100% 0, 100% 100%, 100% 100%);
     background-color: #f1f1f112;
     transition: all 0.4s;
@@ -4386,6 +4386,7 @@ div#tarteaucitronServices {
   .gameTopicList {
     padding: 25px 25px !important;
     width: 85% !important;
+    background-color: #00000042;
   }
 
   .userGameTeamsContainer {
@@ -5642,35 +5643,35 @@ cursor: pointer;
     /* background-color: white;
     color: black; */
     color: var(--primary-color);
-    background-color: #ffffff17;
+    background-color: #2ce4f936;
     border-top: 2px solid var(--primary-color);
 }
 .teamsNav:hover {
     /* background-color: white;
     color: black; */
     color: var(--primary-color);
-    background-color: #ffffff17;
+    background-color: #2ce4f936;
     border-top: 2px solid var(--primary-color);
 }
 .homeNav:hover {
     /* background-color: white;
     color: black; */
     color: var(--primary-color);
-    background-color: #ffffff17;
+    background-color: #2ce4f936;
     border-top: 2px solid var(--primary-color);
 }
 .notifsNav:hover {
     /* background-color: white;
     color: black; */
     color: var(--primary-color);
-    background-color: #ffffff17;
+    background-color: #2ce4f936;
     border-top: 2px solid var(--primary-color);
 }
 .modoNav:hover {
     /* background-color: white;
     color: black !important; */
     color: var(--primary-color);
-    background-color: #ffffff17;
+    background-color: #2ce4f936;
     border-top: 2px solid var(--primary-color);
 }
 
@@ -6175,6 +6176,13 @@ cursor: pointer;
     to {
         opacity: 1;
     }
+}  
+
+.sectionContentMediaDiv {
+    margin: 20px 50px 20px 50px !important;
+    padding-top: 5px !important;
+    border-radius: 6px !important;
+    background-color: #00000042;
 }
 
 

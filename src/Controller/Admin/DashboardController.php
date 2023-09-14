@@ -79,7 +79,7 @@ class DashboardController extends AbstractDashboardController
     {
         yield MenuItem::linkToDashboard('Tableau de bord', 'fa fa-dashboard');
         yield MenuItem::linkToCrud('Jeux', 'fa-solid fa-gamepad', Game::class);
-        yield MenuItem::linkToCrud('Genre', 'fa-solid fa-puzzle-piece', Genre::class);
+        yield MenuItem::linkToCrud('Genres', 'fa-solid fa-puzzle-piece', Genre::class);
 
         yield MenuItem::linkToCrud('Teams', 'fa-solid fa-people-group', Group::class);
         yield MenuItem::linkToCrud('Sessions', 'fa-solid fa-calendar-days', GroupSession::class);
