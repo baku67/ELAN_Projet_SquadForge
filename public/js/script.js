@@ -5,6 +5,17 @@ window.addEventListener('load', function() {
     // console.log('TESTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT');
 
 
+    // Toggle close Mobile Burger Nav
+    document.getElementById('closeBurgerMobile').addEventListener("click", function() {
+        document.getElementById('navLine').classList.toggle('showNavMobile');
+    })
+
+    // Toggle show Mobile Burger Nav
+    document.getElementById('showBurgerMenu').addEventListener("click", function() {
+        
+        document.getElementById('navLine').classList.toggle('showNavMobile');
+    })
+
 
     // *************************  Scroll Header fixed + reduced ************************
 

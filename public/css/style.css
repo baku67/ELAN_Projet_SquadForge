@@ -80,6 +80,10 @@ header {
 }
 
 
+#closeBurgerMobile {
+    display: none;
+}
+
 .arianeArrow {
     color: var(--primary-color);
     align-self: center;
@@ -5592,6 +5596,17 @@ cursor: pointer;
     filter: drop-shadow();
 }
 
+#navLine {
+    transition: all 0.3s;
+}
+
+#profilBurgerMobile {
+    display:none;
+}
+
+.decoBtnMobile {
+}
+
 .navLine {
     display: inline-flex;
     font-family: 'K2D';
@@ -6151,7 +6166,7 @@ cursor: pointer;
 }
 
 .groupsGrid {
-    width: 85% !important;
+    width: 90% !important;
     margin: 45px auto;
     /* text-align-last: center; */
     display: grid;
@@ -6161,6 +6176,10 @@ cursor: pointer;
     grid-row-gap: 50px;
 
     justify-items: center;
+
+    padding: 25px;
+    background-color: #00000047;
+    border-radius: 8px;
 }
 
 #motifSelect {

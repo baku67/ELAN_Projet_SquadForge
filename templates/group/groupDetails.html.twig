@@ -8,7 +8,8 @@
 
     <header class="gameHeader" style="background: url('{{ asset('img/games/banner/' ~ gameFrom.banner ) }}' )">
         <a href="{{ path('app_home') }}"><img src="{{ asset('img/games/headerSiteLogo/' ~ gameFrom.siteLogo) }}" class="logoPng" id="logoPng" alt='bearded dwarf forging a sword above "SquadForge" title' /></a>
-        <nav class="navLine">
+        <nav id="navLine" class="navLine">
+            <span id="closeBurgerMobile"><i class="fa-solid fa-xmark"></i></span>
             <a href="{{ path('app_home') }}" class="homeNav" onmouseover="this.style.borderTop = '2px solid {{ gameFrom.color }}'; this.style.color = '{{ gameFrom.color }}';" onmouseout="this.style.borderTop = '2px solid rgba(0,0,0,0)'; this.style.color = 'white';"><i class="fa-solid fa-house"></i></a>
             <a href="{{ path('app_games') }}" class="gamesNav caps" onmouseover="this.style.borderTop = '2px solid {{ gameFrom.color }}'; this.style.color = '{{ gameFrom.color }}';" onmouseout="this.style.borderTop = '2px solid rgba(0,0,0,0)'; this.style.color = 'white';">jeux</a>
             {% if app.user %}
@@ -53,10 +54,24 @@
 
             {% endif %}
 
+            {# Profil + deco #}
+            <div id="profilBurgerMobile">
+                {% if app.user %}
+                    <a href="{{ path('app_user') }}" class="profil" id="profilBtnNav"><i class="fa-solid fa-user profilIcon"></i>  {{ app.user.pseudo|capitalize }}</a>
+                    <a href="{{ path('app_logout') }}" class="decoBtn"><i class="fa-solid fa-power-off decoBtnMobile"></i></a>
+                {% else %}
+                    <a href="{{ path('app_login') }}" class="profil" id="loginBtnNav" style="border-right:2px solid #80808061">Connexion</a>
+                    <a href="{{ path('app_register') }}" class="profil" id="registerBtnNav" style="border-bottom-left-radius:0px;">S'inscrire</a>
+                {% endif %}
+            </div>
+
         </nav>
 
         <a href="{{ path('app_game', {'slug': gameFrom.slug }) }}"><h2 id="headerGameTitle" class="headerGameTitle" style="border-right:10px solid {{ gameFrom.color }}; border-bottom:2px solid {{ gameFrom.color }};">{{ gameFrom.title }}</h2></a>
     
+        {# Show menu Burger (mobile) #}
+        <span id="showBurgerMenu"><i class="fa-solid fa-bars"></i></span>
+        
     </header>
 
 

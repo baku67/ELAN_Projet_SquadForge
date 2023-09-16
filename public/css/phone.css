@@ -37,6 +37,13 @@
         }
     }
 
+
+    .groupsGrid {
+        display: inline-flex;
+        width: 100% !important;
+        margin: 15px auto;
+    }
+
     .splide__list {
         padding-left: 0 !important;
     }
@@ -911,6 +918,12 @@
     }
 
 
+    .mediaList {
+        width: 95%;
+        margin: 30px auto;
+        padding: 30px 20px;
+    }
+
     .mediaListGrid {
         display: grid;
         grid-template-columns: repeat(2, 1fr);
@@ -926,6 +939,131 @@
         grid-template-rows: repeat(2, 1fr);
         grid-column-gap: 0px;
         grid-row-gap: 0px;
+    }
+
+    /* WIP burger nav */
+    .navLine {
+        transform: translateX(100%);
+
+        flex-direction: column;
+        position: absolute;
+        top: -1px;
+        right: -1px;
+        
+        width: 101%;
+        height: 101vh;
+        /* height: fit-content; */
+
+        background-color: #2a2a2a;
+
+        font-size: 2em;
+
+        padding-top: 5px;
+        /* justify-content: space-evenly; */
+
+        z-index: 9999;
+    }
+    .modoNav {
+        padding-right: 0px !important;
+        border-left: 0px solid #808080a8;
+    }
+
+    .homeNav {
+        text-align: center;
+    }
+    .gamesNav {
+        text-align: center;
+    }
+    .teamsNav {
+        text-align: center;
+    }
+    .notifsNav {
+        text-align: center;
+    }
+    .modoNav {
+        text-align: center;
+    }
+
+
+    #closeBurgerMobile {
+        display: block;
+        text-align: center;
+        font-size: 1.5em;
+        padding: 10px 0;
+    }
+
+    #authenticationDiv {
+        display: none !important;
+    }
+
+    #profilBurgerMobile {
+        display:block !important;
+        text-align: center;
+        margin: 50px auto 0 auto;
+        width: fit-content;
+    }
+
+    .decoBtn {
+        border-right: 0px solid rgba(179, 179, 179, 0) !important;
+    }
+
+    .decoBtnMobile {
+        padding: 9px 12px 9px 12px;
+        border-radius: 5px;
+        background-color: #b43a3a;
+    }
+
+
+    .modoNavSubDiv {
+        display: inline-flex !important;
+    }
+    .newNotifBubbleCount {
+        display: block !important;
+        height: fit-content !important;
+        position: relative !important;
+        padding-bottom: 9px !important;
+        padding-top: 5px !important;
+        top: 13px !important;
+
+        width: 27px !important;
+    }
+    .bubleModo2 {
+        right: -13px !important;
+    }
+    
+    #profilBtnNav {
+        background-color: #1d4345;
+        border-radius: 5px;
+        padding: 9px 18px 9px 7px;
+    }
+
+
+    #showBurgerMenu {
+        z-index: 9999;
+        position: absolute;
+        right: 23px;
+        transform: translateY(-50%);
+        top: 50%;
+        font-size: 2em;
+        color: var(--primary-color);
+    }
+
+    .showNavMobile {
+        transform: translateX(0%) !important;
+    }
+
+
+    #headerGameTitle {
+        display: none !important;
+    }
+
+
+    .topicCardPublishDate {
+        display: none;
+    }
+
+    .fakeCard {
+        margin-left: 0px !important
     }
 
 
