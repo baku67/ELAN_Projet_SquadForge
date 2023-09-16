@@ -3492,18 +3492,16 @@ nav {
 
 .topicCard, .topicCardGlobal {
     position: relative;
-    display:inline-flex; 
-    width:100%; 
-    justify-content:space-between;
-
-    margin: 1px auto;
+    display: inline-flex;
+    width: 100%;
+    justify-content: space-between;
+    margin: 2px auto;
     padding: 10px 15px 10px 53px;
-    background-color: white;
-    color: black;
-
+    border-radius: 3px;
+    border-top-left-radius: 13px;
+    background-color: #22c6d836;
+    color: #dedede;
     clip-path: polygon(1% 0, 100% 0, 100% 100%, 0% 100%);
-
-    /* FadeIn provoqué par ajout JS de la classe .topicCardFadeInAnim  */
     transform: rotateX(90deg);
     transition: all 0.4s;
     opacity: 0;
@@ -3519,6 +3517,22 @@ nav {
     }
 }
 
+.topicCard:hover, .topicCardGlobal:hover {
+    background-color: #108085 !important;
+}
+
+
+.topicCard img {
+    transition: all 0.3s;
+}
+
+.topicCard:hover img {
+    transform: translateX(5px);
+}
+.topicCard:hover .topicTitle {
+    transform: translateX(10px);
+}
+
 .topicCardFadeInAnim {
     animation: fadeInRotate 1s 0s ease forwards;
 }
@@ -3529,6 +3543,11 @@ nav {
 
 .topicCardPublishDate, .notifCardPublishDate {
     font-family: 'K2D', sans-serif;
+}
+.topicCardPublishDate {
+    font-size: 0.7em;
+    position: relative;
+    top: 4px;
 }
 .notifCardPublishDate {
     position: absolute;
@@ -3949,6 +3968,13 @@ nav {
     to {
         width:270px; 
     }
+}
+
+.homeUserTeamsTitle, .homeTopicsTitle, .homeMediasTitle {
+    border-bottom-right-radius: 33px;
+}
+.homeFavGamesTitle {
+    border-bottom-right-radius: 40px;
 }
 
 
@@ -4568,16 +4594,27 @@ div#tarteaucitronServices {
 
 .topicTitle {
     font-family: 'K2D', sans-serif;
-    width: 60%;
+    /* width: 60%; */
+    max-width: 80%;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+
+    transition: all 0.3s;
 }
 
 .topicCardSubInfos {
-    width: 40%;
+    /* width: 40%; */
+    gap: 20px;
+
     justify-content: space-between;
     display: inline-flex;
+}
+
+.msgIconColor {
+    color: var(--primary-color);
+    position: relative;
+    top: 1px;
 }
 
 .topicTitleModo {
@@ -4729,11 +4766,15 @@ div#tarteaucitronServices {
 
 
 
+
 /* Inversion couleurs listes pair/impair */
 .listContainer:nth-child(even) a:nth-child(even) .topicCard {
-    background-color: #e7e7e7;
+    background-color: #2bb3c259;
 }
 
+.topicList:nth-child(even) article:nth-child(even) .topicCard {
+    background-color: #2bb3c259;
+}
 
 
 
@@ -6028,6 +6069,10 @@ cursor: pointer;
     color: var(--background-color);
     border: 1px solid var(--background-color);
     border-bottom: 2px solid;
+}
+
+#showBurgerMenu {
+    display: none;
 }
 
 
