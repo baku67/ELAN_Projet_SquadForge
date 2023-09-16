@@ -31,7 +31,7 @@
     text-shadow: 1px 2px black;
     letter-spacing: 1px;
     line-height: 0;
-    font-size: 1.2em;
+    font-size: 1em;
     margin-left: 7px;
 
     position: relative;
@@ -769,7 +769,7 @@ dialog::backdrop {
 .teamCard-crownLeader {
     position: absolute;
     right: -14px;
-    top: -26px;
+    top: -35px;
     z-index: 9992;
     font-size: 2.2em;
     color: #edb017;
@@ -780,7 +780,7 @@ dialog::backdrop {
 
 .teamCard-crownLeader:has( + .teamCard:hover) {
     right: -31px;
-    top: -35px;
+    top: -44px;
     transform: rotate(31deg) rotateY(180deg);
 }
 
@@ -2057,7 +2057,7 @@ header {
 
 .favArrayHeart {
     opacity: 0;
-    font-size: 6em;
+    font-size: 5em;
     color: var(--primary-color);
     filter: drop-shadow(2px 4px 6px black);
     backdrop-filter: blur(1px);
@@ -2070,7 +2070,7 @@ header {
 }
 .favArrayPlus {
     opacity: 0;
-    font-size: 6em;
+    font-size: 5em;
     color: var(--primary-color);
     backdrop-filter: blur(1px);
     position: absolute;
@@ -2509,12 +2509,11 @@ header {
     padding: 15px 25px;
     height: 61vh;
     margin: 0 0;
-    border: 1px solid grey;
+    border: 1px solid #9a9a9a69;
     border-radius: 5px;
-    background-color: #8080803d;
+    background-color: #30bbcb1c;
 
     /* Glass effect (https://hype4.academy/tools/glassmorphism-generator) */
-    background: rgba( 255, 255, 255, 0.1 );
     backdrop-filter: blur( 12px );
     -webkit-backdrop-filter: blur( 12px );
     border-radius: 8px;
@@ -2540,7 +2539,7 @@ header {
     border: 8px solid #f97b2c;
     color: #f97b2c;
     border-radius: 0px;
-    background-color: rgba(255, 255, 255, 0);
+    background-color: #30bbcb30;
     /* + test ajouter grayscale ? */
     backdrop-filter: blur(44px) grayscale(1);
 }
@@ -2548,7 +2547,7 @@ header {
     border: 8px solid #f97b2c;
     color: #f97b2c;
     border-radius: 0px;
-    background-color: rgba(255, 255, 255, 0);
+    background-color: #30bbcb30;
     /* + test ajouter grayscale ? */
     backdrop-filter: blur(44px) grayscale(1);
 }
@@ -3518,8 +3517,8 @@ nav {
 }
 .notifCardPublishDate {
     position: absolute;
-    right: 12px;
-    bottom: 5px;
+    right: 3px;
+    bottom: 2px;
     font-size: 0.6em;
 }
 
@@ -3940,7 +3939,7 @@ nav {
 
 .homeTopicsTitle {
     position:absolute; 
-    clip-path: polygon(0 0, 100% 0, 91% 100%, 0 100%);
+    clip-path: polygon(0 0, 100% 0, 94% 100%, 0 100%);
     border-top-left-radius: 6px;
     /* height:35px; 
     width:130px;  */
@@ -3964,7 +3963,7 @@ nav {
         width: 5px;
     }
     to {
-        width:310px; 
+        width:345px; 
     }
 }
 
@@ -3995,7 +3994,7 @@ nav {
         width: 5px;
     }
     to {
-        width:160px; 
+        width:209px; 
     }
 }
 
@@ -5750,11 +5749,21 @@ cursor: pointer;
     position: relative;
     font-family: 'K2D', sans-serif;
     background-color: var(--sectionBg-color);
-    padding: 20px 15px;
+    /* padding: 20px 15px; */
+    padding: 20px 58px 20px 15px;
     border-radius: 3px;
     margin: 4px auto;
     /* width: 75%; */
     width: 100%;
+    background-color: #2ce4f91c;
+    /* background-image: linear-gradient(289deg, #00000059, #2ce4f91c); */
+    border: 1px solid #8080803d;
+    transition: all 0.3s;
+}
+.notifCard:hover {
+    background-image: linear-gradient(289deg, #00000059, #2ce4f944);
+    border: 1px solid #8080807c;
+
 }
 
 
@@ -5765,9 +5774,13 @@ cursor: pointer;
     font-size: 1.5em;
     top: 50%;
     transform: translateY(-50%);
-    right: -60px;
-}
+    right: 5px;
 
+    transition: all 0.3s;
+}
+.deleteSingleNotif:hover {
+    color: #b43a3a;
+}
 
 
 
@@ -5784,12 +5797,12 @@ cursor: pointer;
     font-size: 1.5em;
     border-radius: 100px;
     border: 1px solid #585858;
-    background-color: #272727;
+    background-color: #2ce4f91c;
     display: block;
     text-align: center;
     width: fit-content;
     margin: 50px auto;
-    transition: all 0.4s;
+    transition: all 0.3s;
 
     margin-left: 10px;
 }
@@ -5799,21 +5812,23 @@ cursor: pointer;
     font-size: 1.1em;
     border-radius: 100px;
     border: 1px solid #585858;
-    background-color: #272727;
+    background-color: #2ce4f91c;
     display: block;
     text-align: center;
     width: fit-content;
     /* margin: 50px auto; */
     margin-top: 50px;
     margin-bottom: 51px;
-    transition: all 0.4s;
+    transition: all 0.3s;
+    
 
     margin-right: 10px;
 }
 
 .cleanNotifsBtn:hover, #allSeenLink:hover {
     border: 1px solid #b5b5b5;
-    background-color: #323232;
+    background-color: #2ce4f931;
+    transform: scale(1.1);
 }
 
 
@@ -6006,6 +6021,7 @@ cursor: pointer;
     position: relative;
     padding: 5px 15px;
     z-index: 999;
+    background-color: #2ce4f91a;
 
     transition: all 0.3s;
 }
@@ -6221,8 +6237,8 @@ cursor: pointer;
 }
 
 .modoSectionRed {
-    border-top: 1px solid #E91E63 !important;
-    border-left: 6px solid #E91E63 !important;
+    border-top: 1px solid #dc2e2e !important;
+    border-left: 6px solid #dc2e2e !important;
 }
 
 
@@ -6407,11 +6423,11 @@ input:disabled {
   .censuredWordsList::-webkit-scrollbar-thumb {
     border-radius: 10px;
 
-    background-color: #E91E63; /* Adjust the color as needed */
+    background-color: #dc2e2e; /* Adjust the color as needed */
   }
   
   .censuredWordsList::-webkit-scrollbar-thumb:hover {
-    background-color: #E91E63; /* Adjust the color as needed */
+    background-color: #dc2e2e; /* Adjust the color as needed */
   }
 
 
