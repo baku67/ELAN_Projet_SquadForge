@@ -25,9 +25,9 @@ class TopicCrudController extends AbstractCrudController
     {
         return [
             IdField::new('id')->hideOnForm(),
-            AssociationField::new('user')->setLabel('Auteur'),
-            AssociationField::new('game')->setLabel('Jeu'),
             TextField::new('title')->setLabel('Titre'),
+            AssociationField::new('game')->setLabel('Jeu'),
+            AssociationField::new('user')->setLabel('Auteur'),
             TextEditorField::new('firstMsg')->setLabel('Premier message'),
             TextField::new('status')->setLabel('Statut ("open" / "closed" / "closedModo")'),
             TextField::new('validated')->setLabel('Validation modo ("validated" / "refused")'),

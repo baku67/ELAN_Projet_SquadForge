@@ -27,9 +27,9 @@ class MediaCrudController extends AbstractCrudController
     {
         return [
             IdField::new('id')->hideOnForm(),
-            AssociationField::new('user')->setLabel('Auteur'),
-            AssociationField::new('game')->setLabel('Jeu'),
             TextField::new('title')->setLabel('Titre'),
+            AssociationField::new('game')->setLabel('Jeu'),
+            AssociationField::new('user')->setLabel('Auteur'),
             ImageField::new('url')->setLabel('Image uploadé')->setUploadDir('public\img\uploads'),
             TextField::new('status')->setLabel('Statut ("open" / "closed" / "closedModo")'),
             TextField::new('validated')->setLabel('Validation modo ("validated" / "refused")'),
