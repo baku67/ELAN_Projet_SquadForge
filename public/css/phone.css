@@ -42,6 +42,11 @@
         display: inline-flex;
         width: 100% !important;
         margin: 15px auto;
+
+        gap: 15px !important;
+    }
+    .grid-item {
+        max-width: 100%;
     }
 
     .splide__list {
@@ -491,9 +496,20 @@
     }
 
     .gameNotationDiv {
-        margin-top: 10px;
-        right: 2px;
+        margin-top: -13px;
         padding: 0 45px 7px 17px;
+
+        position: relative;
+
+        right: 0 !important;
+
+        padding: 0 45px 12px 17px;
+        clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
+        width: 100%;
+    }
+    .rate {
+        margin: 0 auto;
+        padding: 0 10px;
     }
 
 
@@ -574,7 +590,14 @@
         max-height: 100px;
         border-width: 1px !important;
         border-radius: 6px;
-        margin-bottom: 7px;
+        margin-bottom: 11px;
+    }
+
+    .inlineFlex {
+        flex-direction: column;
+    }
+    .profilSection1a, .profilSection1b {
+        width: 100%;
     }
 
     #gameFilterBr, #gameFilterFps, #gameFilterMoba, #gameFilterArcade {
@@ -990,6 +1013,8 @@
         text-align: center;
         font-size: 1.5em;
         padding: 10px 0;
+
+        color: var(--primary-color);
     }
 
     #authenticationDiv {
@@ -1043,7 +1068,7 @@
         position: absolute;
         right: 23px;
         transform: translateY(-50%);
-        top: 50%;
+        top: 55%;
         font-size: 2em;
         color: var(--primary-color);
     }

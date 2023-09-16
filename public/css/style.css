@@ -4904,6 +4904,15 @@ h1, h2, h3, h4 {
     text-align: center;
 }
 
+.profilSection1a {
+    width: 60%;
+}
+.profilSection1b {
+    width:40%; 
+    margin-top:25px; 
+    font-family:'K2D';
+}
+
 .mediaApprovalLine {
     width: 100%;
     display: inline-flex;

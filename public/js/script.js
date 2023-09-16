@@ -7,12 +7,13 @@ window.addEventListener('load', function() {
 
     // Toggle close Mobile Burger Nav
     document.getElementById('closeBurgerMobile').addEventListener("click", function() {
+        document.getElementById('showBurgerMenu').classList.toggle('notDisplayed');
         document.getElementById('navLine').classList.toggle('showNavMobile');
     })
 
     // Toggle show Mobile Burger Nav
     document.getElementById('showBurgerMenu').addEventListener("click", function() {
-        
+        document.getElementById('showBurgerMenu').classList.toggle('notDisplayed');
         document.getElementById('navLine').classList.toggle('showNavMobile');
     })
 
