@@ -107,9 +107,12 @@
         <section class="notifsContainer">
 
             {# Le link delete dans le link notif mess-up le link global #}
+            {% set index = 0 %}
             {% for notif in notifs %}
 
-                <div class="notifCardLine">
+                <div id="notifCardLine{{ index }}" class="notifCardLine">
+
+                    <span id="notifId{{index}}" style="display:none;" hidden>{{notif.id}}</span>
 
                     <a class="notifCard" href="{{ notif.link }}">
                         <article>
@@ -126,9 +129,41 @@
                         </article>
                     </a>
                     
-                    <a class="deleteSingleNotif" href="{{ path('app_deleteNotif',{'notifId': notif.id}) }}">
+                    <span id="deleteSingleNotif{{ index }}" class="deleteSingleNotif">
                         <i class="fa-solid fa-xmark"></i>
-                    </a>
+                    </span>
+
+                    <script>
+                        document.getElementById('deleteSingleNotif{{ index }}').addEventListener("click", function() {
+
+                            const notifId = document.getElementById('notifId{{ index }}').innerText;
+
+                            fetch('/deleteNotif/' + notifId, {
+                                method: 'POST',
+                                headers: {
+                                    'Content-Type': 'application/json'
+                            }})
+                            .then(response => response.json())
+                            .then(data => {
+                                if (data.success) {
+                                    // window.FlashMessage.success(data.newState);    
+                                    let notif = document.getElementById('notifCardLine{{ index }}');
+                                    notif.classList.add("fadeOut");
+                                    setTimeout(() => {
+                                        notif.remove();
+                                    }, 500);
+                                    
+                                    window.FlashMessage.success("Notification supprimée");                                                
+                                } else {
+                                    window.FlashMessage.error('Une erreur s\'est produite');
+                                }
+                            });
+                        })
+
+
+                    </script>
+
+                    {% set index = index + 1 %}
 
                 </div>
 

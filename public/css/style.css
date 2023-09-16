@@ -20,6 +20,17 @@
 .form-control:focus {
     color: white !important;
 }
+#inputEmail:focus {
+    color: black !important;
+}
+#inputPassword:focus {
+    color: black !important;
+}
+
+.rememberMeDiv {
+    margin-bottom: 0rem!important;
+    margin-top: 5px;
+}
 
 @font-face {
     font-family: 'twitch'; 
@@ -5775,6 +5786,7 @@ cursor: pointer;
     top: 50%;
     transform: translateY(-50%);
     right: 5px;
+    cursor: pointer;
 
     transition: all 0.3s;
 }

@@ -15,6 +15,7 @@ use App\Entity\MediaPost;
 use App\Entity\TopicPost;
 use App\Repository\NotificationRepository;
 
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Doctrine\ORM\PersistentCollection;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
@@ -100,7 +101,8 @@ class NotificationController extends AbstractController
 
 
     
-    // Suppression d'une notif (TODO ajax + gérer le bouton clean si 0)
+
+    // Asynch Suppression d'une notif (TODO ajax + gérer le bouton clean si 0)
     #[Route('/deleteNotif/{notifId}', name: 'app_deleteNotif')]
     public function deleteNotif(Request $request, int $notifId): Response
     {
@@ -113,7 +115,8 @@ class NotificationController extends AbstractController
 
         $notifRepo->remove($targetedNotif, true);
 
-        return $this->redirectToRoute('app_showNotifsList');
+        // return $this->redirectToRoute('app_showNotifsList');
+        return new JsonResponse(['success' => true]); 
     }
 
 
