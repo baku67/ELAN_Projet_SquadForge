@@ -27,6 +27,26 @@
     color: black !important;
 }
 
+#topic_post_text:focus {
+    color:black !important; 
+}
+
+#topic_title:focus {
+    color:black !important; 
+}
+
+#topic_firstMsg:focus {
+    color:black !important; 
+}
+
+#media_post_text:focus {
+    color:black !important; 
+}
+
+#media_title {
+    color:black !important; 
+}
+
 .rememberMeDiv {
     margin-bottom: 0rem!important;
     margin-top: 5px;
@@ -1890,7 +1910,7 @@ header {
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    font-size: 3em;
+    font-size: 3.5em;
     color: var(--primary-color);
 }
 
@@ -1903,7 +1923,7 @@ header {
     background-color: #313131 !important;
 }
 .addFavCard:hover .addFavCardIcon {
-    font-size: 4em;
+    font-size: 4.35em;
 }
 
 
@@ -3493,6 +3513,7 @@ nav {
 .topicCard, .topicCardGlobal {
     position: relative;
     display: inline-flex;
+    border: 1px solid #80808096;
     width: 100%;
     justify-content: space-between;
     margin: 2px auto;
@@ -4776,6 +4797,10 @@ div#tarteaucitronServices {
     background-color: #2bb3c259;
 }
 
+/* .sectionHomeContent article:nth-child(even) .topicCard {
+    background-color: #2bb3c259;
+} */
+
 
 
 #charCountMsgMedia, #charCountMsg {
@@ -5647,7 +5672,7 @@ cursor: pointer;
 }
 
 #navLine {
-    transition: all 0.3s;
+    transition: all 0.3s ease;
 }
 
 #profilBurgerMobile {
@@ -5713,6 +5738,7 @@ cursor: pointer;
     border-top-left-radius: 3px;
 }
 .modoNav {
+    color: white;
     padding-top: 5px;
     padding-left: 2px;
     text-transform: uppercase;
@@ -5779,7 +5805,7 @@ cursor: pointer;
 
     position: absolute;
     right: -3px;
-    background-color: #ff0000;
+    background-color: #dc2e2e;
     color: #ffe3e3;
     padding: 0px 4px;
     padding-top: 2px;

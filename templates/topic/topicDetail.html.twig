@@ -29,7 +29,7 @@
             {% endif %}
             {% if app.user and "ROLE_MODO" in app.user.roles %}
             
-                <a href="{{ path('app_moderationDashboard') }}" style="color:{{ game.fontColor }};" id="modoNav" class="modoNav">
+                <a href="{{ path('app_moderationDashboard') }}" id="modoNav" class="modoNav">
                     <div class="modoNavSubDiv">
                         <span>Modération</span>
                         {% if modoNotifValidationCount > 0 %}

@@ -1051,6 +1051,13 @@
         top: 13px !important;
 
         width: 27px !important;
+
+        background-color: #dc2e2e;
+        color: #ffe3e3;
+        padding: 0px 4px;
+        border: 1px solid rgb(79 79 79 / 40%);
+        border-radius: 4px !important;
+        transform: translateY(-3px);
     }
     .bubleModo2 {
         right: -13px !important;
