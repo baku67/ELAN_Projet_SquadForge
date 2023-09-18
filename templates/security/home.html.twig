@@ -349,13 +349,13 @@
                                         {% set newMediasCount = 0 %}
 
                                         {% for gameTopic in game.topics %}
-                                            {% if gameTopic.publishDate > app.user.lastCo %}
+                                            {% if gameTopic.publishDate > app.user.previousCo %}
                                                 {% set newTopicsCount = newTopicsCount + 1 %}
                                             {% endif %}
                                         {% endfor %}
 
                                         {% for gameMedia in game.media %}
-                                            {% if gameMedia.publishDate > app.user.lastCo %}
+                                            {% if gameMedia.publishDate > app.user.previousCo %}
                                                 {% set newMediasCount = newMediasCount + 1 %}
                                             {% endif %}
                                         {% endfor %}
@@ -377,7 +377,15 @@
                                                 <div id="lp-page3-slide0{{ index }}" class="lp-gameCard" style="background-image: linear-gradient(rgba(0, 0, 255, 0.05), rgba(249, 123, 44, 0.5)),url('{{ asset("img/games/headerBackground/" ~ game.subBanner )}}'); background-size:cover;">
 
                                                     {# Affichage des comptes de newTopics/newMedias #}
-                                                    <span>NEWS {{ newTopicsCount + newMediasCount }}</span>
+                                                    <div class="newsFavCardDiv">
+                                                        {% if newTopicsCount > 0 %}
+                                                            <span class="newTopics"><i class="fa-solid fa-fire"></i> Topics {{ newTopicsCount }}</span>
+                                                        {% endif %}
+                                                        
+                                                        {% if newMediasCount > 0 %}
+                                                            <span class="newMedias"><i class="fa-solid fa-fire"></i> Médias {{ newMediasCount }}</span>
+                                                        {% endif %}
+                                                    </div>
 
                                                     <span id="lp-gameCardTitle{{ index }}" value="{{ game.title }}" class="lp-gameCardTitle">{{ game.title }}</span>
 

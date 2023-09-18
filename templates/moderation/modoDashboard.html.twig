@@ -126,14 +126,16 @@
                                     </div>
                                 </div>
 
+                                {# OnClick TopicCard: détails et boutons validation/refus #}
+                                <script>
+                                    document.getElementById('topicCard{{ topic.id }}').addEventListener('click', function() {
+                                        document.getElementById('topicSubCard{{ topic.id }}').classList.toggle('notDisplayed');
+                                    });
+                                </script>
+
                             </article>
 
-                            {# OnClick TopicCard: détails et boutons validation/refus #}
-                            <script>
-                                document.getElementById('topicCard{{ topic.id }}').addEventListener('click', function() {
-                                    document.getElementById('topicSubCard{{ topic.id }}').classList.toggle('notDisplayed');
-                                });
-                            </script>
+
                         {% endfor %}
                     
                     </div>

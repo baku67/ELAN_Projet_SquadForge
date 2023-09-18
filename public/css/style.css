@@ -17,6 +17,7 @@
     box-shadow: 0 0 0 0.25rem rgba(13,110,253,0);
 }
 
+
 .form-control:focus {
     color: white !important;
 }
@@ -44,7 +45,13 @@
 }
 
 #media_title {
+    color:white; 
+}
+#media_title:focus {
     color:black !important; 
+}
+#media_url:focus {
+    color:var(--background-color) !important; 
 }
 
 .rememberMeDiv {
@@ -2017,6 +2024,8 @@ header {
 
 }
 .lp-gameCard {
+    position: relative;
+
     cursor: pointer;
 
     height: 250px;
@@ -2042,7 +2051,32 @@ header {
     box-shadow:0 0 35px -5px var(--primary-color);
 }
 
-
+.newsFavCardDiv {
+    font-family: 'K2D';
+    position: absolute;
+    bottom: 10px;
+    right: -4px;
+    color: black;
+    font-size: 1.2em;
+    /* font-weight: bold; */
+    display: inline-flex;
+    flex-direction: column;
+    gap: 4px;
+    
+    
+}
+.newTopics {
+    padding: 0px 10px;
+    background-color: cyan;
+    border: 1px solid #0000007d;
+    clip-path: polygon(6% 0, 100% 0, 100% 100%, 0% 100%);
+}
+.newMedias {
+    padding: 0px 10px;
+    background-color: #ff00fa;
+    border: 1px solid #0000007d;
+    clip-path: polygon(6% 0, 100% 0, 100% 100%, 0% 100%);
+}
 
 .gameFavoritedLabel {
     position: absolute;
@@ -4841,6 +4875,12 @@ div#tarteaucitronServices {
 .topicList a:nth-child(even) .topicCardGlobal {
     background-color: #2bb3c259;
 }
+
+
+.sectionHomeContent article:nth-child(even) .topicCard {
+    background-color: #2bb3c259;
+}
+
 
 
 #charCountMsgMedia, #charCountMsg {
