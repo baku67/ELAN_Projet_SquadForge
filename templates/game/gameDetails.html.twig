@@ -8,7 +8,11 @@
 {% block body %}
 
     <header class="gameHeader" style="background: url('{{ asset('img/games/banner/' ~ game.banner ) }}' )">
+
+        <a id="gameHeaderTitle" class="gameHeaderTitle" style="border-bottom: 5px solid {{ game.color }}; opacity:0;" href="{{ path('app_game',{'slug':game.slug}) }}">{{ game.title }}</a>
+
         <a href="{{ path('app_home') }}"><img src="{{ asset('img/games/headerSiteLogo/' ~ game.siteLogo) }}" class="logoPng" id="logoPng" alt='bearded dwarf forging a sword above "SquadForge" title' /></a>
+
         <nav id="navLine" class="navLine">
             <span id="closeBurgerMobile"><i class="fa-solid fa-xmark"></i></span>
             <a href="{{ path('app_home') }}" class="homeNav" onmouseover="this.style.borderTop = '2px solid {{ game.color }}'; this.style.color = '{{ game.color }}';" onmouseout="this.style.borderTop = '2px solid rgba(0,0,0,0)'; this.style.color = 'white';"><i class="fa-solid fa-house"></i></a>
@@ -241,7 +245,7 @@
             
             <a href="{{ path('app_groupList',{'gameIdFrom': game.id}) }}">
                 <div>
-                    <div class="gameTopicsSubTitleBg" style="background-image: linear-gradient(to right, {{ game.color }}, #ffffffd9);"></div>
+                    <div class="gameTopicsSubTitleBg" style="background-image: linear-gradient(to right, {{ game.color }}, #ffffffa8);"></div>
                     <h3 class="gameSubTitle noMarginBottom" style="color:{{ game.fontColor }}">
                         <i class="fa-solid fa-users-between-lines"></i> Teams
                     </h3>
@@ -384,7 +388,7 @@
             <div style="display:inline-flex; width:100%; justify-content:space-between;">
                 <a href="{{ path('app_allTopics', {'gameIdFrom': game.id}) }}">
                     <div>
-                        <div class="gameTopicsSubTitleBg" style="background-image: linear-gradient(to right, {{ game.color }}, #ffffffd9);"></div>
+                        <div class="gameTopicsSubTitleBg" style="background-image: linear-gradient(to right, {{ game.color }}, #ffffffa8);"></div>
                         <h3 class="gameSubTitle noMarginBottom" style="color:{{ game.fontColor }}">
                             <i class="fa-solid fa-comment-dots"></i> Topics
                             {# <span class="gameListCount">&nbsp;({{ gameTopicsCount }})</span> #}
@@ -529,7 +533,7 @@
                 
                 <a href=" {{ path('app_allMedias', {'gameIdFrom': game.id}) }}">
                     <div>
-                        <div class="gameTopicsSubTitleBg" style="background-image: linear-gradient(to right, {{ game.color }}, #ffffffd9);"></div>
+                        <div class="gameTopicsSubTitleBg" style="background-image: linear-gradient(to right, {{ game.color }}, #ffffffa8);"></div>
                         <h3 class="gameSubTitle noMarginBottom" style="color:{{ game.fontColor }}">
                             <i class="fa-solid fa-photo-film"></i> Medias
                             {# <span class="gameListCount">&nbsp;({{ gameMediasCount }})</span> #}
@@ -820,7 +824,12 @@
                     if (window.scrollY > 0) {
                         if(document.getElementsByClassName('headerFixed')[0] !== null) {
                             document.getElementsByClassName('headerFixed')[0].style.borderColor = "{{game.color}}";
+
+                            document.getElementById('gameHeaderTitle').style.opacity = "1";
                         }
+                    }
+                    else {
+                        document.getElementById('gameHeaderTitle').style.opacity = "0";
                     }
                 })
             }

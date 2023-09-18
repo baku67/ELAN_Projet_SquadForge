@@ -35,7 +35,7 @@ window.addEventListener('load', function() {
 
                     if(document.getElementById('headerGameTitle') !== null) {
                         document.getElementById('headerGameTitle').style.borderBottomWidth = "0px";
-                        document.getElementById('headerGameTitle').style.backgroundColor = "#f1f1f100";
+                        document.getElementById('headerGameTitle').style.backgroundColor = "#000000b5";
                     }
 
                     // Le header passe de relative à Fixed (compensation du mainContent)
@@ -51,7 +51,7 @@ window.addEventListener('load', function() {
 
                     if(document.getElementById('headerGameTitle') !== null) {
                         document.getElementById('headerGameTitle').style.borderBottomWidth = "2px";
-                        document.getElementById('headerGameTitle').style.backgroundColor = "#f1f1f112";
+                        document.getElementById('headerGameTitle').style.backgroundColor = "#000000b5";
                     }
 
                     // Le header passe de relative à Fixed (compensation du mainContent)

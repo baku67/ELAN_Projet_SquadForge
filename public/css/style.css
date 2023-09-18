@@ -3195,6 +3195,8 @@ nav {
     background-color: #f1f1f112;
     transition: all 0.4s;
 
+    background-color: #000000b5;
+
     right: -200px;
     animation: slideGameNavTitle 0.7s ease forwards;
 }
@@ -4490,7 +4492,7 @@ nav {
     font-weight: 100;
     color: #00ffaf;
     font-size: 1.3em;
-    margin: 0px 30px;
+    margin: 0px 10px;
 }
 .topicClosed {
     font-weight: 400 !important;
@@ -4509,7 +4511,34 @@ nav {
     justify-content: space-between;
     width:100%; 
     align-items: baseline;
-    margin: 5px 0 45px 0;
+    margin: 5px 0 13px 0;
+}
+
+
+.gameHeaderTitle {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    top: 0px;
+    z-index: 99;
+    cursor: pointer;
+    line-height: 37px;
+
+    padding: 0px 50px;
+    font-size: 1.7em;
+    clip-path: polygon(0 0, 100% 0, 89% 100%, 11% 100%);
+    background-color: #000000b5;
+    color: white !important;
+    /* font-weight: bold; */
+    backdrop-filter: blur(2px);
+
+    transition: all 0.3s;
+}
+.gameHeaderTitle:hover {
+    background-color: #00000073;
+    padding: 0px 65px;
+    border-bottom: 5px solid rgb(240, 240, 240) !important;
+    letter-spacing: 1px;
 }
 
 
@@ -4910,7 +4939,7 @@ div#tarteaucitronServices {
 
  
 .mainMediaDetail {
-    width: 50%;
+    width: 40%;
     max-width: 75%;
     margin: 30px auto 50px auto;
 }

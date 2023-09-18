@@ -6,9 +6,12 @@
 
 {% block body %}
 
-
     <header class="gameHeader" style="background: url('{{ asset('img/games/banner/' ~ gameFrom.banner ) }}' )">
+
+        <a id="gameHeaderTitle" class="gameHeaderTitle" style="border-bottom: 5px solid {{ gameFrom.color }}; opacity:0;" href="{{ path('app_game',{'slug':gameFrom.slug}) }}">{{ gameFrom.title }}</a>
+
         <a href="{{ path('app_home') }}"><img src="{{ asset('img/games/headerSiteLogo/' ~ gameFrom.siteLogo ) }}" class="logoPng" id="logoPng" alt='bearded dwarf forging a sword above "SquadForge" title' /></a>
+
         <nav id="navLine" class="navLine">
             <span id="closeBurgerMobile"><i class="fa-solid fa-xmark"></i></span>
             <a href="{{ path('app_home') }}" class="homeNav"><i class="fa-solid fa-house"></i></a>
@@ -207,11 +210,17 @@
 
         if (document.getElementById('landingPageBool') == null) {
             window.addEventListener('scroll', () => {
-                if (window.scrollY > 0) {
-                    if(document.getElementsByClassName('headerFixed')[0] !== null) {
-                        document.getElementsByClassName('headerFixed')[0].style.borderColor = "{{gameFrom.color}}";
+                    if (window.scrollY > 0) {
+                        if(document.getElementsByClassName('headerFixed')[0] !== null) {
+                            document.getElementsByClassName('headerFixed')[0].style.borderColor = "{{gameFrom.color}}";
+
+                            document.getElementById('gameHeaderTitle').style.opacity = "1";
+                        }
                     }
-                }
+                    else {
+                        document.getElementById('gameHeaderTitle').style.opacity = "0";
+                    }
+
             })
         }
     </script>
