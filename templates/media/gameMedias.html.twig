@@ -157,6 +157,10 @@
                                 <img class="tinyLogoMedia" src="{{ asset('img/games/tinyLogo/' ~ media.game.tinyLogo) }}" alt="logo du jeu {{ media.game.title }}" />
                             </div>
                             <span class="mediaTitle">{{ media.title|capitalize }}</span>
+                            {# Sticker NEW #}
+                            {% if app.user and media.publishDate > app.user.previousCo %}
+                                <span class="stickerNew stickerNewMedia stickerNewMediaDetail" style="color: {{ media.game.color }}"><i class="fa-solid fa-fire fa-beat-fade"></i> new</span>
+                            {% endif %}
                             <span class="mediaCardPublishDate">{{ time_diff(media.publishDate) }}</span>
                         </div>
                         {% if app.user and not app.user.autoPlayGifs %}

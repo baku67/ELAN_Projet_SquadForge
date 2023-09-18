@@ -119,11 +119,16 @@
                             <img class="tinyLogo" src="{{ asset('img/games/tinyLogo/' ~ topic.game.tinyLogo) }}" alt="logo du jeu {{ topic.game.title }}" />
                             <span class="topicTitle">{{ topic.title|capitalize }}</span>
                             <div class="topicCardSubInfos">
+                                {# Sticker NEW #}
+                                {% if app.user and topic.publishDate > app.user.previousCo %}
+                                    <span class="stickerNew" style="color: {{ topic.game.color }}"><i class="fa-solid fa-fire fa-beat-fade"></i> new</span>
+                                {% endif %}
+
                                 <span class="topicCardPublishDate">{{ time_diff(topic.publishDate) }}</span>
                                 {% if topic.topicPostsCount == 0 %}
-                                    <span style="opacity:0.5;">{{ topic.topicPostsCount }} <i class="fa-solid fa-message msgIconColor" style="color:#1da8b7d4;"></i></span>
+                                    <span style="opacity:0.5;">{{ topic.topicPostsCount }} <i class="fa-solid fa-message msgIconColor" style="color:{{ topic.game.color }};"></i></span>
                                 {% else %}
-                                    <span>{{ topic.topicPostsCount }} <i class="fa-solid fa-message msgIconColor" style="color:#1da8b7d4;"></i></span>
+                                    <span>{{ topic.topicPostsCount }} <i class="fa-solid fa-message msgIconColor" style="color: {{ topic.game.color }};"></i></span>
                                 {% endif %}
                             </div>
                         </article>
@@ -139,11 +144,15 @@
                             <img class="tinyLogo" src="{{ asset('img/games/tinyLogo/' ~ topic.game.tinyLogo) }}" alt="logo du jeu {{ topic.game.title }}" />
                             <span class="topicTitle">{{ topic.title|capitalize }}</span>
                             <div class="topicCardSubInfos">
+                                {# Sticker NEW #}
+                                {% if app.user and topic.publishDate > app.user.previousCo %}
+                                    <span class="stickerNew" style="color: {{ topic.game.color }}"><i class="fa-solid fa-fire fa-beat-fade"></i> new</span>
+                                {% endif %}
                                 <span class="topicCardPublishDate">{{ time_diff(topic.publishDate) }}</span>
                                 {% if topic.topicPostsCount == 0 %}
-                                    <span style="opacity:0.5;">{{ topic.topicPostsCount }} <i class="fa-solid fa-message msgIconColor" style="color:#1da8b7d4;"></i></span>
+                                    <span style="opacity:0.5;">{{ topic.topicPostsCount }} <i class="fa-solid fa-message msgIconColor" style="color: {{ topic.game.color }};"></i></span>
                                 {% else %}
-                                    <span>{{ topic.topicPostsCount }} <i class="fa-solid fa-message msgIconColor" style="color:#1da8b7d4;"></i></span>
+                                    <span>{{ topic.topicPostsCount }} <i class="fa-solid fa-message msgIconColor" style="color: {{ topic.game.color }};"></i></span>
                                 {% endif %}
                             </div>
                         </article>

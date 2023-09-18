@@ -486,6 +486,11 @@
                                     <img class="tinyLogo" src="{{ asset('img/games/tinyLogo/' ~ topic.game.tinyLogo) }}" alt="logo du jeu {{ topic.game.title }}" />
                                     <span class="topicTitle">{{ topic.title|capitalize }}</span>
                                     <div class="topicCardSubInfos">
+                                        {# Sticker NEW #}
+                                        {% if app.user and topic.publishDate > app.user.previousCo %}
+                                            <span class="stickerNew" style="color: {{ game.color }}"><i class="fa-solid fa-fire fa-beat-fade"></i> new</span>
+                                        {% endif %}
+
                                         <span class="topicCardPublishDate">{{ time_diff(topic.publishDate) }}</span>
                                         {% if topic.topicPostsCount == 0 %}
                                             <span style="opacity:0.5;">{{ topic.topicPostsCount }} <i class="fa-solid fa-message msgIconColor"></i></span>
@@ -686,12 +691,16 @@
                                         {% elseif app.user is null %}
                                         <a href="{{ path('app_mediaDetail', {'slug': media.slug}) }}">
                                         {% endif %}
+
                                         <div class="mediaCardHeader" style="border-bottom: 3px solid {{ game.color }}">
                                             <div class="tinyLogoDiv">
                                                 <img class="tinyLogoMedia" src="{{ asset('img/games/tinyLogo/' ~ media.game.tinyLogo) }}" alt="logo du jeu {{ media.game.title }}" />
                                             </div>
                                             <span class="mediaTitle">{{ media.title|capitalize }}</span>
-                                            <span class="mediaCardPublishDate">{{ time_diff(media.publishDate) }}</span>
+                                            {# Sticker NEW #}
+                                            {% if app.user and media.publishDate > app.user.previousCo %}
+                                                <span class="stickerNew stickerNewMedia" style="color: {{ game.color }}"><i class="fa-solid fa-fire fa-beat-fade"></i> new</span>
+                                            {% endif %}
                                         </div>
                                         {% if app.user and not app.user.autoPlayGifs %}
                                         </a>
