@@ -189,34 +189,46 @@
 
 
                 {# Upvote/downvote média + score + nbrPosts #}
-                {# Pas opti: bloucle sur tous les likes du post pour savoir si liké (boucle dans boucle) #}
-                {% set liked = "" %}
+                <div class="mediaCardStatsDiv">
+
+                    {# Upvote/downvote média + score + nbrPosts #}
+                    {# Pas opti: bloucle sur tous les likes du post pour savoir si liké (boucle dans boucle) #}
+                    {% set liked = "" %}
+                    
+                    {% if app.user %}
+
+                        {% for upvote in media.UserUpvote %}
+                            {% if upvote == app.user %}
+                                {% set liked = "upBtnLiked" %}
+                            {% endif %}
+                        {% endfor %}
+                    {% endif %}
+
+                    <div class="inline mediaSubLikeDiv" mediaId={{ media.id }}>
+                        <span id="countLikesMedia{{ media.id }}" value="{{ media.upvoteCount }}"> {{ media.upvoteCount }} </span>
+                        <i mediaId={{ media.id }} class="likeMedia fa-regular fa-circle-up {{ liked }}"></i>
+                    </div>
                 
-                {% if app.user %}
+                    {% if media.mediaPostsCount == 0 %}
+                        <a href="{{ path('app_mediaDetail', {'slug':media.slug}) }}" class="mediaSubPostsDiv">
+                            <div class="inline" style="opacity:0.7;">
+                                {{ media.mediaPostsCount }} 
+                                <i class="fa-solid fa-message msgIconColor msgIconColorGreyed"></i>
+                            </div>
+                        </a>
+                    {% else %}
+                        <a href="{{ path('app_mediaDetail', {'slug':media.slug}) }}" class="mediaSubPostsDiv">
+                            <div class="inline">
+                                {{ media.mediaPostsCount }} 
+                                <i class="fa-solid fa-message msgIconColor"></i>
+                            </div>
+                        </a>
+                    {% endif %}
 
-                    {% for upvote in media.UserUpvote %}
-
-                        {% if upvote == app.user %}
-                            {% set liked = "upBtnLiked" %}
-                        {% endif %}
-
-                    {% endfor %}
-                {% endif %}
-                <div class="inline">
-                    <i mediaId={{ media.id }} class="likeMedia fa-regular fa-circle-up {{ liked }}"></i>
-                    {# <i class="fa-regular fa-circle-down"></i> #}
-                    <p id="countLikesMedia{{ media.id }}" value="{{ media.upvoteCount }}"> {{ media.upvoteCount }} </p>
                 </div>
-                
-                {% if media.mediaPostsCount == 0 %}
-                    <span style="opacity:0.5;">{{ media.mediaPostsCount }} <i class="fa-solid fa-message" style="color:grey;"></i></span>
-                {% else %}
-                    <span>{{ media.mediaPostsCount }} <i class="fa-solid fa-message msgIconColor"></i></span>
-                {% endif %}
 
-                <br>
-                <div style="width:30%; margin: 0 auto; height:1px; background-color: {{ media.game.color }}; opacity:0.5;"></div>
-                <br>
+                <div style="width:35%; margin: 15px auto; height:1px; background-color: {{ media.game.color }}; opacity:0.4;"></div>
+
             {% endfor %}
         </section>
 

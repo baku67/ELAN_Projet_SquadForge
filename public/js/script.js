@@ -167,7 +167,7 @@ window.addEventListener('load', function() {
 
 
     // Asynch des Likes de média (+ recalcule du compte)
-    var btns = document.getElementsByClassName("likeMedia");
+    var btns = document.getElementsByClassName("mediaSubLikeDiv");
     Array.prototype.forEach.call(btns, function(btn) {
         
         // console.log(btn.getAttribute('mediaId')); 

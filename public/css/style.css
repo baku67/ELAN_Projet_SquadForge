@@ -4807,6 +4807,13 @@ div#tarteaucitronServices {
     color: var(--primary-color);
     position: relative;
     top: 1px;
+    align-self: center;
+}
+.msgIconColorGreyed {
+    position: relative;
+    top: 1px;
+    align-self: center;
+    color: grey;
 }
 
 .topicTitleModo {
@@ -5030,7 +5037,7 @@ div#tarteaucitronServices {
 
 .mediaList {
     /* width: 70%; */
-    width: 57%;
+    width: 54%;
 
     margin: 30px auto;
 
@@ -5138,6 +5145,39 @@ h1, h2, h3, h4 {
 
     justify-content: space-between;
 }
+
+
+.likeMedia {
+    align-self: center;
+}
+.mediaSubLikeDiv {
+    /* align-items: center;
+    margin: 0 auto; */
+
+    cursor: pointer;
+    width: 50%;
+    justify-content: center;
+    padding: 5px 0;
+    border-right: 2px solid #80808029;
+
+    transition: all 0.3s;
+}
+.mediaSubLikeDiv:hover {
+    background-color: #ffffff30;
+}
+
+.mediaSubPostsDiv {
+    text-align:center; 
+    width:50%;
+    padding: 5px 0;
+
+    transition: all 0.3s;
+}
+.mediaSubPostsDiv:hover {
+    background-color: #ffffff30;
+}
+
+
 .likeMediaDetail {
     padding: 12px 19px;
     border: 1px solid rgba(255, 255, 255, 0.3);
@@ -5254,6 +5294,8 @@ h1, h2, h3, h4 {
 
 .inline {
     display: inline-flex;
+    gap: 5px;
+
 }
 
 
@@ -5262,10 +5304,10 @@ h1, h2, h3, h4 {
     background-color: #151515;
     display: inline-flex;
     width: 100%;
-    justify-content: space-evenly;
+    justify-content: space-between;
     position: relative;
     /* right: 3px; */
-    padding-top: 15px;
+    /* padding-top: 15px; */
     font-size: 1.5em;
     color: whitesmoke;
 
@@ -5288,12 +5330,12 @@ h1, h2, h3, h4 {
 .upBtnLiked {
     color:var(--primary-color);
     border-color: var(--primary-color);
-    font-size: 0.8em;
+    /* font-size: 0.8em; */
 }
 
 
 .fa-circle-up {
-    margin: 0 5px;
+    /* margin: 0 5px; */
 }
 
 
