@@ -331,20 +331,23 @@
                                         {% for game in fpsGames %}
 
                                             {# Calcul du nombre de nouveaux Topics/Médias depuis lastConnexion pour chaque jeu favori #}
-                                            {% set newTopicsCount = 0 %}
-                                            {% set newMediasCount = 0 %}
 
-                                            {% for gameTopic in game.topics %}
-                                                {% if gameTopic.publishDate > app.user.previousCo %}
-                                                    {% set newTopicsCount = newTopicsCount + 1 %}
-                                                {% endif %}
-                                            {% endfor %}
+                                            {% if app.user %}
+                                                {% set newTopicsCount = 0 %}
+                                                {% set newMediasCount = 0 %}
 
-                                            {% for gameMedia in game.media %}
-                                                {% if gameMedia.publishDate > app.user.previousCo %}
-                                                    {% set newMediasCount = newMediasCount + 1 %}
-                                                {% endif %}
-                                            {% endfor %}
+                                                {% for gameTopic in game.topics %}
+                                                    {% if gameTopic.publishDate > app.user.previousCo %}
+                                                        {% set newTopicsCount = newTopicsCount + 1 %}
+                                                    {% endif %}
+                                                {% endfor %}
+
+                                                {% for gameMedia in game.media %}
+                                                    {% if gameMedia.publishDate > app.user.previousCo %}
+                                                        {% set newMediasCount = newMediasCount + 1 %}
+                                                    {% endif %}
+                                                {% endfor %}
+                                            {% endif %}
                                             {# Fin calcul #}
 
                                             <a title="{{ game.title }}" class="gameCardLink splide__slide" href="{{ path('app_game', {'slug': game.slug} )}}" style="transform:scale(0.9);">
@@ -372,15 +375,17 @@
                                                     </div>
 
                                                     {# Affichage des comptes de newTopics/newMedias #}
-                                                    <div class="newsFavCardDiv newsFavCardDivGameList">
-                                                        {% if newTopicsCount > 0 %}
-                                                            <span class="newTopics newTopicsGameList"><i class="fa-solid fa-fire"></i> Topics {{ newTopicsCount }}</span>
-                                                        {% endif %}
-                                                        
-                                                        {% if newMediasCount > 0 %}
-                                                            <span class="newMedias newMediasGameList"><i class="fa-solid fa-fire"></i> Médias {{ newMediasCount }}</span>
-                                                        {% endif %}
-                                                    </div>
+                                                    {% if app.user %}
+                                                        <div class="newsFavCardDiv newsFavCardDivGameList">
+                                                            {% if newTopicsCount > 0 %}
+                                                                <span class="newTopics newTopicsGameList"><i class="fa-solid fa-fire"></i> Topics {{ newTopicsCount }}</span>
+                                                            {% endif %}
+                                                            
+                                                            {% if newMediasCount > 0 %}
+                                                                <span class="newMedias newMediasGameList"><i class="fa-solid fa-fire"></i> Médias {{ newMediasCount }}</span>
+                                                            {% endif %}
+                                                        </div>
+                                                    {% endif %}
 
                                                     <span id="lp-gameCardTitle{{ index }}" value="{{ game.title }}" class="lp-gameCardTitle-games">{{ game.title }}</span>
 

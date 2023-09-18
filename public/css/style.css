@@ -2581,6 +2581,12 @@ header {
 }
 
 
+.deletePostBtn {
+    font-style: normal !important;
+    color: #ff004c;
+    margin-left: 5px;
+}
+
 .lp-page4-cardMedias {
 
 }
@@ -3937,6 +3943,7 @@ nav {
     position:absolute; 
     clip-path: polygon(0 0, 100% 0, 66% 100%, 0 100%);
     border-top-left-radius: 6px;
+    border-bottom-left-radius: 6px;
     /* height:35px; 
     width:130px;  */
     height: 0px;

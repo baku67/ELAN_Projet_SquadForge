@@ -351,6 +351,44 @@ class MediaController extends AbstractController
 
 
 
+
+
+
+
+    // Suppression commentaire (id: post) (auteur)
+    #[Route('/deleteMediaPost/{idPost}', name: 'app_deleteMediaPost')]
+    public function deleteMediaPost(EntityManagerInterface $entityManager, int $idPost, Request $request): Response
+    {
+        $mediaPostRepository = $entityManager->getRepository(MediaPost::class);
+        $mediaPost = $mediaPostRepository->find($idPost);
+
+        // Vérif auteur
+        if ($this->getUser() && $this->getUser() == $mediaPost->getUser()) {
+
+            // $mediaPostRepository->remove($mediaPost, true);
+            // TODO anonymisation ou remplacé par censure ?
+            $mediaPost->setText('Le commentaire a été supprimé');
+            $mediaPost->setUser(NULL);
+
+            $entityManager->persist($mediaPost);
+            $entityManager->flush();
+
+            $this->addFlash('success', 'Votre commentaire a été supprimé');
+            return $this->redirectToRoute('app_mediaDetail', ['slug' => $mediaPost->getMedia()->getSlug()]);
+
+        }
+        else {
+            $this->addFlash('error', 'Vous devez être connecté et l\'auteur du post pour pouvoir le supprimer');
+            return $this->redirectToRoute('app_mediaDetail', ['slug' => $mediaPost->getMedia()->getSlug()]);
+        }
+    }
+
+
+
+
+
+
+
     // Tout les Medias globaux (from /homePage)
     #[Route('/allMediasGlobal', name: 'app_allMediasGlobal')]
     public function getAllMediasGlobal(EntityManagerInterface $entityManager): Response

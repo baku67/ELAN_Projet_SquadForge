@@ -329,6 +329,37 @@ class TopicController extends AbstractController
 
 
 
+    // Suppression commentaire (id: post) (auteur)
+    #[Route('/deleteTopicPost/{idPost}', name: 'app_deleteTopicPost')]
+    public function deleteTopicPost(EntityManagerInterface $entityManager, int $idPost, Request $request): Response
+    {
+        $topicPostRepository = $entityManager->getRepository(TopicPost::class);
+        $topicPost = $topicPostRepository->find($idPost);
+
+        // Vérif auteur
+        if ($this->getUser() && $this->getUser() == $topicPost->getUser()) {
+
+            // $topicPostRepository->remove($topicPost, true);
+            // TODO anonymisation ou remplacé par censure ?
+            $topicPost->setText('Le commentaire a été supprimé');
+            $topicPost->setUser(NULL);
+
+            $entityManager->persist($topicPost);
+            $entityManager->flush();
+
+            $this->addFlash('success', 'Votre commentaire a été supprimé');
+            return $this->redirectToRoute('app_topicDetail', ['slug' => $topicPost->getTopic()->getSlug()]);
+
+        }
+        else {
+            $this->addFlash('error', 'Vous devez être connecté et l\'auteur du post pour pouvoir le supprimer');
+            return $this->redirectToRoute('app_topicDetail', ['slug' => $topicPost->getTopic()->getSlug()]);
+        }
+    }
+
+
+
+
     // Upvote/unUpvote de topicPost par user (id: idTopicPost) Async + calc Score
     #[Route('/upvoteTopicPost/{id}', name: 'app_upvoteTopicPost')]
     public function upvoteTopicPost(EntityManagerInterface $entityManager, int $id, Request $request): Response
