@@ -575,8 +575,8 @@
 
                     {# Apercu du média à publier #}
                     <div id="preview-container" style="max-width: 350px; margin: 25px auto;">
-                        <div class="previewMediaCard">
-                            <div id="mediaCardHeader">
+                        <div class="previewMediaCard" style="background-color:{{ game.color }};">
+                            <div id="mediaCardHeader" >
                                 {# Contenyu ajouté JS #}
                             </div>
                         </div>
@@ -620,14 +620,16 @@
                                 previewMediaCardHeader.style.borderTopRightRadius = "3px";
 
                                 const previewMediaCardLogo = document.createElement('img');
-                                previewMediaCardLogo.classList.add('tinyLogo');
+                                previewMediaCardLogo.classList.add('tinyLogoMedia');
                                 previewMediaCardLogo.src = "../img/games/tinyLogo/{{ game.tinyLogo }}";
-                                previewMediaCardHeader.prepend(previewMediaCardLogo);
+                                const imgDiv = document.createElement('div');
+                                imgDiv.classList.add('tinyLogoDiv');
+                                imgDiv.prepend(previewMediaCardLogo);
+                                previewMediaCardHeader.prepend(imgDiv);
 
                                 const previewMediaTitle = document.createElement('span');
                                 previewMediaTitle.id = 'mediaTitle';
                                 previewMediaTitle.classList.add('mediaTitle');
-                                previewMediaTitle.style.height = "25px";
                                 previewMediaTitle.textContent = document.getElementById('media_title').value;
                                 previewMediaCardHeader.append(previewMediaTitle);
 
@@ -677,7 +679,7 @@
                                 <a href="{{ path('app_mediaDetail', {'slug': media.slug}) }}">
                                 {% endif %}
                                     
-                                    <div class="mediaCard">
+                                    <div class="mediaCard" style="background-color:{{ media.game.color }};">
 
                                         {% if app.user and not app.user.autoPlayGifs %}
                                         <a href="{{ path('app_mediaDetail', {'slug': media.slug}) }}">
@@ -685,10 +687,10 @@
                                         <a href="{{ path('app_mediaDetail', {'slug': media.slug}) }}">
                                         {% endif %}
                                         <div class="mediaCardHeader" style="border-bottom: 3px solid {{ game.color }}">
-                                            <img class="tinyLogo" src="{{ asset('img/games/tinyLogo/' ~ media.game.tinyLogo) }}" alt="logo du jeu {{ media.game.title }}" />
+                                            <div class="tinyLogoDiv">
+                                                <img class="tinyLogoMedia" src="{{ asset('img/games/tinyLogo/' ~ media.game.tinyLogo) }}" alt="logo du jeu {{ media.game.title }}" />
+                                            </div>
                                             <span class="mediaTitle">{{ media.title|capitalize }}</span>
-                                            {# <span>{{ media.status }}</span>
-                                            <span>{{ media.user.pseudo }}</span> #}
                                             <span class="mediaCardPublishDate">{{ time_diff(media.publishDate) }}</span>
                                         </div>
                                         {% if app.user and not app.user.autoPlayGifs %}

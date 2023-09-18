@@ -147,14 +147,16 @@
                 <a href="{{ path('app_mediaDetail', {'slug': media.slug}) }}">
                 {% endif %}
                     
-                    <article class="mediaCard">
+                    <article class="mediaCard" style="background-color:{{ media.game.color }};">
 
                         {% if app.user and not app.user.autoPlayGifs %}
                         <a href="{{ path('app_mediaDetail', {'slug': media.slug}) }}">
                         {% endif %}
                         <div class="mediaCardHeader" style="border-bottom: 3px solid {{ media.game.color }}">
-                            <img class="tinyLogo" src="{{ asset('img/games/tinyLogo/' ~ media.game.tinyLogo) }}" alt="logo du jeu {{ media.game.title }}" />
-                            <span class="topicTitle">{{ media.title|capitalize }}</span>
+                            <div class="tinyLogoDiv">
+                                <img class="tinyLogoMedia" src="{{ asset('img/games/tinyLogo/' ~ media.game.tinyLogo) }}" alt="logo du jeu {{ media.game.title }}" />
+                            </div>
+                            <span class="mediaTitle">{{ media.title|capitalize }}</span>
                             <span class="mediaCardPublishDate">{{ time_diff(media.publishDate) }}</span>
                         </div>
                         {% if app.user and not app.user.autoPlayGifs %}

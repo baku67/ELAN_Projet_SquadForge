@@ -3553,6 +3553,9 @@ nav {
 .topicCard:hover .topicTitle {
     transform: translateX(10px);
 }
+.topicCard:hover .topicTitleModo {
+    transform: translateX(10px);
+}
 
 .topicCardFadeInAnim {
     animation: fadeInRotate 1s 0s ease forwards;
@@ -3560,6 +3563,7 @@ nav {
 
 .mediaCardPublishDate {
     display: none;
+    font-family: 'K2D', sans-serif;
 }
 
 .topicCardPublishDate, .notifCardPublishDate {
@@ -4209,6 +4213,10 @@ nav {
     width: 163px;
 }
 
+.tinyLogoDiv {
+    background-color: var(--background-color);
+    border-top-left-radius: 5px;
+}
 
 .tinyLogo {
     width: 25px;
@@ -4224,6 +4232,19 @@ nav {
     left: 3px;
     top: 3px;
     z-index: 10;
+}
+
+
+.tinyLogoMedia {
+    width: 25px;
+    height: 25px;
+    position: relative;
+    margin-right: 10px;
+    /* margin-left: 2px; */
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+
 }
 
 .teamCardTitle {
@@ -4644,6 +4665,8 @@ div#tarteaucitronServices {
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+
+    transition: all 0.3s;
 }
 .topicCardSubInfosModo {
     width: 25%;
@@ -4656,11 +4679,13 @@ div#tarteaucitronServices {
     
     /* Elipsis Ellipsis titre cardMedia*/
     display: inline-block;
-    width: 85%;
+    width: 95%;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
     
+    padding: 4px 15px 4px 11px;
+
 }
 
 
@@ -4757,6 +4782,8 @@ div#tarteaucitronServices {
     margin: 0 auto;
     display: flex;
     justify-content: center;
+
+    background-color: var(--background-color);
 }
 
  
@@ -4779,9 +4806,11 @@ div#tarteaucitronServices {
     position: relative;
     display:inline-flex; 
     width:100%; 
-    justify-content:space-between;
-    padding: 4px 15px 4px 53px;
-    background-color: #151515;
+    /* justify-content:space-between; */
+    /* gap:10px; */
+    /* padding: 4px 15px 4px 11px; */
+    /* background-color: #151515; */
+    background-color: #22c6d826;
     color: white;
 }
 
@@ -4789,17 +4818,15 @@ div#tarteaucitronServices {
 
 
 /* Inversion couleurs listes pair/impair */
-.listContainer:nth-child(even) a:nth-child(even) .topicCard {
+.topicList:nth-child(even) a:nth-child(even) .topicCard {
     background-color: #2bb3c259;
 }
 
-.topicList:nth-child(even) article:nth-child(even) .topicCard {
+.topicList:nth-child(even) article:nth-child(even) a::nth-child(even) .topicCard {
     background-color: #2bb3c259;
 }
 
-/* .sectionHomeContent article:nth-child(even) .topicCard {
-    background-color: #2bb3c259;
-} */
+
 
 
 
@@ -5077,9 +5104,9 @@ h1, h2, h3, h4 {
     font-size: 1.5em;
     color: whitesmoke;
 
-    border-bottom: 1px solid;
-    border-right: 1px solid;
-    border-left: 1px solid;
+    border-bottom: 1px solid #515151;
+    border-right: 1px solid #515151;
+    border-left: 1px solid #515151;
 
     border-bottom-left-radius: 5px;
     border-bottom-right-radius: 5px;
@@ -6601,6 +6628,13 @@ input:disabled {
 
     width: fit-content;
     max-width: 350px;
+
+    transition: all 0.2s;
+  }
+  .grid-item:hover {
+    filter: drop-shadow(2px 4px 6px black) brightness(1.05) contrast(1.12);
+    transform: translateY(-5px);
+    color: black;
   }
   
   .grid-item img {
