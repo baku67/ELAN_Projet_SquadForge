@@ -127,7 +127,7 @@
 
                 <div style="display:inline-flex; justify-content:space-between; width:100%; font-family:'K2D', sans-serif; font-size:90%; opacity:0.8;">
                     {% if app.user == media.user %}
-                        <span>par vous</span>
+                        <span>par <span style="color:var(--primary-color);">vous</span></span>
                     {% else  %}
                         <span>par {{ media.user.pseudo|capitalize }}</span>
                     {% endif %}
@@ -492,7 +492,12 @@
                 if (window.scrollY > 0) {
                     if(document.getElementsByClassName('headerFixed')[0] !== null) {
                         document.getElementsByClassName('headerFixed')[0].style.borderColor = "{{game.color}}";
+
+                        document.getElementById('gameHeaderTitle').style.opacity = "1";
                     }
+                }
+                else {
+                    document.getElementById('gameHeaderTitle').style.opacity = "0";
                 }
             })
         }

@@ -15,7 +15,7 @@
         <nav id="navLine" class="navLine">
             <span id="closeBurgerMobile"><i class="fa-solid fa-xmark"></i></span>
             <a href="{{ path('app_home') }}" class="homeNav"><i class="fa-solid fa-house"></i></a>
-            <a href="{{ path('app_games') }}" class="gamesNav caps navActive" style="background-color: {{ gameFrom.color }}">jeux</a>
+            <a href="{{ path('app_games') }}" class="gamesNav caps navActive" style="background-color: {{ gameFrom.color }}" onmouseover="this.style.borderTop = '2px solid {{ gameFrom.color }}'; this.style.color = 'white';" onmouseout="this.style.borderTop = '2px solid rgba(0,0,0,0)'; this.style.color = 'black';">jeux</a>
             {% if app.user %}
                 <a href="{{ path('app_userGroups') }}" class="teamsNav caps">teams</a>
                 <a href="{{ path('app_showNotifsList') }}" class="notifsNav" style="padding:0;">

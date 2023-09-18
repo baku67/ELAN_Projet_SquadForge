@@ -16,7 +16,7 @@
         <nav id="navLine" class="navLine">
             <span id="closeBurgerMobile"><i class="fa-solid fa-xmark"></i></span>
             <a href="{{ path('app_home') }}" class="homeNav"><i class="fa-solid fa-house"></i></a>
-            <a href="{{ path('app_games') }}" class="gamesNav caps navActive" style="background-color: {{ game.color }}">jeux</a>
+            <a href="{{ path('app_games') }}" class="gamesNav caps navActive" style="background-color: {{ game.color }}" onmouseover="this.style.borderTop = '2px solid {{ game.color }}'; this.style.color = 'white';" onmouseout="this.style.borderTop = '2px solid rgba(0,0,0,0)'; this.style.color = 'black';">jeux</a>
             {% if app.user %}
                 <a href="{{ path('app_userGroups') }}" class="teamsNav caps">teams</a>
                 <a href="{{ path('app_showNotifsList') }}" class="notifsNav" style="padding:0;">
@@ -122,7 +122,7 @@
                 <div class="topicFirstMsg">{{ topic.firstMsg }}</div>
                 <div style="display:inline-flex; justify-content:space-between; width:100%; font-family:'K2D', sans-serif; font-size:90%; opacity:0.8;">
                     {% if app.user == topic.user %}
-                        <span>par vous</span>
+                        <span>par <span style="color:var(--primary-color);">vous</span></span>
                     {% else  %}
                         {% if topic.user %}
                             <span>par {{ topic.user.pseudo|capitalize }}</span>
@@ -466,7 +466,12 @@
                 if (window.scrollY > 0) {
                     if(document.getElementsByClassName('headerFixed')[0] !== null) {
                         document.getElementsByClassName('headerFixed')[0].style.borderColor = "{{game.color}}";
+
+                        document.getElementById('gameHeaderTitle').style.opacity = "1";
                     }
+                }
+                else {
+                    document.getElementById('gameHeaderTitle').style.opacity = "0";
                 }
             })
         }
