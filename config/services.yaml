@@ -28,3 +28,8 @@ services:
 
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones
+    App\EventListener\LoginListener:
+        arguments:
+                $entityManager: '@doctrine.orm.entity_manager'
+        tags:
+            - { name: 'kernel.event_subscriber' }

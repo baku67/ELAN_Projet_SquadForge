@@ -35,6 +35,9 @@ class AppAuthenticator extends AbstractLoginFormAuthenticator
 
         $request->getSession()->set(Security::LAST_USERNAME, $email);
 
+        // $user->setLastCo(new \DateTime());
+        // $this->userRepository->save($user, true);
+
         if( !$user || !$user->isVerified()) {
             throw new CustomUserMessageAuthenticationException('Vous devez valider le mail de confirmation pour pouvoir vous connecter');
         }

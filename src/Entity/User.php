@@ -122,6 +122,12 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(nullable: true)]
     private ?int $twitch_id = null;
 
+    #[ORM\Column(name: 'last_co', type: Types::DATETIME_MUTABLE, nullable: true)]
+    private ?\DateTimeInterface $last_co = null;
+
+    #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
+    private ?\DateTimeInterface $previous_co = null;
+
     public function __construct()
     {
         $this->favoris = new ArrayCollection();
@@ -837,6 +843,30 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setTwitchId(?int $twitch_id): static
     {
         $this->twitch_id = $twitch_id;
+
+        return $this;
+    }
+
+    public function getLastCo(): ?\DateTimeInterface
+    {
+        return $this->last_co;
+    }
+
+    public function setLastCo(?\DateTimeInterface $last_co): static
+    {
+        $this->last_co = $last_co;
+
+        return $this;
+    }
+
+    public function getPreviousCo(): ?\DateTimeInterface
+    {
+        return $this->previous_co;
+    }
+
+    public function setPreviousCo(?\DateTimeInterface $previous_co): static
+    {
+        $this->previous_co = $previous_co;
 
         return $this;
     }

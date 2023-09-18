@@ -29,6 +29,7 @@ security:
             form_login:
                 use_referer: true
                 failure_path: app_login
+                enable_csrf: true
 
             # activate different ways to authenticate
             # https://symfony.com/doc/current/security.html#the-firewall

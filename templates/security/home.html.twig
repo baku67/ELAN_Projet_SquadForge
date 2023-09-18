@@ -343,6 +343,24 @@
 
                                     {% for game in userFav %}
 
+
+                                        {# Calcul du nombre de nouveaux Topics/Médias depuis lastConnexion pour chaque jeu favori #}
+                                        {% set newTopicsCount = 0 %}
+                                        {% set newMediasCount = 0 %}
+
+                                        {% for gameTopic in game.topics %}
+                                            {% if gameTopic.publishDate > app.user.lastCo %}
+                                                {% set newTopicsCount = newTopicsCount + 1 %}
+                                            {% endif %}
+                                        {% endfor %}
+
+                                        {% for gameMedia in game.media %}
+                                            {% if gameMedia.publishDate > app.user.lastCo %}
+                                                {% set newMediasCount = newMediasCount + 1 %}
+                                            {% endif %}
+                                        {% endfor %}
+                                        {# Fin calcul #}
+
                                         <a title="{{ game.title }}" class="gameCardLink splide__slide" href="{{ path('app_game', {'slug': game.slug} )}}" style="transform:scale(0.9);">
                                             <article class="lp-page3-slideContainer">
 
@@ -357,6 +375,9 @@
                                                 </svg>
 
                                                 <div id="lp-page3-slide0{{ index }}" class="lp-gameCard" style="background-image: linear-gradient(rgba(0, 0, 255, 0.05), rgba(249, 123, 44, 0.5)),url('{{ asset("img/games/headerBackground/" ~ game.subBanner )}}'); background-size:cover;">
+
+                                                    {# Affichage des comptes de newTopics/newMedias #}
+                                                    <span>NEWS {{ newTopicsCount + newMediasCount }}</span>
 
                                                     <span id="lp-gameCardTitle{{ index }}" value="{{ game.title }}" class="lp-gameCardTitle">{{ game.title }}</span>
 

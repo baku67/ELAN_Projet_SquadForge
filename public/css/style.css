@@ -3543,14 +3543,20 @@ nav {
 }
 
 
-.topicCard img {
+.topicCard img, .topicCardGlobal img {
     transition: all 0.3s;
 }
 
 .topicCard:hover img {
     transform: translateX(5px);
 }
+.topicCardGlobal:hover img {
+    transform: translateX(5px);
+}
 .topicCard:hover .topicTitle {
+    transform: translateX(10px);
+}
+.topicCardGlobal:hover .topicTitle {
     transform: translateX(10px);
 }
 .topicCard:hover .topicTitleModo {
@@ -4822,12 +4828,19 @@ div#tarteaucitronServices {
     background-color: #2bb3c259;
 }
 
-.topicList:nth-child(even) article:nth-child(even) a::nth-child(even) .topicCard {
+.topicList:nth-child(even) article:nth-child(even) a:nth-child(even) .topicCard {
     background-color: #2bb3c259;
 }
 
-
-
+.topicList article:nth-child(even) .topicCard {
+    background-color: #2bb3c259;
+}
+.topicList a:nth-child(even) .topicCard {
+    background-color: #2bb3c259;
+}
+.topicList a:nth-child(even) .topicCardGlobal {
+    background-color: #2bb3c259;
+}
 
 
 #charCountMsgMedia, #charCountMsg {
