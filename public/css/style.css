@@ -2062,8 +2062,6 @@ header {
     display: inline-flex;
     flex-direction: column;
     gap: 4px;
-    
-    
 }
 .newTopics {
     padding: 0px 10px;
@@ -2077,6 +2075,21 @@ header {
     border: 1px solid #0000007d;
     clip-path: polygon(10% 0, 100% 0, 100% 100%, 0% 100%);
 }
+
+
+.newsFavCardDivGameList {
+    right: -5px !important;
+    font-size: 0.87em !important;
+}
+.newTopicsGameList {
+    clip-path: polygon(10% 0, 100% 0, 97% 100%, 0% 100%);
+    position: relative;
+    left: 4px;
+}
+.newMediasGameList {
+    clip-path: polygon(10% 0, 100% 0, 97% 100%, 0% 100%);
+}
+
 
 .gameFavoritedLabel {
     position: absolute;
@@ -4059,7 +4072,7 @@ nav {
 }
 
 .stickerNewMediaDetail {
-    width: 74px !important;
+    width: 85px !important;
     text-align: center;
 }
 
@@ -4777,6 +4790,7 @@ div#tarteaucitronServices {
 
 .mediaTitle {
     font-family: 'K2D', sans-serif;
+    color: black;
     
     /* Elipsis Ellipsis titre cardMedia*/
     display: inline-block;
@@ -4979,7 +4993,8 @@ div#tarteaucitronServices {
 }
 
 .mediaList {
-    width: 70%;
+    /* width: 70%; */
+    width: 57%;
 
     margin: 30px auto;
 
