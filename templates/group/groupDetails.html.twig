@@ -198,9 +198,11 @@
                     if (isMobile){
                         console.log('TEST MOBILE GROUP 1')
                         document.getElementById('groupHeader').style.backgroundImage = "linear-gradient(to top, {{ gameFrom.color }}99, {{ gameFrom.color }}2b), url('../img/testMotif2.jpg')";
+                        document.getElementById('groupHeader').style.backgroundSize = "cover";
                     }
                     else {
                         document.getElementById('groupHeader').style.backgroundImage = "linear-gradient(to right, {{ gameFrom.color }}8c, {{ gameFrom.color }}50, #232323ba, #101010f7), url('../img/testMotif2.jpg')";
+                        document.getElementById('groupHeader').style.backgroundSize = "contain";
                     }
                 })
 

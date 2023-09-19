@@ -316,7 +316,7 @@
     }
 
     .lp-page3-containerMaster {
-        overflow: hidden;
+        /* overflow: hidden; */
         /* border-top: 1px solid white;
         border-bottom: 1px solid white; */
     }
@@ -325,6 +325,9 @@
         margin: 0 auto;
     }
 
+    .profilSection1 {
+        margin-top: 10px !important;
+    }
 
     .main {
         width: 94%;
@@ -559,6 +562,11 @@
         margin-bottom: 0.5rem;
     }
 
+    .gameSubTitle {
+        align-self: center;
+    }
+
+
 
     .gameSubtitleV2 {
         margin-left:3px;
@@ -590,7 +598,7 @@
 
     .sectionContainer {
         margin: 20px auto;
-        padding: 4px 0px 5px 0px;
+        padding: 0px 0px 0px 0px;
     }
 
     .sectionTeamContent {
@@ -1165,7 +1173,13 @@
     }
 
     .gameInfosSubTitleBg {
+        transform: translateY(0px);
+
         animation: gameInfosSubTitleBg1 0.3s 0.1s ease-in-out forwards, gameInfosSubTitleBg2 0.4s 0.45s ease-in-out forwards;
+    }
+
+    .gameInfosSubTitleBgParam {
+        transform: translateY(0px);
     }
 
     @keyframes gameInfosSubTitleBg1 {

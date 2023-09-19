@@ -3584,6 +3584,10 @@ nav {
     position: relative;
     bottom: 2px;
 }
+.roleUser {
+    border-color: grey !important;
+
+}
 
 .topicCard, .topicCardGlobal {
     position: relative;
@@ -3931,6 +3935,7 @@ nav {
     letter-spacing: 1px;   
 }
 
+
 .gameInfosSubTitleBg {
     position:absolute; 
     clip-path: polygon(0 0, 100% 0, 91% 100%, 0 100%);
@@ -3959,6 +3964,10 @@ nav {
     to {
         width:325px; 
     }
+}
+
+.sectionTitleBorderRadius {
+    border-bottom-left-radius: 6px;
 }
 
 .passLeadTitle {
@@ -4127,6 +4136,7 @@ nav {
 }
 
 
+
 .homeUserTeamsTitle {
     position:absolute; 
     clip-path: polygon(0 0, 100% 0, 91% 100%, 0 100%);
@@ -4194,6 +4204,8 @@ nav {
     transform: translateY(-1px);
     z-index:0;
 
+    border-left: 3px solid #2ce4f9d4;
+
     animation: homeTopicsTitle1 0.3s 0.1s ease-in-out forwards, homeTopicsTitle2 0.4s 0.45s ease-in-out forwards;
 }
 @keyframes homeTopicsTitle1 {
@@ -4224,6 +4236,8 @@ nav {
     width: 5px;
     transform: translateY(-1px);
     z-index:0;
+    
+    border-left: 3px solid #2ce4f9d4;
 
     animation: homeMediasTitle1 0.3s 0.1s ease-in-out forwards, homeMediasTitle2 0.4s 0.45s ease-in-out forwards;
 }
@@ -6387,6 +6401,10 @@ cursor: pointer;
     color: var(--background-color);
     border: 1px solid var(--background-color);
     border-bottom: 2px solid;
+}
+
+.fa-square-up-right {
+    color: var(--primary-color);
 }
 
 #showBurgerMenu {

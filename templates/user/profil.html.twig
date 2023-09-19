@@ -92,7 +92,7 @@
 
         <h2 class="pageTitle">Profil</h2>
 
-        <section class="sectionHomeContainer inlineFlex">
+        <section class="sectionHomeContainer inlineFlex profilSection1">
 
             <div class="profilSection1a">
                 <div class="blinkingSectionTitle">
@@ -104,13 +104,17 @@
                     <p>Pseudo: <span style="font-family:'K2D';">{{ user.pseudo|capitalize }}</span></p>
                     <p>Email: <span style="font-family:'K2D';">{{ user.email }}</span></p>
 
-                    {% if userRole[0] == "ROLE_USER" %}
-                        <p>Rôle:<span class="roleUserData">Utilisateur</span></p>
-                    {% elseif userRole[0] == "ROLE_MODO" %}
-                        <p>Rôle:<a href="{{ path('app_moderationDashboard') }}" class="roleUserData">Modérateur</a></p>
-                    {% elseif userRole[0] == "ROLE_ADMIN" %}
-                        <p>Rôle:<span class="roleUserData">Administrateur</span></p>
-                    {% endif %}
+                    <p>Rôle:
+                        {% if "ROLE_USER" in userRole %}
+                            <span class="roleUserData roleUser">Utilisateur</span>
+                        {% endif %}
+                        {% if "ROLE_MODO" in userRole %}
+                            <a href="{{ path('app_moderationDashboard') }}" class="roleUserData">Modérateur <i class="fa-solid fa-square-up-right"></i></a>
+                        {% endif %}
+                        {% if "ROLE_ADMIN" in userRole %}
+                            <a href="{{ path('admin') }}" class="roleUserData">Administrateur <i class="fa-solid fa-square-up-right"></i></a>
+                        {% endif %}
+                    </p>
 
                     <dialog class="modalDialog" id="deleteAccountModal">
                         <p>Êtes-vous sûr de vouloir supprimer votre compte ?</p>
@@ -150,7 +154,7 @@
             <div class="profilSection1b">
                 <span id="showPasswordChangeForm">Changer de mot de passe</span>
                 <div style="width:75%; margin:0 auto;">
-                    <form action="{{ path('app_changePassword') }}" method="post" id="changePasswordForm">
+                    <form action="{{ path('app_changePassword') }}" method="post" id="changePasswordForm" class="notDisplayed">
                         <label for="oldPass">Entrez votre ancien mot de passe:</label>
                         <div style="position:relative;">
                             <input name="oldPass" type="password" id="oldPass" class="form-control changePassInput" disabled>
@@ -182,6 +186,9 @@
             {# Bouton activation form changement mdp #}
             <script>
                 document.getElementById('showPasswordChangeForm').addEventListener('click', function() {
+
+                    document.getElementById('changePasswordForm').classList.toggle('notDisplayed');
+
                     const changePassInputs = document.getElementsByClassName('changePassInput');
                     Array.from(changePassInputs).forEach(element => {
                         if(element.disabled) {
@@ -287,9 +294,9 @@
                                 <span>{{ topic.validated }}</span>
                                 <span class="topicCardPublishDate">{{ time_diff(topic.publishDate) }}</span>
                                 {% if topic.topicPostsCount == 0 %}
-                                    <span style="opacity:0.5;">{{ topic.topicPostsCount }} <i class="fa-solid fa-message msgIconColor" style="color:#1da8b7d4;"></i></span>
+                                    <span class="topicSubMsgCount" style="opacity:0.5;">{{ topic.topicPostsCount }} <i class="fa-solid fa-message msgIconColor" style="color:#1da8b7d4;"></i></span>
                                 {% else %}
-                                    <span>{{ topic.topicPostsCount }} <i class="fa-solid fa-message msgIconColor" style="color:#1da8b7d4;"></i></span>
+                                    <span class="topicSubMsgCount">{{ topic.topicPostsCount }} <i class="fa-solid fa-message msgIconColor" style="color:#1da8b7d4;"></i></span>
                                 {% endif %}
                             </div>
                         </article>

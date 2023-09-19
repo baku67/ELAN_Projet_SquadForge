@@ -165,6 +165,7 @@ window.addEventListener('load', function() {
     if(document.getElementById('homeFavSectionCollapseBtn') !== null) {
         document.getElementById('homeFavSectionCollapseBtn').addEventListener("click", function() {
             document.getElementById('homeFavSectionCollapse').classList.toggle('collapseSection2');
+            document.getElementById('homeFavGamesTitle').classList.toggle('sectionTitleBorderRadius');
             // if(document.getElementById('homeFavSectionCollapse').classList.contains('collapseSection')) {
             //     document.getElementById('homeFavSectionCollapseBtn').innerHTML = "<i class='fa-solid fa-chevron-up'></i>";
             // }
@@ -178,6 +179,7 @@ window.addEventListener('load', function() {
     if(document.getElementById('homeTeamsSectionCollapseBtn') !== null) {
         document.getElementById('homeTeamsSectionCollapseBtn').addEventListener("click", function() {
             document.getElementById('homeTeamsSectionCollapse').classList.toggle('collapseSection2');
+            document.getElementById('homeUserTeamsTitle').classList.toggle('sectionTitleBorderRadius');
             document.getElementById('homeTeamsSectionCollapseBtn').classList.toggle('chevronRotate');
         })
     }
@@ -185,6 +187,7 @@ window.addEventListener('load', function() {
     if(document.getElementById('homeTopicsSectionCollapseBtn') !== null) {
         document.getElementById('homeTopicsSectionCollapseBtn').addEventListener("click", function() {
             document.getElementById('homeTopicsSectionCollapse').classList.toggle('collapseSection2');
+            document.getElementById('homeTopicsTitle').classList.toggle('sectionTitleBorderRadius');
             document.getElementById('homeTopicsSectionCollapseBtn').classList.toggle('chevronRotate');
         })
     }
@@ -192,6 +195,7 @@ window.addEventListener('load', function() {
     if(document.getElementById('homeMediasSectionCollapseBtn') !== null) {
         document.getElementById('homeMediasSectionCollapseBtn').addEventListener("click", function() {
             document.getElementById('homeMediasSectionCollapse').classList.toggle('collapseSection3');
+            document.getElementById('homeMediasTitle').classList.toggle('sectionTitleBorderRadius');
             // TODO: Fix éléments cachés mais présents et clickables
             document.getElementById('homeMediasSectionCollapseBtn').classList.toggle('chevronRotate');
         })
