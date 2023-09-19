@@ -585,9 +585,9 @@
                                         
                                         <span class="topicCardPublishDate">{{ time_diff(topic.publishDate) }}</span>
                                         {% if topic.topicPostsCount == 0 %}
-                                            <span style="opacity:0.5;">{{ topic.topicPostsCount }} <i class="fa-solid fa-message" style="color:#1da8b7d4;"></i></span>
+                                            <span class="topicSubMsgCount" style="opacity:0.5;">{{ topic.topicPostsCount }} <i class="fa-solid fa-message" style="color:#1da8b7d4;"></i></span>
                                         {% else %}
-                                            <span>{{ topic.topicPostsCount }} <i class="fa-solid fa-message msgIconColor"></i></span>
+                                            <span class="topicSubMsgCount">{{ topic.topicPostsCount }} <i class="fa-solid fa-message msgIconColor"></i></span>
                                         {% endif %}
                                     </div>
                                 </div>

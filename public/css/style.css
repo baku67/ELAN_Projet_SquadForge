@@ -17,7 +17,9 @@
     box-shadow: 0 0 0 0.25rem rgba(13,110,253,0);
 }
 
-
+#candidature_text:focus {
+    color: black !important;
+}
 .form-control:focus {
     color: white !important;
 }
@@ -4071,11 +4073,18 @@ nav {
     padding: 0px 6px;
     background-color: var(--background-color);
     border-radius: 5px;
+
+    min-width: 66px;
+    align-self: center;
+}
+
+.topicSubMsgCount {
+    min-width: 35px;
 }
 
 .stickerNewMedia {
     color: #ff4655;
-    width: 91px;
+    width: 95px;
     align-self: center;
     padding: 4px 7px !important;
 }
@@ -4526,6 +4535,7 @@ nav {
 
     padding: 0px 50px;
     font-size: 1.7em;
+    text-align: center;
     clip-path: polygon(0 0, 100% 0, 89% 100%, 11% 100%);
     background-color: #000000b5;
     color: white !important;
@@ -4787,7 +4797,7 @@ div#tarteaucitronServices {
 .topicTitle {
     font-family: 'K2D', sans-serif;
     /* width: 60%; */
-    max-width: 80%;
+    max-width: 75%;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;

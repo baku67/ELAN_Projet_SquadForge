@@ -528,11 +528,13 @@
                 {% for censureWord in censureWords %}
                     <article style="display:inline-flex; justify-content:space-around; padding: 5px 0; border-bottom:1px solid rgba(255,255,255,0.2);">
                         <span style="width:100px; font-family:'K2D', sans-serif;">"{{ censureWord.word }}"</span>
-                        <span style="width:100px;">{{ time_diff(censureWord.creationDate) }}</span>
-                        <pspan style="width:100px;">par {{ censureWord.user.pseudo|capitalize }}</span>
-                        <a href="{{ path('app_deleteCensure', {'id': censureWord.id }) }}">
-                            <i class="fa-solid fa-xmark"></i>
-                        </a>
+                        <div style="font-family:'K2D', sans-serif;">
+                            <span style="width:100px;">{{ time_diff(censureWord.creationDate) }}</span>
+                            <pspan style="width:100px;">par {{ censureWord.user.pseudo|capitalize }}</span>
+                            <a href="{{ path('app_deleteCensure', {'id': censureWord.id }) }}" style="margin:0px 2px;">
+                                <i class="fa-solid fa-xmark"></i>
+                            </a>
+                        </div>
                     </article>
                 {% endfor %}
             </div>

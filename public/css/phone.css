@@ -319,13 +319,17 @@
 
 
     .main {
-        width: 92%;
+        width: 94%;
         margin: 20px auto 25px;
     }
 
 
     .hiddenPhone {
         display: none;
+    }
+
+    .mediaListModo article {
+        max-width: -webkit-fill-available;
     }
 
 
@@ -617,6 +621,23 @@
     }
 
 
+    .sectionContentMediaDiv {
+        margin: 10px 10px 10px 10px !important;
+        background-color: #bfbfbf42 !important;
+    }
+
+
+
+    .gameHeaderTitle {
+        font-size: 1.2em !important;
+        max-height: 82px;
+    }
+    .gameHeaderTitle:hover {
+        letter-spacing: 0px !important;
+        padding: 0px 50px !important;
+    }
+
+
     .footerRegisterText {
         font-size: 1.2em;
     }
@@ -734,6 +755,41 @@
 
     .masonry-grid {
         width: 100%;
+        margin: 3px auto;
+    }
+
+    .gameTopicList {
+        padding: 5px 5px !important;
+        width: 98% !important;
+    }
+
+    .topicCardSubInfos {
+        gap: 5px;
+    }
+
+    .gameTeamBtn {
+        position: relative;
+        padding: 15px 0px;
+        margin: 3px auto;
+        width: 70%;
+        border-radius: 7px;
+        background-color: rgb(95 95 95) !important;
+    }
+
+
+    .groupListGrid {
+        margin: 20px auto;
+        text-align: center;
+        width: 90%;
+        display: block;
+    }
+
+    .teamCard {
+        margin: 5px auto;
+    }
+
+    .teamCardTitleV2 {
+        width: 120px;
     }
 
     .headerGameTitle {
@@ -1042,6 +1098,11 @@
     .modoNavSubDiv {
         display: inline-flex !important;
     }
+
+    #newNotifBubbleCount {
+        position: absolute !important;
+        left: 50%;
+    }
     .newNotifBubbleCount {
         display: block !important;
         height: fit-content !important;
@@ -1050,9 +1111,9 @@
         padding-top: 5px !important;
         top: 13px !important;
 
-        width: 27px !important;
+        width: 35px !important;
 
-        background-color: #dc2e2e;
+        /* background-color: #dc2e2e; */
         color: #ffe3e3;
         padding: 0px 4px;
         border: 1px solid rgb(79 79 79 / 40%);
@@ -1064,9 +1125,64 @@
     }
     
     #profilBtnNav {
-        background-color: #1d4345;
+        background-color: #205053;
         border-radius: 5px;
         padding: 9px 18px 9px 7px;
+    }
+
+    .censuredWordsList  {
+        width: 90%;
+        margin: 25px auto 20px auto;
+    }
+
+    .modoSubTitle1Bg {
+        transform: translate(-2px, -5px);
+
+        animation: modoSubTitle1Bg1 0.3s 0.1s ease-in-out forwards, modoSubTitle1Bg2 0.4s 0.45s ease-in-out forwards !important;
+    }
+    @keyframes modoSubTitle1Bg1 {
+        from {
+            height: 0px;
+        }
+        to {
+            height:45px; 
+        }
+    }
+    @keyframes modoSubTitle1Bg2 {
+        from {
+            width: 5px;
+        }
+        to {
+            width:244px; 
+        }
+    }
+
+    .reportPreviewBtn {
+        width: 90%;
+    }
+
+    #allSeenLink {
+        margin-top: 20px;
+        margin-bottom: 21px;
+    }
+    .cleanNotifsBtn {
+        margin: 20px auto;
+    }
+
+    .mainMediaDetail {
+        max-width: 87%;
+    }
+
+    .notifCard  {
+        padding: 10px 51px 10px 15px;
+    }
+
+    .filAriane {
+        align-items: center;
+    }
+
+    .notifCardLine {
+        width: 95%;
     }
 
 
