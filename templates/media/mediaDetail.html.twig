@@ -176,9 +176,46 @@
             <div class="mediaUpvoteLine inline">
 
                 <div>
-                    <i mediaId={{ media.id }} class="likeMedia likeMediaDetail fa-solid fa-arrow-up {{ liked }}"></i>
+                    <i id="upvoteMedia" mediaId={{ media.id }} class="likeMedia likeMediaDetail fa-solid fa-arrow-up {{ liked }}"></i>
                     <span id="countLikesMedia{{ media.id }}" value="{{ media.upvoteCount }}" class="nbrMediaUpvotes"> {{ media.upvoteCount }} </span>
                 </div>
+
+                <script>
+                    const btn = document.getElementById('upvoteMedia');
+                    const id = btn.getAttribute('mediaId');
+                    btn.addEventListener("click", function() {
+                        fetch('/likeMedia/' + id, {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json'
+                            }
+                        })
+                        .then(response => response.json())
+                        .then(data => {
+                            if (data.success) {
+                                if (data.newState == "liked") {
+                                    window.FlashMessage.success('Upvoté');
+                                }
+                                else {
+                                    window.FlashMessage.success('Upvote retiré');
+                                }
+                            } else {
+                                window.FlashMessage.error('Vous devez être connecté pour upvoter un média');
+                            }
+
+                            if (data.newState == "liked") {
+                                btn.style.color = "var(--primary-color)";
+                                btn.style.borderColor = "var(--primary-color)";
+                                document.getElementById("countLikesMedia" + id).innerHTML = data.newCountLikes;
+                            }
+                            else if (data.newState == "unliked") {
+                                btn.style.color = "var(--white)";
+                                btn.style.borderColor = "rgba(255, 255, 255, 0.3)";
+                                document.getElementById("countLikesMedia" + id).innerHTML = data.newCountLikes;
+                            }
+                        })
+                    })
+                </script>
 
                 {# Report + Modal raison report #}
                 {% if app.user %}
@@ -490,7 +527,7 @@
         if (document.getElementById('landingPageBool') == null) {
             window.addEventListener('scroll', () => {
                 if (window.scrollY > 0) {
-                    if(document.getElementsByClassName('headerFixed')[0] !== null) {
+                    if(document.getElementsByClassName('headerFixed')[0] !== null && document.getElementsByClassName('headerFixed')[0] !== undefined) {
                         document.getElementsByClassName('headerFixed')[0].style.borderColor = "{{game.color}}";
 
                         document.getElementById('gameHeaderTitle').style.opacity = "1";

@@ -141,7 +141,7 @@
         if (document.getElementById('landingPageBool') == null) {
             window.addEventListener('scroll', () => {
                     if (window.scrollY > 0) {
-                        if(document.getElementsByClassName('headerFixed')[0] !== null) {
+                        if(document.getElementsByClassName('headerFixed')[0] !== null && document.getElementsByClassName('headerFixed')[0] !== undefined) {
                             document.getElementsByClassName('headerFixed')[0].style.borderColor = "{{gameFrom.color}}";
 
                             document.getElementById('gameHeaderTitle').style.opacity = "1";
