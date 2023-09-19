@@ -103,7 +103,7 @@
 
             <h2 class="pageTitle">Créer une team</h2>
 
-            <div style="width:100%; display:inline-flex;">
+            <div class="createTeamContent">
 
                 <div class="formAddGroup" style="width:50%;">
                     {{ form_start(formAddGroup) }}
@@ -113,11 +113,11 @@
                             {{ form_row(formAddGroup.description) }} 
                         </div>
 
-                        <div style="margin:20px auto; display:inline-flex; width:100%; justify-content:space-evenly;">
-                            <div>
+                        <div style="margin:20px auto; display:inline-flex; width:100%; justify-content:center;">
+                            <div style="padding-right:20px; border-right:1px solid grey;">
                                 {{ form_row(formAddGroup.nbrPlaces) }} 
                             </div>
-                            <div>
+                            <div style="padding-left:20px;">
                                 {{ form_row(formAddGroup.restriction_18) }} 
                                 {{ form_row(formAddGroup.restriction_mic) }} 
                                 {{ form_row(formAddGroup.status) }} 

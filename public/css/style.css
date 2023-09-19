@@ -17,6 +17,20 @@
     box-shadow: 0 0 0 0.25rem rgba(13,110,253,0);
 }
 
+#group_title:focus {
+    color: black !important;
+}
+#group_description:focus {
+    color: black !important;
+}
+#group_nbrPlaces:hover {
+    color: black !important;
+}
+#group_imgUrl:focus {
+    color: black !important;
+}
+
+
 #candidature_text:focus {
     color: black !important;
 }
@@ -887,6 +901,7 @@ dialog::backdrop {
 
 
 .teamImgContainer {
+    width:40%;
     opacity: 0;
     transform: perspective(30px) rotateY(328deg) translateX(35px);
 
@@ -4141,6 +4156,22 @@ nav {
     border-bottom-right-radius: 40px;
 }
 
+.createTeamContent {
+    width:100%; 
+    display:inline-flex;
+    flex-direction: column;
+}
+
+
+#group_restriction_18, #group_restriction_mic, #group_status {
+    margin-left: 5px;
+}
+
+
+.groupHeaderSection1 {
+    width:60%; 
+    position:relative;
+}
 
 .homeTopicsTitle {
     position:absolute; 
@@ -5989,7 +6020,7 @@ cursor: pointer;
     border-top-left-radius: 3px;
 }
 .modoNav {
-    color: white;
+    color: white !important;
     padding-top: 5px;
     padding-left: 2px;
     text-transform: uppercase;
