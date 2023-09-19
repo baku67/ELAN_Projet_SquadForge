@@ -557,7 +557,8 @@
     }
 
     .filAriane {
-        margin-left: 5% !important;
+        margin-left: 3% !important;
+        margin-right: 3% !important;
         margin-top: 12px !important;
         margin-bottom: 0.5rem;
     }
@@ -566,6 +567,9 @@
         align-self: center;
     }
 
+    .mainHome {
+        margin: 30px auto;
+    }
 
 
     .gameSubtitleV2 {
@@ -1322,7 +1326,7 @@
     }
 
     .modoSubTitle1Bg {
-        transform: translate(-2px, -5px);
+        transform: translate(-2px, -1px);
 
         animation: modoSubTitle1Bg1 0.3s 0.1s ease-in-out forwards, modoSubTitle1Bg2 0.4s 0.45s ease-in-out forwards !important;
     }
@@ -1341,6 +1345,19 @@
         to {
             width:244px; 
         }
+    }
+
+    .gameTopicsSubTitleBg {
+        transform: translate(0px, -1px) !important;
+    }
+    .createButton {
+        top: -2px;
+    }
+    .gameFavoritedLabel {
+        font-size: 0.9em;
+        border-top-right-radius: 3px;
+        border-bottom-left-radius: 9px;
+        clip-path: polygon(0% 0, 100% 0, 100% 100%, 0% 100%);
     }
 
     .reportPreviewBtn {

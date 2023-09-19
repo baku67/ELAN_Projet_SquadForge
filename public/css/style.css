@@ -17,6 +17,10 @@
     box-shadow: 0 0 0 0.25rem rgba(13,110,253,0);
 }
 
+#session_title:focus {
+    color: black !important;
+}
+
 #group_title:focus {
     color: black !important;
 }
@@ -233,6 +237,43 @@ body {
     }
 }
 
+
+.btnCancel {
+    background-color: #b43a3a !important;
+    color: white !important;
+}
+.btn-primary {
+    --bs-btn-color: #fff;
+    --bs-btn-bg: #0d6dfd00;
+    --bs-btn-border-color: #0d6dfd00;
+    --bs-btn-hover-color: #fff;
+    --bs-btn-hover-bg: #0d6dfd00;
+    --bs-btn-hover-border-color: #0d6dfd00;
+    --bs-btn-focus-shadow-rgb: 49,132,253;
+    --bs-btn-active-color: #fff;
+    --bs-btn-active-bg: #0d6dfd00;
+    --bs-btn-active-border-color: #0d6dfd00;
+    --bs-btn-active-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.125);
+    --bs-btn-disabled-color: #fff;
+    --bs-btn-disabled-bg: #0d6dfd00;
+    --bs-btn-disabled-border-color: #0d6dfd00;
+}
+
+
+.roleElite {
+    transition: all 0.3s;
+}
+.roleElite:hover {
+    background-color: var(--primary-color) !important;
+    color: black !important;
+}
+.roleElite i {
+    transition: all 0.3s;
+}
+
+.roleElite:hover i {
+    color: black !important;
+}
 
 .planningInfos {
     text-align: center;
@@ -960,6 +1001,9 @@ a {
     padding: 3px 10px;
     background-color: #8080801f;
     border-radius: 5px;
+
+    flex-flow: wrap;
+
 }
 
 header {
@@ -2382,6 +2426,7 @@ header {
 
 .navNotifDiv {
     position:relative; 
+    bottom: 2px;
     /* margin-right:10px; */
     /* padding: 0; */
     padding: 0 4px 0 4px !important;
@@ -2802,6 +2847,8 @@ header {
     padding: 3px 10px;
     background-color: #8080801f;
     border-radius: 5px;
+
+    flex-flow: wrap;
 }
 .filArianeSepa {
     margin: 0 5px;

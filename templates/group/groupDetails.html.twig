@@ -420,7 +420,7 @@
 
 
                         <div id="addSessionBtn" style="text-align:center;">
-                            <button class="btn btn-primary" style="background-color:#edb017;"><i class="fa-solid fa-calendar-plus"></i> Ajouter une session</button>
+                            <button class="btn btn-primary" style="background-color:#edb017; margin:20px auto;"><i class="fa-solid fa-calendar-plus"></i> Ajouter une session</button>
                         </div>
 
                         <div id="addSessionForm" class="notDisplayed">
@@ -440,7 +440,7 @@
                                 <br>
                                 <div style="display:inline-flex;margin:10px auto;">
                                     {{ form_row(formAddSession.submit) }}
-                                    <button id="cancelAddSession" class="btn btn-primary">Annuler</button>
+                                    <button id="cancelAddSession" class="btn btn-primary btnCancel" style="margin-left:15px;">Annuler</button>
                                 </div>
 
                             {{ form_end(formAddSession)}}

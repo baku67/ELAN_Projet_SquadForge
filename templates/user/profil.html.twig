@@ -109,10 +109,10 @@
                             <span class="roleUserData roleUser">Utilisateur</span>
                         {% endif %}
                         {% if "ROLE_MODO" in userRole %}
-                            <a href="{{ path('app_moderationDashboard') }}" class="roleUserData">Modérateur <i class="fa-solid fa-square-up-right"></i></a>
+                            <a href="{{ path('app_moderationDashboard') }}" class="roleUserData roleElite">Modérateur <i class="fa-solid fa-square-up-right"></i></a>
                         {% endif %}
                         {% if "ROLE_ADMIN" in userRole %}
-                            <a href="{{ path('admin') }}" class="roleUserData">Administrateur <i class="fa-solid fa-square-up-right"></i></a>
+                            <a href="{{ path('admin') }}" class="roleUserData roleElite">Administrateur <i class="fa-solid fa-square-up-right"></i></a>
                         {% endif %}
                     </p>
 
