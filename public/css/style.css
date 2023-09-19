@@ -4861,10 +4861,45 @@ div#tarteaucitronServices {
 
 
 
+
+
+
+
+
+
+
+/* TEST MediaDetail inline img/posts PC */
+.mainMediaDetail {
+    width: 95% !important;
+    max-width: 95% !important;
+    margin: 25px auto 30px auto !important;
+}
+
 .mediaDetailWrapper {
     display: inline-flex;
-    flex-direction: column;
+    flex-direction: row;
+    width: 100%;
 }
+
+.mediaDetailSection1 {
+    width: 50%;
+    margin: 0 20px 0 70px;
+}
+.mediaDetailSection2 {
+    width: 50%;
+    margin: 0 70px 0 50px;
+}
+/* Fin test */
+
+
+
+
+
+
+
+
+
+
 
 
 .addQuestionIcon {
@@ -5226,7 +5261,7 @@ div#tarteaucitronServices {
 
     margin: 30px auto;
 
-    padding: 30px 50px;
+    padding: 15px 20px;
     background-image: linear-gradient(to bottom, #2ce4f929, var(--background-color));
 }
 
