@@ -4629,7 +4629,8 @@ nav {
     justify-content: space-between;
     width:100%; 
     align-items: baseline;
-    margin: 5px 0 13px 0;
+    /* margin: 5px 0 13px 0; */
+
 }
 
 
@@ -4860,6 +4861,11 @@ div#tarteaucitronServices {
 
 
 
+.mediaDetailWrapper {
+    display: inline-flex;
+    flex-direction: column;
+}
+
 
 .addQuestionIcon {
     align-items: center;
@@ -4993,7 +4999,10 @@ div#tarteaucitronServices {
     
 }
 .topicHeaderTitle {
-    color: white !important;
+    color: #efefef !important;
+    font-family: 'K2D', sans-serif;
+    font-size: 1.2em;
+
 }
 #topic_post_text {
     background-color: #1992a02e;
@@ -5027,6 +5036,14 @@ div#tarteaucitronServices {
     font-size: 83%;
     opacity: 0.8;
     padding: 0 6px;
+}
+
+
+.mediaHeaderTitle {
+    color: #efefef !important;
+    font-size: 1.5em;
+    font-family: 'K2D';
+    padding: 5px 7px 12px 5px;  
 }
 
 .postAuthorUser {
@@ -5118,8 +5135,15 @@ div#tarteaucitronServices {
 
 .mediaDetailBg {
     border-radius: 3px !important;
+    padding: 5px 10px 3px 10px !important;
+    border-top-left-radius: 0px !important;
+
+    background-color: #1992a02e !important;
 }
 
+.mainTopicDetails {
+    width: 62% !important;
+}
 
 .mediaCardHeader {
     position: relative;

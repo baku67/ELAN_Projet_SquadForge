@@ -1329,6 +1329,10 @@
         padding: 9px 18px 9px 7px;
     }
 
+    .mainTopicDetails {
+        width: 94% !important;
+    }
+
     .censuredWordsList  {
         width: 90%;
         margin: 25px auto 20px auto;

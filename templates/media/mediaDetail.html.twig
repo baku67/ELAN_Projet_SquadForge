@@ -104,416 +104,422 @@
 
     <main class="main mainMediaDetail">
 
-        <section>
+        <div class="mediaDetailWrapper">
 
-            <div class="mediaDetailTitle">
+            <section>
 
-                <h2 style="font-weight:bold; color:{{game.color}};">{{ media.title|capitalize }}</h2>
+                <div class="mediaDetailTitle">
 
-                {% if media.status == "closed" %}
-                    <span class="topicStatus topicClosed">fermé</span>
-                {% elseif media.status == "open" %}
-                    <span class="topicStatus topicOpen">ouvert</span>
-                {% elseif media.status == "closedModo" %}
-                    <span class="topicStatus topicClosed">Vérrouillé</span>
-                {% endif %}
+                    <h2 class="topicHeaderTitleLabel">Media</h2>
 
-            </div>
-
-
-            <div class="listContainer mediaDetailBg">
-                
-                <img src="{{ asset("img/uploads/" ~ media.url) }}" alt="media" class="mediaImg mediaDetailImg"/>
-
-                <div style="display:inline-flex; justify-content:space-between; width:100%; font-family:'K2D', sans-serif; font-size:90%; opacity:0.8;">
-                    {% if app.user == media.user %}
-                        <span>par <span style="color:var(--primary-color);">vous</span></span>
-                    {% else  %}
-                        <span>par {{ media.user.pseudo|capitalize }}</span>
+                    {% if media.status == "closed" %}
+                        <span class="topicStatus topicClosed">fermé</span>
+                    {% elseif media.status == "open" %}
+                        <span class="topicStatus topicOpen">ouvert</span>
+                    {% elseif media.status == "closedModo" %}
+                        <span class="topicStatus topicClosed">Vérrouillé</span>
                     {% endif %}
-                    <span>{{ time_diff(media.publishDate) }}</span>
+
                 </div>
 
-            </div>
 
-            {# Si modo: peut verrrouiller le media (supérieur à fermer), si auteur: peut jsute fermer le media 
-            (le modo ne peut pas rouvrir un media fermé simplement par l'auteur) #}
-            {% if "ROLE_MODO" in app.user.roles %}
-                {% if media.status == "closed" %}
-                    <p style="font-family: 'K2D';"><a href="{{ path('app_lockMedia', {'slug': media.slug}) }}"><span style="color:#ff004c;">Vérouiller le média (modo)</span></a></p>
-                {% elseif media.status == "closedModo" %}
-                    <p style="font-family: 'K2D';"><a href="{{ path('app_unlockMedia', {'slug': media.slug}) }}"><span style="color:#00ffaf;">Déverrouiller le média (modo)</span></a></p>
-                {% elseif media.status == "open" %}
-                    <p style="font-family: 'K2D';"><a href="{{ path('app_lockMedia', {'slug': media.slug}) }}"><span style="color:#ff004c;">Vérouiller le média (modo)</span></a></p>
-                {% endif %}
-            {% elseif app.user == media.user and "ROLE_MODO" not in app.user.roles %}
-                {% if media.status == "closed" %}
-                    <p style="font-family: 'K2D';"><a href="{{ path('app_openMedia', {'slug': media.slug}) }}"><span style="color:#00ffaf;">Rouvrir le média</span></a></p>
-                {% elseif media.status == "closedModo" %}
-                    <p class="emptyListMsg">Le média a été vérouillé par la modération, vous ne pouvez pas le rouvrir</p>
-                {% elseif media.status == "open" %}
-                    <p style="font-family: 'K2D';"><a href="{{ path('app_closeMedia', {'slug': media.slug}) }}"><span style="color:#ff004c;">Fermer le média</span></a></p>
-                {% endif %}
-            {% endif %}
+                <div class="listContainer mediaDetailBg" style="border:1px solid {{ game.color }}9e;">
 
-
-            {# If user, sinon rediret login #}
-
-            {# Pas opti: bloucle sur tous les likes du post pour savoir si liké (boucle dans boucle) #}
-            {% set liked = "" %}
-            
-            {% if app.user %}
-
-                {% for upvote in media.UserUpvote %}
-
-                    {% if upvote == app.user %}
-                        {% set liked = "upBtnLiked" %}
-                    {% endif %}
-
-                {% endfor %}
-            {% endif %}
-
-            <div class="mediaUpvoteLine inline">
-
-                <div>
-                    <i id="upvoteMedia" mediaId={{ media.id }} class="likeMedia likeMediaDetail fa-solid fa-arrow-up {{ liked }}"></i>
-                    <span id="countLikesMedia{{ media.id }}" value="{{ media.upvoteCount }}" class="nbrMediaUpvotes"> {{ media.upvoteCount }} </span>
-                </div>
-
-                <script>
-                    const btn = document.getElementById('upvoteMedia');
-                    const id = btn.getAttribute('mediaId');
-                    btn.addEventListener("click", function() {
-                        fetch('/likeMedia/' + id, {
-                            method: 'POST',
-                            headers: {
-                                'Content-Type': 'application/json'
-                            }
-                        })
-                        .then(response => response.json())
-                        .then(data => {
-                            if (data.success) {
-                                if (data.newState == "liked") {
-                                    window.FlashMessage.success('Upvoté');
-                                }
-                                else {
-                                    window.FlashMessage.success('Upvote retiré');
-                                }
-                            } else {
-                                window.FlashMessage.error('Vous devez être connecté pour upvoter un média');
-                            }
-
-                            if (data.newState == "liked") {
-                                btn.style.color = "var(--primary-color)";
-                                btn.style.borderColor = "var(--primary-color)";
-                                document.getElementById("countLikesMedia" + id).innerHTML = data.newCountLikes;
-                            }
-                            else if (data.newState == "unliked") {
-                                btn.style.color = "var(--white)";
-                                btn.style.borderColor = "rgba(255, 255, 255, 0.3)";
-                                document.getElementById("countLikesMedia" + id).innerHTML = data.newCountLikes;
-                            }
-                        })
-                    })
-                </script>
-
-                {# Report + Modal raison report #}
-                {% if app.user %}
-            
-                    {% if app.user != media.user %}
-                        <span onclick="reportModal.showModal()" class="reportBtn">Signaler</span>
-                    {% endif %}
-
-                    <dialog class="modalDialog" id="reportModal">
-                        <p style="font-size:1.3em;">Pour quelles raisons ce post ne vous convient-il pas ?</p>
-                        <select id="motifSelect" class="form-select" style="font-family: 'K2D', sans serif;">
-                            <option value="0">-- Sélectionnez un motif...</option>
-                            {% for motif in reportMotifs %}
-                                <option value="{{ motif.id }}">
-                                    {{ motif.text }}
-                                </option>
-                            {% endfor %}
-                        </select>
-                        <a id="confirmReportModal" class="confirmModal" href="{{ path('app_reportObject',{'objectType':"media", 'objectId':media.id, 'reporterId':app.user.id, 'reportMotifId':0})}}">Envoyer</a>
-                        <span class="cancelModal" onclick="reportModal.close()">Annuler</span>
-                    </dialog>
-
-                {% else %}
-                    <a href="{{ path('app_login') }}" class="reportBtn">Signaler</a>
-                {% endif %}
-
-                {# JS changement du param route reportMotif.id en fonction du select #}
-                {% if app.user %}
-                    <script>
-                        const motifSelect = document.getElementById('motifSelect');
-                        const envoyerLink = document.getElementById('confirmReportModal');
-
-                        motifSelect.addEventListener('change', function() {
-                            const selectedMotifId = motifSelect.value;
-                            const href = "/app_reportObject/media/" + {{media.id}} + "/" + {{app.user.id}} + "/" +  selectedMotifId;
-                            envoyerLink.setAttribute('href', href);
-                        });
-                    </script>
-                {% endif %}
-
-            </div>
-
-        </section>
-
-
-        <section>
-
-            <h4 style="font-weight:bold; color:{{game.color}}; margin-top: 40px;">Commentaires ({{ media.mediaPostsCount }})</h4>
-
-            {# Messages triés par nbr d'upvote et sinon par publishDate (récent en haut) [différent d'un chat] #}
-            <div class="listContainer">
-
-                {# form de publication de post sur le topic #}
-                {% if media.status == "open" %}
-
-                    {% if app.user %}
+                    <h3 class="mediaHeaderTitle" style="color:{{ game.color }};">{{ media.title|capitalize }}</h3>
                     
-                        {% if app.user.muted %}
+                    <img src="{{ asset("img/uploads/" ~ media.url) }}" alt="media" class="mediaImg mediaDetailImg"/>
 
-                            <p class="emptyListMsg"><i class="fa-solid fa-triangle-exclamation warning"></i>Vous avez été réduit au silence par la modération</p>
-
-                        {% else %}
-                    
-                            {{ form_start(formAddMediaPost) }}
-                                <div style="position:relative; margin: 5px auto;">
-                                    {{ form_widget(formAddMediaPost.text) }} 
-                                    {{ form_widget(formAddMediaPost.submit) }}
-                                </div>
-                                
-                            {{ form_end(formAddMediaPost) }}
-                            <script>
-                                document.querySelector('#media_post_submit').style.color = "{{ media.game.color }}";
-                            </script>
-
+                    <div style="display:inline-flex; justify-content:space-between; width:100%; font-family:'K2D', sans-serif; font-size:90%; opacity:0.8;">
+                        {% if app.user == media.user %}
+                            <span>par <span style="color:var(--primary-color);">vous</span></span>
+                        {% else  %}
+                            <span>par {{ media.user.pseudo|capitalize }}</span>
                         {% endif %}
+                        <span>{{ time_diff(media.publishDate) }}</span>
+                    </div>
+
+                </div>
+
+                {# Si modo: peut verrrouiller le media (supérieur à fermer), si auteur: peut jsute fermer le media 
+                (le modo ne peut pas rouvrir un media fermé simplement par l'auteur) #}
+                {% if "ROLE_MODO" in app.user.roles %}
+                    {% if media.status == "closed" %}
+                        <p style="font-family: 'K2D';"><a href="{{ path('app_lockMedia', {'slug': media.slug}) }}"><span style="color:#ff004c;">Vérouiller le média (modo)</span></a></p>
+                    {% elseif media.status == "closedModo" %}
+                        <p style="font-family: 'K2D';"><a href="{{ path('app_unlockMedia', {'slug': media.slug}) }}"><span style="color:#00ffaf;">Déverrouiller le média (modo)</span></a></p>
+                    {% elseif media.status == "open" %}
+                        <p style="font-family: 'K2D';"><a href="{{ path('app_lockMedia', {'slug': media.slug}) }}"><span style="color:#ff004c;">Vérouiller le média (modo)</span></a></p>
+                    {% endif %}
+                {% elseif app.user == media.user and "ROLE_MODO" not in app.user.roles %}
+                    {% if media.status == "closed" %}
+                        <p style="font-family: 'K2D';"><a href="{{ path('app_openMedia', {'slug': media.slug}) }}"><span style="color:#00ffaf;">Rouvrir le média</span></a></p>
+                    {% elseif media.status == "closedModo" %}
+                        <p class="emptyListMsg">Le média a été vérouillé par la modération, vous ne pouvez pas le rouvrir</p>
+                    {% elseif media.status == "open" %}
+                        <p style="font-family: 'K2D';"><a href="{{ path('app_closeMedia', {'slug': media.slug}) }}"><span style="color:#ff004c;">Fermer le média</span></a></p>
+                    {% endif %}
+                {% endif %}
+
+
+                {# If user, sinon rediret login #}
+
+                {# Pas opti: bloucle sur tous les likes du post pour savoir si liké (boucle dans boucle) #}
+                {% set liked = "" %}
+                
+                {% if app.user %}
+
+                    {% for upvote in media.UserUpvote %}
+
+                        {% if upvote == app.user %}
+                            {% set liked = "upBtnLiked" %}
+                        {% endif %}
+
+                    {% endfor %}
+                {% endif %}
+
+                <div class="mediaUpvoteLine inline">
+
+                    <div>
+                        <i id="upvoteMedia" mediaId={{ media.id }} class="likeMedia likeMediaDetail fa-solid fa-arrow-up {{ liked }}"></i>
+                        <span id="countLikesMedia{{ media.id }}" value="{{ media.upvoteCount }}" class="nbrMediaUpvotes"> {{ media.upvoteCount }} </span>
+                    </div>
+
+                    <script>
+                        const btn = document.getElementById('upvoteMedia');
+                        const id = btn.getAttribute('mediaId');
+                        btn.addEventListener("click", function() {
+                            fetch('/likeMedia/' + id, {
+                                method: 'POST',
+                                headers: {
+                                    'Content-Type': 'application/json'
+                                }
+                            })
+                            .then(response => response.json())
+                            .then(data => {
+                                if (data.success) {
+                                    if (data.newState == "liked") {
+                                        window.FlashMessage.success('Upvoté');
+                                    }
+                                    else {
+                                        window.FlashMessage.success('Upvote retiré');
+                                    }
+                                } else {
+                                    window.FlashMessage.error('Vous devez être connecté pour upvoter un média');
+                                }
+
+                                if (data.newState == "liked") {
+                                    btn.style.color = "var(--primary-color)";
+                                    btn.style.borderColor = "var(--primary-color)";
+                                    document.getElementById("countLikesMedia" + id).innerHTML = data.newCountLikes;
+                                }
+                                else if (data.newState == "unliked") {
+                                    btn.style.color = "var(--white)";
+                                    btn.style.borderColor = "rgba(255, 255, 255, 0.3)";
+                                    document.getElementById("countLikesMedia" + id).innerHTML = data.newCountLikes;
+                                }
+                            })
+                        })
+                    </script>
+
+                    {# Report + Modal raison report #}
+                    {% if app.user %}
+                
+                        {% if app.user != media.user %}
+                            <span onclick="reportModal.showModal()" class="reportBtn">Signaler</span>
+                        {% endif %}
+
+                        <dialog class="modalDialog" id="reportModal">
+                            <p style="font-size:1.3em;">Pour quelles raisons ce post ne vous convient-il pas ?</p>
+                            <select id="motifSelect" class="form-select" style="font-family: 'K2D', sans serif;">
+                                <option value="0">-- Sélectionnez un motif...</option>
+                                {% for motif in reportMotifs %}
+                                    <option value="{{ motif.id }}">
+                                        {{ motif.text }}
+                                    </option>
+                                {% endfor %}
+                            </select>
+                            <a id="confirmReportModal" class="confirmModal" href="{{ path('app_reportObject',{'objectType':"media", 'objectId':media.id, 'reporterId':app.user.id, 'reportMotifId':0})}}">Envoyer</a>
+                            <span class="cancelModal" onclick="reportModal.close()">Annuler</span>
+                        </dialog>
 
                     {% else %}
+                        <a href="{{ path('app_login') }}" class="reportBtn">Signaler</a>
+                    {% endif %}
 
-                        <p class="emptyListMsg"><i class="fa-solid fa-triangle-exclamation warning"></i>Vous devez être <a href="{{ path('app_login') }}" style="text-decoration:underline;">connecté</a> pour commenter</p>
+                    {# JS changement du param route reportMotif.id en fonction du select #}
+                    {% if app.user %}
+                        <script>
+                            const motifSelect = document.getElementById('motifSelect');
+                            const envoyerLink = document.getElementById('confirmReportModal');
+
+                            motifSelect.addEventListener('change', function() {
+                                const selectedMotifId = motifSelect.value;
+                                const href = "/app_reportObject/media/" + {{media.id}} + "/" + {{app.user.id}} + "/" +  selectedMotifId;
+                                envoyerLink.setAttribute('href', href);
+                            });
+                        </script>
+                    {% endif %}
+
+                </div>
+
+            </section>
+
+
+            <section>
+
+                <h4 style="font-weight:bold; color:{{game.color}}; margin-top: 40px;">Commentaires ({{ media.mediaPostsCount }})</h4>
+
+                {# Messages triés par nbr d'upvote et sinon par publishDate (récent en haut) [différent d'un chat] #}
+                <div class="listContainer">
+
+                    {# form de publication de post sur le topic #}
+                    {% if media.status == "open" %}
+
+                        {% if app.user %}
+                        
+                            {% if app.user.muted %}
+
+                                <p class="emptyListMsg"><i class="fa-solid fa-triangle-exclamation warning"></i>Vous avez été réduit au silence par la modération</p>
+
+                            {% else %}
+                        
+                                {{ form_start(formAddMediaPost) }}
+                                    <div style="position:relative; margin: 5px auto;">
+                                        {{ form_widget(formAddMediaPost.text) }} 
+                                        {{ form_widget(formAddMediaPost.submit) }}
+                                    </div>
+                                    
+                                {{ form_end(formAddMediaPost) }}
+                                <script>
+                                    document.querySelector('#media_post_submit').style.color = "{{ media.game.color }}";
+                                </script>
+
+                            {% endif %}
+
+                        {% else %}
+
+                            <p class="emptyListMsg"><i class="fa-solid fa-triangle-exclamation warning"></i>Vous devez être <a href="{{ path('app_login') }}" style="text-decoration:underline;">connecté</a> pour commenter</p>
+
+                        {% endif %}
+
+                    {% elseif media.status == "closed" %}
+                        
+                        <p class="emptyListMsg"><i class="fa-solid fa-triangle-exclamation warning"></i>Le média a été fermé par l'auteur</p>
+
+
+                    {% elseif media.status == "closedModo" %}
+                        
+                        <p class="emptyListMsg"><i class="fa-solid fa-triangle-exclamation warning"></i>Le média a été vérouillé par la modération</p>
 
                     {% endif %}
 
-                {% elseif media.status == "closed" %}
-                    
-                    <p class="emptyListMsg"><i class="fa-solid fa-triangle-exclamation warning"></i>Le média a été fermé par l'auteur</p>
 
+                    {# Script de censure Front #}
+                    <script>
 
-                {% elseif media.status == "closedModo" %}
-                    
-                    <p class="emptyListMsg"><i class="fa-solid fa-triangle-exclamation warning"></i>Le média a été vérouillé par la modération</p>
+                        // Traduction Collection Censure en arrayJS des mots
+                        let censuresArray = [];
+                        {% for censure in censures %}
+                            censuresArray.push("{{ censure.word }}");
+                        {% endfor %}
+                        console.log(censuresArray);
 
-                {% endif %}
+                        {% if media.status == "open" %}
+                            // A chaque input, check si il y a vulgarité et censorise
+                            document.getElementById('media_post_text').addEventListener('input', function() {
+                            
+                                // Découpe de l'input en array de mot (dans l'ordre)
+                                let inputArray = document.getElementById('media_post_text').value.split(" ");
 
+                                // Génération de la censure selon la longueur du mot
+                                // const replacementValue = "ù^$*@";
+                                function censorWordGen(wordLength) {
 
-                {# Script de censure Front #}
-                <script>
+                                    // const characters = ['ù', '^', '-', '$', '&', '@', '*', 'µ', '!', '#']
+                                    let censure = "";
+                                    for (var i = 0; i < wordLength; i++) {
+                                        censure = censure + "*";
+                                    }
 
-                    // Traduction Collection Censure en arrayJS des mots
-                    let censuresArray = [];
-                    {% for censure in censures %}
-                        censuresArray.push("{{ censure.word }}");
-                    {% endfor %}
-                    console.log(censuresArray);
-
-                    {% if media.status == "open" %}
-                        // A chaque input, check si il y a vulgarité et censorise
-                        document.getElementById('media_post_text').addEventListener('input', function() {
-                        
-                            // Découpe de l'input en array de mot (dans l'ordre)
-                            let inputArray = document.getElementById('media_post_text').value.split(" ");
-
-                            // Génération de la censure selon la longueur du mot
-                            // const replacementValue = "ù^$*@";
-                            function censorWordGen(wordLength) {
-
-                                // const characters = ['ù', '^', '-', '$', '&', '@', '*', 'µ', '!', '#']
-                                let censure = "";
-                                for (var i = 0; i < wordLength; i++) {
-                                    censure = censure + "*";
+                                    return censure;
                                 }
 
-                                return censure;
-                            }
-
-                            // Replace de la vulgarité par "*****" selon length
-                            const replacedArray = inputArray.map(element =>
-                            censuresArray.includes(element.toLowerCase()) ? censorWordGen(element.length) : element
-                            );
-                            document.getElementById('media_post_text').value = replacedArray.join(' ');
-                            console.log(replacedArray);
-                        })
-                    {% endif %}
-                </script>
-
-
-                {# Trait séparateur #}
-                <div style="width:60%; margin:10px auto; height:1px; background-color:{{ media.game.color }}"></div>
-
-
-
-                {# Liste des posts (à trier selon nbr Upvotes + date dans le Repo) #}
-                {% if mediaPosts is empty %}
-                    <p class="emptyListMsg">Aucun commentaire. Soyez le premier à commenter !</p>
-                {% else %}
-
-                    {% set index = 0 %}
-                    {% for post in mediaPosts %}
-
-                        {% if app.user == post.user %}
-                            {% set postAuthorClass = "postAuthor" %}
-                        {% else %}
-                            {% set postAuthorClass = "" %}
+                                // Replace de la vulgarité par "*****" selon length
+                                const replacedArray = inputArray.map(element =>
+                                censuresArray.includes(element.toLowerCase()) ? censorWordGen(element.length) : element
+                                );
+                                document.getElementById('media_post_text').value = replacedArray.join(' ');
+                                console.log(replacedArray);
+                            })
                         {% endif %}
-                        
+                    </script>
 
 
-                        <article class="mediaPost {{ postAuthorClass }}">
+                    {# Trait séparateur #}
+                    <div style="width:60%; margin:10px auto; height:1px; background-color:{{ media.game.color }}"></div>
+
+
+
+                    {# Liste des posts (à trier selon nbr Upvotes + date dans le Repo) #}
+                    {% if mediaPosts is empty %}
+                        <p class="emptyListMsg">Aucun commentaire. Soyez le premier à commenter !</p>
+                    {% else %}
+
+                        {% set index = 0 %}
+                        {% for post in mediaPosts %}
+
+                            {% if app.user == post.user %}
+                                {% set postAuthorClass = "postAuthor" %}
+                            {% else %}
+                                {% set postAuthorClass = "" %}
+                            {% endif %}
                             
-                            {# Post text et auteur + reportBtn #}
-                            <div class="postContent">
-                                    
-                                {% if post.text == "Le commentaire a été supprimé" %}
-                                    <p class="postText emptyListMsg">{{ post.text }}</p>
-                                {% else %}
-                                    <p class="postText">{{ post.text }}</p>
-                                {% endif %}
 
-                                <div>
-                                    {% if post.user == app.user %}
-                                        <span class="postAuthorUser postSelf">Vous <a href="{{ path('app_deleteMediaPost', {'idPost':post.id}) }}" class="deletePostBtn">Supprimer</a></span>
+
+                            <article class="mediaPost {{ postAuthorClass }}">
+                                
+                                {# Post text et auteur + reportBtn #}
+                                <div class="postContent">
+                                        
+                                    {% if post.text == "Le commentaire a été supprimé" %}
+                                        <p class="postText emptyListMsg">{{ post.text }}</p>
                                     {% else %}
-                                        {% if post.user %}
-                                            <span class="postAuthorUser">{{ post.user.pseudo|capitalize }}</span>
+                                        <p class="postText">{{ post.text }}</p>
+                                    {% endif %}
+
+                                    <div>
+                                        {% if post.user == app.user %}
+                                            <span class="postAuthorUser postSelf">Vous <a href="{{ path('app_deleteMediaPost', {'idPost':post.id}) }}" class="deletePostBtn">Supprimer</a></span>
                                         {% else %}
-                                            <span class="postAuthorUser emptyListMsg">???</span>
-                                        {% endif %}
-
-                                        <span class="postPublishDate">{{ time_diff(post.publishDate) }}</span>
-
-                                        {% if post.text != "Le commentaire a été supprimé" %}
-                                            {% if app.user %}
-                                            
-                                                <span onclick="reportModalPost{{ index }}.showModal()" class="reportPostBtn">Signaler</span>
-
-                                                <dialog class="modalDialog" id="reportModalPost{{ index }}">
-                                                    <p>Pour quelles raisons ce post ne vous convient-il pas ?</p>
-                                                    <select id="motifSelect{{ index }}" class="form-select" style="font-family: 'K2D', sans serif;">
-                                                        <option value="0">-- Sélectionnez un motif...</option>
-                                                        {% for motif in reportMotifs %}
-                                                            <option value="{{ motif.id }}">
-                                                                {{ motif.text }}
-                                                            </option>
-                                                        {% endfor %}
-                                                    </select>
-                                                    <a id="confirmReportModal{{ index }}" class="confirmModal" href="{{ path('app_reportObject',{'objectType':"mediaPost", 'objectId':post.id, 'reporterId':app.user.id, 'reportMotifId':0})}}">Envoyer</a>
-                                                    <span class="cancelModal" onclick="reportModalPost{{ index }}.close()">Annuler</span>
-                                                </dialog>
-
-                                                {# JS changement du param route reportMotif.id en fonction du select |||| index du post #} 
-                                                {% if app.user %}
-                                                    <script>
-                                                        let motifSelectPost{{index}} = document.getElementById('motifSelect{{ index }}');
-                                                        let envoyerLinkPost{{index}} = document.getElementById('confirmReportModal' + {{ index }});
-
-                                                        motifSelectPost{{index}}.addEventListener('change', function() {
-                                                            let selectedMotifId = document.getElementById('motifSelect' + {{ index }}).value;
-                                                            let href = "/app_reportObject/mediaPost/" + {{post.id}} + "/" + {{app.user.id}} + "/" +  selectedMotifId;
-                                                            envoyerLinkPost{{index}}.setAttribute('href', href);
-                                                        });
-                                                    </script>
-                                                {% endif %}
-
+                                            {% if post.user %}
+                                                <span class="postAuthorUser">{{ post.user.pseudo|capitalize }}</span>
                                             {% else %}
-                                                
-                                                <a href="{{ path('app_login') }}" class="reportPostBtn">Signaler</a>
+                                                <span class="postAuthorUser emptyListMsg">???</span>
+                                            {% endif %}
 
+                                            <span class="postPublishDate">{{ time_diff(post.publishDate) }}</span>
+
+                                            {% if post.text != "Le commentaire a été supprimé" %}
+                                                {% if app.user %}
+                                                
+                                                    <span onclick="reportModalPost{{ index }}.showModal()" class="reportPostBtn">Signaler</span>
+
+                                                    <dialog class="modalDialog" id="reportModalPost{{ index }}">
+                                                        <p>Pour quelles raisons ce post ne vous convient-il pas ?</p>
+                                                        <select id="motifSelect{{ index }}" class="form-select" style="font-family: 'K2D', sans serif;">
+                                                            <option value="0">-- Sélectionnez un motif...</option>
+                                                            {% for motif in reportMotifs %}
+                                                                <option value="{{ motif.id }}">
+                                                                    {{ motif.text }}
+                                                                </option>
+                                                            {% endfor %}
+                                                        </select>
+                                                        <a id="confirmReportModal{{ index }}" class="confirmModal" href="{{ path('app_reportObject',{'objectType':"mediaPost", 'objectId':post.id, 'reporterId':app.user.id, 'reportMotifId':0})}}">Envoyer</a>
+                                                        <span class="cancelModal" onclick="reportModalPost{{ index }}.close()">Annuler</span>
+                                                    </dialog>
+
+                                                    {# JS changement du param route reportMotif.id en fonction du select |||| index du post #} 
+                                                    {% if app.user %}
+                                                        <script>
+                                                            let motifSelectPost{{index}} = document.getElementById('motifSelect{{ index }}');
+                                                            let envoyerLinkPost{{index}} = document.getElementById('confirmReportModal' + {{ index }});
+
+                                                            motifSelectPost{{index}}.addEventListener('change', function() {
+                                                                let selectedMotifId = document.getElementById('motifSelect' + {{ index }}).value;
+                                                                let href = "/app_reportObject/mediaPost/" + {{post.id}} + "/" + {{app.user.id}} + "/" +  selectedMotifId;
+                                                                envoyerLinkPost{{index}}.setAttribute('href', href);
+                                                            });
+                                                        </script>
+                                                    {% endif %}
+
+                                                {% else %}
+                                                    
+                                                    <a href="{{ path('app_login') }}" class="reportPostBtn">Signaler</a>
+
+                                                {% endif %}
                                             {% endif %}
                                         {% endif %}
-                                    {% endif %}
+                                    </div>
                                 </div>
-                            </div>
 
-                            {# Post upvote/downvote #}
-                            <div style="display:inline-flex; flex-direction:column;">
+                                {# Post upvote/downvote #}
+                                <div style="display:inline-flex; flex-direction:column;">
 
-                                {% set isUpvoted = false %}
-                                {% set isDownvoted = false %}
-                                {% for like in post.mediaPostLikes %}
-                                    {% if like.user == app.user and like.mediaPost.id == post.id %}
-                                        {% if like.state == "upvote" %}
-                                            {% set isUpvoted = true %}
-                                        {% elseif like.state == "downvote" %}
-                                            {% set isDownvoted = true %}
+                                    {% set isUpvoted = false %}
+                                    {% set isDownvoted = false %}
+                                    {% for like in post.mediaPostLikes %}
+                                        {% if like.user == app.user and like.mediaPost.id == post.id %}
+                                            {% if like.state == "upvote" %}
+                                                {% set isUpvoted = true %}
+                                            {% elseif like.state == "downvote" %}
+                                                {% set isDownvoted = true %}
+                                            {% endif %}
+                                        {% endif %}
+                                    {% endfor %}
+
+                                    {# Upvote/Downvote que si pas auteur #}
+                                    {# Upvote Asynch #}
+                                    {% if app.user != post.user and post.text != "Le commentaire a été supprimé" %}
+                                        {% if isUpvoted %}
+                                            <span class="upMediaPostBtn" mediaPostId="{{ post.id }}" id="mup{{ post.id }}"><i class="fa-solid fa-caret-up" style="color:{{ media.game.color }}"></i></span>
+                                        {% else %}
+                                            <span class="upMediaPostBtn" mediaPostId="{{ post.id }}" id="mup{{ post.id }}"><i class="fa-solid fa-caret-up"></i></span>
                                         {% endif %}
                                     {% endif %}
-                                {% endfor %}
 
-                                {# Upvote/Downvote que si pas auteur #}
-                                {# Upvote Asynch #}
-                                {% if app.user != post.user and post.text != "Le commentaire a été supprimé" %}
-                                    {% if isUpvoted %}
-                                        <span class="upMediaPostBtn" mediaPostId="{{ post.id }}" id="mup{{ post.id }}"><i class="fa-solid fa-caret-up" style="color:{{ media.game.color }}"></i></span>
+                                    {# Score calc #}
+                                    {% if app.user != post.user %}
+
+                                        {% if post.text == "Le commentaire a été supprimé" %}
+
+                                            {% if post.score < 0 %}
+                                                <span class="verticalCenter" id="mediaPostScore{{ post.id }}" style="text-align:center; color:red; font-weight:900;">{{ post.score }}</span>
+                                            {% else %}
+                                                <span class="verticalCenter" id="mediaPostScore{{ post.id }}" style="text-align:center; font-weight:900;">{{ post.score }}</span>
+                                            {% endif %}
+
+                                        {% else %}
+                                            
+                                            {% if post.score < 0 %}
+                                                <span id="mediaPostScore{{ post.id }}" style="text-align:center; color:red; font-weight:900;">{{ post.score }}</span>
+                                            {% else %}
+                                                <span id="mediaPostScore{{ post.id }}" style="text-align:center; font-weight:900;">{{ post.score }}</span>
+                                            {% endif %}
+
+                                        {% endif %}
+
                                     {% else %}
-                                        <span class="upMediaPostBtn" mediaPostId="{{ post.id }}" id="mup{{ post.id }}"><i class="fa-solid fa-caret-up"></i></span>
-                                    {% endif %}
-                                {% endif %}
-
-                                {# Score calc #}
-                                {% if app.user != post.user %}
-
-                                    {% if post.text == "Le commentaire a été supprimé" %}
-
                                         {% if post.score < 0 %}
                                             <span class="verticalCenter" id="mediaPostScore{{ post.id }}" style="text-align:center; color:red; font-weight:900;">{{ post.score }}</span>
                                         {% else %}
                                             <span class="verticalCenter" id="mediaPostScore{{ post.id }}" style="text-align:center; font-weight:900;">{{ post.score }}</span>
                                         {% endif %}
-
-                                    {% else %}
-                                        
-                                        {% if post.score < 0 %}
-                                            <span id="mediaPostScore{{ post.id }}" style="text-align:center; color:red; font-weight:900;">{{ post.score }}</span>
+                                    {% endif %}
+                                    
+                                    {# Down #}
+                                    {% if app.user != post.user and post.text != "Le commentaire a été supprimé" %}
+                                        {% if isDownvoted %}
+                                            <span class="downMediaPostBtn" mediaPostId="{{ post.id }}" id="mdown{{ post.id }}"><i class="fa-solid fa-caret-down" style="color:{{ media.game.color }}"></i></span>
                                         {% else %}
-                                            <span id="mediaPostScore{{ post.id }}" style="text-align:center; font-weight:900;">{{ post.score }}</span>
+                                            <span class="downMediaPostBtn" mediaPostId="{{ post.id }}" id="mdown{{ post.id }}"><i class="fa-solid fa-caret-down"></i></span>
                                         {% endif %}
-
                                     {% endif %}
 
-                                {% else %}
-                                    {% if post.score < 0 %}
-                                        <span class="verticalCenter" id="mediaPostScore{{ post.id }}" style="text-align:center; color:red; font-weight:900;">{{ post.score }}</span>
-                                    {% else %}
-                                        <span class="verticalCenter" id="mediaPostScore{{ post.id }}" style="text-align:center; font-weight:900;">{{ post.score }}</span>
-                                    {% endif %}
-                                {% endif %}
-                                
-                                {# Down #}
-                                {% if app.user != post.user and post.text != "Le commentaire a été supprimé" %}
-                                    {% if isDownvoted %}
-                                        <span class="downMediaPostBtn" mediaPostId="{{ post.id }}" id="mdown{{ post.id }}"><i class="fa-solid fa-caret-down" style="color:{{ media.game.color }}"></i></span>
-                                    {% else %}
-                                        <span class="downMediaPostBtn" mediaPostId="{{ post.id }}" id="mdown{{ post.id }}"><i class="fa-solid fa-caret-down"></i></span>
-                                    {% endif %}
-                                {% endif %}
+                                </div>
 
-                            </div>
+                            </article>
 
-                        </article>
+                            {% set index = index + 1 %}
 
-                        {% set index = index + 1 %}
+                        {% endfor %}
 
-                    {% endfor %}
+                    {% endif %}
 
-                {% endif %}
+                </div>
 
-            </div>
+            </section>
 
-        </section>
+        </div>
 
     </main>
 
