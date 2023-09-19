@@ -161,7 +161,40 @@ window.addEventListener('load', function() {
 
 
 
+    // HOME section collapse (mobile)
+    if(document.getElementById('homeFavSectionCollapseBtn') !== null) {
+        document.getElementById('homeFavSectionCollapseBtn').addEventListener("click", function() {
+            document.getElementById('homeFavSectionCollapse').classList.toggle('collapseSection2');
+            // if(document.getElementById('homeFavSectionCollapse').classList.contains('collapseSection')) {
+            //     document.getElementById('homeFavSectionCollapseBtn').innerHTML = "<i class='fa-solid fa-chevron-up'></i>";
+            // }
+            // else {
+            //     document.getElementById('homeFavSectionCollapseBtn').innerHTML = "<i class='fa-solid fa-chevron-down'></i>";
+            // }
+            document.getElementById('homeFavSectionCollapseBtn').classList.toggle('chevronRotate');
+        })
+    }
 
+    if(document.getElementById('homeTeamsSectionCollapseBtn') !== null) {
+        document.getElementById('homeTeamsSectionCollapseBtn').addEventListener("click", function() {
+            document.getElementById('homeTeamsSectionCollapse').classList.toggle('collapseSection2');
+            document.getElementById('homeTeamsSectionCollapseBtn').classList.toggle('chevronRotate');
+        })
+    }
+
+    if(document.getElementById('homeTopicsSectionCollapseBtn') !== null) {
+        document.getElementById('homeTopicsSectionCollapseBtn').addEventListener("click", function() {
+            document.getElementById('homeTopicsSectionCollapse').classList.toggle('collapseSection2');
+            document.getElementById('homeTopicsSectionCollapseBtn').classList.toggle('chevronRotate');
+        })
+    }
+
+    if(document.getElementById('homeMediasSectionCollapseBtn') !== null) {
+        document.getElementById('homeMediasSectionCollapseBtn').addEventListener("click", function() {
+            document.getElementById('homeMediasSectionCollapse').classList.toggle('collapseSection3');
+            document.getElementById('homeMediasSectionCollapseBtn').classList.toggle('chevronRotate');
+        })
+    }
 
 
 

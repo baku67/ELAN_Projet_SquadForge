@@ -147,6 +147,10 @@
         stroke-width: 5px;
     }
 
+    .gameSelectedBracketDownHomeMobile {
+        left: 154px !important;
+    }
+
 
     .lp-page3-slideContainer {
         transition: all 0.3s;
@@ -322,6 +326,30 @@
         width: 94%;
         margin: 20px auto 25px;
     }
+
+    .newsFavCardDiv {
+        left: -3px;
+        font-size: 0.85em !important;
+    }
+    .newTopicsGameList, .newMediasGameList {
+        width: fit-content;
+        clip-path: polygon(0% 0, 100% 0, 100% 100%, 0% 100%);
+    }
+    .newTopicsGameList {
+        left: 0 !important;
+    }
+
+
+    .newsTopicWord {
+        display: none;
+    }
+
+    .newTopics, .newMedias {
+        padding: 0px 6px;
+        width: fit-content;
+        clip-path: polygon(0% 0, 100% 0, 100% 100%, 0% 100%);
+    }
+
 
 
     .hiddenPhone {
@@ -693,11 +721,28 @@
 
     .greetingMsg {
         font-size: 1.4em;
-        margin: 0px auto;
+        margin: 0px auto 15px auto;
     }
 
     .headerUnderline {
         height: 2px;
+    }
+
+    @keyframes homeTopicsTitle1 {
+        from {
+            height: 0px;
+        }
+        to {
+            height:45px; 
+        }
+    }
+    @keyframes homeTopicsTitle2 {
+        from {
+            width: 5px;
+        }
+        to {
+            width:280px; 
+        }
     }
 
     .logoPng {
@@ -717,7 +762,8 @@
     }
 
     .sectionHomeContainer {
-        margin: 33px auto;
+        /* margin: 33px auto; */
+        margin: 0px auto;
     }
 
     .authenticationDiv {
@@ -1212,9 +1258,60 @@
     }
 
     .fakeCard {
-        margin-left: 0px !important
+        margin-left: 0px !important;
+        width: 100%;
     }
 
+    .homeSubTitle {
+        font-size: 1.3em;
+        align-self: center;
+    }
+
+    .mobilHomeTitle {
+        position: relative;
+        top: 3px;
+    }
+
+    .collapseMobile {
+        display: block;
+        z-index: 999;
+        align-self: center;
+        font-size: 1.4em;
+        padding: 6px 14px;
+        position: relative;
+        left: 9px;
+
+        transition: all 0.3s;
+    }
+
+    .chevronRotate {
+        transform: rotate(180deg);
+    }
+
+    .headerLineSection {
+        display: inline-flex;
+        justify-content: space-between;
+        width: 100%;
+    }
+
+
+    .collapseSection {
+        margin: 0 auto !important;
+        height: 0px !important;
+    }
+    .collapseSection2 {
+        margin: 0 auto !important;
+        display: none !important;
+    }
+    .collapseSection3 {
+        opacity: 0 !important;
+        height: 0 !important;
+    }
+
+    .flash-container {
+        /* position: absolute;
+        bottom: 70px; */
+    }
 
 
     /* #lp-page2 {

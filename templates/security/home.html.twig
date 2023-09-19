@@ -322,12 +322,13 @@
             {# Raccourcis Jeux favoris si logged in #}
             <section class="splide sectionHomeContainer">
 
-                <header class="blinkingSectionTitle">
+                <header class="blinkingSectionTitle headerLineSection">
                     <div class="homeFavGamesTitle" style="background-color:var(--primary-color);"></div>
                     <h3 class="homeSubTitle noMarginBottom"><i class="fa solid fa-heart homeTitleIcon"></i> Jeux Favoris</h3>
+                    <span id="homeFavSectionCollapseBtn" class="collapseMobile chevronRotate"><i class="fa-solid fa-chevron-down"></i></span>
                 </header>
 
-                <div class="lp-page3-containerMaster">
+                <div id="homeFavSectionCollapse" class="lp-page3-containerMaster collapseSection2">
 
                     {% if userFav|length > 0 %}
 
@@ -379,11 +380,11 @@
                                                     {# Affichage des comptes de newTopics/newMedias #}
                                                     <div class="newsFavCardDiv">
                                                         {% if newTopicsCount > 0 %}
-                                                            <span class="newTopics"><i class="fa-solid fa-fire"></i> Topics {{ newTopicsCount }}</span>
+                                                            <span class="newTopics"><i class="fa-solid fa-fire"></i><span class="newsTopicWord"> Topics</span> {{ newTopicsCount }}</span>
                                                         {% endif %}
                                                         
                                                         {% if newMediasCount > 0 %}
-                                                            <span class="newMedias"><i class="fa-solid fa-fire"></i> Médias {{ newMediasCount }}</span>
+                                                            <span class="newMedias"><i class="fa-solid fa-fire"></i><span class="newsTopicWord"> Médias</span> {{ newMediasCount }}</span>
                                                         {% endif %}
                                                     </div>
 
@@ -394,7 +395,7 @@
                                                 {# only Phone: #}
                                                 <span value="{{ game.title }}" class="lp-gameCardTitlePhone">{{ game.title }}</span>
 
-                                                <svg class="gameSelectedBracketDown">
+                                                <svg class="gameSelectedBracketDown gameSelectedBracketDownHomeMobile">
                                                     <path 
                                                         id="gameSelectedBracketDownPath{{ index }}"
                                                         class="gameSelectedBracketDownPath" 
@@ -457,14 +458,17 @@
             {# Raccourcis Teams si logged in #}
             <section class="sectionHomeContainer">
 
-                <header>
+                <header class="headerLineSection">
                     <div class="homeUserTeamsTitle" style="background-color:var(--primary-color);"></div>
                     <a href="{{ path('app_userGroups') }}" style="width:fit-content; display:block;">
-                        <h3 class="homeSubTitle noMarginBottom"><i class="fa-solid fa-users-rays homeTitleIcon"></i> Vos teams</h3>
+                        <h3 class="homeSubTitle noMarginBottom mobilHomeTitle">
+                            <i class="fa-solid fa-users-rays homeTitleIcon"></i> Vos teams
+                        </h3>
                     </a>
+                    <span id="homeTeamsSectionCollapseBtn" class="collapseMobile chevronRotate"><i class="fa-solid fa-chevron-down"></i></span>
                 </header>
 
-                <div class="sectionHomeContent genreGameList groupsGrid" style="text-align:center; width:100%;">
+                <div id="homeTeamsSectionCollapse" class="sectionHomeContent genreGameList groupsGrid collapseSection2" style="text-align:center; width:100%;">
 
                     {% if userTeams|length > 0 %}
                     
@@ -558,16 +562,17 @@
         {# Les 5 derniers Topics (jeux favoris) #}
         <section class="sectionHomeContainer">
 
-            <header>
+            <header class="headerLineSection">
                 <div class="homeTopicsTitle" style="background-color:var(--primary-color);"></div>
                 <a href="{{ path('app_allTopicsGlobal') }}" style="height:fit-content; width:fit-content; display:block;">
-                    <h3 class="homeSubTitle noMarginBottom">
+                    <h3 class="homeSubTitle noMarginBottom mobilHomeTitle">
                         <i class="fa-solid fa-comment-dots homeTitleIcon"></i> Derniers Topics
                     </h3>
                 </a>
+                <span id="homeTopicsSectionCollapseBtn" class="collapseMobile chevronRotate"><i class="fa-solid fa-chevron-down"></i></span>
             </header>
 
-            <div class="sectionHomeContent topicList marginTop">
+            <div id="homeTopicsSectionCollapse" class="sectionHomeContent topicList marginTop collapseSection2">
 
                 {% if lastTopics|length > 0 %}
                 
@@ -618,119 +623,124 @@
         {# Derniers médias (tout jeux confondus) #}
         <section class="sectionHomeContainer">
 
-            <header style="display:inline-flex;">
+            <header class="headerLineSection">
                 <div class="homeMediasTitle" style="background-color:var(--primary-color);"></div>
                 <a href=" {{ path('app_allMediasGlobal') }}">
-                    <h3 class="homeSubTitle noMarginBottom">
+                    <h3 class="homeSubTitle noMarginBottom mobilHomeTitle">
                         <i class="fa-solid fa-photo-film homeTitleIcon"></i> Médias
                     </h3>
                 </a>
+                <span id="homeMediasSectionCollapseBtn" class="collapseMobile chevronRotate"><i class="fa-solid fa-chevron-down"></i></span>
             </header>
 
             {% if lastMedias|length > 0 %}
+
+                <div id="homeMediasSectionCollapse" class="collapseSection3"> 
             
-                <div class="sectionHomeContent masonry-grid">
+                    <div class="sectionHomeContent masonry-grid">
 
-                    {% for media in lastMedias %}
+                        {% for media in lastMedias %}
 
-                        <article class="grid-item" style="height:fit-content;">
+                            <article class="grid-item" style="height:fit-content;">
 
-                            {% if app.user and app.user.autoPlayGifs or not app.user %}
-                            <a href="{{ path('app_mediaDetail', {'slug': media.slug}) }}">
-                            {% endif %}
-                                
+                                {% if app.user and app.user.autoPlayGifs or not app.user %}
+                                <a href="{{ path('app_mediaDetail', {'slug': media.slug}) }}">
+                                {% endif %}
+                                    
 
-                                <div class="mediaCard" style="background-color:{{ media.game.color }};">
+                                    <div class="mediaCard" style="background-color:{{ media.game.color }};">
 
-                                    {% if app.user and not app.user.autoPlayGifs %}
-                                    <a href="{{ path('app_mediaDetail', {'slug': media.slug}) }}">
-                                    {% endif %}
-                                    <header class="mediaCardHeader" title="{{ media.title|capitalize }}" style="border-bottom: 3px solid {{ media.game.color }};">
-                                        <div class="tinyLogoDiv">
-                                            <img class="tinyLogoMedia" src="{{ asset('img/games/tinyLogo/' ~ media.game.tinyLogo) }}" />
-                                        </div>
-                                        <span class="mediaTitle">{{ media.title|capitalize }}</span>
-                                        {# Sticker NEW #}
-                                        {% if app.user and media.publishDate > app.user.previousCo %}
-                                            <span class="stickerNew stickerNewMedia" style="color: {{ media.game.color }}"><i class="fa-solid fa-fire fa-beat-fade"></i> new</span>
+                                        {% if app.user and not app.user.autoPlayGifs %}
+                                        <a href="{{ path('app_mediaDetail', {'slug': media.slug}) }}">
+                                        {% endif %}
+                                        <header class="mediaCardHeader" title="{{ media.title|capitalize }}" style="border-bottom: 3px solid {{ media.game.color }};">
+                                            <div class="tinyLogoDiv">
+                                                <img class="tinyLogoMedia" src="{{ asset('img/games/tinyLogo/' ~ media.game.tinyLogo) }}" />
+                                            </div>
+                                            <span class="mediaTitle">{{ media.title|capitalize }}</span>
+                                            {# Sticker NEW #}
+                                            {% if app.user and media.publishDate > app.user.previousCo %}
+                                                <span class="stickerNew stickerNewMedia" style="color: {{ media.game.color }}"><i class="fa-solid fa-fire fa-beat-fade"></i> new</span>
+                                            {% endif %}
+
+                                        </header>
+                                        {% if app.user and not app.user.autoPlayGifs %}
+                                        </a>
                                         {% endif %}
 
-                                    </header>
-                                    {% if app.user and not app.user.autoPlayGifs %}
-                                    </a>
-                                    {% endif %}
-
-                                    {# Gif autoplay=false si paramètre user #}
-                                    {% if app.user %}
-                                        {% if not app.user.autoPlayGifs %}
-                                            <img data-gifffer="{{ asset("img/uploads/" ~ media.url) }}" data-gifffer-alt="media" class="mediaImg" />
+                                        {# Gif autoplay=false si paramètre user #}
+                                        {% if app.user %}
+                                            {% if not app.user.autoPlayGifs %}
+                                                <img data-gifffer="{{ asset("img/uploads/" ~ media.url) }}" data-gifffer-alt="media" class="mediaImg" />
+                                            {% else %}
+                                                <img src="{{ asset("img/uploads/" ~ media.url) }}" alt="media" class="mediaImg" />
+                                            {% endif %}
                                         {% else %}
                                             <img src="{{ asset("img/uploads/" ~ media.url) }}" alt="media" class="mediaImg" />
                                         {% endif %}
-                                    {% else %}
-                                        <img src="{{ asset("img/uploads/" ~ media.url) }}" alt="media" class="mediaImg" />
+                                        
+                                    </div>
+
+                                {% if app.user and app.user.autoPlayGifs or not app.user %}
+                                </a>
+                                {% endif %}
+
+
+                                {# Upvote/downvote média + score + nbrPosts #}
+                                <div class="mediaCardStatsDiv">
+
+                                    {# Pas opti: bloucle sur tous les likes du post pour savoir si liké (boucle dans boucle) #}
+                                    {% set liked = "" %}
+
+                                    {% if app.user %}
+
+                                        {% for upvote in media.UserUpvote %}
+
+                                            {% if upvote == app.user %}
+                                                {% set liked = "upBtnLiked" %}
+                                            {% endif %}
+
+                                        {% endfor %}
+                                        
                                     {% endif %}
+
                                     
-                                </div>
-
-                            {% if app.user and app.user.autoPlayGifs or not app.user %}
-                            </a>
-                            {% endif %}
-
-
-                            {# Upvote/downvote média + score + nbrPosts #}
-                            <div class="mediaCardStatsDiv">
-
-                                {# Pas opti: bloucle sur tous les likes du post pour savoir si liké (boucle dans boucle) #}
-                                {% set liked = "" %}
-
-                                {% if app.user %}
-
-                                    {% for upvote in media.UserUpvote %}
-
-                                        {% if upvote == app.user %}
-                                            {% set liked = "upBtnLiked" %}
-                                        {% endif %}
-
-                                    {% endfor %}
-                                    
-                                {% endif %}
-
+                                    <div class="inline mediaSubLikeDiv" mediaId={{ media.id }}>
+                                        <span id="countLikesMedia{{ media.id }}" value="{{ media.upvoteCount }}"> {{ media.upvoteCount }} </span>
+                                        <i mediaId={{ media.id }} class="likeMedia fa-regular fa-circle-up {{ liked }}"></i>
+                                    </div>
                                 
-                                <div class="inline mediaSubLikeDiv" mediaId={{ media.id }}>
-                                    <span id="countLikesMedia{{ media.id }}" value="{{ media.upvoteCount }}"> {{ media.upvoteCount }} </span>
-                                    <i mediaId={{ media.id }} class="likeMedia fa-regular fa-circle-up {{ liked }}"></i>
+                                    {% if media.mediaPostsCount == 0 %}
+                                        <a href="{{ path('app_mediaDetail', {'slug':media.slug}) }}" class="mediaSubPostsDiv">
+                                            <div class="inline" style="opacity:0.7;">
+                                                {{ media.mediaPostsCount }} 
+                                                <i class="fa-solid fa-message msgIconColor msgIconColorGreyed"></i>
+                                            </div>
+                                        </a>
+                                    {% else %}
+                                        <a href="{{ path('app_mediaDetail', {'slug':media.slug}) }}" class="mediaSubPostsDiv">
+                                            <div class="inline">
+                                                {{ media.mediaPostsCount }} 
+                                                <i class="fa-solid fa-message msgIconColor"></i>
+                                            </div>
+                                        </a>
+                                    {% endif %}
+
                                 </div>
-                            
-                                {% if media.mediaPostsCount == 0 %}
-                                    <a href="{{ path('app_mediaDetail', {'slug':media.slug}) }}" class="mediaSubPostsDiv">
-                                        <div class="inline" style="opacity:0.7;">
-                                            {{ media.mediaPostsCount }} 
-                                            <i class="fa-solid fa-message msgIconColor msgIconColorGreyed"></i>
-                                        </div>
-                                    </a>
-                                {% else %}
-                                    <a href="{{ path('app_mediaDetail', {'slug':media.slug}) }}" class="mediaSubPostsDiv">
-                                        <div class="inline">
-                                            {{ media.mediaPostsCount }} 
-                                            <i class="fa-solid fa-message msgIconColor"></i>
-                                        </div>
-                                    </a>
-                                {% endif %}
 
-                            </div>
+                            </article>
 
-                        </article>
+                        {% endfor %}
 
-                    {% endfor %}
+                    </div>
+
+                    <span class="seeAllRedirect">
+                        <a href="{{ path('app_allMediasGlobal') }}">Tout voir  <i class="fa-solid fa-chevron-right"></i></a>
+                    </span>
 
                 </div>
 
 
-
-                <span class="seeAllRedirect">
-                    <a href="{{ path('app_allMediasGlobal') }}">Tout voir  <i class="fa-solid fa-chevron-right"></i></a>
-                </span>
 
 
                 {# Masonry JS Medias (permet de rendre responsive entre autre) #}

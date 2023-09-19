@@ -371,21 +371,22 @@
                                                                 <i class="fa-solid fa-heart"></i>
                                                             </span>
                                                         {% endif %}
+
+                                                        {# Affichage des comptes de newTopics/newMedias #}
+                                                        {% if app.user %}
+                                                            <div class="newsFavCardDiv newsFavCardDivGameList">
+                                                                {% if newTopicsCount > 0 %}
+                                                                    <span class="newTopics newTopicsGameList"><i class="fa-solid fa-fire"></i><span class="newsTopicWord"> Topics</span> {{ newTopicsCount }}</span>
+                                                                {% endif %}
+                                                                
+                                                                {% if newMediasCount > 0 %}
+                                                                    <span class="newMedias newMediasGameList"><i class="fa-solid fa-fire"></i><span class="newsTopicWord"> Médias</span> {{ newMediasCount }}</span>
+                                                                {% endif %}
+                                                            </div>
+                                                        {% endif %}
                                                     
                                                     </div>
 
-                                                    {# Affichage des comptes de newTopics/newMedias #}
-                                                    {% if app.user %}
-                                                        <div class="newsFavCardDiv newsFavCardDivGameList">
-                                                            {% if newTopicsCount > 0 %}
-                                                                <span class="newTopics newTopicsGameList"><i class="fa-solid fa-fire"></i> Topics {{ newTopicsCount }}</span>
-                                                            {% endif %}
-                                                            
-                                                            {% if newMediasCount > 0 %}
-                                                                <span class="newMedias newMediasGameList"><i class="fa-solid fa-fire"></i> Médias {{ newMediasCount }}</span>
-                                                            {% endif %}
-                                                        </div>
-                                                    {% endif %}
 
                                                     <span id="lp-gameCardTitle{{ index }}" value="{{ game.title }}" class="lp-gameCardTitle-games">{{ game.title }}</span>
 

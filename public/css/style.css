@@ -1420,6 +1420,9 @@ header {
 .lp-page3-containerMaster {
     position:relative; 
     margin-top:20px;
+
+    height: auto;
+    transition: all 0.3s;
 }
 
 
@@ -4089,6 +4092,10 @@ nav {
     padding: 4px 7px !important;
 }
 
+.collapseMobile {
+    display: none;
+}
+
 .stickerNewMediaDetail {
     width: 85px !important;
     text-align: center;
@@ -4137,7 +4144,7 @@ nav {
 
 .homeTopicsTitle {
     position:absolute; 
-    clip-path: polygon(0 0, 100% 0, 94% 100%, 0 100%);
+    clip-path: polygon(0 0, 100% 0, 92% 100%, 0 100%);
     border-top-left-radius: 6px;
     /* height:35px; 
     width:130px;  */
@@ -6552,7 +6559,7 @@ cursor: pointer;
     padding: 40px 35px 20px 35px;
     opacity: 0;
 
-    animation: fadeInSection 0.4s 1.5s forwards ease;
+    animation: fadeInSection 0.4s 0.5s forwards ease;
 }
 @keyframes fadeInSection {
     from {
