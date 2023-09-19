@@ -1074,6 +1074,15 @@
     
     }
 
+    .flash-container {
+        z-index: 9999 !important;
+        bottom: 35px !important;
+    }
+    .flash-message {
+        width: fit-content !important;
+        bottom: 0px !important;
+    }
+
     .sectionTeamParam {
         display: grid;
         grid-template-columns: 1fr;

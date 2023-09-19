@@ -104,7 +104,7 @@
                     <p>Pseudo: <span style="font-family:'K2D';">{{ user.pseudo|capitalize }}</span></p>
                     <p>Email: <span style="font-family:'K2D';">{{ user.email }}</span></p>
 
-                    <p>Rôle:
+                    <p style="line-height:32px;">Rôle:
                         {% if "ROLE_USER" in userRole %}
                             <span class="roleUserData roleUser">Utilisateur</span>
                         {% endif %}
@@ -384,23 +384,24 @@
                                     {% endfor %}
                                 {% endif %}
 
-                                <div class="inline">
-                                    <i mediaId={{ media.id }} class="likeMedia fa-regular fa-circle-up {{ liked }}"></i>
-                                    {# <i class="fa-regular fa-circle-down"></i> #}
+                                <div class="inline mediaSubLikeDiv" mediaId={{ media.id }}>
                                     <span id="countLikesMedia{{ media.id }}" value="{{ media.upvoteCount }}"> {{ media.upvoteCount }} </span>
+                                    <i mediaId={{ media.id }} class="likeMedia fa-regular fa-circle-up {{ liked }}"></i>
                                 </div>
                             
                                 {% if media.mediaPostsCount == 0 %}
-                                    <a href="{{ path('app_mediaDetail', {'slug':media.slug}) }}">
-                                        <span style="opacity:0.5;">{{ media.mediaPostsCount }} 
-                                            <i class="fa-solid fa-message msgIconColor" style="color:grey;"></i>
-                                        </span>
+                                    <a href="{{ path('app_mediaDetail', {'slug':media.slug}) }}" class="mediaSubPostsDiv">
+                                        <div class="inline" style="opacity:0.7;">
+                                            {{ media.mediaPostsCount }} 
+                                            <i class="fa-solid fa-message msgIconColor msgIconColorGreyed"></i>
+                                        </div>
                                     </a>
                                 {% else %}
-                                    <a href="{{ path('app_mediaDetail', {'slug':media.slug}) }}">
-                                        <span>{{ media.mediaPostsCount }} 
-                                            <i class="fa-solid fa-message msgIconColor" style="color:var(--primary-color)"></i>
-                                        </span>
+                                    <a href="{{ path('app_mediaDetail', {'slug':media.slug}) }}" class="mediaSubPostsDiv">
+                                        <div class="inline">
+                                            {{ media.mediaPostsCount }} 
+                                            <i class="fa-solid fa-message msgIconColor"></i>
+                                        </div>
                                     </a>
                                 {% endif %}
 

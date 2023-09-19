@@ -105,8 +105,8 @@
 
         <section>
 
-            <div style="display:inline-flex;">
-                <h2 style="font-weight:bold; color:{{game.color}}">Topic</h2>
+            <div style="display:inline-flex;width:100%;justify-content:space-between;">
+                <h2 class="topicHeaderTitleLabel" style="font-weight:bold; color:{{game.color}}">Topic</h2>
                 {# TODO: status ouvert/fermé par auteur ou modo/admin (hardCoded pour l'instant) #}
                 {% if topic.status == "closed" %}
                     <span class="topicStatus topicClosed">fermé</span>
@@ -117,10 +117,13 @@
                 {% endif %}
             </div>
 
-            <div class="listContainer">
-                <p style="color: {{ topic.game.color }}">{{ topic.title|capitalize }}</p>
-                <div class="topicFirstMsg">{{ topic.firstMsg }}</div>
-                <div style="display:inline-flex; justify-content:space-between; width:100%; font-family:'K2D', sans-serif; font-size:90%; opacity:0.8;">
+            <div class="listContainer topicHeaderDiv" style="border:1px solid {{ topic.game.color }}9e;">
+                
+                <div class="topicHeaderSection1">
+                    <p class="topicHeaderTitle" style="color: {{ topic.game.color }}">{{ topic.title|capitalize }}</p>
+                    <p class="topicFirstMsg">{{ topic.firstMsg }}</p>
+                </div>
+                <div class="topicHeadersubLine">
                     {% if app.user == topic.user %}
                         <span>par <span style="color:var(--primary-color);">vous</span></span>
                     {% else  %}
@@ -284,7 +287,7 @@
                 </script>
 
 
-                <div style="width:60%; margin:10px auto; height:1px; background-color:{{ topic.game.color }}"></div>
+                <div style="width:60%; margin:10px auto; height:1px; background-color:{{ topic.game.color }}9e;"></div>
 
 
 
@@ -392,9 +395,9 @@
                                     {% if post.text != "Le commentaire a été supprimé" %}
                                     
                                         {% if isUpvoted %}
-                                            <span class="upTopicPostBtn" postId="{{ post.id }}" id="up{{ post.id }}"><i class="fa-solid fa-caret-up" style="color:{{ topic.game.color }}"></i></span>
+                                            <span class="upTopicPostBtn" postId="{{ post.id }}" id="up{{ post.id }}"><i class="fa-solid fa-caret-up postUpvoteIcon" style="color:{{ topic.game.color }};"></i></span>
                                         {% else %}
-                                            <span class="upTopicPostBtn" postId="{{ post.id }}" id="up{{ post.id }}"><i class="fa-solid fa-caret-up"></i></span>
+                                            <span class="upTopicPostBtn" postId="{{ post.id }}" id="up{{ post.id }}"><i class="fa-solid fa-caret-up postUpvoteIcon"></i></span>
                                         {% endif %}
 
                                     {% endif %}
@@ -406,26 +409,26 @@
                                     {% if post.text == "Le commentaire a été supprimé" %}
 
                                         {% if post.score < 0 %}
-                                            <span class="verticalCenter" id="topicPostScore{{ post.id }}" style="text-align:center; color:red; font-weight:900;">{{ post.score }}</span>
+                                            <span class="verticalCenter postScore" id="topicPostScore{{ post.id }}" style="text-align:center; color:red; font-weight:900;">{{ post.score }}</span>
                                         {% else %}
-                                            <span class="verticalCenter" id="topicPostScore{{ post.id }}" style="text-align:center; font-weight:900;">{{ post.score }}</span>
+                                            <span class="verticalCenter postScore" id="topicPostScore{{ post.id }}" style="text-align:center; font-weight:900;">{{ post.score }}</span>
                                         {% endif %}
 
                                     {% else %}
                                         
                                         {% if post.score < 0 %}
-                                            <span id="topicPostScore{{ post.id }}" style="text-align:center; color:red; font-weight:900;">{{ post.score }}</span>
+                                            <span class="postScore" id="topicPostScore{{ post.id }}" style="text-align:center; color:red; font-weight:900;">{{ post.score }}</span>
                                         {% else %}
-                                            <span id="topicPostScore{{ post.id }}" style="text-align:center; font-weight:900;">{{ post.score }}</span>
+                                            <span class="postScore" id="topicPostScore{{ post.id }}" style="text-align:center; font-weight:900;">{{ post.score }}</span>
                                         {% endif %}
 
                                     {% endif %}
 
                                 {% else %}
                                     {% if post.score < 0 %}
-                                        <span class="verticalCenter" id="topicPostScore{{ post.id }}" style="text-align:center; color:red; font-weight:900;">{{ post.score }}</span>
+                                        <span class="verticalCenter postScore" id="topicPostScore{{ post.id }}" style="text-align:center; color:red; font-weight:900;">{{ post.score }}</span>
                                     {% else %}
-                                        <span class="verticalCenter" id="topicPostScore{{ post.id }}" style="text-align:center; font-weight:900;">{{ post.score }}</span>
+                                        <span class="verticalCenter postScore" id="topicPostScore{{ post.id }}" style="text-align:center; font-weight:900;">{{ post.score }}</span>
                                     {% endif %}
                                 {% endif %}
                                     

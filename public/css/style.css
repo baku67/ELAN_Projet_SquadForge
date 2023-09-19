@@ -4967,13 +4967,14 @@ div#tarteaucitronServices {
 
 
 .topicPost, .mediaPost {
-    background-color: rgb(68 68 68);
+    background-color: #1992a02e;
     color: white;
     font-family: 'K2D', sans-serif;
     padding: 5px 13px;
     margin: 1px auto;
-    border-radius: 3px;
+    border-radius: 4px;
     display: inline-flex;
+    border: 1px solid #0000005e;
     width: 100%;
     justify-content: space-between;
 }
@@ -4985,7 +4986,48 @@ div#tarteaucitronServices {
 }
 
 
+.topicHeaderSection1 {
+    background-color: #1992a02e;
+    border-radius: 5px;
+    padding: 10px 16px;
+    
+}
+.topicHeaderTitle {
+    color: white !important;
+}
+#topic_post_text {
+    background-color: #1992a02e;
+}
 
+.topicHeaderDiv {
+    padding: 5px 5px 2px 5px !important;
+    border-top-left-radius: 0px !important;
+}
+
+.topicHeaderTitleLabel {
+    font-size: 1.7em !important;
+    font-weight: bold;
+    color: black !important;
+    background-color: #ff4655;
+    padding: 4px 32px 0px 13px;
+    clip-path: polygon(0 0, 87% 0%, 100% 100%, 0% 100%);
+    border-top-right-radius: 22px;
+
+    border-top-left-radius: 6px;
+    position: relative;
+    top: 1px;
+}
+
+.topicHeadersubLine {
+    /* display:inline-flex; justify-content:space-between; width:100%; font-family:'K2D', sans-serif; font-size:90%; opacity:0.8; */
+    display: inline-flex;
+    justify-content: space-between;
+    width: 100%;
+    font-family: 'K2D', sans-serif;
+    font-size: 83%;
+    opacity: 0.8;
+    padding: 0 6px;
+}
 
 .postAuthorUser {
     opacity: 0.8;
@@ -5007,7 +5049,7 @@ div#tarteaucitronServices {
     font-family: 'K2D', sans-serif;
     padding: 5px 10px;
     margin: 2px auto;
-    border-bottom: 1px solid rgba(255,255,255,0.2);
+    border-top: 1px solid rgba(255,255,255,0.1);
 }
 
 
@@ -5632,7 +5674,21 @@ h1, h2, h3, h4 {
 }
 
 
-
+.upTopicPostBtn {
+    height: 25px;
+}
+.postUpvoteIcon {
+    /* line-height: 0px; */
+}
+.downTopicPostBtn {
+    height: 25px;
+    position: relative;
+    /* line-height: 17px; */
+    bottom: 6px;
+}
+.postScore {
+    font-size: 85%;
+}
 
 .upTopicPostBtn, .downTopicPostBtn, .upMediaPostBtn, .downMediaPostBtn {
 cursor: pointer;
@@ -6043,6 +6099,8 @@ cursor: pointer;
 
     border-top: 1px solid #8f8f8f3b;
     border-left: 1px solid #8f8f8f3b;
+
+    backdrop-filter: blur(2px);
 }
 .navLine * {
     padding: 0px 10px;
@@ -6902,6 +6960,10 @@ input:disabled {
 
 #group_restriction_lang {
     width: fit-content;
+}
+
+.flash-container {
+    bottom: 40px !important;
 }
 
 
