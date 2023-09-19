@@ -192,7 +192,47 @@ window.addEventListener('load', function() {
     if(document.getElementById('homeMediasSectionCollapseBtn') !== null) {
         document.getElementById('homeMediasSectionCollapseBtn').addEventListener("click", function() {
             document.getElementById('homeMediasSectionCollapse').classList.toggle('collapseSection3');
+            // TODO: Fix éléments cachés mais présents et clickables
             document.getElementById('homeMediasSectionCollapseBtn').classList.toggle('chevronRotate');
+        })
+    }
+
+    // GROUP section collapse (mobile)
+
+    if(document.getElementById('groupHeaderSectionsCollapseBtn') !== null) {
+        document.getElementById('groupHeaderSectionsCollapseBtn').addEventListener("click", function() {
+            document.getElementById('groupHeaderSectionsCollapse').classList.toggle('collapseSection2');
+            document.getElementById('teamImgContainer').classList.toggle('collapseSection2');
+            document.getElementById('groupHeaderSectionsCollapseBtn').classList.toggle('chevronRotate');
+        })
+    }
+
+    if(document.getElementById('groupMemberSectionCollapseBtn') !== null) {
+        document.getElementById('groupMemberSectionCollapseBtn').addEventListener("click", function() {
+            document.getElementById('groupMemberSectionCollapse').classList.toggle('collapseSection2');
+            document.getElementById('groupMemberSectionCollapseBtn').classList.toggle('chevronRotate');
+        })
+    }
+
+    if(document.getElementById('groupPlanningSectionCollapseBtn') !== null) {
+        document.getElementById('groupPlanningSectionCollapseBtn').addEventListener("click", function() {
+            document.getElementById('groupPlanningSectionCollapse').classList.toggle('collapseSection3');
+            // TODO: Fix éléments cachés mais présents et clickables
+            document.getElementById('groupPlanningSectionCollapseBtn').classList.toggle('chevronRotate');
+        })
+    }
+
+    if(document.getElementById('groupParamSectionCollapseBtn') !== null) {
+        document.getElementById('groupParamSectionCollapseBtn').addEventListener("click", function() {
+            document.getElementById('groupParamSectionCollapse').classList.toggle('collapseSection2');
+            document.getElementById('groupParamSectionCollapseBtn').classList.toggle('chevronRotate');
+        })
+    }
+
+    if(document.getElementById('groupCandidatureSectionCollapseBtn') !== null) {
+        document.getElementById('groupCandidatureSectionCollapseBtn').addEventListener("click", function() {
+            document.getElementById('groupCandidatureSectionCollapse').classList.toggle('collapseSection2');
+            document.getElementById('groupCandidatureSectionCollapseBtn').classList.toggle('chevronRotate');
         })
     }
 

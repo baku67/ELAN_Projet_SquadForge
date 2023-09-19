@@ -3961,6 +3961,16 @@ nav {
     }
 }
 
+.passLeadTitle {
+    width:auto; 
+    font-family:'K2D',sans-serif;
+}
+
+.groupParamOptionLabel {
+    margin-top:15px; 
+    width:auto;
+}
+
 .gameInfosHeaderTitle {
     position:absolute; 
     clip-path: polygon(0 0, 100% 0, 66% 100%, 0 100%);

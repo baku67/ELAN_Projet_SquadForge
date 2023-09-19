@@ -110,47 +110,55 @@
         <section id="groupHeader" class="groupHeader" style="background-size:contain; border-bottom:3px solid {{ gameFrom.color }};">
 
             <div class="groupHeaderSection1">
-                <h2 style="color:black; backdrop-filter:blur(4px); width:fit-content; padding:4px 15px; border-radius:5px; border:1px solid {{ gameFrom.color }}; border-left: 4px solid var(--background-color); background-color:{{ gameFrom.color }}78; border-top-left-radius:2px; text-transform:uppercase;"> <i class="fa-solid fa-users-rays"></i> Team</h2>
 
-                <h3 class="groupTitle" style="border-top:1px solid {{group.game.color}}; border-bottom:1px solid {{group.game.color}};">{{ group.title }}</h3>
+                <div class="headerLineSection">
+                    <h2 style="color:black; backdrop-filter:blur(4px); width:fit-content; padding:4px 15px; border-radius:5px; border:1px solid {{ gameFrom.color }}; border-left: 4px solid var(--background-color); background-color:{{ gameFrom.color }}78; border-top-left-radius:2px; text-transform:uppercase;"> <i class="fa-solid fa-users-rays"></i> Team</h2>
+                    <span id="groupHeaderSectionsCollapseBtn" class="collapseMobile chevronRotate"><i class="fa-solid fa-chevron-down" style="color:var(--background-color);"></i></span>
+                </div>
 
-                <p class="groupDescription">
-                    <i class="fa-solid fa-quote-left"></i>
-                    <span style="font-family:'K2D', sans-serif;">{{ group.description|capitalize }}</span>
-                    <i class="fa-solid fa-quote-right"></i>
+                <div id="groupHeaderSectionsCollapse" class="collapseSection2">
 
-                    {# // Btn modif description Leader: #}
-                    {% if app.user == group.leader %}
-                        <span id="editDescriptionTeam">
-                            <i class="fa-solid fa-pen-to-square editDescriptionTeam"></i>
-                        </span>
-                    
-                        <dialog class="modalDialog" id="editDescriptionTeamModal">
-                            <form method="post" action="{{ path('app_updateTeamDescription', {'groupSlug': group.slug}) }}">
-                                <p style="font-size:1.3em;">Modifiez la description de la team:</p>
+                    <h3 class="groupTitle" style="border-top:1px solid {{group.game.color}}; border-bottom:1px solid {{group.game.color}};">{{ group.title }}</h3>
 
-                                <textarea rows="5" cols="33" name="newTeamDescription" class="form-control" style="margin-bottom:20px;">{{ group.description }}</textarea>
+                    <p class="groupDescription">
+                        <i class="fa-solid fa-quote-left"></i>
+                        <span style="font-family:'K2D', sans-serif;">{{ group.description|capitalize }}</span>
+                        <i class="fa-solid fa-quote-right"></i>
 
-                                <button type="submit" class="confirmModal">Mettre à jour</button>
-                                <span class="cancelModal" onclick="editDescriptionTeamModal.close()">Annuler</span>                            
-                            </form>
-                        </dialog>
+                        {# // Btn modif description Leader: #}
+                        {% if app.user == group.leader %}
+                            <span id="editDescriptionTeam">
+                                <i class="fa-solid fa-pen-to-square editDescriptionTeam"></i>
+                            </span>
+                        
+                            <dialog class="modalDialog" id="editDescriptionTeamModal">
+                                <form method="post" action="{{ path('app_updateTeamDescription', {'groupSlug': group.slug}) }}">
+                                    <p style="font-size:1.3em;">Modifiez la description de la team:</p>
 
-                        <script>
-                            document.getElementById('editDescriptionTeam').addEventListener("click", function() {
-                                document.getElementById('editDescriptionTeamModal').showModal();
-                            })
-                        </script>
+                                    <textarea rows="5" cols="33" name="newTeamDescription" class="form-control" style="margin-bottom:20px;">{{ group.description }}</textarea>
+
+                                    <button type="submit" class="confirmModal">Mettre à jour</button>
+                                    <span class="cancelModal" onclick="editDescriptionTeamModal.close()">Annuler</span>                            
+                                </form>
+                            </dialog>
+
+                            <script>
+                                document.getElementById('editDescriptionTeam').addEventListener("click", function() {
+                                    document.getElementById('editDescriptionTeamModal').showModal();
+                                })
+                            </script>
 
 
-                    {% endif %}
-                </p>
+                        {% endif %}
+                    </p>
 
-                <p class="teamHeaderAge">Ancienneté: <span>{{ time_diff(group.creationDate) }}</span></p>
+                    <p class="teamHeaderAge">Ancienneté: <span>{{ time_diff(group.creationDate) }}</span></p>
+
+                </div>
         
             </div>
 
-            <div id="teamImgContainer" class="teamImgContainer">
+            <div id="teamImgContainer" class="teamImgContainer collapseSection2">
                 {% if group.imgUrl is not null and imageExists(group.imgUrl) %}
                     <img src="../img/uploads/{{ group.imgUrl }}" id="teamImg" class="teamImg" alt="image de la team">
                 {% else %}
@@ -216,12 +224,13 @@
         {# Liste des membres du groupe #}
         <section class="sectionContainer teamSectionContainer" style="border: 1px solid {{ gameFrom.color }}50; border-top:2px solid {{ gameFrom.color }}; border-left:1px solid {{ gameFrom.color }};">
 
-            <div>
+            <div class="headerLineSection">
                 <div class="gameInfosSubTitleBg" style="background-color: {{ gameFrom.color }}"></div>
                 <h3 class="gameSubTitle noMarginBottom" style="color:{{ gameFrom.fontColor }}"><i class="fa-solid fa-user-group"></i> Membres</h3>
+                <span id="groupMemberSectionCollapseBtn" class="collapseMobile chevronRotate" style="left:1px;"><i class="fa-solid fa-chevron-down"></i></span>
             </div>
 
-            <div class="sectionContent" style="display:flex;">
+            <div id="groupMemberSectionCollapse" class="sectionContent collapseSection2" style="display:flex;">
 
                 {# Modifier le nbr de places (leader) #}
                 {% if app.user == group.leader %}
@@ -378,190 +387,193 @@
                 {# Planification des sessions (FullCalendar JS) #}
                 <section class="sectionContainer teamSectionContainer" style="border: 1px solid {{ gameFrom.color }}50; border-top:2px solid {{ gameFrom.color }}; border-left:1px solid {{ gameFrom.color }};">
     
-                    <div>
+                    <div class="headerLineSection">
                         <div class="gameInfosSubTitleBg" style="background-color: {{ gameFrom.color }}"></div>
                         <h3 class="gameSubTitle noMarginBottom" style="color:{{ gameFrom.fontColor }}"><i class="fa-solid fa-calendar-days"></i> Planning</h3>
+                        <span id="groupPlanningSectionCollapseBtn" class="collapseMobile chevronRotate" style="left:1px;"><i class="fa-solid fa-chevron-down"></i></span>
                     </div>
 
-                    <div class="sectionContent">
+                    <div id="groupPlanningSectionCollapse" class="collapseSection3">
 
-                        <div class="planningInfos">
-                            {% if incomingSessionsCount > 0 %}
-                            
-                                <div style="display:inline-flex; flex-direction:column;">
-                                    <span style="display:inline-flex; align-items:center; justify-content:center;">Sessions à venir: <span class="incomingSessionsNbr">{{ incomingSessionsCount }}</span></span>
-                                    <span>Prochaine session prévue: dans {{ time_diff_future(nextSession.dateStart) }}</span>
-                                </div>
+                        <div class="sectionContent">
 
-                            {% else %}
+                            <div class="planningInfos">
+                                {% if incomingSessionsCount > 0 %}
                                 
-                                <span>Sessions à venir: <span class="emptyListMsg">Aucune session à venir.</span></span>
+                                    <div style="display:inline-flex; flex-direction:column;">
+                                        <span style="display:inline-flex; align-items:center; justify-content:center;">Sessions à venir: <span class="incomingSessionsNbr">{{ incomingSessionsCount }}</span></span>
+                                        <span>Prochaine session prévue: dans {{ time_diff_future(nextSession.dateStart) }}</span>
+                                    </div>
 
-                            {% endif %}
-                        </div>
+                                {% else %}
+                                    
+                                    <span>Sessions à venir: <span class="emptyListMsg">Aucune session à venir.</span></span>
 
-                        <div id='calendar'></div>
-
-                    </div>
-
-
-                    <div id="addSessionBtn" style="text-align:center;">
-                        <button class="btn btn-primary" style="background-color:#edb017;"><i class="fa-solid fa-calendar-plus"></i> Ajouter une session</button>
-                    </div>
-
-                    <div id="addSessionForm" class="notDisplayed">
-
-                        {# ids pour flatPickr #}
-                        {{ form_start(formAddSession)}}
-                            {{ form_row(formAddSession.title) }}
-                            {{ form_label(formAddSession.dateStart, 'Début') }}
-                            {{ form_widget(formAddSession.dateStart, {'id': 'date_start_picker'}) }}
-                            {{ form_label(formAddSession.dateEnd, 'Fin') }}
-                            {{ form_widget(formAddSession.dateEnd, {'id': 'date_end_picker'}) }}
-                            {# {{ form_row(formAddSession.comfirmNeeded) }} #}
-                            
-                            {{ form_widget(formAddSession._token) }}
-                            {{ form_errors(formAddSession) }}
-                        
-                            <br>
-                            <div style="display:inline-flex;margin:10px auto;">
-                                {{ form_row(formAddSession.submit) }}
-                                <button id="cancelAddSession" class="btn btn-primary">Annuler</button>
+                                {% endif %}
                             </div>
 
-                        {{ form_end(formAddSession)}}
+                            <div id='calendar'></div>
 
+                        </div>
+
+
+                        <div id="addSessionBtn" style="text-align:center;">
+                            <button class="btn btn-primary" style="background-color:#edb017;"><i class="fa-solid fa-calendar-plus"></i> Ajouter une session</button>
+                        </div>
+
+                        <div id="addSessionForm" class="notDisplayed">
+
+                            {# ids pour flatPickr #}
+                            {{ form_start(formAddSession)}}
+                                {{ form_row(formAddSession.title) }}
+                                {{ form_label(formAddSession.dateStart, 'Début') }}
+                                {{ form_widget(formAddSession.dateStart, {'id': 'date_start_picker'}) }}
+                                {{ form_label(formAddSession.dateEnd, 'Fin') }}
+                                {{ form_widget(formAddSession.dateEnd, {'id': 'date_end_picker'}) }}
+                                {# {{ form_row(formAddSession.comfirmNeeded) }} #}
+                                
+                                {{ form_widget(formAddSession._token) }}
+                                {{ form_errors(formAddSession) }}
+                            
+                                <br>
+                                <div style="display:inline-flex;margin:10px auto;">
+                                    {{ form_row(formAddSession.submit) }}
+                                    <button id="cancelAddSession" class="btn btn-primary">Annuler</button>
+                                </div>
+
+                            {{ form_end(formAddSession)}}
+
+                            <script>
+                                document.addEventListener('DOMContentLoaded', function() {
+                                    console.log('DOMContentLoaded');
+                                    flatpickr('#date_start_picker', {
+                                        enableTime: true,
+                                        minDate: 'today',
+                                        dateFormat: 'Y-m-d H:i',
+                                    });
+
+                                    flatpickr('#date_end_picker', {
+                                        enableTime: true,
+                                        minDate: 'today',
+                                        dateFormat: 'Y-m-d H:i',
+                                    });
+                                });
+                            </script>
+                        
+                        </div>
+
+
+                        <div id="eventDetailDiv" class="notDisplayed" style="border-color: {{ gameFrom.color }}; background-color: {{ gameFrom.color }}08;">
+                            <h5>Détail de la session</h5>                              
+                            <span id="eventTitle"></span>
+                            <a id="cancelEventBtn">Annuler la session</a>
+                            <h5>Disponibilités</h5>
+                            <div style="display:inline-flex; width:100%; justify-content:center;">
+                                <div style="display:inline-flex; flex-direction:column; margin:0 10px;">
+                                    <i id="member{{ app.user.id }}" class="fa-solid fa-user" style="color:#008926;"></i>
+                                    <span>Vous</span>
+                                </div>
+                                {% for member in members %}
+                                    {% if member != group.leader %}
+                                        <div style="display:inline-flex; flex-direction:column; margin:0 10px;">
+                                            <i id="member{{ member.id }}" class="fa-solid fa-user"></i>
+                                            <span>{{ member.pseudo|capitalize }}</span>
+                                        </div>
+                                    {% endif %}
+                                {% endfor %}
+                            </div>
+                        </div>
+
+
+                        {# Click sur session Calendrier/Callendar (ajax récup de la disponibilité des membres) #}
                         <script>
                             document.addEventListener('DOMContentLoaded', function() {
-                                console.log('DOMContentLoaded');
-                                flatpickr('#date_start_picker', {
-                                    enableTime: true,
-                                    minDate: 'today',
-                                    dateFormat: 'Y-m-d H:i',
+
+                                let calendarEl = document.getElementById('calendar');
+                                let data = '{{ groupSessionsArray | raw }}';
+                                let res = JSON.parse(data);
+
+                                var calendar = new FullCalendar.Calendar(calendarEl, {
+                                    eventClick: function(info) {
+
+                                        document.getElementById("eventDetailDiv").classList.remove("notDisplayed");
+
+                                        // scroll detail Session
+                                        const element = document.getElementById("eventDetailDiv");
+                                        element.scrollIntoView({behavior: "smooth", block: "center", inline: "nearest"});
+
+                                        // console.log(info.event.title)
+                                        // console.log(info.event.extendedProps.sessionId)
+                                        // console.log(info.event.extendedProps.confirmRequired)
+                                        // console.log(info.event.start)
+                                        // console.log(info.event.end)
+
+                                        // Url des boutons de disponibilité
+                                        document.getElementById("cancelEventBtn").setAttribute("href", "/cancelSession/" + info.event.extendedProps.sessionId);
+
+                                        document.getElementById("eventTitle").textContent = '"' + info.event.title + '"';
+
+
+                                        // Ajax get les dispoState des membres pour la session cliquée 
+                                        $.ajax({
+                                            url: '/getSessionMembersDispo/' + info.event.extendedProps.sessionId,
+                                            type: 'GET',
+                                            success: function(response) {
+                                                console.log(response.memberDispoArray);
+                                                for (let i = 0; i < response.memberDispoArray.length; i++) {
+                                                    if(response.memberDispoArray[i]["disponibility"] == "dispo") {
+                                                        document.getElementById("member" + response.memberDispoArray[i]["id"]).style.color = "#008926";
+                                                    }
+                                                    else if (response.memberDispoArray[i]["disponibility"] == "perhaps") {
+                                                        document.getElementById("member" + response.memberDispoArray[i]["id"]).style.color = "#a6490f";
+                                                    }
+                                                    else if (response.memberDispoArray[i]["disponibility"] == "notdispo") {
+                                                        document.getElementById("member" + response.memberDispoArray[i]["id"]).style.color = "#890035";
+                                                    }
+                                                }
+                                            },
+                                            error: function(xhr, status, error) {
+                                                window.FlashMessage.error('Une erreur est survenue');
+                                            }
+                                        });
+
+                                    },
+                                    initialView: 'dayGridWeek',
+                                    locale: 'fr',
+                                    timeZone: 'Europe/Paris',
+                                    firstDay: 1,
+                                    headerToolbar: {
+                                        start: 'prev next today',
+                                        center: 'title',
+                                        end: 'dayGridMonth listMonth listYear',
+                                    },
+                                    buttonText: {
+                                        'today' : 'Aujourd\'hui',
+                                        'week' : 'semaine',
+                                        'month' : 'Grille',
+                                        'listMonth' : 'Mois',
+                                        'listYear' : 'Année',
+                                    },
+                                    events: res,
                                 });
 
-                                flatpickr('#date_end_picker', {
-                                    enableTime: true,
-                                    minDate: 'today',
-                                    dateFormat: 'Y-m-d H:i',
+                                calendar.render();
+
+                                // toggle affichage du formulaire d'ajout de session
+                                document.getElementById('addSessionBtn').addEventListener('click', function() {
+                                    document.getElementById('addSessionBtn').classList.toggle('notDisplayed');
+                                    document.getElementById('addSessionForm').classList.toggle('notDisplayed');
+                                });
+                                document.getElementById('cancelAddSession').addEventListener('click', function() {
+                                    document.getElementById('addSessionBtn').classList.toggle('notDisplayed');
+                                    document.getElementById('addSessionForm').classList.toggle('notDisplayed');
                                 });
                             });
                         </script>
-                    
+
                     </div>
-
-
-                    <div id="eventDetailDiv" class="notDisplayed" style="border-color: {{ gameFrom.color }}; background-color: {{ gameFrom.color }}08;">
-                        <h5>Détail de la session</h5>                              
-                        <span id="eventTitle"></span>
-                        <a id="cancelEventBtn">Annuler la session</a>
-                        <h5>Disponibilités</h5>
-                        <div style="display:inline-flex; width:100%; justify-content:center;">
-                            <div style="display:inline-flex; flex-direction:column; margin:0 10px;">
-                                <i id="member{{ app.user.id }}" class="fa-solid fa-user" style="color:#008926;"></i>
-                                <span>Vous</span>
-                            </div>
-                            {% for member in members %}
-                                {% if member != group.leader %}
-                                    <div style="display:inline-flex; flex-direction:column; margin:0 10px;">
-                                        <i id="member{{ member.id }}" class="fa-solid fa-user"></i>
-                                        <span>{{ member.pseudo|capitalize }}</span>
-                                    </div>
-                                {% endif %}
-                            {% endfor %}
-                        </div>
-                    </div>
-
-
-
-                    {# Click sur session Calendrier/Callendar (ajax récup de la disponibilité des membres) #}
-                    <script>
-                        document.addEventListener('DOMContentLoaded', function() {
-
-                            let calendarEl = document.getElementById('calendar');
-                            let data = '{{ groupSessionsArray | raw }}';
-                            let res = JSON.parse(data);
-
-                            var calendar = new FullCalendar.Calendar(calendarEl, {
-                                eventClick: function(info) {
-
-                                    document.getElementById("eventDetailDiv").classList.remove("notDisplayed");
-
-                                    // scroll detail Session
-                                    const element = document.getElementById("eventDetailDiv");
-                                    element.scrollIntoView({behavior: "smooth", block: "center", inline: "nearest"});
-
-                                    // console.log(info.event.title)
-                                    // console.log(info.event.extendedProps.sessionId)
-                                    // console.log(info.event.extendedProps.confirmRequired)
-                                    // console.log(info.event.start)
-                                    // console.log(info.event.end)
-
-                                    // Url des boutons de disponibilité
-                                    document.getElementById("cancelEventBtn").setAttribute("href", "/cancelSession/" + info.event.extendedProps.sessionId);
-
-                                    document.getElementById("eventTitle").textContent = '"' + info.event.title + '"';
-
-
-                                    // Ajax get les dispoState des membres pour la session cliquée 
-                                    $.ajax({
-                                        url: '/getSessionMembersDispo/' + info.event.extendedProps.sessionId,
-                                        type: 'GET',
-                                        success: function(response) {
-                                            console.log(response.memberDispoArray);
-                                            for (let i = 0; i < response.memberDispoArray.length; i++) {
-                                                if(response.memberDispoArray[i]["disponibility"] == "dispo") {
-                                                    document.getElementById("member" + response.memberDispoArray[i]["id"]).style.color = "#008926";
-                                                }
-                                                else if (response.memberDispoArray[i]["disponibility"] == "perhaps") {
-                                                    document.getElementById("member" + response.memberDispoArray[i]["id"]).style.color = "#a6490f";
-                                                }
-                                                else if (response.memberDispoArray[i]["disponibility"] == "notdispo") {
-                                                    document.getElementById("member" + response.memberDispoArray[i]["id"]).style.color = "#890035";
-                                                }
-                                            }
-                                        },
-                                        error: function(xhr, status, error) {
-                                            window.FlashMessage.error('Une erreur est survenue');
-                                        }
-                                    });
-
-                                },
-                                initialView: 'dayGridWeek',
-                                locale: 'fr',
-                                timeZone: 'Europe/Paris',
-                                firstDay: 1,
-                                headerToolbar: {
-                                    start: 'prev next today',
-                                    center: 'title',
-                                    end: 'dayGridMonth listMonth listYear',
-                                },
-                                buttonText: {
-                                    'today' : 'Aujourd\'hui',
-                                    'week' : 'semaine',
-                                    'month' : 'Grille',
-                                    'listMonth' : 'Mois',
-                                    'listYear' : 'Année',
-                                },
-                                events: res,
-                            });
-
-                            calendar.render();
-
-                            // toggle affichage du formulaire d'ajout de session
-                            document.getElementById('addSessionBtn').addEventListener('click', function() {
-                                document.getElementById('addSessionBtn').classList.toggle('notDisplayed');
-                                document.getElementById('addSessionForm').classList.toggle('notDisplayed');
-                            });
-                            document.getElementById('cancelAddSession').addEventListener('click', function() {
-                                document.getElementById('addSessionBtn').classList.toggle('notDisplayed');
-                                document.getElementById('addSessionForm').classList.toggle('notDisplayed');
-                            });
-                        });
-                    </script>
 
                 </section>
-
 
 
 
@@ -574,21 +586,21 @@
 
 
 
-
                 <section class="sectionContainer teamSectionContainer" style="border: 1px solid {{ gameFrom.color }}50; border-top:2px solid {{ gameFrom.color }}; border-left:1px solid {{ gameFrom.color }};">
 
-                    <header>
+                    <header class="headerLineSection">
                         <div class="gameInfosSubTitleBgParam" style="background-color:#edb017"></div>
                         <h3 class="gameSubTitle noMarginBottom" style="color:{{ gameFrom.fontColor }}"><i class="fa-solid fa-users-gear"></i> Paramètres</h3>
+                        <span id="groupParamSectionCollapseBtn" class="collapseMobile chevronRotate" style="left:1px;"><i class="fa-solid fa-chevron-down"></i></span>
                     </header>
 
-                    <div class="sectionContent sectionTeamParam">
+                    <div id="groupParamSectionCollapse" class="sectionContent sectionTeamParam collapseSection2">
 
-                        <div style="margin-right:35px; border-right:1px solid {{ gameFrom.color }}70">
+                        <div class="headerParamBorderMobile" style="margin-right:35px; border-right:1px solid {{ gameFrom.color }}70">
                             {# Leader: Passer le lead #}
                             {% if members|length > 1 %}
                                 <div class="passLeadDiv">
-                                    <p style="width:auto; font-family:'K2D',sans-serif;">Passer le leadership</p>
+                                    <p class="passLeadTitle">Passer le leadership</p>
                                     <div class="passLeadLine" style="display:inline-flex; width:100%;">
                                         <form id="switchTeamLeader" action="{{ path('app_switchTeamLeader',{ 'groupSlug':group.slug }) }}" method="post" style="display:inline-flex;">
                                             <select id="memberLeadSelect" class="form-select" name="memberId" style="font-family: 'K2D', sans serif;">
@@ -652,7 +664,7 @@
 
 
                             <div>
-                                <p style="margin-top:15px; width:auto;">Options</p>
+                                <p class="groupParamOptionLabel">Options</p>
                                 <div class="togglesContainer">
 
                                     {# Asynch toggleGroupVisibility #}
@@ -817,12 +829,13 @@
                 {# Customisation des candidature #}
                 <section class="sectionContainer teamSectionContainer" style="border: 1px solid {{ gameFrom.color }}50; border-top:2px solid {{ gameFrom.color }}; border-left:1px solid {{ gameFrom.color }};">
                     
-                    <div>
+                    <div class="headerLineSection">
                         <div class="gameInfosSubTitleBg" style="background-color: #edb017"></div>
                         <h3 class="gameSubTitle noMarginBottom" style="color:{{ gameFrom.fontColor }}"><i class="fa-solid fa-clipboard-user"></i> Candidature</h3>
+                        <span id="groupCandidatureSectionCollapseBtn" class="collapseMobile chevronRotate" style="left:1px;"><i class="fa-solid fa-chevron-down"></i></span>
                     </div>
 
-                    <div class="sectionContent">
+                    <div id="groupCandidatureSectionCollapse" class="sectionContent collapseSection2">
 
                         {% if candidatureCount == 0 %}
                             <span class="candidaturesListBtn" style="border-color: grey; opacity:0.7; border-width:1px; cursor:default;"><i class="fa-regular fa-clock"></i> Candidatures en attente ({{ candidatureCount }})</span>

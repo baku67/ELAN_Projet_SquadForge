@@ -622,8 +622,8 @@
     }
     .gameHeaderSection2 {
         width: 100%;
-        height: 100px;
-        max-height: 100px;
+        height: 80px;
+        max-height: 80px;
         border-width: 1px !important;
         border-radius: 6px;
         margin-bottom: 11px;
@@ -1164,6 +1164,55 @@
         width: 90%;
     }
 
+    .gameInfosSubTitleBg {
+        animation: gameInfosSubTitleBg1 0.3s 0.1s ease-in-out forwards, gameInfosSubTitleBg2 0.4s 0.45s ease-in-out forwards;
+    }
+
+    @keyframes gameInfosSubTitleBg1 {
+        from {
+            height: 0px;
+        }
+        to {
+            height:45px; 
+        }
+    }
+    @keyframes gameInfosSubTitleBg2 {
+        from {
+            width: 5px;
+        }
+        to {
+            width:200px; 
+        }
+    }
+
+    #switchTeamLeader {
+        margin: 0 auto;
+    }
+
+    .passLeadDiv {
+        margin-right: 0px;
+        width: 95%;
+        margin: 0 auto;
+    }
+
+    .passLeadTitle {
+        text-align: center;
+    }
+
+    .groupParamOptionLabel {
+        margin-top: 15px;
+        margin-bottom: 0px !important;
+        width: auto;
+        text-align: center;
+    }
+
+    .headerParamBorderMobile {
+        margin-right: 0px !important;
+    }
+
+    .headerParamBorderMobile {
+        border-right-width: 0px !important;
+    }
 
     .groupTitle {
         padding: 13px 25px !important;
@@ -1388,6 +1437,24 @@
     .collapseSection3 {
         opacity: 0 !important;
         height: 0 !important;
+    }
+
+    .gameSubtitleV2 {
+        padding: 6px 0px 3px 0px;
+        width: 98%;
+        text-align: center;
+        /* margin-right: 5px; */
+        clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
+        /* background-color: var(--background-color); */
+        background-color: #0d3c42;
+        margin-left: 4px;
+        border-radius: 4px;
+        margin-top: 1px;
+        opacity: 0;
+    }
+
+    .stickerNewMediaDetail {
+        width: 102px !important;
     }
 
     .flash-container {
