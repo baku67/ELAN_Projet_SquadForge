@@ -91,21 +91,19 @@
 
 
 
-    {# Fil d'Ariane #}
-    <p class="breadcrumbs" style="margin-left:8%; margin-top:20px;">
-        <a class="underlineLink" href="{{ path('app_games') }}">Jeux</a>
-        <i class="fa-solid fa-angle-right arianeArrow" style="color:{{ gameFrom.color }}"></i>
-        <a class="underlineLink" href="{{ path('app_game', {'slug': gameFrom.slug }) }}">{{ gameFrom.title }}</a>
-        <i class="fa-solid fa-angle-right arianeArrow" style="color:{{ gameFrom.color }}"></i>
-        <a class="underlineLink" href="{{ path('app_groupList', {'gameIdFrom': gameFrom.id }) }}">Teams</a>
-        <i class="fa-solid fa-angle-right arianeArrow" style="color:{{ gameFrom.color }}"></i>
-        <span>{{ group.title }}</span>
-    </p>
-
-
-
-
     <main class="main">
+
+        {# Fil d'Ariane #}
+        <p class="breadcrumbs" style="margin-left:8%; margin-top:20px;">
+            <a class="underlineLink" href="{{ path('app_games') }}">Jeux</a>
+            <i class="fa-solid fa-angle-right arianeArrow" style="color:{{ gameFrom.color }}"></i>
+            <a class="underlineLink" href="{{ path('app_game', {'slug': gameFrom.slug }) }}">{{ gameFrom.title }}</a>
+            <i class="fa-solid fa-angle-right arianeArrow" style="color:{{ gameFrom.color }}"></i>
+            <a class="underlineLink" href="{{ path('app_groupList', {'gameIdFrom': gameFrom.id }) }}">Teams</a>
+            <i class="fa-solid fa-angle-right arianeArrow" style="color:{{ gameFrom.color }}"></i>
+            <span>{{ group.title }}</span>
+        </p>
+
         
         <section id="groupHeader" class="groupHeader" style="background-size:contain; border-bottom:3px solid {{ gameFrom.color }};">
 

@@ -91,15 +91,17 @@
 
 
 
-    {# Fil d'ariane "breadcrumb" #}
-    <ul class="filAriane" style="margin-left:8%; margin-top:20px;">
-        <li class="arianeLink"><a href="{{ path('app_games') }}">Jeux</a></li>
-        <i class="fa-solid fa-angle-right arianeArrow" style="color:{{ game.color }}"></i>
-        <li class="arianeOnPage">{{ game.title }}</li>
-    </ul>
-
-
     <main class="main mainGameDetail" style="width:75%;">
+
+
+        {# Fil d'Ariane #}
+        <p class="breadcrumbs" style="margin-left:8%; margin-top:20px;">
+            <a  href="{{ path('app_home') }}"><i class="fa-solid fa-house arianeHome"></i></a>
+            <i class="fa-solid fa-angle-right arianeArrow" style="color:{{ game.color }}"></i>
+            <a class="underlineLink" href="{{ path('app_games') }}">Jeux</a>
+            <i class="fa-solid fa-angle-right arianeArrow" style="color:{{ game.color }}"></i>
+            <span>{{ game.title }}<span>
+        </p>
 
 
         <section class="gameHeaderInfos gameSubImgBg" style="border-top: 2px solid {{ game.color }};">

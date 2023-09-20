@@ -1015,6 +1015,7 @@ a {
     text-decoration-thickness: 3px;
 }
 .breadcrumbs {
+    font-size: 1.1em;
     font-family: 'K2D', sans-serif;
     margin-bottom: 20px;
 
@@ -2860,6 +2861,7 @@ header {
 
 
 .filAriane {
+    font-size: 110%;
     margin-left: 3%;
     display: inline-flex;
     font-family: 'K2D', sans-serif;
@@ -2883,6 +2885,13 @@ header {
     color: var(--primary-color);
     text-underline-offset: 5px;
     text-decoration-thickness: 3px;
+}
+
+.arianeHome {
+    transition: all 0.3s;
+}
+.arianeHome:hover {
+    color: var(--primary-color);
 }
 
 .teamCardNbrCandidature {
@@ -4893,13 +4902,15 @@ div#tarteaucitronServices {
 .mainMediaDetail {
     width: 95% !important;
     max-width: 95% !important;
-    margin: 25px auto 30px auto !important;
+    margin: 18px auto 30px auto !important;
 }
 
 .mediaDetailWrapper {
     display: inline-flex;
     flex-direction: row;
     width: 100%;
+
+    margin-top: 25px;
 }
 
 .mediaDetailSection1 {
@@ -4911,6 +4922,7 @@ div#tarteaucitronServices {
     margin: 0 70px 0 50px;
 }
 /* Fin test */
+
 
 
 

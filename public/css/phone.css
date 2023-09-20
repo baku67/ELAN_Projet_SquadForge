@@ -1137,8 +1137,8 @@
         margin-bottom: 15px !important;
         font-size: 0.9em !important;
 
-        margin-left: 3% !important;
-        margin-right: 3% !important;
+        margin-left: 0px !important;
+        margin-right: 0px !important;
     }
     .filAriane {
         font-size: 0.9em;
@@ -1397,6 +1397,8 @@
         display: inline-flex;
         flex-direction: column !important;
         width: 100%;
+
+        margin-top: 0px !important;
     }
 
     .mediaDetailSection1 {
