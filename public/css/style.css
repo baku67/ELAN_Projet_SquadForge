@@ -877,6 +877,27 @@ dialog::backdrop {
     transition: all 0.3s;
 }
 
+.crownLeaderTeams {
+
+    position: absolute;
+    right: -14px;
+    z-index: 9992;
+    font-size: 2.2em;
+    color: #edb017;
+    transform: rotate(23deg);
+    text-shadow: 0 0 black;
+    transition: all 0.3s;
+
+    top: -27px;
+}
+
+
+.crownLeaderTeams:has( + .teamCard:hover) {
+    right: -31px;
+    top: -35px;
+    transform: rotate(31deg) rotateY(180deg);
+}
+
 .teamCard-crownLeader:has( + .teamCard:hover) {
     right: -31px;
     top: -44px;
@@ -6510,7 +6531,7 @@ cursor: pointer;
 .sectionHomeContainer {
     /* box-shadow: 0 0 0px 0px var(--primary-color); */
     margin: 20px auto 50px auto;
-    padding: 0px 10px 15px 0px;
+    padding: 0px 0px 15px 0px;
     border-radius: 6px;
     border-top: 2px solid #2ce4f9d4;
     background-image: linear-gradient(to bottom, #2ce4f929, var(--background-color));

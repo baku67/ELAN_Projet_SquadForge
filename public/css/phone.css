@@ -41,11 +41,22 @@
         left: -74px;
     }
 
+    .membersList {
+        flex-flow: wrap;
+    }
+    .membersList li {
+        margin-top: 5px;
+    }
+
     .groupsGrid {
         display: inline-flex;
         flex-direction: column;
-        width: 100% !important;
+        width: 95% !important;
         margin: 15px auto;
+
+        left: 50%;
+        transform: translateX(-50%);
+        position: relative;
 
         gap: 15px !important;
     }
@@ -1137,12 +1148,24 @@
         flex-direction: column;
     }
 
-    .teamCard-crownLeader {
+    .crownLeaderTeams {
+
+        position: absolute;
+        right: -14px;
+        z-index: 9992;
+        font-size: 2.2em;
+        color: #edb017;
+        transform: rotate(23deg);
+        text-shadow: 0 0 black;
+        transition: all 0.3s;
+
         top: -22px;
     }
+
+
     .teamCard-crownLeader:has( + .teamCard:hover) {
         right: -23px;
-        top: -35px;
+        top: -45px;
     }
 
     .groupHeaderSection1 {
@@ -1186,13 +1209,13 @@
     }
 
     .gameInfosSubTitleBg {
-        transform: translateY(0px);
+        transform: translateY(-1px);
 
         animation: gameInfosSubTitleBg1 0.3s 0.1s ease-in-out forwards, gameInfosSubTitleBg2 0.4s 0.45s ease-in-out forwards;
     }
 
     .gameInfosSubTitleBgParam {
-        transform: translateY(0px);
+        transform: translateY(-1px);
     }
 
     @keyframes gameInfosSubTitleBg1 {
@@ -1479,7 +1502,7 @@
         font-size: 1.4em;
         padding: 6px 14px;
         position: relative;
-        left: 9px;
+        /* left: 9px; */
 
         transition: all 0.3s;
     }
@@ -1511,6 +1534,7 @@
     .collapseSection3 {
         opacity: 0 !important;
         height: 0 !important;
+        pointer-events: none !important;
     }
 
     .gameSubtitleV2 {

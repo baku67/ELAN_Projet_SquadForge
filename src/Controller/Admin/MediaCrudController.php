@@ -30,7 +30,7 @@ class MediaCrudController extends AbstractCrudController
             TextField::new('title')->setLabel('Titre'),
             AssociationField::new('game')->setLabel('Jeu'),
             AssociationField::new('user')->setLabel('Auteur'),
-            ImageField::new('url')->setLabel('Image uploadé')->setUploadDir('public\img\uploads'),
+            ImageField::new('url')->setLabel('Image uploadé')->setUploadDir('img/uploads')->setBasePath('img/uploads'),
             TextField::new('status')->setLabel('Statut ("open" / "closed" / "closedModo")'),
             TextField::new('validated')->setLabel('Validation modo ("validated" / "refused")'),
             SlugField::new('slug')->setTargetFieldName('title')->setLabel('Slug (basé sur le titre)'),

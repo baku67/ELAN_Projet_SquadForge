@@ -934,12 +934,13 @@
                         {# Planification des sessions (FullCalendar JS) #}
                         <div class="sectionContainer teamSectionContainer" style="border: 1px solid {{ gameFrom.color }}50; border-top:2px solid {{ gameFrom.color }}; border-left:1px solid {{ gameFrom.color }};">
             
-                            <div>
+                            <div class="headerLineSection">
                                 <div class="gameInfosSubTitleBg" style="background-color: {{ gameFrom.color }}"></div>
                                 <h3 class="gameSubTitle noMarginBottom"><i class="fa-solid fa-calendar-days"></i> Planning</h3>
+                                <span id="groupPlanningSectionCollapseBtn" class="collapseMobile chevronRotate" style="left:1px;"><i class="fa-solid fa-chevron-down"></i></span>
                             </div>
 
-                            <div class="sectionContent">
+                            <div id="groupPlanningSectionCollapse" class="sectionContent collapseSection3">
 
                                 <div class="planningInfos">
                                     {% if incomingSessionsCount > 0 %}

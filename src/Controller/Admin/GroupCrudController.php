@@ -37,7 +37,7 @@ class GroupCrudController extends AbstractCrudController
             BooleanField::new('restriction_18')->setLabel('Majorité requise'),
             BooleanField::new('restriction_mic')->setLabel('Micro requis'),
             TextField::new('status')->setLabel('Visibilité ("hidden"/"public")'),
-            ImageField::new('imgUrl')->setLabel('Image de la Team')->setUploadDir('public\img\uploads'),
+            ImageField::new('imgUrl')->setLabel('Image de la Team')->setUploadDir('img/uploads')->setBasePath('img/uploads'),
             TextEditorField::new('candidature_txt')->setLabel('Texte de recrutement'),
             SlugField::new('slug')->setTargetFieldName('title')->setLabel('Slug (basé sur le nom)'),
             DateTimeField::new('creation_date')->hideOnForm(),
