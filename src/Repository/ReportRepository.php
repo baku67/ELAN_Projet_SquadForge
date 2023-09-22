@@ -45,12 +45,11 @@ class ReportRepository extends ServiceEntityRepository
     // Tout les Reports regroupées par objet
     public function getAllReportsGroupedByOjectIdAndType(): array {
         return $this->createQueryBuilder('r')
-        ->select('r.objectId, r.objectType, COUNT(r) as nbrReports') // Inclure toutes les colonnes non agrégées
+        ->select('r.objectId, r.objectType, COUNT(r) as nbrReports') 
         ->orderBy('nbrReports', 'DESC')
-        ->groupBy('r.objectId', 'r.objectType') // Inclure toutes les colonnes non agrégées
+        ->groupBy('r.objectId', 'r.objectType') 
         ->getQuery()
-        ->getResult()
-        ;
+        ->getResult();
     }
 
 

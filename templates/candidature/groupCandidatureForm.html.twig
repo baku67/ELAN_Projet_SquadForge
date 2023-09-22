@@ -11,7 +11,10 @@
 
         <a id="gameHeaderTitle" class="gameHeaderTitle" style="border-bottom: 5px solid {{ gameFrom.color }}; opacity:0;" href="{{ path('app_game',{'slug':gameFrom.slug}) }}">{{ gameFrom.title }}</a>
 
-        <a href="{{ path('app_home') }}"><img src="{{ asset('img/games/headerSiteLogo/' ~ gameFrom.siteLogo ) }}" class="logoPng" id="logoPng" alt='bearded dwarf forging a sword above "SquadForge" title' /></a>
+        <div style="display:inline-flex;">
+            <a href="{{ path('app_home') }}"><img src="{{ asset('img/games/headerSiteLogo/' ~ gameFrom.siteLogo ) }}" class="logoPng" id="logoPng" alt='bearded dwarf forging a sword above "SquadForge" title' /></a>
+            <a id="logoShrinkTxt" href="{{ path('app_home') }}">SQUADFORGE</a>
+        </div>
 
         <nav id="navLine" class="navLine">
             <span id="closeBurgerMobile"><i class="fa-solid fa-xmark"></i></span>

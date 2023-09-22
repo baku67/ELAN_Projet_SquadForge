@@ -580,12 +580,25 @@ body {
 
 .headerFixed {
     transition: all 0.4s;
+    /* min-height: 40px; */
     position: fixed !important;
     width: 100%;
     z-index: 9999;
     border-bottom: 3px solid var(--primary-color);
 
     /* background-position: 25% 55% !important; */
+}
+
+#logoShrinkTxt {
+    display: none;
+    opacity: 0;
+    transition: all 0.3s;
+
+    z-index: 9999;
+    position: relative;
+    font-size: 1.25em;
+    top: 3px;
+    left: 12px;
 }
 
 .gameSelectedBracketUp {

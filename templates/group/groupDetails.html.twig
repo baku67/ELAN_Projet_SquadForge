@@ -94,7 +94,7 @@
     <main class="main">
 
         {# Fil d'Ariane #}
-        <p class="breadcrumbs" style="margin-left:8%; margin-top:20px;">
+        <p class="breadcrumbs">
             <a class="underlineLink" href="{{ path('app_games') }}">Jeux</a>
             <i class="fa-solid fa-angle-right arianeArrow" style="color:{{ gameFrom.color }}"></i>
             <a class="underlineLink" href="{{ path('app_game', {'slug': gameFrom.slug }) }}">{{ gameFrom.title }}</a>

@@ -60,7 +60,6 @@ class ModerationController extends AbstractController
             }
 
             // Récup des reports grouped By object
-            // $reports = $reportRepo->findBy([], ['creation_date' => 'DESC']);
             $reports = $reportRepo->getAllReportsGroupedByOjectIdAndType();
 
             $censureRepo = $entityManager->getRepository(Censure::class);

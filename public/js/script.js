@@ -29,6 +29,10 @@ window.addEventListener('load', function() {
                     document.getElementsByTagName('header')[0].classList.add('headerFixed');
                     document.getElementById('logoPng').style.width = "49px";
                     document.getElementById('logoPng').style.padding = "0px";
+
+                    document.getElementById('logoShrinkTxt').style.display = "block";
+                    document.getElementById('logoShrinkTxt').style.opacity = "1";
+
                     if(document.getElementsByClassName('navLine')[0] !== null) {
                         document.getElementsByClassName('navLine')[0].style.bottom = "0px";
                     }
@@ -45,6 +49,13 @@ window.addEventListener('load', function() {
                     document.getElementsByTagName('header')[0].classList.remove('headerFixed');
                     document.getElementById('logoPng').style.width = "169px";
                     document.getElementById('logoPng').style.padding = "6px";
+
+                    document.getElementById('logoShrinkTxt').style.opacity = "0";
+                    setTimeout(() => {
+                        document.getElementById('logoShrinkTxt').style.display = "none";
+                    }, 305);
+                    
+
                     if(document.getElementsByClassName('navLine')[0] !== null) {
                         document.getElementsByClassName('navLine')[0].style.bottom = "-4px";
                     }

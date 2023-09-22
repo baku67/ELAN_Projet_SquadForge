@@ -11,7 +11,10 @@
 
         <a id="gameHeaderTitle" class="gameHeaderTitle" style="border-bottom: 5px solid {{ game.color }}; opacity:0;" href="{{ path('app_game',{'slug':game.slug}) }}">{{ game.title }}</a>
 
-        <a href="{{ path('app_home') }}"><img src="{{ asset('img/games/headerSiteLogo/' ~ game.siteLogo) }}" class="logoPng" id="logoPng" alt='bearded dwarf forging a sword above "SquadForge" title' /></a>
+        <div style="display:inline-flex;">
+            <a href="{{ path('app_home') }}"><img src="{{ asset('img/games/headerSiteLogo/' ~ game.siteLogo) }}" class="logoPng" id="logoPng" alt='bearded dwarf forging a sword above "SquadForge" title' /></a>
+            <a id="logoShrinkTxt" href="{{ path('app_home') }}">SQUADFORGE</a>
+        </div>
 
         <nav id="navLine" class="navLine">
             <span id="closeBurgerMobile"><i class="fa-solid fa-xmark"></i></span>
@@ -95,7 +98,7 @@
 
 
         {# Fil d'Ariane #}
-        <p class="breadcrumbs" style="margin-left:8%; margin-top:20px;">
+        <p class="breadcrumbs">
             <a  href="{{ path('app_home') }}"><i class="fa-solid fa-house arianeHome"></i></a>
             <i class="fa-solid fa-angle-right arianeArrow" style="color:{{ game.color }}"></i>
             <a class="underlineLink" href="{{ path('app_games') }}">Jeux</a>
