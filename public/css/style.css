@@ -5085,7 +5085,7 @@ div#tarteaucitronServices {
     font-size: 1.7em !important;
     font-weight: bold;
     color: black !important;
-    background-color: #ff4655;
+    /* background-color: #ff4655; */
     padding: 4px 32px 0px 13px;
     clip-path: polygon(0 0, 87% 0%, 100% 100%, 0% 100%);
     border-top-right-radius: 22px;

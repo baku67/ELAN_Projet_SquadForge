@@ -1071,9 +1071,13 @@
 
 
     .mediaList {
-        width: 95%;
+        /* width: 95%;
         margin: 30px auto;
-        padding: 30px 20px;
+        padding: 30px 20px; */
+
+        width: 99%;
+        margin: 20px auto;
+        padding: 20px 10px;
     }
 
     .mediaListGrid {

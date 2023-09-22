@@ -122,8 +122,9 @@
         <section>
 
             <div style="display:inline-flex;width:100%;justify-content:space-between;">
-                <h2 class="topicHeaderTitleLabel" style="font-weight:bold; color:{{game.color}}">Topic</h2>
-                {# TODO: status ouvert/fermé par auteur ou modo/admin (hardCoded pour l'instant) #}
+
+                <h2 class="topicHeaderTitleLabel" style="font-weight:bold; color:{{game.color}}; background-color:{{ game.color }};">Topic</h2>
+                
                 {% if topic.status == "closed" %}
                     <span class="topicStatus topicClosed">fermé</span>
                 {% elseif topic.status == "open" %}
