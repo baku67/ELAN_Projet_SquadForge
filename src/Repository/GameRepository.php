@@ -48,6 +48,27 @@ class GameRepository extends ServiceEntityRepository
             ->getResult();
     }
 
+
+    public function findBySearchLandingPage(string $query, int $gameSelectedId)
+    {
+        $querySearchGames = $this->createQueryBuilder('g')
+        ->where('g.title LIKE :searchText')
+        ->setParameter('searchText', "%$query%");
+
+        // Si 0: aucun jeu séléctionné
+        if($gameSelectedId != 0) {
+            $querySearchGames->andWhere('t.game = :gameSelectedId')
+            ->setParameter('gameSelectedId', $gameSelectedId);
+        }
+
+        $querySearchGames->setMaxResults(5);
+
+        $resultGames = $querySearchGames->getQuery()->getResult();    
+
+        return $resultGames;
+    }
+
+    
 //    /**
 //     * @return Game[] Returns an array of Game objects
 //     */

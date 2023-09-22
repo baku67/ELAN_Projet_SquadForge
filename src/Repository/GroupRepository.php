@@ -43,7 +43,6 @@ class GroupRepository extends ServiceEntityRepository
 
     public function findByWithoutMembership($user): array
     {
-
         return $this->createQueryBuilder('g')
             ->where(':user NOT MEMBER OF g.members')
             ->andwhere('g.status = :status')
@@ -51,7 +50,27 @@ class GroupRepository extends ServiceEntityRepository
             ->setParameter('status', "public")
             ->getQuery()
             ->getResult();
+    }
 
+
+
+    public function findBySearchLandingPage(string $query, int $gameSelectedId)
+    {
+        $queryGroups = $this->createQueryBuilder('g')
+        ->select('g', 'game.title, game.color, game.tinyLogo')
+        ->leftJoin('g.game', 'game')
+        ->where('g.title LIKE :searchText')
+        ->setParameter('searchText', "%$query%");
+
+        // Si 0: aucun jeu séléctionné
+        if($gameSelectedId != 0) {
+            $queryGroups->andWhere('g.game = :gameSelectedId')
+            ->setParameter('gameSelectedId', $gameSelectedId);
+        }
+
+        $queryGroups->setMaxResults(5);
+        $resultTeams = $queryGroups->getQuery()->getResult(); 
+        return $resultTeams;
     }
 
 

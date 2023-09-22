@@ -913,7 +913,7 @@
             function delayedSearch() {
                 // Clear any previously set timer
                 clearTimeout(searchTimer);
-                // Sanitize front text input
+                // Regex front text input
                 var textInput = document.getElementById("lp-searchText").value.replace(/[^a-zA-Z0-9\s-_]/g, '');
                 document.getElementById("lp-searchText").value = textInput;
 
@@ -925,9 +925,7 @@
                     "teams" : document.getElementById("teamsFilter").getAttribute("value")
                 };
 
-                console.log("text input:\"" + textInput + "\"");
-                console.log(filterArray);
-
+                // Array de filtres => param string
                 var queryString = new URLSearchParams(filterArray).toString();
 
                 // "Debouncing": ajout d'un delai avant requête
@@ -949,7 +947,6 @@
                                 document.getElementById("searchResultsDiv").style.display = "flex";
 
                                 // *** Affichage des résultats:
-
                                 if(data.topics !== null && data.topics.length > 0) {
                                     let content = "";
 
@@ -961,7 +958,6 @@
                                 else {
                                     document.getElementById('lp-searchResultTopicsList').innerHTML = "<span class='emptyListMsg' style='width:100%; display:block;'>Aucun résultat</span>";
                                 }
-
 
                                 if(data.medias !== null && data.medias.length > 0) {
                                     let content = "";
@@ -975,7 +971,6 @@
                                     document.getElementById('lp-searchResultMediasList').innerHTML = "<span class='emptyListMsg' style='width:100%; display:block;'>Aucun résultat</span>";
                                 }
 
-
                                 if(data.teams !== null && data.teams.length > 0) {
                                     let content = "";
 
@@ -987,7 +982,6 @@
                                 else {
                                     document.getElementById('lp-searchResultTeamsList').innerHTML = "<span class='emptyListMsg' style='width:100%; display:block;'>Aucun résultat</span>";
                                 }
-
 
                                 if(data.games !== null && data.games.length > 0) {
                                     let content = "";
@@ -1004,7 +998,6 @@
                             } else {
                                 window.FlashMessage.error('Il y a eu un problème avec le chargment du contenu');
                             }
-
                         })
                     }
                     else {

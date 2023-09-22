@@ -42,6 +42,28 @@ class MediaRepository extends ServiceEntityRepository
         }
     }
 
+
+    public function findBySearchLandingPage(string $query, int $gameSelectedId)
+    {
+        $queryMedia = $this->createQueryBuilder('m')
+        ->select('m', 'g.title, g.color, g.tinyLogo')
+        ->leftJoin('m.game', 'g')
+        ->where('m.title LIKE :searchText')
+        ->setParameter('searchText', "%$query%");
+
+        // Si 0: aucun jeu séléctionné
+        if($gameSelectedId != 0) {
+            $queryMedia->andWhere('m.game = :gameSelectedId')
+            ->setParameter('gameSelectedId', $gameSelectedId);
+        }
+
+        $queryMedia->setMaxResults(5);
+
+        $resultMedias = $queryMedia->getQuery()->getResult();  
+
+        return $resultMedias;
+    }
+
 //    /**
 //     * @return Media[] Returns an array of Media objects
 //     */

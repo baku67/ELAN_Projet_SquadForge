@@ -43,15 +43,26 @@ class TopicRepository extends ServiceEntityRepository
     }
 
 
-//    public function findOneBySomeField($value): ?Topic
-//    {
-//        return $this->createQueryBuilder('t')
-//            ->andWhere('t.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->getQuery()
-//            ->getOneOrNullResult()
-//        ;
-//    }
+    public function findBySearchLandingPage(string $query, int $gameSelectedId) 
+    {
+        $querySearchTopics = $this->createQueryBuilder('t')
+        ->select('t', 'g.title, g.color, g.tinyLogo')
+        ->leftJoin('t.game', 'g')
+        ->where('t.title LIKE :searchText')
+        ->setParameter('searchText', "%$query%");
+
+        // Si 0: aucun jeu séléctionné
+        if($gameSelectedId != 0) {
+            $querySearchTopics->andWhere('t.game = :gameSelectedId')
+            ->setParameter('gameSelectedId', $gameSelectedId);
+        }
+
+        $querySearchTopics->setMaxResults(5);
+
+        $resultTopics = $querySearchTopics->getQuery()->getResult(); 
+        
+        return $resultTopics;
+    }
 
 
     // Derniers Topics global !isConnected (/home)
@@ -190,6 +201,16 @@ class TopicRepository extends ServiceEntityRepository
     //            ->setMaxResults(10)
     //            ->getQuery()
     //            ->getResult()
+    //        ;
+    //    }
+
+    //    public function findOneBySomeField($value): ?Topic
+    //    {
+    //        return $this->createQueryBuilder('t')
+    //            ->andWhere('t.exampleField = :val')
+    //            ->setParameter('val', $value)
+    //            ->getQuery()
+    //            ->getOneOrNullResult()
     //        ;
     //    }
 
