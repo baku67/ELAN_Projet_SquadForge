@@ -122,9 +122,28 @@ header {
     /* Si désactivé: mettre sur phone.css */
 }
 
-.globalBanner {
+.globalBanner, .gameHeader {
     box-shadow: rgba(0, 0, 0, 0.56) 0px 22px 70px 4px;
+    transform: scale(0.8);
+    opacity: 0;
+
+    animation: testHeaderScaleIn 0.3s 0s ease-in-out forwards;
 }
+@keyframes testHeaderScaleIn {
+    0% {
+        transform: scale(0.8);
+        opacity: 0;
+    }
+    50% {
+        opacity: 0;
+    }
+    100% {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+
 
 
 #closeBurgerMobile {
@@ -599,6 +618,7 @@ body {
     font-size: 1.25em;
     top: 3px;
     left: 12px;
+    color: white;
 }
 
 .gameSelectedBracketUp {
@@ -2106,7 +2126,8 @@ header {
 .splideAddFavs {
     max-width: 100%;
     padding: 25px;
-    background-color: #8080801a;
+    /* background-color: #8080801a; */
+    background-color: #2ce4f926;
     border-radius: 10px;
     border: 1px solid #8080804a;
     filter: drop-shadow(2px 4px 6px black);
@@ -2303,7 +2324,7 @@ header {
     font-weight: bold;
     font-size: 1.3em;
 
-    left: -12px;
+    left: 8px;
 
     margin-top: 2px;
 
@@ -2312,6 +2333,78 @@ header {
     overflow: hidden;
     text-overflow: ellipsis;
 }
+
+
+.homeSection1 {
+    max-width: 100%;
+    position: relative;
+    top: 5vh;
+    opacity: 0;
+
+    animation: homeSectionfadeIn 0.5s 0.6s ease-in-out forwards 1;
+}
+.homeSection2 {
+    max-width: 100%;
+    position: relative;
+    top: 5vh;
+    opacity: 0;
+
+    animation: homeSectionfadeIn 0.5s 0.8s ease-in-out forwards 1;
+}
+.homeSection3 {
+    max-width: 100%;
+    position: relative;
+    top: 5vh;
+    opacity: 0;
+
+    animation: homeSectionfadeIn 0.5s 1s ease-in-out forwards 1;
+}
+.homeSection4 {
+    max-width: 100%;
+    position: relative;
+    top: 5vh;
+    opacity: 0;
+
+    animation: homeSectionfadeIn 0.5s 1.2s ease-in-out forwards 1;
+}
+@keyframes homeSectionfadeIn {
+    from {
+        opacity: 0;
+        top: 5vh;
+    }
+    to {
+        opacity: 1;
+        top: 0vh;
+    }
+}
+
+
+.gameList1 {
+    position: relative;
+    top: 5vh;
+    opacity: 0;
+
+    animation: homeSectionfadeIn 0.5s 0.5s ease-in-out forwards 1;
+}
+.gameList2 {
+    position: relative;
+    top: 5vh;
+    opacity: 0;
+
+    animation: homeSectionfadeIn 0.5s 0.6s ease-in-out forwards 1;
+}
+.gameList3 {
+    position: relative;
+    top: 5vh;
+    opacity: 0;
+
+    animation: homeSectionfadeIn 0.5s 0.7s ease-in-out forwards 1;
+
+}
+
+
+
+
 
 
 

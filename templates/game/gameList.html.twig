@@ -309,342 +309,348 @@
             <div id="listSections">
 
                 {# Liste jeux catégorie "FPS" #}
-                <section id="splideFps" class="splide sectionHomeContainerGames splideGames">
+                <section class="gameList1">
+                    <div id="splideFps" class="splide sectionHomeContainerGames splideGames">
 
-                    <a href="{{ path('app_genreGames', {'slug':'fps'}) }}" class="blinkingSectionTitle sectionTitleGames">
-                        <div class="GamesGenreTitle"></div>
-                        <h3 class="gamesSubTitle noMarginBottom">
-                            <i class="fa-solid fa-gun gamesListIcon"></i>
-                            <span class="gamesSubtitleTitle"> FPS </span>
-                        </h3>
-                    </a>
+                        <a href="{{ path('app_genreGames', {'slug':'fps'}) }}" class="blinkingSectionTitle sectionTitleGames">
+                            <div class="GamesGenreTitle"></div>
+                            <h3 class="gamesSubTitle noMarginBottom">
+                                <i class="fa-solid fa-gun gamesListIcon"></i>
+                                <span class="gamesSubtitleTitle"> FPS </span>
+                            </h3>
+                        </a>
 
-                    {# <div class="lp-page3-containerMaster"> #}
+                        {# <div class="lp-page3-containerMaster"> #}
 
-                        {% if fpsGames|length > 0 %}
+                            {% if fpsGames|length > 0 %}
 
-                            <div class="gamesSplideContainer">
-                        
-                                <div class="games-container games-container-phone splide__track"> 
+                                <div class="gamesSplideContainer">
+                            
+                                    <div class="games-container games-container-phone splide__track"> 
 
-                                    <div class="lp-phone-slpideTrait1"></div>
+                                        <div class="lp-phone-slpideTrait1"></div>
 
-                                    <div class="splide__list splideListGames">
+                                        <div class="splide__list splideListGames">
 
-                                        {% set index = 1 %}
+                                            {% set index = 1 %}
 
-                                        {% for game in fpsGames %}
+                                            {% for game in fpsGames %}
 
-                                            {# Calcul du nombre de nouveaux Topics/Médias depuis lastConnexion pour chaque jeu favori #}
+                                                {# Calcul du nombre de nouveaux Topics/Médias depuis lastConnexion pour chaque jeu favori #}
 
-                                            {% if app.user %}
-                                                {% set newTopicsCount = 0 %}
-                                                {% set newMediasCount = 0 %}
+                                                {% if app.user %}
+                                                    {% set newTopicsCount = 0 %}
+                                                    {% set newMediasCount = 0 %}
 
-                                                {% for gameTopic in game.topics %}
-                                                    {% if gameTopic.publishDate > app.user.previousCo %}
-                                                        {% set newTopicsCount = newTopicsCount + 1 %}
-                                                    {% endif %}
-                                                {% endfor %}
-
-                                                {% for gameMedia in game.media %}
-                                                    {% if gameMedia.publishDate > app.user.previousCo %}
-                                                        {% set newMediasCount = newMediasCount + 1 %}
-                                                    {% endif %}
-                                                {% endfor %}
-                                            {% endif %}
-                                            {# Fin calcul #}
-
-                                            <a title="{{ game.title }}" class="gameCardLink splide__slide" href="{{ path('app_game', {'slug': game.slug} )}}" style="transform:scale(0.9);">
-                                                <article class="lp-page3-slideContainer">
-
-                                                    <svg class="gameSelectedBracketUp-games">
-                                                        <path 
-                                                            id="gameSelectedBracketUpPath{{ index }}"
-                                                            class="gameSelectedBracketUpPath hiddenPhone" 
-                                                            d="M 54 80 L 57 56 C 57 53 60 48 66 48 L 67 48 L 250 48 C 254 48 259 50 258 55 L 258 55 L 255 80"
-                                                            {# d="M 57 82 L 57 48 L 66 48 L 267 48 L 276 48 L 276 82" (sharp angles) #}
-                                                            fill-opacity="0"
-                                                            />
-                                                    </svg>
-
-                                                    <div id="lp-page3-slide0{{ index }}" class="games-gameCard" style="background-image: linear-gradient(rgba(0, 0, 255, 0.05), rgba(249, 123, 44, 0.5)),url('{{ asset("img/games/headerBackground/" ~ game.subBanner )}}'); background-size:cover;">
-                                                    
-                                                        {# Si jeu déjà fav: ptite icone #}
-                                                        {% if app.user and game in app.user.favoris %}
-                                                            <span class="gameFavoritedLabel">
-                                                                <i class="fa-solid fa-heart"></i>
-                                                            </span>
+                                                    {% for gameTopic in game.topics %}
+                                                        {% if gameTopic.publishDate > app.user.previousCo %}
+                                                            {% set newTopicsCount = newTopicsCount + 1 %}
                                                         {% endif %}
+                                                    {% endfor %}
 
-                                                        {# Affichage des comptes de newTopics/newMedias #}
-                                                        {% if app.user %}
-                                                            <div class="newsFavCardDiv newsFavCardDivGameList">
-                                                                {% if newTopicsCount > 0 %}
-                                                                    <span class="newTopics newTopicsGameList"><i class="fa-solid fa-fire"></i><span class="newsTopicWord"> Topics</span> {{ newTopicsCount }}</span>
-                                                                {% endif %}
-                                                                
-                                                                {% if newMediasCount > 0 %}
-                                                                    <span class="newMedias newMediasGameList"><i class="fa-solid fa-fire"></i><span class="newsTopicWord"> Médias</span> {{ newMediasCount }}</span>
-                                                                {% endif %}
-                                                            </div>
+                                                    {% for gameMedia in game.media %}
+                                                        {% if gameMedia.publishDate > app.user.previousCo %}
+                                                            {% set newMediasCount = newMediasCount + 1 %}
                                                         {% endif %}
-                                                    
-                                                    </div>
+                                                    {% endfor %}
+                                                {% endif %}
+                                                {# Fin calcul #}
+
+                                                <a title="{{ game.title }}" class="gameCardLink splide__slide" href="{{ path('app_game', {'slug': game.slug} )}}" style="transform:scale(0.9);">
+                                                    <article class="lp-page3-slideContainer">
+
+                                                        <svg class="gameSelectedBracketUp-games">
+                                                            <path 
+                                                                id="gameSelectedBracketUpPath{{ index }}"
+                                                                class="gameSelectedBracketUpPath hiddenPhone" 
+                                                                d="M 54 80 L 57 56 C 57 53 60 48 66 48 L 67 48 L 250 48 C 254 48 259 50 258 55 L 258 55 L 255 80"
+                                                                {# d="M 57 82 L 57 48 L 66 48 L 267 48 L 276 48 L 276 82" (sharp angles) #}
+                                                                fill-opacity="0"
+                                                                />
+                                                        </svg>
+
+                                                        <div id="lp-page3-slide0{{ index }}" class="games-gameCard" style="background-image: linear-gradient(rgba(0, 0, 255, 0.05), rgba(249, 123, 44, 0.5)),url('{{ asset("img/games/headerBackground/" ~ game.subBanner )}}'); background-size:cover;">
+                                                        
+                                                            {# Si jeu déjà fav: ptite icone #}
+                                                            {% if app.user and game in app.user.favoris %}
+                                                                <span class="gameFavoritedLabel">
+                                                                    <i class="fa-solid fa-heart"></i>
+                                                                </span>
+                                                            {% endif %}
+
+                                                            {# Affichage des comptes de newTopics/newMedias #}
+                                                            {% if app.user %}
+                                                                <div class="newsFavCardDiv newsFavCardDivGameList">
+                                                                    {% if newTopicsCount > 0 %}
+                                                                        <span class="newTopics newTopicsGameList"><i class="fa-solid fa-fire"></i><span class="newsTopicWord"> Topics</span> {{ newTopicsCount }}</span>
+                                                                    {% endif %}
+                                                                    
+                                                                    {% if newMediasCount > 0 %}
+                                                                        <span class="newMedias newMediasGameList"><i class="fa-solid fa-fire"></i><span class="newsTopicWord"> Médias</span> {{ newMediasCount }}</span>
+                                                                    {% endif %}
+                                                                </div>
+                                                            {% endif %}
+                                                        
+                                                        </div>
 
 
-                                                    <span id="lp-gameCardTitle{{ index }}" value="{{ game.title }}" class="lp-gameCardTitle-games">{{ game.title }}</span>
+                                                        <span id="lp-gameCardTitle{{ index }}" value="{{ game.title }}" class="lp-gameCardTitle-games">{{ game.title }}</span>
 
-                                                    {# only Phone: #}
-                                                    <span value="{{ game.title }}" class="lp-gameCardTitlePhone">{{ game.title }}</span>
+                                                        {# only Phone: #}
+                                                        <span value="{{ game.title }}" class="lp-gameCardTitlePhone">{{ game.title }}</span>
 
-                                                    <svg class="gameSelectedBracketDown-games">
-                                                        <path 
-                                                            id="gameSelectedBracketDownPath{{ index }}"
-                                                            class="gameSelectedBracketDownPath hiddenPhone" 
-                                                            d="M 54 80 L 57 56 C 57 53 60 48 66 48 L 67 48 L 250 48 C 254 48 259 50 258 55 L 258 55 L 255 80"
-                                                            {# d="M 57 82 L 57 48 L 66 48 L 267 48 L 276 48 L 276 82" (sharp angles) #}
-                                                            fill-opacity="0"
-                                                            />
-                                                    </svg>
+                                                        <svg class="gameSelectedBracketDown-games">
+                                                            <path 
+                                                                id="gameSelectedBracketDownPath{{ index }}"
+                                                                class="gameSelectedBracketDownPath hiddenPhone" 
+                                                                d="M 54 80 L 57 56 C 57 53 60 48 66 48 L 67 48 L 250 48 C 254 48 259 50 258 55 L 258 55 L 255 80"
+                                                                {# d="M 57 82 L 57 48 L 66 48 L 267 48 L 276 48 L 276 82" (sharp angles) #}
+                                                                fill-opacity="0"
+                                                                />
+                                                        </svg>
 
-                                                </article>
+                                                    </article>
+                                                </a>
+
+                                                {% set index = index + 1 %}
+
+                                            {% endfor %}
+
+                                            {# Fausse card (pour espacement final, évite la coupure midCard de la dernière card) #}
+                                            <a class="gameCardLink splide__slide" style="transform:scale(0.9);">
                                             </a>
 
-                                            {% set index = index + 1 %}
+                                        </div>
 
-                                        {% endfor %}
-
-                                        {# Fausse card (pour espacement final, évite la coupure midCard de la dernière card) #}
-                                        <a class="gameCardLink splide__slide" style="transform:scale(0.9);">
-                                        </a>
+                                        <div class="lp-phone-slpideTrait2"></div>
 
                                     </div>
 
-                                    <div class="lp-phone-slpideTrait2"></div>
-
                                 </div>
 
-                            </div>
+                            {% else %}
 
-                        {% else %}
+                                <div class="emptyListMsg" style="display:inline-flex; flex-direction:column; width:100%;">
+                                    <span class="gamesListsEmptyMsg">Aucun jeu pour l'instant</span>
+                                </div>
+                                
+                            {% endif %}
 
-                            <div class="emptyListMsg" style="display:inline-flex; flex-direction:column; width:100%;">
-                                <span class="gamesListsEmptyMsg">Aucun jeu pour l'instant</span>
-                            </div>
-                            
-                        {% endif %}
+                        {# </div> #}
 
-                    {# </div> #}
+                        {# <div class="gamesListClipPathEnd"></div> #}
 
-                    {# <div class="gamesListClipPathEnd"></div> #}
+                        <a href="{{ path('app_genreGames', {'slug':'fps'}) }}" class="seeAll-gamesList">Voir tout <span>({{ fpsGamesCount }})</span> <i class="fa-solid fa-arrow-right"></i></a>
 
-                    <a href="{{ path('app_genreGames', {'slug':'fps'}) }}" class="seeAll-gamesList">Voir tout <span>({{ fpsGamesCount }})</span> <i class="fa-solid fa-arrow-right"></i></a>
-
+                    </div>
                 </section>
 
 
                 {# Liste jeux catégorie "MOBA" #}
-                <section id="splideMoba" class="splide sectionHomeContainerGames splideGames">
+                <section class="gameList2">
+                    <div id="splideMoba" class="splide sectionHomeContainerGames splideGames">
 
-                    <a href="{{ path('app_genreGames', {'slug':'moba'}) }}" class="blinkingSectionTitle sectionTitleGames">
-                        <div class="GamesGenreTitle"></div>
-                        <h3 class="gamesSubTitle noMarginBottom">
-                            <i class="fa-solid fa-gopuram gamesListIcon"></i>
-                            <span class="gamesSubtitleTitle"> MOBA </span>
-                        </h3>
-                    </a>
+                        <a href="{{ path('app_genreGames', {'slug':'moba'}) }}" class="blinkingSectionTitle sectionTitleGames">
+                            <div class="GamesGenreTitle"></div>
+                            <h3 class="gamesSubTitle noMarginBottom">
+                                <i class="fa-solid fa-gopuram gamesListIcon"></i>
+                                <span class="gamesSubtitleTitle"> MOBA </span>
+                            </h3>
+                        </a>
 
-                    {# <div class="lp-page3-containerMaster"> #}
+                        {# <div class="lp-page3-containerMaster"> #}
 
-                        {% if mobaGames|length > 0 %}
+                            {% if mobaGames|length > 0 %}
 
-                            <div class="gamesSplideContainer">
-                        
-                                <div class="games-container games-container-phone splide__track"> 
+                                <div class="gamesSplideContainer">
+                            
+                                    <div class="games-container games-container-phone splide__track"> 
 
-                                    <div class="lp-phone-slpideTrait1"></div>
+                                        <div class="lp-phone-slpideTrait1"></div>
 
-                                    <div class="splide__list splideListGames">
+                                        <div class="splide__list splideListGames">
 
-                                        {% set index = 1 %}
+                                            {% set index = 1 %}
 
-                                        {% for game in mobaGames %}
+                                            {% for game in mobaGames %}
 
-                                            <a title="{{ game.title }}" class="gameCardLink splide__slide" href="{{ path('app_game', {'slug': game.slug} )}}" style="transform:scale(0.9);">
-                                                <article class="lp-page3-slideContainer">
+                                                <a title="{{ game.title }}" class="gameCardLink splide__slide" href="{{ path('app_game', {'slug': game.slug} )}}" style="transform:scale(0.9);">
+                                                    <article class="lp-page3-slideContainer">
 
-                                                    <svg class="gameSelectedBracketUp-games">
-                                                        <path 
-                                                            id="gameSelectedBracketUpPath{{ index }}"
-                                                            class="gameSelectedBracketUpPath hiddenPhone" 
-                                                            d="M 54 80 L 57 56 C 57 53 60 48 66 48 L 67 48 L 250 48 C 254 48 259 50 258 55 L 258 55 L 255 80"
-                                                            {# d="M 57 82 L 57 48 L 66 48 L 267 48 L 276 48 L 276 82" (sharp angles) #}
-                                                            fill-opacity="0"
-                                                            />
-                                                    </svg>
+                                                        <svg class="gameSelectedBracketUp-games">
+                                                            <path 
+                                                                id="gameSelectedBracketUpPath{{ index }}"
+                                                                class="gameSelectedBracketUpPath hiddenPhone" 
+                                                                d="M 54 80 L 57 56 C 57 53 60 48 66 48 L 67 48 L 250 48 C 254 48 259 50 258 55 L 258 55 L 255 80"
+                                                                {# d="M 57 82 L 57 48 L 66 48 L 267 48 L 276 48 L 276 82" (sharp angles) #}
+                                                                fill-opacity="0"
+                                                                />
+                                                        </svg>
 
-                                                    <div id="lp-page3-slide0{{ index }}" class="games-gameCard" style="background-image: linear-gradient(rgba(0, 0, 255, 0.05), rgba(249, 123, 44, 0.5)),url('{{ asset("img/games/headerBackground/" ~ game.subBanner )}}'); background-size:cover;">
-                                                    
-                                                        {# Si jeu déjà fav: ptite icone #}
-                                                        {% if app.user and game in app.user.favoris %}
-                                                            <span class="gameFavoritedLabel">
-                                                                <i class="fa-solid fa-heart"></i>
-                                                            </span>
-                                                        {% endif %}
-                                                    
-                                                    </div>
+                                                        <div id="lp-page3-slide0{{ index }}" class="games-gameCard" style="background-image: linear-gradient(rgba(0, 0, 255, 0.05), rgba(249, 123, 44, 0.5)),url('{{ asset("img/games/headerBackground/" ~ game.subBanner )}}'); background-size:cover;">
+                                                        
+                                                            {# Si jeu déjà fav: ptite icone #}
+                                                            {% if app.user and game in app.user.favoris %}
+                                                                <span class="gameFavoritedLabel">
+                                                                    <i class="fa-solid fa-heart"></i>
+                                                                </span>
+                                                            {% endif %}
+                                                        
+                                                        </div>
 
-                                                    <span id="lp-gameCardTitle{{ index }}" value="{{ game.title }}" class="lp-gameCardTitle-games">{{ game.title }}</span>
+                                                        <span id="lp-gameCardTitle{{ index }}" value="{{ game.title }}" class="lp-gameCardTitle-games">{{ game.title }}</span>
 
-                                                    {# only Phone: #}
-                                                    <span value="{{ game.title }}" class="lp-gameCardTitlePhone">{{ game.title }}</span>
+                                                        {# only Phone: #}
+                                                        <span value="{{ game.title }}" class="lp-gameCardTitlePhone">{{ game.title }}</span>
 
-                                                    <svg class="gameSelectedBracketDown-games">
-                                                        <path 
-                                                            id="gameSelectedBracketDownPath{{ index }}"
-                                                            class="gameSelectedBracketDownPath hiddenPhone" 
-                                                            d="M 54 80 L 57 56 C 57 53 60 48 66 48 L 67 48 L 250 48 C 254 48 259 50 258 55 L 258 55 L 255 80"
-                                                            {# d="M 57 82 L 57 48 L 66 48 L 267 48 L 276 48 L 276 82" (sharp angles) #}
-                                                            fill-opacity="0"
-                                                            />
-                                                    </svg>
+                                                        <svg class="gameSelectedBracketDown-games">
+                                                            <path 
+                                                                id="gameSelectedBracketDownPath{{ index }}"
+                                                                class="gameSelectedBracketDownPath hiddenPhone" 
+                                                                d="M 54 80 L 57 56 C 57 53 60 48 66 48 L 67 48 L 250 48 C 254 48 259 50 258 55 L 258 55 L 255 80"
+                                                                {# d="M 57 82 L 57 48 L 66 48 L 267 48 L 276 48 L 276 82" (sharp angles) #}
+                                                                fill-opacity="0"
+                                                                />
+                                                        </svg>
 
-                                                </article>
+                                                    </article>
+                                                </a>
+
+                                                {% set index = index + 1 %}
+
+                                            {% endfor %}
+
+                                            {# Fausse card (pour espacement final, évite la coupure midCard de la dernière card) #}
+                                            <a class="gameCardLink splide__slide" style="transform:scale(0.9);">
                                             </a>
 
-                                            {% set index = index + 1 %}
+                                        </div>
 
-                                        {% endfor %}
-
-                                        {# Fausse card (pour espacement final, évite la coupure midCard de la dernière card) #}
-                                        <a class="gameCardLink splide__slide" style="transform:scale(0.9);">
-                                        </a>
+                                        <div class="lp-phone-slpideTrait2"></div>
 
                                     </div>
 
-                                    <div class="lp-phone-slpideTrait2"></div>
-
                                 </div>
 
-                            </div>
+                            {% else %}
 
-                        {% else %}
+                                <div class="emptyListMsg" style="display:inline-flex; flex-direction:column; width:100%;">
+                                    <span class="gamesListsEmptyMsg">Aucun jeu pour l'instant</span>
+                                </div>
+                                
+                            {% endif %}
 
-                            <div class="emptyListMsg" style="display:inline-flex; flex-direction:column; width:100%;">
-                                <span class="gamesListsEmptyMsg">Aucun jeu pour l'instant</span>
-                            </div>
-                            
-                        {% endif %}
+                        {# </div> #}
 
-                    {# </div> #}
+                        {# <div class="gamesListClipPathEnd"></div> #}
 
-                    {# <div class="gamesListClipPathEnd"></div> #}
+                        <a href="{{ path('app_genreGames', {'slug':'moba'}) }}" class="seeAll-gamesList">Voir tout <span>({{ mobaGamesCount }})</span> <i class="fa-solid fa-arrow-right"></i></a>
 
-                    <a href="{{ path('app_genreGames', {'slug':'moba'}) }}" class="seeAll-gamesList">Voir tout <span>({{ mobaGamesCount }})</span> <i class="fa-solid fa-arrow-right"></i></a>
-
+                    </div>
                 </section>
 
 
                 {# Liste jeux catégorie "Battle royal"" #}
-                <section id="splideBr" class="splide sectionHomeContainerGames splideGames">
+                <section class="gameList3">
+                    <div id="splideBr" class="splide sectionHomeContainerGames splideGames">
 
-                    <a href="{{ path('app_genreGames', {'slug':'battle-royal'}) }}" class="blinkingSectionTitle sectionTitleGames">
-                        <div class="GamesGenreTitle"></div>
-                        <h3 class="gamesSubTitle noMarginBottom">
-                            <i class="fa-solid fa-crown gamesListIcon"></i>
-                            <span class="gamesSubtitleTitle"> Battle royal</span>
-                        </h3>
-                    </a>
+                        <a href="{{ path('app_genreGames', {'slug':'battle-royal'}) }}" class="blinkingSectionTitle sectionTitleGames">
+                            <div class="GamesGenreTitle"></div>
+                            <h3 class="gamesSubTitle noMarginBottom">
+                                <i class="fa-solid fa-crown gamesListIcon"></i>
+                                <span class="gamesSubtitleTitle"> Battle royal</span>
+                            </h3>
+                        </a>
 
-                    {# <div class="lp-page3-containerMaster"> #}
+                        {# <div class="lp-page3-containerMaster"> #}
 
-                        {% if battleRoyalGames|length > 0 %}
+                            {% if battleRoyalGames|length > 0 %}
 
-                            <div class="gamesSplideContainer">
-                        
-                                <div class="games-container games-container-phone splide__track"> 
+                                <div class="gamesSplideContainer">
+                            
+                                    <div class="games-container games-container-phone splide__track"> 
 
-                                    <div class="lp-phone-slpideTrait1"></div>
+                                        <div class="lp-phone-slpideTrait1"></div>
 
-                                    <div class="splide__list splideListGames">
+                                        <div class="splide__list splideListGames">
 
-                                        {% set index = 1 %}
+                                            {% set index = 1 %}
 
-                                        {% for game in battleRoyalGames %}
+                                            {% for game in battleRoyalGames %}
 
-                                            <a title="{{ game.title }}" class="gameCardLink splide__slide" href="{{ path('app_game', {'slug': game.slug} )}}" style="transform:scale(0.9);">
-                                                <article class="lp-page3-slideContainer">
+                                                <a title="{{ game.title }}" class="gameCardLink splide__slide" href="{{ path('app_game', {'slug': game.slug} )}}" style="transform:scale(0.9);">
+                                                    <article class="lp-page3-slideContainer">
 
-                                                    <svg class="gameSelectedBracketUp-games">
-                                                        <path 
-                                                            id="gameSelectedBracketUpPath{{ index }}"
-                                                            class="gameSelectedBracketUpPath hiddenPhone" 
-                                                            d="M 54 80 L 57 56 C 57 53 60 48 66 48 L 67 48 L 250 48 C 254 48 259 50 258 55 L 258 55 L 255 80"
-                                                            {# d="M 57 82 L 57 48 L 66 48 L 267 48 L 276 48 L 276 82" (sharp angles) #}
-                                                            fill-opacity="0"
-                                                            />
-                                                    </svg>
+                                                        <svg class="gameSelectedBracketUp-games">
+                                                            <path 
+                                                                id="gameSelectedBracketUpPath{{ index }}"
+                                                                class="gameSelectedBracketUpPath hiddenPhone" 
+                                                                d="M 54 80 L 57 56 C 57 53 60 48 66 48 L 67 48 L 250 48 C 254 48 259 50 258 55 L 258 55 L 255 80"
+                                                                {# d="M 57 82 L 57 48 L 66 48 L 267 48 L 276 48 L 276 82" (sharp angles) #}
+                                                                fill-opacity="0"
+                                                                />
+                                                        </svg>
 
-                                                    <div id="lp-page3-slide0{{ index }}" class="games-gameCard" style="background-image: linear-gradient(rgba(0, 0, 255, 0.05), rgba(249, 123, 44, 0.5)),url('{{ asset("img/games/headerBackground/" ~ game.subBanner )}}'); background-size:cover;">
-                                                    
-                                                        {# Si jeu déjà fav: ptite icone #}
-                                                        {% if app.user and game in app.user.favoris %}
-                                                            <span class="gameFavoritedLabel">
-                                                                <i class="fa-solid fa-heart"></i>
-                                                            </span>
-                                                        {% endif %}
+                                                        <div id="lp-page3-slide0{{ index }}" class="games-gameCard" style="background-image: linear-gradient(rgba(0, 0, 255, 0.05), rgba(249, 123, 44, 0.5)),url('{{ asset("img/games/headerBackground/" ~ game.subBanner )}}'); background-size:cover;">
+                                                        
+                                                            {# Si jeu déjà fav: ptite icone #}
+                                                            {% if app.user and game in app.user.favoris %}
+                                                                <span class="gameFavoritedLabel">
+                                                                    <i class="fa-solid fa-heart"></i>
+                                                                </span>
+                                                            {% endif %}
 
-                                                    </div>
+                                                        </div>
 
-                                                    <span id="lp-gameCardTitle{{ index }}" value="{{ game.title }}" class="lp-gameCardTitle-games">{{ game.title }}</span>
+                                                        <span id="lp-gameCardTitle{{ index }}" value="{{ game.title }}" class="lp-gameCardTitle-games">{{ game.title }}</span>
 
-                                                    {# only Phone: #}
-                                                    <span value="{{ game.title }}" class="lp-gameCardTitlePhone">{{ game.title }}</span>
+                                                        {# only Phone: #}
+                                                        <span value="{{ game.title }}" class="lp-gameCardTitlePhone">{{ game.title }}</span>
 
-                                                    <svg class="gameSelectedBracketDown-games">
-                                                        <path 
-                                                            id="gameSelectedBracketDownPath{{ index }}"
-                                                            class="gameSelectedBracketDownPath hiddenPhone" 
-                                                            d="M 54 80 L 57 56 C 57 53 60 48 66 48 L 67 48 L 250 48 C 254 48 259 50 258 55 L 258 55 L 255 80"
-                                                            {# d="M 57 82 L 57 48 L 66 48 L 267 48 L 276 48 L 276 82" (sharp angles) #}
-                                                            fill-opacity="0"
-                                                            />
-                                                    </svg>
+                                                        <svg class="gameSelectedBracketDown-games">
+                                                            <path 
+                                                                id="gameSelectedBracketDownPath{{ index }}"
+                                                                class="gameSelectedBracketDownPath hiddenPhone" 
+                                                                d="M 54 80 L 57 56 C 57 53 60 48 66 48 L 67 48 L 250 48 C 254 48 259 50 258 55 L 258 55 L 255 80"
+                                                                {# d="M 57 82 L 57 48 L 66 48 L 267 48 L 276 48 L 276 82" (sharp angles) #}
+                                                                fill-opacity="0"
+                                                                />
+                                                        </svg>
 
-                                                </article>
+                                                    </article>
+                                                </a>
+
+                                                {% set index = index + 1 %}
+
+                                            {% endfor %}
+
+                                            {# Fausse card (pour espacement final, évite la coupure midCard de la dernière card) #}
+                                            <a class="gameCardLink splide__slide" style="transform:scale(0.9);">
                                             </a>
 
-                                            {% set index = index + 1 %}
+                                        </div>
 
-                                        {% endfor %}
-
-                                        {# Fausse card (pour espacement final, évite la coupure midCard de la dernière card) #}
-                                        <a class="gameCardLink splide__slide" style="transform:scale(0.9);">
-                                        </a>
+                                        <div class="lp-phone-slpideTrait2"></div>
 
                                     </div>
 
-                                    <div class="lp-phone-slpideTrait2"></div>
-
                                 </div>
 
-                            </div>
+                            {% else %}
 
-                        {% else %}
+                                <div class="emptyListMsg" style="display:inline-flex; flex-direction:column; width:100%;">
+                                    <span class="gamesListsEmptyMsg">Aucun jeu pour l'instant</span>
+                                </div>
+                                
+                            {% endif %}
 
-                            <div class="emptyListMsg" style="display:inline-flex; flex-direction:column; width:100%;">
-                                <span class="gamesListsEmptyMsg">Aucun jeu pour l'instant</span>
-                            </div>
-                            
-                        {% endif %}
+                        {# </div> #}
 
-                    {# </div> #}
+                        {# <div class="gamesListClipPathEnd"></div> #}
 
-                    {# <div class="gamesListClipPathEnd"></div> #}
+                        <a href="{{ path('app_genreGames', {'slug':'battle-royal'}) }}" class="seeAll-gamesList">Voir tout <span>({{ brGamesCount }})</span> <i class="fa-solid fa-arrow-right"></i></a>
 
-                    <a href="{{ path('app_genreGames', {'slug':'battle-royal'}) }}" class="seeAll-gamesList">Voir tout <span>({{ brGamesCount }})</span> <i class="fa-solid fa-arrow-right"></i></a>
-
+                    </div>
                 </section>
 
 
