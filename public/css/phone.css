@@ -430,7 +430,7 @@
         width: 100%;
         clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
     }
-    .GamesGenreTitle {
+    .gamesGenreTitle {
         background-image: linear-gradient(to bottom, #2ce4f96e,#f97b2cc7,#f97b2ceb, #232323eb), url('../img/testMotif2.jpg');
         animation: GamesGenreTitle1 0.2s 0s ease-in-out forwards, GamesGenreTitle2 0.3s 0.25s ease-in-out forwards;
     }

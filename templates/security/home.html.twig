@@ -109,100 +109,105 @@
                     <div class="splide splideAddFavs">
 
                         <header>
-                            <h2 id="carousel-heading" class="addArrayFav_title">Commencez par ajouter vos jeux favoris :</h2>
+                            <h2 id="carousel-heading" class="addArrayFav_title"><i class="fa-solid fa-heart-circle-plus addFavTitleFa"></i> <span>Ajoutez vos jeux <strong>favoris</strong></span> :</h2>
                         </header>
 
-                        <div class="lp-page3-containerMaster">
+                        <div style="padding-right:50px; background-color:var(--background-color);">
 
-                            <div style="overflow:hidden;">
+                            <div class="lp-page3-containerMaster">
 
-                                <div id="lp-page3-container" class="lp-page3-container lessMarginTop splide__track" style="margin-top:15px;"> 
+                                <div style="overflow:hidden;">
 
-                                    <div class="lp-phone-slpideTrait1"></div>
+                                    <div id="lp-page3-container" class="lp-page3-container addFavContainer splide__track" style="margin-top:15px;"> 
 
-                                    <div class="splide__list">
+                                        <div class="lp-phone-slpideTrait1"></div>
 
-                                        {% set index = 1 %}
+                                        <div class="splide__list">
 
-                                        {# ici userFav = allGames si aucun fav (backend) #}
-                                        {% for game in allGames %}
+                                            {% set index = 1 %}
 
-                                            <article title="{{ game.title }}" class="gameCardLink splide__slide" style="transform:scale(0.9);">
+                                            {# ici userFav = allGames si aucun fav (backend) #}
+                                            {% for game in allGames %}
 
-                                                <span id="noFavSplide_gameId{{ index }}" style="display:none;">{{ game.id }}</span>
+                                                <article title="{{ game.title }}" class="gameCardLink splide__slide" style="transform:scale(0.9);">
 
-                                                <div id="lp-page3-slideContainer{{ index }}" class="lp-page3-slideContainer">
+                                                    <span id="noFavSplide_gameId{{ index }}" style="display:none;">{{ game.id }}</span>
 
-                                                    <svg class="gameSelectedBracketUp">
-                                                        <path 
-                                                            id="gameSelectedBracketUpPath{{ index }}"
-                                                            class="gameSelectedBracketUpPath" 
-                                                            d="M 57 82 L 57 58 C 57 53 60 48 66 48 L 67 48 L 266 48 C 274 48 276 51 276 56 L 276 55 L 276 82"
-                                                            {# d="M 57 82 L 57 48 L 66 48 L 267 48 L 276 48 L 276 82" (sharp angles) #}
-                                                            fill-opacity="0"
-                                                            />
-                                                    </svg>
+                                                    <div id="lp-page3-slideContainer{{ index }}" class="lp-page3-slideContainer">
 
-                                                    <div id="lp-page3-slide0{{ index }}" class="lp-gameCard" style="background-image: linear-gradient(rgba(0, 0, 255, 0.05), rgba(249, 123, 44, 0.5)),url('{{ asset("img/games/headerBackground/" ~ game.subBanner )}}'); background-size:cover;">
+                                                        <svg class="gameSelectedBracketUp">
+                                                            <path 
+                                                                id="gameSelectedBracketUpPath{{ index }}"
+                                                                class="gameSelectedBracketUpPath" 
+                                                                d="M 57 82 L 57 58 C 57 53 60 48 66 48 L 67 48 L 266 48 C 274 48 276 51 276 56 L 276 55 L 276 82"
+                                                                {# d="M 57 82 L 57 48 L 66 48 L 267 48 L 276 48 L 276 82" (sharp angles) #}
+                                                                fill-opacity="0"
+                                                                />
+                                                        </svg>
+
+                                                        <div id="lp-page3-slide0{{ index }}" class="lp-gameCard" style="background-image: linear-gradient(rgba(0, 0, 255, 0.05), rgba(249, 123, 44, 0.5)),url('{{ asset("img/games/headerBackground/" ~ game.subBanner )}}'); background-size:cover;">
+                                                            
+                                                            <div class="addFavIconWrapper">
+                                                                {# "+" hover card #}
+                                                                <i id="favArrayPlus{{ index }}" class="fa-solid fa-plus favArrayHeart favArrayPlus"></i>
+                                                                {# Coeur ajouté à l'array fav #}
+                                                                <i id="favArrayHeart{{ index }}" class="fa-solid fa-heart-circle-check favArrayHeart"></i>
+                                                            </div>
+                                                            
+                                                            <span id="lp-gameCardTitle{{ index }}" value="{{ game.title }}" class="lp-gameCardTitle lp-gameCardAddFavTitle">{{ game.title }}</span>
+
+                                                        </div>
+
+                                                        {# only Phone: #}
+                                                        <span value="{{ game.title }}" class="lp-gameCardTitlePhone">{{ game.title }}</span>
+
+                                                        <svg class="gameSelectedBracketDown">
+                                                            <path 
+                                                                id="gameSelectedBracketDownPath{{ index }}"
+                                                                class="gameSelectedBracketDownPath" 
+                                                                d="M 57 82 L 57 58 C 57 53 60 48 66 48 L 67 48 L 266 48 C 274 48 276 51 276 56 L 276 55 L 276 82"
+                                                                {# d="M 57 82 L 57 48 L 66 48 L 267 48 L 276 48 L 276 82" (sharp angles) #}
+                                                                fill-opacity="0"
+                                                                />
+                                                        </svg>
+
+                                                    </div>
+
+                                                </article>
+
+                                                {% set index = index + 1 %}
+
+                                            {% endfor %}
+
+                                            {# Fausse dernière card (espacement) #}
+                                            <div class="gameCardLink splide__slide" style="transform:scale(0.9); opacity:0;" >
+                                                <div class="lp-page3-slideContainer">
+                                                    <div class="lp-gameCard" style="cursor:default; background-image: linear-gradient(rgba(0, 0, 255, 0.05), rgba(249, 123, 44, 0.5)),url('{{ asset("img/games/headerBackground/lolHeaderBg.jpg")}}'); background-size:cover;">
                                                         
                                                         <div class="addFavIconWrapper">
                                                             {# "+" hover card #}
-                                                            <i id="favArrayPlus{{ index }}" class="fa-solid fa-plus favArrayHeart favArrayPlus"></i>
+                                                            <i class="fa-solid fa-plus favArrayHeart favArrayPlus"></i>
                                                             {# Coeur ajouté à l'array fav #}
-                                                            <i id="favArrayHeart{{ index }}" class="fa-solid fa-heart-circle-check favArrayHeart"></i>
+                                                            <i class="fa-solid fa-heart-circle-check favArrayHeart"></i>
                                                         </div>
-                                                        
-                                                        <span id="lp-gameCardTitle{{ index }}" value="{{ game.title }}" class="lp-gameCardTitle lp-gameCardAddFavTitle">{{ game.title }}</span>
+                                                        <span class="lp-gameCardTitle lp-gameCardAddFavTitle"></span>
 
-                                                    </div>
-
-                                                    {# only Phone: #}
-                                                    <span value="{{ game.title }}" class="lp-gameCardTitlePhone">{{ game.title }}</span>
-
-                                                    <svg class="gameSelectedBracketDown">
-                                                        <path 
-                                                            id="gameSelectedBracketDownPath{{ index }}"
-                                                            class="gameSelectedBracketDownPath" 
-                                                            d="M 57 82 L 57 58 C 57 53 60 48 66 48 L 67 48 L 266 48 C 274 48 276 51 276 56 L 276 55 L 276 82"
-                                                            {# d="M 57 82 L 57 48 L 66 48 L 267 48 L 276 48 L 276 82" (sharp angles) #}
-                                                            fill-opacity="0"
-                                                            />
-                                                    </svg>
-
+                                                    </div>   
                                                 </div>
-
-                                            </article>
-
-                                            {% set index = index + 1 %}
-
-                                        {% endfor %}
-
-                                        {# Fausse dernière card (espacement) #}
-                                        <div class="gameCardLink splide__slide" style="transform:scale(0.9); opacity:0;" >
-                                            <div class="lp-page3-slideContainer">
-                                                <div class="lp-gameCard" style="cursor:default; background-image: linear-gradient(rgba(0, 0, 255, 0.05), rgba(249, 123, 44, 0.5)),url('{{ asset("img/games/headerBackground/lolHeaderBg.jpg")}}'); background-size:cover;">
-                                                    
-                                                    <div class="addFavIconWrapper">
-                                                        {# "+" hover card #}
-                                                        <i class="fa-solid fa-plus favArrayHeart favArrayPlus"></i>
-                                                        {# Coeur ajouté à l'array fav #}
-                                                        <i class="fa-solid fa-heart-circle-check favArrayHeart"></i>
-                                                    </div>
-                                                    <span class="lp-gameCardTitle lp-gameCardAddFavTitle"></span>
-
-                                                </div>   
                                             </div>
+
                                         </div>
 
-                                    </div>
+                                        <div class="lp-phone-slpideTrait2"></div>
 
-                                    <div class="lp-phone-slpideTrait2"></div>
+                                    </div>
 
                                 </div>
 
                             </div>
 
                         </div>
+
 
                         <div style="text-align:center; margin:30px auto 35px auto; width:fit-content;" id="validateAddFavsDiv" title="Sélectionnez d'abord un ou plusieurs jeux">
                             <button id="addArrayFavBtn" class="btn btn-primary addArrayFavBtn" disabled>Ajouter</button>

@@ -597,13 +597,23 @@ body {
     margin-right: 3px;
 }
 
+
+.addFavContainer {
+    background-color: #2323239e;
+    padding-bottom: 30px !important;
+    padding-top: 10px !important;
+    margin-top: 15px;
+    margin-bottom: 0px !important;
+    border-radius: 7px;
+}
+
 .headerFixed {
     transition: all 0.4s;
     /* min-height: 40px; */
     position: fixed !important;
     width: 100%;
     z-index: 9999;
-    border-bottom: 3px solid var(--primary-color);
+    border-bottom: 5px solid var(--primary-color);
 
     /* background-position: 25% 55% !important; */
 }
@@ -1969,8 +1979,14 @@ header {
     justify-content: center;
     padding: 0 50px;
 
-    /* width: 100%; */
     overflow: visible;
+
+    /* MAJ 22/09/2023 */
+    background-color: #00000030 !important;
+    border-radius: 8px !important;
+    padding-bottom: 26px !important;
+    margin-bottom: 11px !important;
+    border-bottom-left-radius: 20px !important;
 
     transition: all 0.5s;
 }
@@ -2111,6 +2127,7 @@ header {
 
 .splide__list {
     width:100%;
+    padding-left: 65px !important;
     /* overflow: hidden; */
 }
 .splide__track {
@@ -2288,6 +2305,16 @@ header {
     text-align: center;
     margin-top: 5px;
     font-size: 1.5em;
+
+    display: inline-flex;
+    width: 100%;
+    justify-content: center;
+}
+
+.addFavTitleFa {
+    font-size: 1.5em;
+    color: var(--primary-color);
+    margin-right: 15px;
 }
 
 .addArrayFavBtn {
@@ -3933,7 +3960,7 @@ nav {
     /* Stylé mais se voit trop quand background gradient gris */
     /* border-top-right-radius: 40px; */ 
 }
-.GamesGenreTitle {
+.gamesGenreTitle {
     position:absolute; 
     /* clip-path: polygon(0 0, 100% 0, 87% 100%, 0 100%); */
     border-top-left-radius: 6px;
@@ -3946,7 +3973,7 @@ nav {
     z-index:0;
     transition: all 0.37s !important;
 
-    background-image: linear-gradient(to bottom, #2ce4f96e,#f97b2ceb, #232323eb), url('../img/testMotif2.jpg');
+    background-image: linear-gradient(to bottom, #2ce4f9,#f97b2ceb, #232323eb), url('../img/testMotif2.jpg');
     background-size: cover;
 
     animation: GamesGenreTitle1 0.2s 0s ease-in-out forwards, GamesGenreTitle2 0.3s 0.25s ease-in-out forwards;
