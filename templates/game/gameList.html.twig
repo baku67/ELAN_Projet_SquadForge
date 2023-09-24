@@ -722,6 +722,31 @@
                     });
                 </script>
 
+
+                {# FadeIn des cards JS #}
+                <script>
+                    var teamCards = document.querySelectorAll('.gameCardLink'); 
+
+                    var interval = 120;
+                    var index = 0;
+                    
+                    function applyOpacity() {
+                        if (index < teamCards.length) {
+                            if(!teamCards[index].classList.contains('hidedCard')) {
+                                teamCards[index].style.opacity = "1";
+                                index += 1;
+                                setTimeout(applyOpacity, interval);
+                            }
+                        }
+                    }
+
+                    // Délai pour fadeIn du body et header
+                    setTimeout(() => {
+                        applyOpacity(); 
+                    }, 820);
+                    
+                </script>
+
             </div>
 
         </div>

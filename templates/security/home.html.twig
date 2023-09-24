@@ -332,8 +332,8 @@
 
             {% endif %}
                 
-            {# Raccourcis Jeux favoris si logged in #}
 
+            {# Raccourcis Jeux favoris si logged in #}
             <section class="homeSection2">
                 <div class="splide sectionHomeContainer">
 
@@ -440,7 +440,7 @@
                                         </a>
 
                                         {# Fausse dernière card (espacement) #}
-                                        <a class="gameCardLink splide__slide" style="transform:scale(0.9); opacity:0;">
+                                        <a class="gameCardLink hidedCard splide__slide" style="transform:scale(0.9); opacity:0;">
                                             <div class="lp-page3-slideContainer">
                                                 <div class="lp-gameCard" style="cursor:default;">
 
@@ -832,5 +832,33 @@
 
         });
     </script>
+
+
+
+     
+    {# FadeIn des cards JS #}
+    <script>
+        var teamCards = document.querySelectorAll('.gameCardLink'); 
+
+        var interval = 120;
+        var index = 0;
+        
+        function applyOpacity() {
+            if (index < teamCards.length) {
+                if(!teamCards[index].classList.contains('hidedCard')) {
+                    teamCards[index].style.opacity = "1";
+                    index += 1;
+                    setTimeout(applyOpacity, interval);
+                }
+            }
+        }
+
+        // Délai pour fadeIn du body et header
+        setTimeout(() => {
+            applyOpacity(); 
+        }, 820);
+        
+    </script>
+
     
 {% endblock %}

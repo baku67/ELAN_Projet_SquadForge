@@ -2311,6 +2311,14 @@ header {
     justify-content: center;
 }
 
+.testSplideListFavs {
+    background-color: var(--background-color);
+    margin-left: 89px !important;
+    margin-right: 90px !important;
+    border-radius: 7px !important;
+    padding-left: 0px !important;
+}
+
 .addFavTitleFa {
     font-size: 1.5em;
     color: var(--primary-color);
@@ -2370,13 +2378,14 @@ header {
 
     animation: homeSectionfadeIn 0.5s 0.6s ease-in-out forwards 1;
 }
+/* Meme position que homeSection1 */
 .homeSection2 {
     max-width: 100%;
     position: relative;
     top: 5vh;
     opacity: 0;
 
-    animation: homeSectionfadeIn 0.5s 0.8s ease-in-out forwards 1;
+    animation: homeSectionfadeIn 0.5s 0.6s ease-in-out forwards 1;
 }
 .homeSection3 {
     max-width: 100%;
@@ -2384,7 +2393,7 @@ header {
     top: 5vh;
     opacity: 0;
 
-    animation: homeSectionfadeIn 0.5s 1s ease-in-out forwards 1;
+    animation: homeSectionfadeIn 0.5s 0.8s ease-in-out forwards 1;
 }
 .homeSection4 {
     max-width: 100%;
@@ -2392,7 +2401,7 @@ header {
     top: 5vh;
     opacity: 0;
 
-    animation: homeSectionfadeIn 0.5s 1.2s ease-in-out forwards 1;
+    animation: homeSectionfadeIn 0.5s 1s ease-in-out forwards 1;
 }
 @keyframes homeSectionfadeIn {
     from {
@@ -3753,7 +3762,9 @@ nav {
 .gameCardLink {
     filter: drop-shadow(0px 0px 6px black); 
     margin: 5px 11px;
-    transition: all 0.3s;
+
+    opacity: 0;
+    transition: all 0.5s;
 }
 /* .gameCardLink:hover {
     filter: drop-shadow(2px 1px 4px black);
@@ -4818,10 +4829,16 @@ nav {
     transition: all 0.3s;
 }
 .gameHeaderTitle:hover {
-    background-color: #00000073;
+    background-color: #666666c4;
     padding: 0px 65px;
     border-bottom: 5px solid rgb(240, 240, 240) !important;
     letter-spacing: 1px;
+}
+
+
+.teamCardLink {
+    opacity: 0;
+    transition: 0.5s;
 }
 
 

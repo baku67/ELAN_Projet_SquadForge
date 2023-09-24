@@ -108,7 +108,7 @@
 
                 {% for group in groups %}
 
-                    <a title='"{{ group.title|capitalize }}"' href="{{ path('app_groupDetails', {'groupSlug': group.slug } ) }}" style="width:fit-content;position:relative;">
+                    <a title='"{{ group.title|capitalize }}"' href="{{ path('app_groupDetails', {'groupSlug': group.slug } ) }}" class="teamCardLink" style="width:fit-content;position:relative;">
 
                         {# Couronne si leader: #}
                         {% if app.user == group.leader %}
@@ -185,6 +185,30 @@
         </section>
 
     </main>
+
+
+
+    {# FadeIn des cards JS #}
+    <script>
+        var teamCards = document.querySelectorAll('.teamCardLink'); 
+
+        var interval = 160;
+        var index = 0;
+        
+        function applyOpacity() {
+            if (index < teamCards.length) {
+                teamCards[index].style.opacity = "1";
+                index += 1;
+                setTimeout(applyOpacity, interval);
+            }
+        }
+
+        // Délai pour fadeIn du body et header
+        setTimeout(() => {
+            applyOpacity(); 
+        }, 550);
+        
+    </script>
 
 
 {% endblock %}
