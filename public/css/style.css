@@ -3804,6 +3804,7 @@ nav {
     font-size: 3em;
     bottom: 25px;
     right: 30px;
+    z-index: 9999;
 
     transition: all 0.3s;
 }

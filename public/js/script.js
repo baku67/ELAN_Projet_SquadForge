@@ -1,8 +1,7 @@
 
 window.addEventListener('load', function() {
 
-    // Exécuté partout (landingPage y compris:)
-    // console.log('TESTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT');
+    //**** */ Exécuté partout (landingPage y compris:)
 
 
     // Toggle close Mobile Burger Nav

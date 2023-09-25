@@ -713,6 +713,8 @@
                                         </div>
                                         {% if app.user and not app.user.autoPlayGifs %}
                                         </a>
+                                        {% elseif app.user is null %}
+                                        </a>
                                         {% endif %}
 
                                         {# Gif autoplay=false si paramètre user #}
@@ -747,6 +749,7 @@
                                     {% endif %}
 
 
+                                    
                                     <div class="inline mediaSubLikeDiv" mediaId={{ media.id }}>
                                         <span id="countLikesMedia{{ media.id }}" value="{{ media.upvoteCount }}"> {{ media.upvoteCount }} </span>
                                         <i mediaId={{ media.id }} class="likeMedia fa-regular fa-circle-up {{ liked }}"></i>
