@@ -3793,6 +3793,25 @@ nav {
     padding: 10px;
 }
 
+
+#scrollToTop {
+    /* display: none; */
+    pointer-events: none;
+    opacity: 0;
+    cursor: pointer;
+    position: fixed;
+    color: var(--primary-color);
+    font-size: 3em;
+    bottom: 25px;
+    right: 30px;
+
+    transition: all 0.3s;
+}
+#scrollToTop:hover {
+    transform: scale(1.1);
+    opacity: 0.9;
+}
+
 .roleUserData {
     font-family: 'K2D', sans-serif;
     margin-left: 10px;

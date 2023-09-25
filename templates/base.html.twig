@@ -131,7 +131,7 @@
 
     <body>
 
-        <div class="authenticationDiv" id="authenticationDiv">
+        <div id="authenticationDiv" class="authenticationDiv">
             {% if app.user %}
                 <a href="{{ path('app_user') }}" class="profil" id="profilBtnNav"><i class="fa-solid fa-user profilIcon"></i>  {{ app.user.pseudo|capitalize }}</a>
                 <a href="{{ path('app_logout') }}" class="decoBtn"><i class="fa-solid fa-power-off decoBtnMobile"></i></a>
@@ -140,6 +140,8 @@
                 <a href="{{ path('app_register') }}" class="profil" id="registerBtnNav" style="border-bottom-left-radius:0px;">S'inscrire</a>
             {% endif %}
         </div>
+
+        <div id="scrollToTop"><i class="fa-solid fa-circle-arrow-up"></i></div>
 
 
         {% block body %}

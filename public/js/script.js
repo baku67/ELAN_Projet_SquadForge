@@ -18,6 +18,49 @@ window.addEventListener('load', function() {
     })
 
 
+    // scrollToTop pop/depop on scroll
+    window.addEventListener('scroll', () => {
+        const scrollToTopBtn = document.getElementById('scrollToTop');
+        if (window.scrollY > 0) {
+            scrollToTopBtn.style.opacity = "1";
+            scrollToTopBtn.style.pointerEvents = "all";
+            // scrollToTopBtn.style.display = "block";
+            
+        } else {
+            scrollToTopBtn.style.opacity = "0";
+            scrollToTopBtn.style.pointerEvents = "none";
+            // setTimeout(() => {
+            //     scrollToTopBtn.style.display = "none";
+            // }, 305);
+        }
+    })
+    // scrollToTop click
+    function scrollToTop() {
+        // Scroll to the top over a specified duration (e.g., 500 milliseconds)
+        const duration = 300;
+        const start = window.pageYOffset;
+        const startTime = performance.now();
+      
+        function step(timestamp) {
+          const currentTime = timestamp - startTime;
+          window.scrollTo(0, easeInOutCubic(currentTime, start, -start, duration));
+          if (currentTime < duration) {
+            requestAnimationFrame(step);
+          }
+        }
+      
+        function easeInOutCubic(t, b, c, d) {
+          if ((t /= d / 2) < 1) return (c / 2) * t * t * t + b;
+          return (c / 2) * ((t -= 2) * t * t + 2) + b;
+        }
+      
+        requestAnimationFrame(step);
+    }
+
+    document.getElementById('scrollToTop').addEventListener('click', scrollToTop);
+
+
+
     // *************************  Scroll Header fixed + reduced ************************
 
         // Vérif pas landingPage
