@@ -79,7 +79,6 @@ class RegistrationFormType extends AbstractType
                     "disabled" => true
                 ],
             ]);
-
         ;
     }
 

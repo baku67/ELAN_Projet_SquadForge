@@ -21,6 +21,10 @@
     color: black !important;
 }
 
+#registration_form_email:focus, #registration_form_pseudo:focus, #registration_form_plainPassword_first:focus, #registration_form_plainPassword_second:focus {
+    color: black !important;
+}
+
 #group_title:focus {
     color: black !important;
 }
@@ -143,6 +147,24 @@ header {
     }
 }
 
+
+
+.userTopicStatus {
+    padding: 0px 7px;
+    border-radius: 4px;
+    font-weight: 700;
+    color: black !important;
+    border: 1px solid #000000ba;
+}
+.topicStatusValidated {
+    background-color: rgb(13, 241, 135);
+}
+.topicStatusRefused {
+    background-color: rgb(241, 13, 62);
+}
+.topicStatusWaiting {
+    background-color: rgb(207, 241, 13);
+}
 
 
 

@@ -72,13 +72,11 @@ class ReportRepository extends ServiceEntityRepository
             ->setParameter('objectId', $objectId)
 
             ->getQuery()
-            ->getSingleScalarResult()
-            ;
+            ->getSingleScalarResult();
 
             if ($nbr > 0) {
                 $nbrReportsPerMotif[$motif->getText()] = $nbr;
             }
-
         }
         return $nbrReportsPerMotif;
     }

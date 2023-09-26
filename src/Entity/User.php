@@ -134,7 +134,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         $this->topics = new ArrayCollection();
         $this->notations = new ArrayCollection();
         $this->topicPosts = new ArrayCollection();
-        // $this->likedTopicPosts = new ArrayCollection();
         $this->postLikes = new ArrayCollection();
         $this->media = new ArrayCollection();
         $this->mediaPosts = new ArrayCollection();
@@ -147,6 +146,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         $this->notifications = new ArrayCollection();
         $this->reports = new ArrayCollection();
         $this->groupSessionDispos = new ArrayCollection();
+        // $this->likedTopicPosts = new ArrayCollection();
     }
 
     
