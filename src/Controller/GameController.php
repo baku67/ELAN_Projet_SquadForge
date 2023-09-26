@@ -185,6 +185,15 @@ class GameController extends AbstractController
 
                         if($form->isValid()) {
 
+                            // Vérif delai d'une heure par auteur par jeu
+                            $currentDate = new \DateTime();
+                            $oneHourAgo = $currentDate->sub(new \DateInterval('PT1H'));
+                            $foundTopic = $topicRepo->verifyDelayPublish($this->getUser(), $game, $oneHourAgo);
+                            if (!empty($foundTopic)) {
+                                $this->addFlash('error', 'Vous ne pouvez publier ou proposer plus d\'un topic par heure et par jeu');
+                                return $this->redirectToRoute('app_game', ['slug' => $game->getSlug()]);
+                            }
+
                             // Hydrataion du "Topic" a partir des données du form
                             $topic = $form->getData();
 
@@ -264,6 +273,15 @@ class GameController extends AbstractController
                 if( !$this->getUser()->isBanned() && !$this->getUser()->isMuted() ) {
 
                     if($form2->isValid()) {
+
+                        // Vérif delai d'une heure par auteur par jeu
+                        $currentDate = new \DateTime();
+                        $oneHourAgo = $currentDate->sub(new \DateInterval('PT1H'));
+                        $foundMedia = $mediaRepo->verifyDelayPublish($this->getUser(), $game, $oneHourAgo);
+                        if (!empty($foundMedia)) {
+                            $this->addFlash('error', 'Vous ne pouvez publier ou proposer plus d\'un média par heure et par jeu');
+                            return $this->redirectToRoute('app_game', ['slug' => $game->getSlug()]);
+                        }
 
                         // Hydrataion du "Media" a partir des données du form
                         $media = $form2->getData();

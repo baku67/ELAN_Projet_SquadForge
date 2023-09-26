@@ -2,6 +2,8 @@
 
 namespace App\Repository;
 
+use App\Entity\User;
+use App\Entity\Topic;
 use App\Entity\TopicPost;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
@@ -38,6 +40,23 @@ class TopicPostRepository extends ServiceEntityRepository
             $this->getEntityManager()->flush();
         }
     }
+
+
+    public function verifyDelayPublish(User $user, Topic $topic, $oneHourAgo) 
+    {
+        $query = $this->createQueryBuilder('t')
+            ->where('t.user = :user')
+            ->andWhere('t.topic = :topic')
+            ->andWhere('t.publish_date >= :oneHourAgo')
+            ->setParameter('user', $user)
+            ->setParameter('topic', $topic)
+            ->setParameter('oneHourAgo', $oneHourAgo);
+
+        $topicPostFound = $query->getQuery()->getResult();  
+
+        return $topicPostFound;
+    }
+
 
 //    /**
 //     * @return TopicPost[] Returns an array of TopicPost objects

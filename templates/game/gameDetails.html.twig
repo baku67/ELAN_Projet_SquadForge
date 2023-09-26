@@ -620,15 +620,19 @@
                                 const img = document.createElement('img');
                                 img.src = e.target.result;
                                 img.style.width = "100%";
+                                img.style.backgroundColor = "var(--background-color)";
+                                img.style.border = "1px solid {{ game.color }}";
 
                                 // Ajoutez l'image prévisualisée à un élément de votre choix dans le DOM
                                 const previewContainer = document.getElementById('mediaCardHeader');
                                 previewContainer.innerHTML = '';
-                                document.getElementById('mediaCardHeader').style.borderWidth = "1px";
+                                // document.getElementById('mediaCardHeader').style.borderWidth = "1px";
+
                                 previewContainer.prepend(img);
 
                                 const previewMediaCardHeader = document.createElement('div');
                                 previewMediaCardHeader.classList.add('mediaCardHeader');
+                                previewMediaCardHeader.style.border = "1px solid {{ game.color }}";
                                 previewMediaCardHeader.style.borderBottom = "3px solid {{ game.color }}";
                                 previewMediaCardHeader.style.borderTopLeftRadius = "3px";
                                 previewMediaCardHeader.style.borderTopRightRadius = "3px";
@@ -649,7 +653,7 @@
 
                                 const previewMediaDummySubSection = document.createElement('div');
                                 previewMediaDummySubSection.classList.add('mediaCardStatsDiv');
-                                previewMediaDummySubSection.innerHTML = '<div class="inline"><i class="likeMedia fa-regular fa-circle-up"></i><span value="0"> 0 </span></div><span style="opacity:0.5;">0 <i class="fa-solid fa-message msgIconColor" style="color:grey;"></i></span>'
+                                previewMediaDummySubSection.innerHTML = '<div class="inline mediaSubLikeDiv"><span value="0"> 0 </span><i class="likeMedia fa-regular fa-circle-up"></i></div><span style="opacity:0.5;" class="mediaSubPostsDiv">0 <i class="fa-solid fa-message msgIconColor" style="color:grey;"></i></span>'
 
                                 previewContainer.prepend(previewMediaCardHeader);
 

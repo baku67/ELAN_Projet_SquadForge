@@ -249,6 +249,15 @@ class TopicController extends AbstractController
                             
                                 if($form->isValid()) {
 
+                                    // Vérif delai de 10min par topic par auteur par jeu
+                                    $currentDate = new \DateTime();
+                                    $oneHourAgo = $currentDate->sub(new \DateInterval('PT10M'));
+                                    $foundTopicPost = $topicPostRepo->verifyDelayPublish($this->getUser(), $topic, $oneHourAgo);
+                                    if (!empty($foundTopicPost)) {
+                                        $this->addFlash('error', 'Vous ne pouvez publier ou proposer plus d\'un commentaire par topic par 10 minutes');
+                                        return $this->redirectToRoute('app_topicDetail', ['slug' => $topic->getSlug()]);
+                                    }
+
                                     // Hydrataion du "TopicPost" a partir des données du form
                                     $topicPost = $form->getData();
                 

@@ -94,32 +94,19 @@
 
     {# Fil d'ariane "breadcrumb" #}
     <ul class="filAriane">
+        <li class="arianeLink"><a  href="{{ path('app_home') }}"><i class="fa-solid fa-house arianeHome"></i></a></li>
+        <i class="fa-solid fa-angle-right arianeArrow" style="color:{{ game.color }}"></i>
         <li class="arianeLink"><a href="{{ path('app_games') }}">Jeux</a></li>
-        <i class="fa-solid fa-angle-right arianeArrow"></i>
+        <i class="fa-solid fa-angle-right arianeArrow" style="color:{{ game.color }}"></i>
         <li class="arianeLink"><a href="{{ path('app_game', {'slug': game.slug}) }}">{{ game.title }}</a></li>
-        <i class="fa-solid fa-angle-right arianeArrow"></i>
+        <i class="fa-solid fa-angle-right arianeArrow" style="color:{{ game.color }}"></i>
         <li class="arianeLink"><a href="{{ path('app_allTopics', {'gameIdFrom': game.id}) }}">Topics</a></li>
-        <i class="fa-solid fa-angle-right arianeArrow"></i>
+        <i class="fa-solid fa-angle-right arianeArrow" style="color:{{ game.color }}"></i>
         <li class="arianeOnPage ellispsis1">{{ topic.title|capitalize}}</li>
     </ul>
 
 
     <main class="main mainTopicDetails">
-
-
-        {# Fil d'Ariane #}
-        <p class="breadcrumbs">
-            <a  href="{{ path('app_home') }}"><i class="fa-solid fa-house arianeHome"></i></a>
-            <i class="fa-solid fa-angle-right arianeArrow" style="color:{{ game.color }}"></i>
-            <a class="underlineLink" href="{{ path('app_games') }}">Jeux</a>
-            <i class="fa-solid fa-angle-right arianeArrow" style="color:{{ game.color }}"></i>
-            <a class="underlineLink" href="{{ path('app_game', {'slug': game.slug}) }}">{{ game.title }}</a>
-            <i class="fa-solid fa-angle-right arianeArrow" style="color:{{ game.color }}"></i>
-            <a class="underlineLink" href="{{ path('app_allTopics', {'gameIdFrom': game.id}) }}">Topics</a>
-            <i class="fa-solid fa-angle-right arianeArrow" style="color:{{ game.color }}"></i>
-            <span>{{ topic.title|capitalize}}<span>
-        </p>
-
 
 
         <section>
