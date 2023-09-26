@@ -153,7 +153,7 @@ header {
     padding: 0px 7px;
     border-radius: 4px;
     font-weight: 700;
-    color: black !important;
+    color: black;
     border: 1px solid #000000ba;
 }
 .topicStatusValidated {
@@ -161,6 +161,7 @@ header {
 }
 .topicStatusRefused {
     background-color: rgb(241, 13, 62);
+    color: white !important;
 }
 .topicStatusWaiting {
     background-color: rgb(207, 241, 13);

@@ -18,6 +18,7 @@ security:
             provider: app_user_provider
             custom_authenticator: App\Security\AppAuthenticator
             entry_point: App\Security\AppAuthenticator
+            login_throttling: true
             logout:
                 path: app_logout
                 # where to redirect after logout
@@ -30,6 +31,11 @@ security:
                 use_referer: true
                 failure_path: app_login
                 enable_csrf: true
+
+        default:
+            # configuring the maximum login attempts (per minute)
+            login_throttling:
+                max_attempts: 5
 
             # activate different ways to authenticate
             # https://symfony.com/doc/current/security.html#the-firewall
@@ -55,3 +61,8 @@ when@test:
                 cost: 4 # Lowest possible value for bcrypt
                 time_cost: 3 # Lowest possible value for argon
                 memory_cost: 10 # Lowest possible value for argon
+    firewalls:
+        default:
+            # configuring the maximum login attempts (per minute)
+            login_throttling:
+                max_attempts: 5
