@@ -77,6 +77,15 @@ class MediaController extends AbstractController
 
                 if($form2->isValid()) {
 
+                    // Vérif delai d'une heure par média par auteur par jeu
+                    $currentDate = new \DateTime();
+                    $oneHourAgo = $currentDate->sub(new \DateInterval('PT1H'));
+                    $foundMedia = $mediaRepo->verifyDelayPublish($this->getUser(), $gameFrom, $oneHourAgo);
+                    if (!empty($foundMedia)) {
+                        $this->addFlash('error', 'Vous ne pouvez publier ou proposer plus d\'un média par heure et par jeu');
+                        return $this->redirectToRoute('app_game', ['slug' => $gameFrom->getSlug()]);
+                    }
+
                     // Hydrataion du "Media" a partir des données du form
                     $media = $form2->getData();
 
@@ -274,6 +283,15 @@ class MediaController extends AbstractController
                             if(strlen($mediaPost->getText()) > 0) {
                             
                                 if($form->isValid()) {
+
+                                    // Vérif delai de 10min par topic par auteur par jeu
+                                    $currentDate = new \DateTime();
+                                    $oneHourAgo = $currentDate->sub(new \DateInterval('PT10M'));
+                                    $foundMediaPost = $mediaPostRepo->verifyDelayPublish($this->getUser(), $media, $oneHourAgo);
+                                    if (!empty($foundMediaPost)) {
+                                        $this->addFlash('error', 'Vous ne pouvez publier ou proposer plus d\'un commentaire par média par 10 minutes');
+                                        return $this->redirectToRoute('app_mediaDetail', ['slug' => $media->getSlug()]);
+                                    }
             
                                     // Hydrataion du "MediaPost" a partir des données du form
                                     $mediaPost = $form->getData();

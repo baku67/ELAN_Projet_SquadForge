@@ -43,6 +43,22 @@ class MediaRepository extends ServiceEntityRepository
     }
 
 
+    public function verifyDelayPublish(User $user, Game $game, $oneHourAgo) 
+    {
+        $query = $this->createQueryBuilder('m')
+            ->where('m.user = :user')
+            ->andWhere('m.game = :game')
+            ->andWhere('m.publish_date >= :oneHourAgo')
+            ->setParameter('user', $user)
+            ->setParameter('game', $game)
+            ->setParameter('oneHourAgo', $oneHourAgo);
+
+        $mediaFound = $query->getQuery()->getResult();  
+
+        return $mediaFound;
+    }
+
+
     public function findBySearchLandingPage(string $query, int $gameSelectedId)
     {
         $queryMedia = $this->createQueryBuilder('m')

@@ -2,6 +2,7 @@
 
 namespace App\Repository;
 
+use App\Entity\User;
 use App\Entity\Media;
 use App\Entity\MediaPost;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
@@ -39,6 +40,23 @@ class MediaPostRepository extends ServiceEntityRepository
             $this->getEntityManager()->flush();
         }
     }
+
+
+    public function verifyDelayPublish(User $user, Media $media, $oneHourAgo) 
+    {
+        $query = $this->createQueryBuilder('mp')
+            ->where('mp.user = :user')
+            ->andWhere('mp.media = :media')
+            ->andWhere('mp.publish_date >= :oneHourAgo')
+            ->setParameter('user', $user)
+            ->setParameter('media', $media)
+            ->setParameter('oneHourAgo', $oneHourAgo);
+
+        $mediaPostFound = $query->getQuery()->getResult();  
+
+        return $mediaPostFound;
+    }
+
 
 //    /**
 //     * @return MediaPost[] Returns an array of MediaPost objects

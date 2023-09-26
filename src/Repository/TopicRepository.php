@@ -43,6 +43,22 @@ class TopicRepository extends ServiceEntityRepository
     }
 
 
+    public function verifyDelayPublish(User $user, Game $game, $oneHourAgo) 
+    {
+        $query = $this->createQueryBuilder('t')
+            ->where('t.user = :user')
+            ->andWhere('t.game = :game')
+            ->andWhere('t.publish_date >= :oneHourAgo')
+            ->setParameter('user', $user)
+            ->setParameter('game', $game)
+            ->setParameter('oneHourAgo', $oneHourAgo);
+
+        $topicFound = $query->getQuery()->getResult();  
+
+        return $topicFound;
+    }
+
+
     public function findBySearchLandingPage(string $query, int $gameSelectedId) 
     {
         $querySearchTopics = $this->createQueryBuilder('t')
