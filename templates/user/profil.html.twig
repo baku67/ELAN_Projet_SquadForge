@@ -289,6 +289,8 @@
 
             <div class="listContainer topicList marginTop lp-page3-containerMaster" style="margin-top:20px; margin-bottom:20px;">
             
+                {% set index = 0 %}
+
                 {% for topic in userTopics %}
 
                     <a href="{{ path('app_topicDetail', {'slug': topic.slug}) }}">
@@ -305,15 +307,38 @@
                                     <span class="userTopicStatus topicStatusWaiting"><i class="fa-regular fa-hourglass"></i> En attente</span>
                                 {% endif %}
                                 
-                                <span class="topicCardPublishDate">{{ time_diff(topic.publishDate) }}</span>
+                                {# <span class="topicCardPublishDate">{{ time_diff(topic.publishDate) }}</span> #}
                                 {% if topic.topicPostsCount == 0 %}
                                     <span class="topicSubMsgCount" style="opacity:0.5;">{{ topic.topicPostsCount }} <i class="fa-solid fa-message msgIconColor" style="color:#1da8b7d4;"></i></span>
                                 {% else %}
                                     <span class="topicSubMsgCount">{{ topic.topicPostsCount }} <i class="fa-solid fa-message msgIconColor" style="color:#1da8b7d4;"></i></span>
                                 {% endif %}
+
+                                <div id="deleteSelfTopicDiv{{index}}" class="deleteSelfTopicDiv" title="Supprimer le topic"><i class="fa-solid fa-trash deleteSelfTopicIcon"></i></div>
+                            
                             </div>
                         </article>
                     </a>
+
+
+                    <dialog class="modalDialog" id="confirmDeleteSelfTopicModal{{index}}">
+                        <p style="font-size:1.3em;">Êtes-vous sûr de vouloir supprimer ce topic ? <br>Tout les commentaires associés seront également supprimés</p>
+
+                        <a href="{{ path('app_deleteSelfTopic',{'idTopic':topic.id}) }}" class="confirmModal">Supprimer</a>
+                        <span id="cancelDeleteSelfTopic{{index}}" class="cancelModal" onclick="confirmDeleteSelfTopicModal{{index}}.close()">Annuler</span>                            
+                    </dialog>
+
+
+                    <script>
+                        document.getElementById('deleteSelfTopicDiv{{index}}').addEventListener('click', function() {
+                            // Evite le click sur le lien de la div parente:
+                            event.preventDefault();
+                            // Modal confirmation
+                            document.getElementById('confirmDeleteSelfTopicModal{{index}}').showModal();
+                        })
+                    </script>
+
+                    {% set index = index + 1 %}
 
                 {% endfor %}
 
@@ -338,6 +363,8 @@
 
             <div class="masonry-grid lp-page3-containerMaster">
             
+                {% set index = 0 %}
+
                 {% for media in userMedias %}
 
                     <div class="grid-item" style="height:fit-content;">
@@ -352,13 +379,13 @@
                                 {% if not app.user.autoPlayGifs %}
                                 <a href="{{ path('app_mediaDetail', {'slug': media.slug}) }}">
                                 {% endif %}
-                                <div class="mediaCardHeader" title="{{ media.title|capitalize }}" style="border-bottom: 3px solid {{ media.game.color }}">
-                                    <div class="tinyLogoDiv">
-                                        <img class="tinyLogoMedia" src="{{ asset('img/games/tinyLogo/' ~ media.game.tinyLogo) }}" alt="logo du jeu {{ media.game.title }}" />
+                                    <div class="mediaCardHeader" title="{{ media.title|capitalize }}" style="border-bottom: 3px solid {{ media.game.color }}">
+                                        <div class="tinyLogoDiv">
+                                            <img class="tinyLogoMedia" src="{{ asset('img/games/tinyLogo/' ~ media.game.tinyLogo) }}" alt="logo du jeu {{ media.game.title }}" />
+                                        </div>
+                                        <span class="mediaTitle">{{ media.title|capitalize }}</span>
+                                        <div id="deleteSelfMediaDiv{{index}}" class="deleteSelfMediaDiv" title="Supprimer le média"><i class="fa-solid fa-trash deleteSelfMediaIcon"></i></div>
                                     </div>
-                                    <span class="mediaTitle">{{ media.title|capitalize }}</span>
-                                    <span class="mediaCardPublishDate">{{ time_diff(media.publishDate) }}</span>
-                                </div>
                                 {% if not app.user.autoPlayGifs %}
                                 </a>
                                 {% endif %}
@@ -431,6 +458,27 @@
                         {% endif %}
 
                     </div>
+
+
+                    <dialog class="modalDialog" id="confirmDeleteSelfMediaModal{{index}}">
+                        <p style="font-size:1.3em;">Êtes-vous sûr de vouloir supprimer ce média ? <br>Tout les commentaires associés seront également supprimés</p>
+
+                        <a href="{{ path('app_deleteSelfMedia',{'idMedia':media.id}) }}" class="confirmModal">Supprimer</a>
+                        <span id="cancelDeleteSelfMedia{{index}}" class="cancelModal" onclick="confirmDeleteSelfMediaModal{{index}}.close()">Annuler</span>                            
+                    </dialog>
+
+
+                    <script>
+                        document.getElementById('deleteSelfMediaDiv{{index}}').addEventListener('click', function() {
+                            // Evite le click sur le lien de la div parente:
+                            event.preventDefault();
+                            // Modal confirmation
+                            document.getElementById('confirmDeleteSelfMediaModal{{index}}').showModal();
+                        })
+                    </script>
+
+
+                    {% set index = index + 1 %}
 
                 {% endfor %}
 

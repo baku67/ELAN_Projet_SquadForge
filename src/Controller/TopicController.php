@@ -344,6 +344,29 @@ class TopicController extends AbstractController
 
 
 
+    // Suppression Topic (id: topic) (auteur)
+    #[Route('/deleteSelfTopic/{idTopic}', name: 'app_deleteSelfTopic')]
+    public function deleteSelfTopic(EntityManagerInterface $entityManager, int $idTopic, Request $request): Response
+    {
+        $topicRepo = $entityManager->getRepository(Topic::class);
+        $topic = $topicRepo->find($idTopic);
+
+        // Vérif auteur
+        if ($this->getUser() && $this->getUser() == $topic->getUser()) {
+
+            $topicRepo->remove($topic, true);
+
+            $this->addFlash('success', 'Votre topic a été supprimé');
+            return $this->redirectToRoute('app_user');
+        }
+        else {
+            $this->addFlash('error', 'Vous devez être connecté et l\'auteur du topic pour pouvoir le supprimer');
+            return $this->redirectToRoute('app_user');
+        }
+    }
+
+
+
     // Suppression commentaire (id: post) (auteur)
     #[Route('/deleteTopicPost/{idPost}', name: 'app_deleteTopicPost')]
     public function deleteTopicPost(EntityManagerInterface $entityManager, int $idPost, Request $request): Response

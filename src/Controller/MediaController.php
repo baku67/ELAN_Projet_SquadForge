@@ -374,8 +374,26 @@ class MediaController extends AbstractController
 
 
 
+    // Suppression Media (id: media) (auteur)
+    #[Route('/deleteSelfMedia/{idMedia}', name: 'app_deleteSelfMedia')]
+    public function deleteSelfMedia(EntityManagerInterface $entityManager, int $idMedia, Request $request): Response
+    {
+        $mediaRepo = $entityManager->getRepository(Media::class);
+        $media = $mediaRepo->find($idMedia);
 
+        // Vérif auteur
+        if ($this->getUser() && $this->getUser() == $media->getUser()) {
 
+            $mediaRepo->remove($media, true);
+
+            $this->addFlash('success', 'Votre média a été supprimé');
+            return $this->redirectToRoute('app_user');
+        }
+        else {
+            $this->addFlash('error', 'Vous devez être connecté et l\'auteur du média pour pouvoir le supprimer');
+            return $this->redirectToRoute('app_user');
+        }
+    }
 
 
 
