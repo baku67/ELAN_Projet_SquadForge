@@ -500,9 +500,11 @@ class GroupController extends AbstractController
         }
         else {
 
-            $notifFrom = $notifRepo->find($notifId);
-            $entityManager->remove($notifFrom);
-            $entityManager->flush();
+            if(!is_null($notifRepo->find($notifId))) {
+                $notifFrom = $notifRepo->find($notifId);
+                $entityManager->remove($notifFrom);
+                $entityManager->flush();
+            }
 
             $this->addFlash('error', 'La team n\'existe plus');
             return $this->redirectToRoute('app_showNotifsList');    

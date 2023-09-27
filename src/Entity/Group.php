@@ -63,7 +63,7 @@ class Group
     #[ORM\Column]
     private ?bool $restriction_imgProof = null;
 
-    #[ORM\OneToMany(mappedBy: 'groupe', targetEntity: Candidature::class)]
+    #[ORM\OneToMany(mappedBy: 'groupe', targetEntity: Candidature::class, cascade: ['remove'])]
     private Collection $candidatures;
 
     private int $nbrCandidatures;

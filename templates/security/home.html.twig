@@ -508,6 +508,14 @@
                                             
                                             <p class="teamCardTitleV2">{{ userTeam.title|capitalize }}</p>
 
+                                            {% if app.user == userTeam.leader and userTeam.nbrCandidatures > 0 %}
+                                                {% if userTeam.nbrCandidatures > 1 %}
+                                                    <span class="teamCardNbrCandidature">{{ userTeam.nbrCandidatures }} candidatures</span>
+                                                {% else %}
+                                                    <span class="teamCardNbrCandidature">{{ userTeam.nbrCandidatures }} candidature</span>
+                                                {% endif %}
+                                            {% endif %}
+
                                             <div class="teamCard-members">
                                                 <i class="fa-solid fa-user-group"></i> 
                                                 <span style="position:relative; top:2px;">{{ userTeam.members|length }}/{{ userTeam.nbrPlaces }}</span>

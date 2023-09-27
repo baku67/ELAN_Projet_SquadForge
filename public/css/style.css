@@ -17,6 +17,15 @@
     box-shadow: 0 0 0 0.25rem rgba(13,110,253,0);
 }
 
+
+input:focus {
+    color: black;
+}
+
+.answerInput:focus {
+    color: black !important;
+}
+
 #topic_post_text:focus {
     color: white !important;
 }
@@ -46,9 +55,9 @@
 #candidature_text:focus {
     color: black !important;
 }
-.form-control:focus {
+/* .form-control:focus {
     color: white !important;
-}
+} */
 #inputEmail:focus {
     color: black !important;
 }
@@ -2835,6 +2844,9 @@ header {
     background-color: #890035 !important;
     border-color: #890035 !important;
 }
+
+
+
 
 
 .deletePostBtn {
