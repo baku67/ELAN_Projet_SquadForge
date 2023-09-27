@@ -31,9 +31,18 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
+use Symfony\Component\Security\Csrf\CsrfTokenManagerInterface;
 
 class GameController extends AbstractController
 {
+
+    private $csrfTokenManager;
+
+    public function __construct(CsrfTokenManagerInterface $csrfTokenManager)
+    {
+        $this->csrfTokenManager = $csrfTokenManager;
+    }
+
 
     // Liste des jeux par Genre
     #[Route('/games', name: 'app_games')]
@@ -179,6 +188,9 @@ class GameController extends AbstractController
             // Vérifs/Filtres
             if($form->isSubmitted()) {
 
+                // refresh CSRF token (form_intention) (avoid multiple form submission)
+                $this->csrfTokenManager->refreshToken("form_intention");
+
                 if($this->getUser()) {
 
                     if( !($this->getUser()->isBanned()) && !($this->getUser()->IsMuted()) ) {
@@ -267,6 +279,9 @@ class GameController extends AbstractController
 
         // Vérifs/Filtres
         if($form2->isSubmitted()) {
+
+            // refresh CSRF token (form_intention) (avoid multiple form submission)
+            $this->csrfTokenManager->refreshToken("form_intention");
 
             if($this->getUser()) {
 

@@ -28,14 +28,17 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Filesystem\Filesystem;
+use Symfony\Component\Security\Csrf\CsrfTokenManagerInterface;
 
 class GroupController extends AbstractController
 {
 
+    private $csrfTokenManager;
     private $notifController;
 
-    public function __construct(NotificationController $notifController) {
-
+    public function __construct(NotificationController $notifController, CsrfTokenManagerInterface $csrfTokenManager) 
+    {
+        $this->csrfTokenManager = $csrfTokenManager;
         $this->notifController = $notifController;
     }
 
@@ -83,6 +86,9 @@ class GroupController extends AbstractController
 
         // Vérifs/Filtres
         if($form->isSubmitted()) {
+
+            // refresh CSRF token (form_intention) (avoid multiple form submission)
+            $this->csrfTokenManager->refreshToken("form_intention");
 
             // Vérif connecté pour créer un Group
             if($this->getUser()) {

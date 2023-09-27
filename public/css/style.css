@@ -4057,6 +4057,7 @@ nav {
 }
 .gameHeaderSection2 {
     width:82%; 
+    border-top-right-radius: 7px;
     position:relative; 
     background-size:cover;
     border-width: 0px !important;

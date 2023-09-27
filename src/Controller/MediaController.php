@@ -20,15 +20,18 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Security\Csrf\CsrfTokenManagerInterface;
 
 class MediaController extends AbstractController
 {
 
     private $notifController;
+    private $csrfTokenManager;
 
-    public function __construct(NotificationController $notifController) {
-
+    public function __construct(NotificationController $notifController, CsrfTokenManagerInterface $csrfTokenManager) 
+    {
         $this->notifController = $notifController;
+        $this->csrfTokenManager = $csrfTokenManager;
     }
 
 
@@ -72,6 +75,9 @@ class MediaController extends AbstractController
 
         // Vérifs/Filtres
         if($form2->isSubmitted()) {
+
+            // refresh CSRF token (form_intention) (avoid multiple form submission)
+            $this->csrfTokenManager->refreshToken("form_intention");
 
             if($this->getUser()) {
 

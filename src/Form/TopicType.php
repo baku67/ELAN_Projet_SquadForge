@@ -79,6 +79,10 @@ class TopicType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => Topic::class,
+            'csrf_protection' => true,
+            'csrf_field_name' => '_token',
+            // important part; unique key
+            'csrf_token_id'   => 'form_intention',
         ]);
     }
 
