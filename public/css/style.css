@@ -2838,6 +2838,7 @@ header {
 
 
 .deletePostBtn {
+    cursor: pointer;
     font-style: normal !important;
     color: #ff004c;
     margin-left: 5px;

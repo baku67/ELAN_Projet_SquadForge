@@ -364,6 +364,7 @@ class TopicController extends AbstractController
             return $this->redirectToRoute('app_user');
         }
     }
+    
 
 
 

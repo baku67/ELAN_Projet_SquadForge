@@ -326,9 +326,29 @@
                                     <p class="postText">{{ post.text }}</p>
                                 {% endif %}
 
+
                                 <div>
+                                    {# Bouton suppresion commentaire si auteur (+modal) #}
                                     {% if post.user == app.user %}
-                                        <span class="postAuthorUser postSelf">Vous <a href="{{ path('app_deleteTopicPost', {'idPost':post.id}) }}" class="deletePostBtn">Supprimer</a></span>
+
+                                        <span class="postAuthorUser postSelf">Vous <span id="deleteSelfTopicPost{{index}}" class="deletePostBtn"><i class="fa-solid fa-trash"></i></span></span>
+                                    
+                                        <dialog class="modalDialog" id="confirmDeleteSelfTopicPostModal{{index}}">
+                                            <p style="font-size:1.3em;">Êtes-vous sûr de vouloir supprimer ce commentaire ?</p>
+
+                                            <a href="{{ path('app_deleteTopicPost', {'idPost':post.id}) }}" class="confirmModal"><i class="fa-solid fa-trash"></i> Supprimer</a>
+                                            <span id="cancelDeleteSelfTopicPost{{index}}" class="cancelModal" onclick="confirmDeleteSelfTopicPostModal{{index}}.close()">Annuler</span>                            
+                                        </dialog>
+
+                                        <script>
+                                            document.getElementById('deleteSelfTopicPost{{index}}').addEventListener('click', function() {
+                                                // Evite le click sur le lien de la div parente:
+                                                event.preventDefault();
+                                                // Modal confirmation
+                                                document.getElementById('confirmDeleteSelfTopicPostModal{{index}}').showModal();
+                                            })
+                                        </script>
+
                                     {% else %}
                                         {% if post.user %}
                                             <span class="postAuthorUser">{{ post.user.pseudo|capitalize }}</span>
