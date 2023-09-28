@@ -582,19 +582,22 @@
                             {{ form_widget(formAddMedia.url) }} 
                         </div>
 
-                        <span class="submitButton" style="margin: 15px auto;">{{ form_widget(formAddMedia.submit, { 'label': 'Publier' }) }}</span>
+                        {# Apercu du média à publier #}
+                        <div id="preview-container" style="max-width: 350px; margin: 25px auto;">
+                            <span id="mediaPreviwTitle" style="display:none;">Aperçu :</span>
+                            <div class="previewMediaCard" style="background-color:{{ game.color }};">
+                                <div id="mediaCardHeader" >
+                                    {# Contenyu ajouté JS #}
+                                </div>
+                            </div>
+                        </div>
+
+                        <div style="width:100%; display:inline-flex; border-top:1px solid #80808042;">
+                            <span class="submitButton" style="margin: 15px auto;">{{ form_widget(formAddMedia.submit, { 'label': 'Publier' }) }}</span>
+                        </div>
 
                         {{ form_widget(formAddMedia._token) }}
                     {{ form_end(formAddMedia) }}
-
-                    {# Apercu du média à publier #}
-                    <div id="preview-container" style="max-width: 350px; margin: 25px auto;">
-                        <div class="previewMediaCard" style="background-color:{{ game.color }};">
-                            <div id="mediaCardHeader" >
-                                {# Contenyu ajouté JS #}
-                            </div>
-                        </div>
-                    </div>
                     
                 </div>
 
@@ -616,6 +619,8 @@
 
                             // Définissez l'événement onload du FileReader
                             reader.onload = (e) => {
+                                document.getElementById('mediaPreviwTitle').style.display = "block";
+
                                 // Créez une balise d'image pour afficher la prévisualisation
                                 const img = document.createElement('img');
                                 img.src = e.target.result;

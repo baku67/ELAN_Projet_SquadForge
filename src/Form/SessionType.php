@@ -37,9 +37,9 @@ class SessionType extends AbstractType
                 'attr' => ['min' => ( new \DateTime() )->format('Y-m-d H:i:s'), 'id' => 'date_end_picker']
             ])
             ->add('title', TextType::class, [
-                'label' => 'Titre',
+                'label' => 'Nouvelle session',
                 'required' => true,
-                'attr' => ["class" => "form-control", 'id' => 'testtttt'],
+                'attr' => ["class" => "form-control", 'id' => 'testtttt', 'placeholder' => 'Entrez le titre de la session'],
                 'constraints' => [
                     new NotBlank([
                         'message' => 'Le titre ne peut pas être vide.',

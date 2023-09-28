@@ -342,9 +342,9 @@ body {
 
 .incomingSessionsNbr {
     color: #38db25;
-    font-size: 1.5em;
+    font-size: 1.3em;
     font-weight: bold;
-    margin-left: 7px;
+    margin-left: 11px;
 }
 
 
@@ -5726,6 +5726,13 @@ h1, h2, h3, h4 {
 
 #addSessionForm {
     text-align: center;
+
+    width: fit-content;
+    margin: 0 auto;
+    padding: 10px 20px;
+    background-color: #2ce4f912;
+    border-radius: 8px;
+    border: 1px solid #8080803d;
 }
 
 .profilSection1a {
@@ -6184,7 +6191,7 @@ cursor: pointer;
 }
 
 #session_title {
-    width: 65%;
+    width: 100%;
     margin: 5px auto 10px auto;
 }
 
@@ -6299,7 +6306,7 @@ cursor: pointer;
     font-size: 1.2em;
     background-color: #0000004a;
     width: fit-content;
-    padding: 5px;
+    padding: 5px 15px;
     border-radius: 5px;
     border: 1px solid #80808040;
 }

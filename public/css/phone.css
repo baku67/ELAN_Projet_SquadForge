@@ -1215,16 +1215,16 @@
         width: 90%;
     }
 
+    .gameInfosSubTitleBgParam {
+        transform: translateY(-1px);
+    }
+
+
     .gameInfosSubTitleBg {
         transform: translateY(-1px);
 
         animation: gameInfosSubTitleBg1 0.3s 0.1s ease-in-out forwards, gameInfosSubTitleBg2 0.4s 0.45s ease-in-out forwards;
     }
-
-    .gameInfosSubTitleBgParam {
-        transform: translateY(-1px);
-    }
-
     @keyframes gameInfosSubTitleBg1 {
         from {
             height: 0px;

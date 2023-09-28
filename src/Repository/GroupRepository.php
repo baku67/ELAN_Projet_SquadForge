@@ -105,10 +105,9 @@ class GroupRepository extends ServiceEntityRepository
     }
 
 
-    // Liste des groups du User sur jeuDetail
+    // Liste des teams du User par jeu
     public function findGroupsByUserAndGame(User $user, Game $game): array
     {
-
         return $this->createQueryBuilder('g')
             ->innerJoin('g.members', 'u')
             ->where('u = :user')
