@@ -1513,7 +1513,7 @@ header {
         transform: rotate3d(1, 1, 1, 240deg);
     }
     to {
-        transform: rotate3d(1, 1, 1, 360deg);
+        transform: rotate3d(1, 1, 1, 320deg) translateY(-60px);
     }
 }
 @keyframes dropShadowMockup {
