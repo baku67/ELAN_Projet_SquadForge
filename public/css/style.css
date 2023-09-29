@@ -2257,10 +2257,12 @@ header {
 .newTopicsGameList {
     clip-path: polygon(10% 0, 100% 0, 97% 100%, 0% 100%);
     position: relative;
-    left: 4px;
+    left: -12px;
 }
 .newMediasGameList {
     clip-path: polygon(10% 0, 100% 0, 97% 100%, 0% 100%);
+    position: relative;
+    left: -17px;
 }
 
 

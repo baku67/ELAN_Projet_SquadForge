@@ -107,6 +107,8 @@
 
             <div class="listContainer topicList listMarginTop">
 
+                {% set index = 0 %}
+
                 {% for topic in userTopics %}
 
                     <a href="{{ path('app_topicDetail', {'slug': topic.slug}) }}">
@@ -114,14 +116,46 @@
                             <img class="tinyLogo" src="{{ asset('img/games/tinyLogo/' ~ topic.game.tinyLogo) }}" alt="logo du jeu {{ topic.game.title }}" />
                             <span class="topicTitle">{{ topic.title|capitalize }}</span>
                             <div class="topicCardSubInfos">
+
+                                {% if topic.validated == "validated" %}
+                                    <span class="userTopicStatus topicStatusValidated"><i class="fa-solid fa-check"></i> Validé</span>
+                                {% elseif topic.validated == "refused" %}
+                                    <span class="userTopicStatus topicStatusRefused"><i class="fa-solid fa-ban"></i> Refusé</span>
+                                {% elseif topic.validated == "waiting" %}
+                                    <span class="userTopicStatus topicStatusWaiting"><i class="fa-regular fa-hourglass"></i> En attente</span>
+                                {% endif %}
+
                                 {% if topic.topicPostsCount == 0 %}
                                     <span style="opacity:0.5;">{{ topic.topicPostsCount }} <i class="fa-solid fa-message msgIconColor" style="color:#1da8b7d4;"></i></span>
                                 {% else %}
                                     <span>{{ topic.topicPostsCount }} <i class="fa-solid fa-message msgIconColor" style="color:#1da8b7d4;"></i></span>
                                 {% endif %}
+
+                                <div id="deleteSelfTopicDiv{{index}}" class="deleteSelfTopicDiv" title="Supprimer le topic"><i class="fa-solid fa-trash deleteSelfTopicIcon"></i></div>
+
                             </div>
                         </article>
                     </a>
+
+
+                    <dialog class="modalDialog" id="confirmDeleteSelfTopicModal{{index}}">
+                        <p style="font-size:1.3em;">Êtes-vous sûr de vouloir supprimer ce topic ? <br>Tout les commentaires associés seront également supprimés</p>
+
+                        <a href="{{ path('app_deleteSelfTopic',{'idTopic':topic.id}) }}" class="confirmModal">Supprimer</a>
+                        <span id="cancelDeleteSelfTopic{{index}}" class="cancelModal" onclick="confirmDeleteSelfTopicModal{{index}}.close()">Annuler</span>                            
+                    </dialog>
+
+
+                    <script>
+                        document.getElementById('deleteSelfTopicDiv{{index}}').addEventListener('click', function() {
+                            // Evite le click sur le lien de la div parente:
+                            event.preventDefault();
+                            // Modal confirmation
+                            document.getElementById('confirmDeleteSelfTopicModal{{index}}').showModal();
+                        })
+                    </script>
+
+                    {% set index = index + 1 %}
 
                 {% endfor %}
 

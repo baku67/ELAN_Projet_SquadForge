@@ -420,7 +420,7 @@
                                             {% if post.user %}
                                                 <span class="postAuthorUser">{{ post.user.pseudo|capitalize }}</span>
                                             {% else %}
-                                                <span class="postAuthorUser emptyListMsg">???</span>
+                                                <span class="postAuthorUser emptyListMsg">Inconnu</span>
                                             {% endif %}
 
                                             <span class="postPublishDate">{{ time_diff(post.publishDate) }}</span>
