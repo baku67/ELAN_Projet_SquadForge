@@ -622,7 +622,40 @@ class GameController extends AbstractController
 
 
     
+    // Page tournoi en construction
+    #[Route("/{gameSlug}/tournaments", name:"app_tournaments")]
+    public function tournamentsPage(EntityManagerInterface $entityManager, string $gameSlug, Request $request)
+    {
+
+        $notifRepo = $entityManager->getRepository(Notification::class);
+        $mediaRepo = $entityManager->getRepository(Media::class);
+        $topicRepo = $entityManager->getRepository(Topic::class);
+        $reportRepo = $entityManager->getRepository(Report::class);
+
+        // Onglet notifs Bulle nbr "non-vues" (int si connécté, null sinon)
+        $userNotifCount = $this->getUser() ? count($notifRepo->findByUserNotSeen($this->getUser())) : null;
+        // Si userModo: Bulles nbr éléments en attente de validation (int si modo, null sinon)
+        if($this->getUser() && in_array('ROLE_MODO', $this->getUser()->getRoles())) {
+            // On compte les Topic et Médias status "waiting"
+            $mediasWaitings = count($mediaRepo->findBy(["validated" => "waiting"]));
+            $topicsWaitings = count($topicRepo->findBy(["validated" => "waiting"]));
+            $modoNotifValidationCount = $mediasWaitings + $topicsWaitings;
+            // Nombre de cards report (groupée, != nbr reports)
+            $modoNotifReportCount = count($reportRepo->getAllReportsGroupedByOjectIdAndType());
+        }
+        else {
+            $modoNotifValidationCount = null;
+            $modoNotifReportCount = null;
+        }
+        
 
 
+        return $this->render('game/tournaments.html.twig', [
+            'modoNotifValidationCount' => $modoNotifValidationCount,
+            'modoNotifReportCount' => $modoNotifReportCount,
+            'userNotifCount' => $userNotifCount,
+
+        ]);
+    }
 
 }

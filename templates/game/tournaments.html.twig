@@ -1,0 +1,111 @@
+{% extends 'base.html.twig' %}
+{% block title %}Inscription{% endblock %}
+{% block meta_description %}
+    Inscrivez-vous dès maintenant et rejoignez la communauté
+{% endblock %}
+
+
+{% block body %}
+
+    {# <span id="noCtaFooter" style="display:none;" hidden>register</span> #}
+
+
+    <header class="globalBanner" style="background: url('{{ asset('img/banner1.jpg') }}' )">
+
+        <div style="display:inline-flex;">
+            <a href="{{ path('app_home') }}"><img src="{{ asset('img/logoSquadForge_v3.png') }}" class="logoPng" id="logoPng" alt='bearded dwarf forging a sword above "SquadForge" title' /></a>
+            <a id="logoShrinkTxt" href="{{ path('app_home') }}">SQUADFORGE</a>
+        </div>
+
+        <nav id="navLine" class="navLine">
+            <span id="closeBurgerMobile"><i class="fa-solid fa-xmark"></i></span>
+            <a href="{{ path('app_home') }}" class="homeNav"><i class="fa-solid fa-house"></i></a>
+            <a href="{{ path('app_games') }}" class="gamesNav caps">jeux</a>
+            {% if app.user %}
+                <a href="{{ path('app_userGroups') }}" class="teamsNav caps">teams</a>
+                <a href="{{ path('app_showNotifsList') }}" class="notifsNav" style="padding:0;">
+                    <div class="navNotifDiv">
+                        <i class="fa-solid fa-bell notifBell"></i>
+                        {# Bulle newNotifCount si > 0 #}
+                        {% if userNotifCount > 0 %}
+                            <span class="newNotifBubbleCount bubleNotif" id="newNotifBubbleCount">{{ userNotifCount }}</span>
+                        {% endif %}
+                    </div>
+                </a>
+            {% else %}
+                <a href="{{ path('app_allGroupList') }}" class="teamsNav caps">teams</a>
+            {% endif %}
+            {% if app.user and "ROLE_MODO" in app.user.roles %}
+            
+                <a href="{{ path('app_moderationDashboard') }}" id="modoNav" class="modoNav">
+                    <div class="modoNavSubDiv">
+                        <span>Modération</span>
+                        {% if modoNotifValidationCount > 0 %}
+                            <span class="newNotifBubbleCount bubleModo1">{{ modoNotifValidationCount }}</span>
+                        {% endif %}
+                        {% if modoNotifReportCount > 0 %}
+                            <span class="newNotifBubbleCount bubleModo2">{{ modoNotifReportCount }}</span>
+                        {% endif %}
+                    </div>
+                </a>
+
+                <script>
+                    // Ajout d'espace libre sur l'onglet Nav "Modération" si bulles (car bulles absolutes)
+                    var paddingRightOnglet = 0;
+                    if({{modoNotifValidationCount}} > 0) {
+                        paddingRightOnglet += 17;
+                    }
+                    if({{modoNotifReportCount}} > 0) {
+                        paddingRightOnglet += 17;
+                    }
+                    document.getElementById('modoNav').style.paddingRight = paddingRightOnglet + "px";
+                </script>
+
+            {% endif %}
+
+            {# Profil + deco #}
+            <div id="profilBurgerMobile">
+                {% if app.user %}
+                    <a href="{{ path('app_user') }}" class="profil" id="profilBtnNav"><i class="fa-solid fa-user profilIcon"></i>  {{ app.user.pseudo|capitalize }}</a>
+                    <a href="{{ path('app_logout') }}" class="decoBtn"><i class="fa-solid fa-power-off decoBtnMobile"></i></a>
+                {% else %}
+                    <a href="{{ path('app_login') }}" class="profil" id="loginBtnNav" style="border-right:2px solid #80808061">Connexion</a>
+                    <a href="{{ path('app_register') }}" class="profil" id="registerBtnNav" style="border-bottom-left-radius:0px;">S'inscrire</a>
+                {% endif %}
+            </div>
+
+        </nav>
+
+        {# Show menu Burger (mobile) #}
+        <span id="showBurgerMenu"><i class="fa-solid fa-bars"></i></span>
+
+    </header>
+
+
+    <div class="headerUnderline"></div>
+
+
+    <main class="main">
+
+        <div class="tournamentsGrid">
+
+            <div class="tournamentsDiv">
+                <img src="{{ asset('img/tournamentsPageWip.png') }}" class="tournamentsLogo" alt="En cours de développement" />
+                <h1 class="tournamentsTitle">Fonctionalité en cours de développement,<br> revenez bientôt !</h1>
+            </div>
+
+            <div class="testImgFade">
+                <h2 class="tournamentsImgTitle">Tournois</h2>
+                <img src="{{ asset('img/tournamentsBg.jpg') }}" class="tournamentsImg" alt="photo de tournoi gaming">
+            </div>
+
+        </div>
+
+    </main>
+
+    {% block javascripts %}
+        <script src="{{ asset('js/registerPage.js') }}"></script>
+    {% endblock %}
+
+
+{% endblock %}
