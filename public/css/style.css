@@ -7366,6 +7366,28 @@ cursor: pointer;
     display:flex; 
     flex-direction:column; 
     justify-content:center;
+
+    margin-top: 6px;
+    gap: 22px;
+}
+
+#inputPunishEndDate0 {
+    background-color: #e9fdff;
+    padding: 5px 14px;
+    border-radius: 7px;
+}
+
+
+.reportCardInnocentDiv {
+    display: inline-flex;
+    justify-content: center;
+    width: 50%;
+    height: 235px;
+    padding: 5px 10px;
+    border-radius: 8px;
+    text-align: center;
+    background-color: rgb(19 193 95);
+    border: 1px solid grey;
 }
 
 input:disabled { 
@@ -7383,6 +7405,9 @@ input:disabled {
     width: 100%;
     justify-content: space-evenly;
     align-items: center;
+
+    padding: 15px;
+    gap: 15px;
 
     border-top: 1px solid rgba(128, 128, 128, 0.507);
     margin: 7px auto;
@@ -7407,7 +7432,7 @@ input:disabled {
 }
 
 .reportContentDiv { 
-    background-color: #ffffff1c;
+    background-color: var(--background-color);
     width: 95%;
     margin: 12px auto;
     padding: 5px 15px 10px 15px;
@@ -7421,11 +7446,13 @@ input:disabled {
 
 
 .toggleSentence {
+    background-color: #1d909e5e;
     padding: 5px 10px;
     margin: 15px 3px;
+    border-radius: 3px;
     
     border: 1px solid rgba(128, 128, 128, 0.445);
-    transition: 0.4s;
+    transition: 0.3s;
 }
 .toggleSentence:hover {
     background-color: rgba(170, 47, 47, 0.438);
@@ -7433,6 +7460,7 @@ input:disabled {
 
 .sentenceActif {
     background-color: rgba(226, 0, 0, 0.438);
+    border: 1px solid #ffffffa6 !important;
 }
 
 .reportDetailImg {
@@ -7457,26 +7485,48 @@ input:disabled {
 
 .innocenterBtn {
     height: fit-content;
-    padding: 5px 10px;
+    align-self: center;
+    text-align: center;
+    font-size: 1.7em;
+    /* padding: 5px 10px;
+
     border-radius: 2px;
-    background-color: rgb(86, 150, 57);
+    background-color: rgb(86, 150, 57); */
 
     /* align-center du parent suffi pas: */
-    position: relative;
-    top: 10px;
+    /* position: relative;
+    top: 10px; */
 }
 .censureBtn {
     color: white;
     border: 1px solid rgb(167, 0, 0);
-    padding: 5px 10px;
+    padding: 5px 10px 8px 10px;
     border-radius: 2px;
-    background-color: rgb(150, 57, 57);
+    background-color: #dc2e2e;
+
+    width: 92%;
+    align-self: center;
+    font-size: 1.2em;
+    border-radius: 5px;
+    margin: 10px auto;
 
     transition: all 0.3s;
 }
 .censureBtn:hover {
     border: 1px solid rgb(255, 255, 255);
     background-color: rgb(167, 0, 0);
+}
+
+.reportCardSentenceDiv {
+    height: 235px;
+    padding: 0px 25px 10px 25px;
+    background-color: #271c1c;
+    border-radius: 8px;
+    border: 3px solid #dc2e2e94;
+}
+
+.sentenceIconModo {
+    margin-right: 5px;
 }
 
 .censuredWordsList {

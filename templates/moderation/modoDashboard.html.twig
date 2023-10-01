@@ -239,6 +239,11 @@
 
                                     {% if report.objectType == "topicPost" or report.objectType == "mediaPost" %}
                                         {% set objectType = "post" %}
+
+                                    {# {% elseif report.objectType == "media" %} #}
+                                        {# MediaPreview #}
+
+
                                     {% else %}
                                         {% set objectType = report.objectType %}
                                     {% endif %}
@@ -256,6 +261,7 @@
 
                             {# Partie cachée de la reportCard (Ajax) #}
                             <div id="preview{{ index }}" class="notDisplayed">
+
                                 <div class="reportContentDiv" style="">
                                     <p id="detailText{{ index }}" class="reportCardText"></p>
                                     <img id="detailImg{{ index }}" src="" class="reportDetailImg" >
@@ -267,20 +273,22 @@
 
                                 <div id="clickableContainer{{ index }}" class="clickableContainer">
 
-                                    <a href="{{ path('app_removeReports',{'objectType':report.objectType, 'objectId':report.objectId }) }}" class="innocenterBtn">Innocenter</a>
+                                    <a href="{{ path('app_removeReports',{'objectType':report.objectType, 'objectId':report.objectId }) }}" class="reportCardInnocentDiv">
+                                        <span class="innocenterBtn" >Innocenter</span>
+                                    </a>
 
-                                    <div>
+                                    <div class="reportCardSentenceDiv">
                                         {# Status author si actuellement muted/banned #}
                                         <div id="authorStatus{{ index }}" style="text-align:center;"></div>
 
                                         {# Toggle mute/ban modes #}
                                         <div style="display:inline-flex; justify-content:center; width:100%;">
                                             <span id="toggleMute{{ index }}" class="toggleSentence">
-                                                <i class="fa-solid fa-volume-xmark"></i>
+                                                <i class="fa-solid fa-volume-xmark sentenceIconModo"></i>
                                                 <span> Mute</span>
                                             </span>
                                             <span id="toggleBan{{ index }}" class="toggleSentence">
-                                                <i class="fa-solid fa-ban"></i>
+                                                <i class="fa-solid fa-ban sentenceIconModo"></i>
                                                 <span> Ban</span>
                                             </span>
                                             <span id="toggleNoPunish{{ index }}" class="toggleSentence sentenceActif">
@@ -295,18 +303,14 @@
                                             {# Mode ban/mute JS #}
                                             <input id="sentenceType{{ index }}" type="hidden" name="mode" value="void" />
 
-                                            <br> 
-
                                             {# Date fin de ban/mute si mode != aucun #}
                                             <div id="sentenceEndDateDiv{{ index }}" style="width:100%; text-align:center;">
                                                 <label id="inputPunishEndDateLabel{{ index }}" for="endDate">Aucune pénalité</label>
-                                                <input id="inputPunishEndDate{{ index }}" name="endDate" type="date" min="" value="" disabled>
+                                                <input id="inputPunishEndDate{{ index }}" name="endDate" type="date" min="" value="" class="flatpickr-input" disabled>
                                             </div>
 
-                                            <br>
-
                                             {% if report.objectType == "topicPost" or report.objectType == "mediaPost" %}
-                                                {% set objectType = "post" %}
+                                                {% set objectType = "commentaire" %}
                                             {% else %}
                                                 {% set objectType = report.objectType %}
                                             {% endif %}
