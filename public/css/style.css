@@ -237,22 +237,37 @@ body {
         border-radius: 3px;
     } 
 
+
+    .redModo {
+        color: #dc2e2e;
+        transition: color 0.3s;
+    }
+    .redModo:hover {
+        color: #ffc8c8;
+    }
+    .deleteWord {
+        transform: scale(1.5);
+        margin-left: 7px;
+    }
+
     .addCensureWordBtn {
         margin: 0px auto !important;
         padding: 8px 20px;
         position: relative;
-        right: 5px;
+        right: 10px;
         border-top-right-radius: 8px !important;
         border-bottom-right-radius: 8px !important;
-        background-color: #e91e4d !important;
+        border-top-left-radius: 0px !important;
+        border-bottom-left-radius: 0px !important;
+        background-color: #dc2e2e !important;
         color: white !important;
         border: 1px solid rgba(255, 255, 255, 0.4) !important;
-        border-left: 0px !important;
+        /* border-left: 0px !important; */
 
         transition: all 0.3s;
     }
     .addCensureWordBtn:hover {
-        background-color: #e91e4d !important;
+        background-color: rgb(182, 16, 55) !important;
     }
 
     .form-select {
@@ -4750,7 +4765,11 @@ nav {
 
 
 
-
+.modoSectionsSubtitle {
+    font-family: 'K2D', sans-serif;
+    text-align: center;
+    width: 100%;
+}
 
 
 .modoSubTitle1Bg {
@@ -4765,8 +4784,10 @@ nav {
     width: 5px;
     /* transform: translate(0px, -2px); */
     border-left: 20px;
-    transform: translate(0px, 0px);
+    transform: translate(-2px, 0px);
     z-index:0;
+    color: #f5f5f5;
+    border-bottom: 2px solid black;
 
     animation: modoSubTitle1Bg1 0.3s 0.1s ease-in-out forwards, modoSubTitle1Bg2 0.4s 0.45s ease-in-out forwards !important;
 }
@@ -4775,7 +4796,7 @@ nav {
         height: 0px;
     }
     to {
-        height:45px; 
+        height:50px; 
     }
 }
 @keyframes modoSubTitle1Bg2 {
@@ -4784,6 +4805,79 @@ nav {
     }
     to {
         width:350px; 
+    }
+}
+
+.modoSubTitle1BgReports {
+
+    position:absolute; 
+    clip-path: polygon(0 0, 100% 0, 91% 100%, 0 100%);
+    /* border-top-left-radius: 4px; */
+    border-top-left-radius: 3px;
+    /* height:35px; 
+    width:130px;  */
+    height: 0px;
+    width: 5px;
+    /* transform: translate(0px, -2px); */
+    border-left: 20px;
+    transform: translate(-2px, -1px);
+    z-index:0;
+    color: #f5f5f5;
+    border-bottom: 2px solid black;
+
+    animation: modoSubTitle1Bg1Reports 0.3s 0.1s ease-in-out forwards, modoSubTitle1Bg2Reports 0.4s 0.45s ease-in-out forwards !important;
+}
+@keyframes modoSubTitle1Bg1Reports {
+    from {
+        height: 0px;
+    }
+    to {
+        height:50px; 
+    }
+}
+@keyframes modoSubTitle1Bg2Reports {
+    from {
+        width: 5px;
+    }
+    to {
+        width:320px; 
+    }
+}
+
+
+.modoSubTitle1BgCensor {
+
+    position:absolute; 
+    clip-path: polygon(0 0, 100% 0, 91% 100%, 0 100%);
+    /* border-top-left-radius: 4px; */
+    border-top-left-radius: 3px;
+    /* height:35px; 
+    width:130px;  */
+    height: 0px;
+    width: 5px;
+    /* transform: translate(0px, -2px); */
+    border-left: 20px;
+    transform: translate(-2px, -1px);
+    z-index:0;
+    color: #f5f5f5;
+    border-bottom: 2px solid black;
+
+    animation: modoSubTitle1Bg1Censor 0.3s 0.1s ease-in-out forwards, modoSubTitle1Bg2Censor 0.4s 0.45s ease-in-out forwards !important;
+}
+@keyframes modoSubTitle1Bg1Censor {
+    from {
+        height: 0px;
+    }
+    to {
+        height:50px; 
+    }
+}
+@keyframes modoSubTitle1Bg2Censor {
+    from {
+        width: 5px;
+    }
+    to {
+        width:260px; 
     }
 }
 
@@ -5596,6 +5690,13 @@ div#tarteaucitronServices {
 
 .sectionHomeContent article:nth-child(even) .topicCard {
     background-color: #2bb3c259;
+}
+
+.censuredWordsList article {
+    background-color: #2ce4f91a;
+}
+.censuredWordsList article:nth-child(even) {
+    background-color: #2ce4f929;
 }
 
 
@@ -7223,10 +7324,10 @@ cursor: pointer;
 }
 .reportPreviewBtn {
     border: 1px solid #b2ffdf79;
-    background-color: #991e3a1f;
+    background-color: #1d909e29;
     padding: 5px 10px;
     border-radius: 4px;
-    width: 50%;
+    width: 60%;
     margin: 7px auto;
 
     color: white;
@@ -7243,12 +7344,18 @@ cursor: pointer;
 
 .addCensorSubDiv {
     position: relative;
-    margin: 15px auto;
+    margin: 45px auto 0 auto;
     display: flex;
     width: 293px;
 }
 
-
+#censure_word {
+    background-color: #42eaff29 !important;
+    border: 1px solid #80808096;
+}
+#censure_word:focus {
+    color: white;
+}
 
 .reportPreviewFacticeTxt {
     transition: all 0.4s;

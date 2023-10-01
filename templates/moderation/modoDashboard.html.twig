@@ -86,9 +86,11 @@
     {% endif %}
 
 
-    <main class="main">
+    <main class="main" style="width:60%;">
 
-        <h2 class="pageTitle">Espace Modération</h2>
+        <h2 class="pageTitle">space Modération</h2>
+
+        <h3 class="modoSectionsSubtitle" style="margin-top:32px;">Validations des publications</h3>
 
         <section class="sectionContainer modoSection">
 
@@ -211,15 +213,15 @@
 
 
 
-
+        <h3 class="modoSectionsSubtitle">Contrôle des publications</h3>
 
         {# Section Signalements/Reports #}
         {# Ajax apercu on clic #}
         <section class="sectionContainer modoSection modoSectionRed">
 
             <div>
-                <div class="modoSubTitle1Bg" style="background-color:#dc2e2e;"></div>
-                <h3 class="gameSubtitle test noMarginBottom"><i class="fa-solid fa-flag"></i> <strong>Signalements</strong></h3>
+                <div class="modoSubTitle1BgReports" style="background-color:#dc2e2e;"></div>
+                <h3 class="gameSubtitle test noMarginBottom" style="color:white;"><i class="fa-solid fa-flag"></i> <strong style="margin-left:14px;">Signalements</strong></h3>
             </div>
 
             <article class="reportsDiv">
@@ -525,23 +527,8 @@
         <section class="sectionContainer modoSection modoSectionRed">
 
             <div>
-                <div class="modoSubTitle1Bg" style="background-color:#dc2e2e;"></div>
-                <h3 class="gameSubtitle test noMarginBottom"><i class="fa-solid fa-bug-slash"></i> <strong>Censures</strong></h3>
-            </div>
-            
-            <div class="censuredWordsList">
-                {% for censureWord in censureWords %}
-                    <article style="display:inline-flex; justify-content:space-around; padding: 5px 0; border-bottom:1px solid rgba(255,255,255,0.2);">
-                        <span style="width:100px; font-family:'K2D', sans-serif;">"{{ censureWord.word }}"</span>
-                        <div style="font-family:'K2D', sans-serif;">
-                            <span style="width:100px;">{{ time_diff(censureWord.creationDate) }}</span>
-                            <pspan style="width:100px;">par {{ censureWord.user.pseudo|capitalize }}</span>
-                            <a href="{{ path('app_deleteCensure', {'id': censureWord.id }) }}" style="margin:0px 2px;">
-                                <i class="fa-solid fa-xmark"></i>
-                            </a>
-                        </div>
-                    </article>
-                {% endfor %}
+                <div class="modoSubTitle1BgCensor" style="background-color:#dc2e2e;"></div>
+                <h3 class="gameSubtitle test noMarginBottom" style="color:white;"><i class="fa-solid fa-virus-slash"></i> <strong style="margin-left:14px;">Censures</strong></h3>
             </div>
 
             {{ form_start(formAddCensoredWord) }}
@@ -550,6 +537,23 @@
                     {{ form_widget(formAddCensoredWord.submit) }}
                 </div>
             {{ form_end(formAddCensoredWord) }}
+            
+            <div class="censuredWordsList">
+                {% for censureWord in censureWords %}
+                    <article style="display:inline-flex; justify-content:space-around; padding: 5px 0; border-bottom:1px solid rgba(255,255,255,0.2);">
+                        <span style="width:100px; font-family:'K2D', sans-serif;">"<span style="color:#ff5151;font-weight:bold;">{{ censureWord.word }}</span>"</span>
+                        <div style="font-family:'K2D', sans-serif;">
+                            <span style="width:100px;">{{ time_diff(censureWord.creationDate) }}</span>
+                            <span style="width:100px;">par {{ censureWord.user.pseudo|capitalize }}</span>
+                            <a href="{{ path('app_deleteCensure', {'id': censureWord.id }) }}" style="margin:0px 2px;">
+                                <i class="fa-solid fa-xmark redModo deleteWord"></i>
+                            </a>
+                        </div>
+                    </article>
+                {% endfor %}
+            </div>
+
+
 
         </section>
 
