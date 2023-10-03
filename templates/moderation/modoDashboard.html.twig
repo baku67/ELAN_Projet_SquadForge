@@ -224,7 +224,7 @@
                 <h3 class="gameSubtitle test noMarginBottom" style="color:white;"><i class="fa-solid fa-flag"></i> <strong style="margin-left:14px;">Signalements</strong></h3>
             </div>
 
-            <article class="reportsDiv">
+            <div class="reportsDiv">
 
                 {% if reports|length > 0 %}
                 
@@ -232,7 +232,7 @@
 
                     {% for report in reports %}
                     
-                        <div id="reportPreviewBtn{{ index }}" class="reportPreviewBtn" onmouseover="document.getElementById('reportPreviewFacticeTxt{{ index }}').style.letterSpacing = '2px';" onmouseout="document.getElementById('reportPreviewFacticeTxt{{ index }}').style.letterSpacing = '0px';">
+                        <article id="reportPreviewBtn{{ index }}" class="reportPreviewBtn" onmouseover="document.getElementById('reportPreviewFacticeTxt{{ index }}').style.letterSpacing = '2px';" onmouseout="document.getElementById('reportPreviewFacticeTxt{{ index }}').style.letterSpacing = '0px';">
 
                             <div class="reportDivHeader">
                                 <div id="reportPreviewHeader{{ index }}">
@@ -321,7 +321,7 @@
                                     </div>
                                 </div>
                             </div>
-                        </div>
+                        </article>
 
                         {% set index = index + 1 %}
                     {% endfor %}
@@ -331,7 +331,7 @@
                     <p class="emptyListMsg">Aucun signalement en attente</p>
                     
                 {% endif %}
-            </article>
+            </div>
 
         </section>
 
