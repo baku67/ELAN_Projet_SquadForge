@@ -242,8 +242,22 @@
                         <li title="Instagram"><i class="fa-brands fa-instagram"></i></li>
                         <li title="Github"><i class="fa-brands fa-github"></i></li>
                     </ul>
-                    <div>
-                        <p class="contactMeTxt"><i class="fa-regular fa-paper-plane planeContactIcon"></i> Pour me contacter, rendez-vous sur mon <a href="https://www.portfolio.basilek.ovh" target="_blank" class="portfolioLink">Portfolio</a></p>
+                    <div style="position:relative; width:fit-content; margin:0 auto;">
+                        <p class="contactMeTxt"><i class="fa-regular fa-paper-plane planeContactIcon"></i> Pour me contacter, rendez-vous sur mon <a href="https://www.portfolio.basilek.ovh" target="_blank" id="portfolioLink" class="portfolioLink">Portf<span class="whiteFont">o</span>li<span class="whiteFont">o</span></a></p>
+                        <span id="paranthesePortfolio" class="paranthesePortfolio">)</span>
+
+                        <script>
+                            document.getElementById('portfolioLink').addEventListener('mouseover', function() {
+                                document.getElementById('paranthesePortfolio').innerText = "D";
+                                document.getElementById('paranthesePortfolio').style.bottom = "-21px";
+                                document.getElementById('paranthesePortfolio').style.transform = "rotate(90deg) scaleY(1.5)";
+                            })
+                            document.getElementById('portfolioLink').addEventListener('mouseout', function() {
+                                document.getElementById('paranthesePortfolio').innerText = ")";
+                                document.getElementById('paranthesePortfolio').style.bottom = "-18px";
+                                document.getElementById('paranthesePortfolio').style.transform = "rotate(90deg) scaleY(1)";
+                            })
+                        </script>
                     </div>
                 </div>
 

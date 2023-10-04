@@ -6684,6 +6684,20 @@ cursor: pointer;
     border-radius: 5px;
 }
 
+.paranthesePortfolio {
+    position: absolute;
+    /* color: var(--primary-color); */
+    color: white;
+    transform: rotate(90deg);
+    font-size: 1.5em;
+    font-weight: bold;
+    bottom: -18px;
+    right: 13px;    
+}
+.whiteFont {
+    color: white !important;
+}
+
 
 .questionAnswerContainer {
     display:flex; 
