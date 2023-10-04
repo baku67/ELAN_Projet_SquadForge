@@ -171,6 +171,11 @@ window.addEventListener('load', function() {
         const gameId = document.getElementById('gameId').textContent;
 
         document.getElementById('favGameBtn').addEventListener("click", function() {
+
+            // Spinning loader pendant requete
+            document.getElementById('favHeartIcon').style.opacity = "0";
+            document.getElementById('spinningLoader').classList.toggle('spinningLoader');
+
     
             fetch('/game/toggleGameFav/' + gameId, {
                 method: 'post',
@@ -180,24 +185,28 @@ window.addEventListener('load', function() {
             })
             .then(response => response.json())
             .then(data => {
+
+                document.getElementById('spinningLoader').classList.toggle('spinningLoader'); 
+                document.getElementById('favHeartIcon').style.opacity = "1";
+
                 if (data.success) {
     
                     if (data.newState == "favorited") {
-                        document.getElementById('favGameBtn').lastChild.className="fa-solid fa-heart favIcon";
+                        document.getElementById('favHeartIcon').className="fa-solid fa-heart favIcon";
                         document.getElementById('favGameBtn').style.borderTop = "1px solid " + document.getElementById('gameColor').textContent;
                         document.getElementById('favGameBtn').style.borderBottom = "1px solid " + document.getElementById('gameColor').textContent;
     
-                        document.getElementById('favGameBtn').lastChild.style.color = document.getElementById('gameColor').textContent;
+                        document.getElementById('favHeartIcon').style.color = document.getElementById('gameColor').textContent;
     
                         window.FlashMessage.success('Ajouté aux favoris');
     
                     }
                     else if (data.newState == "notFavorited") {
-                        document.getElementById('favGameBtn').lastChild.className="fa-regular fa-heart favIcon";
+                        document.getElementById('favHeartIcon').className="fa-regular fa-heart favIcon";
                         document.getElementById('favGameBtn').style.borderTop = "1px solid rgb(255 255 255 / 20%)";
                         document.getElementById('favGameBtn').style.borderBottom = "1px solid rgb(255 255 255 / 20%)";
     
-                        document.getElementById('favGameBtn').lastChild.style.color = "white";
+                        document.getElementById('favHeartIcon').style.color = "white";
     
                         window.FlashMessage.success('Retiré des favoris');
                     }

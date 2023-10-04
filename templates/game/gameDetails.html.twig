@@ -164,15 +164,62 @@
 
 
                 {# Bouton Favoris state (Btn toggle Async) #}
-                {% if app.user %}
-                    {% if isFavorited %}
-                        <span id="favGameBtn" class="favButton" style="border-top: 1px solid {{ game.color }}; border-bottom: 1px solid {{ game.color }};"><i style="color:{{ game.color }};" class="fa-solid fa-heart favIcon"></i></span>
+                <div style="position:relative;">
+                    {% if app.user %}
+                        {% if isFavorited %}
+                            <span id="favGameBtn" class="favButton" style="border-top: 1px solid {{ game.color }}; border-bottom: 1px solid {{ game.color }};">
+                                
+                                <div id="spinningLoader" class="spinner spinningLoader" style="left:61%; top:46%;">
+                                    <div class="lds-roller" style="transform:scale(0.8);">
+                                        <div></div>
+                                        <div></div>
+                                        <div></div>
+                                        <div></div>
+                                        <div></div>
+                                        <div></div>
+                                        <div></div>
+                                        <div></div>
+                                    </div>
+                                </div>
+
+                                <i style="color:{{ game.color }};" id="favHeartIcon" class="fa-solid fa-heart favIcon"></i>
+
+                            </span>
+                        {% else %}
+                            <span id="favGameBtn" class="favButton">
+
+                                <div id="spinningLoader" class="spinner spinningLoader" style="left:61%; top:46%;">
+                                    <div class="lds-roller" style="transform:scale(0.8);">
+                                        <div></div>
+                                        <div></div>
+                                        <div></div>
+                                        <div></div>
+                                        <div></div>
+                                        <div></div>
+                                        <div></div>
+                                        <div></div>
+                                    </div>
+                                </div>
+
+                                <i id="favHeartIcon" class="fa-regular fa-heart favIcon"></i>
+
+                            </span>
+                        {% endif %}
                     {% else %}
-                        <span id="favGameBtn" class="favButton"><i class="fa-regular fa-heart favIcon"></i></span>
+                        <span id="favGameBtn" class="favButton">
+                            <i class="fa-regular fa-heart favIcon"></i>
+                        </span>
                     {% endif %}
-                {% else %}
-                        <span id="favGameBtn" class="favButton"><i class="fa-regular fa-heart favIcon"></i></span>
-                {% endif %}
+
+                    {# Adaptation de la couleur du load Spinner #}
+                    <script>
+                        var gameColor = "{{ game.color }}";
+                        var loaderCss = document.createElement("style");
+                        loaderCss.innerHTML = ".lds-roller div:after { background: " + gameColor + "; }";
+                        document.head.appendChild(loaderCss);
+                    </script>
+
+                </div>
 
             </div>
 

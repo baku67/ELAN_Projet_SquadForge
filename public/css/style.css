@@ -1637,6 +1637,8 @@ header {
     height: 100%;
     overflow: visible;
     position: relative;
+
+
 }
 
 
@@ -3620,6 +3622,8 @@ nav {
     position: relative;
     right: -6px;
     top: 0px;
+
+    transition: all 0.3s;
 }
 
 .favButton:hover {
@@ -7457,7 +7461,7 @@ cursor: pointer;
 }
 
 .spinningLoader {
-    display: none;
+    display: none !important;
 }
 
 .spinner {
