@@ -427,7 +427,7 @@
                         <div id="addSessionForm" class="notDisplayed">
 
                             {# ids pour flatPickr #}
-                            {{ form_start(formAddSession)}}
+                            {{ form_start(formAddSession,  {'attr': {'id': 'form_add_session'}})}}
                                 {{ form_row(formAddSession.title) }}
                                 {{ form_label(formAddSession.dateStart, 'Début') }}
                                 {{ form_widget(formAddSession.dateStart, {'id': 'date_start_picker'}) }}
@@ -446,9 +446,39 @@
 
                             {{ form_end(formAddSession)}}
 
+                            {# Spinning loader #}
+                            <div id="spinningLoaderSessionForm" class="spinner spinningLoader" style="z-index:9999; transform:translate(-50%, -50%) scale(1.2);">
+                                <div class="lds-roller">
+                                    <div></div>
+                                    <div></div>
+                                    <div></div>
+                                    <div></div>
+                                    <div></div>
+                                    <div></div>
+                                    <div></div>
+                                    <div></div>
+                                </div>
+                            </div>
+
+                            <script>
+                                document.getElementById('form_add_session').addEventListener('submit', function() {
+                                    document.getElementById('form_add_session').style.opacity = "0.3";
+                                    document.getElementById('session_submit').disabled = true;
+                                    document.getElementById('spinningLoaderSessionForm').classList.toggle('spinningLoader');
+                                })
+                            </script>
+
+                            {# Adaptation de la couleur du load Spinner #}
+                            <script>
+                                var gameColor = "{{ gameFrom.color }}";
+                                var loaderCss = document.createElement("style");
+                                loaderCss.innerHTML = ".lds-roller div:after { background: " + gameColor + "; }";
+                                document.head.appendChild(loaderCss);
+                            </script>
+
+                            {# Style des inputs DateTime calendrier ajout session #}
                             <script>
                                 document.addEventListener('DOMContentLoaded', function() {
-                                    console.log('DOMContentLoaded');
                                     flatpickr('#date_start_picker', {
                                         enableTime: true,
                                         minDate: 'today',
@@ -604,7 +634,8 @@
                             {% if members|length > 1 %}
                                 <div class="passLeadDiv">
                                     <p class="passLeadTitle">Passer le leadership</p>
-                                    <div class="passLeadLine" style="display:inline-flex; width:100%;">
+                                    <div class="passLeadLine" style="display:inline-flex; width:100%; position:relative;">
+
                                         <form id="switchTeamLeader" action="{{ path('app_switchTeamLeader',{ 'groupSlug':group.slug }) }}" method="post" style="display:inline-flex;">
                                             <select id="memberLeadSelect" class="form-select" name="memberId" style="font-family: 'K2D', sans serif;">
                                                 <option id="voidSelect" value="">-- Choisir</option>
@@ -618,9 +649,34 @@
                                                 <i class='fa-solid fa-crown'></i><i class='fa-solid fa-arrow-right'></i><i class='fa-solid fa-user'></i>
                                             </button>
                                         </form>
+
                                     </div>
+
+                                    {# Spinning loader #}
+                                    <div id="spinningLoaderLeaderForm" class="spinner spinningLoader" style="z-index:9999; transform:translate(-50%, -50%) scale(1);">
+                                        <div class="lds-roller">
+                                            <div></div>
+                                            <div></div>
+                                            <div></div>
+                                            <div></div>
+                                            <div></div>
+                                            <div></div>
+                                            <div></div>
+                                            <div></div>
+                                        </div>
+                                    </div>
+
+                                    <script>
+                                        document.getElementById('switchTeamLeader').addEventListener('submit', function() {
+                                            document.getElementById('switchTeamLeader').style.opacity = "0.3";
+                                            document.getElementById('memberLeadSubmit').disabled = true;
+                                            document.getElementById('spinningLoaderLeaderForm').classList.toggle('spinningLoader');
+                                        })
+                                    </script>
+
                                 </div>
                             {% else %}
+                                {# Form factice (si aucun autre membre) #}
                                 <div class="passLeadDiv">
                                     <p style="width:auto; font-family:'K2D',sans-serif;">Passer le leadership</p>
                                     <div class="passLeadLine" style="display:inline-flex; width:100%; opacity:0.5;">
@@ -915,17 +971,43 @@
                             {% if questions|length >= 5 %}
                                 <p class="emptyListMsg">Vous avez atteint la limite de question (5/5)</p>
                             {% else %}
-                                <form id="questionsContainer" action="{{ path('app_addGroupQuestion',{'groupSlug': group.slug}) }}" method="post">
-                                    <div class="inputQuestionLine">
-                                        <i class="fa-solid fa-clipboard-question addQuestionIcon" style="color:{{gameFrom.color}}"></i>
-                                        <input type="text" id="questionText" name="questionText" placeholder="Entrez une question de candidature..." class="form-control" required style="border:1px solid {{ gameFrom.color }}57;"></input>
-                                        <div title="Rendre la question obligatoire" class="requiredQuestionDiv">
-                                            <label for="required" class="requiredQuestionLabel"><span class="requiredStar"><i class="fa-solid fa-star-of-life"></i></span></label>
-                                            <input checked type="checkbox" name="required" value="checked" class="questionRequired form-check-input"></input>
+                                <div style="position:relative;">
+
+                                    <form id="questionsContainer" action="{{ path('app_addGroupQuestion',{'groupSlug': group.slug}) }}" method="post">
+                                        <div class="inputQuestionLine">
+                                            <i class="fa-solid fa-clipboard-question addQuestionIcon" style="color:{{gameFrom.color}}"></i>
+                                            <input type="text" id="questionText" name="questionText" placeholder="Entrez une question de candidature..." class="form-control" required style="border:1px solid {{ gameFrom.color }}57;"></input>
+                                            <div title="Rendre la question obligatoire" class="requiredQuestionDiv">
+                                                <label for="required" class="requiredQuestionLabel"><span class="requiredStar"><i class="fa-solid fa-star-of-life"></i></span></label>
+                                                <input checked type="checkbox" name="required" value="checked" class="questionRequired form-check-input"></input>
+                                            </div>
+                                        </div>
+                                        <input type="submit" id="question_submit" class="btn btn-primary" value="Ajouter"></input>
+                                    </form>
+
+                                    {# Spinning loader #}
+                                    <div id="spinningLoaderQuestionForm" class="spinner spinningLoader" style="z-index:9999; transform:translate(-50%, -50%) scale(1.1);">
+                                        <div class="lds-roller">
+                                            <div></div>
+                                            <div></div>
+                                            <div></div>
+                                            <div></div>
+                                            <div></div>
+                                            <div></div>
+                                            <div></div>
+                                            <div></div>
                                         </div>
                                     </div>
-                                    <input type="submit" class="btn btn-primary" value="Ajouter"></input>
-                                </form>
+
+                                    <script>
+                                        document.getElementById('questionsContainer').addEventListener('submit', function() {
+                                            document.getElementById('questionsContainer').style.opacity = "0.3";
+                                            document.getElementById('question_submit').disabled = true;
+                                            document.getElementById('spinningLoaderQuestionForm').classList.toggle('spinningLoader');
+                                        })
+                                    </script>
+                                </div>
+
                             {% endif %}
                         </div>
                         

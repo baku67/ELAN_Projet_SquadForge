@@ -5939,6 +5939,7 @@ h1, h2, h3, h4 {
 #addSessionForm {
     text-align: center;
 
+    position: relative;
     width: fit-content;
     margin: 0 auto;
     padding: 10px 20px;
@@ -6586,6 +6587,7 @@ cursor: pointer;
 }
 
 .passLeadDiv {
+    position: relative;
     background-color: #0000004a;
     padding: 9px 5px 19px 15px;
     margin-right: 40px;

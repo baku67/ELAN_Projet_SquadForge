@@ -514,6 +514,7 @@
                         {{ form_widget(formAddTopic._token) }}
                     {{ form_end(formAddTopic) }}
 
+                    {# Spinning loader #}
                     <div id="spinningLoaderTopicForm" class="spinner spinningLoader" style="z-index:9999; transform:translate(-50%, -50%) scale(1.5);">
                         <div class="lds-roller">
                             <div></div>
@@ -529,7 +530,7 @@
 
                     <script>
                         document.getElementById('form_add_topic').addEventListener('submit', function() {
-                            document.getElementById('form_add_topic').style.opacity = "0.4";
+                            document.getElementById('form_add_topic').style.opacity = "0.3";
                             document.getElementById('topic_submit').disabled = true;
                             document.getElementById('spinningLoaderTopicForm').classList.toggle('spinningLoader');
                         })
@@ -691,6 +692,8 @@
                         {{ form_widget(formAddMedia._token) }}
                     {{ form_end(formAddMedia) }}
 
+
+                    {# Spinning loader #}
                     <div id="spinningLoaderMediaForm" class="spinner spinningLoader" style="z-index:9999; transform:translate(-50%, -50%) scale(1.5);">
                         <div class="lds-roller">
                             <div></div>
@@ -706,7 +709,7 @@
 
                     <script>
                         document.getElementById('form_add_media').addEventListener('submit', function() {
-                            document.getElementById('form_add_media').style.opacity = "0.4";
+                            document.getElementById('form_add_media').style.opacity = "0.3";
                             document.getElementById('media_submit').disabled = true;
                             document.getElementById('spinningLoaderMediaForm').classList.toggle('spinningLoader');
                         })
