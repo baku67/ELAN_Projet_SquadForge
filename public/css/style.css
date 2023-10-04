@@ -7378,16 +7378,60 @@ cursor: pointer;
 }
 
 
+.justiceHammerImg {
+    width: 50%;
+    margin: 0 auto;
+    border-bottom: 1px solid;
+}
+
+#inputPunishEndDateLabel0 {
+    width: 130px;
+}
+
 .reportCardInnocentDiv {
     display: inline-flex;
+    flex-direction: column;
     justify-content: center;
-    width: 50%;
+    width: 45%;
     height: 235px;
     padding: 5px 10px;
     border-radius: 8px;
     text-align: center;
     background-color: rgb(19 193 95);
     border: 1px solid grey;
+
+    transition: all 0.3s;
+}
+.reportCardInnocentDiv:hover {
+    background-color: rgb(53 193 114);
+    /* color: black; */
+}
+.reportCardInnocentDiv img {
+    transition: all 0.3s;
+}
+.reportCardInnocentDiv:hover img {
+    transform: scale(1.15);
+}
+.reportCardInnocentDiv span {
+    transition: all 0.3s;
+}
+.reportCardInnocentDiv:hover span {
+    letter-spacing: 1px;
+    margin-top: 15px;
+}
+
+.reportCardType {
+    width: fit-content;
+    padding: 5px 20px 5px 10px;
+    position: relative;
+    font-size: 1.3em;
+    bottom: 6px;
+    right: 11px;
+    border-top-left-radius: 5px;
+    background-color: var(--primary-color);
+    color: var(--background-color);
+    font-weight: bold;
+    clip-path: polygon(0 0, 100% 0, 91% 100%, 0% 100%);
 }
 
 input:disabled { 
@@ -7447,7 +7491,7 @@ input:disabled {
 
 .toggleSentence {
     background-color: #1d909e5e;
-    padding: 5px 10px;
+    padding: 5px 5px;
     margin: 15px 3px;
     border-radius: 3px;
     
@@ -7519,7 +7563,7 @@ input:disabled {
 
 .reportCardSentenceDiv {
     height: 235px;
-    padding: 0px 25px 10px 25px;
+    padding: 0px 5px 10px 5px;
     background-color: #271c1c;
     border-radius: 8px;
     border: 3px solid #dc2e2e94;

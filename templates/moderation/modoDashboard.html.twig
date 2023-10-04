@@ -243,15 +243,15 @@
                                     {# {% elseif report.objectType == "media" %} #}
                                         {# MediaPreview #}
 
-
                                     {% else %}
                                         {% set objectType = report.objectType %}
                                     {% endif %}
-                                    <span id="reportPreviewType{{ index }}" value="{{ report.objectType}}">{{ objectType|capitalize }}</span>
 
-                                    <span id="reportPreviewId{{ index }}" value="{{ report.objectId }}">#{{ report.objectId }}</span>
-                                    <br>
-                                    <span style="margin-right:7px;">Signalements: <span class="strongNbr">{{ report.nbrReports }}</span></span>
+                                    <div class="reportCardType">
+                                        <span id="reportPreviewType{{ index }}" value="{{ report.objectType}}">{{ objectType|capitalize }}</span>
+                                        <span id="reportPreviewId{{ index }}" value="{{ report.objectId }}">#{{ report.objectId }}</span>
+                                    </div>
+                                    <span style="margin-right:7px;">Signalements: <span class="strongNbr">{{ report.nbrReports }}</span> <i class="fa-solid fa-flag"></i></span>
                                     
                                 </div>
                                 <div id="reportPreviewFactice{{ index }}" class="reportPreviewFactice">
@@ -274,6 +274,7 @@
                                 <div id="clickableContainer{{ index }}" class="clickableContainer">
 
                                     <a href="{{ path('app_removeReports',{'objectType':report.objectType, 'objectId':report.objectId }) }}" class="reportCardInnocentDiv">
+                                        <img src="{{ asset('img/justiceHammer.png') }}" class="justiceHammerImg" >
                                         <span class="innocenterBtn" >Innocenter</span>
                                     </a>
 
