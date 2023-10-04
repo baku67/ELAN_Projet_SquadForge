@@ -130,23 +130,40 @@
 
                     {# Form Notation (Ajax) #}
                     <div class="gameNotationDiv">
-                        <div class="rate">
-                            <input type="radio" id="star5" name="rate" value="5"/>
-                            <label class="starLabel" for="star5" title="text">5 stars</label>
-                            <input type="radio" id="star4" name="rate" value="4" />
-                            <label class="starLabel" for="star4" title="text">4 stars</label>
-                            <input type="radio" id="star3" name="rate" value="3" />
-                            <label class="starLabel" for="star3" title="text">3 stars</label>
-                            <input type="radio" id="star2" name="rate" value="2" />
-                            <label class="starLabel" for="star2" title="text">2 stars</label>
-                            <input type="radio" id="star1" name="rate" value="1" />
-                            <label class="starLabel" for="star1" title="text">1 star</label>
+
+                        <div id="notationContent">
+                            <div class="rate">
+                                <input type="radio" id="star5" name="rate" value="5"/>
+                                <label class="starLabel" for="star5" title="text">5 stars</label>
+                                <input type="radio" id="star4" name="rate" value="4" />
+                                <label class="starLabel" for="star4" title="text">4 stars</label>
+                                <input type="radio" id="star3" name="rate" value="3" />
+                                <label class="starLabel" for="star3" title="text">3 stars</label>
+                                <input type="radio" id="star2" name="rate" value="2" />
+                                <label class="starLabel" for="star2" title="text">2 stars</label>
+                                <input type="radio" id="star1" name="rate" value="1" />
+                                <label class="starLabel" for="star1" title="text">1 star</label>
+                            </div>
+                            {% if nbrOfNotations > 1 %}
+                                <span class="gameNotationLine">Moy: <span id="gameRatingMoyValue">{{ averageRating }}</span>/5  (<span id="gameRatingNbrValue">{{ nbrOfNotations }}</span> votes)</span>
+                            {% else %}
+                                <span class="gameNotationLine">Moy: <span id="gameRatingMoyValue">{{ averageRating }}</span>/5  (<span id="gameRatingNbrValue">{{ nbrOfNotations }}</span> vote)</span>
+                            {% endif %}
                         </div>
-                        {% if nbrOfNotations > 1 %}
-                            <span class="gameNotationLine">Moy: <span id="gameRatingMoyValue">{{ averageRating }}</span>/5  (<span id="gameRatingNbrValue">{{ nbrOfNotations }}</span> votes)</span>
-                        {% else %}
-                            <span class="gameNotationLine">Moy: <span id="gameRatingMoyValue">{{ averageRating }}</span>/5  (<span id="gameRatingNbrValue">{{ nbrOfNotations }}</span> vote)</span>
-                        {% endif %}
+
+                        <div id="spinningLoaderNotation" class="spinner spinningLoader" style="left: 43%;">
+                            <div class="lds-roller" style="transform:scale(0.9);">
+                                <div></div>
+                                <div></div>
+                                <div></div>
+                                <div></div>
+                                <div></div>
+                                <div></div>
+                                <div></div>
+                                <div></div>
+                            </div>
+                        </div>
+
                     </div>
                 </div>
 
@@ -243,7 +260,8 @@
             rate.forEach((radio) => {
             radio.addEventListener('click', (event) => {
 
-                console.log("test");
+                document.getElementById('notationContent').style.opacity = "0";
+                document.getElementById('spinningLoaderNotation').classList.toggle('spinningLoader');
 
                 {% if app.user %}
 
@@ -257,23 +275,27 @@
                     })
                     .then(response => response.json())
                     .then(data => {
-                    if (data.success) {
-                        if (data.eraseNote) {
-                            window.FlashMessage.success('Votre note a bien été effacée');
-                            // Problème si re-set une note apres annulation (pas doré): .style prioritaire
-                            document.querySelectorAll('.rate > input:checked ~ label').forEach((label) => {
-                                // label.style.color = "#ccc";
-                                label.classList.add('greyed');
-                            })
+
+                        document.getElementById('spinningLoaderNotation').classList.toggle('spinningLoader');
+                        document.getElementById('notationContent').style.opacity = "1";
+
+                        if (data.success) {
+                            if (data.eraseNote) {
+                                window.FlashMessage.success('Votre note a bien été effacée');
+                                // Problème si re-set une note apres annulation (pas doré): .style prioritaire
+                                document.querySelectorAll('.rate > input:checked ~ label').forEach((label) => {
+                                    // label.style.color = "#ccc";
+                                    label.classList.add('greyed');
+                                })
+                            }
+                            else {
+                                window.FlashMessage.success('Votre note a bien été prise en compte');
+                            }
+                            document.getElementById('gameRatingMoyValue').innerHTML = data.newAverageNote;
+                            document.getElementById('gameRatingNbrValue').innerHTML = data.newVoteCount;
+                        } else {
+                            window.FlashMessage.error('Il y a eu un problème lors de l\'envoi de votre note');
                         }
-                        else {
-                            window.FlashMessage.success('Votre note a bien été prise en compte');
-                        }
-                        document.getElementById('gameRatingMoyValue').innerHTML = data.newAverageNote;
-                        document.getElementById('gameRatingNbrValue').innerHTML = data.newVoteCount;
-                    } else {
-                        window.FlashMessage.error('Il y a eu un problème lors de l\'envoi de votre note');
-                    }
                     
                     })
                     .catch(error => {
