@@ -234,7 +234,7 @@
                     
                         <article id="reportPreviewBtn{{ index }}" class="reportPreviewBtn" onmouseover="document.getElementById('reportPreviewFacticeTxt{{ index }}').style.letterSpacing = '2px';" onmouseout="document.getElementById('reportPreviewFacticeTxt{{ index }}').style.letterSpacing = '0px';">
 
-                            <div class="reportDivHeader">
+                            <div id="reportDivHeader{{ index }}" class="reportDivHeader">
                                 <div id="reportPreviewHeader{{ index }}">
 
                                     {% if report.objectType == "topicPost" or report.objectType == "mediaPost" %}
@@ -251,9 +251,14 @@
                                         <span id="reportPreviewType{{ index }}" value="{{ report.objectType}}">{{ objectType|capitalize }}</span>
                                         <span id="reportPreviewId{{ index }}" value="{{ report.objectId }}">#{{ report.objectId }}</span>
                                     </div>
-                                    <span style="margin-right:7px;">Signalements: <span class="strongNbr">{{ report.nbrReports }}</span> <i class="fa-solid fa-flag"></i></span>
+                                    <span class="nbrReportsTitle" style="margin-right:7px;">Signalements: <span class="strongNbr">{{ report.nbrReports }}</span></span>
                                     
                                 </div>
+
+                                {# Détails motifs #}
+                                <div id="reportPreviewMotifsDetails{{ index }}" class="reportPreviewMotifsDetails">
+                                </div>
+
                                 <div id="reportPreviewFactice{{ index }}" class="reportPreviewFactice">
                                     <span id="reportPreviewFacticeTxt{{ index }}" class="reportPreviewFacticeTxt">VOIR</span>
                                 </div>
@@ -262,7 +267,25 @@
                             {# Partie cachée de la reportCard (Ajax) #}
                             <div id="preview{{ index }}" class="notDisplayed">
 
-                                <div class="reportContentDiv" style="">
+                                <div id="reportContentDiv{{ index }}" class="reportContentDiv" style="">
+
+                                    {# Loader pendant ajax #}
+                                    {# <span id="spinningLoader{{ index }}" class="spinningLoader">LOADING ...</span> #}
+
+                                    <div id="spinningLoader{{ index }}" class="spinner spinningLoader">
+                                        <div class="lds-roller">
+                                            <div></div>
+                                            <div></div>
+                                            <div></div>
+                                            <div></div>
+                                            <div></div>
+                                            <div></div>
+                                            <div></div>
+                                            <div></div>
+                                        </div>
+                                        <div>Loading...</div>
+                                    </div>
+
                                     <p id="detailText{{ index }}" class="reportCardText"></p>
                                     <img id="detailImg{{ index }}" src="" class="reportDetailImg" >
                                     <div class="reportDateAndAuthorDiv">
@@ -408,20 +431,28 @@
                         var objectType = document.getElementById('reportPreviewType{{ index }}').getAttribute('value');
                         var objectId = document.getElementById('reportPreviewId{{ index }}').getAttribute('value');
 
+                        document.getElementById('reportContentDiv{{ index }}').classList.toggle('minHeightLoader');
+
+                        // Affichage du loading (pendant ajax)
+                        document.getElementById('spinningLoader{{ index }}').style.display = "block";
                         // Ajax:
                         $.ajax({
                             url: '/reportDetails/' + objectType + '/' + objectId,
                             type: 'GET',
                             success: function(response) {
 
+                                document.getElementById('reportDivHeader{{ index }}').classList.toggle('flexDirColumn');
+
                                 // Détails des reports (par motif)
-                                document.getElementById('reportPreviewHeader{{ index }}').innerHTML += "(";
+                                document.getElementById('reportPreviewMotifsDetails{{ index }}').innerHTML = "";
+
+                                document.getElementById('reportPreviewMotifsDetails{{ index }}').style.opacity = "1";
+
+                                
 
                                 Object.entries(response.nbrReportsPerMotifArray).forEach(([key, value]) => {
-                                    document.getElementById('reportPreviewHeader{{ index }}').innerHTML += "<span class='nbrReportsDetail{{ index }}' style='margin: 0 5px;'>" + `${key}:` + "<span class='strongNbr'> " + `${value}` + "</span></span>";
+                                    document.getElementById('reportPreviewMotifsDetails{{ index }}').innerHTML += "<span class='nbrReportsDetail{{ index }}' style='margin: 0 5px;'> <i class='fa-solid fa-minus'></i> " + `${key}:` + "<span class='strongNbr'> " + `${value}` + "</span></span><br>";
                                 });
-
-                                document.getElementById('reportPreviewHeader{{ index }}').innerHTML += ")";
 
 
                                 switch (response.objectType) {
@@ -467,11 +498,24 @@
                                 }
                             
                             },
+                            complete: function(){
+                                // On enlève le loading
+                                console.log('terminé');
+                                document.getElementById('spinningLoader{{ index }}').style.display = "none";
+                                document.getElementById('reportContentDiv{{ index }}').classList.toggle('minHeightLoader');
+                            },
                             error: function(xhr, status, error) {
                                 window.FlashMessage.error('Erreur lors du chargement du signalement');
                             }
                         });
 
+                    }
+                    else {
+                        document.getElementById('reportDivHeader{{ index }}').classList.toggle('flexDirColumn');
+
+                        document.getElementById('reportPreviewMotifsDetails{{ index }}').style.opacity = "0";
+
+                        document.getElementById('reportPreviewMotifsDetails{{ index }}').innerHTML = "";
                     }
 
 
