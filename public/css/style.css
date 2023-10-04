@@ -7505,8 +7505,8 @@ cursor: pointer;
     padding: 5px 10px;
     border-radius: 8px;
     text-align: center;
-    background-color: rgb(19 193 95);
-    border: 1px solid grey;
+    background-color: rgb(19 193 95 / 53%);
+    border: 3px solid #56ff008f;
 
     transition: all 0.3s;
 }

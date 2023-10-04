@@ -296,12 +296,12 @@
 
                                 <div id="clickableContainer{{ index }}" class="clickableContainer">
 
-                                    <a href="{{ path('app_removeReports',{'objectType':report.objectType, 'objectId':report.objectId }) }}" class="reportCardInnocentDiv">
+                                    <a href="{{ path('app_removeReports',{'objectType':report.objectType, 'objectId':report.objectId }) }}" id="reportCardInnocentDiv{{ index }}" class="reportCardInnocentDiv">
                                         <img src="{{ asset('img/justiceHammer.png') }}" class="justiceHammerImg" >
                                         <span class="innocenterBtn" >Innocenter</span>
                                     </a>
 
-                                    <div class="reportCardSentenceDiv">
+                                    <div id="reportCardSentenceDiv{{ index }}" class="reportCardSentenceDiv">
                                         {# Status author si actuellement muted/banned #}
                                         <div id="authorStatus{{ index }}" style="text-align:center;"></div>
 
@@ -435,6 +435,15 @@
 
                         // Affichage du loading (pendant ajax)
                         document.getElementById('spinningLoader{{ index }}').style.display = "block";
+                        // Désactivation des boutons tant que reportCard pas chargée
+                        // document.getElementById('reportCardInnocentDiv{{ index }}').style.pointerEvents = "none";
+                        document.getElementById('reportCardInnocentDiv{{ index }}').style.filter = "grayscale(1)";
+                        document.getElementById('reportCardInnocentDiv{{ index }}').style.opacity = "0.7";
+                        // document.getElementById('reportCardSentenceDiv{{ index }}').style.pointerEvents = "none";
+                        document.getElementById('reportCardSentenceDiv{{ index }}').style.filter = "grayscale(1)";
+                        document.getElementById('reportCardSentenceDiv{{ index }}').style.opacity = "0.7";
+
+
                         // Ajax:
                         $.ajax({
                             url: '/reportDetails/' + objectType + '/' + objectId,
@@ -448,6 +457,14 @@
 
                                 document.getElementById('reportPreviewMotifsDetails{{ index }}').style.opacity = "1";
 
+
+                                // Réactivation des boutons une fois reportCard chargée
+                                // document.getElementById('reportCardInnocentDiv{{ index }}').style.pointerEvents = "default";
+                                document.getElementById('reportCardInnocentDiv{{ index }}').style.filter = "grayscale(0)";
+                                document.getElementById('reportCardInnocentDiv{{ index }}').style.opacity = "1";
+                                // document.getElementById('reportCardSentenceDiv{{ index }}').style.pointerEvents = "default";
+                                document.getElementById('reportCardSentenceDiv{{ index }}').style.filter = "grayscale(0)";
+                                document.getElementById('reportCardSentenceDiv{{ index }}').style.opacity = "1";
                                 
 
                                 Object.entries(response.nbrReportsPerMotifArray).forEach(([key, value]) => {
