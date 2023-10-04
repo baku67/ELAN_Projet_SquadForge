@@ -5008,11 +5008,18 @@ nav {
 }
 
 #createMediaForm {
+    position: relative;
     width: 70%;
     margin: 5px auto 25px auto;
     padding: 20px;
     background-color: #0000006b;
     border-radius: 7px;
+
+    transition: all 0.3s;
+}
+
+#form_add_media {
+    position: relative;
 }
 
 #createTopicForm {

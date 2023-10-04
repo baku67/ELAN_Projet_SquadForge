@@ -628,7 +628,7 @@
                 {# Form d'ajout caché Media, proc JS bouton #}
                 <div id="createMediaForm" class="notDisplayed"> 
 
-                    {{ form_start(formAddMedia) }}
+                    {{ form_start(formAddMedia, {'attr': {'id': 'form_add_media'}}) }}
 
                         <div class="my-custom-class-for-errors">
                             {{ form_errors(formAddMedia) }}
@@ -661,12 +661,35 @@
                             </div>
                         </div>
 
-                        <div style="width:100%; display:inline-flex; border-top:1px solid #80808042;">
+                        <div style="position:relative; width:100%; display:inline-flex; border-top:1px solid #80808042;">
+
                             <span class="submitButton" style="margin: 15px auto;">{{ form_widget(formAddMedia.submit, { 'label': 'Publier' }) }}</span>
+                        
                         </div>
 
                         {{ form_widget(formAddMedia._token) }}
                     {{ form_end(formAddMedia) }}
+
+                    <div id="spinningLoaderMediaForm" class="spinner spinningLoader" style="z-index:9999; transform:translate(-50%, -50%) scale(1.5);">
+                        <div class="lds-roller">
+                            <div></div>
+                            <div></div>
+                            <div></div>
+                            <div></div>
+                            <div></div>
+                            <div></div>
+                            <div></div>
+                            <div></div>
+                        </div>
+                    </div>
+
+                    <script>
+                        document.getElementById('form_add_media').addEventListener('submit', function() {
+                            document.getElementById('form_add_media').style.opacity = "0.4";
+                            document.getElementById('media_submit').disabled = true;
+                            document.getElementById('spinningLoaderMediaForm').classList.toggle('spinningLoader');
+                        })
+                    </script>
                     
                 </div>
 
