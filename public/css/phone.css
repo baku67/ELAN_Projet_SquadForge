@@ -37,6 +37,13 @@
         }
     }
 
+    .paranthesePortfolio {
+        display: none;
+    }
+    .whiteFont {
+        color: var(--primary-color) !important;
+    }
+
     .teamCard:hover .absoluteBg-teamCard {
         left: -74px;
     }

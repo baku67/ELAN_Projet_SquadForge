@@ -7544,7 +7544,7 @@ cursor: pointer;
 }
 
 .spinningLoader {
-    display: none !important;
+    display: none;
 }
 
 .spinner {
