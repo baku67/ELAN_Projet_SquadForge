@@ -157,18 +157,13 @@
 
         </div>
 
-        {# Si upload autorisé/requis #}
-        <h4>Image</h4>
-
-
 
         <div style="display:inline-flex; justify-content:space-evenly; width:100%; margin:30px auto;">
-            <a href="{{ path('app_acceptCandidature',{'candidatureId':candidature.id}) }}">Accepter</a>
-            <a href="{{ path('app_rejectCandidature',{'candidatureId':candidature.id,'isBlacklisted':"false"}) }}">Refuser</a>
-            <a href="{{ path('app_rejectCandidature',{'candidatureId':candidature.id,'isBlacklisted':"true"}) }}">Refuser définitivement</a>
+            <a href="{{ path('app_acceptCandidature',{'candidatureId':candidature.id}) }}"><i class="fa-solid fa-user-check"></i> Accepter</a>
+            <a href="{{ path('app_rejectCandidature',{'candidatureId':candidature.id,'isBlacklisted':"false"}) }}"><i class="fa-solid fa-user-xmark"></i> Refuser</a>
+            <a href="{{ path('app_rejectCandidature',{'candidatureId':candidature.id,'isBlacklisted':"true"}) }}"><i class="fa-solid fa-user-tag"></i> Refuser définitivement</a>
         </div>
 
-        
         
     </main>
 

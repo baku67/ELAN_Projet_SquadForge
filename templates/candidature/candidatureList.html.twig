@@ -13,17 +13,17 @@
         <a id="gameHeaderTitle" class="gameHeaderTitle" style="border-bottom: 5px solid {{ gameFrom.color }}; opacity:0;" href="{{ path('app_game',{'slug':gameFrom.slug}) }}">{{ gameFrom.title }}</a>
 
         <div style="display:inline-flex;">
-            <a href="{{ path('app_home') }}"><img src="{{ asset('img/games/headerSiteLogo/' ~ gameFrom.siteLogo ) }}" class="logoPng" id="logoPng" alt='bearded dwarf forging a sword above "SquadForge" title' /></a>
+            <a href="{{ path('app_home') }}"><img src="{{ asset('img/games/headerSiteLogo/' ~ gameFrom.siteLogo) }}" class="logoPng" id="logoPng" alt='bearded dwarf forging a sword above "SquadForge" title' /></a>
             <a id="logoShrinkTxt" href="{{ path('app_home') }}">SQUADFORGE</a>
         </div>
 
         <nav id="navLine" class="navLine">
             <span id="closeBurgerMobile"><i class="fa-solid fa-xmark"></i></span>
-            <a href="{{ path('app_home') }}" class="homeNav"><i class="fa-solid fa-house"></i></a>
-            <a href="{{ path('app_games') }}" class="gamesNav caps">jeux</a>
+            <a href="{{ path('app_home') }}" class="homeNav" onmouseover="this.style.borderTop = '2px solid {{ gameFrom.color }}'; this.style.color = '{{ gameFrom.color }}';" onmouseout="this.style.borderTop = '2px solid rgba(0,0,0,0)'; this.style.color = 'white';"><i class="fa-solid fa-house"></i></a>
+            <a href="{{ path('app_games') }}" class="gamesNav caps" onmouseover="this.style.borderTop = '2px solid {{ gameFrom.color }}'; this.style.color = '{{ gameFrom.color }}';" onmouseout="this.style.borderTop = '2px solid rgba(0,0,0,0)'; this.style.color = 'white';">jeux</a>
             {% if app.user %}
-                <a href="{{ path('app_userGroups') }}" class="teamsNav caps navActive" style="background-color: {{ gameFrom.color }}">teams</a>
-                <a href="{{ path('app_showNotifsList') }}" class="notifsNav" style="padding:0;">
+                <a href="{{ path('app_userGroups') }}" class="teamsNav caps navActive" style="background-color: {{ gameFrom.color }}" onmouseover="this.style.borderTop = '2px solid {{ gameFrom.color }}'; this.style.color = 'white';" onmouseout="this.style.borderTop = '2px solid rgba(0,0,0,0)'; this.style.color = 'black';">teams</a>
+                <a href="{{ path('app_showNotifsList') }}" class="notifsNav" style="padding:0;" onmouseover="this.style.borderTop = '2px solid {{ gameFrom.color }}'; this.style.color = '{{ gameFrom.color }}';" onmouseout="this.style.borderTop = '2px solid rgba(0,0,0,0)'; this.style.color = 'white';">
                     <div class="navNotifDiv">
                         <i class="fa-solid fa-bell notifBell"></i>
                         {# Bulle newNotifCount si > 0 #}
@@ -32,10 +32,12 @@
                         {% endif %}
                     </div>
                 </a>
+            {% else %}
+                <a href="{{ path('app_allGroupList') }}" class="teamsNav caps" onmouseover="this.style.borderTop = '2px solid {{ gameFrom.color }}'; this.style.color = '{{ gameFrom.color }}';" onmouseout="this.style.borderTop = '2px solid rgba(0,0,0,0)'; this.style.color = 'white';">teams</a>
             {% endif %}
             {% if app.user and "ROLE_MODO" in app.user.roles %}
             
-                <a href="{{ path('app_moderationDashboard') }}" style="color:{{ gameFrom.fontColor }};" id="modoNav" class="modoNav">
+                <a href="{{ path('app_moderationDashboard') }}" id="modoNav" class="modoNav" onmouseover="this.style.borderTop = '2px solid {{ gameFrom.color }}'; this.style.color = '{{ gameFrom.color }}';" onmouseout="this.style.borderTop = '2px solid rgba(0,0,0,0)'; this.style.color = 'white';">
                     <div class="modoNavSubDiv">
                         <span>Modération</span>
                         {% if modoNotifValidationCount > 0 %}
@@ -98,37 +100,79 @@
         {# Fil d'Ariane #}
         <p class="breadcrumbs">
             <a  href="{{ path('app_home') }}"><i class="fa-solid fa-house arianeHome"></i></a>
-            <i class="fa-solid fa-angle-right arianeArrow"></i>
+            <i class="fa-solid fa-angle-right arianeArrow" style="color:{{ gameFrom.color }}"></i>
             <a class="underlineLink" href="{{ path('app_games') }}">Jeux</a>
-            <i class="fa-solid fa-angle-right arianeArrow"></i>
+            <i class="fa-solid fa-angle-right arianeArrow" style="color:{{ gameFrom.color }}"></i>
             <a class="underlineLink" href="{{ path('app_game', {'slug': gameFrom.slug }) }}">{{ gameFrom.title }}</a>
-            <i class="fa-solid fa-angle-right arianeArrow"></i>
+            <i class="fa-solid fa-angle-right arianeArrow" style="color:{{ gameFrom.color }}"></i>
             <a class="underlineLink" href="{{ path('app_groupList', {'gameIdFrom': gameFrom.id }) }}">Teams</a>
-            <i class="fa-solid fa-angle-right arianeArrow"></i>
-            <a class="underlineLink" href="{{ path('app_groupDetails', {'groupSlug': group.slug }) }}">{{ group.title }}</a>
-            <i class="fa-solid fa-angle-right arianeArrow"></i>
+            <i class="fa-solid fa-angle-right arianeArrow" style="color:{{ gameFrom.color }}"></i>
+            <a class="underlineLink" href="{{ path('app_groupDetails', {'groupSlug': group.slug }) }}">{{ group.title|capitalize }}</a>
+            <i class="fa-solid fa-angle-right arianeArrow" style="color:{{ gameFrom.color }}"></i>
             <span>Candidatures</span>
         </p>
 
         <br>
 
-        <h3 class="candidatureTeamName" style="border-color:{{ gameFrom.color }}">{{ group.title }}</h3>
+        <section id="groupHeader" class="groupHeader groupHeaderMini" style="background-size:contain; border-bottom:3px solid {{ gameFrom.color }};">
 
-        <br>
+            <div class="groupHeaderSection1">
 
-        <h2>Candidatures</h2>
+                <div class="headerLineSection" style="display:inline-flex; align-items:center;">
+                    <a href="{{ path('app_groupDetails', {'groupSlug':group.slug}) }}"><h2 style="color:black; backdrop-filter:blur(4px); width:fit-content; padding:4px 15px; border-radius:5px; border:1px solid {{ gameFrom.color }}; background-color:{{ gameFrom.color }}78; border-top-left-radius:2px; text-transform:uppercase; padding: 6px 15px 3px 15px; background-color: #232323e6; border-radius: 6px; color:{{ gameFrom.color }}"> <i class="fa-solid fa-arrow-left"></i> Team</h2></a>
+                    <i class="fa-solid fa-angle-right arianeArrow" style="font-size:2em; color:var(--background-color);"></i>
+                    <h3 style="background-color:{{ gameFrom.color }}; position:relative; top:0px; margin-left:6px; padding: 8px 15px 5px 15px; color:#232323e6; border-radius:6px; border:1px solid;"><i class="fa-regular fa-id-card"></i> Candidatures</h3>
+                </div>
+        
+            </div>
 
-        <br>
+        </section>
 
-        {% for candidature in candidatures %}
-            <a href="{{ path('app_candidatureDetails',{'candidatureId':candidature.id}) }}">
-                <article class="candidatureCard">
-                    <span>{{ candidature.user.pseudo|capitalize }}</span>
-                    <p style="font-family:'K2D', sans-serif;">{{ candidature.text }}</p>
-                    <span class="topicCardPublishDate">{{ time_diff(candidature.creationDate) }}</span>
-                </article>
-            </a>
-        {% endfor %}
+        {# Adaptation background header sur mobile #}
+        <script>
+                
+                document.addEventListener('DOMContentLoaded', function() {
+                    var isMobile = navigator.userAgent.match(/Android/i)
+                    || navigator.userAgent.match(/webOS/i)
+                    || navigator.userAgent.match(/iPhone/i)
+                    || navigator.userAgent.match(/iPad/i)
+                    || navigator.userAgent.match(/iPod/i)
+                    || navigator.userAgent.match(/BlackBerry/i)
+                    || navigator.userAgent.match(/Windows Phone/i);
+                    
+                    
+                    if (isMobile){
+                        console.log('TEST MOBILE GROUP 1')
+                        document.getElementById('groupHeader').style.backgroundImage = "linear-gradient(to top, {{ gameFrom.color }}99, {{ gameFrom.color }}2b), url('../img/testMotif2.jpg')";
+                        document.getElementById('groupHeader').style.backgroundSize = "cover";
+                    }
+                    else {
+                        document.getElementById('groupHeader').style.backgroundImage = "linear-gradient(to right, {{ gameFrom.color }}8c, {{ gameFrom.color }}50, #232323ba, #101010f7), url('../img/testMotif2.jpg')";
+                        document.getElementById('groupHeader').style.backgroundSize = "contain";
+                    }
+                })
+
+        </script>
+
+
+        <div class="candidaturesContainer" style="border:1px solid {{ gameFrom.color }}50; border-top:2px solid {{ gameFrom.color }}; ">
+            {% for candidature in candidatures %}
+                <a class="candidatureCardLink" href="{{ path('app_candidatureDetails',{'candidatureId':candidature.id}) }}">
+                    <article class="candidatureCard" style="border:1px solid {{ gameFrom.color }}; border-left-width:7px; border-left-color: {{gameFrom.color }};">
+                        
+                        <div class="candidatureCardContent">
+                            <span>Candidat: <span style="font-family:'K2D', sans-serif;">{{ candidature.user.pseudo|capitalize }}</span></span>
+                            <pre style="font-family:'K2D', sans-serif; max-height:50px; overflow:hidden; margin-bottom:5px;">    {{ candidature.text|capitalize }}</pre>
+                            <span class="topicCardPublishDate">{{ time_diff(candidature.creationDate) }}</span>
+                        </div>
+
+                        {# Effet surligneur hover #}
+                        <div class="candidatureCardHoverElem" style="background-color:{{ gameFrom.color }};"></div>
+
+                    </article>
+                </a>
+            {% endfor %}
+        </div>
         
 
 

@@ -957,6 +957,10 @@ dialog::backdrop {
     display: inline-flex;
     width: 100%;
 }
+.groupHeaderMini {
+    background-image: linear-gradient(to right, rgb(212 175 97), rgb(212 175 97 / 93%), rgb(35 35 35 / 77%), rgba(16, 16, 16, 0.97)), url('../img/testMotif2.jpg') !important;
+    background-size: cover !important;
+}
 
 
 .teamCard-crownLeader {
@@ -6621,14 +6625,64 @@ cursor: pointer;
 }
 
 
-.candidatureCard {
-    background-color: #4b4b4b;
-    border-radius: 3px;
-    padding: 15px;
+.candidaturesContainer {
+    background-image: linear-gradient(to bottom, #2ce4f929, var(--background-color));
 
-    transition: all 0.4s;
+    padding: 25px 0;
+    border-radius: 12px;
+
+    width: 85%;
+    margin: 45px auto;
 }
 
+.candidatureCard {
+    position: relative;
+    overflow: hidden;
+    background-color: #22c6d836;
+    border-radius: 7px;
+    padding: 6px 10px;
+
+    transition: all 0.3s;
+}
+.candidatureCard:hover span, .candidatureCard:hover pre {
+    z-index: 9;
+    position: relative;
+    /* color: var(--background-color); */
+}
+.candidatureCard:hover {
+    border-left-width: 0px !important;
+}
+
+.candidatureCardLink {
+    display: block;
+    width: 80%;
+    margin: 0 auto;
+}
+
+
+.candidatureCardHoverElem {
+    height: -webkit-fill-available;
+    z-index: 5;
+    width: 110%;
+    position: absolute;
+    /* background-color: red; */
+    left: -112%;
+    top: 0;
+
+    transition: all 0.3s ease-in-out;
+}
+.candidatureCard:hover .candidatureCardHoverElem {
+    left: -9%;
+}
+
+.candidatureCardContent {
+    background-color: #23585f;
+    z-index: 999;
+    position: relative;
+    color: white;
+    padding: 5px 10px;
+    border-radius: 5px;
+}
 
 
 .questionAnswerContainer {
