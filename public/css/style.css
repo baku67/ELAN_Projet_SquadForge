@@ -5023,6 +5023,7 @@ nav {
 }
 
 #createTopicForm {
+    position: relative;
     width: 70%;
     margin: 5px auto 25px auto;
     padding: 20px;

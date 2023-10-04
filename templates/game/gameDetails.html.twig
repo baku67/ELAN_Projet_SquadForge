@@ -483,7 +483,7 @@
                 {# Form d'ajout caché Topic, proc JS bouton #}
                 <div id="createTopicForm" class="notDisplayed"> 
 
-                    {{ form_start(formAddTopic) }}
+                    {{ form_start(formAddTopic, {'attr': {'id': 'form_add_topic'}}) }}
 
                         <div class="my-custom-class-for-errors">
                             {{ form_errors(formAddTopic) }}
@@ -506,11 +506,34 @@
                             {{ form_widget(formAddTopic.firstMsg) }} 
                         </div>
 
-                        <span class="submitButton" style="margin: 15px auto;">{{ form_widget(formAddTopic.submit, { 'label': 'Publier' }) }}</span>
+                        <div style="position:relative; width:100%; display:inline-flex; border-top:1px solid #80808042;">
+                            <span class="submitButton" style="margin: 15px auto;">{{ form_widget(formAddTopic.submit, { 'label': 'Publier' }) }}</span>
+                        </div>
 
                         {# A voir: CSRF protection #}
                         {{ form_widget(formAddTopic._token) }}
                     {{ form_end(formAddTopic) }}
+
+                    <div id="spinningLoaderTopicForm" class="spinner spinningLoader" style="z-index:9999; transform:translate(-50%, -50%) scale(1.5);">
+                        <div class="lds-roller">
+                            <div></div>
+                            <div></div>
+                            <div></div>
+                            <div></div>
+                            <div></div>
+                            <div></div>
+                            <div></div>
+                            <div></div>
+                        </div>
+                    </div>
+
+                    <script>
+                        document.getElementById('form_add_topic').addEventListener('submit', function() {
+                            document.getElementById('form_add_topic').style.opacity = "0.4";
+                            document.getElementById('topic_submit').disabled = true;
+                            document.getElementById('spinningLoaderTopicForm').classList.toggle('spinningLoader');
+                        })
+                    </script>
                     
                 </div>
 
@@ -662,9 +685,7 @@
                         </div>
 
                         <div style="position:relative; width:100%; display:inline-flex; border-top:1px solid #80808042;">
-
                             <span class="submitButton" style="margin: 15px auto;">{{ form_widget(formAddMedia.submit, { 'label': 'Publier' }) }}</span>
-                        
                         </div>
 
                         {{ form_widget(formAddMedia._token) }}
