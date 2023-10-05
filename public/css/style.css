@@ -7544,6 +7544,9 @@ cursor: pointer;
 }
 
 .spinningLoader {
+    display: none !important;
+}
+.spinningLoaderReportCard {
     display: none;
 }
 
