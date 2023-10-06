@@ -3273,7 +3273,7 @@ nav {
     /* background-image: linear-gradient(to right top, #f97b2c, #b2970e, #6ba144, #219f7a, #05969d); */
     background-image: linear-gradient(to right top, var(--primary-color), var(--secondary-color));
     justify-content: space-between;
-    width: 40%;
+    width: 45%;
     border-radius: 10px;
     padding: 20px;
     left: 50%;
