@@ -373,7 +373,7 @@
                                         <i class="fa-solid fa-crown teamCard-crownLeader"></i>
                                     {% endif %}
 
-                                    <div class="teamCard" style="border-color:{{ userGameGroup.game.color }}60">
+                                    <article class="teamCard" style="border-color:{{ userGameGroup.game.color }}60">
 
                                         <div class="teamCardTextDiv">
 
@@ -382,6 +382,14 @@
                                             <span class="teamCardGameTitle" style="background-color:{{ userGameGroup.game.color }}">{{ userGameGroup.game.title }}</span>
                                             
                                             <p class="teamCardTitleV2">{{ userGameGroup.title|capitalize }}</p>
+
+                                            {% if app.user == userGameGroup.leader and userGameGroup.nbrCandidatures > 0 %}
+                                                {% if userGameGroup.nbrCandidatures > 1 %}
+                                                    <span class="teamCardNbrCandidature">{{ userGameGroup.nbrCandidatures }} candidatures</span>
+                                                {% else %}
+                                                    <span class="teamCardNbrCandidature">{{ userGameGroup.nbrCandidatures }} candidature</span>
+                                                {% endif %}
+                                            {% endif %}
 
                                             <div class="teamCard-members">
                                                 <i class="fa-solid fa-user-group"></i> 
@@ -425,7 +433,7 @@
 
                                         </div>
 
-                                    </div>
+                                    </article>
                                 </a>
 
 
@@ -678,11 +686,29 @@
                         {# Apercu du média à publier #}
                         <div id="preview-container" style="max-width: 350px; margin: 25px auto;">
                             <span id="mediaPreviwTitle" style="display:none;">Aperçu :</span>
-                            <div class="previewMediaCard" style="background-color:{{ game.color }};">
+                            <div  id="previewMediaCard" class="previewMediaCard" style="background-color:{{ game.color }}; position:relative;">
                                 <div id="mediaCardHeader" >
                                     {# Contenyu ajouté JS #}
                                 </div>
+
+
+
+
                             </div>
+
+                                                            {# Spinning loader #}
+                                <div id="spinningLoaderMediaForm" class="spinner spinningLoader" style="z-index:9999; transform:translate(-50%, -50%) scale(1.5);">
+                                    <div class="lds-roller">
+                                        <div></div>
+                                        <div></div>
+                                        <div></div>
+                                        <div></div>
+                                        <div></div>
+                                        <div></div>
+                                        <div></div>
+                                        <div></div>
+                                    </div>
+                                </div>
                         </div>
 
                         <div style="position:relative; width:100%; display:inline-flex; border-top:1px solid #80808042;">
@@ -693,23 +719,10 @@
                     {{ form_end(formAddMedia) }}
 
 
-                    {# Spinning loader #}
-                    <div id="spinningLoaderMediaForm" class="spinner spinningLoader" style="z-index:9999; transform:translate(-50%, -50%) scale(1.5);">
-                        <div class="lds-roller">
-                            <div></div>
-                            <div></div>
-                            <div></div>
-                            <div></div>
-                            <div></div>
-                            <div></div>
-                            <div></div>
-                            <div></div>
-                        </div>
-                    </div>
 
                     <script>
                         document.getElementById('form_add_media').addEventListener('submit', function() {
-                            document.getElementById('form_add_media').style.opacity = "0.3";
+                            document.getElementById('previewMediaCard').style.opacity = "0.3";
                             document.getElementById('media_submit').disabled = true;
                             document.getElementById('spinningLoaderMediaForm').classList.toggle('spinningLoader');
                         })
