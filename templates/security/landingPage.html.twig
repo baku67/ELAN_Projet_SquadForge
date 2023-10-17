@@ -751,7 +751,7 @@
                         document.getElementById('lp-page4-cardMedias').setAttribute('href', '/allMedias/{{ game.id}}');
                         document.getElementById('lp-page4-cardTeams-seek').setAttribute('href', '/groupList/{{ game.id}}');
                         document.getElementById('lp-page4-cardTeams-create').setAttribute('href', '/createGroup/{{ game.id}}');
-                        document.getElementById('lp-page4-titleLink').setAttribute('href', '/game/{{ game.id }}');
+                        document.getElementById('lp-page4-titleLink').setAttribute('href', '/game/{{ game.slug }}');
                         {% if game.showIconSearchPage %}
                             document.getElementById('lp-page4-gameLogo').setAttribute('src', '{{ asset("img/games/tinyLogo/" ~ game.tinyLogo ) }}');
                         {% else %}
