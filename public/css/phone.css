@@ -1483,6 +1483,7 @@
     }
 
     .showNavMobile {
+        position: relative;
         transform: translateX(0%) !important;
     }
 
