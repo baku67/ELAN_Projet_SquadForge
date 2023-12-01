@@ -23,7 +23,8 @@ INSERT INTO `game` (`id`, `genre_id`, `title`, `editor`, `publish_date`, `descri
 	(4, 1, 'Valorant', 'Riot Games', '2021-05-02 01:41:56', 'Fps mélange entre Overwatch et Counter Strike', '#ff4655', 'valorantLogo.png', 'valorantBanner.jpg', 'var(--background-color)', 'valorant1.png', 'valorantHeaderBg.jpg', 0, 'logoSquadForge_valorant.png', 1, 'valorant'),
 	(5, 3, 'PUBG', 'Krafton', '2016-05-02 02:52:53', 'Battle royal pas ouf', '#ffd632', 'pubgLogo.jpeg', 'pubgBanner.jpg', 'var(--background-color)', 'pubg1.png', 'pubgHeaderBg.jpg', 0, 'logoSquadForge_pubg.png', 0, 'pubg'),
 	(6, 4, 'League of Legend', 'Riot Games', '2023-07-04 00:15:46', 'Bah c''est lol', '#d4af61', 'lolLogo.jpg', 'lolBanner.jpg', 'var(--background-color)', 'lol1.png', 'lolHeaderBg.jpg', 0, 'logoSquadForge_lol.png', 1, 'league-of-legend'),
-	(10, 4, 'Dota 2', 'Valve', '2013-09-04 14:43:13', 'Description jeu', '#ae3018', '', 'dota2Banner.png', 'white', 'dota1.png', 'dota2HeaderBg.png', 0, 'logoSquadForge_dota2.png', 1, 'dota-2');
+	(10, 4, 'Dota 2', 'Valve', '2013-09-04 14:43:13', 'Description jeu', '#ae3018', '', 'dota2Banner.png', 'white', 'dota1.png', 'dota2HeaderBg.png', 0, 'logoSquadForge_dota2.png', 1, 'dota-2'),
+	(11, 3, 'Apex Legends', 'Respawn Entertainment', '2019-04-02 00:00:00', '', '#b3323a', '', 'apexLegendsBanner.jpg', 'white', 'apexLegends1.png', 'apexLegendsHeaderBg.webp', 3, 'logoSquadForge_apexLegends.webp', 0, 'apex-legends');
 
 
 
