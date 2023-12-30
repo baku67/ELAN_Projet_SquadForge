@@ -956,6 +956,14 @@
         background:radial-gradient(circle, rgba(255,255,255,1) 11%, rgba(44,243,249,0) 90%);
     }
 
+    #searchResultsDiv {
+        width: 95%;
+        margin: 0 auto;
+    }
+
+    .lp-searchResults {
+        flex-direction: column;
+    }
 
     .lp-gameCardTitle {
         display: none;
@@ -1596,6 +1604,7 @@
 
     .lp-page4-container {
         flex-direction: column;
+        overflow: scroll;
     }
     .lp-page4-card {
         padding: 9px 12px;;
