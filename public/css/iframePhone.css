@@ -1,0 +1,27 @@
+@media (max-width: 370px) {
+
+    #lp-page1a {
+        padding-right: 30px;
+    }
+
+    .landingPageSlogan {
+        font-size: 0.8em;
+    }
+
+    .lp-p1b-rightSectionTitle {
+        font-size: 0.95em;
+        margin-top: 0px;
+    }
+
+    .lp-p1b-div {
+        gap: 22px;
+    }
+
+    .lp-p1b-1 {
+        bottom:12px; 
+    }
+
+
+
+
+}

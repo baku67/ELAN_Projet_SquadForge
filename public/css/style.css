@@ -18,6 +18,16 @@
 }
 
 
+.lp-p1b-1 {
+    display:inline-flex; 
+    align-items:baseline; 
+    position:relative; 
+    bottom:30px; 
+    justify-content:center; 
+    width:100%;
+}
+
+
 input:focus {
     color: black;
 }
