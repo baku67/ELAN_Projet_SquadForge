@@ -515,11 +515,31 @@
                 } );
                 splide.mount();
             } else {
-                var splide = new Splide( '.splide', {
-                    width: '100%',
-                    perPage: 6,
-                } );
-                splide.mount();
+                
+                // Si PC: vérifier la width (Si large, on est sur affichage du site sur PC, sinon on est sur l'affichage de l'Iframe portfolio)
+                var largeurFenetre = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
+                if (largeurFenetre < 600) {
+                    var splide = new Splide( '.splide', {
+                        direction : 'ttb',
+                        height: '30rem',
+                        perPage: 4,
+                        pagination: false,
+                    } );
+                    splide.mount();
+                }
+                else {
+                    var splide = new Splide( '.splide', {
+                        width: '100%',
+                        perPage: 6,
+                    } );
+                    splide.mount();
+                }
+
+                // var splide = new Splide( '.splide', {
+                //     width: '100%',
+                //     perPage: 6,
+                // } );
+                // splide.mount();
             }
         });
     </script>
