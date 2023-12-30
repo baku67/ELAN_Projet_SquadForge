@@ -22,6 +22,18 @@
     }
 
 
+    .landingPageDownBtn {
+        bottom: 12px;
+        padding: 7px 28px !important;
+        font-size: 1.15em;
+        background-color: #232323db;
+        border-radius: 7px;
+    }
+
+    .lp-page3-title {
+        padding: 31px 0px 19px 0px;
+    }
+
 
 
 }

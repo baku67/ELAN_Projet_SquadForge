@@ -127,7 +127,7 @@
         display: none;
     }
     .lp-page3-title {
-        padding: 58px 0px 40px 0px;
+        padding: 31px 0px 18px 0px;
     }
 
     .lp-p2-rightSectionTitle {
@@ -904,6 +904,12 @@
 
     #lp-scrollBtn {
         animation: fadeIn 0.5s 0.5s ease forwards;
+
+        right: 34px !important;
+        bottom: 5px !important;
+        padding: 7px 19px !important;
+        font-size: 1.0em;
+        background-color: #232323a6;
     }
 
 
@@ -940,9 +946,10 @@
         width:100%; 
         background:radial-gradient(circle, rgba(255,255,255,1) 11%, rgba(44,243,249,0) 90%);
     }
+    /* Désactivé height */
     .lp-phone-slpideTrait2 {
         display: block;
-        height:1px; 
+        height:0px; 
         bottom:0px; 
         position:absolute; 
         width:100%; 
@@ -1071,9 +1078,11 @@
     }
 
     .landingPageDownBtn {
-        bottom: 7px;
-        padding: 3px 28px;
-        font-size: 1.1em;
+        bottom: 12px;
+        padding: 7px 28px !important;
+        font-size: 1.15em;
+        background-color: #232323db;
+        border-radius: 7px;
     }
 
     #logoShrinkTxt {

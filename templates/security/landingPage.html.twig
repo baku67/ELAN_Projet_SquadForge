@@ -515,7 +515,7 @@
                 } );
                 splide.mount();
             } else {
-                
+
                 // Si PC: vérifier la width (Si large, on est sur affichage du site sur PC, sinon on est sur l'affichage de l'Iframe portfolio)
                 var largeurFenetre = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
                 if (largeurFenetre < 600) {
@@ -736,7 +736,13 @@
                             document.getElementById('lp-teamsCardGameSelected').style.display = "inline-flex";
                         }
                         else {
-                            document.getElementById('lp-teamsCardGameSelected').style.display = "block";
+                            var largeurFenetre = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
+                            if (largeurFenetre < 600) {
+                                document.getElementById('lp-teamsCardGameSelected').style.display = "inline-flex";
+                            }
+                            else {
+                                document.getElementById('lp-teamsCardGameSelected').style.display = "block";
+                            }
                         }
 
                         document.getElementById('lp-page4-titleLink').removeEventListener('click', gameTitleClick);
