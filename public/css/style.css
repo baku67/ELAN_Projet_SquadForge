@@ -2543,6 +2543,14 @@ header {
 
     animation: homeSectionfadeIn 0.5s 1s ease-in-out forwards 1;
 }
+.homeSection5 {
+    max-width: 100%;
+    position: relative;
+    top: 5vh;
+    opacity: 0;
+
+    animation: homeSectionfadeIn 0.5s 1.2s ease-in-out forwards 1;
+}
 @keyframes homeSectionfadeIn {
     from {
         opacity: 0;
