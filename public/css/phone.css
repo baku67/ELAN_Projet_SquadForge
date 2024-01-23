@@ -173,6 +173,10 @@
         left: 154px !important;
     }
 
+    .fc-header-toolbar {
+        font-size: 75%;
+    }
+
 
     .lp-page3-slideContainer {
         transition: all 0.3s;
