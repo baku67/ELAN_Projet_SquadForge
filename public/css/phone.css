@@ -1,5 +1,13 @@
 @media (max-width: 767px) {
 
+
+    .isMobile {
+        display: block;
+    }
+    .isDesktop {
+        display: none;
+    }
+
     /* LANDINGPAGE */
     #section1 {
         height: 100vh;

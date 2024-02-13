@@ -74,6 +74,9 @@ class Game
     #[ORM\Column(name: 'sub_banner', length: 255, nullable: true)]
     private ?string $subBanner = null;
 
+    #[ORM\Column(name: 'sub_banner_mobile', length: 255, nullable: true)]
+    private ?string $subBannerMobile = null;
+
     #[ORM\OneToMany(mappedBy: 'game', targetEntity: Group::class, orphanRemoval: true)]
     private Collection $gameGroups;
 
@@ -89,6 +92,7 @@ class Game
     #[ORM\Column(length: 100, unique: true)]
     #[Slug(fields: ['title'])]
     private ?string $slug = null;
+
 
     public function __construct()
     {
@@ -457,6 +461,18 @@ class Game
     public function setSlug(string $slug): static
     {
         $this->slug = $slug;
+
+        return $this;
+    }
+
+    public function getSubBannerMobile(): ?string
+    {
+        return $this->subBannerMobile;
+    }
+
+    public function setSubBannerMobile(?string $subBannerMobile): static
+    {
+        $this->subBannerMobile = $subBannerMobile;
 
         return $this;
     }

@@ -11,6 +11,13 @@
     /* --secondary-font: "'K2D', sans-serif"; */
 }
 
+.isMobile {
+    display: none;
+}
+.isDesktop {
+    display: block;
+}
+
 .form-select:focus {
     border-color: #86b6fe00;
     outline: 0;
