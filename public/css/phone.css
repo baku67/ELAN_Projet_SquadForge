@@ -1088,6 +1088,8 @@
         transform: translateX(0px);
         margin: 10px auto 20px auto;
         background: radial-gradient(circle, rgba(247,114,31,0.3) 0%, rgba(35,35,35,0) 100%);
+
+        padding: 10px 20px;
     }
     .lp-statsDiv {
         transform: translateX(0px);
@@ -1095,6 +1097,13 @@
     }
     .centeredLogoImg {
         width: 175px !important;
+    }
+
+    #lp-registerFormBtn {
+        background-color: #03a1a9;
+        margin: 4px auto;
+        padding: 7px 45px;
+
     }
 
     .landingPageDownBtn {
