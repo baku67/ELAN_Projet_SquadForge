@@ -1,6 +1,17 @@
 @media (max-width: 767px) {
 
 
+    body::-webkit-scrollbar {
+        display: none;
+    }
+    html::-webkit-scrollbar {
+        display: none;
+    }
+    body, html {
+        -ms-overflow-style: none;  /* IE and Edge */
+        scrollbar-width: auto;  /* Firefox */
+    }
+
     .isMobile {
         display: block;
     }
