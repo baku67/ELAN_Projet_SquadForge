@@ -231,7 +231,7 @@ body {
 
 /* LandingPage */
 #section1 {
-    opacity:0; 
+    opacity:1; 
     display:inline-flex;
     width:100%; 
     position:relative;
@@ -2016,7 +2016,7 @@ header {
 }
 
 #lp-page3 {
-    opacity:0; 
+    opacity:1; 
     height:100vh; 
     position:relative; 
     background-image:radial-gradient(circle, rgb(0 0 0 / 70%) 0%, rgba(35, 35, 35, 0.996) 85%), url('../img/lp-page3-background.jpg');
@@ -2671,7 +2671,7 @@ header {
 }
 
 #lp-page4 {
-    opacity:0; 
+    opacity:1; 
     height:100vh; 
     background-image:radial-gradient(circle, rgba(0, 0, 0, 0.5) 0%, rgba(35, 35, 35, 0.996) 69%), url('../img/landingPage4.jpg'); 
     background-position:center; 

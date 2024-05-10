@@ -144,7 +144,7 @@
 
 
     {# Page 2 (Twitch et Mockup) #}
-    <section id="lp-page2" class="section" style="opacity:0; height:100vh; position:relative;">
+    <section id="lp-page2" class="section" style="opacity:1; height:100vh; position:relative;">
 
         <div class="lp-p2a">
 
@@ -438,58 +438,61 @@
 
 
 
+
     {# AOS.js scroll smooth entres sections #}
-    {# TODO: only PC ?  #}
+    {# DESACTIVÉ conflit scroll portfolio ! #}
+    {# DUCOUP opacity des section 0 => 1 #}
     <script>
 
-        AOS.init({
-            duration: 800,
-            easing: 'ease-in-out', 
-            once: true, 
-        });
-
-        // Add the "active" class to the currently visible section
-        const sections = document.querySelectorAll('.section');
-        const options = {
-            root: null,
-            rootMargin: '0px',
-            threshold: 0.5, // Adjust this value based on your preference for when a section is considered active
-        };
-
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach((entry) => {
-                if (entry.isIntersecting) {
-                    sections.forEach((section) => {
-                        section.classList.remove('active');
-                    });
-                    entry.target.classList.add('active');
-                }
+            /* AOS.init({
+                duration: 800,
+                easing: 'ease-in-out', 
+                once: true, 
             });
-        }, options);
 
-        sections.forEach((section) => {
-            observer.observe(section);
-        });
+            // Add the "active" class to the currently visible section
+            const sections = document.querySelectorAll('.section');
+            const options = {
+                root: null,
+                rootMargin: '0px',
+                threshold: 0.5, // Adjust this value based on your preference for when a section is considered active
+            };
 
-        // Custom scrolling behavior
-        document.addEventListener('wheel', (e) => {
-            e.preventDefault();
-            const delta = e.wheelDelta || -e.deltaY || -e.detail;
-            const activeSection = document.querySelector('.section.active');
-            let targetSection;
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach((entry) => {
+                    if (entry.isIntersecting) {
+                        sections.forEach((section) => {
+                            section.classList.remove('active');
+                        });
+                        entry.target.classList.add('active');
+                    }
+                });
+            }, options);
 
-            if (activeSection) {
-                if (delta < 0) {
-                    targetSection = activeSection.nextElementSibling;
-                } else {
-                    targetSection = activeSection.previousElementSibling;
+            sections.forEach((section) => {
+                observer.observe(section);
+            });
+
+            // Custom scrolling behavior
+            document.addEventListener('wheel', (e) => {
+                e.preventDefault();
+                const delta = e.wheelDelta || -e.deltaY || -e.detail;
+                const activeSection = document.querySelector('.section.active');
+                let targetSection;
+
+                if (activeSection) {
+                    if (delta < 0) {
+                        targetSection = activeSection.nextElementSibling;
+                    } else {
+                        targetSection = activeSection.previousElementSibling;
+                    }
+
+                    if (targetSection) {
+                        targetSection.scrollIntoView({ behavior: 'smooth' });
+                    }
                 }
+            }, { passive: false }); */
 
-                if (targetSection) {
-                    targetSection.scrollIntoView({ behavior: 'smooth' });
-                }
-            }
-        }, { passive: false });
     </script>
 
 
